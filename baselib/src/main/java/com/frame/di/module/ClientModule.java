@@ -5,7 +5,6 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 
 import com.frame.http.GlobalHttpHandler;
-import com.frame.http.api.ApiHelper;
 import com.frame.http.log.RequestInterceptor;
 import com.google.gson.Gson;
 

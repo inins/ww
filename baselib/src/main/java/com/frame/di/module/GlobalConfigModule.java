@@ -7,8 +7,8 @@ import android.text.TextUtils;
 import com.frame.http.BaseUrl;
 import com.frame.http.GlobalHttpHandler;
 import com.frame.http.api.error.ResponseErrorListener;
-import com.frame.http.api.error.RxErrorHandler;
 import com.frame.http.imageloader.BaseImageLoaderStrategy;
+import com.frame.http.imageloader.glide.GlideImageLoaderStrategy;
 import com.frame.http.log.DefaultFormatPrinter;
 import com.frame.http.log.FormatPrinter;
 import com.frame.http.log.RequestInterceptor;
@@ -95,7 +95,7 @@ public class GlobalConfigModule {
     @Singleton
     @Provides
     BaseImageLoaderStrategy provideImageLoaderStrategy(){
-        return mLoaderStrategy;
+        return mLoaderStrategy == null ? new GlideImageLoaderStrategy() : mLoaderStrategy;
     }
 
     @Singleton

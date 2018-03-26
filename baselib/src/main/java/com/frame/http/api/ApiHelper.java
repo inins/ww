@@ -1,14 +1,10 @@
 package com.frame.http.api;
 
-import com.frame.di.scope.ActivityScope;
 import com.frame.mvp.IView;
 import com.frame.utils.RxLifecycleUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;

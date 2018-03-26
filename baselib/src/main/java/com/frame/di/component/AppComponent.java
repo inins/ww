@@ -2,7 +2,6 @@ package com.frame.di.component;
 
 import android.app.Application;
 
-import com.frame.base.delegate.AppDelegate;
 import com.frame.base.delegate.AppDelegateImp;
 import com.frame.di.module.AppModule;
 import com.frame.di.module.ClientModule;
