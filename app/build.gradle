@@ -1,0 +1,66 @@
+apply plugin: 'com.component.build'
+
+android {
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        applicationId "com.dongdongkeji.wangwangsocial"
+        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+        versionCode rootProject.ext.android["versionCode"]
+        versionName rootProject.ext.android["versionName"]
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [host: "app"]
+            }
+        }
+    }
+    buildTypes {
+        debug {
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+            buildConfigField "boolean", "USE_CANARY", "true"
+            buildConfigField "String", "APP_DOMAIN", "\"http://192.168.1.150:8080/\""
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        release {
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            buildConfigField "boolean", "USE_CANARY", "false"
+            buildConfigField "String", "APP_DOMAIN", "\"http://wangsocial.com:80/\""
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    //test
+    testImplementation 'junit:junit:4.12'
+    //noinspection GradleCompatible
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    //tools
+    annotationProcessor rootProject.ext.dependencies["dagger2-compiler"]
+    //View
+    annotationProcessor(rootProject.ext.dependencies["butterknife-compiler"]) {
+        exclude module: 'support-annotations'
+    }
+    implementation rootProject.ext.dependencies["constraint-layout"]
+    implementation project(':component-service')
+    annotationProcessor project(':router-anno-compiler')
+}
+
+combuild {
+    applicationName = 'com.wang.social.app.App'
+    isRegisterCompoAuto = true
+}

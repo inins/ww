@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.wang.social.login">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name="com.frame.base.BaseApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/login_launcher"
+        android:label="@string/login_app_name"
+        android:roundIcon="@mipmap/login_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/common_AppTheme">
+
+        <!-- Meta Data -->
+        <meta-data
+            android:name="com.wang.social.login.app.GlobalConfiguration"
+            android:value="ConfigModule" />
+        <!-- ********* -->
+
+        <activity android:name="com.wang.social.login.mvp.ui.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

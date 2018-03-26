@@ -1,0 +1,63 @@
+apply plugin: 'com.component.build'
+apply plugin: 'com.jakewharton.butterknife'
+
+android {
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+        versionCode rootProject.ext.android["versionCode"]
+        versionName rootProject.ext.android["versionName"]
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [host: "login"]
+            }
+        }
+    }
+    if (project.isRunAlone) {
+        buildTypes {
+            debug {
+                buildConfigField "boolean", "LOG_DEBUG", "true"
+                buildConfigField "boolean", "USE_CANARY", "true"
+                buildConfigField "String", "APP_DOMAIN", "\"http://192.168.1.150:8080/\""
+                minifyEnabled false
+                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            }
+        }
+    }
+
+    resourcePrefix "login_"
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    //test
+    testImplementation 'junit:junit:4.12'
+    //noinspection GradleCompatible
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    //tools
+    annotationProcessor rootProject.ext.dependencies["dagger2-compiler"]
+    //View
+    annotationProcessor(rootProject.ext.dependencies["butterknife-compiler"]) {
+        exclude module: 'support-annotations'
+    }
+    implementation rootProject.ext.dependencies["constraint-layout"]
+    implementation project(':component-service')
+    annotationProcessor project(':router-anno-compiler')
+}
+
+combuild {
+    applicationName = 'com.frame.base.BaseApplication'
+    isRegisterCompoAuto = true
+}
