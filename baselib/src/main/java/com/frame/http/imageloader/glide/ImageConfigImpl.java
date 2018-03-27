@@ -65,7 +65,7 @@ public class ImageConfigImpl extends ImageConfig{
         private int placeholder;
         private int errorPic;
         private int fallback; //请求 url 为空,则使用此图片作为占位符
-        private DiskCacheStrategy cacheStrategy;
+        private DiskCacheStrategy cacheStrategy = DiskCacheStrategy.ALL;
         private BitmapTransformation transformation;//glide用它来改变图形的形状
         private ImageView[] imageViews;
         private boolean isClearMemory;//清理内存缓存

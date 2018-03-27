@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
 import com.frame.base.BaseActivity;
+import com.frame.base.BasicActivity;
 import com.frame.component.router.Router;
 import com.frame.component.service.personal.PersonalService;
 import com.frame.di.component.AppComponent;
@@ -13,7 +14,7 @@ import com.frame.router.facade.annotation.RouteNode;
 import com.wang.social.R;
 
 @RouteNode(path = "/main", desc = "首页")
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BasicActivity {
 
     private Fragment fragment;
 

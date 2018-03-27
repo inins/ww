@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentManager;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.error.ResponseErrorListener;
 import com.frame.http.api.error.RxErrorHandler;
+import com.frame.http.imageloader.BaseImageLoaderStrategy;
+import com.frame.http.imageloader.ImageLoader;
 import com.frame.integration.ActivityLifecycle;
 import com.frame.integration.ActivityLifecycleForRxLifecycle;
 import com.frame.integration.FragmentLifecycle;
@@ -88,6 +90,12 @@ public abstract class AppModule {
     @Provides
     static ApiHelper provideApiHelper(){
         return new ApiHelper();
+    }
+
+    @Singleton
+    @Provides
+    static ImageLoader provideImageLoader(BaseImageLoaderStrategy strategy){
+        return new ImageLoader(strategy);
     }
 
     public interface GsonConfiguration {

@@ -11,14 +11,12 @@ import javax.inject.Singleton;
  * Create by ChenJing on 2018-03-16 13:35
  * ========================================
  */
-@Singleton
 public final class ImageLoader {
 
-    @Inject
     BaseImageLoaderStrategy mStrategy;
 
-    @Inject
-    public ImageLoader() {
+    public ImageLoader(BaseImageLoaderStrategy strategy) {
+        this.mStrategy = strategy;
     }
 
     /**
