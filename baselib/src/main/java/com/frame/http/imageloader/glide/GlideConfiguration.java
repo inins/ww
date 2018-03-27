@@ -31,7 +31,7 @@ import java.io.InputStream;
  * Created by ChenJing on 2018-03-26.
  * =====================================
  */
-@GlideModule(glideName = "WangSocial")
+@GlideModule(glideName = "WangSocialGlide")
 public class GlideConfiguration extends AppGlideModule{
     private static final int IMAGE_DISK_CACHE_MAX_SIZE = 100 * 1024 * 1024;
 

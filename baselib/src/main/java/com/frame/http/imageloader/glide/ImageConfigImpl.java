@@ -9,16 +9,16 @@ import com.frame.http.imageloader.ImageConfig;
  * Created by Bo on 2018-03-26.
  */
 
-public class GlideImageConfig extends ImageConfig{
+public class ImageConfigImpl extends ImageConfig{
 
-    private int cacheStrategy;//0对应DiskCacheStrategy.all,1对应DiskCacheStrategy.NONE,2对应DiskCacheStrategy.SOURCE,3对应DiskCacheStrategy.RESULT
+    private DiskCacheStrategy cacheStrategy;
     private int fallback; //请求 url 为空,则使用此图片作为占位符
     private BitmapTransformation transformation;//glide用它来改变图形的形状
     private ImageView[] imageViews;
     private boolean isClearMemory;//清理内存缓存
     private boolean isClearDiskCache;//清理本地缓存
 
-    private GlideImageConfig(Builder builder) {
+    private ImageConfigImpl(Builder builder) {
         this.url = builder.url;
         this.imageView = builder.imageView;
         this.placeholder = builder.placeholder;
@@ -31,7 +31,7 @@ public class GlideImageConfig extends ImageConfig{
         this.isClearDiskCache = builder.isClearDiskCache;
     }
 
-    public int getCacheStrategy() {
+    public DiskCacheStrategy getCacheStrategy() {
         return cacheStrategy;
     }
 
@@ -59,14 +59,13 @@ public class GlideImageConfig extends ImageConfig{
         return new Builder();
     }
 
-
     public static final class Builder {
         private String url;
         private ImageView imageView;
         private int placeholder;
         private int errorPic;
         private int fallback; //请求 url 为空,则使用此图片作为占位符
-        private int cacheStrategy;//0对应DiskCacheStrategy.all,1对应DiskCacheStrategy.NONE,2对应DiskCacheStrategy.SOURCE,3对应DiskCacheStrategy.RESULT
+        private DiskCacheStrategy cacheStrategy;
         private BitmapTransformation transformation;//glide用它来改变图形的形状
         private ImageView[] imageViews;
         private boolean isClearMemory;//清理内存缓存
@@ -100,7 +99,7 @@ public class GlideImageConfig extends ImageConfig{
             return this;
         }
 
-        public Builder cacheStrategy(int cacheStrategy) {
+        public Builder cacheStrategy(DiskCacheStrategy cacheStrategy) {
             this.cacheStrategy = cacheStrategy;
             return this;
         }
@@ -125,9 +124,12 @@ public class GlideImageConfig extends ImageConfig{
             return this;
         }
 
-
-        public GlideImageConfig build() {
-            return new GlideImageConfig(this);
+        public ImageConfigImpl build() {
+            return new ImageConfigImpl(this);
         }
+    }
+
+    public enum DiskCacheStrategy{
+        ALL,NONE, SOURCE, DATA, AUTOMATIC
     }
 }
