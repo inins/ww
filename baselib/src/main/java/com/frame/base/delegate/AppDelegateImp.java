@@ -13,6 +13,7 @@ import com.frame.di.module.GlobalConfigModule;
 import com.frame.integration.ConfigModule;
 import com.frame.utils.ManifestParser;
 import com.frame.utils.Preconditions;
+import com.frame.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +75,8 @@ public class AppDelegateImp implements App, AppDelegate {
     @Override
     public void onCreate(Application application) {
         this.mApplication = application;
+
+        Utils.init(application.getApplicationContext());
 
         mAppComponent = DaggerAppComponent
                 .builder()
