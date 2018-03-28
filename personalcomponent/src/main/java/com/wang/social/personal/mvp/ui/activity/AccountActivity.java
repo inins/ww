@@ -33,6 +33,7 @@ public class AccountActivity extends BasicActivity {
             case R.id.btn_right:
                 break;
             case R.id.btn_recharge:
+                AccountRechargeActivity.start(this);
                 break;
             case R.id.btn_deposit:
                 AccountDepositActivity.start(this);
