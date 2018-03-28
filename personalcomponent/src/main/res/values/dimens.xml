@@ -1,0 +1,15 @@
+<resources>
+    <!--APP中字号定义，超出这个范围的特殊字号不属于常规字号，不需整理-->
+    <!--不要直接在布局中直接指定sp，这样便于后期通一修改-->
+    <dimen name="personal_text_title">20sp</dimen>
+    <dimen name="personal_text_mintitle">19sp</dimen>
+    <dimen name="personal_text_subig">18sp</dimen>
+    <dimen name="personal_text_subig_small">17sp</dimen>
+    <dimen name="personal_text_big">16sp</dimen>
+    <dimen name="personal_text_big_nomal">15sp</dimen>
+    <dimen name="personal_text_nomal">14sp</dimen>
+    <dimen name="personal_text_nomal_small">13sp</dimen>
+    <dimen name="personal_text_small">12sp</dimen>
+    <dimen name="personal_text_small_tiny">11sp</dimen>
+    <dimen name="personal_text_tiny">10sp</dimen>
+</resources>

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_white"
+    android:fitsSystemWindows="true">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:theme="@style/personal_AppTheme.AppBarOverlay"
+        app:elevation="0dp">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/transparent"
+            app:navigationIcon="@drawable/common_ic_back"
+            app:popupTheme="@style/personal_AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="@string/personal_setting_title"
+                android:textColor="@color/common_text_blank"
+                android:textSize="23sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginTop="30dp"
+                android:background="@color/personal_bk_light"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:text="@string/personal_setting_cate_secret"
+                android:textColor="@color/common_text_dark"
+                android:textSize="@dimen/personal_text_small" />
+
+            <TextView
+                style="@style/personal_TextMeItem"
+                android:drawableRight="@drawable/common_ic_next"
+                android:onClick="onClick"
+                android:text="@string/personal_setting_modifypsw" />
+
+            <View
+                style="@style/common_Line_H"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+
+            <TextView
+                style="@style/personal_TextMeItem"
+                android:drawableRight="@drawable/common_ic_next"
+                android:onClick="onClick"
+                android:text="@string/personal_setting_bindphone" />
+
+            <View
+                style="@style/common_Line_H"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+
+            <TextView
+                style="@style/personal_TextMeItem"
+                android:drawableRight="@drawable/common_ic_next"
+                android:onClick="onClick"
+                android:text="@string/personal_setting_bindsocial" />
+
+            <View
+                style="@style/common_Line_H"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+
+            <TextView
+                style="@style/personal_TextMeItem"
+                android:drawableRight="@drawable/common_ic_next"
+                android:onClick="onClick"
+                android:text="@string/personal_setting_secret" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:background="@color/personal_bk_light"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:text="@string/personal_setting_cate_com"
+                android:textColor="@color/common_text_dark"
+                android:textSize="@dimen/personal_text_small" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/personal_TextMeItemContent"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginRight="30dp"
+                    android:hint="0M" />
+
+                <TextView
+                    style="@style/personal_TextMeItem"
+                    android:drawableRight="@drawable/common_ic_next"
+                    android:onClick="onClick"
+                    android:text="@string/personal_setting_clear" />
+                <!--android:drawableRight="@drawable/ic_me_next"-->
+
+            </FrameLayout>
+
+            <View
+                style="@style/common_Line_H"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+
+            <TextView
+                style="@style/personal_TextMeItem"
+                android:drawableRight="@drawable/common_ic_next"
+                android:onClick="onClick"
+                android:text="@string/personal_setting_shutdownlist" />
+
+            <View
+                style="@style/common_Line_H"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+
+            <TextView
+                style="@style/personal_TextMeItem"
+                android:drawableRight="@drawable/common_ic_next"
+                android:onClick="onClick"
+                android:text="@string/personal_setting_blanklist" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:background="@color/personal_bk_light"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:text="@string/personal_setting_cate_notice"
+                android:textColor="@color/common_text_dark"
+                android:textSize="@dimen/personal_text_small" />
+
+            <View
+                style="@style/common_Line_H"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+
+            <TextView
+                style="@style/personal_TextMeItem"
+                android:drawableRight="@drawable/common_ic_next"
+                android:onClick="onClick"
+                android:text="@string/personal_setting_msg" />
+
+            <View
+                style="@style/common_Line_H"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+
+            <TextView
+                style="@style/personal_TextMeItem"
+                android:drawableRight="@drawable/personal_setting_logout"
+                android:onClick="onClick"
+                android:text="@string/personal_setting_logout" />
+
+            <View
+                style="@style/common_Line_H"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:text="V2.0"
+                android:textColor="@color/common_text_dark"
+                android:textSize="@dimen/personal_text_small" />
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</android.support.design.widget.CoordinatorLayout>

@@ -1,3 +1,48 @@
 <resources>
     <string name="personal_app_name">PersonalComponent</string>
+    <string name="personal_me_showqu">晒趣</string>
+    <string name="personal_me_act">话题</string>
+    <string name="personal_me_account">钻石账户</string>
+    <string name="personal_me_lable">我的标签</string>
+    <string name="personal_me_feedback">意见反馈</string>
+    <string name="personal_me_share">安利一下</string>
+    <string name="personal_me_about">关于往往</string>
+    <string name="personal_me_eva">赏个好评</string>
+
+    <!--个人详情页面-->
+    <string name="personal_medetail_title">个人信息</string>
+    <string name="personal_medetail_header">头像</string>
+    <string name="personal_medetail_name">昵称</string>
+    <string name="personal_medetail_gender">性别</string>
+    <string name="personal_medetail_old">年龄</string>
+    <string name="personal_medetail_address">地区</string>
+    <string name="personal_medetail_photo">个人相册</string>
+    <string name="personal_medetail_sign">个性签名</string>
+
+    <!--设置页面-->
+    <string name="personal_setting_title">设置</string>
+    <string name="personal_setting_cate_secret">隐私</string>
+    <string name="personal_setting_cate_com">通用</string>
+    <string name="personal_setting_cate_notice">通知</string>
+    <string name="personal_setting_modifypsw">修改密码</string>
+    <string name="personal_setting_bindphone">绑定手机</string>
+    <string name="personal_setting_bindsocial">关联第三方账户</string>
+    <string name="personal_setting_secret">个人隐私</string>
+    <string name="personal_setting_clear">清除缓存</string>
+    <string name="personal_setting_shutdownlist">趣聊屏蔽列表</string>
+    <string name="personal_setting_blanklist">好友黑名单</string>
+    <string name="personal_setting_msg">新消息通知</string>
+    <string name="personal_setting_logout">退出当前账号</string>
+
+    <!--意见反馈页面-->
+    <string name="personal_feedback_title">意见反馈</string>
+    <string name="personal_feedback_btn_right">提交</string>
+    <string name="personal_feedback_notice_feedback">小往一定会仔细阅读您的意见哦~</string>
+    <string name="personal_feedback_hint_feedback">您的意见很重要，感谢您帮助我们~</string>
+    <string name="personal_feedback_addphoto">添加图片</string>
+    <string name="personal_feedback_notice_addphoto">增加图片表述能更好的让我们知道您的意见，阿里嘎多！</string>
+    <string name="personal_feedback_phone">手机号</string>
+    <string name="personal_feedback_notice_phone">留下您的手机号，如果您的提议被采纳，将有机会成为我们的专属用户</string>
+    <string name="personal_feedback_hint_phone">请输入手机号</string>
+    <string name="personal_feedback_help">为什么希望得到您的意见？</string>
 </resources>

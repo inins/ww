@@ -18,7 +18,7 @@
 
         <!-- Meta Data -->
         <meta-data
-            android:name="com.wang.social.app.GlobalConfiguration"
+            android:name="com.wang.social.com.wang.social.personal.app.GlobalConfiguration"
             android:value="ConfigModule" />
         <!-- ********* -->
 

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_white"
+    android:fitsSystemWindows="true">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:theme="@style/personal_AppTheme.AppBarOverlay"
+        app:elevation="0dp">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/transparent"
+            app:navigationIcon="@drawable/common_ic_back"
+            app:popupTheme="@style/personal_AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/personal_feedback_title"
+                android:textColor="@color/common_text_blank"
+                android:textSize="23sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/personal_feedback_notice_feedback"
+                android:textColor="@color/common_text_blank_dark"
+                android:textSize="13sp" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/personal_shape_rect_light_coner">
+
+                <EditText
+                    android:id="@+id/edit_suggest"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:gravity="left|top"
+                    android:hint="@string/personal_feedback_hint_feedback"
+                    android:inputType="textMultiLine"
+                    android:maxLength="255"
+                    android:minLines="7"
+                    android:padding="10dp"
+                    android:textColor="@color/common_text_blank"
+                    android:textColorHint="@color/common_text_light"
+                    android:textSize="@dimen/personal_text_nomal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|bottom"
+                    android:layout_margin="10dp"
+                    android:text="0/500"
+                    android:textColor="@color/common_text_light"
+                    android:textSize="@dimen/personal_text_nomal" />
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/personal_feedback_addphoto"
+                    android:textColor="@color/common_text_blank"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="(0/3)"
+                    android:textColor="@color/common_text_dark"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/personal_feedback_notice_addphoto"
+                android:textColor="@color/common_text_dark"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:layout_width="77dp"
+                android:layout_height="77dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/personal_shape_rect_light_coner" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/personal_feedback_phone"
+                android:textColor="@color/common_text_blank"
+                android:textSize="17sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/personal_feedback_notice_phone"
+                android:textColor="@color/common_text_dark"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/edit_phone"
+                style="@style/personal_EditNone"
+                android:layout_height="33dp"
+                android:gravity="bottom"
+                android:hint="@string/personal_feedback_hint_phone"
+                android:inputType="phone"
+                android:paddingBottom="3dp"
+                android:paddingLeft="0dp" />
+
+            <View style="@style/common_Line_H" />
+
+            <Space style="@style/common_Space_H" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:text="@string/personal_feedback_help"
+                android:textColor="@color/common_blue_deep"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</android.support.design.widget.CoordinatorLayout>

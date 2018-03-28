@@ -4,9 +4,9 @@
     <!-- Base application theme. -->
     <style name="personal_AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/common_colorPrimary</item>
+        <item name="colorPrimaryDark">@color/common_colorPrimaryDark</item>
+        <item name="colorAccent">@color/common_colorAccent</item>
     </style>
 
     <style name="personal_AppTheme.NoActionBar">
@@ -25,4 +25,36 @@
     <style name="personal_AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="personal_AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="personal_TextMeItem">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:textSize">@dimen/personal_text_big</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
+        <item name="android:textColor">@color/common_text_blank_dark</item>
+        <item name="android:textColorHint">@color/common_text_dark_light</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+    </style>
+
+    <style name="personal_TextMeItemContent">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/personal_text_big</item>
+        <item name="android:textColor">@color/common_text_blank</item>
+        <item name="android:textColorHint">@color/common_text_dark_light</item>
+    </style>
+
+    <style name="personal_EditNone">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">45dp</item>
+        <item name="android:textSize">@dimen/personal_text_nomal</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
+        <item name="android:textColor">@color/common_text_blank</item>
+        <item name="android:textColorHint">@color/common_text_light</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
 </resources>

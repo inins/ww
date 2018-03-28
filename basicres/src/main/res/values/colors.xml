@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="common_blue">#18B6FF</color>
-    <color name="common_white">#fefefe</color>
-    <color name="common_text_blank">#333333</color>
-    <color name="common_line">#55999999</color>
     <color name="common_colorPrimary">#FFFFFF</color>
     <color name="common_colorPrimaryDark">#dedede</color>
     <color name="common_colorAccent">#189AFF</color>
+
+    <color name="common_blue">#18B6FF</color>       <!--往往蓝-->
+    <color name="common_blue_deep">#189AFF</color>       <!--往往深蓝-->
+    <color name="common_white">#fefefe</color>      <!--往往白，非纯白-->
+    <color name="common_line">#55999999</color>     <!--分割线颜色-->
+    <color name="common_text_blank">#333333</color>     <!--黑色字体-->
+    <color name="common_text_blank_dark">#666666</color>     <!--黑灰色字体-->
+    <color name="common_text_dark">#999999</color>      <!--灰色字体-->
+    <color name="common_text_dark_light">#aaaaaa</color>      <!--灰亮色字体-->
+    <color name="common_text_light">#cccccc</color>      <!--亮色字体-->
 </resources>
