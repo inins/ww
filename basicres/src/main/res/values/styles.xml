@@ -1,11 +1,15 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="common_AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="common_AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/common_colorPrimary</item>
         <item name="colorPrimaryDark">@color/common_colorPrimaryDark</item>
         <item name="colorAccent">@color/common_colorAccent</item>
+        <item name="actionBarSize">@dimen/common_toolbar_height</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:background">@null</item>
     </style>
 
 </resources>
