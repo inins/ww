@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="im_bg_chat_input">#f7f7f7</color>
+    <color name="im_bg_chat_input_selected">#d9d9d9</color>
 
+    <color name="im_message_txt">#434343</color>
+    <color name="im_message_hint">#999999</color>
 </resources>
