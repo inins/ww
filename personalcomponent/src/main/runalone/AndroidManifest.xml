@@ -1,5 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bozo.personal">
+    package="com.wang.social.personal">
 
     <application
         android:name="com.frame.base.BaseApplication"
@@ -15,5 +16,13 @@
             android:name="com.wang.social.personal.app.GlobalConfiguration"
             android:value="ConfigModule" />
 
+        <activity android:name="com.wang.social.personal.ui.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
+
 </manifest>
