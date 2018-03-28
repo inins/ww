@@ -3,6 +3,8 @@ package com.wang.social.personal.mvp.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.frame.base.BasicFragment;
@@ -17,6 +19,9 @@ import com.frame.component.router.ui.UIRouter;
 import com.frame.di.component.AppComponent;
 import com.wang.social.personal.di.component.DaggerFragmentComponent;
 import com.wang.social.personal.di.component.FragmentComponent;
+import com.wang.social.personal.mvp.ui.activity.FeedbackActivity;
+import com.wang.social.personal.mvp.ui.activity.MeDetailActivity;
+import com.wang.social.personal.mvp.ui.activity.SettingActivity;
 
 import javax.inject.Inject;
 
@@ -35,6 +40,8 @@ public class PersonalFragment extends BasicFragment {
 
     @BindView(R2.id.header)
     ImageView header;
+    @BindView(R2.id.toolbar)
+    Toolbar toolbar;
 
     @Inject
     ImageLoader mImageLoader;
@@ -61,6 +68,7 @@ public class PersonalFragment extends BasicFragment {
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
+        toolbar.bringToFront();
         mImageLoader.loadImage(mActivity, ImageConfigImpl.
                 builder()
                 .imageView(header)
@@ -73,8 +81,29 @@ public class PersonalFragment extends BasicFragment {
 
     }
 
-//    @OnClick(R2.id.goto_login)
-//    public void onViewClicked() {
+    @OnClick({R2.id.header, R2.id.btn_right, R2.id.btn_me_account, R2.id.btn_me_lable, R2.id.btn_me_feedback, R2.id.btn_me_share, R2.id.btn_me_about, R2.id.btn_me_eva})
+    public void onViewClicked(View v) {
+        switch (v.getId()) {
+            case R.id.header:
+                MeDetailActivity.start(getContext());
+                break;
+            case R.id.btn_right:
+                SettingActivity.start(getContext());
+                break;
+            case R.id.btn_me_account:
+                break;
+            case R.id.btn_me_lable:
+                break;
+            case R.id.btn_me_feedback:
+                FeedbackActivity.start(getContext());
+                break;
+            case R.id.btn_me_share:
+                break;
+            case R.id.btn_me_about:
+                break;
+            case R.id.btn_me_eva:
+                break;
+        }
+    }
 //        UIRouter.getInstance().openUri(mActivity, LoginPath.LOGIN_URL, null);
-//    }
 }

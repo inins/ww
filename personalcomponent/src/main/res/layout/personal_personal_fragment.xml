@@ -17,7 +17,7 @@
         tools:translationZ="1dp">
 
         <ImageView
-            android:id="@+id/btn_right_msg"
+            android:id="@+id/btn_left"
             android:layout_width="56dp"
             android:layout_height="match_parent"
             android:layout_gravity="left"
@@ -28,7 +28,7 @@
             android:visibility="visible" />
 
         <ImageView
-            android:id="@+id/btn_right_setting"
+            android:id="@+id/btn_right"
             android:layout_width="56dp"
             android:layout_height="match_parent"
             android:layout_gravity="right"
@@ -60,7 +60,7 @@
                 android:layout_marginTop="?attr/actionBarSize"
                 android:background="@drawable/personal_me_bk_user"
                 android:orientation="vertical"
-                android:padding="15dp">
+                android:padding="16dp">
 
                 <ImageView
                     android:id="@+id/header"
@@ -75,6 +75,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="5dp"
                     android:text="白无常白先生"
+                    android:textColor="@color/common_text_blank"
                     android:textSize="20sp" />
 
                 <TextView
@@ -85,7 +86,7 @@
                     android:text="编辑你的资料>"
                     android:textSize="12sp" />
 
-                <Space style="@style/common_Space_V"/>
+                <Space style="@style/common_Space_V" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -99,33 +100,132 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="120"
+                        android:textColor="@color/common_text_blank"
                         android:textSize="23sp" />
 
                     <TextView
-                        android:layout_marginLeft="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="趣晒"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/personal_me_showqu"
+                        android:textColor="@color/common_text_dark"
                         android:textSize="12sp" />
 
-                    <Space style="@style/common_Space_H"/>
+                    <Space style="@style/common_Space_H" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="120"
+                        android:text="45"
+                        android:textColor="@color/common_text_blank"
                         android:textSize="23sp" />
 
                     <TextView
-                        android:layout_marginLeft="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="趣晒"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/personal_me_act"
+                        android:textColor="@color/common_text_dark"
                         android:textSize="12sp" />
 
                 </LinearLayout>
 
             </LinearLayout>
+
+            <com.frame.component.view.AutoFitGridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                app:columnCount="3">
+
+                <TextView
+                    android:id="@+id/btn_me_account"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="5dp"
+                    android:drawableTop="@drawable/personal_me_account"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:text="@string/personal_me_account"
+                    android:textColor="@color/common_text_dark"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/btn_me_lable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="5dp"
+                    android:drawableTop="@drawable/personal_me_label"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:text="@string/personal_me_lable"
+                    android:textColor="@color/common_text_dark"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/btn_me_feedback"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="5dp"
+                    android:drawableTop="@drawable/personal_me_feedback"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:text="@string/personal_me_feedback"
+                    android:textColor="@color/common_text_dark"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/btn_me_share"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="5dp"
+                    android:drawableTop="@drawable/personal_me_share"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:text="@string/personal_me_share"
+                    android:textColor="@color/common_text_dark"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/btn_me_about"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="5dp"
+                    android:drawableTop="@drawable/personal_me_about"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:text="@string/personal_me_about"
+                    android:textColor="@color/common_text_dark"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/btn_me_eva"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="5dp"
+                    android:drawableTop="@drawable/personal_me_eva"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:text="@string/personal_me_eva"
+                    android:textColor="@color/common_text_dark"
+                    android:textSize="12sp" />
+
+            </com.frame.component.view.AutoFitGridLayout>
 
         </LinearLayout>
 
