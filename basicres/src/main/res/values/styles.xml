@@ -8,4 +8,28 @@
         <item name="colorAccent">@color/common_colorAccent</item>
     </style>
 
+
+    <style name="common_Line_H">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:background">@color/common_line</item>
+    </style>
+
+    <style name="common_Line_V">
+        <item name="android:layout_width">1px</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/common_line</item>
+    </style>
+
+    <style name="common_Space_H">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="common_Space_V">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
 </resources>

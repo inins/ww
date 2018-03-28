@@ -73,8 +73,8 @@ public class PersonalFragment extends BasicFragment {
 
     }
 
-    @OnClick(R2.id.goto_login)
-    public void onViewClicked() {
-        UIRouter.getInstance().openUri(mActivity, LoginPath.LOGIN_URL, null);
-    }
+//    @OnClick(R2.id.goto_login)
+//    public void onViewClicked() {
+//        UIRouter.getInstance().openUri(mActivity, LoginPath.LOGIN_URL, null);
+//    }
 }
