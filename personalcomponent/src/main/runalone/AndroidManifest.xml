@@ -10,6 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/common_AppTheme">
 
+        <!-- Meta Data -->
+        <meta-data
+            android:name="com.wang.social.personal.app.GlobalConfiguration"
+            android:value="ConfigModule" />
 
     </application>
 </manifest>
