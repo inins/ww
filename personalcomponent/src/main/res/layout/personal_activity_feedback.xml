@@ -20,7 +20,19 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@android:color/transparent"
             app:navigationIcon="@drawable/common_ic_back"
-            app:popupTheme="@style/personal_AppTheme.PopupOverlay" />
+            app:popupTheme="@style/personal_AppTheme.PopupOverlay">
+
+            <TextView
+                android:id="@+id/btn_right"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:text="@string/personal_feedback_btn_right"
+                android:textColor="@color/common_blue_deep"
+                android:textSize="16sp" />
+        </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 

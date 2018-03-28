@@ -19,6 +19,7 @@ import com.frame.component.router.ui.UIRouter;
 import com.frame.di.component.AppComponent;
 import com.wang.social.personal.di.component.DaggerFragmentComponent;
 import com.wang.social.personal.di.component.FragmentComponent;
+import com.wang.social.personal.mvp.ui.activity.AccountActivity;
 import com.wang.social.personal.mvp.ui.activity.FeedbackActivity;
 import com.wang.social.personal.mvp.ui.activity.MeDetailActivity;
 import com.wang.social.personal.mvp.ui.activity.SettingActivity;
@@ -91,6 +92,7 @@ public class PersonalFragment extends BasicFragment {
                 SettingActivity.start(getContext());
                 break;
             case R.id.btn_me_account:
+                AccountActivity.start(getContext());
                 break;
             case R.id.btn_me_lable:
                 break;
