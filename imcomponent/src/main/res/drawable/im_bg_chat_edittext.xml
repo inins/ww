@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <corners android:radius="@dimen/im_chat_input_bg_radius"/>
+
+    <solid android:color="@color/im_bg_chat_input"/>
+</shape>

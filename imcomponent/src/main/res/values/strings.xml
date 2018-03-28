@@ -1,2 +1,5 @@
 <resources>
+    <string name="im_chat_input_hint">输入消息...</string>
+    <string name="im_voice_input">按住 说话</string>
+    <string name="im_voice_input_hover">松开 发送</string>
 </resources>
