@@ -1,4 +1,5 @@
 apply plugin: 'com.component.build'
+apply plugin: 'com.jakewharton.butterknife'
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
@@ -9,7 +10,6 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.dongdongkeji.wangwangsocial"
         minSdkVersion rootProject.ext.android["minSdkVersion"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
         versionCode rootProject.ext.android["versionCode"]
@@ -19,42 +19,35 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [host: "app"]
+                arguments = [host: "im"]
             }
         }
     }
-    buildTypes {
-        debug {
-            buildConfigField "boolean", "LOG_DEBUG", "true"
-            buildConfigField "boolean", "USE_CANARY", "true"
-            buildConfigField "String", "APP_DOMAIN", "\"http://192.168.1.150:8080/\""
+    if (project.isRunAlone) {
+        buildTypes {
+            debug {
+                buildConfigField "boolean", "LOG_DEBUG", "true"
+                buildConfigField "boolean", "USE_CANARY", "true"
+                buildConfigField "String", "APP_DOMAIN", "\"http://192.168.1.150:8080/\""
 
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+                minifyEnabled false
+                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
-            ndk {
-                abiFilters "armeabi", "armeabi-v7a", "arm64-v8a"
-            }
-        }
-
-        release {
-            buildConfigField "boolean", "LOG_DEBUG", "false"
-            buildConfigField "boolean", "USE_CANARY", "false"
-            buildConfigField "String", "APP_DOMAIN", "\"http://wangsocial.com:80/\""
-
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
-            ndk {
-                abiFilters "armeabi", "armeabi-v7a", "arm64-v8a"
+                ndk {
+                    abiFilters "armeabi", "armeabi-v7a", "arm64-v8a"
+                }
             }
         }
     }
+
+    resourcePrefix "im_"
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     //test
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
     debugImplementation rootProject.ext.dependencies["canary-debug"]
     releaseImplementation rootProject.ext.dependencies["canary-release"]
@@ -74,6 +67,6 @@ dependencies {
 }
 
 combuild {
-    applicationName = 'com.wang.social.app.App'
+    applicationName = 'com.frame.base.BaseApplication'
     isRegisterCompoAuto = true
 }
