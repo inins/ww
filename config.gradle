@@ -56,6 +56,7 @@ ext {
             "androideventbus"          : "org.simple:androideventbus:1.0.5.1",
             "gson"                     : "com.google.code.gson:gson:2.8.2",
             "multidex"                 : "com.android.support:multidex:1.0.1",
+            'rxpermissions2'            : "com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar",
 
             /* test */
             "junit"                    : "junit:junit:4.12",

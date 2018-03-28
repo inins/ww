@@ -84,6 +84,10 @@ dependencies {
     annotationProcessor rootProject.ext.dependencies["dagger2-compiler"]
     api rootProject.ext.dependencies["androideventbus"]
     api rootProject.ext.dependencies["gson"]
+    api(rootProject.ext.dependencies["rxpermissions2"]) {
+        exclude module: 'rxjava'
+        exclude module: 'support-annotations'
+    }
     //view
     api(rootProject.ext.dependencies["butterknife"]) {
         exclude module: 'support-annotations'
