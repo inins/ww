@@ -45,4 +45,32 @@
     <string name="personal_feedback_notice_phone">留下您的手机号，如果您的提议被采纳，将有机会成为我们的专属用户</string>
     <string name="personal_feedback_hint_phone">请输入手机号</string>
     <string name="personal_feedback_help">为什么希望得到您的意见？</string>
+
+    <!--我的账户页面-->
+    <string name="personal_account_title">我的账户</string>
+    <string name="personal_account_btn_right">明细</string>
+    <string name="personal_account_note">钻石可用于查看付费内容/参与游戏</string>
+    <string name="personal_account_card">全部钻石：</string>
+    <string name="personal_account_btn_recharge">充值</string>
+    <string name="personal_account_btn_diposit">提现</string>
+
+    <!--我的账户提现-->
+    <string name="personal_account_deposit_title">账户提现</string>
+    <string name="personal_account_deposit_btn_right">提现记录</string>
+    <string name="personal_account_deposit_note">请通过支付宝账户提现</string>
+    <string name="personal_account_deposit_card">可提现钻石</string>
+    <string name="personal_account_deposit_amount">提现金额</string>
+    <string name="personal_account_deposit_amount_hint">请输入提现金额</string>
+    <string name="personal_account_deposit_amount_error">当钻石数100以上才允许提现</string>
+    <string name="personal_account_deposit_zhifubao">支付宝账户</string>
+    <string name="personal_account_deposit_zhifubao_hint">请输入支付宝账号</string>
+    <string name="personal_account_deposit_realname">支付宝真实姓名</string>
+    <string name="personal_account_deposit_realname_hint">请输入支付宝注册时的真实姓名</string>
+    <string name="personal_account_deposit_submit">确认提现</string>
+    <string name="personal_account_deposit_remind">在提现之前，请确认您的支付宝账号是否输入准确</string>
+
+    <!--我的账户充值-->
+    <string name="personal_account_recharge_title">充值</string>
+    <string name="personal_account_recharge_note">钻石充值后仅能于本产品中使用</string>
+
 </resources>

@@ -29,6 +29,9 @@
         <activity android:name=".mvp.ui.activity.MeDetailActivity" />
         <activity android:name=".mvp.ui.activity.SettingActivity" />
         <activity android:name=".mvp.ui.activity.FeedbackActivity" />
+        <activity android:name=".mvp.ui.activity.AccountActivity" />
+        <activity android:name=".mvp.ui.activity.AccountDepositActivity" />
+        <activity android:name=".mvp.ui.activity.AccountRechargeActivity" />
     </application>
 
 </manifest>
