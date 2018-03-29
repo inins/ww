@@ -4,9 +4,11 @@ import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * ViewHolder基类
@@ -16,9 +18,11 @@ import butterknife.ButterKnife;
  */
 public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder{
 
+    protected Unbinder mUnbinder;
+
     public BaseViewHolder(Context context, ViewGroup root, @LayoutRes int layoutRes) {
         super(LayoutInflater.from(context).inflate(layoutRes, root, false));
-        ButterKnife.bind(this, itemView);
+        mUnbinder = ButterKnife.bind(this, itemView);
     }
 
     public Context getContext(){
@@ -33,6 +37,25 @@ public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder{
      */
     public void setData(T itemValue, int position, BaseAdapter.OnItemClickListener onItemClickListener){
         bindData(itemValue, position, onItemClickListener);
+
+        if (useItemClickListener()){
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (onItemClickListener != null){
+                        onItemClickListener.onItemClick(itemValue, position);
+                    }
+                }
+            });
+        }
+    }
+
+    /**
+     * 是否开启{@code onItemClickListener}
+     * @return
+     */
+    protected boolean useItemClickListener(){
+        return false;
     }
 
     /**
