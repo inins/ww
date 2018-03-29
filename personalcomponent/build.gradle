@@ -58,6 +58,9 @@ dependencies {
     implementation rootProject.ext.dependencies["constraint-layout"]
     implementation project(':component-service')
     annotationProcessor project(':router-anno-compiler')
+
+    //仿IOS swichbutton
+    implementation 'com.kyleduo.switchbutton:library:1.4.6'
 }
 
 combuild {

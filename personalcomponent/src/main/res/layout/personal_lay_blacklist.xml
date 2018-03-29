@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="65dp"
+    tools:layout_editor_absoluteY="25dp">
+
+    <ImageView
+        android:id="@+id/personal_imageview"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/default_header"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/personal_linearlayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="@+id/text_time"
+        app:layout_constraintTop_toBottomOf="@+id/text_time">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/common_white"
+            android:gravity="center"
+            android:textSize="11sp"
+            android:drawableLeft="@drawable/personal_ic_man"
+            android:paddingLeft="7dp"
+            android:drawablePadding="5dp"
+            android:paddingRight="8dp"
+            android:background="@drawable/personal_shape_rect_bluegray_conerfull"
+            android:text="00后" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/common_white"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:textSize="11sp"
+            android:drawableLeft="@drawable/personal_ic_women"
+            android:paddingLeft="7dp"
+            android:drawablePadding="5dp"
+            android:paddingRight="8dp"
+            android:background="@drawable/personal_shape_rect_redgray_conerfull"
+            android:text="00后" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/text_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="8dp"
+        android:text="埃米尔"
+        android:textColor="@color/common_text_blank"
+        android:textSize="17sp"
+        app:layout_constraintStart_toEndOf="@+id/personal_imageview"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:text="#周杰伦 #旅行 #深夜食堂 #成都"
+        android:textColor="@color/common_text_dark_light"
+        android:textSize="11sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/text_time"
+        app:layout_constraintTop_toBottomOf="@+id/personal_linearlayout" />
+
+</android.support.constraint.ConstraintLayout>

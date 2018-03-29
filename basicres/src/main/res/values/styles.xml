@@ -12,6 +12,9 @@
         <item name="android:background">@null</item>
     </style>
 
+    <style name="common_AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="common_AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="common_Line_H">
         <item name="android:layout_width">match_parent</item>

@@ -34,6 +34,15 @@
     <string name="personal_setting_msg">新消息通知</string>
     <string name="personal_setting_logout">退出当前账号</string>
 
+    <!--设置消息页面-->
+    <string name="personal_setting_msg_title">新消息通知</string>
+    <string name="personal_setting_msg_note">锁屏时你的手机希望接收到消息么？</string>
+    <string name="personal_setting_msg_newmsg">接受新消息通知</string>
+    <string name="personal_setting_msg_msgdetail">通知显示详情</string>
+    <string name="personal_setting_msg_msgdetail_note">若关闭，通知提示将不显示发信人和内容摘要</string>
+    <string name="personal_setting_msg_voice">声音</string>
+    <string name="personal_setting_msg_share">震动</string>
+
     <!--意见反馈页面-->
     <string name="personal_feedback_title">意见反馈</string>
     <string name="personal_feedback_btn_right">提交</string>
@@ -54,7 +63,7 @@
     <string name="personal_account_btn_recharge">充值</string>
     <string name="personal_account_btn_diposit">提现</string>
 
-    <!--我的账户提现-->
+    <!--我的账户提现页面-->
     <string name="personal_account_deposit_title">账户提现</string>
     <string name="personal_account_deposit_btn_right">提现记录</string>
     <string name="personal_account_deposit_note">请通过支付宝账户提现</string>
@@ -69,8 +78,52 @@
     <string name="personal_account_deposit_submit">确认提现</string>
     <string name="personal_account_deposit_remind">在提现之前，请确认您的支付宝账号是否输入准确</string>
 
-    <!--我的账户充值-->
+    <!--我的账户提现记录页面-->
+    <string name="personal_account_deposit_record_title">账户提现</string>
+    <string name="personal_account_deposit_record_btn_right">收支明细</string>
+    <string name="personal_account_deposit_record_note">请通过支付宝账户提现</string>
+    <string name="personal_account_deposit_record_card">累计提现</string>
+    <string name="personal_account_deposit_record_card_use">累计消耗的钻石</string>
+    <string name="personal_account_deposit_record_detail">明细</string>
+
+    <!--我的账户收支明细页面-->
+    <string name="personal_account_deposit_detail_title">收支明细</string>
+    <string name="personal_account_deposit_detail_note">钻石收支记录</string>
+
+    <!--我的账户充值页面-->
     <string name="personal_account_recharge_title">充值</string>
     <string name="personal_account_recharge_note">钻石充值后仅能于本产品中使用</string>
+
+    <!--好友黑名单页面-->
+    <string name="personal_blacklist_title">好友黑名单</string>
+    <string name="personal_blacklist_title_note">他/她们都是你曾经厌恶的人</string>
+    <string name="personal_blacklist_btn_right">全部取消(6)</string>
+
+    <!--关于往往页面-->
+    <string name="personal_about_btn_right">常见问题</string>
+
+    <!--常见问题页面-->
+    <string name="personal_question_title">常见问题</string>
+    <string name="personal_question_note">若未查找到您想知道的问题，请使用往往官方联系我们</string>
+    <string name="personal_question_1">关于趣晒/话题</string>
+    <string name="personal_question_2">关于趣聊/觅聊</string>
+    <string name="personal_question_3">关于账户</string>
+    <string name="personal_question_other">其他问题</string>
+    <string name="personal_question_version">版本更新历史</string>
+
+    <!--历史版本页面-->
+    <string name="personal_version_history_title">版本更新历史</string>
+    <string name="personal_version_history_title_note">帮助您更好地了解产品的使用方法</string>
+    <string name="personal_version_history_tag">曾经的往往</string>
+
+    <!--个人隐私页面-->
+    <string name="personal_privacy_title">个人隐私</string>
+    <string name="personal_privacy_note">仅针对个人名片展示</string>
+    <string name="personal_privacy_friend">好友</string>
+    <string name="personal_privacy_ql">趣聊</string>
+    <string name="personal_privacy_qs">趣晒</string>
+    <string name="personal_privacy_topic">话题</string>
+    <string name="personal_privacy_showold">不对他人展示年龄</string>
+    <string name="personal_privacy_default">公开</string>
 
 </resources>

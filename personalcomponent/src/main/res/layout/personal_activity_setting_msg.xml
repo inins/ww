@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_white"
+    android:fitsSystemWindows="true">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:theme="@style/personal_AppTheme.AppBarOverlay"
+        app:elevation="0dp">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/transparent"
+            app:navigationIcon="@drawable/common_ic_back"
+            app:popupTheme="@style/personal_AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <com.wang.social.personal.mvp.ui.view.TitleView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:personal_textNote="@string/personal_setting_msg_note"
+                app:personal_textTitle="@string/personal_setting_msg_title" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="15dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/personal_setting_msg_newmsg"
+                    android:textColor="@color/common_text_blank_dark"
+                    android:textSize="16sp" />
+
+                <Space style="@style/common_Space_H" />
+
+                <com.kyleduo.switchbutton.SwitchButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:kswBackColor="@color/personal_select_light_blue"
+                    app:kswThumbColor="@color/common_white" />
+
+            </LinearLayout>
+
+            <View style="@style/common_Line_H" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/personal_setting_msg_msgdetail"
+                        android:textColor="@color/common_text_blank_dark"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:text="@string/personal_setting_msg_msgdetail_note"
+                        android:textColor="@color/common_text_dark"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+                <Space style="@style/common_Space_H" />
+
+                <com.kyleduo.switchbutton.SwitchButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:kswBackColor="@color/personal_select_light_blue"
+                    app:kswThumbColor="@color/common_white"
+                    tools:checked="true" />
+
+            </LinearLayout>
+
+            <View style="@style/common_Line_H" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/personal_setting_msg_voice"
+                    android:textColor="@color/common_text_blank_dark"
+                    android:textSize="16sp" />
+
+                <Space style="@style/common_Space_H" />
+
+                <com.kyleduo.switchbutton.SwitchButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:kswBackColor="@color/personal_select_light_blue"
+                    app:kswThumbColor="@color/common_white" />
+
+            </LinearLayout>
+
+            <View style="@style/common_Line_H" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/personal_setting_msg_share"
+                    android:textColor="@color/common_text_blank_dark"
+                    android:textSize="16sp" />
+
+                <Space style="@style/common_Space_H" />
+
+                <com.kyleduo.switchbutton.SwitchButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:kswBackColor="@color/personal_select_light_blue"
+                    app:kswThumbColor="@color/common_white" />
+
+            </LinearLayout>
+
+            <View style="@style/common_Line_H" />
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</android.support.design.widget.CoordinatorLayout>

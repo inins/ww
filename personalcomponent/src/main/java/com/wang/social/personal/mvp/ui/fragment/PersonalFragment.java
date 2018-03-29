@@ -8,17 +8,16 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.frame.base.BasicFragment;
+import com.frame.component.ui.acticity.WebActivity;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
 import com.frame.base.BaseFragment;
-import com.frame.component.path.LoginPath;
-import com.frame.component.router.ui.UIRouter;
 import com.frame.di.component.AppComponent;
 import com.wang.social.personal.di.component.DaggerFragmentComponent;
-import com.wang.social.personal.di.component.FragmentComponent;
+import com.wang.social.personal.mvp.ui.activity.AboutActivity;
 import com.wang.social.personal.mvp.ui.activity.AccountActivity;
 import com.wang.social.personal.mvp.ui.activity.FeedbackActivity;
 import com.wang.social.personal.mvp.ui.activity.MeDetailActivity;
@@ -102,6 +101,7 @@ public class PersonalFragment extends BasicFragment {
             case R.id.btn_me_share:
                 break;
             case R.id.btn_me_about:
+                AboutActivity.start(getContext());
                 break;
             case R.id.btn_me_eva:
                 break;

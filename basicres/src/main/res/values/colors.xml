@@ -7,7 +7,9 @@
     <color name="common_blue">#18B6FF</color>       <!--往往蓝-->
     <color name="common_blue_deep">#189AFF</color>       <!--往往深蓝-->
     <color name="common_blue_light">#18E7FF</color>       <!--往往浅蓝-->
+    <color name="common_blue_gray">#96CBFC</color>       <!--往往灰蓝-->
     <color name="common_white">#fefefe</color>      <!--往往白，非纯白-->
+    <color name="common_white_trans">#77fefefe</color>      <!--往往白半透明-->
     <color name="common_line">#55999999</color>     <!--分割线颜色-->
     <color name="common_text_blank">#333333</color>     <!--黑色字体-->
     <color name="common_text_blank_dark">#666666</color>     <!--黑灰色字体-->

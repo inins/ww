@@ -30,8 +30,31 @@ public class SettingActivity extends BasicActivity {
 
     }
 
-    public void onClick(View v){
-
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_psw:
+                break;
+            case R.id.btn_phone:
+                break;
+            case R.id.btn_thirdlogin:
+                break;
+            case R.id.btn_secret:
+                PrivacyActivity.start(this);
+                break;
+            case R.id.btn_clear:
+                break;
+            case R.id.btn_shutdownlist:
+                BlackListActivity.start(this);
+                break;
+            case R.id.btn_blacklist:
+                BlackListActivity.start(this);
+                break;
+            case R.id.btn_msg:
+                SettingMsgActivity.start(this);
+                break;
+            case R.id.btn_logout:
+                break;
+        }
     }
 
     @Override
