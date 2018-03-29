@@ -21,5 +21,6 @@
         <activity android:name=".mvp.ui.activity.QuestionActivity" />
         <activity android:name=".mvp.ui.activity.VersionHistoryActivity" />
         <activity android:name=".mvp.ui.activity.PrivacyActivity" />
+        <activity android:name=".mvp.ui.activity.LableActivity" />
     </application>
 </manifest>

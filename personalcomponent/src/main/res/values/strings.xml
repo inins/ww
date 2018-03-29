@@ -126,4 +126,14 @@
     <string name="personal_privacy_showold">不对他人展示年龄</string>
     <string name="personal_privacy_default">公开</string>
 
+    <!--我的标签页面-->
+    <string name="personal_lable_title">我的标签</string>
+    <string name="personal_lable_note">设置兴趣标签，信息服务更精准</string>
+    <string name="personal_lable_btn_right_edit">编辑</string>
+    <string name="personal_lable_btn_right_finish">完成</string>
+    <string name="personal_lable_show_title">名片展示标签</string>
+    <string name="personal_lable_show_note">名片中只能展示4个标签</string>
+    <string name="personal_lable_me_title">个人标签</string>
+    <string name="personal_lable_me_note">你的兴趣都在这里</string>
+
 </resources>
