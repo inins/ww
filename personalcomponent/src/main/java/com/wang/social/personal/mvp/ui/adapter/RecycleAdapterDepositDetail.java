@@ -18,7 +18,7 @@ public class RecycleAdapterDepositDetail extends BaseAdapter<TestEntity> {
     }
 
     @Override
-    protected BaseViewHolder createViewHolder(Context context, ViewGroup parent) {
+    protected BaseViewHolder createViewHolder(Context context, ViewGroup parent, int viewType) {
         return new Holder(context, parent, R.layout.personal_item_deposit_detail);
     }
 

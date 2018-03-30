@@ -1,5 +1,14 @@
 <resources>
     <string name="personal_app_name">PersonalComponent</string>
+
+    <!--通用-->
+    <string name="personal_cancel">取消</string>
+    <string name="personal_ok">确定</string>
+    <string name="personal_m">男</string>
+    <string name="personal_fm">女</string>
+    <string name="personal_edit">修改</string>
+
+    <!--个人页面-->
     <string name="personal_me_showqu">晒趣</string>
     <string name="personal_me_act">话题</string>
     <string name="personal_me_account">钻石账户</string>
@@ -18,6 +27,9 @@
     <string name="personal_medetail_address">地区</string>
     <string name="personal_medetail_photo">个人相册</string>
     <string name="personal_medetail_sign">个性签名</string>
+    <string name="personal_medetail_dialog_pic">官方图库</string>
+    <string name="personal_medetail_dialog_camera">拍摄</string>
+    <string name="personal_medetail_dialog_photo">相册</string>
 
     <!--设置页面-->
     <string name="personal_setting_title">设置</string>
@@ -126,6 +138,18 @@
     <string name="personal_privacy_showold">不对他人展示年龄</string>
     <string name="personal_privacy_default">公开</string>
 
+    <!--个人隐私展示列表页面-->
+    <string name="personal_privacy_showlist_title_friend">好友展示</string>
+    <string name="personal_privacy_showlist_title_ql">趣聊展示</string>
+    <string name="personal_privacy_showlist_title_qs">趣晒展示</string>
+    <string name="personal_privacy_showlist_title_topic">话题展示</string>
+    <string name="personal_privacy_showlist_note">仅针对个人名片展示</string>
+    <string name="personal_privacy_showlist_public">公开</string>
+    <string name="personal_privacy_showlist_me">仅自己可见</string>
+    <string name="personal_privacy_showlist_friend">好友可见</string>
+    <string name="personal_privacy_showlist_chat">趣聊/觅聊可见</string>
+    <string name="personal_privacy_showlist_btn_right">确定</string>
+
     <!--我的标签页面-->
     <string name="personal_lable_title">我的标签</string>
     <string name="personal_lable_note">设置兴趣标签，信息服务更精准</string>
@@ -135,5 +159,6 @@
     <string name="personal_lable_show_note">名片中只能展示4个标签</string>
     <string name="personal_lable_me_title">个人标签</string>
     <string name="personal_lable_me_note">你的兴趣都在这里</string>
+    <string name="personal_lable_flb">没有合适的？</string>
 
 </resources>

@@ -19,6 +19,7 @@ import com.wang.social.personal.R2;
 import com.wang.social.personal.common.ItemDecorationDivider;
 import com.wang.social.personal.mvp.entities.TestEntity;
 import com.wang.social.personal.mvp.ui.adapter.RecycleAdapterDepositRecord;
+import com.wang.social.personal.mvp.ui.adapter.RecycleAdapterDepositRecordIns;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ public class AccountDepositRecordActivity extends BasicActivity implements BaseA
     RecyclerView recycler;
     @BindView(R2.id.toolbar)
     Toolbar toolbar;
-    private RecycleAdapterDepositRecord adapter;
+    private RecycleAdapterDepositRecordIns adapter;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, AccountDepositRecordActivity.class);
@@ -46,28 +47,38 @@ public class AccountDepositRecordActivity extends BasicActivity implements BaseA
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
-        FocusUtil.focusToTop(toolbar);
+//        FocusUtil.focusToTop(toolbar);
 
-        adapter = new RecycleAdapterDepositRecord();
-        adapter.setOnItemClickListener(this);
+        adapter = new RecycleAdapterDepositRecordIns();
+//        adapter.setOnItemClickListener(this);
         recycler.setNestedScrollingEnabled(false);
         recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recycler.setAdapter(adapter);
         recycler.addItemDecoration(new ItemDecorationDivider(this).setLineMargin(15));
 
         //测试数据
-        List<TestEntity> results = new ArrayList() {{
-            add(new TestEntity());
-            add(new TestEntity());
-            add(new TestEntity());
-            add(new TestEntity());
-        }};
-        adapter.refreshData(results);
+//        List<TestEntity> results = new ArrayList() {{
+//            add(new TestEntity());
+//            add(new TestEntity());
+//            add(new TestEntity());
+//            add(new TestEntity());
+//        }};
+//        adapter.refreshData(results);
+//        adapter.getResults().addAll(results);
+//        adapter.notifyDataSetChanged();
     }
 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_right:
+                List<TestEntity> results = new ArrayList() {{
+                    add(new TestEntity());
+                    add(new TestEntity());
+                    add(new TestEntity());
+                    add(new TestEntity());
+                }};
+                adapter.getResults().addAll(results);
+                adapter.notifyDataSetChanged();
                 break;
         }
     }

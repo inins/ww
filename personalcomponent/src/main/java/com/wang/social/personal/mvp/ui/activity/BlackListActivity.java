@@ -79,7 +79,10 @@ public class BlackListActivity extends BasicActivity implements BaseAdapter.OnIt
     }
 
     public void onClick(View v) {
-
+        switch (v.getId()){
+            case R.id.btn_right:
+                break;
+        }
     }
 
     @Override

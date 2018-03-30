@@ -15,15 +15,13 @@ import java.util.List;
 
 public class RecycleAdapterDepositRecordIns extends RecyclerView.Adapter<RecycleAdapterDepositRecordIns.Holder> {
 
-    private Context context;
     private List<TestEntity> results = new ArrayList<>();
 
     public List<TestEntity> getResults() {
         return results;
     }
 
-    public RecycleAdapterDepositRecordIns(Context context) {
-        this.context = context;
+    public RecycleAdapterDepositRecordIns() {
     }
 
     @Override
