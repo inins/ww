@@ -95,7 +95,7 @@ public class SimpleCommonUtils {
         Collections.addAll(emojiArray, DefEmoticons.sEmojiArray);
         EmoticonPageSetEntity emojiPageSetEntity =
                 new EmoticonPageSetEntity.Builder()
-                        .setLine(4)
+                        .setLine(3)
                         .setRow(7)
                         .setEmoticonList(emojiArray)
                         .setIPageViewInstantiateItem(getDefaultEmoticonPageViewInstantiateItem(new EmoticonDisplayListener<Object>() {

@@ -16,6 +16,8 @@
         android:layout_above="@+id/ie_split"
         android:layout_centerVertical="true"
         android:gravity="center"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="5dp"
         android:orientation="horizontal" />
 
     <include
