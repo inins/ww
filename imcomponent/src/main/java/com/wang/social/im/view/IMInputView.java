@@ -2,6 +2,8 @@ package com.wang.social.im.view;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,7 +15,14 @@ import android.widget.Toast;
 import com.frame.utils.KeyboardUtils;
 import com.tencent.imsdk.TIMConversationType;
 import com.wang.social.im.R;
-import com.wang.social.im.view.emotion.EmoticonsEditText;
+import com.wang.social.im.view.emotion.Constants;
+import com.wang.social.im.view.emotion.EmojiBean;
+import com.wang.social.im.view.emotion.EmotionAdapter;
+import com.wang.social.im.view.emotion.SimpleCommonUtils;
+import com.wang.social.im.view.emotion.data.EmoticonEntity;
+import com.wang.social.im.view.emotion.listener.EmoticonClickListener;
+import com.wang.social.im.view.emotion.widget.EmoticonsEditText;
+import com.wang.social.im.view.emotion.widget.EmoticonsFuncView;
 import com.wang.social.im.view.plugin.PluginAdapter;
 import com.wang.social.im.view.plugin.PluginModule;
 
@@ -31,6 +40,7 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
     private Button mVoiceInput;
 
     private PluginAdapter mPluginAdapter;
+    private EmotionAdapter mEmotionAdapter;
     private TIMConversationType mConversationType;
 
     private boolean isKeyBoardActive;
@@ -134,6 +144,32 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
         mEmotionToggle.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (mEmotionAdapter.isInitialed()){
+                    if (mEmotionAdapter.getVisibility() == VISIBLE){
+                        mEmotionAdapter.setVisibility(GONE);
+                        showInputKeyBoard();
+                    }else {
+                        if (isKeyBoardActive){
+                            getHandler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mEmotionAdapter.setVisibility(VISIBLE);
+                                }
+                            }, 200L);
+                        }else {
+                            mEmotionAdapter.setVisibility(VISIBLE);
+                        }
+                        hideInputKeyBoard();
+                        hidePluginBoard();
+                    }
+                }else {
+                    mEmotionAdapter.bindView(IMInputView.this);
+                    mPluginAdapter.setVisibility(VISIBLE);
+                    hideInputKeyBoard();
+                    hidePluginBoard();
+                }
+                mEditText.setVisibility(VISIBLE);
+                mVoiceInput.setVisibility(GONE);
             }
         });
     }
@@ -142,7 +178,7 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
      * 初始化表情列表
      */
     private void initEmotions() {
-
+        mEmotionAdapter = new EmotionAdapter(mEditText);
     }
 
     /**
@@ -181,7 +217,7 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
     }
 
     private void hideEmotionBoard() {
-
+        mEmotionAdapter.setVisibility(GONE);
     }
 
     private void hidePluginBoard() {

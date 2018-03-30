@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="im_emotion_tag_pageset" type="id"/>
+    <item name="im_emotion_toolbar_left" type="id"/>
+    <item name="im_emotion_toolbar_right" type="id"/>
+</resources>
