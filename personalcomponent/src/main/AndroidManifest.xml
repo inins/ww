@@ -9,9 +9,18 @@
 
         <activity android:name=".mvp.ui.activity.MeDetailActivity" />
         <activity android:name=".mvp.ui.activity.SettingActivity" />
+        <activity android:name=".mvp.ui.activity.SettingMsgActivity" />
         <activity android:name=".mvp.ui.activity.FeedbackActivity" />
         <activity android:name=".mvp.ui.activity.AccountActivity" />
         <activity android:name=".mvp.ui.activity.AccountDepositActivity" />
         <activity android:name=".mvp.ui.activity.AccountRechargeActivity" />
+        <activity android:name=".mvp.ui.activity.AccountDepositRecordActivity" />
+        <activity android:name=".mvp.ui.activity.AccountDepositDetailActivity" />
+        <activity android:name=".mvp.ui.activity.BlackListActivity" />
+        <activity android:name=".mvp.ui.activity.AboutActivity" />
+        <activity android:name=".mvp.ui.activity.QuestionActivity" />
+        <activity android:name=".mvp.ui.activity.VersionHistoryActivity" />
+        <activity android:name=".mvp.ui.activity.PrivacyActivity" />
+        <activity android:name=".mvp.ui.activity.LableActivity" />
     </application>
 </manifest>

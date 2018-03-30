@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="personal_bk_light">#F2F2F2</color>
+    <color name="personal_white_trans">#aafefefe</color>      <!--往往白半透明-->
+    <color name="personal_blue_gray">#96CBFC</color>      <!--往往灰蓝-->
+    <color name="personal_red_gray">#FC969D</color>      <!--往往灰红-->
 </resources>

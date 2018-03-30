@@ -37,20 +37,126 @@
             android:paddingLeft="15dp"
             android:paddingRight="15dp">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <com.wang.social.personal.mvp.ui.view.TitleView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/personal_account_recharge_title"
-                android:textColor="@color/common_text_blank"
-                android:textSize="23sp" />
+                app:personal_textNote="@string/personal_account_recharge_note"
+                app:personal_textTitle="@string/personal_account_recharge_title" />
 
-            <TextView
-                android:layout_width="wrap_content"
+            <com.frame.component.view.AutoFitGridLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="@string/personal_account_recharge_note"
-                android:textColor="@color/common_text_blank_dark"
-                android:textSize="13sp" />
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="20dp"
+                app:columnCount="2"
+                app:horizontalSpace="15dp"
+                app:verticalSpace="15dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:background="@drawable/personal_shape_rect_gradient_blue_coner"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="210钻值"
+                        android:textColor="@color/common_white"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="¥ 3"
+                        android:textColor="@color/common_white"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:background="@drawable/personal_shape_rect_gradient_blue_coner"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/personal_recharge_hot"
+                        android:drawablePadding="5dp"
+                        android:text="840钻值"
+                        android:textColor="@color/common_white"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="¥ 12"
+                        android:textColor="@color/common_white"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:background="@drawable/personal_shape_rect_gradient_blue_coner"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2100钻值"
+                        android:textColor="@color/common_white"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="¥ 30"
+                        android:textColor="@color/common_white"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:background="@drawable/personal_shape_rect_gradient_blue_coner"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="6160钻值"
+                        android:textColor="@color/common_white"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="¥ 88"
+                        android:textColor="@color/common_white"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+            </com.frame.component.view.AutoFitGridLayout>
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

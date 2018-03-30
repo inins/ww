@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_white"
+    android:fitsSystemWindows="true">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:theme="@style/personal_AppTheme.AppBarOverlay"
+        app:elevation="0dp">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/transparent"
+            app:navigationIcon="@drawable/common_ic_back"
+            app:popupTheme="@style/personal_AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.wang.social.personal.mvp.ui.view.TitleView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                app:personal_textNote="@string/personal_question_note"
+                app:personal_textTitle="@string/personal_question_title" />
+
+            <TextView
+                android:id="@+id/btn_qs"
+                style="@style/personal_TextMeItem"
+                android:layout_marginTop="15dp"
+                android:onClick="onClick"
+                android:text="@string/personal_question_1" />
+
+            <View
+                style="@style/common_Line_H"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+
+            <TextView
+                android:id="@+id/btn_ql"
+                style="@style/personal_TextMeItem"
+                android:onClick="onClick"
+                android:text="@string/personal_question_2" />
+
+            <View
+                style="@style/common_Line_H"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+
+            <TextView
+                android:id="@+id/btn_account"
+                style="@style/personal_TextMeItem"
+                android:onClick="onClick"
+                android:text="@string/personal_question_3" />
+
+            <View
+                style="@style/common_Line_H"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+
+            <TextView
+                android:id="@+id/btn_other"
+                style="@style/personal_TextMeItem"
+                android:onClick="onClick"
+                android:text="@string/personal_question_other" />
+
+            <View
+                style="@style/common_Line_H"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginRight="15dp"
+                    android:text="已更新到V 2.0"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/btn_version"
+                    style="@style/personal_TextMeItem"
+                    android:onClick="onClick"
+                    android:text="@string/personal_question_version" />
+
+            </FrameLayout>
+
+            <View
+                style="@style/common_Line_H"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</android.support.design.widget.CoordinatorLayout>

@@ -9,13 +9,13 @@
         android:startColor="@color/common_blue_deep" />
 
     <size
-        android:width="330dp"
-        android:height="160dp" />
+        android:width="150dp"
+        android:height="50dp" />
 
     <corners
-        android:bottomLeftRadius="14dp"
-        android:bottomRightRadius="14dp"
-        android:topLeftRadius="14dp"
-        android:topRightRadius="14dp" />
+        android:bottomLeftRadius="25dp"
+        android:bottomRightRadius="25dp"
+        android:topLeftRadius="25dp"
+        android:topRightRadius="25dp" />
 
 </shape>

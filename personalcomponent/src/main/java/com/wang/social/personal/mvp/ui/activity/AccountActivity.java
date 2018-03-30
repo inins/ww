@@ -31,6 +31,7 @@ public class AccountActivity extends BasicActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_right:
+                AccountDepositDetailActivity.start(this);
                 break;
             case R.id.btn_recharge:
                 AccountRechargeActivity.start(this);

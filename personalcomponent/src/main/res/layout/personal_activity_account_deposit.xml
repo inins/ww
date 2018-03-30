@@ -51,20 +51,11 @@
             android:paddingLeft="15dp"
             android:paddingRight="15dp">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <com.wang.social.personal.mvp.ui.view.TitleView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/personal_account_deposit_title"
-                android:textColor="@color/common_text_blank"
-                android:textSize="23sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="@string/personal_account_deposit_note"
-                android:textColor="@color/common_text_blank_dark"
-                android:textSize="13sp" />
+                app:personal_textNote="@string/personal_account_deposit_note"
+                app:personal_textTitle="@string/personal_account_deposit_title" />
 
             <LinearLayout
                 android:layout_width="match_parent"

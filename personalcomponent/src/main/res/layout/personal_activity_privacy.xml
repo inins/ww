@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_white"
+    android:fitsSystemWindows="true">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:theme="@style/personal_AppTheme.AppBarOverlay"
+        app:elevation="0dp">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/transparent"
+            app:navigationIcon="@drawable/common_ic_back"
+            app:popupTheme="@style/personal_AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.wang.social.personal.mvp.ui.view.TitleView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                app:personal_textNote="@string/personal_privacy_note"
+                app:personal_textTitle="@string/personal_privacy_title" />
+
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginRight="30dp"
+                    android:text="@string/personal_privacy_default"
+                    android:textSize="14sp" />
+
+                <TextView
+                    style="@style/personal_TextMeItem"
+                    android:drawableRight="@drawable/common_ic_next"
+                    android:onClick="onClick"
+                    android:text="@string/personal_privacy_friend" />
+
+            </FrameLayout>
+
+            <View
+                style="@style/common_Line_H"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginRight="30dp"
+                    android:text="@string/personal_privacy_default"
+                    android:textSize="14sp" />
+
+                <TextView
+                    style="@style/personal_TextMeItem"
+                    android:drawableRight="@drawable/common_ic_next"
+                    android:onClick="onClick"
+                    android:text="@string/personal_privacy_ql" />
+
+            </FrameLayout>
+
+            <View
+                style="@style/common_Line_H"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginRight="30dp"
+                    android:text="@string/personal_privacy_default"
+                    android:textSize="14sp" />
+
+                <TextView
+                    style="@style/personal_TextMeItem"
+                    android:drawableRight="@drawable/common_ic_next"
+                    android:onClick="onClick"
+                    android:text="@string/personal_privacy_qs" />
+
+            </FrameLayout>
+
+            <View
+                style="@style/common_Line_H"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginRight="30dp"
+                    android:text="@string/personal_privacy_default"
+                    android:textSize="14sp" />
+
+                <TextView
+                    style="@style/personal_TextMeItem"
+                    android:drawableRight="@drawable/common_ic_next"
+                    android:onClick="onClick"
+                    android:text="@string/personal_privacy_topic" />
+
+            </FrameLayout>
+
+            <View
+                style="@style/common_Line_H"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp">
+
+                <com.kyleduo.switchbutton.SwitchButton
+                    android:id="@+id/switch_show"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginRight="15dp"
+                    app:kswBackColor="@color/personal_select_light_blue"
+                    app:kswThumbColor="@color/common_white" />
+
+                <TextView
+                    style="@style/personal_TextMeItem"
+                    android:text="@string/personal_privacy_showold" />
+
+            </FrameLayout>
+
+            <View
+                style="@style/common_Line_H"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</android.support.design.widget.CoordinatorLayout>
