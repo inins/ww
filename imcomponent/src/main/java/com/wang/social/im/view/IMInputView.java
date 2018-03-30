@@ -72,20 +72,19 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
         mVoiceToggle.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if (mVoiceInput.getVisibility() != VISIBLE) {
-//                    mVoiceInput.setVisibility(VISIBLE);
-//                    mEditText.setVisibility(GONE);
-//                    mEmotionToggle.setVisibility(GONE);
-//                    hideInputKeyBoard();
-//                } else {
-//                    mEditText.setVisibility(VISIBLE);
-//                    mEmotionToggle.setVisibility(VISIBLE);
-//                    mVoiceInput.setVisibility(GONE);
-//                    showInputKeyBoard();
-//                }
-//                hideEmotionBoard();
-//                hidePluginBoard();
-                mPluginAdapter.remove();
+                if (mVoiceInput.getVisibility() != VISIBLE) {
+                    mVoiceInput.setVisibility(VISIBLE);
+                    mEditText.setVisibility(GONE);
+                    mEmotionToggle.setVisibility(GONE);
+                    hideInputKeyBoard();
+                } else {
+                    mEditText.setVisibility(VISIBLE);
+                    mEmotionToggle.setVisibility(VISIBLE);
+                    mVoiceInput.setVisibility(GONE);
+                    showInputKeyBoard();
+                }
+                hideEmotionBoard();
+                hidePluginBoard();
             }
         });
         mPluginToggle.setOnClickListener(new OnClickListener() {
@@ -135,7 +134,6 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
         mEmotionToggle.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPluginAdapter.add();
             }
         });
     }
