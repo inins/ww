@@ -1,83 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingBottom="6dp"
+    android:paddingLeft="@dimen/im_chat_input_horizontal_space"
+    android:paddingRight="@dimen/im_chat_input_horizontal_space"
+    android:paddingTop="6dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/vi_iv_toggle_voice"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="6dp"
-        android:paddingLeft="@dimen/im_chat_input_horizontal_space"
-        android:paddingRight="@dimen/im_chat_input_horizontal_space"
-        android:paddingTop="6dp">
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/im_voice_icon" />
 
-        <ImageView
-            android:id="@+id/vi_iv_toggle_voice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/im_voice_icon" />
+    <android.support.v4.widget.Space
+        android:layout_width="@dimen/im_chat_input_horizontal_space"
+        android:layout_height="1dp" />
 
-        <android.support.v4.widget.Space
-            android:layout_width="@dimen/im_chat_input_horizontal_space"
-            android:layout_height="1dp" />
+    <com.wang.social.im.view.emotion.EmoticonsEditText
+        android:id="@+id/vi_et_input"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:background="@drawable/im_bg_chat_edittext"
+        android:cursorVisible="true"
+        android:focusableInTouchMode="true"
+        android:gravity="center_vertical"
+        android:hint="@string/im_chat_input_hint"
+        android:inputType="textMultiLine"
+        android:lineSpacingExtra="2dp"
+        android:maxLines="3"
+        android:minHeight="36dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp"
+        android:textColor="@color/im_message_txt"
+        android:textColorHint="@color/im_message_hint"
+        android:textSize="13dp" />
 
-        <com.wang.social.im.view.emotion.EmoticonsEditText
-            android:id="@+id/vi_et_input"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:background="@drawable/im_bg_chat_edittext"
-            android:cursorVisible="true"
-            android:focusableInTouchMode="true"
-            android:gravity="center_vertical"
-            android:hint="@string/im_chat_input_hint"
-            android:inputType="textMultiLine"
-            android:lineSpacingExtra="2dp"
-            android:maxLines="3"
-            android:minHeight="36dp"
-            android:paddingBottom="5dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="5dp"
-            android:textColor="@color/im_message_txt"
-            android:textColorHint="@color/im_message_hint"
-            android:textSize="13dp"/>
+    <Button
+        android:id="@+id/vi_btn_voice_input"
+        style="?android:borderlessButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_weight="1"
+        android:background="@drawable/im_bg_voice_input"
+        android:text="@string/im_voice_input"
+        android:textColor="@color/common_blue"
+        android:textSize="14dp"
+        android:visibility="gone" />
 
-        <Button
-            android:id="@+id/vi_btn_voice_input"
-            android:layout_width="0dp"
-            android:layout_height="35dp"
-            android:layout_weight="1"
-            android:textColor="@color/common_blue"
-            android:text="@string/im_voice_input"
-            android:textSize="14dp"
-            android:visibility="gone"
-            style="?android:borderlessButtonStyle"
-            android:background="@drawable/im_bg_voice_input"/>
+    <ImageView
+        android:id="@+id/vi_iv_toggle_emotion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="@dimen/im_chat_input_horizontal_space"
+        android:src="@drawable/im_emoji_icon" />
 
-        <android.support.v4.widget.Space
-            android:layout_width="@dimen/im_chat_input_horizontal_space"
-            android:layout_height="1dp" />
+    <android.support.v4.widget.Space
+        android:layout_width="@dimen/im_chat_input_horizontal_space"
+        android:layout_height="1dp" />
 
-        <ImageView
-            android:id="@+id/vi_iv_toggle_emotion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/im_emoji_icon" />
-
-        <android.support.v4.widget.Space
-            android:layout_width="@dimen/im_chat_input_horizontal_space"
-            android:layout_height="1dp" />
-
-        <ImageView
-            android:id="@+id/vi_iv_toggle_plugin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/im_plugin_icon" />
-    </LinearLayout>
-</merge>
+    <ImageView
+        android:id="@+id/vi_iv_toggle_plugin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/im_plugin_icon" />
+</LinearLayout>

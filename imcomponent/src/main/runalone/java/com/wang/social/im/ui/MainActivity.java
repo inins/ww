@@ -3,7 +3,9 @@ package com.wang.social.im.ui;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.tencent.imsdk.TIMConversationType;
 import com.wang.social.im.R;
+import com.wang.social.im.view.IMInputView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -11,5 +13,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.im_activity_main);
+
+        IMInputView inputView = findViewById(R.id.inputView);
+        inputView.setConversationType(TIMConversationType.Group);
     }
 }

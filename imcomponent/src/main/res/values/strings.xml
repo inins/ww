@@ -2,4 +2,11 @@
     <string name="im_chat_input_hint">输入消息...</string>
     <string name="im_voice_input">按住 说话</string>
     <string name="im_voice_input_hover">松开 发送</string>
+
+    <string name="im_chat_input_plugin_image">图片</string>
+    <string name="im_chat_input_plugin_shoot">拍摄</string>
+    <string name="im_chat_input_plugin_location">地址</string>
+    <string name="im_chat_input_plugin_redpacket">红包</string>
+    <string name="im_chat_input_plugin_game">游戏</string>
+    <string name="im_chat_input_plugin_shadow">使用分身</string>
 </resources>

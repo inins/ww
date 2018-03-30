@@ -1,6 +1,7 @@
 package com.frame.di.module;
 
 import android.app.Application;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
@@ -13,6 +14,7 @@ import com.frame.http.log.DefaultFormatPrinter;
 import com.frame.http.log.FormatPrinter;
 import com.frame.http.log.RequestInterceptor;
 import com.frame.integration.cache.Cache;
+import com.frame.integration.cache.CacheType;
 import com.frame.integration.cache.LruCache;
 import com.frame.utils.DataHelper;
 import com.frame.utils.Preconditions;
@@ -68,23 +70,23 @@ public class GlobalConfigModule {
         this.mCacheFactory = builder.cacheFactory;
     }
 
-    public static Builder builder(){
+    public static Builder builder() {
         return new Builder();
     }
 
     @Singleton
     @Provides
     @Nullable
-    List<Interceptor> provideInterceptors(){
+    List<Interceptor> provideInterceptors() {
         return mInterceptors;
     }
 
     @Singleton
     @Provides
-    HttpUrl provideBaseUrl(){
-        if (mBaseUrl != null){
+    HttpUrl provideBaseUrl() {
+        if (mBaseUrl != null) {
             HttpUrl httpUrl = mBaseUrl.url();
-            if (httpUrl != null){
+            if (httpUrl != null) {
                 return httpUrl;
             }
         }
@@ -94,66 +96,72 @@ public class GlobalConfigModule {
 
     @Singleton
     @Provides
-    BaseImageLoaderStrategy provideImageLoaderStrategy(){
+    BaseImageLoaderStrategy provideImageLoaderStrategy() {
         return mLoaderStrategy == null ? new GlideImageLoaderStrategy() : mLoaderStrategy;
     }
 
     @Singleton
     @Provides
     @Nullable
-    GlobalHttpHandler provideGlobalHttpHandler(){
+    GlobalHttpHandler provideGlobalHttpHandler() {
         return mHandler == null ? GlobalHttpHandler.EMPTY : mHandler;
     }
 
     @Singleton
     @Provides
-    ResponseErrorListener provideResponseErrorListener(){
+    ResponseErrorListener provideResponseErrorListener() {
         return mResponseErrorListener == null ? ResponseErrorListener.EMPTY : mResponseErrorListener;
     }
 
     @Singleton
     @Provides
-    File provideCacheFile(Application application){
+    File provideCacheFile(Application application) {
         return mCacheFile == null ? DataHelper.getCacheFile(application) : mCacheFile;
     }
 
     @Singleton
     @Provides
     @Nullable
-    ClientModule.RetrofitConfiguration provideRetrofitConfiguration(){
+    ClientModule.RetrofitConfiguration provideRetrofitConfiguration() {
         return mRetrofitConfiguration;
     }
 
     @Singleton
     @Provides
     @Nullable
-    ClientModule.OkHttpConfiguration provideOkHttpConfiguration(){
+    ClientModule.OkHttpConfiguration provideOkHttpConfiguration() {
         return mOkHttpConfiguration;
     }
 
     @Singleton
     @Provides
     @Nullable
-    AppModule.GsonConfiguration provideGsonConfiguration(){
+    AppModule.GsonConfiguration provideGsonConfiguration() {
         return mGsonConfiguration;
     }
 
     @Singleton
     @Provides
-    RequestInterceptor.Level providePrintHttpLogLevel(){
+    RequestInterceptor.Level providePrintHttpLogLevel() {
         return mPrintHttpLogLevel == null ? RequestInterceptor.Level.ALL : mPrintHttpLogLevel;
     }
 
     @Singleton
     @Provides
-    FormatPrinter provideFormatPrinter(){
+    FormatPrinter provideFormatPrinter() {
         return mFormatPrinter == null ? new DefaultFormatPrinter() : mFormatPrinter;
     }
 
     @Singleton
     @Provides
-    Cache.Factory provideCacheFactory(Application application){
-        return mCacheFactory == null ? cacheType -> new LruCache(cacheType.calculateCacheSize(application)) : mCacheFactory;
+    Cache.Factory provideCacheFactory(final Application application) {
+        return mCacheFactory == null ? new Cache.Factory() {
+            @NonNull
+            @Override
+            public Cache build(CacheType cacheType) {
+                return new LruCache(cacheType.calculateCacheSize(application));
+            }
+        } : mCacheFactory;
     }
 
     public static final class Builder {
@@ -175,80 +183,81 @@ public class GlobalConfigModule {
         private Builder() {
         }
 
-        public Builder baseUrl(String baseUrl){
-            if (TextUtils.isEmpty(baseUrl)){
+        public Builder baseUrl(String baseUrl) {
+            if (TextUtils.isEmpty(baseUrl)) {
                 throw new IllegalArgumentException("BaseUrl cannot be null!");
             }
             this.apiUrl = HttpUrl.parse(baseUrl);
             return this;
         }
 
-        public Builder baseUrl(BaseUrl baseUrl){
+        public Builder baseUrl(BaseUrl baseUrl) {
             this.baseUrl = Preconditions.checkNotNull(baseUrl, BaseUrl.class.getCanonicalName() + "cannot be null!");
             return this;
         }
 
         //处理图片加载
-        public Builder imageLoaderStrategy(BaseImageLoaderStrategy loaderStrategy){
+        public Builder imageLoaderStrategy(BaseImageLoaderStrategy loaderStrategy) {
             this.loaderStrategy = loaderStrategy;
             return this;
         }
 
         //处理Http响应结果
-        public Builder globalHttpHandler(GlobalHttpHandler httpHandler){
+        public Builder globalHttpHandler(GlobalHttpHandler httpHandler) {
             this.httpHandler = httpHandler;
             return this;
         }
 
-        public Builder responseErrorListener(ResponseErrorListener listener){
+        public Builder responseErrorListener(ResponseErrorListener listener) {
             this.responseErrorListener = listener;
             return this;
         }
 
-        public Builder addInterceptor(Interceptor interceptor){
-            if (interceptors == null){
+        public Builder addInterceptor(Interceptor interceptor) {
+            if (interceptors == null) {
                 interceptors = new ArrayList<>();
             }
             this.interceptors.add(interceptor);
             return this;
         }
 
-        public Builder cacheFile(File cacheFile){
+        public Builder cacheFile(File cacheFile) {
             this.cacheFile = cacheFile;
             return this;
         }
 
-        public Builder retrofitConfiguration(ClientModule.RetrofitConfiguration configuration){
+        public Builder retrofitConfiguration(ClientModule.RetrofitConfiguration configuration) {
             this.retrofitConfiguration = configuration;
             return this;
         }
 
-        public Builder okHttpConfiguration(ClientModule.OkHttpConfiguration configuration){
+        public Builder okHttpConfiguration(ClientModule.OkHttpConfiguration configuration) {
             this.okHttpConfiguration = configuration;
             return this;
         }
 
-        public Builder gsonConfiguration(AppModule.GsonConfiguration configuration){
+        public Builder gsonConfiguration(AppModule.GsonConfiguration configuration) {
             this.gsonConfiguration = configuration;
             return this;
         }
 
-        public Builder printHttpLogLevel(RequestInterceptor.Level level){
-            this.printHttpLogLevel = Preconditions.checkNotNull(printHttpLogLevel, "The printHttpLogLevel can not be null, use RequestInterceptor.Level.NONE instead.");;
+        public Builder printHttpLogLevel(RequestInterceptor.Level level) {
+            this.printHttpLogLevel = Preconditions.checkNotNull(printHttpLogLevel, "The printHttpLogLevel can not be null, use RequestInterceptor.Level.NONE instead.");
+            ;
             return this;
         }
 
-        public Builder formatPrinter(FormatPrinter printer){
+        public Builder formatPrinter(FormatPrinter printer) {
             this.formatPrinter = Preconditions.checkNotNull(formatPrinter, FormatPrinter.class.getCanonicalName() + "can not be null.");
             return this;
         }
 
-        public Builder cacheFactory(Cache.Factory factory){
+        public Builder cacheFactory(Cache.Factory factory) {
             this.cacheFactory = cacheFactory;
             return this;
         }
 
-        public GlobalConfigModule build(){
+        public GlobalConfigModule build() {
             return new GlobalConfigModule(this);
         }
     }

@@ -40,6 +40,14 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
     }
 
     /**
+     * 获取数据集
+     * @return
+     */
+    public List<T> getData(){
+        return this.valueList;
+    }
+
+    /**
      * 刷新数据
      *
      * @param valueList 新的数据列表
@@ -53,20 +61,49 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
      * 移除一项数据
      * @param position 索引
      */
-    public void removeItem(int position, List<T> valueList){
-        this.valueList = valueList;
+    public void removeItem(int position){
+        this.valueList.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, this.valueList.size() - position);
     }
 
     /**
-     * 添加一项数据
-     * @param valueList 添加的数据
+     * 插入一项数据
+     * @param item 添加的数据
      */
-    public void insertItem(int position, List<T> valueList){
-        this.valueList = valueList;
+    public void insertItem(int position, T item){
+        this.valueList.add(position, item);
         notifyItemInserted(position);
         notifyItemRangeChanged(position, this.valueList.size() - position);
+    }
+
+    /**
+     * 插入数据
+     * @param items 添加的数据
+     */
+    public void insertItem(int position, List<T> items){
+        this.valueList.addAll(position, items);
+        notifyItemInserted(position);
+        notifyItemRangeChanged(position, this.valueList.size() - position);
+    }
+
+    /**
+     * 添加一项数据
+     * @param item
+     */
+    public void addItem(T item){
+        this.valueList.add(item);
+        notifyItemInserted(this.valueList.size() - 1);
+    }
+
+    /**
+     * 添加数据
+     * @param items
+     */
+    public void addItem(List<T> items){
+        this.valueList.addAll(items);
+        notifyItemInserted(this.valueList.size() - items.size());
+        notifyItemRangeChanged(this.valueList.size() - items.size(), this.valueList.size() - 1);
     }
 
     /**

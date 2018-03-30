@@ -27,5 +27,5 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation rootProject.ext.dependencies["annotations"]
     implementation rootProject.ext.dependencies["gson"]
-    compile project(':router-annotation')
+    api project(':router-annotation')
 }

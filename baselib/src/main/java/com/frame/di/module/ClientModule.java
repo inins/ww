@@ -8,6 +8,7 @@ import com.frame.http.GlobalHttpHandler;
 import com.frame.http.log.RequestInterceptor;
 import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -19,6 +20,7 @@ import dagger.Provides;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -52,12 +54,17 @@ public abstract class ClientModule {
     @Singleton
     @Provides
     static OkHttpClient provideClient(Application application, @Nullable OkHttpConfiguration configuration, OkHttpClient.Builder builder, Interceptor intercept,
-                                      @Nullable List<Interceptor> interceptors, @Nullable GlobalHttpHandler handler) {
+                                      @Nullable List<Interceptor> interceptors, @Nullable final GlobalHttpHandler handler) {
         builder.connectTimeout(TIME_OUT, TimeUnit.SECONDS)
                 .readTimeout(TIME_OUT, TimeUnit.SECONDS)
                 .addNetworkInterceptor(intercept);
         if (handler != null){
-            builder.addInterceptor(chain -> chain.proceed(handler.onHttpRequestBefore(chain, chain.request())));
+            builder.addInterceptor(new Interceptor() {
+                @Override
+                public Response intercept(Chain chain) throws IOException {
+                    return chain.proceed(handler.onHttpRequestBefore(chain, chain.request()));
+                }
+            });
         }
         if (interceptors != null){
             for (Interceptor interceptor : interceptors){
