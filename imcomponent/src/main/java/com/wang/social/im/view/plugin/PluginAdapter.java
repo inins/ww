@@ -52,7 +52,7 @@ public class PluginAdapter {
     }
 
     public int getVisibility(){
-        return mPluginsPager.getVisibility();
+        return mPluginsPager == null ? View.GONE : mPluginsPager.getVisibility();
     }
 
     public void setVisibility(int visibility){
@@ -109,10 +109,9 @@ public class PluginAdapter {
         @NonNull
         @Override
         public Object instantiateItem(@NonNull ViewGroup container, int position) {
-            View contentView = mLayoutInflater.inflate(R.layout.im_input_plugin_grid, null);
-            RecyclerView pluginContainer = contentView.findViewById(R.id.ipg_rlv_plugins);
+            RecyclerView pluginContainer = (RecyclerView) mLayoutInflater.inflate(R.layout.im_input_plugin_grid, null);
             pluginContainer.setLayoutManager(new GridLayoutManager(container.getContext(), COLUMN));
-            final int space = SizeUtils.dp2px(5);
+            final int space = SizeUtils.dp2px(10);
             pluginContainer.addItemDecoration(new RecyclerView.ItemDecoration() {
                 @Override
                 public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
@@ -136,7 +135,7 @@ public class PluginAdapter {
                     pluginModules = plugins.subList(position * PAGE_ITEM_COUNT, plugins.size() - 1);
                 }
             } else {
-                pluginModules = plugins.subList(position * PAGE_ITEM_COUNT, showSize - 1);
+                pluginModules = plugins.subList(position * PAGE_ITEM_COUNT, showSize);
             }
             PluginGridAdapter pluginGridAdapter = new PluginGridAdapter(pluginModules);
             pluginContainer.setAdapter(pluginGridAdapter);
@@ -146,8 +145,8 @@ public class PluginAdapter {
                     pluginClickListener.onPluginClick(pluginModule);
                 }
             });
-            container.addView(contentView);
-            return contentView;
+            container.addView(pluginContainer);
+            return pluginContainer;
         }
 
         @Override

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:background="@drawable/im_bg_emotion_toolbtn"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/eti_iv_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingBottom="6dp"
+        android:paddingTop="6dp" />
+
+    <include layout="@layout/im_emotion_split_horizontal" />
+</LinearLayout>
