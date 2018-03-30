@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 import com.wang.social.im.R;
 import com.wang.social.im.view.emotion.adapter.PageSetAdapter;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 /**
  * 表情键盘
  */
-public class EmotionView extends FrameLayout implements EmoticonsFuncView.OnEmoticonsPageViewListener, EmoticonsToolBarView.OnToolBarItemClickListener{
+public class EmotionView extends RelativeLayout implements EmoticonsFuncView.OnEmoticonsPageViewListener, EmoticonsToolBarView.OnToolBarItemClickListener{
 
     private EmoticonsFuncView mEmoticonsFuncView;
     private EmoticonsIndicatorView mEmoticonsIndicatorView;

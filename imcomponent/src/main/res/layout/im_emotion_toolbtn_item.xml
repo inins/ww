@@ -10,7 +10,6 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:paddingBottom="6dp"
+        android:layout_gravity="center"
         android:paddingTop="6dp" />
-
-    <include layout="@layout/im_emotion_split_horizontal" />
 </LinearLayout>

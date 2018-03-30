@@ -15,6 +15,7 @@ import com.wang.social.im.view.emotion.adapter.PageSetAdapter;
 import com.wang.social.im.view.emotion.data.EmoticonEntity;
 import com.wang.social.im.view.emotion.data.EmoticonPageEntity;
 import com.wang.social.im.view.emotion.data.EmoticonPageSetEntity;
+import com.wang.social.im.view.emotion.data.PageSetEntity;
 import com.wang.social.im.view.emotion.listener.EmoticonClickListener;
 import com.wang.social.im.view.emotion.listener.EmoticonDisplayListener;
 import com.wang.social.im.view.emotion.listener.ImageBase;
@@ -67,13 +68,17 @@ public class SimpleCommonUtils {
 
     public static PageSetAdapter getCommonAdapter(Context context, EmoticonClickListener emoticonClickListener) {
 
-        if(sCommonPageSetAdapter != null){
+        if (sCommonPageSetAdapter != null) {
             return sCommonPageSetAdapter;
         }
 
         PageSetAdapter pageSetAdapter = new PageSetAdapter();
 
         addEmojiPageSetEntity(pageSetAdapter, context, emoticonClickListener);
+
+        PageSetEntity pageSetEntity = new PageSetEntity.Builder().setIconUri(R.drawable.emoji_0x1f3e0)
+                .setShowIndicator(true)
+                .build();
 
         return pageSetAdapter;
     }
@@ -88,43 +93,40 @@ public class SimpleCommonUtils {
     public static void addEmojiPageSetEntity(PageSetAdapter pageSetAdapter, Context context, final EmoticonClickListener emoticonClickListener) {
         ArrayList<EmojiBean> emojiArray = new ArrayList<>();
         Collections.addAll(emojiArray, DefEmoticons.sEmojiArray);
-        EmoticonPageSetEntity emojiPageSetEntity
-                = new EmoticonPageSetEntity.Builder()
-                .setLine(3)
-                .setRow(7)
-                .setEmoticonList(emojiArray)
-                .setIPageViewInstantiateItem(getDefaultEmoticonPageViewInstantiateItem(new EmoticonDisplayListener<Object>() {
-                    @Override
-                    public void onBindView(int position, ViewGroup parent, EmoticonsAdapter.ViewHolder viewHolder, Object object, final boolean isDelBtn) {
-                        final EmojiBean emojiBean = (EmojiBean) object;
-                        if (emojiBean == null && !isDelBtn) {
-                            return;
-                        }
-
-//                        viewHolder.ly_root.setBackgroundResource(R.drawable.bg_emoticon);
-
-                        if (isDelBtn) {
-                            viewHolder.iv_emoticon.setImageResource(R.drawable.im_emotion_del_icon);
-                        } else {
-                            viewHolder.iv_emoticon.setImageResource(emojiBean.icon);
-                        }
-
-                        viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
+        EmoticonPageSetEntity emojiPageSetEntity =
+                new EmoticonPageSetEntity.Builder()
+                        .setLine(4)
+                        .setRow(7)
+                        .setEmoticonList(emojiArray)
+                        .setIPageViewInstantiateItem(getDefaultEmoticonPageViewInstantiateItem(new EmoticonDisplayListener<Object>() {
                             @Override
-                            public void onClick(View v) {
-                                if (emoticonClickListener != null) {
-                                    emoticonClickListener.onEmoticonClick(emojiBean, Constants.EMOTICON_CLICK_TEXT, isDelBtn);
+                            public void onBindView(int position, ViewGroup parent, EmoticonsAdapter.ViewHolder viewHolder, Object object, final boolean isDelBtn) {
+                                final EmojiBean emojiBean = (EmojiBean) object;
+                                if (emojiBean == null && !isDelBtn) {
+                                    return;
                                 }
+
+                                if (isDelBtn) {
+                                    viewHolder.iv_emoticon.setImageResource(R.drawable.im_emotion_del_icon);
+                                } else {
+                                    viewHolder.iv_emoticon.setImageResource(emojiBean.icon);
+                                }
+
+                                viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        if (emoticonClickListener != null) {
+                                            emoticonClickListener.onEmoticonClick(emojiBean, Constants.EMOTICON_CLICK_TEXT, isDelBtn);
+                                        }
+                                    }
+                                });
                             }
-                        });
-                    }
-                }))
-                .setShowDelBtn(EmoticonPageEntity.DelBtnStatus.LAST)
-                .setIconUri(ImageBase.Scheme.DRAWABLE.toUri("icon_emoji"))
-                .build();
+                        }))
+                        .setShowDelBtn(EmoticonPageEntity.DelBtnStatus.FOLLOW)
+                        .setIconUri(ImageBase.Scheme.DRAWABLE.toUri("emoji_0x1f603"))
+                        .build();
         pageSetAdapter.add(emojiPageSetEntity);
     }
-
 
 
     @SuppressWarnings("unchecked")

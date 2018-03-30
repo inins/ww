@@ -47,7 +47,7 @@ public class EmotionAdapter {
         int height = viewGroup.getContext().getResources().getDimensionPixelSize(R.dimen.im_chat_input_plugin_board_height);
         mEmotionView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height));
         viewGroup.addView(mEmotionView);
-        mEmotionView.getEmoticonsFuncView().setAdapter(SimpleCommonUtils.getCommonAdapter(viewGroup.getContext(), emoticonClickListener));
+        mEmotionView.setAdapter(SimpleCommonUtils.getCommonAdapter(viewGroup.getContext(), emoticonClickListener));
     }
 
     private EmoticonClickListener emoticonClickListener = new EmoticonClickListener() {
