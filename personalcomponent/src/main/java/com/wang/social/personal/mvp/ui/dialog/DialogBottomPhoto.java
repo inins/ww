@@ -21,7 +21,7 @@ import butterknife.OnClick;
  * liaoinstan
  * 选择图片弹窗
  */
-public class DialogBottomPhoto extends Dialog implements View.OnClickListener {
+public class DialogBottomPhoto extends BaseDialog implements View.OnClickListener {
     @BindView(R.id.btn_cancel)
     TextView btn_cancel;
     @BindView(R.id.btn_pic)
@@ -30,43 +30,30 @@ public class DialogBottomPhoto extends Dialog implements View.OnClickListener {
     TextView btnCamera;
     @BindView(R.id.btn_photo)
     TextView btnPhoto;
-    private Context context;
 
     public DialogBottomPhoto(Context context) {
-        super(context, R.style.common_PopupDialog);
-        this.context = context;
-        setMsgDialog();
-    }
-
-    private void setMsgDialog() {
-        View root = LayoutInflater.from(getContext()).inflate(R.layout.personal_dialog_choose_photo, null);
-        ButterKnife.bind(this, root);
-        btnPic.setOnClickListener(this);
-        btnCamera.setOnClickListener(this);
-        btnPhoto.setOnClickListener(this);
-        btn_cancel.setOnClickListener(this);
-
-        this.setCanceledOnTouchOutside(true);    //点击外部关闭
-        super.setContentView(root);
+        super(context);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Window win = this.getWindow();
-        win.setGravity(Gravity.BOTTOM);    //从下方弹出
-        WindowManager.LayoutParams lp = win.getAttributes();
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        win.setAttributes(lp);
+        setDialogBottom();
+        setSize(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
     }
 
-    private View.OnClickListener listener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            DialogBottomPhoto.this.dismiss();
-        }
-    };
+    @Override
+    protected int getView() {
+        return R.layout.personal_dialog_choose_photo;
+    }
+
+    @Override
+    protected void intView(View root) {
+        btnPic.setOnClickListener(this);
+        btnCamera.setOnClickListener(this);
+        btnPhoto.setOnClickListener(this);
+        btn_cancel.setOnClickListener(this);
+    }
 
     @Override
     public void onClick(View view) {

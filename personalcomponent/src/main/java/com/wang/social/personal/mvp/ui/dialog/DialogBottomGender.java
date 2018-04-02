@@ -21,59 +21,51 @@ import butterknife.ButterKnife;
  * liaoinstan
  * 选择性别弹窗
  */
-public class DialogBottomGender extends Dialog {
+public class DialogBottomGender extends BaseDialog implements View.OnClickListener {
     @BindView(R.id.btn_m)
     TextView btn_m;
     @BindView(R.id.btn_fm)
     TextView btn_fm;
     @BindView(R.id.btn_cancel)
     TextView btn_cancel;
-    private Context context;
 
     public DialogBottomGender(Context context) {
-        super(context, R.style.common_PopupDialog);
-        this.context = context;
-        setMsgDialog();
-    }
-
-    private void setMsgDialog() {
-        View root = LayoutInflater.from(getContext()).inflate(R.layout.personal_dialog_choose_gender, null);
-        ButterKnife.bind(this, root);
-        btn_cancel.setOnClickListener(listener);
-        btn_m.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (onGenderSelectListener != null) onGenderSelectListener.onGenderSelect("男");
-            }
-        });
-        btn_fm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (onGenderSelectListener != null) onGenderSelectListener.onGenderSelect("女");
-            }
-        });
-
-        this.setCanceledOnTouchOutside(true);    //点击外部关闭
-        super.setContentView(root);
+        super(context);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Window win = this.getWindow();
-        win.setGravity(Gravity.BOTTOM);    //从下方弹出
-        WindowManager.LayoutParams lp = win.getAttributes();
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        win.setAttributes(lp);
+        setDialogBottom();
+        setSize(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
     }
 
-    private View.OnClickListener listener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            DialogBottomGender.this.dismiss();
+    @Override
+    protected int getView() {
+        return R.layout.personal_dialog_choose_gender;
+    }
+
+    @Override
+    protected void intView(View root) {
+        btn_cancel.setOnClickListener(this);
+        btn_m.setOnClickListener(this);
+        btn_fm.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_m:
+                if (onGenderSelectListener != null) onGenderSelectListener.onGenderSelect("男");
+                break;
+            case R.id.btn_fm:
+                if (onGenderSelectListener != null) onGenderSelectListener.onGenderSelect("女");
+                break;
+            case R.id.btn_cancel:
+                dismiss();
+                break;
         }
-    };
+    }
 
     ///////////////////////////
 

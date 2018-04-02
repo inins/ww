@@ -12,33 +12,25 @@ import butterknife.BindView;
 /**
  * 输入弹窗
  */
-public class DialogInput extends BaseDialogOkCancel {
+public class DialogSure extends BaseDialogOkCancel {
 
     @BindView(R.id.text_title)
     TextView textTitle;
-    @BindView(R.id.text_note)
-    TextView textNote;
-    @BindView(R.id.edit_input)
-    EditText editInput;
 
     private String title;
-    private String note;
-    private String hint;
 
-    public DialogInput(Context context) {
-        this(context, null, null, null);
+    public DialogSure(Context context, String title) {
+        this(context, title, "取消", "确认");
     }
 
-    public DialogInput(Context context, String title, String note, String hint) {
-        super(context, "取消", "修改");
+    public DialogSure(Context context, String title, String cancelBtnText, String okBtnText) {
+        super(context, cancelBtnText, okBtnText);
         this.title = title;
-        this.note = note;
-        this.hint = hint;
     }
 
     @Override
     protected int getContentView() {
-        return R.layout.personal_lay_dialog_input;
+        return R.layout.personal_lay_dialog_sure;
     }
 
     @Override
