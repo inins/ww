@@ -1,4 +1,6 @@
-apply plugin: 'com.component.build'
+//apply plugin: 'com.component.build'
+//apply plugin: 'com.jakewharton.butterknife'
+apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.butterknife'
 
 android {
@@ -10,6 +12,10 @@ android {
     }
 
     defaultConfig {
+        if(project.isRunAlone){
+            applicationId "com.dongdongkeji.wangwangsocial"
+        }
+
         minSdkVersion rootProject.ext.android["minSdkVersion"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
         versionCode rootProject.ext.android["versionCode"]
@@ -31,6 +37,16 @@ android {
                 buildConfigField "String", "APP_DOMAIN", "\"http://192.168.1.150:8080/\""
                 minifyEnabled false
                 proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            }
+        }
+
+        sourceSets {
+            main {
+                manifest.srcFile 'src/main/runalone/AndroidManifest.xml'
+                java.srcDirs = ['src/main/java', 'src/main/runalone/java']
+                res.srcDirs = ['src/main/res', 'src/main/runalone/res']
+                assets.srcDirs = ['src/main/assets', 'src/main/runalone/assets']
+                jniLibs.srcDirs = ['src/main/jniLibs', 'src/main/runalone/jniLibs']
             }
         }
     }
@@ -60,7 +76,7 @@ dependencies {
     annotationProcessor project(':router-anno-compiler')
 }
 
-combuild {
-    applicationName = 'com.frame.base.BaseApplication'
-    isRegisterCompoAuto = true
-}
+//combuild {
+//    applicationName = 'com.frame.base.BaseApplication'
+//    isRegisterCompoAuto = true
+//}
