@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:gravity="center_horizontal"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:gravity="center_horizontal">
 
     <com.frame.component.view.SocialToolbar
         android:id="@+id/toolbar"
@@ -12,40 +12,58 @@
         android:layout_height="?attr/actionBarSize"
         app:toolbar_left_icon="@drawable/common_ic_back"/>
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/content_root"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="验证手机"
-        android:textColor="#ff333333"
-        android:textSize="29sp"
-        android:layout_marginTop="100dp"
-        />
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="短信验证码即将发送到手机"
-        android:textColor="#ff666666"
-        android:textSize="14sp"
-        android:layout_marginTop="24dp"
-        />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_verify_phone"
+            android:textColor="#ff333333"
+            android:textSize="29sp"
+            android:layout_marginTop="100dp"
+            />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="18228988787"
-        android:textColor="#ff333333"
-        android:textSize="17sp"
-        android:layout_marginTop="7dp"
-        />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_verify_phone_hint"
+            android:textColor="#ff666666"
+            android:textSize="14sp"
+            android:layout_marginTop="24dp"
+            />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="重新发送"
-        android:textColor="#ff189aff"
-        android:textSize="12sp"
-        android:layout_marginTop="89dp"
-        />
+        <TextView
+            android:id="@+id/phone_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ff333333"
+            android:textSize="17sp"
+            android:layout_marginTop="7dp"
+            />
+
+        <com.wang.social.login.mvp.ui.widget.VerificationCodeInput
+            android:id="@+id/verification_code_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="34dp"/>
+
+        <TextView
+            android:id="@+id/send_again_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_send_again"
+            android:textColor="#ff189aff"
+            android:textSize="12sp"
+            android:layout_marginTop="15dp"
+            />
+
+    </LinearLayout>
 
 </LinearLayout>

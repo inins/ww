@@ -9,6 +9,7 @@ import com.frame.di.component.AppComponent;
 import com.wang.social.login.R;
 import com.wang.social.login.mvp.ui.ForgotPasswordActivity;
 import com.wang.social.login.mvp.ui.ResetPasswordActivity;
+import com.wang.social.login.mvp.ui.VerifyPhoneActivity;
 
 import butterknife.OnClick;
 
@@ -41,5 +42,10 @@ public class MainActivity extends BasicActivity {
     @OnClick(R.id.forgot_password_btn)
     public void forgotPassword() {
         ForgotPasswordActivity.start(this);
+    }
+
+    @OnClick(R.id.verify_phone_btn)
+    public void verifyPhone() {
+        VerifyPhoneActivity.start(this);
     }
 }

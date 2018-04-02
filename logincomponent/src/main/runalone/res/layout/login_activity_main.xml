@@ -3,18 +3,39 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    android:paddingTop="10dip">
+    android:gravity="center_horizontal">
 
-    <Button
-        android:id="@+id/reset_password_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="重设密码"/>
-    <Button
-        android:id="@+id/forgot_password_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="忘记密码"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/reset_password_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:text="重设密码"/>
+            <Button
+                android:id="@+id/forgot_password_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:text="忘记密码"/>
+            <Button
+                android:id="@+id/verify_phone_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:text="验证手机"/>
+
+        </LinearLayout>
+    </ScrollView>
+
 
 </LinearLayout>

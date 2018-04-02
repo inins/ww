@@ -9,4 +9,7 @@
     <string name="login_register_phone">注册手机号</string>
     <string name="login_phone_input_hint">请输入你注册使用的手机号</string>
     <string name="login_get_verify_code">获取验证码</string>
+    <string name="login_verify_phone">验证手机</string>
+    <string name="login_verify_phone_hint">短信验证码即将发送到手机</string>
+    <string name="login_send_again">重新发送</string>
 </resources>
