@@ -18,11 +18,11 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
      */
     protected List<T> valueList;
 
-    private OnItemClickListener onItemClickListener;
+    protected OnItemClickListener onItemClickListener;
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return createViewHolder(parent.getContext(), parent);
+        return createViewHolder(parent.getContext(), parent, viewType);
     }
 
     @Override
@@ -41,9 +41,10 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
 
     /**
      * 获取数据集
+     *
      * @return
      */
-    public List<T> getData(){
+    public List<T> getData() {
         return this.valueList;
     }
 
@@ -59,9 +60,10 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
 
     /**
      * 移除一项数据
+     *
      * @param position 索引
      */
-    public void removeItem(int position){
+    public void removeItem(int position) {
         this.valueList.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, this.valueList.size() - position);
@@ -69,9 +71,10 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
 
     /**
      * 插入一项数据
+     *
      * @param item 添加的数据
      */
-    public void insertItem(int position, T item){
+    public void insertItem(int position, T item) {
         this.valueList.add(position, item);
         notifyItemInserted(position);
         notifyItemRangeChanged(position, this.valueList.size() - position);
@@ -79,9 +82,10 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
 
     /**
      * 插入数据
+     *
      * @param items 添加的数据
      */
-    public void insertItem(int position, List<T> items){
+    public void insertItem(int position, List<T> items) {
         this.valueList.addAll(position, items);
         notifyItemInserted(position);
         notifyItemRangeChanged(position, this.valueList.size() - position);
@@ -89,18 +93,20 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
 
     /**
      * 添加一项数据
+     *
      * @param item
      */
-    public void addItem(T item){
+    public void addItem(T item) {
         this.valueList.add(item);
         notifyItemInserted(this.valueList.size() - 1);
     }
 
     /**
      * 添加数据
+     *
      * @param items
      */
-    public void addItem(List<T> items){
+    public void addItem(List<T> items) {
         this.valueList.addAll(items);
         notifyItemInserted(this.valueList.size() - items.size());
         notifyItemRangeChanged(this.valueList.size() - items.size(), this.valueList.size() - 1);
@@ -108,16 +114,17 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
 
     /**
      * 遍历{@link BaseViewHolder},释放需要释放的资源
+     *
      * @param recyclerView
      */
-    public static void releaseAllHolder(RecyclerView recyclerView){
-        if (recyclerView == null){
+    public static void releaseAllHolder(RecyclerView recyclerView) {
+        if (recyclerView == null) {
             return;
         }
-        for (int i = recyclerView.getChildCount() - 1; i >= 0; i--){
+        for (int i = recyclerView.getChildCount() - 1; i >= 0; i--) {
             final View view = recyclerView.getChildAt(i);
             RecyclerView.ViewHolder viewHolder = recyclerView.getChildViewHolder(view);
-            if (viewHolder instanceof BaseViewHolder){
+            if (viewHolder instanceof BaseViewHolder) {
                 ((BaseViewHolder) viewHolder).onRelease();
             }
         }
@@ -130,7 +137,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
      * @param parent  根视图
      * @return
      */
-    protected abstract BaseViewHolder createViewHolder(Context context, ViewGroup parent);
+    protected abstract BaseViewHolder createViewHolder(Context context, ViewGroup parent, int viewType);
 
     /**
      * RecyclerView Item点击事件接口

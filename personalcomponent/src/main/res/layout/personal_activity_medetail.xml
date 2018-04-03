@@ -43,7 +43,7 @@
             android:layout_marginTop="10dp">
 
             <ImageView
-                android:id="@+id/img_medetail_header"
+                android:id="@+id/img_header"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="right|center_vertical"
@@ -52,7 +52,7 @@
                 android:src="@drawable/default_header" />
 
             <TextView
-                android:id="@+id/lay_medetail_header"
+                android:id="@+id/lay_header"
                 style="@style/personal_TextMeItem"
                 android:onClick="onClick"
                 android:text="头像" />
@@ -70,12 +70,14 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/text_name"
                 style="@style/personal_TextMeItemContent"
                 android:layout_gravity="right|center_vertical"
                 android:layout_marginRight="15dp"
                 android:text="德玛西亚" />
 
             <TextView
+                android:id="@+id/lay_name"
                 style="@style/personal_TextMeItem"
                 android:onClick="onClick"
                 android:text="@string/personal_medetail_name" />
@@ -93,12 +95,14 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/text_gender"
                 style="@style/personal_TextMeItemContent"
                 android:layout_gravity="right|center_vertical"
                 android:layout_marginRight="15dp"
                 android:text="女" />
 
             <TextView
+                android:id="@+id/lay_gender"
                 style="@style/personal_TextMeItem"
                 android:onClick="onClick"
                 android:text="@string/personal_medetail_gender" />
@@ -116,12 +120,14 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/text_old"
                 style="@style/personal_TextMeItemContent"
                 android:layout_gravity="right|center_vertical"
                 android:layout_marginRight="15dp"
-                android:text="德玛西亚" />
+                android:text="1999-01-09 白羊座" />
 
             <TextView
+                android:id="@+id/lay_old"
                 style="@style/personal_TextMeItem"
                 android:onClick="onClick"
                 android:text="@string/personal_medetail_old" />
@@ -139,12 +145,14 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/text_address"
                 style="@style/personal_TextMeItemContent"
                 android:layout_gravity="right|center_vertical"
                 android:layout_marginRight="15dp"
-                android:text="1999-01-09 白羊座" />
+                android:text="四川省成都市成华区" />
 
             <TextView
+                android:id="@+id/lay_address"
                 style="@style/personal_TextMeItem"
                 android:onClick="onClick"
                 android:text="@string/personal_medetail_address" />
@@ -162,12 +170,14 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/text_photo"
                 style="@style/personal_TextMeItemContent"
                 android:layout_gravity="right|center_vertical"
                 android:layout_marginRight="15dp"
                 android:text="3张照片" />
 
             <TextView
+                android:id="@+id/lay_photo"
                 style="@style/personal_TextMeItem"
                 android:onClick="onClick"
                 android:text="@string/personal_medetail_photo" />
@@ -185,12 +195,14 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/text_sign"
                 style="@style/personal_TextMeItemContent"
                 android:layout_gravity="right|center_vertical"
                 android:layout_marginRight="15dp"
                 android:hint="未设置" />
 
             <TextView
+                android:id="@+id/lay_sign"
                 style="@style/personal_TextMeItem"
                 android:onClick="onClick"
                 android:text="@string/personal_medetail_sign" />

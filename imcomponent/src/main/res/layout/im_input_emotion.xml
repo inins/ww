@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.wang.social.im.view.emotion.widget.EmoticonsFuncView
+        android:id="@+id/ie_emotions"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/ie_indicator" />
+
+    <com.wang.social.im.view.emotion.widget.EmoticonsIndicatorView
+        android:id="@id/ie_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ie_split"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal" />
+
+    <include
+        android:id="@id/ie_split"
+        layout="@layout/im_emotion_split_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/im_emotion_toolbar_horizontal_split_height"
+        android:layout_above="@+id/ie_toolbar" />
+
+    <com.wang.social.im.view.emotion.widget.EmoticonsToolBarView
+        android:id="@id/ie_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/im_emotion_toolbar_height"
+        android:layout_alignParentBottom="true" />
+</merge>

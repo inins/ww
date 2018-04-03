@@ -26,7 +26,7 @@ public class RecycleAdapterLable extends BaseAdapter<Lable> {
     }
 
     @Override
-    protected BaseViewHolder createViewHolder(Context context, ViewGroup parent) {
+    protected BaseViewHolder createViewHolder(Context context, ViewGroup parent, int viewType) {
         return new Holder(context, parent, R.layout.personal_item_lable);
     }
 
@@ -44,11 +44,10 @@ public class RecycleAdapterLable extends BaseAdapter<Lable> {
 
         @Override
         protected void bindData(Lable lable, int position, OnItemClickListener onItemClickListener) {
-            itemView.setOnClickListener(new View.OnClickListener() {
+            img_del.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (onItemClickListener != null)
-                        onItemClickListener.onItemClick(lable, position);
+                    removeItem(position);
                 }
             });
 
@@ -59,6 +58,11 @@ public class RecycleAdapterLable extends BaseAdapter<Lable> {
 
         @Override
         public void onRelease() {
+        }
+
+        @Override
+        protected boolean useItemClickListener() {
+            return true;
         }
     }
 

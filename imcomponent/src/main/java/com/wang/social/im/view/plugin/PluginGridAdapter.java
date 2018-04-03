@@ -24,7 +24,7 @@ public class PluginGridAdapter extends BaseAdapter<PluginModule> {
     }
 
     @Override
-    protected BaseViewHolder createViewHolder(Context context, ViewGroup parent) {
+    protected BaseViewHolder createViewHolder(Context context, ViewGroup parent, int viewType) {
         return new ViewHolder(context, parent);
     }
 

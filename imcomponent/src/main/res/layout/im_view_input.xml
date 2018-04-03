@@ -19,7 +19,7 @@
         android:layout_width="@dimen/im_chat_input_horizontal_space"
         android:layout_height="1dp" />
 
-    <com.wang.social.im.view.emotion.EmoticonsEditText
+    <com.wang.social.im.view.emotion.widget.EmoticonsEditText
         android:id="@+id/vi_et_input"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

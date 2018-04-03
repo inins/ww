@@ -2,6 +2,7 @@ package com.wang.social.app;
 
 import com.frame.base.BaseApplication;
 import com.frame.component.router.ui.UIRouter;
+import com.frame.utils.ToastUtil;
 
 /**
  * ========================================

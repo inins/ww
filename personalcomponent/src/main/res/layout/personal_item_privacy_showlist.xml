@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/text_title"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:drawableLeft="@drawable/common_selector_check"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:onClick="onClick"
+            android:paddingLeft="15dp"
+            android:text="仅自己可见"
+            android:textColor="@color/common_text_blank_dark"
+            android:textSize="16sp" />
+
+        <Space style="@style/common_Space_H" />
+
+        <TextView
+            android:id="@+id/text_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="30dp"
+            android:text="已选3"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <com.wang.social.personal.mvp.ui.view.ListViewLinearLayout
+        android:id="@+id/listlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+
+</LinearLayout>

@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <!-- 聊天输入组件 -->
     <dimen name="im_chat_input_horizontal_space">8.5dp</dimen>
     <dimen name="im_chat_input_bg_radius">18dp</dimen>
-    <!-- 聊天输入组件中插件板高度 -->
     <dimen name="im_chat_input_plugin_board_height">185dp</dimen>
+    <dimen name="im_emotion_toolbar_button_width">49dp</dimen>
+    <dimen name="im_emotion_toolbar_horizontal_split_height">0.6dp</dimen>
+    <dimen name="im_emotion_indicator_size">4dp</dimen>
+    <dimen name="im_emotion_item_size">28dp</dimen>
+    <dimen name="im_emotion_toolbar_height">32dp</dimen>
+    <!-- 消息列表 -->
+    <dimen name="im_msg_portrait_size">38dp</dimen>
+    <dimen name="im_msg_background_radius">19dp</dimen>
+    <dimen name="im_msg_text_size">14dp</dimen>
+    <dimen name="im_msg_nickname_size">12dp</dimen>
 </resources>

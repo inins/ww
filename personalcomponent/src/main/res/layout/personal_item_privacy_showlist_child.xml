@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/text_title"
+        style="@style/personal_TextMeItem"
+        android:layout_height="60dp"
+        android:drawableLeft="@drawable/common_selector_check"
+        android:drawablePadding="10dp"
+        android:onClick="onClick"
+        android:paddingLeft="35dp"
+        android:text="群组名称一" />
+
+    <View
+        style="@style/common_Line_H"
+        android:layout_marginLeft="15dp"
+        android:background="#11999999"
+        android:layout_marginRight="15dp" />
+
+</FrameLayout>

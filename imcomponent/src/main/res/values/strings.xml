@@ -5,7 +5,7 @@
 
     <string name="im_chat_input_plugin_image">图片</string>
     <string name="im_chat_input_plugin_shoot">拍摄</string>
-    <string name="im_chat_input_plugin_location">地址</string>
+    <string name="im_chat_input_plugin_location">位置</string>
     <string name="im_chat_input_plugin_redpacket">红包</string>
     <string name="im_chat_input_plugin_game">游戏</string>
     <string name="im_chat_input_plugin_shadow">使用分身</string>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginLeft="30dp"
+    android:layout_marginRight="30dp"
+    android:background="@drawable/personal_shape_rect_white_coner"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+    <TextView
+        android:id="@+id/text_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:gravity="center"
+        android:text="输入个性签名"
+        android:textColor="@color/common_text_blank_dark"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/text_note"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="25dp"
+        android:layout_marginTop="5dp"
+        android:text="最多输入15个字"
+        android:textColor="@color/common_text_light"
+        android:textSize="10sp" />
+
+    <EditText
+        android:id="@+id/edit_input"
+        style="@style/personal_EditNone"
+        android:layout_height="33dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:gravity="bottom|center_horizontal"
+        android:hint="请输入个性签名"
+        android:maxEms="15"
+        android:inputType="textPersonName"
+        android:paddingBottom="5dp"
+        android:paddingLeft="0dp" />
+
+    <View
+        style="@style/common_Line_H"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="27dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/personal_shape_rect_light_conerfull"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="@string/personal_cancel"
+            android:textColor="@color/common_white"
+            android:textSize="14sp" />
+
+        <Space style="@style/common_Space_H" />
+
+        <TextView
+            android:id="@+id/btn_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/personal_shape_rect_blue_conerfull"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="@string/personal_edit"
+            android:textColor="@color/common_white"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

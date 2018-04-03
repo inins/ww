@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/personal_shape_rect_white_coner"
+        android:orientation="vertical"
+        android:paddingBottom="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/btn_dialog_date_cancel"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:text="@string/personal_cancel"
+                android:textColor="@color/common_text_dark"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/text_astro"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@color/common_text_blank_dark"
+                android:textSize="18sp"
+                tools:text="白羊座" />
+
+            <TextView
+                android:id="@+id/btn_dialog_date_decide"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:text="@string/personal_ok"
+                android:textColor="@color/common_blue_deep"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <com.frame.component.view.DatePicker
+            android:id="@+id/dayPicker_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:itemHeightSpace="8dp"
+            app:itemTextColor="@color/common_text_dark"
+            app:selectedTextColor="@color/common_blue_deep"
+            tools:minHeight="150dp" />
+    </LinearLayout>
+</FrameLayout>

@@ -25,11 +25,11 @@
             <TextView
                 android:id="@+id/btn_right"
                 android:layout_width="60dp"
-                android:onClick="onClick"
                 android:layout_height="match_parent"
                 android:layout_gravity="right"
                 android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
+                android:onClick="onClick"
                 android:text="@string/personal_lable_btn_right_edit"
                 android:textColor="@color/common_blue_deep"
                 android:textSize="16sp" />
@@ -38,89 +38,129 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.widget.NestedScrollView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <com.wang.social.personal.mvp.ui.view.TitleView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="15dp"
-                app:personal_textNote="@string/personal_lable_note"
-                app:personal_textTitle="@string/personal_lable_title" />
+            android:fillViewport="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <com.wang.social.personal.mvp.ui.view.TitleView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/personal_lable_show_title"
-                    android:textColor="@color/common_text_blank_dark"
-                    android:textSize="16sp" />
+                    android:paddingLeft="15dp"
+                    app:personal_textNote="@string/personal_lable_note"
+                    app:personal_textTitle="@string/personal_lable_title" />
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="7dp"
-                    android:text="@string/personal_lable_show_note"
-                    android:textColor="@color/common_text_dark"
-                    android:textSize="11sp" />
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/personal_lable_show_title"
+                        android:textColor="@color/common_text_blank_dark"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="7dp"
+                        android:text="@string/personal_lable_show_note"
+                        android:textColor="@color/common_text_dark"
+                        android:textSize="11sp" />
+
+                </LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_show"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:clipToPadding="false"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    tools:layout_height="50dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/personal_lable_me_title"
+                        android:textColor="@color/common_text_blank_dark"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="7dp"
+                        android:text="@string/personal_lable_me_note"
+                        android:textColor="@color/common_text_dark"
+                        android:textSize="11sp" />
+
+                </LinearLayout>
+
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/tablayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:clipToPadding="false"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    app:tabMode="scrollable"
+                    app:tabSelectedTextColor="@color/common_blue_deep"
+                    app:tabTextColor="@color/common_text_dark" />
+
+                <View
+                    style="@style/common_Line_H"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_me"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:clipToPadding="false"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp" />
 
             </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_show"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:clipToPadding="false"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                tools:layout_height="50dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:layout_marginBottom="25dp"
+            android:layout_marginRight="15dp"
+            android:drawablePadding="-5dp"
+            android:drawableTop="@drawable/personal_ic_lable_add"
+            android:text="@string/personal_lable_flb"
+            android:textColor="@color/common_blue_deep"
+            android:textSize="9sp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp">
+    </FrameLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/personal_lable_me_title"
-                    android:textColor="@color/common_text_blank_dark"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="7dp"
-                    android:text="@string/personal_lable_me_note"
-                    android:textColor="@color/common_text_dark"
-                    android:textSize="11sp" />
-
-            </LinearLayout>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_me"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

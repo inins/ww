@@ -30,7 +30,17 @@ public class PrivacyActivity extends BasicActivity {
 
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_psw:
+            case R.id.btn_friend:
+                PrivacyShowListActivity.start(this);
+                break;
+            case R.id.btn_ql:
+                PrivacyShowListActivity.start(this);
+                break;
+            case R.id.btn_qs:
+                PrivacyShowListActivity.start(this);
+                break;
+            case R.id.btn_topic:
+                PrivacyShowListActivity.start(this);
                 break;
         }
     }

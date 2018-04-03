@@ -1,9 +1,11 @@
-package com.wang.social.im.view.emotion;
+package com.wang.social.im.view.emotion.widget;
 
 import android.content.Context;
 import android.support.v7.widget.AppCompatEditText;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
+
+import com.wang.social.im.view.emotion.EmoticonFilter;
 
 import java.util.ArrayList;
 import java.util.List;
