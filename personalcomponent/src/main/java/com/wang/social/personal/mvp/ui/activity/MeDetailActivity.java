@@ -14,6 +14,7 @@ import com.frame.base.BasicActivity;
 import com.frame.di.component.AppComponent;
 import com.frame.di.component.DaggerAppComponent;
 import com.frame.di.scope.ActivityScope;
+import com.frame.http.imageloader.ImageLoader;
 import com.frame.integration.IRepositoryManager;
 import com.frame.integration.RepositoryManager;
 import com.wang.social.personal.R;
@@ -35,6 +36,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import dagger.Component;
+import timber.log.Timber;
 
 @ActivityScope
 public class MeDetailActivity extends BasicActivity {
@@ -55,6 +57,10 @@ public class MeDetailActivity extends BasicActivity {
     TextView textPhoto;
     @BindView(R.id.text_sign)
     TextView textSign;
+
+    @Inject
+    IRepositoryManager mRepositoryManager;
+
     private DialogBottomGender dialogGender;
     private DialogBottomPhoto dialogphoto;
     private DialogAddressPicker dialogAddress;
@@ -123,14 +129,10 @@ public class MeDetailActivity extends BasicActivity {
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
-        Log.e("test","setupActivityComponent");
         DaggerActivityComponent
                 .builder()
                 .appComponent(appComponent)
                 .build()
                 .inject(this);
     }
-
-    @Inject
-    IRepositoryManager mRepositoryManager;
 }

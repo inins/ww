@@ -1,15 +1,11 @@
 package com.wang.social.personal.di.component;
 
-import android.app.Activity;
-
 import com.frame.di.component.AppComponent;
 import com.frame.di.scope.ActivityScope;
-import com.frame.di.scope.FragmentScope;
-import com.frame.integration.IRepositoryManager;
 import com.wang.social.personal.di.module.UserModule;
+import com.wang.social.personal.mvp.ui.activity.MeDetailActivity;
 
 import dagger.Component;
-import dagger.Provides;
 
 /**
  * ========================================
@@ -21,7 +17,5 @@ import dagger.Provides;
 @Component(modules = UserModule.class, dependencies = AppComponent.class)
 public interface ActivityComponent {
 
-    IRepositoryManager repoitoryManager();
-
-    void inject(Activity activity);
+    void inject(MeDetailActivity activity);
 }
