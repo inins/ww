@@ -51,6 +51,9 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     //tools
     annotationProcessor rootProject.ext.dependencies["dagger2-compiler"]
+    annotationProcessor(rootProject.ext.dependencies["lombok-compiler"]){
+        exclude module: 'support-annotations'
+    }
     //View
     annotationProcessor(rootProject.ext.dependencies["butterknife-compiler"]) {
         exclude module: 'support-annotations'

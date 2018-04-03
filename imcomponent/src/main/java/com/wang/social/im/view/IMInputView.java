@@ -72,6 +72,8 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
         mEditText = findViewById(R.id.vi_et_input);
         mVoiceInput = findViewById(R.id.vi_btn_voice_input);
 
+        SimpleCommonUtils.initEmoticonsEditText(mEditText);
+
         mPluginAdapter = new PluginAdapter();
 
         initEmotions();

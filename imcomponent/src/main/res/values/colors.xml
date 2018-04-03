@@ -2,6 +2,7 @@
 <resources>
     <color name="im_bg_chat_input">#f7f7f7</color>
     <color name="im_bg_chat_input_selected">#d9d9d9</color>
+    <color name="im_bg_message">#e5e5e5</color>
 
     <color name="im_emotion_toolbtn_select">#d9d9d9</color>
     <color name="im_emotion_toolbtn_normal">@color/common_white</color>
@@ -12,4 +13,5 @@
 
     <color name="im_message_txt">#434343</color>
     <color name="im_message_hint">#999999</color>
+    <color name="im_message_nickname">@color/im_message_txt</color>
 </resources>
