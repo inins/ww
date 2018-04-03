@@ -19,6 +19,7 @@ import com.frame.di.component.AppComponent;
 import com.frame.router.facade.annotation.RouteNode;
 import com.wang.social.login.mvp.ui.widget.CountDownView;
 import com.wang.social.login.mvp.ui.widget.LoginFragment;
+import com.wang.social.login.utils.ViewUtils;
 
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
@@ -38,6 +39,8 @@ public class LoginActivity extends BasicActivity {
         context.startActivity(intent);
     }
 
+    @BindView(R.id.root_view)
+    View rootView;
     @BindView(R.id.title_text_view)
     TextView titleTV; // 标题（登录/注册）
     @BindView(R.id.phone_edit_text)
@@ -118,8 +121,10 @@ public class LoginActivity extends BasicActivity {
             loginTV.setText(getString(R.string.login_register));
             passwordET.setHint(R.string.login_password_set_hint);
             switchLoginRegisterTV.setText(getString(R.string.login_go_to_login));
-
+            rootView.setBackground(getResources().getDrawable(R.drawable.bg));
         }
+
+        ViewUtils.controlKeyboardLayout(rootView, loginTV);
     }
 
     @OnClick(R.id.login_text_view)
