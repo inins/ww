@@ -20,7 +20,8 @@
             android:value="ConfigModule" />
         <!-- ********* -->
 
-        <activity android:name=".app.MainActivity">
+        <activity android:name=".mvp.ui.LoginActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

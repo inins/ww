@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="10dp"
+    app:cardBackgroundColor="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp">
+
+        <TextView
+            android:id="@+id/title_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_login"
+            android:textColor="#ff333333"
+            android:textSize="32sp"
+            android:layout_marginTop="20dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_phone_number"
+            android:textColor="#ff434343"
+            android:textSize="17sp"
+            android:layout_marginTop="25dp"
+            />
+
+        <EditText
+            android:id="@+id/phone_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/login_phone_input_hint"
+            android:textColor="#ff999999"
+            android:textSize="12dp"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"
+            android:textCursorDrawable="@null"
+            android:inputType="number"
+            android:background="@drawable/login_login_edit_text_bg"
+            android:layout_marginBottom="24dp"/>
+
+
+        <LinearLayout
+            android:id="@+id/message_login_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login_verify_code"
+                android:textColor="#ff434343"
+                android:textSize="17sp"
+                />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/login_login_edit_text_bg">
+
+                <EditText
+                    android:id="@+id/verify_code_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/login_verify_code_input_hint"
+                    android:textColor="#ff999999"
+                    android:textSize="12dp"
+                    android:paddingLeft="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="7dp"
+                    android:textCursorDrawable="@null"
+                    android:inputType="number"
+                    android:background="@android:color/transparent"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/get_verify_code_text_view"
+                    android:layout_marginRight="10dp"/>
+
+                <com.wang.social.login.mvp.ui.widget.CountDownView
+                    android:id="@+id/get_verify_code_text_view"
+                    android:layout_width="63dp"
+                    android:layout_height="22dp"
+                    android:background="@drawable/login_shape_rect_corner_stroke_blue"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center"
+                    android:layout_centerVertical="true"
+                    android:text="@string/login_get_verify_code"
+                    android:textColor="#ff189aff"
+                    android:textSize="10sp"
+                    />
+
+            </RelativeLayout>
+
+            <!-- 保留在这里占住位置，不显示 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login_forgot_password_mark"
+                android:textColor="#ff999999"
+                android:textSize="11sp"
+                android:layout_marginTop="12dp"
+                android:layout_gravity="right"
+                android:visibility="invisible"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/password_login_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login_password"
+                android:textColor="#ff434343"
+                android:textSize="17sp"
+                />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/login_login_edit_text_bg">
+
+                <EditText
+                    android:id="@+id/password_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/login_password_set_hint"
+                    android:textColor="#ff999999"
+                    android:textSize="12dp"
+                    android:paddingLeft="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="7dp"
+                    android:textCursorDrawable="@null"
+                    android:inputType="textPassword"
+                    android:background="@android:color/transparent"
+                    android:layout_toLeftOf="@+id/checkbox"
+                    android:layout_marginRight="20dp"/>
+
+
+                <CheckBox
+                    android:id="@+id/checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:checked="false"
+                    android:button="@drawable/login_see_yes_no_selector"/>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/forgot_password_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login_forgot_password_mark"
+                android:textColor="#ff999999"
+                android:textSize="11sp"
+                android:layout_marginTop="12dp"
+                android:layout_gravity="right"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/login_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/login_shape_rect_gradient_blue_corner"
+            android:layout_marginTop="26dp"
+            android:text="@string/login_login"
+            android:textColor="#ffffffff"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            />
+
+        <TextView
+            android:id="@+id/switch_login_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_message_login"
+            android:textColor="#ff999999"
+            android:textSize="13sp"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center_horizontal"
+            android:visibility="invisible"
+            />
+
+        <LinearLayout
+            android:id="@+id/third_party_login_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="24dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_gravity="center_horizontal">
+                <View
+                    android:layout_width="57dp"
+                    android:layout_height="1dp"
+                    android:background="#ffe5e5e5"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/login_third_party_login"
+                    android:textColor="#ff999999"
+                    android:textSize="10dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    />
+                <View
+                    android:layout_width="57dp"
+                    android:layout_height="1dp"
+                    android:background="#ffe5e5e5"
+                    />
+
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="11dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp">
+
+                <ImageView
+                    android:id="@+id/wechat_image_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/login_wechat_ico"
+                    android:layout_centerVertical="true"/>
+
+                <ImageView
+                    android:id="@+id/qq_image_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/login_qq_ico"
+                    android:layout_centerInParent="true"/>
+
+                <ImageView
+                    android:id="@+id/weibo_image_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/login_weibo_ico"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</android.support.v7.widget.CardView>
