@@ -33,23 +33,15 @@
         tools:text="Michi Man"
         tools:visibility="visible" />
 
-    <TextView
-        android:id="@+id/msg_tv_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/msg_iv_image"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
         android:layout_marginStart="9dp"
         android:layout_marginTop="3dp"
-        android:background="@drawable/im_bg_message_left"
-        android:lineSpacingExtra="1dp"
-        android:maxWidth="196dp"
-        android:paddingBottom="10dp"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:paddingTop="10dp"
-        android:textColor="@color/im_message_txt"
-        android:textSize="@dimen/im_msg_text_size"
+        android:scaleType="centerCrop"
         app:layout_constraintLeft_toRightOf="@id/msg_iv_portrait"
         app:layout_constraintTop_toBottomOf="@id/msg_tv_name"
         app:layout_goneMarginTop="0dp"
-        tools:text="你好吗?" />
+        tools:src="@mipmap/ic_launcher" />
 </android.support.constraint.ConstraintLayout>

@@ -2,7 +2,7 @@ package com.frame.http.imageloader.glide;
 
 import android.widget.ImageView;
 
-import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
+import com.bumptech.glide.load.Transformation;
 import com.frame.http.imageloader.ImageConfig;
 
 /**
@@ -13,7 +13,7 @@ public class ImageConfigImpl extends ImageConfig{
 
     private DiskCacheStrategy cacheStrategy;
     private int fallback; //请求 url 为空,则使用此图片作为占位符
-    private BitmapTransformation transformation;//glide用它来改变图形的形状
+    private Transformation transformation;//glide用它来改变图形的形状
     private boolean isCircle;
     private ImageView[] imageViews;
     private boolean isClearMemory;//清理内存缓存
@@ -37,7 +37,7 @@ public class ImageConfigImpl extends ImageConfig{
         return cacheStrategy;
     }
 
-    public BitmapTransformation getTransformation() {
+    public Transformation getTransformation() {
         return transformation;
     }
 
@@ -72,7 +72,7 @@ public class ImageConfigImpl extends ImageConfig{
         private int errorPic;
         private int fallback; //请求 url 为空,则使用此图片作为占位符
         private DiskCacheStrategy cacheStrategy = DiskCacheStrategy.ALL;
-        private BitmapTransformation transformation;//glide用它来改变图形的形状
+        private Transformation transformation;//glide用它来改变图形的形状
         private boolean isCircle;
         private ImageView[] imageViews;
         private boolean isClearMemory;//清理内存缓存
@@ -111,7 +111,7 @@ public class ImageConfigImpl extends ImageConfig{
             return this;
         }
 
-        public Builder transformation(BitmapTransformation transformation) {
+        public Builder transformation(Transformation transformation) {
             this.transformation = transformation;
             return this;
         }
