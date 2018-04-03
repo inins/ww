@@ -1,6 +1,7 @@
 package com.wang.social.personal.mvp.model.api;
 
 import com.frame.http.api.BaseJson;
+import com.wang.social.personal.mvp.entities.QiniuTokenWrap;
 import com.wang.social.personal.mvp.entities.UserWrap;
 
 import io.reactivex.Observable;
@@ -15,11 +16,15 @@ public interface UserService {
 
     /**
      * 登陆
-     * @param mobile
-     * @param password
-     * @return
      */
     @FormUrlEncoded
     @POST("/login/password")
     Observable<BaseJson<UserWrap>> login(@Field("mobile") String mobile, @Field("password") String password);
+
+    /**
+     * 获取七牛云上传token
+     */
+    @FormUrlEncoded
+    @POST("/common/upToken")
+    Observable<BaseJson<QiniuTokenWrap>> getQiniuToken();
 }

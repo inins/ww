@@ -124,7 +124,6 @@ public class PersonalFragment extends BasicFragment {
                 AboutActivity.start(getContext());
                 break;
             case R.id.btn_me_eva:
-
                 userModel.login("18002247238", "111111")
                         .subscribeOn(Schedulers.newThread())
                         .doOnSubscribe(new Consumer<Disposable>() {

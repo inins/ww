@@ -2,6 +2,9 @@ package com.wang.social.personal.di.module;
 
 import com.frame.di.scope.ActivityScope;
 import com.frame.di.scope.FragmentScope;
+import com.frame.integration.IRepositoryManager;
+import com.frame.integration.RepositoryManager;
+import com.wang.social.personal.mvp.model.UserModel;
 
 import dagger.Module;
 import dagger.Provides;
@@ -15,9 +18,9 @@ import dagger.Provides;
 @Module
 public class UserModule {
 
-    @FragmentScope
-    @Provides
-    UserModule provideUserModel(UserModule model) {
-        return model;
-    }
+//    @FragmentScope
+//    @Provides
+//    UserModel provideUserModel(UserModel model) {
+//        return model;
+//    }
 }
