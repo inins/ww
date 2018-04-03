@@ -22,6 +22,7 @@ import android.widget.Scroller;
 import com.frame.component.service.R;
 
 import java.text.Format;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,7 +36,7 @@ public class WheelPicker<T> extends View {
     /**
      * 数据集合
      */
-    private List<T> mDataList;
+    private List<T> mDataList = new ArrayList<T>();
 
     private Format mDataFormat;
 
@@ -611,9 +612,22 @@ public class WheelPicker<T> extends View {
         return mDataList;
     }
 
+    public T getSelectData() {
+        if (mDataList == null) return null;
+        if (mCurrentPosition < 0) return null;
+        if (mDataList.size() > mCurrentPosition) {
+            return mDataList.get(mCurrentPosition);
+        } else {
+            return null;
+        }
+    }
+
     public void setDataList(@NonNull List<T> dataList) {
-        mDataList = dataList;
+        mDataList.clear();
+        mDataList.addAll(dataList);
         if (dataList.size() == 0) {
+            requestLayout();
+            postInvalidate();
             return;
         }
         computeTextSize();

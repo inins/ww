@@ -34,12 +34,9 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
         super(model, view);
     }
 
-
-
     public void login(String mobile, String password) {
         mApiHelper.execute(mRootView, mModel.login(mobile, password),
                 new ErrorHandleSubscriber<LoginInfo>(mErrorHandler) {
-
                     @Override
                     public void onNext(LoginInfo loginInfo) {
                         Timber.d("Token:" + loginInfo.getToken());

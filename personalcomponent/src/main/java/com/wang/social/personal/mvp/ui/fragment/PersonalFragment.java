@@ -4,19 +4,26 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.frame.base.BasicFragment;
+import com.frame.component.entities.User;
 import com.frame.component.ui.acticity.WebActivity;
 import com.frame.http.api.ApiHelper;
+import com.frame.http.api.BaseJson;
 import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
+import com.frame.utils.DataHelper;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
 import com.frame.base.BaseFragment;
 import com.frame.di.component.AppComponent;
 import com.wang.social.personal.di.component.DaggerFragmentComponent;
+import com.wang.social.personal.di.module.UserModule;
+import com.wang.social.personal.mvp.entities.UserWrap;
+import com.wang.social.personal.mvp.model.UserModel;
 import com.wang.social.personal.mvp.ui.activity.AboutActivity;
 import com.wang.social.personal.mvp.ui.activity.AccountActivity;
 import com.wang.social.personal.mvp.ui.activity.FeedbackActivity;
@@ -24,10 +31,20 @@ import com.wang.social.personal.mvp.ui.activity.LableActivity;
 import com.wang.social.personal.mvp.ui.activity.MeDetailActivity;
 import com.wang.social.personal.mvp.ui.activity.SettingActivity;
 
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * ========================================
@@ -58,6 +75,7 @@ public class PersonalFragment extends BasicFragment {
     public void setupFragmentComponent(@NonNull AppComponent appComponent) {
         DaggerFragmentComponent.builder()
                 .appComponent(appComponent)
+                .userModule(new UserModule())
                 .build()
                 .inject(this);
     }
@@ -106,8 +124,50 @@ public class PersonalFragment extends BasicFragment {
                 AboutActivity.start(getContext());
                 break;
             case R.id.btn_me_eva:
+
+                userModel.login("18002247238", "111111")
+                        .subscribeOn(Schedulers.newThread())
+                        .doOnSubscribe(new Consumer<Disposable>() {
+                            @Override
+                            public void accept(Disposable disposable) throws Exception {
+                                Log.e("tag", "start");
+                            }
+                        })
+                        .subscribeOn(AndroidSchedulers.mainThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doFinally(new Action() {
+                            @Override
+                            public void run() throws Exception {
+                                Log.e("tag", "end");
+                            }
+                        })
+                        .subscribe(new Observer<BaseJson<UserWrap>>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+                                Log.e("tag", "onSubscribe");
+                            }
+
+                            @Override
+                            public void onNext(BaseJson<UserWrap> userWrap) {
+                                Log.e("tag", "onNext");
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Log.e("tag", "onError");
+                                e.printStackTrace();
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                Log.e("tag", "onComplete");
+                            }
+                        });
                 break;
         }
     }
-//        UIRouter.getInstance().openUri(mActivity, LoginPath.LOGIN_URL, null);
+
+    @Inject
+    @Nullable
+    UserModel userModel;
 }

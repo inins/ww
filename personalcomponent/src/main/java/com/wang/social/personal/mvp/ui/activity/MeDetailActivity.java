@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,6 +13,9 @@ import android.widget.TextView;
 import com.frame.base.BasicActivity;
 import com.frame.di.component.AppComponent;
 import com.wang.social.personal.R;
+import com.wang.social.personal.data.db.AddressDataBaseManager;
+import com.wang.social.personal.mvp.entities.City;
+import com.wang.social.personal.mvp.entities.Province;
 import com.wang.social.personal.mvp.ui.dialog.DialogAddressPicker;
 import com.wang.social.personal.mvp.ui.dialog.DialogBottomGender;
 import com.wang.social.personal.mvp.ui.dialog.DialogBottomPhoto;
@@ -19,8 +23,9 @@ import com.wang.social.personal.mvp.ui.dialog.DialogDatePicker;
 import com.wang.social.personal.mvp.ui.dialog.DialogInput;
 import com.wang.social.personal.mvp.ui.dialog.DialogSure;
 
+import java.util.List;
+
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class MeDetailActivity extends BasicActivity {
 
@@ -42,6 +47,7 @@ public class MeDetailActivity extends BasicActivity {
     TextView textSign;
     private DialogBottomGender dialogGender;
     private DialogBottomPhoto dialogphoto;
+    private DialogAddressPicker dialogAddress;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, MeDetailActivity.class);
@@ -56,6 +62,7 @@ public class MeDetailActivity extends BasicActivity {
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
         setSupportActionBar(toolbar);
+        dialogAddress = new DialogAddressPicker(this);
         dialogphoto = new DialogBottomPhoto(this);
         dialogGender = new DialogBottomGender(this);
         dialogGender.setOnGenderSelectListener(new DialogBottomGender.OnGenderSelectListener() {
@@ -65,12 +72,19 @@ public class MeDetailActivity extends BasicActivity {
                 dialogGender.dismiss();
             }
         });
+        dialogAddress.setOnAddressSelectListener(new DialogAddressPicker.OnAddressSelectListener() {
+            @Override
+            public void onAddressSelect(String province, String city) {
+                textAddress.setText(province + city);
+            }
+        });
+        ////////////
     }
 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.lay_header:
-                new DialogSure(this,"测试消息提示").show();
+                new DialogSure(this, "测试消息提示").show();
                 break;
             case R.id.lay_name:
                 new DialogInput(this).show();
@@ -82,7 +96,7 @@ public class MeDetailActivity extends BasicActivity {
                 new DialogDatePicker(this).show();
                 break;
             case R.id.lay_address:
-                new DialogAddressPicker(this).show();
+                dialogAddress.show();
                 break;
             case R.id.lay_photo:
                 dialogphoto.show();
