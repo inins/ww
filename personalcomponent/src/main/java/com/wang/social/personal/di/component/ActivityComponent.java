@@ -2,6 +2,7 @@ package com.wang.social.personal.di.component;
 
 import com.frame.di.component.AppComponent;
 import com.frame.di.scope.ActivityScope;
+import com.wang.social.personal.di.module.MeDetailModule;
 import com.wang.social.personal.di.module.UserModule;
 import com.wang.social.personal.mvp.ui.activity.MeDetailActivity;
 
@@ -14,7 +15,7 @@ import dagger.Component;
  * ========================================
  */
 @ActivityScope
-@Component(modules = UserModule.class, dependencies = AppComponent.class)
+@Component(modules = {UserModule.class, MeDetailModule.class}, dependencies = AppComponent.class)
 public interface ActivityComponent {
 
     void inject(MeDetailActivity activity);

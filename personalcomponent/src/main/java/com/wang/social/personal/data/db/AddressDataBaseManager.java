@@ -37,12 +37,15 @@ import static android.content.Context.MODE_PRIVATE;
 public class AddressDataBaseManager {
 
     private static final String TAG = "AddressDataBaseManager";
-    private String DB_NAME = "china_regions.db";
+    private static final String DB_NAME = "china_regions.db";
 
     private static AddressDataBaseManager instance;
 
-    private AddressDataBaseManager() {
+    public static void init(){
         DataBaseUtil.packDataBase(Utils.getContext(), DB_NAME);
+    }
+
+    private AddressDataBaseManager() {
     }
 
     public static synchronized AddressDataBaseManager getInstance() {

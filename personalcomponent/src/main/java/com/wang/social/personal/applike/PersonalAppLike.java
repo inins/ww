@@ -5,6 +5,7 @@ import com.frame.component.applicationlike.IApplicationLike;
 import com.frame.component.router.Router;
 import com.frame.component.router.ui.UIRouter;
 import com.frame.component.service.personal.PersonalService;
+import com.wang.social.personal.data.db.AddressDataBaseManager;
 
 /**
  * ========================================

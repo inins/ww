@@ -3,6 +3,7 @@ package com.wang.social.personal.mvp.contract;
 import com.frame.http.api.BaseJson;
 import com.frame.mvp.IModel;
 import com.frame.mvp.IView;
+import com.wang.social.personal.mvp.entities.QiniuTokenWrap;
 
 import io.reactivex.Observable;
 
@@ -17,11 +18,11 @@ public interface MeDetailContract {
 
     interface View extends IView{
 
-        void gotoHome();
+        void finishActivity();
     }
 
     interface Model extends IModel{
 
-//        Observable<BaseJson<LoginInfoDTO>> login(String mobile, String password);
+        Observable<BaseJson<QiniuTokenWrap>> getQiniuToken();
     }
 }

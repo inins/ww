@@ -20,6 +20,7 @@ import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
 import com.frame.base.BaseFragment;
 import com.frame.di.component.AppComponent;
+import com.wang.social.personal.data.db.AddressDataBaseManager;
 import com.wang.social.personal.di.component.DaggerFragmentComponent;
 import com.wang.social.personal.di.module.UserModule;
 import com.wang.social.personal.mvp.entities.UserWrap;
@@ -104,6 +105,7 @@ public class PersonalFragment extends BasicFragment {
     public void onViewClicked(View v) {
         switch (v.getId()) {
             case R.id.header:
+                AddressDataBaseManager.init();
                 MeDetailActivity.start(getContext());
                 break;
             case R.id.btn_right:
