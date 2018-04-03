@@ -11,29 +11,21 @@
         android:id="@+id/msg_iv_portrait"
         android:layout_width="@dimen/im_msg_portrait_size"
         android:layout_height="@dimen/im_msg_portrait_size"
-        android:layout_marginEnd="@dimen/common_border_margin"
+        android:layout_marginStart="@dimen/common_border_margin"
         android:layout_marginTop="10dp"
+        app:layout_goneMarginTop="0dp"
         android:scaleType="centerCrop"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/msg_tv_time"
-        app:layout_goneMarginTop="0dp"
         tools:src="@mipmap/ic_launcher" />
 
-    <TextView
-        android:id="@+id/msg_tv_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/msg_iv_image"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
         android:layout_marginEnd="9dp"
-        android:background="@drawable/im_bg_message_right"
-        android:lineSpacingExtra="1dp"
-        android:maxWidth="196dp"
-        android:paddingBottom="10dp"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:paddingTop="10dp"
-        android:textColor="@color/im_message_txt"
-        android:textSize="@dimen/im_msg_text_size"
+        android:scaleType="centerCrop"
         app:layout_constraintRight_toLeftOf="@id/msg_iv_portrait"
         app:layout_constraintTop_toTopOf="@id/msg_iv_portrait"
-        tools:text="你好吗?" />
+        tools:src="@mipmap/ic_launcher" />
 </android.support.constraint.ConstraintLayout>

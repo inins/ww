@@ -10,6 +10,8 @@ import com.wang.social.im.enums.MessageType;
 
 import java.util.Arrays;
 
+import lombok.Getter;
+
 /**
  * ==========================================
  * 消息实体， 接收到消息{@link TIMMessage}通过{@link UIMessage#obtain(TIMMessage)}方法转换
@@ -19,26 +21,14 @@ import java.util.Arrays;
  */
 public class UIMessage {
 
+    @Getter
     private TIMMessage timMessage;
+    @Getter
     private MessageScope messageScope = MessageScope.NORMAL;
+    @Getter
     private MessageType messageType;
+    @Getter
     private CarryUserInfo carryUserInfo;
-
-    public TIMMessage getTimMessage() {
-        return timMessage;
-    }
-
-    public MessageScope getMessageScope() {
-        return messageScope;
-    }
-
-    public MessageType getMessageType() {
-        return messageType;
-    }
-
-    public CarryUserInfo getCarryUserInfo() {
-        return carryUserInfo;
-    }
 
     public static UIMessage obtain(TIMMessage message) {
         UIMessage uiMessage = new UIMessage();
