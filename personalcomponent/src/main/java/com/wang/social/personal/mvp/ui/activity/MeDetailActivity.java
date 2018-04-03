@@ -123,6 +123,7 @@ public class MeDetailActivity extends BasicActivity {
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
+        Log.e("test","setupActivityComponent");
         DaggerActivityComponent
                 .builder()
                 .appComponent(appComponent)
@@ -131,5 +132,5 @@ public class MeDetailActivity extends BasicActivity {
     }
 
     @Inject
-    RepositoryManager mRepositoryManager;
+    IRepositoryManager mRepositoryManager;
 }
