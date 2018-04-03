@@ -69,5 +69,8 @@ public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder{
     /**
      * 释放资源
      */
-    public abstract void onRelease();
+    public void onRelease(){
+        mUnbinder.unbind();
+        mUnbinder = null;
+    }
 }
