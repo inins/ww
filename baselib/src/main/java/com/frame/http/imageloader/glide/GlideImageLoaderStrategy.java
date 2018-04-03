@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.RequestOptions;
 import com.frame.http.imageloader.BaseImageLoaderStrategy;
 import com.frame.utils.Preconditions;
 
@@ -40,39 +41,44 @@ public class GlideImageLoaderStrategy implements BaseImageLoaderStrategy<ImageCo
         GlideRequest<Drawable> glideRequest = requests.load(config.getUrl())
                 .transition(DrawableTransitionOptions.withCrossFade());
 
+        RequestOptions requestOptions = new RequestOptions();
         switch (config.getCacheStrategy()) {
             case ALL:
-                glideRequest.diskCacheStrategy(DiskCacheStrategy.ALL);
+                requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL);
                 break;
             case NONE:
-                glideRequest.diskCacheStrategy(DiskCacheStrategy.NONE);
+                requestOptions.diskCacheStrategy(DiskCacheStrategy.NONE);
                 break;
             case DATA:
-                glideRequest.diskCacheStrategy(DiskCacheStrategy.DATA);
+                requestOptions.diskCacheStrategy(DiskCacheStrategy.DATA);
                 break;
             case SOURCE:
-                glideRequest.diskCacheStrategy(DiskCacheStrategy.RESOURCE);
+                requestOptions.diskCacheStrategy(DiskCacheStrategy.RESOURCE);
                 break;
             case AUTOMATIC:
-                glideRequest.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+                requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
                 break;
             default:
-                glideRequest.diskCacheStrategy(DiskCacheStrategy.ALL);
+                requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL);
                 break;
         }
         if (config.getTransformation() != null){
-            glideRequest.transform(config.getTransformation());
+            requestOptions.transform(config.getTransformation());
+        }else if (config.isCircle()){
+            requestOptions.circleCrop();
         }
         if (config.getPlaceholder() != 0){
-            glideRequest.placeholder(config.getPlaceholder());
+            requestOptions.placeholder(config.getPlaceholder());
         }
         if (config.getErrorPic() != 0){
-            glideRequest.error(config.getErrorPic());
+            requestOptions.error(config.getErrorPic());
         }
         if (config.getFallback() != 0){
-            glideRequest.fallback(config.getFallback());
+            requestOptions.fallback(config.getFallback());
         }
-        glideRequest.into(config.getImageView());
+        glideRequest
+                .apply(requestOptions)
+                .into(config.getImageView());
     }
 
     @Override
