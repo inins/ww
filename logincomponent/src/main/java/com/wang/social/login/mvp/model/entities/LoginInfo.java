@@ -1,5 +1,6 @@
 package com.wang.social.login.mvp.model.entities;
 
+
 /**
  * ========================================
  * 登陆用户信息实体
@@ -9,7 +10,6 @@ package com.wang.social.login.mvp.model.entities;
  */
 
 public class LoginInfo {
-
     private String token;
 
     public String getToken() {
