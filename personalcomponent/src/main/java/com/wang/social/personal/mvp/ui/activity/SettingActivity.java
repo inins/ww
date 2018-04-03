@@ -11,6 +11,7 @@ import com.frame.base.BaseActivity;
 import com.frame.base.BasicActivity;
 import com.frame.di.component.AppComponent;
 import com.wang.social.personal.R;
+import com.wang.social.personal.mvp.ui.dialog.DialogBottomThirdLoginBind;
 
 public class SettingActivity extends BasicActivity {
 
@@ -37,6 +38,7 @@ public class SettingActivity extends BasicActivity {
             case R.id.btn_phone:
                 break;
             case R.id.btn_thirdlogin:
+                new DialogBottomThirdLoginBind(this).show();
                 break;
             case R.id.btn_secret:
                 PrivacyActivity.start(this);

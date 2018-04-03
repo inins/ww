@@ -45,6 +45,10 @@
     <string name="personal_setting_blanklist">好友黑名单</string>
     <string name="personal_setting_msg">新消息通知</string>
     <string name="personal_setting_logout">退出当前账号</string>
+    <string name="personal_setting_dialog_weixin">绑定微信</string>
+    <string name="personal_setting_dialog_weibo">绑定微博</string>
+    <string name="personal_setting_dialog_qq">绑定QQ</string>
+    <string name="personal_setting_dialog_binded">已绑定</string>
 
     <!--设置消息页面-->
     <string name="personal_setting_msg_title">新消息通知</string>

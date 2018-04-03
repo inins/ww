@@ -1,0 +1,74 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/personal_shape_rect_white_coner_top"
+    android:orientation="vertical"
+    tools:layout_gravity="bottom">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/btn_weixin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/personal_ic_wechat"
+            android:foreground="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="15dp"
+            android:text="@string/personal_setting_dialog_weixin"
+            android:textColor="@color/common_text_blank_dark"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/btn_weibo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/personal_ic_weibo"
+            android:foreground="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="15dp"
+            android:text="@string/personal_setting_dialog_weibo"
+            android:textColor="@color/common_text_blank_dark"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/btn_qq"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/personal_ic_qq"
+            android:foreground="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="15dp"
+            android:text="@string/personal_setting_dialog_qq"
+            android:textColor="@color/common_text_blank_dark"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <View style="@style/common_Line_H" />
+
+    <TextView
+        android:id="@+id/btn_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:foreground="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="@string/personal_cancel"
+        android:textColor="@color/common_text_blank_dark"
+        android:textSize="16sp" />
+
+</LinearLayout>

@@ -75,8 +75,6 @@ public class PersonalFragment extends BasicFragment {
                 .imageView(header)
                 .url("http://resouce.dongdongwedding.com/2017-08-08_rtUbDxhH.png")
                 .build());
-
-
     }
 
     @Override

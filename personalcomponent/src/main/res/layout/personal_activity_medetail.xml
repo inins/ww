@@ -124,7 +124,7 @@
                 style="@style/personal_TextMeItemContent"
                 android:layout_gravity="right|center_vertical"
                 android:layout_marginRight="15dp"
-                android:text="90后" />
+                android:text="1999-01-09 白羊座" />
 
             <TextView
                 android:id="@+id/lay_old"
@@ -149,7 +149,7 @@
                 style="@style/personal_TextMeItemContent"
                 android:layout_gravity="right|center_vertical"
                 android:layout_marginRight="15dp"
-                android:text="1999-01-09 白羊座" />
+                android:text="四川省成都市成华区" />
 
             <TextView
                 android:id="@+id/lay_address"

@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.beloo.widget.chipslayoutmanager.SpacingItemDecoration;
+import com.frame.base.BaseAdapter;
 import com.frame.base.BasicActivity;
 import com.frame.di.component.AppComponent;
 import com.frame.utils.SizeUtils;
@@ -22,13 +23,14 @@ import com.wang.social.personal.R2;
 import com.wang.social.personal.common.GridSpacingItemDecoration;
 import com.wang.social.personal.mvp.entities.Lable;
 import com.wang.social.personal.mvp.ui.adapter.RecycleAdapterLable;
+import com.wang.social.personal.mvp.ui.dialog.DialogFragmentLable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 
-public class LableActivity extends BasicActivity {
+public class LableActivity extends BasicActivity implements BaseAdapter.OnItemClickListener<Lable> {
 
     @BindView(R2.id.toolbar)
     Toolbar toolbar;
@@ -44,6 +46,8 @@ public class LableActivity extends BasicActivity {
     private RecycleAdapterLable adapter_show;
     private RecycleAdapterLable adapter_me;
 
+    private DialogFragmentLable dialogLable;
+
     public static void start(Context context) {
         Intent intent = new Intent(context, LableActivity.class);
         context.startActivity(intent);
@@ -57,8 +61,10 @@ public class LableActivity extends BasicActivity {
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
         setSupportActionBar(toolbar);
+        dialogLable = new DialogFragmentLable();
 
         adapter_show = new RecycleAdapterLable();
+        adapter_show.setOnItemClickListener(this);
         recycler_show.setNestedScrollingEnabled(false);
         recycler_show.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recycler_show.addItemDecoration(new GridSpacingItemDecoration(1, SizeUtils.dp2px(5), GridLayoutManager.HORIZONTAL, false));
@@ -131,6 +137,11 @@ public class LableActivity extends BasicActivity {
             add(new Lable("唱歌"));
         }};
         adapter_me.refreshData(results_me);
+    }
+
+    @Override
+    public void onItemClick(Lable lable, int position) {
+        dialogLable.show(getSupportFragmentManager(), "dialogFragmentLable");
     }
 
     public void onClick(View v) {

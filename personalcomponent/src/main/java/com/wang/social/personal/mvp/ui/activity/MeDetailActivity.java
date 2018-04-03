@@ -12,9 +12,12 @@ import android.widget.TextView;
 import com.frame.base.BasicActivity;
 import com.frame.di.component.AppComponent;
 import com.wang.social.personal.R;
+import com.wang.social.personal.mvp.ui.dialog.DialogAddressPicker;
 import com.wang.social.personal.mvp.ui.dialog.DialogBottomGender;
 import com.wang.social.personal.mvp.ui.dialog.DialogBottomPhoto;
+import com.wang.social.personal.mvp.ui.dialog.DialogDatePicker;
 import com.wang.social.personal.mvp.ui.dialog.DialogInput;
+import com.wang.social.personal.mvp.ui.dialog.DialogSure;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -67,6 +70,7 @@ public class MeDetailActivity extends BasicActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.lay_header:
+                new DialogSure(this,"测试消息提示").show();
                 break;
             case R.id.lay_name:
                 new DialogInput(this).show();
@@ -75,8 +79,10 @@ public class MeDetailActivity extends BasicActivity {
                 dialogGender.show();
                 break;
             case R.id.lay_old:
+                new DialogDatePicker(this).show();
                 break;
             case R.id.lay_address:
+                new DialogAddressPicker(this).show();
                 break;
             case R.id.lay_photo:
                 dialogphoto.show();
@@ -91,10 +97,10 @@ public class MeDetailActivity extends BasicActivity {
 
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        // TODO: add setContentView(...) invocation
+//        ButterKnife.bind(this);
+//    }
 }
