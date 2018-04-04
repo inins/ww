@@ -1,5 +1,12 @@
 package com.frame.component.api;
 
+import com.frame.component.entities.dto.QiNiuDTO;
+import com.frame.http.api.BaseJson;
+
+import io.reactivex.Observable;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.POST;
+
 /**
  * =========================================
  * <p>
@@ -8,4 +15,11 @@ package com.frame.component.api;
  */
 
 public interface CommonService {
+
+    /**
+     * 获取七牛云上传token
+     */
+    @FormUrlEncoded
+    @POST("/common/upToken")
+    Observable<BaseJson<QiNiuDTO>> getQiNiuToken();
 }

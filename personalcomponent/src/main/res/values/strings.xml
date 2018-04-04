@@ -30,6 +30,12 @@
     <string name="personal_medetail_dialog_pic">官方图库</string>
     <string name="personal_medetail_dialog_camera">拍摄</string>
     <string name="personal_medetail_dialog_photo">相册</string>
+    <string name="personal_medetail_dialog_inputsign_title">输入个性签名</string>
+    <string name="personal_medetail_dialog_inputsign_note">最多输入15个字</string>
+    <string name="personal_medetail_dialog_inputsign_hint">请输入个性签名</string>
+    <string name="personal_medetail_dialog_inputname_title">输入新昵称</string>
+    <string name="personal_medetail_dialog_inputname_note">最多输入12个字</string>
+    <string name="personal_medetail_dialog_inputname_hint">输入新昵称</string>
 
     <!--设置页面-->
     <string name="personal_setting_title">设置</string>

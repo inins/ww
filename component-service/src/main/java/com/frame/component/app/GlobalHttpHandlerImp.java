@@ -1,13 +1,20 @@
 package com.frame.component.app;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.frame.component.api.Api;
 import com.frame.component.entities.HttpStatus;
+import com.frame.component.helper.AppDataHelper;
 import com.frame.http.GlobalHttpHandler;
 import com.frame.http.api.ApiException;
 import com.frame.utils.FrameUtils;
+import com.frame.utils.InterceptorUtils;
 
+import java.util.LinkedHashMap;
+
+import okhttp3.FormBody;
+import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -32,7 +39,7 @@ public class GlobalHttpHandlerImp implements GlobalHttpHandler {
     public Response onHttpResultResponse(String httpResult, Interceptor.Chain chan, Response response) {
         /*这里可以先客户端一步拿到Http的请求结果，可以做Json解析，错误码判断等*/
         HttpStatus httpStatus = FrameUtils.obtainAppComponentFromContext(mContext).gson().fromJson(httpResult, HttpStatus.class);
-        if (httpStatus != null && httpStatus.getCode() != Api.SUCCESS_CODE){
+        if (httpStatus != null && httpStatus.getCode() != Api.SUCCESS_CODE) {
             throw new ApiException(httpStatus.getCode(), httpStatus.getMessage());
         }
         return response;
@@ -41,6 +48,21 @@ public class GlobalHttpHandlerImp implements GlobalHttpHandler {
     @Override
     public Request onHttpRequestBefore(Interceptor.Chain chain, Request request) {
         /*如果需要再请求服务器之前做一些操作， 则重新返回一个做过操作的request（例如添加Header）*/
-        return request;
+
+        Request.Builder requestBuilder = request.newBuilder();
+
+        //添加post公共参数
+        InterceptorUtils.addFiled(request, requestBuilder, new LinkedHashMap<String, Object>() {{
+            put("v", "2.0.0");
+        }});
+        //添加url公共参数
+        InterceptorUtils.addQuery(request, requestBuilder, new LinkedHashMap<String, Object>() {{
+        }});
+        //添加公共请求头
+        InterceptorUtils.addHeader(request, requestBuilder, new LinkedHashMap<String, Object>() {{
+            put("token", AppDataHelper.getToken());
+        }});
+
+        return requestBuilder.build();
     }
 }

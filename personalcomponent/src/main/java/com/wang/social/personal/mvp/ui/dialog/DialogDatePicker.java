@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,8 @@ import android.widget.TextView;
 import com.frame.component.view.DatePicker;
 import com.frame.utils.TimeUtils;
 import com.wang.social.personal.R;
+
+import java.text.NumberFormat;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -37,8 +40,6 @@ public class DialogDatePicker extends BaseDialog implements View.OnClickListener
     TextView mDecideButton;
     @BindView(R.id.text_astro)
     TextView text_astro;
-    private int mSelectedYear = -1, mSelectedMonth = -1, mSelectedDay = -1;
-    private OnDateChooseListener mOnDateChooseListener;
 
     public DialogDatePicker(Context context) {
         super(context);
@@ -58,9 +59,6 @@ public class DialogDatePicker extends BaseDialog implements View.OnClickListener
 
     @Override
     protected void intView(View root) {
-        if (mSelectedYear > 0) {
-            setSelectedDate();
-        }
         text_astro.setText(TimeUtils.getAstro(mDatePicker.getMonth(), mDatePicker.getDay()));
         mDatePicker.setOnDateSelectedListener(new DatePicker.OnDateSelectedListener() {
             @Override
@@ -78,31 +76,42 @@ public class DialogDatePicker extends BaseDialog implements View.OnClickListener
                 break;
             case R.id.btn_dialog_date_decide:
                 if (mOnDateChooseListener != null) {
-                    mOnDateChooseListener.onDateChoose(mDatePicker.getYear(), mDatePicker.getMonth(), mDatePicker.getDay());
+                    NumberFormat numberFormat = NumberFormat.getNumberInstance();
+                    numberFormat.setMinimumIntegerDigits(2);
+                    int year = mDatePicker.getYear();
+                    int month = mDatePicker.getMonth();
+                    int day = mDatePicker.getDay();
+                    String astro = text_astro.getText().toString();
+                    String showText = year + "-" + numberFormat.format(month) + "-" + numberFormat.format(day) + " " + astro;
+                    mOnDateChooseListener.onDateChoose(year, month, day, astro, showText);
                 }
                 dismiss();
                 break;
         }
     }
 
+    ///////////////////////////
+
+    public void setDate(String dateStr) {
+        if (TextUtils.isEmpty(dateStr)) return;
+        dateStr = dateStr.substring(dateStr.indexOf(" "));
+        String[] split = dateStr.split("-");
+        if (split == null || split.length < 3) return;
+        int year = Integer.parseInt(split[0]);
+        int mouth = Integer.parseInt(split[1]);
+        int day = Integer.parseInt(split[2]);
+        mDatePicker.setDate(year, mouth, day);
+    }
+
+    ///////////////////////////
+
+    private OnDateChooseListener mOnDateChooseListener;
+
     public void setOnDateChooseListener(OnDateChooseListener onDateChooseListener) {
         mOnDateChooseListener = onDateChooseListener;
     }
 
     public interface OnDateChooseListener {
-        void onDateChoose(int year, int month, int day);
-    }
-
-    public void setSelectedDate(int year, int month, int day) {
-        mSelectedYear = year;
-        mSelectedMonth = month;
-        mSelectedDay = day;
-        setSelectedDate();
-    }
-
-    private void setSelectedDate() {
-        if (mDatePicker != null) {
-            mDatePicker.setDate(mSelectedYear, mSelectedMonth, mSelectedDay, false);
-        }
+        void onDateChoose(int year, int month, int day, String astro, String showText);
     }
 }

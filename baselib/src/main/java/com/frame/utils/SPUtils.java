@@ -3,7 +3,13 @@ package com.frame.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
+import android.util.Base64;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -235,6 +241,54 @@ public class SPUtils {
      */
     public Set<String> getStringSet(@NonNull String key, @NonNull Set<String> defaultValue) {
         return sp.getStringSet(key, defaultValue);
+    }
+
+    /**
+     * 存放对象
+     *
+     * @param key   键
+     * @param value 值
+     */
+    public void put(String key, Object value) {
+        if (value != null) {
+            try {
+                ByteArrayOutputStream t = new ByteArrayOutputStream();
+                ObjectOutputStream oos = new ObjectOutputStream(t);
+                oos.writeObject(value);
+                oos.flush();
+                oos.close();
+                byte[] data = t.toByteArray();
+                String base64 = Base64.encodeToString(data, 2);
+                this.put(key, base64);
+            } catch (Throwable var7) {
+                var7.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 获得对象
+     *
+     * @param key 键
+     * @return 返回Object
+     */
+    public Object get(String key) {
+        try {
+            String t = this.getString(key);
+            if (TextUtils.isEmpty(t)) {
+                return null;
+            } else {
+                byte[] data = Base64.decode(t, 2);
+                ByteArrayInputStream inputStream = new ByteArrayInputStream(data);
+                ObjectInputStream ois = new ObjectInputStream(inputStream);
+                Object value = ois.readObject();
+                ois.close();
+                return value;
+            }
+        } catch (Throwable var7) {
+            var7.printStackTrace();
+            return null;
+        }
     }
 
     /**
