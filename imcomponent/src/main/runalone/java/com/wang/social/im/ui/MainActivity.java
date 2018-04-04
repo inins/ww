@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.tencent.imsdk.TIMConversationType;
 import com.wang.social.im.R;
+import com.wang.social.im.enums.ConversationType;
 import com.wang.social.im.view.IMInputView;
 
 public class MainActivity extends AppCompatActivity {
@@ -15,6 +16,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.im_activity_main);
 
         IMInputView inputView = findViewById(R.id.inputView);
-        inputView.setConversationType(TIMConversationType.Group);
+        inputView.setConversationType(ConversationType.PRIVATE);
     }
 }

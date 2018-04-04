@@ -7,17 +7,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.load.resource.bitmap.CircleCrop;
-import com.bumptech.glide.request.RequestOptions;
 import com.frame.base.BaseAdapter;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
-import com.frame.utils.TimeUtils;
 import com.tencent.imsdk.TIMElem;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMTextElem;
 import com.tencent.imsdk.TIMUserProfile;
 import com.wang.social.im.R;
-import com.wang.social.im.entities.UIMessage;
+import com.wang.social.im.mvp.model.entities.UIMessage;
 import com.wang.social.im.view.emotion.EmojiDisplay;
 
 import butterknife.BindView;
@@ -60,7 +57,7 @@ public class TextViewHolder extends BaseMessageViewHolder<UIMessage> {
                 .isCircle(true)
                 .url(profile.getFaceUrl())
                 .build());
-        if (!itemValue.getTimMessage().isSelf()){
+        if (!itemValue.getTimMessage().isSelf() && showNickname){
             msgTvName.setVisibility(View.VISIBLE);
             msgTvName.setText(profile.getRemark());
         }else {

@@ -1,4 +1,4 @@
-package com.wang.social.im.entities;
+package com.wang.social.im.mvp.model.entities;
 
 
 import com.tencent.imsdk.TIMCustomElem;
@@ -8,7 +8,9 @@ import com.tencent.imsdk.TIMMessage;
 import com.wang.social.im.enums.MessageScope;
 import com.wang.social.im.enums.MessageType;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import lombok.Getter;
 
@@ -36,6 +38,14 @@ public class UIMessage {
         uiMessage.setScope(message);
         uiMessage.setType(message);
         return uiMessage;
+    }
+
+    public static List<UIMessage> obtain(List<TIMMessage> timMessages) {
+        List<UIMessage> uiMessages = new ArrayList<>();
+        for (TIMMessage message : timMessages){
+            uiMessages.add(obtain(message));
+        }
+        return uiMessages;
     }
 
     private void setScope(TIMMessage timMessage) {

@@ -7,6 +7,7 @@ import com.frame.base.BaseViewHolder;
 import com.frame.http.imageloader.ImageLoader;
 import com.frame.utils.TimeUtils;
 import com.tencent.imsdk.TIMConversationType;
+import com.wang.social.im.enums.ConversationType;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -27,8 +28,9 @@ public abstract class BaseMessageViewHolder<T> extends BaseViewHolder<T>{
     @Inject
     ImageLoader mImageLoader;
 
-    public TIMConversationType conversationType;
+    public ConversationType conversationType;
     public boolean showTimestamp = true;
+    public boolean showNickname;
 
     public BaseMessageViewHolder(Context context, ViewGroup root, int layoutRes) {
         super(context, root, layoutRes);
