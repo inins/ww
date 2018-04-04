@@ -27,5 +27,8 @@
     <string name="login_go_to_register">去注册</string>
     <string name="login_go_to_login">去登录</string>
     <string name="login_password_input_hint">请输入你的密码</string>
+    <string name="login_phone_input_illegal">请输入正确的手机号</string>
+    <string name="login_password_input_illegal">请按规则输入正确的密码</string>
+    <string name="login_verify_code_input_illegal">请输入正确的验证码</string>
 
 </resources>

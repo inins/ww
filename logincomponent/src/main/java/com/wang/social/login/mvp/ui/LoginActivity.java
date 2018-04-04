@@ -14,11 +14,13 @@ import android.widget.TextView;
 
 import com.frame.base.BasicActivity;
 import com.frame.utils.BarUtils;
+import com.frame.utils.ToastUtil;
 import com.wang.social.login.R;
 import com.frame.di.component.AppComponent;
 import com.frame.router.facade.annotation.RouteNode;
 import com.wang.social.login.mvp.ui.widget.CountDownView;
 import com.wang.social.login.mvp.ui.widget.LoginFragment;
+import com.wang.social.login.utils.StringUtils;
 import com.wang.social.login.utils.ViewUtils;
 
 import butterknife.BindView;
@@ -127,11 +129,6 @@ public class LoginActivity extends BasicActivity {
         ViewUtils.controlKeyboardLayout(rootView, loginTV);
     }
 
-    @OnClick(R.id.login_text_view)
-    public void login() {
-
-    }
-
     @OnClick(R.id.switch_login_text_view)
     public void switchLoginMode() {
         // 切换登录模式
@@ -197,5 +194,116 @@ public class LoginActivity extends BasicActivity {
     @OnClick(R.id.weibo_image_view)
     public void weiboLogin() {
 
+    }
+
+    /**
+     * 登录
+     */
+    @OnClick(R.id.login_text_view)
+    public void login() {
+        switch(launchMode) {
+            case LAUNCH_MODE_PASSWORD_LOGIN:
+                passwordLogin();
+                break;
+            case LAUNCH_MODE_MESSAGE_LOGIN:
+                messageLogin();
+                break;
+            case LAUNCH_MODE_REGISTER:
+                register();
+                break;
+        }
+    }
+
+    /**
+     * 密码登录
+     */
+    private void passwordLogin() {
+        // 检测手机号
+        if (!checkInputPhoneNO()) {
+            showInputPhoneNOIllegal();
+
+            return;
+        }
+
+        // 检测密码
+        if (!checkInputPassword()) {
+            showInputPasswordIllegal();
+
+            return;
+        }
+
+        // 登录
+    }
+
+    /**
+     * 短信登录
+     */
+    private void messageLogin() {
+        // 检测手机号
+        if (!checkInputPhoneNO()) {
+            showInputPhoneNOIllegal();
+
+            return;
+        }
+
+        // 检测验证码
+        if (!checkInputVerifyCode()) {
+            showInputVerifyCodeIllegal();
+
+            return;
+        }
+
+        // 登录
+    }
+
+    /**
+     * 注册
+     */
+    private void register() {
+        // 检测手机号
+        if (!checkInputPhoneNO()) {
+            showInputPhoneNOIllegal();
+
+            return;
+        }
+
+        // 检测验证码
+        if (!checkInputVerifyCode()) {
+            showInputVerifyCodeIllegal();
+
+            return;
+        }
+
+        // 检测密码
+        if (!checkInputPassword()) {
+            showInputPasswordIllegal();
+
+            return;
+        }
+
+    }
+
+    private boolean checkInputVerifyCode() {
+        return StringUtils.isVerifyCode(verifyCodeET.getText().toString());
+    }
+
+    private void showInputVerifyCodeIllegal() {
+        ToastUtil.showToastShort(getString(R.string.login_verify_code_input_illegal));
+    }
+
+    private boolean checkInputPhoneNO() {
+        return StringUtils.isMobileNO(phoneET.getText().toString());
+    }
+
+    private void showInputPhoneNOIllegal() {
+        ToastUtil.showToastShort(getString(R.string.login_phone_input_illegal));
+    }
+
+    private boolean checkInputPassword() {
+        return StringUtils.isPassword(passwordET.getText().toString());
+    }
+
+    private void showInputPasswordIllegal() {
+        ToastUtil.showToastShort(getString(R.string.login_password_input_illegal));
     }
 }
