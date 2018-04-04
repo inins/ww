@@ -88,7 +88,7 @@ public class DialogAddressPicker extends BaseDialog implements View.OnClickListe
                 if (onAddressSelectListener != null) {
                     Province province = wheel_province.getSelectData();
                     City city = wheel_city.getSelectData();
-                    onAddressSelectListener.onAddressSelect(province != null ? province.getName() : "", city != null ? city.getName() : "");
+                    onAddressSelectListener.onAddressSelect(province, city);
                 }
                 dismiss();
                 break;
@@ -105,6 +105,6 @@ public class DialogAddressPicker extends BaseDialog implements View.OnClickListe
     }
 
     public interface OnAddressSelectListener {
-        void onAddressSelect(String province, String city);
+        void onAddressSelect(Province province, City city);
     }
 }

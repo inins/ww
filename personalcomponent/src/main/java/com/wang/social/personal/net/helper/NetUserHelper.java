@@ -36,7 +36,7 @@ public class NetUserHelper {
     }
 
     public void loginTest() {
-        mRepositoryManager.obtainRetrofitService(UserService.class).login("18002247238", "111111", "2.0.0")
+        mRepositoryManager.obtainRetrofitService(UserService.class).login("18002247238", "111111")
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ErrorHandleSubscriber<BaseJson<UserWrap>>(mErrorHandler) {
