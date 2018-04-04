@@ -11,12 +11,15 @@ import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 /**
  */
 
 public interface UserService {
+
+    String HEADER_CONTENT_TYPE = "Content-Type:application/x-www-form-urlencoded; charset=utf-8";
 
     /**
      * 登陆
@@ -41,6 +44,7 @@ public interface UserService {
      * province
      * city
      */
+    @Headers(HEADER_CONTENT_TYPE)
     @FormUrlEncoded
     @POST("/app/userInfo/changeInfo")
     Observable<BaseJson<CommonEntity>> updateUserInfo(@FieldMap Map<String, Object> param);
