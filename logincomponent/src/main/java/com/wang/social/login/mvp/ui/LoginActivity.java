@@ -25,6 +25,7 @@ import com.wang.social.login.di.module.LoginModule;
 import com.wang.social.login.mvp.contract.LoginContract;
 import com.wang.social.login.mvp.presenter.LoginPresenter;
 import com.wang.social.login.mvp.ui.widget.CountDownView;
+import com.wang.social.login.mvp.ui.widget.DialogLoading;
 import com.wang.social.login.mvp.ui.widget.LoginFragment;
 import com.wang.social.login.utils.StringUtils;
 import com.wang.social.login.utils.ViewUtils;
@@ -33,7 +34,7 @@ import butterknife.BindView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
-@RouteNode(path = "/login", desc = "登陆页")
+@RouteNode(path = "/passwordLogin", desc = "登陆页")
 public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginContract.View {
 
     public final static String NAME_LAUNCH_MODE = "NAME_LAUNCH_MODE";
@@ -76,6 +77,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
 
     String launchMode = LAUNCH_MODE_MESSAGE_LOGIN;
+
+    private DialogLoading mDialogLoading;
 
 
     @Override
@@ -185,11 +188,42 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             //否则隐藏密码
             passwordET.setTransformationMethod(PasswordTransformationMethod.getInstance());
         }
+        // 将光标移至文字末尾
+        passwordET.setSelection(passwordET.getText().length());
     }
 
     @OnClick(R.id.get_verify_code_text_view)
     public void setGetVerifyCode() {
-        getVerifyCodeTV.start();
+        // 检测手机号
+        if (!checkInputPhoneNO()) {
+            showInputPhoneNOIllegal();
+
+            return;
+        }
+
+        // 隐藏软键盘
+        ViewUtils.hideSoftInputFromWindow(this, loginTV);
+
+        // 用途类型
+        //（注册 type=1;
+        // 找回密码 type=2;
+        // 三方账号绑定手机 type=4;
+        // 更换手机号 type=5;
+        // 短信登录 type=6）
+        int type = 6;
+
+        switch(launchMode) {
+            case LAUNCH_MODE_PASSWORD_LOGIN:
+                break;
+            case LAUNCH_MODE_MESSAGE_LOGIN:
+                type = 6;
+                break;
+            case LAUNCH_MODE_REGISTER:
+                type = 1;
+                break;
+        }
+        // 请求验证码
+        mPresenter.sendVerifyCode(phoneET.getText().toString(), type);
     }
 
     @OnClick(R.id.wechat_image_view)
@@ -331,11 +365,29 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void showLoading() {
-        ToastUtil.showToastShort("Loading");
+        if (null == mDialogLoading) {
+            mDialogLoading = new DialogLoading(this);
+        }
+
+        mDialogLoading.show();
     }
 
     @Override
     public void hideLoading() {
-        ToastUtil.showToastShort("Completed");
+        if (null != mDialogLoading) {
+            mDialogLoading.cancel();
+            mDialogLoading = null;
+        }
+    }
+
+    @Override
+    public void showToast(String msg) {
+        ToastUtil.showToastShort(msg);
+    }
+
+    @Override
+    public void onSendVerifyCodeSuccess() {
+        // 验证码请求成功，开始倒计时
+        getVerifyCodeTV.start();
     }
 }

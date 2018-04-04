@@ -27,9 +27,34 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
     }
 
     @Override
-    public Observable<BaseJson<LoginInfoDTO>> login(String mobile, String password) {
+    public Observable<BaseJson<LoginInfoDTO>> passwordLogin(String mobile, String password, String sign) {
         return mRepositoryManager
                 .obtainRetrofitService(LoginService.class)
-                .login(mobile, password);
+                .passwordLogin(mobile, password, sign);
     }
+
+    @Override
+    public Observable<BaseJson<LoginInfoDTO>> verifyCodeLogin(
+            String mobile, String code, String sign, String adCode) {
+        return mRepositoryManager
+                .obtainRetrofitService(LoginService.class)
+                .verifyCodeLogin(mobile, code, sign, adCode);
+    }
+
+    @Override
+    public Observable<BaseJson<LoginInfoDTO>> userRegister(String mobile, String code, String password, String adCode) {
+        return mRepositoryManager
+                .obtainRetrofitService(LoginService.class)
+                .userRegister(mobile, code, password, adCode);
+    }
+
+
+    @Override
+    public Observable<BaseJson<LoginInfoDTO>> sendVerifyCode(
+            String mobile, int type, String sign) {
+        return mRepositoryManager
+                .obtainRetrofitService(LoginService.class)
+                .sendVerifyCode(mobile, type, sign);
+    }
+
 }

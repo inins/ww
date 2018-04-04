@@ -17,10 +17,26 @@ import io.reactivex.Observable;
 public interface LoginContract {
 
     interface View extends IView{
+        void showToast(String msg);
+
+        /**
+         * 获取验证码成功的回调
+         */
+        void onSendVerifyCodeSuccess();
     }
 
     interface Model extends IModel{
 
-        Observable<BaseJson<LoginInfoDTO>> login(String mobile, String password);
+        Observable<BaseJson<LoginInfoDTO>> passwordLogin(
+                String mobile, String password, String sign);
+
+        Observable<BaseJson<LoginInfoDTO>> verifyCodeLogin(
+                String mobile, String code, String sign, String adCode);
+
+        Observable<BaseJson<LoginInfoDTO>> userRegister(
+                String mobile, String code, String password, String adCode);
+
+        Observable<BaseJson<LoginInfoDTO>> sendVerifyCode(
+                String mobile, int type, String sign);
     }
 }

@@ -19,12 +19,73 @@ import retrofit2.http.POST;
 public interface LoginService {
 
     /**
-     * 登陆
-     * @param mobile
-     * @param password
+     * 密码登陆
+     * @param mobile 手机号码
+     * @param password 密码
+     * @Param sign 签名
      * @return
      */
     @FormUrlEncoded
-    @POST("login")
-    Observable<BaseJson<LoginInfoDTO>> login(@Field("mobile") String mobile, @Field("password") String password);
+    @POST("login/password")
+    Observable<BaseJson<LoginInfoDTO>> passwordLogin(
+            @Field("mobile") String mobile,
+            @Field("password") String password,
+            @Field("sign") String sign);
+
+
+    /**
+     * 手机号码加短信验证码登录
+     * @param mobile 手机号码
+     * @param code 短信验证码
+     * @param sign 签名
+     * @param adCode 区域编码
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("login/smsCode")
+    Observable<BaseJson<LoginInfoDTO>> verifyCodeLogin(
+            @Field("mobile") String mobile,
+            @Field("code") String code,
+            @Field("sign") String sign,
+            @Field("adCode") String adCode);
+
+
+    /**
+     * 手机号码加短信验证码注册用户
+     * @param mobile 手机号
+     * @param code 短信验证码
+     * @param password 设置的密码
+     * @param adCode 区域编码
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("user/register")
+    Observable<BaseJson<LoginInfoDTO>> userRegister(
+            @Field("mobile") String mobile,
+            @Field("code") String code,
+            @Field("password") String password,
+            @Field("adCode") String adCode);
+
+    /**
+     * 手机号码加短信验证码登录
+     * @param mobile 手机号码
+     * @param type 用途类型
+     * @param sign 签名
+     *
+     用途类型
+    （注册 type=1;
+    找回密码 type=2;
+    三方账号绑定手机 type=4;
+    更换手机号 type=5;
+    短信登录 type=6）
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("common/sendVerifyCode")
+    Observable<BaseJson<LoginInfoDTO>> sendVerifyCode(
+            @Field("mobile") String mobile,
+            @Field("code") int type,
+            @Field("sign") String sign);
+
+
 }

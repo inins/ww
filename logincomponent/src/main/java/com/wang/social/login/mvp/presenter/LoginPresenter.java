@@ -45,26 +45,28 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
      * @param password
      */
     public void passwordLogin(String mobile, String password) {
-        Observable.interval(5, TimeUnit.SECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Long>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        mRootView.showLoading();
-                    }
+        mApiHelper.execute(mRootView,
+                mModel.passwordLogin(mobile, password, ""),
+                new ErrorHandleSubscriber<LoginInfo>(mErrorHandler) {
 
                     @Override
-                    public void onNext(Long aLong) {
-
+                    public void onNext(LoginInfo loginInfo) {
                     }
+
 
                     @Override
                     public void onError(Throwable e) {
-
+                        mRootView.showToast(e.getMessage());
                     }
 
+                }, new Consumer<Disposable>() {
                     @Override
-                    public void onComplete() {
+                    public void accept(Disposable disposable) throws Exception {
+                        mRootView.showLoading();
+                    }
+                }, new Action() {
+                    @Override
+                    public void run() throws Exception {
                         mRootView.hideLoading();
                     }
                 });
@@ -76,7 +78,31 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
      * @param code
      */
     public void messageLogin(String mobile, String code) {
+        mApiHelper.execute(mRootView,
+                mModel.verifyCodeLogin(mobile, code, "", ""),
+                new ErrorHandleSubscriber<LoginInfo>(mErrorHandler) {
 
+                    @Override
+                    public void onNext(LoginInfo loginInfo) {
+                    }
+
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mRootView.showToast(e.getMessage());
+                    }
+
+                }, new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                        mRootView.showLoading();
+                    }
+                }, new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mRootView.hideLoading();
+                    }
+                });
     }
 
     /**
@@ -86,18 +112,61 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
      * @param password
      */
     public void register(String mobile, String code, String password) {
-
-    }
-
-
-    public void login(String mobile, String password) {
-        mApiHelper.execute(mRootView, mModel.login(mobile, password),
+        mApiHelper.execute(mRootView,
+                mModel.verifyCodeLogin(mobile, code, password, ""),
                 new ErrorHandleSubscriber<LoginInfo>(mErrorHandler) {
 
                     @Override
                     public void onNext(LoginInfo loginInfo) {
-                        Timber.d("Token:" + loginInfo.getToken());
                     }
+
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mRootView.showToast(e.getMessage());
+                    }
+
+                }, new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                        mRootView.showLoading();
+                    }
+                }, new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mRootView.hideLoading();
+                    }
+                });
+    }
+
+    /**
+     * 手机号码加短信验证码登录
+     * @param mobile 手机号码
+     * @param type 用途类型
+     *
+    用途类型
+    （注册 type=1;
+    找回密码 type=2;
+    三方账号绑定手机 type=4;
+    更换手机号 type=5;
+    短信登录 type=6）
+     * @return
+     */
+    public void sendVerifyCode(String mobile, int type) {
+        mApiHelper.execute(mRootView,
+                mModel.sendVerifyCode(mobile, type, ""),
+                new ErrorHandleSubscriber<LoginInfo>(mErrorHandler) {
+
+                    @Override
+                    public void onNext(LoginInfo loginInfo) {
+                    }
+
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mRootView.showToast(e.getMessage());
+                    }
+
                 }, new Consumer<Disposable>() {
                     @Override
                     public void accept(Disposable disposable) throws Exception {

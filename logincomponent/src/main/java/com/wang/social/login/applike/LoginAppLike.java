@@ -14,11 +14,11 @@ public class LoginAppLike implements IApplicationLike{
 
     @Override
     public void onCreate() {
-        UIRouter.getInstance().registerUI("login");
+        UIRouter.getInstance().registerUI("passwordLogin");
     }
 
     @Override
     public void onStop() {
-        UIRouter.getInstance().unregisterUI("login");
+        UIRouter.getInstance().unregisterUI("passwordLogin");
     }
 }
