@@ -26,9 +26,9 @@ public class UserModel extends BaseModel {
         super(repositoryManager);
     }
 
-    public Observable<BaseJson<UserWrap>> login(String mobile, String password) {
-        return mRepositoryManager
-                .obtainRetrofitService(UserService.class)
-                .login(mobile, password);
-    }
+//    public Observable<BaseJson<UserWrap>> login(String mobile, String password) {
+//        return mRepositoryManager
+//                .obtainRetrofitService(UserService.class)
+//                .login(mobile, password);
+//    }
 }

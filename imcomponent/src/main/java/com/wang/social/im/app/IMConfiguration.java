@@ -25,7 +25,7 @@ public class IMConfiguration implements ConfigModule {
 
     @Override
     public void injectAppLifecycle(Context context, List<AppDelegate> lifecycles) {
-
+        lifecycles.add(new ImAppLifecycleImpl());
     }
 
     @Override
