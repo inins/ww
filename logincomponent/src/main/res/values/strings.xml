@@ -30,5 +30,7 @@
     <string name="login_phone_input_illegal">请输入正确的手机号</string>
     <string name="login_password_input_illegal">请按规则输入正确的密码</string>
     <string name="login_verify_code_input_illegal">请输入正确的验证码</string>
+    <string name="login_register_hint">点击注册即表示同意</string>
+    <string name="login_wang_wang_user_protocol">《往往用户协议》</string>
 
 </resources>

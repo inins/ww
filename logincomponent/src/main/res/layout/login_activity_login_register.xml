@@ -60,4 +60,30 @@
         android:layout_marginLeft="17dp"
         android:layout_marginRight="17dp"/>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_register_hint"
+            android:textColor="#ff999999"
+            android:textSize="12dp"
+            />
+        <TextView
+            android:id="@+id/user_protocol_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_wang_wang_user_protocol"
+            android:textColor="#ff999999"
+            android:textSize="12dp"
+            />
+    </LinearLayout>
+
 </RelativeLayout>
