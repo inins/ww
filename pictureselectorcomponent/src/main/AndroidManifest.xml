@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.wang.social.pictureselector">
+    <application
+        android:allowBackup="true"
+        android:supportsRtl="true">
+        <activity android:name=".ActivityPictureClip"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ActivityPictureSelector"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ActivityPicturePreview"
+            android:screenOrientation="portrait"/>
+    </application>
+
+</manifest>
