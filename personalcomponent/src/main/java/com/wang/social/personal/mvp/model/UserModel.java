@@ -19,7 +19,7 @@ import io.reactivex.Observable;
  * ========================================
  */
 @FragmentScope
-public class UserModel extends BaseModel{
+public class UserModel extends BaseModel {
 
     @Inject
     public UserModel(IRepositoryManager repositoryManager) {

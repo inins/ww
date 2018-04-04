@@ -44,6 +44,9 @@
         <item name="android:windowAnimationStyle">@null</item>
     </style>
 
+    <style name="common_loadingProgressBar" parent="Base.Widget.AppCompat.ProgressBar">
+    </style>
+
     <!--水平分割线-->
     <style name="common_Line_H">
         <item name="android:layout_width">match_parent</item>

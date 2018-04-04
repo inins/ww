@@ -6,9 +6,12 @@ import android.view.ViewGroup;
 
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
-import com.tencent.imsdk.TIMConversationType;
-import com.wang.social.im.entities.UIMessage;
+import com.wang.social.im.R;
+import com.wang.social.im.mvp.model.entities.UIMessage;
+import com.wang.social.im.enums.ConversationType;
 import com.wang.social.im.mvp.ui.adapters.holders.BaseMessageViewHolder;
+import com.wang.social.im.mvp.ui.adapters.holders.ImageViewHolder;
+import com.wang.social.im.mvp.ui.adapters.holders.TextViewHolder;
 
 /**
  * 消息列表适配器
@@ -38,15 +41,30 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
     //通知消息
     private final int TYPE_NOTIFY = 12;
 
-    private TIMConversationType mConversationType;
+    private ConversationType mConversationType;
 
-    public MessageListAdapter(TIMConversationType mConversationType) {
-        this.mConversationType = mConversationType;
+    public MessageListAdapter(ConversationType conversationType) {
+        this.mConversationType = conversationType;
     }
 
     @Override
     protected BaseViewHolder createViewHolder(Context context, ViewGroup parent, int viewType) {
-        return null;
+        BaseMessageViewHolder viewHolder = null;
+        switch (viewType) {
+            case TYPE_RECEIVE_TEXT:
+                viewHolder = new TextViewHolder(context, parent, R.layout.im_item_msg_text_left);
+                break;
+            case TYPE_SEND_TEXT:
+                viewHolder = new TextViewHolder(context, parent, R.layout.im_item_msg_text_right);
+                break;
+            case TYPE_RECEIVE_IMAGE:
+                viewHolder = new ImageViewHolder(context, parent, R.layout.im_item_msg_image_left);
+                break;
+            case TYPE_SEND_IMAGE:
+                viewHolder = new ImageViewHolder(context, parent, R.layout.im_item_msg_image_right);
+                break;
+        }
+        return viewHolder;
     }
 
     @Override

@@ -60,7 +60,7 @@ public class GlobalHttpHandlerImp implements GlobalHttpHandler {
         }});
         //添加公共请求头
         InterceptorUtils.addHeader(request, requestBuilder, new LinkedHashMap<String, Object>() {{
-            put("token", AppDataHelper.getToken());
+            put("Authorization", AppDataHelper.getToken());
         }});
 
         return requestBuilder.build();

@@ -14,4 +14,6 @@
     <dimen name="im_msg_background_radius">19dp</dimen>
     <dimen name="im_msg_text_size">14dp</dimen>
     <dimen name="im_msg_nickname_size">12dp</dimen>
+    <dimen name="im_msg_image_radius">12dp</dimen>
+    <dimen name="im_msg_item_space">11dp</dimen>
 </resources>

@@ -5,8 +5,11 @@ import com.frame.http.api.BaseJson;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.BaseModel;
 import com.wang.social.personal.mvp.contract.MeDetailContract;
+import com.wang.social.personal.mvp.entities.CommonEntity;
 import com.wang.social.personal.mvp.entities.QiniuTokenWrap;
 import com.wang.social.personal.mvp.model.api.UserService;
+
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -31,5 +34,12 @@ public class MeDetailModel extends BaseModel implements MeDetailContract.Model {
         return mRepositoryManager
                 .obtainRetrofitService(UserService.class)
                 .getQiniuToken();
+    }
+
+    @Override
+    public Observable<BaseJson<CommonEntity>> updateUserInfo(Map<String, Object> map) {
+        return mRepositoryManager
+                .obtainRetrofitService(UserService.class)
+                .updateUserInfo(map);
     }
 }

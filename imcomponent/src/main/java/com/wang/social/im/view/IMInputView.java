@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.frame.utils.KeyboardUtils;
 import com.tencent.imsdk.TIMConversationType;
 import com.wang.social.im.R;
+import com.wang.social.im.enums.ConversationType;
 import com.wang.social.im.view.emotion.Constants;
 import com.wang.social.im.view.emotion.EmojiBean;
 import com.wang.social.im.view.emotion.EmotionAdapter;
@@ -29,6 +30,8 @@ import com.wang.social.im.view.plugin.PluginModule;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.Setter;
+
 /**
  * Created by Bo on 2018-03-28.
  */
@@ -41,9 +44,12 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
 
     private PluginAdapter mPluginAdapter;
     private EmotionAdapter mEmotionAdapter;
-    private TIMConversationType mConversationType;
+    private ConversationType mConversationType;
 
     private boolean isKeyBoardActive;
+
+    @Setter
+    private IInputViewListener mInputViewListener;
 
     public IMInputView(Context context) {
         super(context);
@@ -146,25 +152,25 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
         mEmotionToggle.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mEmotionAdapter.isInitialed()){
-                    if (mEmotionAdapter.getVisibility() == VISIBLE){
+                if (mEmotionAdapter.isInitialed()) {
+                    if (mEmotionAdapter.getVisibility() == VISIBLE) {
                         mEmotionAdapter.setVisibility(GONE);
                         showInputKeyBoard();
-                    }else {
-                        if (isKeyBoardActive){
+                    } else {
+                        if (isKeyBoardActive) {
                             getHandler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     mEmotionAdapter.setVisibility(VISIBLE);
                                 }
                             }, 200L);
-                        }else {
+                        } else {
                             mEmotionAdapter.setVisibility(VISIBLE);
                         }
                         hideInputKeyBoard();
                         hidePluginBoard();
                     }
-                }else {
+                } else {
                     mEmotionAdapter.bindView(IMInputView.this);
                     mPluginAdapter.setVisibility(VISIBLE);
                     hideInputKeyBoard();
@@ -172,6 +178,15 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
                 }
                 mEditText.setVisibility(VISIBLE);
                 mVoiceInput.setVisibility(GONE);
+            }
+        });
+        mVoiceInput.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (mInputViewListener != null){
+                    mInputViewListener.onVoiceInputTouch(view, motionEvent);
+                }
+                return false;
             }
         });
     }
@@ -189,7 +204,7 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
     private void initPlugins() {
         mPluginAdapter.setPluginClickListener(this);
 
-        if (mConversationType == TIMConversationType.Group) {
+        if (mConversationType == ConversationType.SOCIAL) {
             mPluginAdapter.setPlugins(provideGroupPlugins());
         } else {
             mPluginAdapter.setPlugins(provideC2CPlugins());
@@ -201,7 +216,7 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
      *
      * @param conversationType
      */
-    public void setConversationType(TIMConversationType conversationType) {
+    public void setConversationType(ConversationType conversationType) {
         mConversationType = conversationType;
         initPlugins();
     }
@@ -248,6 +263,31 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
 
     @Override
     public void onPluginClick(PluginModule pluginModule) {
-        Toast.makeText(getContext(), getContext().getText(pluginModule.getPluginName()), Toast.LENGTH_SHORT).show();
+        if (mInputViewListener != null){
+            mInputViewListener.onPluginClick(pluginModule);
+        }
+    }
+
+    public interface IInputViewListener {
+
+        /**
+         *
+         * @param pluginModule
+         */
+        void onPluginClick(PluginModule pluginModule);
+
+        /**
+         * 语言输入
+         * @param view
+         * @param event
+         */
+        void onVoiceInputTouch(View view, MotionEvent event);
+
+        /**
+         * 表情选择
+         * @param codeName
+         * @param showName
+         */
+        void onEmotionClick(String codeName, String showName);
     }
 }

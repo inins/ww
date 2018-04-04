@@ -1,4 +1,4 @@
-package com.wang.social.im.entities;
+package com.wang.social.im.mvp.model.entities;
 
 import com.tencent.imsdk.TIMElem;
 
