@@ -31,6 +31,7 @@ import com.wang.social.personal.mvp.ui.activity.FeedbackActivity;
 import com.wang.social.personal.mvp.ui.activity.LableActivity;
 import com.wang.social.personal.mvp.ui.activity.MeDetailActivity;
 import com.wang.social.personal.mvp.ui.activity.SettingActivity;
+import com.wang.social.personal.net.helper.NetUserHelper;
 
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
@@ -64,6 +65,8 @@ public class PersonalFragment extends BasicFragment {
 
     @Inject
     ImageLoader mImageLoader;
+    @Inject
+    NetUserHelper netUserHelper;
 
     public static PersonalFragment newInstance() {
         Bundle args = new Bundle();
@@ -126,49 +129,8 @@ public class PersonalFragment extends BasicFragment {
                 AboutActivity.start(getContext());
                 break;
             case R.id.btn_me_eva:
-                userModel.login("18002247238", "111111")
-                        .subscribeOn(Schedulers.newThread())
-                        .doOnSubscribe(new Consumer<Disposable>() {
-                            @Override
-                            public void accept(Disposable disposable) throws Exception {
-                                Log.e("tag", "start");
-                            }
-                        })
-                        .subscribeOn(AndroidSchedulers.mainThread())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .doFinally(new Action() {
-                            @Override
-                            public void run() throws Exception {
-                                Log.e("tag", "end");
-                            }
-                        })
-                        .subscribe(new Observer<BaseJson<UserWrap>>() {
-                            @Override
-                            public void onSubscribe(Disposable d) {
-                                Log.e("tag", "onSubscribe");
-                            }
-
-                            @Override
-                            public void onNext(BaseJson<UserWrap> userWrap) {
-                                Log.e("tag", "onNext");
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                Log.e("tag", "onError");
-                                e.printStackTrace();
-                            }
-
-                            @Override
-                            public void onComplete() {
-                                Log.e("tag", "onComplete");
-                            }
-                        });
+                netUserHelper.loginTest();
                 break;
         }
     }
-
-    @Inject
-    @Nullable
-    UserModel userModel;
 }

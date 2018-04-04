@@ -12,10 +12,13 @@ import android.widget.TextView;
 
 import com.frame.base.BaseActivity;
 import com.frame.base.BasicActivity;
+import com.frame.component.entities.User;
+import com.frame.component.helper.AppDataHelper;
 import com.frame.di.component.AppComponent;
 import com.frame.di.component.DaggerAppComponent;
 import com.frame.di.scope.ActivityScope;
 import com.frame.http.imageloader.ImageLoader;
+import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.integration.IRepositoryManager;
 import com.frame.integration.RepositoryManager;
 import com.wang.social.personal.R;
@@ -42,7 +45,7 @@ import butterknife.BindView;
 import dagger.Component;
 import timber.log.Timber;
 
-public class MeDetailActivity extends BaseActivity<MeDetailPresonter> implements MeDetailContract.View {
+public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> implements MeDetailContract.View {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -67,7 +70,7 @@ public class MeDetailActivity extends BaseActivity<MeDetailPresonter> implements
     private DialogInput dialogInputName;
     private DialogInput dialogInputSign;
     @Inject
-    IRepositoryManager mRepositoryManager;
+    ImageLoader mImageLoader;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, MeDetailActivity.class);
@@ -88,14 +91,44 @@ public class MeDetailActivity extends BaseActivity<MeDetailPresonter> implements
         dialogphoto = new DialogBottomPhoto(this);
         dialogGender = new DialogBottomGender(this);
         dialogDate = new DialogDatePicker(this);
-        dialogInputName.setOnInputListener(text -> textName.setText(text));
-        dialogInputSign.setOnInputListener(text -> textSign.setText(text));
-        dialogAddress.setOnAddressSelectListener((province, city) -> textAddress.setText(province + city));
-        dialogDate.setOnDateChooseListener((year, month, day, astro, showText) -> textOld.setText(showText));
+        dialogInputName.setOnInputListener(text -> {
+            textName.setText(text);
+            mPresenter.updateUserName(text);
+        });
+        dialogInputSign.setOnInputListener(text -> {
+            textSign.setText(text);
+            mPresenter.updateUserSign(text);
+        });
+        dialogAddress.setOnAddressSelectListener((province, city) -> {
+            textAddress.setText(province + city);
+            mPresenter.updateUserAddress(province, city);
+        });
+        dialogDate.setOnDateChooseListener((year, month, day, astro, showText) -> {
+            textOld.setText(showText);
+            mPresenter.updateUserBirthday(year + "-" + month + "-" + day);
+        });
         dialogGender.setOnGenderSelectListener(gender -> {
             textGender.setText(gender);
             dialogGender.dismiss();
+            mPresenter.updateUserGender(gender);
         });
+
+        setUserData();
+    }
+
+    public void setUserData() {
+        User user = AppDataHelper.getUser();
+        if (user != null) {
+            mImageLoader.loadImage(this, ImageConfigImpl.
+                    builder()
+                    .imageView(imgHeader)
+                    .url(user.getAvatar())
+                    .build());
+            textName.setText(user.getNickname());
+            textGender.setText(user.getSexText());
+            textOld.setText(user.getBirthday());
+            textAddress.setText(user.getProvince() + user.getCity());
+        }
     }
 
     public void onClick(View v) {
@@ -120,7 +153,6 @@ public class MeDetailActivity extends BaseActivity<MeDetailPresonter> implements
                 break;
             case R.id.lay_photo:
                 dialogphoto.show();
-                mRepositoryManager.obtainRetrofitService(UserService.class).getQiniuToken();
                 break;
             case R.id.lay_sign:
                 dialogInputSign.setText(textSign.getText().toString());
@@ -141,12 +173,12 @@ public class MeDetailActivity extends BaseActivity<MeDetailPresonter> implements
 
     @Override
     public void showLoading() {
-        Timber.e("showLoading");
+        showLoadingDialog();
     }
 
     @Override
     public void hideLoading() {
-        Timber.e("hideLoading");
+        dismissLoadingDialog();
     }
 
     @Override

@@ -3,7 +3,10 @@ package com.wang.social.personal.mvp.contract;
 import com.frame.http.api.BaseJson;
 import com.frame.mvp.IModel;
 import com.frame.mvp.IView;
+import com.wang.social.personal.mvp.entities.CommonEntity;
 import com.wang.social.personal.mvp.entities.QiniuTokenWrap;
+
+import java.util.Map;
 
 import io.reactivex.Observable;
 
@@ -16,13 +19,15 @@ import io.reactivex.Observable;
 
 public interface MeDetailContract {
 
-    interface View extends IView{
+    interface View extends IView {
 
         void finishActivity();
     }
 
-    interface Model extends IModel{
+    interface Model extends IModel {
 
         Observable<BaseJson<QiniuTokenWrap>> getQiniuToken();
+
+        Observable<BaseJson<CommonEntity>> updateUserInfo(Map<String, Object> map);
     }
 }
