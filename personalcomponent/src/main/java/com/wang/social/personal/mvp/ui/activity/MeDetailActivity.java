@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.frame.base.BaseActivity;
 import com.frame.base.BasicActivity;
 import com.frame.di.component.AppComponent;
 import com.frame.di.component.DaggerAppComponent;
@@ -20,9 +21,12 @@ import com.frame.integration.RepositoryManager;
 import com.wang.social.personal.R;
 import com.wang.social.personal.data.db.AddressDataBaseManager;
 import com.wang.social.personal.di.component.DaggerActivityComponent;
+import com.wang.social.personal.di.module.MeDetailModule;
+import com.wang.social.personal.mvp.contract.MeDetailContract;
 import com.wang.social.personal.mvp.entities.City;
 import com.wang.social.personal.mvp.entities.Province;
 import com.wang.social.personal.mvp.model.api.UserService;
+import com.wang.social.personal.mvp.presonter.MeDetailPresonter;
 import com.wang.social.personal.mvp.ui.dialog.DialogAddressPicker;
 import com.wang.social.personal.mvp.ui.dialog.DialogBottomGender;
 import com.wang.social.personal.mvp.ui.dialog.DialogBottomPhoto;
@@ -38,8 +42,7 @@ import butterknife.BindView;
 import dagger.Component;
 import timber.log.Timber;
 
-@ActivityScope
-public class MeDetailActivity extends BasicActivity {
+public class MeDetailActivity extends BaseActivity<MeDetailPresonter> implements MeDetailContract.View {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -57,16 +60,14 @@ public class MeDetailActivity extends BasicActivity {
     TextView textPhoto;
     @BindView(R.id.text_sign)
     TextView textSign;
-
-    @Inject
-    IRepositoryManager mRepositoryManager;
-
     private DialogBottomGender dialogGender;
     private DialogBottomPhoto dialogphoto;
     private DialogAddressPicker dialogAddress;
     private DialogDatePicker dialogDate;
     private DialogInput dialogInputName;
     private DialogInput dialogInputSign;
+    @Inject
+    IRepositoryManager mRepositoryManager;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, MeDetailActivity.class);
@@ -101,6 +102,7 @@ public class MeDetailActivity extends BasicActivity {
         switch (v.getId()) {
             case R.id.lay_header:
                 new DialogSure(this, "测试消息提示").show();
+                mPresenter.uploadImg("xxxxx");
                 break;
             case R.id.lay_name:
                 dialogInputName.setText(textName.getText().toString());
@@ -132,7 +134,23 @@ public class MeDetailActivity extends BasicActivity {
         DaggerActivityComponent
                 .builder()
                 .appComponent(appComponent)
+                .meDetailModule(new MeDetailModule(this))
                 .build()
                 .inject(this);
+    }
+
+    @Override
+    public void showLoading() {
+        Timber.e("showLoading");
+    }
+
+    @Override
+    public void hideLoading() {
+        Timber.e("hideLoading");
+    }
+
+    @Override
+    public void finishActivity() {
+        Timber.e("finishActivity");
     }
 }

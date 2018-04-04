@@ -31,6 +31,10 @@ public class DataBaseUtil {
     //把数据库文件拷贝到应用目录下
     public static void packDataBase(Context context, String DB_NAME) {
         String dbPath = "/data/data/" + getAppProcessName(context) + "/databases/" + DB_NAME;
+        File file = new File(dbPath);
+        if (file.exists()){
+            file.delete();
+        }
         if (!new File(dbPath).exists()) {
             try {
                 FileOutputStream out = new FileOutputStream(dbPath);
@@ -39,6 +43,7 @@ public class DataBaseUtil {
                 int readBytes = 0;
                 while ((readBytes = in.read(buffer)) != -1)
                     out.write(buffer, 0, readBytes);
+                out.flush();
                 in.close();
                 out.close();
             } catch (IOException e) {

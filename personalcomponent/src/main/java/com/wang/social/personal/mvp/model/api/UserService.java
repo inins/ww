@@ -24,7 +24,7 @@ public interface UserService {
     /**
      * 获取七牛云上传token
      */
-    @FormUrlEncoded
+//    @FormUrlEncoded
     @POST("/common/upToken")
     Observable<BaseJson<QiniuTokenWrap>> getQiniuToken();
 }
