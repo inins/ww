@@ -8,8 +8,13 @@ import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
@@ -34,6 +39,55 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
         super(model, view);
     }
 
+    /**
+     * 密码登录
+     * @param mobile
+     * @param password
+     */
+    public void passwordLogin(String mobile, String password) {
+        Observable.interval(5, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Long>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        mRootView.showLoading();
+                    }
+
+                    @Override
+                    public void onNext(Long aLong) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        mRootView.hideLoading();
+                    }
+                });
+    }
+
+    /**
+     * 短信登录
+     * @param mobile
+     * @param code
+     */
+    public void messageLogin(String mobile, String code) {
+
+    }
+
+    /**
+     * 注册
+     * @param mobile
+     * @param code
+     * @param password
+     */
+    public void register(String mobile, String code, String password) {
+
+    }
 
 
     public void login(String mobile, String password) {

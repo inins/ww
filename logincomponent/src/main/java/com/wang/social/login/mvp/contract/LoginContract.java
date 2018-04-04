@@ -17,8 +17,6 @@ import io.reactivex.Observable;
 public interface LoginContract {
 
     interface View extends IView{
-
-        void gotoHome();
     }
 
     interface Model extends IModel{

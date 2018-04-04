@@ -12,12 +12,18 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.frame.base.BaseActivity;
 import com.frame.base.BasicActivity;
 import com.frame.utils.BarUtils;
 import com.frame.utils.ToastUtil;
 import com.wang.social.login.R;
 import com.frame.di.component.AppComponent;
 import com.frame.router.facade.annotation.RouteNode;
+import com.wang.social.login.di.component.DaggerLoginComponent;
+import com.wang.social.login.di.component.LoginComponent;
+import com.wang.social.login.di.module.LoginModule;
+import com.wang.social.login.mvp.contract.LoginContract;
+import com.wang.social.login.mvp.presenter.LoginPresenter;
 import com.wang.social.login.mvp.ui.widget.CountDownView;
 import com.wang.social.login.mvp.ui.widget.LoginFragment;
 import com.wang.social.login.utils.StringUtils;
@@ -28,7 +34,7 @@ import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 @RouteNode(path = "/login", desc = "登陆页")
-public class LoginActivity extends BasicActivity {
+public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginContract.View {
 
     public final static String NAME_LAUNCH_MODE = "NAME_LAUNCH_MODE";
     public final static String LAUNCH_MODE_PASSWORD_LOGIN = "MODE_PASSWORD_LOGIN";
@@ -74,7 +80,12 @@ public class LoginActivity extends BasicActivity {
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
-
+        DaggerLoginComponent
+                .builder()
+                .appComponent(appComponent)
+                .loginModule(new LoginModule(this))
+                .build()
+                .inject(this);
     }
 
     @Override
@@ -212,6 +223,9 @@ public class LoginActivity extends BasicActivity {
                 register();
                 break;
         }
+
+        // 隐藏软键盘
+        ViewUtils.hideSoftInputFromWindow(this, loginTV);
     }
 
     /**
@@ -232,7 +246,9 @@ public class LoginActivity extends BasicActivity {
             return;
         }
 
-        // 登录
+        // 密码登录
+        mPresenter.passwordLogin(phoneET.getText().toString(),
+                passwordET.getText().toString());
     }
 
     /**
@@ -253,7 +269,9 @@ public class LoginActivity extends BasicActivity {
             return;
         }
 
-        // 登录
+        // 短信登录
+        mPresenter.messageLogin(phoneET.getText().toString(),
+                verifyCodeET.getText().toString());
     }
 
     /**
@@ -281,6 +299,10 @@ public class LoginActivity extends BasicActivity {
             return;
         }
 
+        // 注册
+        mPresenter.register(phoneET.getText().toString(),
+                verifyCodeET.getText().toString(),
+                passwordET.getText().toString());
     }
 
     private boolean checkInputVerifyCode() {
@@ -305,5 +327,15 @@ public class LoginActivity extends BasicActivity {
 
     private void showInputPasswordIllegal() {
         ToastUtil.showToastShort(getString(R.string.login_password_input_illegal));
+    }
+
+    @Override
+    public void showLoading() {
+        ToastUtil.showToastShort("Loading");
+    }
+
+    @Override
+    public void hideLoading() {
+        ToastUtil.showToastShort("Completed");
     }
 }
