@@ -9,5 +9,13 @@ package com.frame.component.api;
 
 public interface Api {
 
+    /**
+     * 接口请求成功状态码
+     */
     int SUCCESS_CODE = 199999;
+
+    /**
+     * 七牛文件存储路径
+     */
+    String QINIU_PREFIX = "http://resouce.dongdongwedding.com/";
 }
