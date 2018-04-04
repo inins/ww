@@ -52,9 +52,9 @@ public class GlobalHttpHandlerImp implements GlobalHttpHandler {
         Request.Builder requestBuilder = request.newBuilder();
 
         //添加post公共参数
-//        InterceptorUtils.addFiled(request, requestBuilder, new LinkedHashMap<String, Object>() {{
-//            put("v", "2.0.0");
-//        }});
+        InterceptorUtils.addFiled(request, requestBuilder, new LinkedHashMap<String, Object>() {{
+            put("v", "2.0.0");
+        }});
         //添加url公共参数
         InterceptorUtils.addQuery(request, requestBuilder, new LinkedHashMap<String, Object>() {{
         }});

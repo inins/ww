@@ -100,8 +100,8 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
             mPresenter.updateUserSign(text);
         });
         dialogAddress.setOnAddressSelectListener((province, city) -> {
-            textAddress.setText(province + city);
-            mPresenter.updateUserAddress(province, city);
+            textAddress.setText(province.getName() + (city != null ? city.getName() : ""));
+            mPresenter.updateUserAddress(province.getId() + "", city != null ? city.getId() + "" : null);
         });
         dialogDate.setOnDateChooseListener((year, month, day, astro, showDate) -> {
             textOld.setText(showDate + " " + astro);
@@ -127,7 +127,9 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
             textName.setText(user.getNickname());
             textGender.setText(user.getSexText());
             textOld.setText(user.getBirthday());
-            textAddress.setText(user.getProvince() + user.getCity());
+            Province province = AddressDataBaseManager.getInstance().queryProvinceById(user.getProvinceInt());
+            City city = AddressDataBaseManager.getInstance().queryCityById(user.getCityInt());
+            textAddress.setText((province != null ? province.getName() : "") + (city != null ? city.getName() : ""));
             textSign.setText(user.getAutograph());
         }
     }

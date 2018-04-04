@@ -26,7 +26,7 @@ public interface UserService {
      */
     @FormUrlEncoded
     @POST("/login/password")
-    Observable<BaseJson<UserWrap>> login(@Field("mobile") String mobile, @Field("password") String password, @Field("v") String v);
+    Observable<BaseJson<UserWrap>> login(@Field("mobile") String mobile, @Field("password") String password);
 
     /**
      * 获取七牛云上传token

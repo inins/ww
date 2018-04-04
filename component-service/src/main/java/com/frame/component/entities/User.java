@@ -1,5 +1,7 @@
 package com.frame.component.entities;
 
+import com.frame.utils.StrUtil;
+
 import java.io.Serializable;
 
 /**
@@ -44,6 +46,14 @@ public class User implements Serializable {
         } else {
             return "";
         }
+    }
+
+    public int getProvinceInt() {
+        return StrUtil.str2int(province);
+    }
+
+    public int getCityInt() {
+        return StrUtil.str2int(city);
     }
 
     /////////////////////////////////

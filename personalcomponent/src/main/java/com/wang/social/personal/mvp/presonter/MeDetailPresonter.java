@@ -106,7 +106,6 @@ public class MeDetailPresonter extends BasePresenter<MeDetailContract.Model, MeD
                 .put("autograph", autograph)
                 .put("province", province)
                 .put("city", city)
-                .put("v","2.0.0")
                 .build();
         mModel.updateUserInfo(map)
                 .subscribeOn(Schedulers.newThread())
