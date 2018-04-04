@@ -7,7 +7,7 @@ import java.io.Serializable;
  * 用户实体
  */
 
-public class User implements Serializable{
+public class User implements Serializable {
 
     /**
      * id : 1
@@ -29,7 +29,24 @@ public class User implements Serializable{
     private long createTime;
     private String phone;
     private String birthday;
+    private String province;
+    private String city;
     private String constellation;
+    private String autograph;
+
+    /////////////////////////////////
+
+    public String getSexText() {
+        if (sex == 0) {
+            return "男";
+        } else if (sex == 1) {
+            return "女";
+        } else {
+            return "";
+        }
+    }
+
+    /////////////////////////////////
 
     public int getId() {
         return id;
@@ -41,6 +58,14 @@ public class User implements Serializable{
 
     public int getUserId() {
         return userId;
+    }
+
+    public String getAutograph() {
+        return autograph;
+    }
+
+    public void setAutograph(String autograph) {
+        this.autograph = autograph;
     }
 
     public void setUserId(int userId) {
@@ -87,7 +112,24 @@ public class User implements Serializable{
         this.phone = phone;
     }
 
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
     public String getBirthday() {
+
         return birthday;
     }
 

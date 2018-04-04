@@ -11,6 +11,16 @@ import java.io.Serializable;
 public class UserWrap implements Serializable{
     private User userInfo;
 
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     public User getUserInfo() {
         return userInfo;
     }
