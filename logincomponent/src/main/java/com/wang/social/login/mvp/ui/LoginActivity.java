@@ -73,7 +73,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     TextView loginTV; // 登录
 
 
-    String launchMode = LAUNCH_MODE_MESSAGE_LOGIN;
+    String launchMode = LAUNCH_MODE_PASSWORD_LOGIN;
 
     private DialogFragmentLoading mDialogLoading;
 

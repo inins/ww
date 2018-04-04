@@ -59,12 +59,39 @@ public interface LoginService {
      * @return
      */
     @FormUrlEncoded
-    @POST("user/register")
-    Observable<BaseJson<LoginInfoDTO>> userRegister(
+    @POST("user/preVerifyForForgetPassword")
+    Observable<BaseJson<LoginInfoDTO>> preVerifyForForgetPassword(
             @Field("mobile") String mobile,
             @Field("code") String code,
             @Field("password") String password,
             @Field("adCode") String adCode);
+
+    /**
+     * 修改/重置密码（前置验证）验证验证码
+     * @param mobile
+     * @param code
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("user/register")
+    Observable<BaseJson<LoginInfoDTO>> userRegister(
+            @Field("mobile") String mobile,
+            @Field("code") String code);
+
+
+    /**
+     * 修改/重置密码（公共）
+     * @param mobile
+     * @param code
+     * @param password
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("user/forgetPassword")
+    Observable<BaseJson<LoginInfoDTO>> userForgetPassword(
+            @Field("mobile") String mobile,
+            @Field("code") String code,
+            @Field("password") String password);
 
     /**
      * 手机号码加短信验证码登录
@@ -84,7 +111,7 @@ public interface LoginService {
     @POST("common/sendVerifyCode")
     Observable<BaseJson<LoginInfoDTO>> sendVerifyCode(
             @Field("mobile") String mobile,
-            @Field("code") int type,
+            @Field("type") int type,
             @Field("sign") String sign);
 
 
