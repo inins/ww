@@ -16,7 +16,7 @@ import dagger.Component;
  * ========================================
  */
 @ActivityScope
-@Component(modules = {UserModule.class, MeDetailModule.class}, dependencies = AppComponent.class)
-public interface ActivityComponent {
-    void inject(MeDetailActivity activity);
+@Component(dependencies = AppComponent.class)
+public interface SingleActivityComponent {
+    void inject(AccountActivity activity);
 }

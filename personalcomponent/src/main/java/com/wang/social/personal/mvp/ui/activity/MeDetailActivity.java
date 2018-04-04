@@ -137,8 +137,8 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.lay_header:
-                new DialogSure(this, "测试消息提示").show();
-//                mPresenter.uploadImg("xxxxx");
+//                new DialogSure(this, "测试消息提示").show();
+                mPresenter.updateUserAvatar("xxxxx");
                 break;
             case R.id.lay_name:
                 dialogInputName.setText(textName.getText().toString());

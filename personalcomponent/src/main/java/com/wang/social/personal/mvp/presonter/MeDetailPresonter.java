@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.frame.component.entities.User;
 import com.frame.component.helper.AppDataHelper;
+import com.frame.component.helper.QiNiuManager;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
@@ -40,45 +41,59 @@ public class MeDetailPresonter extends BasePresenter<MeDetailContract.Model, MeD
     RxErrorHandler mErrorHandler;
     @Inject
     ApiHelper mApiHelper;
+    @Inject
+    QiNiuManager qiNiuManager;
 
     @Inject
     public MeDetailPresonter(MeDetailContract.Model model, MeDetailContract.View view) {
         super(model, view);
     }
 
-    public void uploadImg(String path) {
-        mModel.getQiniuToken()
-                .subscribeOn(Schedulers.newThread())
-                .doOnSubscribe(new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        mRootView.showLoading();
-                    }
-                })
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doFinally(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mRootView.hideLoading();
-                    }
-                })
-                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
-                .subscribe(new ErrorHandleSubscriber<BaseJson<QiniuTokenWrap>>(mErrorHandler) {
-                    @Override
-                    public void onNext(BaseJson<QiniuTokenWrap> baseJson) {
-                        QiniuTokenWrap wrap = baseJson.getData();
-                        Timber.e(wrap.getToken());
-                    }
-                });
-    }
+//    public void uploadImg(String path) {
+//        mModel.getQiniuToken()
+//                .subscribeOn(Schedulers.newThread())
+//                .doOnSubscribe(new Consumer<Disposable>() {
+//                    @Override
+//                    public void accept(Disposable disposable) throws Exception {
+//                        mRootView.showLoading();
+//                    }
+//                })
+//                .subscribeOn(AndroidSchedulers.mainThread())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .doFinally(new Action() {
+//                    @Override
+//                    public void run() throws Exception {
+//                        mRootView.hideLoading();
+//                    }
+//                })
+//                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+//                .subscribe(new ErrorHandleSubscriber<BaseJson<QiniuTokenWrap>>(mErrorHandler) {
+//                    @Override
+//                    public void onNext(BaseJson<QiniuTokenWrap> baseJson) {
+//                        QiniuTokenWrap wrap = baseJson.getData();
+//                        Timber.e(wrap.getToken());
+//                    }
+//                });
+//    }
 
     public void updateUserName(String nickname) {
         updateUserInfo(nickname, null, null, null, null, null, null);
     }
 
     public void updateUserAvatar(String avatar) {
-        updateUserInfo(null, avatar, null, null, null, null, null);
+        mRootView.showLoading();
+        qiNiuManager.uploadFile(mRootView, avatar, new QiNiuManager.OnSingleUploadListener() {
+            @Override
+            public void onSuccess(String url) {
+                updateUserInfo(null, url, null, null, null, null, null);
+            }
+
+            @Override
+            public void onFail() {
+                ToastUtil.showToastLong("上传失败");
+                mRootView.hideLoading();
+            }
+        });
     }
 
     public void updateUserGender(String gender) {

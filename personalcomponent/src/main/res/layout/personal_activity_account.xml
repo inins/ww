@@ -75,6 +75,7 @@
                     android:textSize="@dimen/personal_text_small" />
 
                 <TextView
+                    android:id="@+id/text_all"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -90,6 +91,7 @@
                 <View style="@style/common_Line_H" />
 
                 <TextView
+                    android:id="@+id/text_coulduse"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal|bottom"

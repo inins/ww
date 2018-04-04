@@ -1,6 +1,7 @@
 package com.wang.social.personal.mvp.model.api;
 
 import com.frame.http.api.BaseJson;
+import com.wang.social.personal.mvp.entities.AccountBalance;
 import com.wang.social.personal.mvp.entities.CommonEntity;
 import com.wang.social.personal.mvp.entities.QiniuTokenWrap;
 import com.wang.social.personal.mvp.entities.UserWrap;
@@ -11,6 +12,7 @@ import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
@@ -48,4 +50,7 @@ public interface UserService {
     @FormUrlEncoded
     @POST("/app/userInfo/changeInfo")
     Observable<BaseJson<CommonEntity>> updateUserInfo(@FieldMap Map<String, Object> param);
+
+    @GET("/app/userWallet/accountBalance")
+    Observable<BaseJson<AccountBalance>> accountBalance();
 }

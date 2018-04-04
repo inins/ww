@@ -37,11 +37,13 @@ public class InterceptorUtils {
     public static void addQuery(Request request, Request.Builder requestBuilder, Map<String, Object> paramMap) {
         if (StrUtil.isEmpty(paramMap) || request == null || requestBuilder == null)
             return;
-        HttpUrl.Builder urlBuilder = request.url().newBuilder();
-        for (Map.Entry<String, Object> entry : paramMap.entrySet()) {
-            urlBuilder.addQueryParameter(entry.getKey(), String.valueOf(entry.getValue()));
+        if (request.method().equals("GET")) {
+            HttpUrl.Builder urlBuilder = request.url().newBuilder();
+            for (Map.Entry<String, Object> entry : paramMap.entrySet()) {
+                urlBuilder.addQueryParameter(entry.getKey(), String.valueOf(entry.getValue()));
+            }
+            requestBuilder.url(urlBuilder.build());
         }
-        requestBuilder.url(urlBuilder.build());
     }
     //添加公共请求头
     public static void addHeader(Request request, Request.Builder requestBuilder, Map<String, Object> paramMap) {
