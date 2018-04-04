@@ -13,20 +13,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.frame.base.BaseActivity;
-import com.frame.base.BasicActivity;
 import com.frame.utils.BarUtils;
 import com.frame.utils.ToastUtil;
 import com.wang.social.login.R;
 import com.frame.di.component.AppComponent;
 import com.frame.router.facade.annotation.RouteNode;
 import com.wang.social.login.di.component.DaggerLoginComponent;
-import com.wang.social.login.di.component.LoginComponent;
 import com.wang.social.login.di.module.LoginModule;
 import com.wang.social.login.mvp.contract.LoginContract;
 import com.wang.social.login.mvp.presenter.LoginPresenter;
 import com.wang.social.login.mvp.ui.widget.CountDownView;
-import com.wang.social.login.mvp.ui.widget.DialogLoading;
-import com.wang.social.login.mvp.ui.widget.LoginFragment;
+import com.wang.social.login.mvp.ui.widget.DialogFragmentLoading;
 import com.wang.social.login.utils.StringUtils;
 import com.wang.social.login.utils.ViewUtils;
 
@@ -34,7 +31,7 @@ import butterknife.BindView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
-@RouteNode(path = "/passwordLogin", desc = "登陆页")
+@RouteNode(path = "/login", desc = "登陆页")
 public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginContract.View {
 
     public final static String NAME_LAUNCH_MODE = "NAME_LAUNCH_MODE";
@@ -78,7 +75,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     String launchMode = LAUNCH_MODE_MESSAGE_LOGIN;
 
-    private DialogLoading mDialogLoading;
+    private DialogFragmentLoading mDialogLoading;
 
 
     @Override
@@ -365,19 +362,12 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void showLoading() {
-        if (null == mDialogLoading) {
-            mDialogLoading = new DialogLoading(this);
-        }
-
-        mDialogLoading.show();
+        mDialogLoading = DialogFragmentLoading.showDialog(getSupportFragmentManager(), TAG);
     }
 
     @Override
     public void hideLoading() {
-        if (null != mDialogLoading) {
-            mDialogLoading.cancel();
-            mDialogLoading = null;
-        }
+        mDialogLoading.dismiss();
     }
 
     @Override
