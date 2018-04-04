@@ -82,8 +82,8 @@ public class DialogDatePicker extends BaseDialog implements View.OnClickListener
                     int month = mDatePicker.getMonth();
                     int day = mDatePicker.getDay();
                     String astro = text_astro.getText().toString();
-                    String showText = year + "-" + numberFormat.format(month) + "-" + numberFormat.format(day) + " " + astro;
-                    mOnDateChooseListener.onDateChoose(year, month, day, astro, showText);
+                    String showDate = year + "-" + numberFormat.format(month) + "-" + numberFormat.format(day);
+                    mOnDateChooseListener.onDateChoose(year, month, day, astro, showDate);
                 }
                 dismiss();
                 break;
@@ -94,13 +94,14 @@ public class DialogDatePicker extends BaseDialog implements View.OnClickListener
 
     public void setDate(String dateStr) {
         if (TextUtils.isEmpty(dateStr)) return;
-        dateStr = dateStr.substring(dateStr.indexOf(" "));
+        if (dateStr.indexOf(" ") != -1)
+            dateStr = dateStr.substring(dateStr.indexOf(" "));
         String[] split = dateStr.split("-");
         if (split == null || split.length < 3) return;
         int year = Integer.parseInt(split[0]);
         int mouth = Integer.parseInt(split[1]);
         int day = Integer.parseInt(split[2]);
-        mDatePicker.setDate(year, mouth, day);
+        mDatePicker.setDate(year, mouth, day, false);
     }
 
     ///////////////////////////
@@ -112,6 +113,6 @@ public class DialogDatePicker extends BaseDialog implements View.OnClickListener
     }
 
     public interface OnDateChooseListener {
-        void onDateChoose(int year, int month, int day, String astro, String showText);
+        void onDateChoose(int year, int month, int day, String astro, String showDate);
     }
 }

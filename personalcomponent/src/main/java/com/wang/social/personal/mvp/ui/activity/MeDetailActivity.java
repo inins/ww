@@ -103,9 +103,9 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
             textAddress.setText(province + city);
             mPresenter.updateUserAddress(province, city);
         });
-        dialogDate.setOnDateChooseListener((year, month, day, astro, showText) -> {
-            textOld.setText(showText);
-            mPresenter.updateUserBirthday(year + "-" + month + "-" + day);
+        dialogDate.setOnDateChooseListener((year, month, day, astro, showDate) -> {
+            textOld.setText(showDate + " " + astro);
+            mPresenter.updateUserBirthday(showDate);
         });
         dialogGender.setOnGenderSelectListener(gender -> {
             textGender.setText(gender);
@@ -128,6 +128,7 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
             textGender.setText(user.getSexText());
             textOld.setText(user.getBirthday());
             textAddress.setText(user.getProvince() + user.getCity());
+            textSign.setText(user.getAutograph());
         }
     }
 
@@ -135,7 +136,7 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
         switch (v.getId()) {
             case R.id.lay_header:
                 new DialogSure(this, "测试消息提示").show();
-                mPresenter.uploadImg("xxxxx");
+//                mPresenter.uploadImg("xxxxx");
                 break;
             case R.id.lay_name:
                 dialogInputName.setText(textName.getText().toString());

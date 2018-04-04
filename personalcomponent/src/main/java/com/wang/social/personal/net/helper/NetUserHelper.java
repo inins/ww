@@ -4,6 +4,7 @@ import com.frame.component.entities.User;
 import com.frame.component.helper.AppDataHelper;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
+import com.frame.http.api.error.RxErrorHandler;
 import com.frame.integration.IRepositoryManager;
 import com.frame.utils.RxLifecycleUtils;
 import com.wang.social.personal.mvp.entities.QiniuTokenWrap;
@@ -26,19 +27,21 @@ import timber.log.Timber;
 public class NetUserHelper {
 
     IRepositoryManager mRepositoryManager;
+    RxErrorHandler mErrorHandler;
 
     @Inject
-    public NetUserHelper(IRepositoryManager mRepositoryManager) {
+    public NetUserHelper(IRepositoryManager mRepositoryManager, RxErrorHandler mErrorHandler) {
         this.mRepositoryManager = mRepositoryManager;
+        this.mErrorHandler = mErrorHandler;
     }
 
     public void loginTest() {
-        mRepositoryManager.obtainRetrofitService(UserService.class).login("18002247238", "111111")
+        mRepositoryManager.obtainRetrofitService(UserService.class).login("18002247238", "111111", "2.0.0")
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<BaseJson<UserWrap>>() {
+                .subscribe(new ErrorHandleSubscriber<BaseJson<UserWrap>>(mErrorHandler) {
                     @Override
-                    public void accept(BaseJson<UserWrap> base) throws Exception {
+                    public void onNext(BaseJson<UserWrap> base) {
                         UserWrap wrap = base.getData();
                         User user = wrap.getUserInfo();
                         AppDataHelper.saveUser(user);

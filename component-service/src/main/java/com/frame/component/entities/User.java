@@ -32,6 +32,7 @@ public class User implements Serializable {
     private String province;
     private String city;
     private String constellation;
+    private String autograph;
 
     /////////////////////////////////
 
@@ -57,6 +58,14 @@ public class User implements Serializable {
 
     public int getUserId() {
         return userId;
+    }
+
+    public String getAutograph() {
+        return autograph;
+    }
+
+    public void setAutograph(String autograph) {
+        this.autograph = autograph;
     }
 
     public void setUserId(int userId) {

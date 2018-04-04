@@ -11,6 +11,7 @@ import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
 import com.frame.utils.RxLifecycleUtils;
+import com.frame.utils.ToastUtil;
 import com.wang.social.personal.common.NetParam;
 import com.wang.social.personal.mvp.contract.MeDetailContract;
 import com.wang.social.personal.mvp.entities.CommonEntity;
@@ -105,6 +106,7 @@ public class MeDetailPresonter extends BasePresenter<MeDetailContract.Model, MeD
                 .put("autograph", autograph)
                 .put("province", province)
                 .put("city", city)
+                .put("v","2.0.0")
                 .build();
         mModel.updateUserInfo(map)
                 .subscribeOn(Schedulers.newThread())
@@ -127,15 +129,22 @@ public class MeDetailPresonter extends BasePresenter<MeDetailContract.Model, MeD
                     @Override
                     public void onNext(BaseJson<CommonEntity> baseJson) {
                         User user = AppDataHelper.getUser();
-                        if (user == null) user = new User();
-                        if (TextUtils.isEmpty(nickname)) user.setNickname(nickname);
-                        if (TextUtils.isEmpty(avatar)) user.setAvatar(avatar);
+                        if (user == null) return;
+                        if (!TextUtils.isEmpty(nickname)) user.setNickname(nickname);
+                        if (!TextUtils.isEmpty(avatar)) user.setAvatar(avatar);
                         if (sex != null) user.setSex(sex);
-                        if (TextUtils.isEmpty(birthday)) user.setBirthday(birthday);
-//                        if (TextUtils.isEmpty(province)) user.se(province);
-//                        if (TextUtils.isEmpty(city)) user.setc(city);
-//                        if (TextUtils.isEmpty(autograph)) user.set(autograph);
+                        if (!TextUtils.isEmpty(birthday)) user.setBirthday(birthday);
+                        if (!TextUtils.isEmpty(province)) user.setProvince(province);
+                        if (!TextUtils.isEmpty(city)) user.setCity(city);
+                        if (TextUtils.isEmpty(autograph)) user.setAutograph(autograph);
+                        AppDataHelper.saveUser(user);
                         mRootView.finishActivity();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+//                        super.onError(e);
+                        ToastUtil.showToastShort(e.getMessage());
                     }
                 });
     }
