@@ -19,7 +19,6 @@ public interface CommonService {
     /**
      * 获取七牛云上传token
      */
-    @FormUrlEncoded
     @POST("/common/upToken")
     Observable<BaseJson<QiNiuDTO>> getQiNiuToken();
 }

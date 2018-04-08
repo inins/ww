@@ -26,7 +26,7 @@ public abstract class BaseDialog extends Dialog {
     private View root;
 
     public BaseDialog(Context context) {
-        this(context, R.style.common_PopupDialog);
+        this(context, R.style.common_MyDialog);
     }
 
     public BaseDialog(Context context, int themeResId) {
