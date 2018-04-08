@@ -1,8 +1,10 @@
 package com.wang.social.personal.mvp.model.api;
 
 import com.frame.http.api.BaseJson;
+import com.frame.http.api.BaseListJson;
 import com.wang.social.personal.mvp.entities.AccountBalance;
 import com.wang.social.personal.mvp.entities.CommonEntity;
+import com.wang.social.personal.mvp.entities.Lable;
 import com.wang.social.personal.mvp.entities.QiniuTokenWrap;
 import com.wang.social.personal.mvp.entities.UserWrap;
 
@@ -53,4 +55,12 @@ public interface UserService {
 
     @GET("/app/userWallet/accountBalance")
     Observable<BaseJson<AccountBalance>> accountBalance();
+
+    //个性标签
+    @GET("/app/tag/showtag")
+    Observable<BaseListJson<Lable>> getShowtag();
+
+    //个人标签
+    @GET("/app/tag/selftags")
+    Observable<BaseListJson<Lable>> getSelftags();
 }

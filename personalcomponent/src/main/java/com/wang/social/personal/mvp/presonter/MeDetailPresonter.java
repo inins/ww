@@ -49,33 +49,6 @@ public class MeDetailPresonter extends BasePresenter<MeDetailContract.Model, MeD
         super(model, view);
     }
 
-//    public void uploadImg(String path) {
-//        mModel.getQiniuToken()
-//                .subscribeOn(Schedulers.newThread())
-//                .doOnSubscribe(new Consumer<Disposable>() {
-//                    @Override
-//                    public void accept(Disposable disposable) throws Exception {
-//                        mRootView.showLoading();
-//                    }
-//                })
-//                .subscribeOn(AndroidSchedulers.mainThread())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .doFinally(new Action() {
-//                    @Override
-//                    public void run() throws Exception {
-//                        mRootView.hideLoading();
-//                    }
-//                })
-//                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
-//                .subscribe(new ErrorHandleSubscriber<BaseJson<QiniuTokenWrap>>(mErrorHandler) {
-//                    @Override
-//                    public void onNext(BaseJson<QiniuTokenWrap> baseJson) {
-//                        QiniuTokenWrap wrap = baseJson.getData();
-//                        Timber.e(wrap.getToken());
-//                    }
-//                });
-//    }
-
     public void updateUserName(String nickname) {
         updateUserInfo(nickname, null, null, null, null, null, null);
     }

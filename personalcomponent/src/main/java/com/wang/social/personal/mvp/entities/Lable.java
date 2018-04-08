@@ -1,5 +1,7 @@
 package com.wang.social.personal.mvp.entities;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 /**
@@ -7,7 +9,17 @@ import java.io.Serializable;
  */
 
 public class Lable implements Serializable{
+
+    /**
+     * "id": 2,
+     "tagName": "标签名称",
+     "isMi": 1
+     */
+
+    private int id;
+    @SerializedName("tagName")
     private String name;
+    @SerializedName("isMi")
     private boolean showTag;
 
     public Lable() {
