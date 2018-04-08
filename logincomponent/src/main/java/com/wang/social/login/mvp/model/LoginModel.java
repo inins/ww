@@ -7,6 +7,7 @@ import com.frame.di.scope.ActivityScope;
 import com.frame.http.api.BaseJson;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.BaseModel;
+import com.wang.social.login.utils.SignUtils;
 
 import javax.inject.Inject;
 
@@ -27,10 +28,10 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
     }
 
     @Override
-    public Observable<BaseJson<LoginInfoDTO>> passwordLogin(String mobile, String password, String sign) {
+    public Observable<BaseJson<LoginInfoDTO>> passwordLogin(String mobile, String password) {
         return mRepositoryManager
                 .obtainRetrofitService(LoginService.class)
-                .passwordLogin(mobile, password, sign);
+                .passwordLogin(mobile, password, SignUtils.getSign(mobile, password));
     }
 
     @Override

@@ -48,7 +48,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
      */
     public void passwordLogin(String mobile, String password) {
         mApiHelper.execute(mRootView,
-                mModel.passwordLogin(mobile, password, ""),
+                mModel.passwordLogin(mobile, password),
                 new ErrorHandleSubscriber<LoginInfo>(mErrorHandler) {
 
                     @Override

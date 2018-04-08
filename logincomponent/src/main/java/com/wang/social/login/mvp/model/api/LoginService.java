@@ -3,8 +3,11 @@ package com.wang.social.login.mvp.model.api;
 import com.wang.social.login.mvp.model.entities.dto.LoginInfoDTO;
 import com.frame.http.api.BaseJson;
 
+import java.util.Map;
+
 import io.reactivex.Observable;
 import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
