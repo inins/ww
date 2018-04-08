@@ -70,6 +70,9 @@ public class DialogBottomPhoto extends BaseDialog implements View.OnClickListene
                 if (onPhotoListener != null) onPhotoListener.onPhotoClick(view);
                 dismiss();
                 break;
+            case R.id.btn_cancel:
+                dismiss();
+                break;
         }
     }
 

@@ -1,5 +1,10 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- 标签选择页面Tab文字样式 -->
+    <style name="login_TagSelectionTabText" parent="@android:style/TextAppearance.Holo.Large">
+        <item name="android:textSize">18sp</item>
+    </style>
+
     <!-- 手机号码输入框规则 -->
     <style name="login_phoneInputStyle">
         <item name="android:inputType">phone</item>

@@ -62,29 +62,37 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <ImageView
-                    android:id="@+id/header"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_gravity="center_horizontal"
-                    android:src="@drawable/default_header" />
-
-                <TextView
+                <LinearLayout
+                    android:id="@+id/lay_nameboard"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="5dp"
-                    android:text="白无常白先生"
-                    android:textColor="@color/common_text_blank"
-                    android:textSize="20sp" />
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="5dp"
-                    android:text="编辑你的资料>"
-                    android:textSize="12sp" />
+                    <ImageView
+                        android:id="@+id/img_header"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/default_header" />
+
+                    <TextView
+                        android:id="@+id/text_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="白无常白先生"
+                        android:textColor="@color/common_text_blank"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="编辑你的资料>"
+                        android:textSize="12sp" />
+                </LinearLayout>
 
                 <Space style="@style/common_Space_V" />
 
@@ -97,9 +105,10 @@
                     android:paddingRight="20dp">
 
                     <TextView
+                        android:id="@+id/text_count_sq"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="120"
+                        android:text="0"
                         android:textColor="@color/common_text_blank"
                         android:textSize="23sp" />
 
@@ -114,9 +123,10 @@
                     <Space style="@style/common_Space_H" />
 
                     <TextView
+                        android:id="@+id/text_count_ht"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="45"
+                        android:text="0"
                         android:textColor="@color/common_text_blank"
                         android:textSize="23sp" />
 

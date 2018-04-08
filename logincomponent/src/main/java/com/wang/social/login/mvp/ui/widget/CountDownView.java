@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 
-import com.frame.utils.ToastUtil;
+import com.wang.social.login.R;
 
 import java.util.concurrent.TimeUnit;
 
@@ -13,13 +13,11 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.disposables.Disposables;
-import timber.log.Timber;
 
 public class CountDownView extends AppCompatTextView {
 
     // 倒计时时间
-    final int count = 10;
+    final int count = 30;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     CharSequence charSequence;
 
@@ -54,23 +52,35 @@ public class CountDownView extends AppCompatTextView {
                     @Override
                     public void onSubscribe(Disposable d) {
                         compositeDisposable.add(d);
+                        CountDownView.this.setBackground(
+                                getContext()
+                                        .getResources()
+                                        .getDrawable(R.drawable.login_shape_rect_corner_stroke_gray));
                     }
 
                     @Override
                     public void onNext(Long aLong) {
-                        CountDownView.this.setText(Long.toString(count - aLong));
+                        CountDownView.this.setText(Long.toString(count - aLong) + " S");
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         setEnabled(true);
                         CountDownView.this.setText(charSequence);
+                        CountDownView.this.setBackground(
+                                getContext()
+                                        .getResources()
+                                        .getDrawable(R.drawable.login_shape_rect_corner_stroke_blue_deep));
                     }
 
                     @Override
                     public void onComplete() {
                         setEnabled(true);
                         CountDownView.this.setText(charSequence);
+                        CountDownView.this.setBackground(
+                                getContext()
+                                        .getResources()
+                                        .getDrawable(R.drawable.login_shape_rect_corner_stroke_blue_deep));
                     }
                 });
     }

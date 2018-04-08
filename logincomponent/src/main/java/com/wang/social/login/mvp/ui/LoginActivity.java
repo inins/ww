@@ -71,6 +71,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     TextView switchLoginRegisterTV; // 切换登录注册模式
     @BindView(R.id.login_text_view)
     TextView loginTV; // 登录
+    @BindView(R.id.user_protocol_layout)
+    View userProtocolLayout;
 
 
     String launchMode = LAUNCH_MODE_PASSWORD_LOGIN;
@@ -108,6 +110,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             switchLoginTV.setVisibility(View.VISIBLE);
             thirdPartyLoginLayout.setVisibility(View.VISIBLE);
             forgotPasswordTV.setVisibility(View.VISIBLE);
+            userProtocolLayout.setVisibility(View.GONE);
             switchLoginTV.setText(getString(R.string.login_message_login));
             titleTV.setText(getString(R.string.login_login));
             loginTV.setText(getString(R.string.login_login));
@@ -120,6 +123,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             switchLoginTV.setVisibility(View.VISIBLE);
             thirdPartyLoginLayout.setVisibility(View.VISIBLE);
             forgotPasswordTV.setVisibility(View.INVISIBLE);
+            userProtocolLayout.setVisibility(View.GONE);
             switchLoginTV.setText(getString(R.string.login_password_login));
             titleTV.setText(getString(R.string.login_login));
             switchLoginRegisterTV.setText(getString(R.string.login_go_to_register));
@@ -130,6 +134,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             switchLoginTV.setVisibility(View.INVISIBLE);
             thirdPartyLoginLayout.setVisibility(View.GONE);
             forgotPasswordTV.setVisibility(View.GONE);
+            userProtocolLayout.setVisibility(View.VISIBLE);
             titleTV.setText(getString(R.string.login_register));
             loginTV.setText(getString(R.string.login_register));
             passwordET.setHint(R.string.login_password_set_hint);
@@ -236,6 +241,14 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @OnClick(R.id.weibo_image_view)
     public void weiboLogin() {
 
+    }
+
+    /**
+     * 显示用户协议
+     */
+    @OnClick(R.id.user_protocol_text_view)
+    public void userProtocol() {
+        UserProtocolActivity.start(this);
     }
 
     /**

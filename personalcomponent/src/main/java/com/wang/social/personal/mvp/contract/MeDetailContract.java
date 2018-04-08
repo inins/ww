@@ -21,7 +21,7 @@ public interface MeDetailContract {
 
     interface View extends IView {
 
-        void finishActivity();
+        void setHeaderImg(String url);
     }
 
     interface Model extends IModel {

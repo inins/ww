@@ -36,8 +36,19 @@ public class DialogSure extends BaseDialogOkCancel {
     @Override
     protected void intViewOnCreate(View root) {
         super.intViewOnCreate(root);
-//        textTitle.setText(title);
-//        textNote.setText(note);
-//        editInput.setHint(hint);
+        textTitle.setText(title);
+    }
+
+    public static void showDialog(Context context, String title, OnSureCallback callback) {
+        DialogSure dialogSure = new DialogSure(context, title);
+        dialogSure.setOkClickListener((view -> {
+            if (callback != null) callback.onOkClick();
+            dialogSure.dismiss();
+        }));
+        dialogSure.show();
+    }
+
+    public interface OnSureCallback {
+        void onOkClick();
     }
 }

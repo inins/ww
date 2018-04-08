@@ -4,27 +4,25 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.frame.base.BasicFragment;
 import com.frame.component.entities.User;
-import com.frame.component.ui.acticity.WebActivity;
-import com.frame.http.api.ApiHelper;
-import com.frame.http.api.BaseJson;
+import com.frame.component.helper.AppDataHelper;
+import com.frame.di.component.AppComponent;
 import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
-import com.frame.utils.DataHelper;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
-import com.frame.base.BaseFragment;
-import com.frame.di.component.AppComponent;
 import com.wang.social.personal.data.db.AddressDataBaseManager;
 import com.wang.social.personal.di.component.DaggerFragmentComponent;
 import com.wang.social.personal.di.module.UserModule;
-import com.wang.social.personal.mvp.entities.UserWrap;
-import com.wang.social.personal.mvp.model.UserModel;
+import com.wang.social.personal.mvp.entities.City;
+import com.wang.social.personal.mvp.entities.Province;
 import com.wang.social.personal.mvp.ui.activity.AboutActivity;
 import com.wang.social.personal.mvp.ui.activity.AccountActivity;
 import com.wang.social.personal.mvp.ui.activity.FeedbackActivity;
@@ -33,20 +31,12 @@ import com.wang.social.personal.mvp.ui.activity.MeDetailActivity;
 import com.wang.social.personal.mvp.ui.activity.SettingActivity;
 import com.wang.social.personal.net.helper.NetUserHelper;
 
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
-
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
+import butterknife.Unbinder;
 
 /**
  * ========================================
@@ -58,15 +48,27 @@ import io.reactivex.schedulers.Schedulers;
 
 public class PersonalFragment extends BasicFragment {
 
-    @BindView(R2.id.header)
-    ImageView header;
     @BindView(R2.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.btn_left)
+    ImageView btnLeft;
+    @BindView(R.id.btn_right)
+    ImageView btnRight;
+    @BindView(R.id.img_header)
+    ImageView imgHeader;
+    @BindView(R.id.text_name)
+    TextView textName;
+    @BindView(R.id.text_count_sq)
+    TextView textCountSq;
+    @BindView(R.id.text_count_ht)
+    TextView textCountHt;
 
     @Inject
     ImageLoader mImageLoader;
     @Inject
     NetUserHelper netUserHelper;
+
+    Unbinder unbinder;
 
     public static PersonalFragment newInstance() {
         Bundle args = new Bundle();
@@ -92,11 +94,19 @@ public class PersonalFragment extends BasicFragment {
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         toolbar.bringToFront();
-        mImageLoader.loadImage(mActivity, ImageConfigImpl.
-                builder()
-                .imageView(header)
-                .url("http://resouce.dongdongwedding.com/2017-08-08_rtUbDxhH.png")
-                .build());
+        setUserData();
+    }
+
+    private void setUserData() {
+        User user = AppDataHelper.getUser();
+        if (user != null) {
+            mImageLoader.loadImage(getContext(), ImageConfigImpl.
+                    builder()
+                    .imageView(imgHeader)
+                    .url(user.getAvatar())
+                    .build());
+            textName.setText(user.getNickname());
+        }
     }
 
     @Override
@@ -104,10 +114,10 @@ public class PersonalFragment extends BasicFragment {
 
     }
 
-    @OnClick({R2.id.header, R2.id.btn_right, R2.id.btn_me_account, R2.id.btn_me_lable, R2.id.btn_me_feedback, R2.id.btn_me_share, R2.id.btn_me_about, R2.id.btn_me_eva})
+    @OnClick({R2.id.lay_nameboard, R2.id.btn_right, R2.id.btn_me_account, R2.id.btn_me_lable, R2.id.btn_me_feedback, R2.id.btn_me_share, R2.id.btn_me_about, R2.id.btn_me_eva})
     public void onViewClicked(View v) {
         switch (v.getId()) {
-            case R.id.header:
+            case R.id.lay_nameboard:
                 AddressDataBaseManager.init();
                 MeDetailActivity.start(getContext());
                 break;
@@ -132,5 +142,19 @@ public class PersonalFragment extends BasicFragment {
                 netUserHelper.loginTest();
                 break;
         }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        unbinder = ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }

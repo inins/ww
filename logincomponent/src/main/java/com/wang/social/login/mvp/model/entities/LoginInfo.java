@@ -16,6 +16,5 @@ import lombok.Data;
 @Data
 public class LoginInfo {
     private String token;
-    private String rongCloudToken;
     private User userInfo;
 }

@@ -117,6 +117,7 @@ public class QiNiuManager {
         if (TextUtils.isEmpty(path)) {
             return;
         }
+        view.showLoading();
         getToken(view, new OnTokenListener() {
             @Override
             public void success(final String token) {
@@ -140,6 +141,7 @@ public class QiNiuManager {
 
                     @Override
                     public void onNext(String strings) {
+                        view.hideLoading();
                         if (onSingleUploadListener != null) {
                             onSingleUploadListener.onSuccess(strings);
                         }
@@ -147,6 +149,7 @@ public class QiNiuManager {
 
                     @Override
                     public void onError(Throwable e) {
+                        view.hideLoading();
                         if (onSingleUploadListener != null) {
                             onSingleUploadListener.onFail();
                         }
@@ -176,8 +179,6 @@ public class QiNiuManager {
      */
     private String getToken(IView view, final OnTokenListener onTokenListener) {
         Observable<BaseJson<QiNiuDTO>> observable = mRepositoryManager.obtainRetrofitService(CommonService.class).getQiNiuToken();
-        observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
         if (view != null) {
             observable.compose(RxLifecycleUtils.bindToLifecycle(view));
         }
@@ -187,6 +188,8 @@ public class QiNiuManager {
                 return t.getData().transform();
             }
         })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<QiNiu>() {
                     @Override
                     public void onSubscribe(Disposable d) {
@@ -200,6 +203,7 @@ public class QiNiuManager {
 
                     @Override
                     public void onError(Throwable e) {
+                        e.printStackTrace();
                         onTokenListener.fail();
                     }
 
