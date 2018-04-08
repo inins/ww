@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/login_verify_phone"
-            android:textColor="#ff333333"
+            android:textColor="@color/common_text_blank"
             android:textSize="29sp"
             android:layout_marginTop="100dp"
             />
@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/login_verify_phone_hint"
-            android:textColor="#ff666666"
+            android:textColor="@color/common_text_blank_dark"
             android:textSize="14sp"
             android:layout_marginTop="24dp"
             />
@@ -41,7 +41,7 @@
             android:id="@+id/phone_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#ff333333"
+            android:textColor="@color/common_text_blank"
             android:textSize="17sp"
             android:layout_marginTop="7dp"
             />

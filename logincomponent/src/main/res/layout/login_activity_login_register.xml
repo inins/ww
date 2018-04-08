@@ -82,7 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/login_wang_wang_user_protocol"
-            android:textColor="#189AFF"
+            android:textColor="@color/common_blue_deep"
             android:textSize="12dp"
             />
     </LinearLayout>
