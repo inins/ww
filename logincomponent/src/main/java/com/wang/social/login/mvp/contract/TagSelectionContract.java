@@ -11,6 +11,8 @@ import io.reactivex.Observable;
 public interface TagSelectionContract {
     interface View extends IView {
         void showToast(String msg);
+
+        void resetTabView(Tags tags);
     }
 
 

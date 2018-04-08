@@ -1,56 +1,66 @@
 package com.wang.social.login.mvp.ui.widget;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.beloo.widget.chipslayoutmanager.SpacingItemDecoration;
-import com.frame.base.BasicFragment;
+import com.frame.base.BaseFragment;
 import com.frame.di.component.AppComponent;
 import com.frame.utils.SizeUtils;
-import com.frame.utils.ToastUtil;
 import com.wang.social.login.R;
+import com.wang.social.login.di.component.DaggerTagListComponent;
+import com.wang.social.login.di.module.TagListModule;
+import com.wang.social.login.mvp.contract.TagListContract;
 import com.wang.social.login.mvp.model.entities.Tag;
+import com.wang.social.login.mvp.presenter.TagListPresenter;
 import com.wang.social.login.mvp.ui.widget.adapter.TagAdapter;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import timber.log.Timber;
 
-public class TagListFragment extends BasicFragment {
+public class TagListFragment extends BaseFragment<TagListPresenter> implements
+        TagListContract.View {
     public final static String MODE_SELECTION = "MODE_SELECTION";
     public final static String MODE_DELETE = "MODE_DELETE";
+    public final static String NAME_SELECTED_LIST = "NAME_SELECTED_LIST";
+    public final static String NAME_PARENT_ID = "NAME_PARENT_ID";
 
-    public static TagListFragment newInstance(TagListListener tagListListener) {
+    /**
+     *  返回TagListFragment
+     * @param list 选中列表(主要在 兴趣大杂烩时使用)
+     * @return
+     */
+    public static TagListFragment newInstance(int parentId, ArrayList<Tag> list) {
         TagListFragment fragment = new TagListFragment();
-        fragment.setTagListListener(tagListListener);
+
+        Bundle bundle = new Bundle();
+        bundle.putInt(NAME_PARENT_ID, parentId);
+        if (null != list) {
+            bundle.putParcelableArrayList(NAME_SELECTED_LIST, list);
+        }
+        fragment.setArguments(bundle);
         return fragment;
     }
 
-    public interface TagListListener {
-        /**
-         * 选中
-         * @param tag
-         */
-        void onSelected(Tag tag);
+    @Override
+    public void showLoading() {
 
-        /**
-         *  取消选中
-         * @param tag
-         */
-        void onUnselected(Tag tag);
+    }
 
-        /**
-         * 删除
-         * @param tag
-         */
-        void onDelete(Tag tag);
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void tagListChanged() {
+        tagAdapter.notifyDataSetChanged();
     }
 
     @BindView(R.id.recycler_view)
@@ -59,17 +69,18 @@ public class TagListFragment extends BasicFragment {
     TagAdapter tagAdapter;
     String mode = MODE_SELECTION;
 
-    TagListListener tagListListener;
+    // 父标签id
+    int parentId = 0;
 
     private TagAdapter.TagDataProvider tagDataProvider = new TagAdapter.TagDataProvider() {
         @Override
         public int getItemCount() {
-            return list.size();
+            return mPresenter.getTagCount();
         }
 
         @Override
         public Tag getItem(int position) {
-            return list.get(position);
+            return mPresenter.getTag(position);
         }
 
         @Override
@@ -81,36 +92,23 @@ public class TagListFragment extends BasicFragment {
     private TagAdapter.TagClickListener tagClickListener = new TagAdapter.TagClickListener() {
         @Override
         public void onTagClick(Tag tag) {
-            if (null != tag) {
-                tag.clickTag();
-
-                if (null != tagListListener) {
-                    if (tag.isPersonalTag()) {
-                        // 选中
-                        tagListListener.onSelected(tag);
-                    } else {
-                        // 取消
-                        tagListListener.onUnselected(tag);
-                    }
-                }
-
-                tagAdapter.notifyDataSetChanged();
-            }
+            boolean selected = mPresenter.tagClick(tag);
         }
 
         @Override
         public void onDelete(Tag tag) {
-            ToastUtil.showToastLong("delete " + tag.getId() + " " + tag.getTagName());
+            // 将tag从列表删除
+            mPresenter.removeTag(tag);
         }
     };
 
-    public void setTagListListener(TagListListener tagListListener) {
-        this.tagListListener = tagListListener;
-    }
-
     @Override
     public void setupFragmentComponent(@NonNull AppComponent appComponent) {
-
+        DaggerTagListComponent.builder()
+                .appComponent(appComponent)
+                .tagListModule(new TagListModule(this))
+                .build()
+                .inject(this);
     }
 
     @Override
@@ -118,55 +116,28 @@ public class TagListFragment extends BasicFragment {
         return R.layout.login_fragment_tag_list;
     }
 
-    private Tag getTagById(int id) {
-        for (Tag tag : list) {
-            if (tag.getId() == id) {
-                return tag;
-            }
-        }
 
-        return null;
-    }
-
-
-    final String[] names = {
-        "徒步旅行",
-            "猫咪",
-            "容多肉植物",
-            "火锅",
-            "狗狗",
-            "互联网",
-            "火锅",
-            "狗狗",
-            "互联网",
-            "火锅",
-            "狗狗",
-            "互联网",
-            "火锅",
-            "狗狗",
-            "互联网",
-            "中国好声音",
-            "健身",
-            "互联网",
-            "成都麻将",
-            "容多肉植物"
-    };
-    private List<Tag> list = new ArrayList<>();
-    private void initTestData() {
-        for (int i = 0; i < 50; i++) {
-            Tag tag = new Tag();
-            tag.setId(i);
-            tag.setTagName(names[i % names.length]);
-            list.add(tag);
-        }
-    }
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        initTestData();
+        List<Tag> selectedList = null;
+        if (getArguments() != null) {
+            selectedList = getArguments().getParcelableArrayList(NAME_SELECTED_LIST);
+            parentId = getArguments().getInt(NAME_PARENT_ID);
+        }
+
+        if (null != selectedList && selectedList.size() > 0) {
+            // 如果有传选中list做来，则说明是删除模式
+            mPresenter.setSelectedList(selectedList);
+            mode = MODE_DELETE;
+        } else {
+            // 没有传入选中列表，则需要加载数据
+            mPresenter.loadTagList(parentId);
+        }
 
         tagAdapter = new TagAdapter(getContext(), tagDataProvider, tagClickListener);
 
+        // RecyclerView 相关设置
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setLayoutManager(
                 ChipsLayoutManager.newBuilder(getContext())
@@ -181,4 +152,6 @@ public class TagListFragment extends BasicFragment {
     public void setData(@Nullable Object data) {
 
     }
+
+
 }
