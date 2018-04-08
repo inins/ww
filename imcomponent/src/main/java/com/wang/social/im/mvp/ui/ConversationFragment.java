@@ -2,6 +2,7 @@ package com.wang.social.im.mvp.ui;
 
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import android.view.View;
 
 import com.frame.base.BaseFragment;
 import com.frame.di.component.AppComponent;
+import com.frame.utils.SizeUtils;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMManager;
@@ -26,9 +28,11 @@ import com.wang.social.im.mvp.ui.adapters.MessageListAdapter;
 import com.wang.social.im.view.IMInputView;
 import com.wang.social.im.view.plugin.PluginModule;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import timber.log.Timber;
 
 /**
  * ======================================
@@ -49,6 +53,9 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
 
     private MessageListAdapter mAdapter;
     private TIMConversation mConversation;
+    private LinearLayoutManager mLayoutManager;
+
+    private float mTouchDownY;
 
     public static ConversationFragment newInstance(ConversationType conversationType, String targetId) {
         Bundle args = new Bundle();
@@ -79,11 +86,11 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
         mTargetId = getArguments().getString("targetId");
 
         TIMConversationType timConversationType;
-        if (mConversationType == ConversationType.PRIVATE){
+        if (mConversationType == ConversationType.PRIVATE) {
             timConversationType = TIMConversationType.C2C;
-        }else if (mConversationType == ConversationType.SOCIAL || mConversationType == ConversationType.TEAM || mConversationType == ConversationType.MIRROR){
+        } else if (mConversationType == ConversationType.SOCIAL || mConversationType == ConversationType.TEAM || mConversationType == ConversationType.MIRROR) {
             timConversationType = TIMConversationType.Group;
-        }else {
+        } else {
             throw new IllegalArgumentException("Unknown conversation type!");
         }
         mConversation = TIMManager.getInstance().getConversation(timConversationType, mTargetId);
@@ -91,8 +98,9 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
 
         fcInput.setMInputViewListener(this);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity);
-        fcMessageList.setLayoutManager(layoutManager);
+        fcInput.setConversationType(mConversationType);
+        mLayoutManager = new LinearLayoutManager(mActivity);
+        fcMessageList.setLayoutManager(mLayoutManager);
         fcMessageList.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
@@ -108,6 +116,22 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
         mPresenter.setAdapter(mAdapter);
 
         mPresenter.getHistoryMessage();
+
+        setListener();
+    }
+
+    private void setListener() {
+        fcMessageList.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    mTouchDownY = event.getY();
+                } else if (event.getY() - mTouchDownY > SizeUtils.dp2px(20)) {
+                    fcInput.collapse();
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -127,12 +151,43 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
 
     @Override
     public void showMessages(List<UIMessage> uiMessages) {
-        mAdapter.addItem(uiMessages);
+        if (mAdapter.getData() == null) {
+            mAdapter.refreshData(uiMessages);
+        } else {
+            mAdapter.addItem(uiMessages);
+        }
+        fcMessageList.smoothScrollToPosition(mAdapter.getItemCount() - 1);
+    }
+
+    @Override
+    public void showMessage(UIMessage uiMessage) {
+        boolean needScroll = true;
+        int lastVisiblePosition = mLayoutManager.findLastVisibleItemPosition();
+        if (mAdapter.getItemCount() - lastVisiblePosition > 3) {
+            needScroll = false;
+        }
+        if (mAdapter.getData() == null) {
+            List<UIMessage> list = new ArrayList<>();
+            list.add(uiMessage);
+            mAdapter.refreshData(list);
+        } else {
+            mAdapter.addItem(uiMessage);
+        }
+        //如果最新消息没有显示在可见区域则不进行滚动
+        if (needScroll) {
+            fcMessageList.smoothScrollToPosition(mAdapter.getItemCount() - 1);
+        }
     }
 
     @Override
     public void insertMessages(List<UIMessage> uiMessages) {
-        mAdapter.insertItem(0, uiMessages);
+        if (mAdapter.getData() == null) {
+            mAdapter.refreshData(uiMessages);
+
+            fcMessageList.scrollToPosition(mAdapter.getData().size() - 1);
+        } else {
+            mAdapter.insertItem(0, uiMessages);
+        }
     }
 
     @Override
@@ -152,6 +207,16 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
 
     @Override
     public void onSendClick(String content) {
+        mPresenter.sendTextMessage(content);
+    }
+
+    @Override
+    public void onInputViewExpanded() {
+        fcMessageList.scrollToPosition(mAdapter.getData().size() - 1);
+    }
+
+    @Override
+    public void onInputViewCollapsed() {
 
     }
 }

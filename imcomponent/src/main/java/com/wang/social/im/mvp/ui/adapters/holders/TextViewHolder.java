@@ -18,6 +18,7 @@ import com.wang.social.im.mvp.model.entities.UIMessage;
 import com.wang.social.im.view.emotion.EmojiDisplay;
 
 import butterknife.BindView;
+import io.reactivex.annotations.Nullable;
 
 /**
  * ==========================================
@@ -35,6 +36,7 @@ public class TextViewHolder extends BaseMessageViewHolder<UIMessage> {
     @BindView(R.id.msg_tv_time)
     TextView msgTvTime;
     @BindView(R.id.msg_tv_name)
+    @Nullable
     TextView msgTvName;
 
     public TextViewHolder(Context context, ViewGroup root, int layoutRes) {
@@ -51,18 +53,35 @@ public class TextViewHolder extends BaseMessageViewHolder<UIMessage> {
         }
 
         TIMUserProfile profile = itemValue.getTimMessage().getSenderProfile();
+        String faceUrl;
+        if (itemValue.getTimMessage().isSelf()) {
+            faceUrl = getSelfFaceUrl();
+        } else {
+            if (showNickname) {
+                msgTvName.setVisibility(View.VISIBLE);
+                if (profile != null) {
+                    msgTvName.setText(profile.getRemark());
+                    faceUrl = profile.getFaceUrl();
+                } else {
+                    msgTvName.setText("");
+                    faceUrl = "";
+                }
+            } else {
+                msgTvName.setVisibility(View.GONE);
+                if (profile != null) {
+                    faceUrl = profile.getFaceUrl();
+                } else {
+                    faceUrl = "";
+                }
+            }
+        }
+
         mImageLoader.loadImage(getContext(), ImageConfigImpl.builder()
-                .placeholder(R.drawable.common_default_placehohlder)
+                .placeholder(R.drawable.common_default_circle_placehohlder)
                 .imageView(msgIvPortrait)
                 .isCircle(true)
-                .url(profile.getFaceUrl())
+                .url(faceUrl)
                 .build());
-        if (!itemValue.getTimMessage().isSelf() && showNickname){
-            msgTvName.setVisibility(View.VISIBLE);
-            msgTvName.setText(profile.getRemark());
-        }else {
-            msgTvName.setVisibility(View.GONE);
-        }
 
         TIMMessage timMessage = itemValue.getTimMessage();
         for (int i = 0, max = (int) timMessage.getElementCount(); i < max; i++) {

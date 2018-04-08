@@ -18,6 +18,8 @@ public interface ConversationContract {
 
         void showMessages(List<UIMessage> uiMessages);
 
+        void showMessage(UIMessage uiMessage);
+
         void insertMessages(List<UIMessage> uiMessages);
     }
 

@@ -5,6 +5,7 @@ import com.tencent.imsdk.TIMCustomElem;
 import com.tencent.imsdk.TIMElem;
 import com.tencent.imsdk.TIMElemType;
 import com.tencent.imsdk.TIMMessage;
+import com.tencent.imsdk.TIMMessageStatus;
 import com.wang.social.im.enums.MessageScope;
 import com.wang.social.im.enums.MessageType;
 
@@ -42,8 +43,12 @@ public class UIMessage {
 
     public static List<UIMessage> obtain(List<TIMMessage> timMessages) {
         List<UIMessage> uiMessages = new ArrayList<>();
-        for (TIMMessage message : timMessages){
-            uiMessages.add(obtain(message));
+        for (int i = timMessages.size() - 1; i >= 0; i--) {
+            TIMMessage timMessage = timMessages.get(i);
+            if (timMessage.status() == TIMMessageStatus.HasDeleted){ //若消息已经删除则不显示
+                continue;
+            }
+            uiMessages.add(UIMessage.obtain(timMessage));
         }
         return uiMessages;
     }
