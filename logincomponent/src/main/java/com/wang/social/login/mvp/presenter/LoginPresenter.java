@@ -163,6 +163,8 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
                     @Override
                     public void onNext(Object o) {
                         mRootView.showToast(o.toString());
+
+                        mRootView.onSendVerifyCodeSuccess();
                     }
 
                     @Override

@@ -42,5 +42,8 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateVisible">
         </activity>
+        <activity android:name=".mvp.ui.UserProtocolActivity"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 </manifest>
