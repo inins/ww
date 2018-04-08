@@ -7,14 +7,19 @@ import com.wang.social.login.mvp.model.entities.dto.LoginInfoDTO;
 
 import io.reactivex.Observable;
 
-public interface ResetPasswordContract {
+public interface VerifyPhoneContract {
     interface View extends IView {
         void showToast(String msg);
+
+        /**
+         *  验证码验证成功
+         */
+        void onCheckVerifyCodeSuccess(String mobile, String code);
     }
 
 
     interface Model extends IModel {
-        Observable<BaseJson> userForgetPassword(
-                String mobile, String code, String password);
+        Observable<BaseJson> preVerifyForForgetPassword(
+                String mobile, String code);
     }
 }

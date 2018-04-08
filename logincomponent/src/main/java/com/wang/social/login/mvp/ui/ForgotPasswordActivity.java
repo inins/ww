@@ -46,8 +46,6 @@ public class ForgotPasswordActivity extends BaseActivity<ForgotPasswordPresenter
     @BindView(R.id.get_verify_code)
     View getVerifyCodeView;
 
-    private String mMobile;
-
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
         DaggerForgotPasswordComponent.builder()
@@ -81,9 +79,9 @@ public class ForgotPasswordActivity extends BaseActivity<ForgotPasswordPresenter
     public void getVerifyCode() {
         ViewUtils.hideSoftInputFromWindow(this, phoneEditText);
 
-        mMobile = phoneEditText.getText().toString();
+        String mobile = phoneEditText.getText().toString();
 
-        if (StringUtils.isMobileNO(mMobile)) {
+        if (StringUtils.isMobileNO(mobile)) {
             /**
              * 用途类型
              （注册 type=1;
@@ -92,7 +90,7 @@ public class ForgotPasswordActivity extends BaseActivity<ForgotPasswordPresenter
              更换手机号 type=5;
              短信登录 type=6）
              */
-            mPresenter.sendVerifyCode(mMobile, 2);
+            mPresenter.sendVerifyCode(mobile, 2);
         } else {
             showToast(getString(R.string.login_phone_input_illegal));
         }
@@ -100,13 +98,13 @@ public class ForgotPasswordActivity extends BaseActivity<ForgotPasswordPresenter
 
     @Override
     public void showToast(String msg) {
-        ToastUtil.showToastShort(msg);
+        ToastUtil.showToastLong(msg);
     }
 
     @Override
-    public void onSendVerifyCodeSuccess() {
+    public void onSendVerifyCodeSuccess(String mobile) {
         // 获取验证码成功，跳转到输入验证码界面
-        VerifyPhoneActivity.start(this, mMobile);
+        VerifyPhoneActivity.start(this, mobile);
 
         finish();
     }

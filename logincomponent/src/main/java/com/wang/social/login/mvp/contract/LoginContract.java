@@ -33,10 +33,10 @@ public interface LoginContract {
         Observable<BaseJson<LoginInfoDTO>> verifyCodeLogin(
                 String mobile, String code, String sign, String adCode);
 
-        Observable<BaseJson<LoginInfoDTO>> userRegister(
+        Observable<BaseJson> userRegister(
                 String mobile, String code, String password, String adCode);
 
-        Observable<BaseJson<LoginInfoDTO>> sendVerifyCode(
+        Observable<BaseJson> sendVerifyCode(
                 String mobile, int type, String sign);
     }
 }

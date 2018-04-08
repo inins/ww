@@ -59,8 +59,8 @@ public interface LoginService {
      * @return
      */
     @FormUrlEncoded
-    @POST("user/preVerifyForForgetPassword")
-    Observable<BaseJson<LoginInfoDTO>> preVerifyForForgetPassword(
+    @POST("user/register")
+    Observable<BaseJson> userRegister(
             @Field("mobile") String mobile,
             @Field("code") String code,
             @Field("password") String password,
@@ -73,8 +73,8 @@ public interface LoginService {
      * @return
      */
     @FormUrlEncoded
-    @POST("user/register")
-    Observable<BaseJson<LoginInfoDTO>> userRegister(
+    @POST("user/preVerifyForForgetPassword")
+    Observable<BaseJson> preVerifyForForgetPassword(
             @Field("mobile") String mobile,
             @Field("code") String code);
 
@@ -88,7 +88,7 @@ public interface LoginService {
      */
     @FormUrlEncoded
     @POST("user/forgetPassword")
-    Observable<BaseJson<LoginInfoDTO>> userForgetPassword(
+    Observable<BaseJson> userForgetPassword(
             @Field("mobile") String mobile,
             @Field("code") String code,
             @Field("password") String password);
@@ -109,7 +109,7 @@ public interface LoginService {
      */
     @FormUrlEncoded
     @POST("common/sendVerifyCode")
-    Observable<BaseJson<LoginInfoDTO>> sendVerifyCode(
+    Observable<BaseJson> sendVerifyCode(
             @Field("mobile") String mobile,
             @Field("type") int type,
             @Field("sign") String sign);

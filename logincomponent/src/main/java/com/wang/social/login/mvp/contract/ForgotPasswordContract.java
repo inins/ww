@@ -14,12 +14,12 @@ public interface ForgotPasswordContract {
         /**
          * 获取验证码成功的回调
          */
-        void onSendVerifyCodeSuccess();
+        void onSendVerifyCodeSuccess(String mobile);
     }
 
 
     interface Model extends IModel {
-        Observable<BaseJson<LoginInfoDTO>> sendVerifyCode(
+        Observable<BaseJson> sendVerifyCode(
                 String mobile, int type, String sign);
     }
 }
