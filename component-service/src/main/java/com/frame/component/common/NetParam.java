@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Random;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -42,9 +43,9 @@ public class NetParam {
 
     public NetParam putSignature() {
         if (StrUtil.isEmpty(paramMap)) return this;
-        if (!paramMap.containsKey("nonceStr")) return this;
-        String nonceStr = String.valueOf(paramMap.get("nonceStr"));
-        paramMap.put("signature", PayUtil.signStr(MapUtil.transLinkedHashMap(paramMap), nonceStr));
+        String randomInt = String.valueOf(new Random().nextInt());
+        paramMap.put("nonceStr",randomInt);
+        paramMap.put("signature", PayUtil.signStr(MapUtil.transLinkedHashMap(paramMap), randomInt));
         return this;
     }
 
