@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.frame.base.App;
 import com.frame.base.delegate.AppDelegate;
+import com.frame.component.app.Constant;
 import com.frame.utils.FrameUtils;
 import com.tencent.imsdk.TIMConnListener;
 import com.tencent.imsdk.TIMGroupMemberInfo;
@@ -56,7 +57,7 @@ public class ImAppLifecycleImpl implements AppDelegate {
      */
     private void imSdkInit(Application application) {
         //初始化SDK基本配置
-        TIMSdkConfig config = new TIMSdkConfig(1)
+        TIMSdkConfig config = new TIMSdkConfig(Constant.IM_APPID)
                 .enableCrashReport(false) //是否开启Crash上报
                 .enableLogPrint(BuildConfig.LOG_DEBUG) //设置是否打印日志
                 .setLogLevel(TIMLogLevel.DEBUG) //设置日志打印级别

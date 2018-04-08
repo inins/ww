@@ -9,5 +9,8 @@ package com.frame.component.app;
  */
 public interface Constant {
 
+    /**
+     * 云通信IM SDK AppID
+     */
     int IM_APPID = 1400075076;
 }
