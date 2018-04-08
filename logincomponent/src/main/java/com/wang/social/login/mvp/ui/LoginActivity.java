@@ -372,7 +372,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void showToast(String msg) {
-        ToastUtil.showToastShort(msg);
+        ToastUtil.showToastLong(msg);
     }
 
     @Override

@@ -8,17 +8,26 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.frame.base.BaseActivity;
 import com.frame.base.BasicActivity;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
+import com.frame.utils.ToastUtil;
 import com.wang.social.login.R;
+import com.wang.social.login.di.component.DaggerVerifyPhoneComponent;
+import com.wang.social.login.di.module.VerifyPhoneModule;
+import com.wang.social.login.mvp.contract.VerifyPhoneContract;
+import com.wang.social.login.mvp.presenter.VerifyPhonePresenter;
+import com.wang.social.login.mvp.ui.widget.DialogFragmentLoading;
 import com.wang.social.login.mvp.ui.widget.VerificationCodeInput;
 import com.wang.social.login.utils.Keys;
 import com.wang.social.login.utils.ViewUtils;
 
 import butterknife.BindView;
+import timber.log.Timber;
 
-public class VerifyPhoneActivity extends BasicActivity {
+public class VerifyPhoneActivity extends BaseActivity<VerifyPhonePresenter> implements
+    VerifyPhoneContract.View{
 
     public static void start(Context context, String mobile) {
         Intent intent = new Intent(context, VerifyPhoneActivity.class);
@@ -42,7 +51,11 @@ public class VerifyPhoneActivity extends BasicActivity {
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
-
+        DaggerVerifyPhoneComponent.builder()
+                .appComponent(appComponent)
+                .verifyPhoneModule(new VerifyPhoneModule(this))
+                .build()
+                .inject(this);
     }
 
     @Override
@@ -54,6 +67,8 @@ public class VerifyPhoneActivity extends BasicActivity {
     public void initData(@NonNull Bundle savedInstanceState) {
         // 上面传来的号码
         mMobile = getIntent().getStringExtra(Keys.NAME_MOBILE);
+
+        Timber.i("mobile = " + mMobile);
 
         toolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
             @Override
@@ -71,11 +86,35 @@ public class VerifyPhoneActivity extends BasicActivity {
             @Override
             public void onComplete(String content) {
 //                Toast.makeText(VerifyPhoneActivity.this, "验证码 : " +content, Toast.LENGTH_SHORT).show();
-                // 跳转到重设验证码页面
-                ResetPasswordActivity.start(VerifyPhoneActivity.this, mMobile, content);
+                // 验证验证码
+                mPresenter.checkVerifyCode(mMobile, content);
             }
         });
 
         ViewUtils.controlKeyboardLayout(contentRoot, sendAgainTextView);
+    }
+
+    @Override
+    public void showToast(String msg) {
+        ToastUtil.showToastLong(msg);
+    }
+
+    @Override
+    public void onCheckVerifyCodeSuccess(String mobile, String code) {
+        // 验证码验证成功，跳转到修改密码界面
+        ResetPasswordActivity.start(this, mobile, code);
+
+        finish();
+    }
+
+    private DialogFragmentLoading mLoadingDialog;
+    @Override
+    public void showLoading() {
+        mLoadingDialog = DialogFragmentLoading.showDialog(getSupportFragmentManager(), TAG);
+    }
+
+    @Override
+    public void hideLoading() {
+        mLoadingDialog.dismiss();
     }
 }

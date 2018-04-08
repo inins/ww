@@ -4,7 +4,7 @@ import com.frame.di.scope.ActivityScope;
 import com.frame.http.api.BaseJson;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.BaseModel;
-import com.wang.social.login.mvp.contract.ForgotPasswordContract;
+import com.wang.social.login.mvp.contract.VerifyPhoneContract;
 import com.wang.social.login.mvp.model.api.LoginService;
 import com.wang.social.login.mvp.model.entities.dto.LoginInfoDTO;
 
@@ -13,16 +13,16 @@ import javax.inject.Inject;
 import io.reactivex.Observable;
 
 @ActivityScope
-public class ForgotPasswordModel extends BaseModel implements ForgotPasswordContract.Model {
+public class VerifyPhoneModel extends BaseModel implements VerifyPhoneContract.Model {
     @Inject
-    public ForgotPasswordModel(IRepositoryManager repositoryManager) {
+    public VerifyPhoneModel(IRepositoryManager repositoryManager) {
         super(repositoryManager);
     }
 
     @Override
-    public Observable<BaseJson> sendVerifyCode(String mobile, int type, String sign) {
+    public Observable<BaseJson> preVerifyForForgetPassword(String mobile, String code) {
         return mRepositoryManager
                 .obtainRetrofitService(LoginService.class)
-                .sendVerifyCode(mobile, type, sign);
+                .preVerifyForForgetPassword(mobile, code);
     }
 }
