@@ -8,6 +8,8 @@ import com.wang.social.im.R;
 import com.wang.social.im.enums.ConversationType;
 import com.wang.social.im.view.IMInputView;
 
+import timber.log.Timber;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -17,5 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
         IMInputView inputView = findViewById(R.id.inputView);
         inputView.setConversationType(ConversationType.PRIVATE);
+
+        Timber.tag("test").d("adasasdasdasdasdsa++++++++++++++");
     }
 }

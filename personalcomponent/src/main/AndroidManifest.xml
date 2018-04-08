@@ -11,6 +11,7 @@
         android:theme="@style/common_AppTheme">
 
         <activity android:name=".mvp.ui.activity.MeDetailActivity" />
+        <activity android:name=".mvp.ui.activity.MePhotoActivity" />
         <activity android:name=".mvp.ui.activity.SettingActivity" />
         <activity android:name=".mvp.ui.activity.SettingMsgActivity" />
         <activity android:name=".mvp.ui.activity.FeedbackActivity" />

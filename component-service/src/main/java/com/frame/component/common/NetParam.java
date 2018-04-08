@@ -1,10 +1,12 @@
-package com.wang.social.personal.common;
+package com.frame.component.common;
 
 import android.util.Log;
 
+import com.frame.component.utils.MapUtil;
+import com.frame.component.utils.UrlUtil;
+import com.frame.utils.PayUtil;
 import com.frame.utils.StrUtil;
 import com.google.gson.Gson;
-import com.wang.social.personal.utils.UrlUtil;
 
 import java.io.File;
 import java.util.LinkedHashMap;
@@ -35,6 +37,14 @@ public class NetParam {
         if (value == null || StrUtil.isEmpty(value, false))
             return this;
         paramMap.put(key, value);
+        return this;
+    }
+
+    public NetParam putSignature() {
+        if (StrUtil.isEmpty(paramMap)) return this;
+        if (!paramMap.containsKey("nonceStr")) return this;
+        String nonceStr = String.valueOf(paramMap.get("nonceStr"));
+        paramMap.put("signature", PayUtil.signStr(MapUtil.transLinkedHashMap(paramMap), nonceStr));
         return this;
     }
 

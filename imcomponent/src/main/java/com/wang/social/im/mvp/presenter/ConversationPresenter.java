@@ -44,11 +44,44 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
         this.mAdapter = mAdapter;
     }
 
+    /**
+     * 设置会话对象
+     * @param conversation
+     */
     public void setConversation(@NonNull TIMConversation conversation) {
         this.mConversation = conversation;
         this.mConversationExt = new TIMConversationExt(mConversation);
     }
 
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mConversation = null;
+        mAdapter = null;
+        TIMManager.getInstance().removeMessageListener(this);
+    }
+
+    /**
+     * 接收到新消息
+     * @param list
+     * @return
+     */
+    @Override
+    public boolean onNewMessages(List<TIMMessage> list) {
+        if (list != null) {
+            mRootView.insertMessages(UIMessage.obtain(list));
+        }
+        return false;
+    }
+
+    /**
+     * 获取历史消息
+     */
     public void getHistoryMessage() {
         TIMMessage lastMessage = null;
         if (mAdapter != null && mAdapter.getData().size() > 0) {
@@ -72,26 +105,5 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
                 mRootView.showMessages(uiMessages);
             }
         });
-    }
-
-    @Override
-    public boolean useEventBus() {
-        return true;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mConversation = null;
-        mAdapter = null;
-        TIMManager.getInstance().removeMessageListener(this);
-    }
-
-    @Override
-    public boolean onNewMessages(List<TIMMessage> list) {
-        if (list != null) {
-            mRootView.insertMessages(UIMessage.obtain(list));
-        }
-        return false;
     }
 }

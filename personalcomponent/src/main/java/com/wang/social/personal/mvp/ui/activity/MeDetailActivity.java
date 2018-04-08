@@ -5,46 +5,34 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.frame.base.BaseActivity;
-import com.frame.base.BasicActivity;
 import com.frame.component.entities.User;
 import com.frame.component.helper.AppDataHelper;
 import com.frame.di.component.AppComponent;
-import com.frame.di.component.DaggerAppComponent;
-import com.frame.di.scope.ActivityScope;
 import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
-import com.frame.integration.IRepositoryManager;
-import com.frame.integration.RepositoryManager;
 import com.frame.utils.ToastUtil;
-import com.wang.social.personal.PhotoHelper;
+import com.wang.social.personal.helper.PhotoHelper;
 import com.wang.social.personal.R;
 import com.wang.social.personal.data.db.AddressDataBaseManager;
 import com.wang.social.personal.di.component.DaggerActivityComponent;
 import com.wang.social.personal.di.module.MeDetailModule;
+import com.wang.social.personal.helper.PhotoHelperEx;
 import com.wang.social.personal.mvp.contract.MeDetailContract;
 import com.wang.social.personal.mvp.entities.City;
 import com.wang.social.personal.mvp.entities.Province;
-import com.wang.social.personal.mvp.model.api.UserService;
 import com.wang.social.personal.mvp.presonter.MeDetailPresonter;
 import com.wang.social.personal.mvp.ui.dialog.DialogAddressPicker;
 import com.wang.social.personal.mvp.ui.dialog.DialogBottomGender;
-import com.wang.social.personal.mvp.ui.dialog.DialogBottomPhoto;
 import com.wang.social.personal.mvp.ui.dialog.DialogDatePicker;
 import com.wang.social.personal.mvp.ui.dialog.DialogInput;
-import com.wang.social.personal.mvp.ui.dialog.DialogSure;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import dagger.Component;
 import timber.log.Timber;
 
 public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> implements MeDetailContract.View, PhotoHelper.OnPhotoCallback {
@@ -70,7 +58,7 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
     private DialogDatePicker dialogDate;
     private DialogInput dialogInputName;
     private DialogInput dialogInputSign;
-    private PhotoHelper photoHelper;
+    private PhotoHelperEx photoHelper;
     @Inject
     ImageLoader mImageLoader;
 
@@ -87,7 +75,7 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
         setSupportActionBar(toolbar);
-        photoHelper = PhotoHelper.newInstance(this, this);
+        photoHelper = PhotoHelperEx.newInstance(this, this);
         dialogInputName = DialogInput.newDialogName(this);
         dialogInputSign = DialogInput.newDialogSign(this);
         dialogAddress = new DialogAddressPicker(this);
@@ -135,13 +123,18 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
         }
     }
 
+    @Override
+    public void setHeaderImg(String url) {
+        mImageLoader.loadImage(this, ImageConfigImpl.builder()
+                .imageView(imgHeader)
+                .url(url)
+                .build());
+    }
+
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.lay_header:
-//                new DialogSure(this, "测试消息提示").show();
                 photoHelper.showDefaultDialog();
-                Timber.tag("test").i("test XXXXXXXXXXXXX");
-//                mPresenter.updateUserAvatar("xxxxx");
                 break;
             case R.id.lay_name:
                 dialogInputName.setText(textName.getText().toString());
@@ -158,6 +151,7 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
                 dialogAddress.show();
                 break;
             case R.id.lay_photo:
+                MePhotoActivity.start(this);
                 break;
             case R.id.lay_sign:
                 dialogInputSign.setText(textSign.getText().toString());
@@ -174,7 +168,7 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
 
     @Override
     public void onResult(String path) {
-        ToastUtil.showToastLong(path);
+        mPresenter.updateUserAvatar(path);
     }
 
     @Override
@@ -195,10 +189,5 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
     @Override
     public void hideLoading() {
         dismissLoadingDialog();
-    }
-
-    @Override
-    public void finishActivity() {
-        Timber.e("finishActivity");
     }
 }

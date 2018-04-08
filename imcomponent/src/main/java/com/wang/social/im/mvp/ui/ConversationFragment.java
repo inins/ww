@@ -149,4 +149,9 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     public void onEmotionClick(String codeName, String showName) {
 
     }
+
+    @Override
+    public void onSendClick(String content) {
+
+    }
 }

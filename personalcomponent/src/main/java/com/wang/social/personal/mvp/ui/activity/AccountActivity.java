@@ -8,6 +8,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
+import com.frame.component.api.CommonService;
+import com.frame.component.entities.QiNiu;
+import com.frame.component.entities.dto.QiNiuDTO;
 import com.frame.di.component.AppComponent;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
@@ -25,10 +28,13 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class AccountActivity extends BasicAppActivity implements IView {
@@ -37,6 +43,7 @@ public class AccountActivity extends BasicAppActivity implements IView {
     RxErrorHandler mErrorHandler;
     @Inject
     IRepositoryManager mRepositoryManager;
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.text_all)
@@ -84,36 +91,89 @@ public class AccountActivity extends BasicAppActivity implements IView {
     }
 
     private void netGetAccountData() {
-        mRepositoryManager.obtainRetrofitService(UserService.class).accountBalance()
-                .subscribeOn(Schedulers.newThread())
-                .doOnSubscribe(new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        showLoading();
-                    }
-                })
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doFinally(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        hideLoading();
-                    }
-                })
-                .compose(RxLifecycleUtils.bindToLifecycle((IView) AccountActivity.this))
-                .subscribe(new ErrorHandleSubscriber<BaseJson<AccountBalance>>(mErrorHandler) {
-                    @Override
-                    public void onNext(BaseJson<AccountBalance> baseJson) {
-                        AccountBalance accountBalance = baseJson.getData();
-                        textAll.setText(accountBalance.getAmountDiamond() + "");
-                        textCoulduse.setText("可提现钻石：" + accountBalance.getAmount());
-                    }
+//        mRepositoryManager.obtainRetrofitService(UserService.class).accountBalance()
+//                .subscribeOn(Schedulers.newThread())
+//                .doOnSubscribe(new Consumer<Disposable>() {
+//                    @Override
+//                    public void accept(Disposable disposable) throws Exception {
+//                        showLoading();
+//                    }
+//                })
+//                .subscribeOn(AndroidSchedulers.mainThread())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .doFinally(new Action() {
+//                    @Override
+//                    public void run() throws Exception {
+//                        hideLoading();
+//                    }
+//                })
+//                .compose(RxLifecycleUtils.bindToLifecycle((IView) AccountActivity.this))
+//                .subscribe(new ErrorHandleSubscriber<BaseJson<AccountBalance>>(mErrorHandler) {
+//                    @Override
+//                    public void onNext(BaseJson<AccountBalance> baseJson) {
+//                        AccountBalance accountBalance = baseJson.getData();
+//                        textAll.setText(accountBalance.getAmountDiamond() + "");
+//                        textCoulduse.setText("可提现钻石：" + accountBalance.getAmount());
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        ToastUtil.showToastShort(e.getMessage());
+//                    }
+//                });
 
+        Observable<BaseJson<QiNiuDTO>> observable = mRepositoryManager.obtainRetrofitService(CommonService.class).getQiNiuToken();
+        observable
+                .compose(RxLifecycleUtils.bindToLifecycle((IView) AccountActivity.this))
+                .map(new Function<BaseJson<QiNiuDTO>, QiNiu>() {
                     @Override
-                    public void onError(Throwable e) {
-                        ToastUtil.showToastShort(e.getMessage());
+                    public QiNiu apply(BaseJson<QiNiuDTO> t) {
+                        return t.getData().transform();
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<QiNiu>() {
+                    @Override
+                    public void accept(QiNiu qiNiu) throws Exception {
+                        ToastUtil.showToastLong("success");
                     }
                 });
+//                .subscribe(new Consumer<BaseJson<QiNiuDTO>>() {
+//                    @Override
+//                    public void accept(BaseJson<QiNiuDTO> qiNiuDTOBaseJson) throws Exception {
+//                        ToastUtil.showToastLong("success");
+//                    }
+//                });
+//        observable.compose(RxLifecycleUtils.bindToLifecycle((IView) AccountActivity.this));
+//        observable.map(new Function<BaseJson<QiNiuDTO>, QiNiu>() {
+//            @Override
+//            public QiNiu apply(BaseJson<QiNiuDTO> t) {
+//                return t.getData().transform();
+//            }
+//        })
+//                .subscribe(new Observer<QiNiu>() {
+//                    @Override
+//                    public void onSubscribe(Disposable d) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(QiNiu qiNiu) {
+//                        ToastUtil.showToastLong("success");
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        ToastUtil.showToastLong("onError");
+//                        e.printStackTrace();
+//                    }
+//
+//                    @Override
+//                    public void onComplete() {
+//
+//                    }
+//                });
     }
 
     @Override

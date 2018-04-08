@@ -8,6 +8,7 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.frame.utils.ToastUtil;
 import com.wang.social.personal.R;
 
 import butterknife.BindView;
@@ -56,14 +57,14 @@ public abstract class BaseDialogOkCancel extends BaseDialog {
 
     @Override
     protected void intView(View root) {
+        btnCancel.setOnClickListener(view -> dismiss());
+        btnOk.setOnClickListener(view -> dismiss());
     }
 
     @Override
     protected void intViewOnCreate(View root) {
         btnCancel.setText(cancelBtnText);
         btnOk.setText(okBtnText);
-        btnCancel.setOnClickListener(defaultListener);
-        btnOk.setOnClickListener(defaultListener);
     }
 
     private View.OnClickListener defaultListener = new View.OnClickListener() {
@@ -72,6 +73,14 @@ public abstract class BaseDialogOkCancel extends BaseDialog {
             dismiss();
         }
     };
+
+    public void setOkClickListener(View.OnClickListener listener) {
+        btnOk.setOnClickListener(listener);
+    }
+
+    public void setCancelClickListener(View.OnClickListener listener) {
+        btnCancel.setOnClickListener(listener);
+    }
 
     ///////////////////////////
 

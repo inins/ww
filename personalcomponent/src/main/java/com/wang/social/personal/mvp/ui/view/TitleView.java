@@ -21,9 +21,11 @@ import com.wang.social.personal.R;
 public class TitleView extends FrameLayout {
 
     private TextView text_title;
+    private TextView text_subtitle;
     private TextView text_note;
 
     private String title;
+    private String subTitle;
     private String note;
 
     public TitleView(@NonNull Context context) {
@@ -43,6 +45,7 @@ public class TitleView extends FrameLayout {
         if (attrs != null) {
             final TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.personal_TitleView, 0, 0);
             title = ta.getString(R.styleable.personal_TitleView_personal_textTitle);
+            subTitle = ta.getString(R.styleable.personal_TitleView_personal_textSubTitle);
             note = ta.getString(R.styleable.personal_TitleView_personal_textNote);
             ta.recycle();
         }
@@ -57,11 +60,15 @@ public class TitleView extends FrameLayout {
 
     private void initView() {
         text_title = findViewById(R.id.text_title);
+        text_subtitle = findViewById(R.id.text_subtitle);
         text_note = findViewById(R.id.text_note);
 
         text_title.setText(title);
+        text_subtitle.setText(subTitle);
         text_note.setText(note);
+
         text_title.setVisibility(TextUtils.isEmpty(title) ? GONE : VISIBLE);
+        text_subtitle.setVisibility(TextUtils.isEmpty(subTitle) ? GONE : VISIBLE);
         text_note.setVisibility(TextUtils.isEmpty(note) ? GONE : VISIBLE);
     }
 }

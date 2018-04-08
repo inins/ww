@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -38,7 +39,7 @@ import lombok.Setter;
 
 public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginClickListener {
 
-    private ImageView mVoiceToggle, mEmotionToggle, mPluginToggle;
+    private ImageView mVoiceToggle, mEmotionToggle, mPluginToggle, mSendToggle;
     private EmoticonsEditText mEditText;
     private Button mVoiceInput;
 
@@ -77,6 +78,7 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
         mPluginToggle = findViewById(R.id.vi_iv_toggle_plugin);
         mEditText = findViewById(R.id.vi_et_input);
         mVoiceInput = findViewById(R.id.vi_btn_voice_input);
+        mSendToggle = findViewById(R.id.vi_iv_send);
 
         SimpleCommonUtils.initEmoticonsEditText(mEditText);
 
@@ -189,6 +191,40 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
                 return false;
             }
         });
+
+        mSendToggle.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String message = mEditText.getText().toString();
+                if (mInputViewListener != null){
+                    mInputViewListener.onSendClick(message);
+                }
+                mEditText.setText("");
+            }
+        });
+
+        mEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (TextUtils.isEmpty(mEditText.getText().toString())){
+                    mSendToggle.setVisibility(GONE);
+                    mPluginToggle.setVisibility(VISIBLE);
+                }else {
+                    mSendToggle.setVisibility(VISIBLE);
+                    mPluginToggle.setVisibility(GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
 
     /**
@@ -289,5 +325,11 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
          * @param showName
          */
         void onEmotionClick(String codeName, String showName);
+
+        /**
+         * 点击发送按钮
+         * @param content
+         */
+        void onSendClick(String content);
     }
 }
