@@ -1,5 +1,7 @@
 package com.wang.social.login.mvp.model.entities.dto;
 
+import com.frame.component.entities.User;
+import com.frame.http.api.BaseJson;
 import com.wang.social.login.mvp.model.entities.LoginInfo;
 import com.frame.http.api.Mapper;
 
@@ -11,13 +13,16 @@ import com.frame.http.api.Mapper;
  */
 
 public class LoginInfoDTO implements Mapper<LoginInfo>{
-
     private String token;
+    private String rongCloudToken;
+    private User userInfo;
 
     @Override
     public LoginInfo transform() {
         LoginInfo loginInfo = new LoginInfo();
         loginInfo.setToken(token == null ? "" : token);
+        loginInfo.setRongCloudToken(rongCloudToken == null ? "" : rongCloudToken);
+        loginInfo.setUserInfo(userInfo);
         return loginInfo;
     }
 }

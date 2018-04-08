@@ -12,6 +12,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.frame.base.BaseActivity;
 import com.frame.base.BasicActivity;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
@@ -20,14 +21,18 @@ import com.wang.social.login.R;
 import com.wang.social.login.di.component.DaggerResetPasswordComponent;
 import com.wang.social.login.di.module.ResetPasswordModule;
 import com.wang.social.login.mvp.contract.ResetPasswordContract;
+import com.wang.social.login.mvp.presenter.ResetPasswordPresenter;
+import com.wang.social.login.mvp.ui.widget.DialogFragmentLoading;
 import com.wang.social.login.utils.Keys;
+import com.wang.social.login.utils.StringUtils;
 import com.wang.social.login.utils.ViewUtils;
 
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
+import timber.log.Timber;
 
-public class ResetPasswordActivity extends BasicActivity implements ResetPasswordContract.View {
+public class ResetPasswordActivity extends BaseActivity<ResetPasswordPresenter> implements ResetPasswordContract.View {
 
     public static void start(Context context, String mobile, String verifyCode) {
         Intent intent = new Intent(context, ResetPasswordActivity.class);
@@ -70,6 +75,8 @@ public class ResetPasswordActivity extends BasicActivity implements ResetPasswor
         // 验证码
         mVerifyCode = getIntent().getStringExtra(Keys.NAME_VERIFY_CODE);
 
+        Timber.i("mobile = " + mMobile + " code = " + mVerifyCode);
+
         toolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
             @Override
             public void onButtonClick(SocialToolbar.ClickType clickType) {
@@ -97,23 +104,33 @@ public class ResetPasswordActivity extends BasicActivity implements ResetPasswor
     @OnClick(R.id.confirm_view)
     public void confirm() {
         String password = passwordEditText.getText().toString();
+
+        // 检测密码规则
+        if (!StringUtils.isPassword(password)) {
+            ToastUtil.showToastShort(getString(R.string.login_password_input_illegal));
+        }
+
         ViewUtils.hideSoftInputFromWindow(this, passwordEditText);
 
-        Toast.makeText(this, "确定 : " + password, Toast.LENGTH_SHORT).show();
+        // 重设密码
+        mPresenter.resetPassword(mMobile, mVerifyCode, password);
     }
 
     @Override
     public void showToast(String msg) {
-        ToastUtil.showToastShort(msg);
+        ToastUtil.showToastLong(msg);
     }
 
+
+
+    private DialogFragmentLoading mLoadingDialog;
     @Override
     public void showLoading() {
-
+        mLoadingDialog = DialogFragmentLoading.showDialog(getSupportFragmentManager(), TAG);
     }
 
     @Override
     public void hideLoading() {
-
+        mLoadingDialog.dismiss();
     }
 }

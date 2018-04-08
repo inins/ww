@@ -72,4 +72,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:src="@drawable/im_plugin_icon" />
+
+    <ImageView
+        android:id="@+id/vi_iv_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:visibility="gone"
+        android:src="@drawable/im_send_icon" />
 </LinearLayout>

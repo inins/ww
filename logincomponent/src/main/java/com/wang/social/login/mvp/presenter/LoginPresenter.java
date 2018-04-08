@@ -1,5 +1,6 @@
 package com.wang.social.login.mvp.presenter;
 
+import com.frame.utils.ToastUtil;
 import com.wang.social.login.mvp.contract.LoginContract;
 import com.wang.social.login.mvp.model.entities.LoginInfo;
 import com.frame.di.scope.ActivityScope;
@@ -8,6 +9,7 @@ import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
 
+import java.sql.Time;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -113,13 +115,14 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
      */
     public void register(String mobile, String code, String password) {
         mApiHelper.execute(mRootView,
-                mModel.verifyCodeLogin(mobile, code, password, ""),
-                new ErrorHandleSubscriber<LoginInfo>(mErrorHandler) {
+                mModel.userRegister(mobile, code, password, ""),
+                new ErrorHandleSubscriber(mErrorHandler) {
 
                     @Override
-                    public void onNext(LoginInfo loginInfo) {
+                    public void onNext(Object o) {
+                        // 提示注册成功
+                        mRootView.showToast("注册成功");
                     }
-
 
                     @Override
                     public void onError(Throwable e) {
@@ -153,14 +156,14 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
      * @return
      */
     public void sendVerifyCode(String mobile, int type) {
-        mApiHelper.execute(mRootView,
+        mApiHelper.executeForData(mRootView,
                 mModel.sendVerifyCode(mobile, type, ""),
-                new ErrorHandleSubscriber<LoginInfo>(mErrorHandler) {
+                new ErrorHandleSubscriber(mErrorHandler) {
 
                     @Override
-                    public void onNext(LoginInfo loginInfo) {
+                    public void onNext(Object o) {
+                        mRootView.showToast(o.toString());
                     }
-
 
                     @Override
                     public void onError(Throwable e) {
