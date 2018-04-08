@@ -55,8 +55,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     //test
     testImplementation 'junit:junit:4.12'
     debugImplementation rootProject.ext.dependencies["canary-debug"]
@@ -81,6 +80,7 @@ dependencies {
     implementation 'com.kyleduo.switchbutton:library:1.4.6'
     //支持flow布局的RecyclerView布局管理器
     compile 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'
+    implementation project(':pictureselectorcomponent')
 }
 
 //combuild {

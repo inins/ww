@@ -15,17 +15,24 @@ import android.widget.Toast;
 import com.frame.base.BasicActivity;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
+import com.frame.utils.ToastUtil;
 import com.wang.social.login.R;
+import com.wang.social.login.di.component.DaggerResetPasswordComponent;
+import com.wang.social.login.di.module.ResetPasswordModule;
+import com.wang.social.login.mvp.contract.ResetPasswordContract;
+import com.wang.social.login.utils.Keys;
 import com.wang.social.login.utils.ViewUtils;
 
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
-public class ResetPasswordActivity extends BasicActivity {
+public class ResetPasswordActivity extends BasicActivity implements ResetPasswordContract.View {
 
-    public static void start(Context context) {
+    public static void start(Context context, String mobile, String verifyCode) {
         Intent intent = new Intent(context, ResetPasswordActivity.class);
+        intent.putExtra(Keys.NAME_MOBILE, mobile);
+        intent.putExtra(Keys.NAME_VERIFY_CODE, verifyCode);
         context.startActivity(intent);
     }
 
@@ -39,9 +46,16 @@ public class ResetPasswordActivity extends BasicActivity {
     @BindView(R.id.confirm_view)
     View confirmView;
 
+    String mMobile;
+    String mVerifyCode;
+
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
-
+        DaggerResetPasswordComponent.builder()
+                .appComponent(appComponent)
+                .resetPasswordModule(new ResetPasswordModule(this))
+                .build()
+                .inject(this);
     }
 
     @Override
@@ -51,6 +65,11 @@ public class ResetPasswordActivity extends BasicActivity {
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
+        // 上面传来的号码
+        mMobile = getIntent().getStringExtra(Keys.NAME_MOBILE);
+        // 验证码
+        mVerifyCode = getIntent().getStringExtra(Keys.NAME_VERIFY_CODE);
+
         toolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
             @Override
             public void onButtonClick(SocialToolbar.ClickType clickType) {
@@ -81,5 +100,20 @@ public class ResetPasswordActivity extends BasicActivity {
         ViewUtils.hideSoftInputFromWindow(this, passwordEditText);
 
         Toast.makeText(this, "确定 : " + password, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showToast(String msg) {
+        ToastUtil.showToastShort(msg);
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
     }
 }

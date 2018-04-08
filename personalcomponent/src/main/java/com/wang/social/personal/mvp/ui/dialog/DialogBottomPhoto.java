@@ -59,14 +59,32 @@ public class DialogBottomPhoto extends BaseDialog implements View.OnClickListene
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_pic:
+                if (onPhotoListener != null) onPhotoListener.onPicClick(view);
                 dismiss();
                 break;
             case R.id.btn_camera:
+                if (onPhotoListener != null) onPhotoListener.onCameraClick(view);
                 dismiss();
                 break;
             case R.id.btn_photo:
+                if (onPhotoListener != null) onPhotoListener.onPhotoClick(view);
                 dismiss();
                 break;
         }
+    }
+
+
+    private OnPhotoListener onPhotoListener;
+
+    public void setOnPhotoListener(OnPhotoListener onPhotoListener) {
+        this.onPhotoListener = onPhotoListener;
+    }
+
+    public interface OnPhotoListener {
+        void onPicClick(View v);
+
+        void onCameraClick(View v);
+
+        void onPhotoClick(View v);
     }
 }

@@ -21,6 +21,8 @@ import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.integration.IRepositoryManager;
 import com.frame.integration.RepositoryManager;
+import com.frame.utils.ToastUtil;
+import com.wang.social.personal.PhotoHelper;
 import com.wang.social.personal.R;
 import com.wang.social.personal.data.db.AddressDataBaseManager;
 import com.wang.social.personal.di.component.DaggerActivityComponent;
@@ -45,7 +47,7 @@ import butterknife.BindView;
 import dagger.Component;
 import timber.log.Timber;
 
-public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> implements MeDetailContract.View {
+public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> implements MeDetailContract.View, PhotoHelper.OnPhotoCallback {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -64,11 +66,11 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
     @BindView(R.id.text_sign)
     TextView textSign;
     private DialogBottomGender dialogGender;
-    private DialogBottomPhoto dialogphoto;
     private DialogAddressPicker dialogAddress;
     private DialogDatePicker dialogDate;
     private DialogInput dialogInputName;
     private DialogInput dialogInputSign;
+    private PhotoHelper photoHelper;
     @Inject
     ImageLoader mImageLoader;
 
@@ -85,10 +87,10 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
         setSupportActionBar(toolbar);
+        photoHelper = PhotoHelper.newInstance(this, this);
         dialogInputName = DialogInput.newDialogName(this);
         dialogInputSign = DialogInput.newDialogSign(this);
         dialogAddress = new DialogAddressPicker(this);
-        dialogphoto = new DialogBottomPhoto(this);
         dialogGender = new DialogBottomGender(this);
         dialogDate = new DialogDatePicker(this);
         dialogInputName.setOnInputListener(text -> {
@@ -112,7 +114,6 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
             dialogGender.dismiss();
             mPresenter.updateUserGender(gender);
         });
-
         setUserData();
     }
 
@@ -138,7 +139,9 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
         switch (v.getId()) {
             case R.id.lay_header:
 //                new DialogSure(this, "测试消息提示").show();
-                mPresenter.updateUserAvatar("xxxxx");
+                photoHelper.showDefaultDialog();
+                Timber.tag("test").i("test XXXXXXXXXXXXX");
+//                mPresenter.updateUserAvatar("xxxxx");
                 break;
             case R.id.lay_name:
                 dialogInputName.setText(textName.getText().toString());
@@ -155,13 +158,23 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
                 dialogAddress.show();
                 break;
             case R.id.lay_photo:
-                dialogphoto.show();
                 break;
             case R.id.lay_sign:
                 dialogInputSign.setText(textSign.getText().toString());
                 dialogInputSign.show();
                 break;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        photoHelper.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onResult(String path) {
+        ToastUtil.showToastLong(path);
     }
 
     @Override

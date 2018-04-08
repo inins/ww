@@ -55,7 +55,7 @@ public class MainActivity extends BasicActivity {
 
     @OnClick(R.id.reset_password_btn)
     public void resetPassword() {
-        ResetPasswordActivity.start(this);
+//        ResetPasswordActivity.start(this);
     }
 
     @OnClick(R.id.forgot_password_btn)
@@ -65,7 +65,7 @@ public class MainActivity extends BasicActivity {
 
     @OnClick(R.id.verify_phone_btn)
     public void verifyPhone() {
-        VerifyPhoneActivity.start(this);
+//        VerifyPhoneActivity.start(this);
     }
 
     DialogFragmentLoading loadingDialog;

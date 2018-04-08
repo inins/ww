@@ -13,14 +13,16 @@ import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.wang.social.login.R;
 import com.wang.social.login.mvp.ui.widget.VerificationCodeInput;
+import com.wang.social.login.utils.Keys;
 import com.wang.social.login.utils.ViewUtils;
 
 import butterknife.BindView;
 
 public class VerifyPhoneActivity extends BasicActivity {
 
-    public static void start(Context context) {
+    public static void start(Context context, String mobile) {
         Intent intent = new Intent(context, VerifyPhoneActivity.class);
+        intent.putExtra(Keys.NAME_MOBILE, mobile);
         context.startActivity(intent);
     }
 
@@ -36,6 +38,8 @@ public class VerifyPhoneActivity extends BasicActivity {
     @BindView(R.id.verification_code_input)
     VerificationCodeInput verificationCodeInput;
 
+    String mMobile;
+
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
 
@@ -48,6 +52,9 @@ public class VerifyPhoneActivity extends BasicActivity {
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
+        // 上面传来的号码
+        mMobile = getIntent().getStringExtra(Keys.NAME_MOBILE);
+
         toolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
             @Override
             public void onButtonClick(SocialToolbar.ClickType clickType) {
@@ -58,12 +65,14 @@ public class VerifyPhoneActivity extends BasicActivity {
             }
         });
 
-        phoneTextView.setText("13981920420");
+        phoneTextView.setText(mMobile);
 
         verificationCodeInput.setOnCompleteListener(new VerificationCodeInput.Listener() {
             @Override
             public void onComplete(String content) {
-                Toast.makeText(VerifyPhoneActivity.this, "验证码 : " +content, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(VerifyPhoneActivity.this, "验证码 : " +content, Toast.LENGTH_SHORT).show();
+                // 跳转到重设验证码页面
+                ResetPasswordActivity.start(VerifyPhoneActivity.this, mMobile, content);
             }
         });
 
