@@ -37,6 +37,12 @@
     <string name="personal_medetail_dialog_inputname_note">最多输入12个字</string>
     <string name="personal_medetail_dialog_inputname_hint">输入新昵称</string>
 
+
+    <!--个人详情照片页面-->
+    <string name="personal_mephoto_title">设置照片</string>
+    <string name="personal_mephoto_note">其他用户可在发现有趣的人中看到你的照片</string>
+    <string name="personal_mephoto_add">添加图片</string>
+
     <!--设置页面-->
     <string name="personal_setting_title">设置</string>
     <string name="personal_setting_cate_secret">隐私</string>

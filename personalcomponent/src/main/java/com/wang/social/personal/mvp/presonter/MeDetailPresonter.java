@@ -1,7 +1,6 @@
 package com.wang.social.personal.mvp.presonter;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.frame.component.entities.User;
 import com.frame.component.helper.AppDataHelper;
@@ -13,23 +12,19 @@ import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
 import com.frame.utils.RxLifecycleUtils;
 import com.frame.utils.ToastUtil;
-import com.wang.social.personal.common.NetParam;
+import com.frame.component.common.NetParam;
 import com.wang.social.personal.mvp.contract.MeDetailContract;
 import com.wang.social.personal.mvp.entities.CommonEntity;
-import com.wang.social.personal.mvp.entities.QiniuTokenWrap;
-import com.wang.social.personal.mvp.entities.UserWrap;
 
 import java.util.Map;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-import timber.log.Timber;
 
 /**
  * Created by Administrator on 2018/4/3.
@@ -53,9 +48,9 @@ public class MeDetailPresonter extends BasePresenter<MeDetailContract.Model, MeD
         updateUserInfo(nickname, null, null, null, null, null, null);
     }
 
-    public void updateUserAvatar(String avatar) {
-        mRootView.showLoading();
-        qiNiuManager.uploadFile(mRootView, avatar, new QiNiuManager.OnSingleUploadListener() {
+    public void updateUserAvatar(String path) {
+//        mRootView.showLoading();
+        qiNiuManager.uploadFile(mRootView, path, new QiNiuManager.OnSingleUploadListener() {
             @Override
             public void onSuccess(String url) {
                 updateUserInfo(null, url, null, null, null, null, null);
@@ -64,7 +59,7 @@ public class MeDetailPresonter extends BasePresenter<MeDetailContract.Model, MeD
             @Override
             public void onFail() {
                 ToastUtil.showToastLong("上传失败");
-                mRootView.hideLoading();
+//                mRootView.hideLoading();
             }
         });
     }
@@ -118,14 +113,16 @@ public class MeDetailPresonter extends BasePresenter<MeDetailContract.Model, MeD
                         User user = AppDataHelper.getUser();
                         if (user == null) return;
                         if (!TextUtils.isEmpty(nickname)) user.setNickname(nickname);
-                        if (!TextUtils.isEmpty(avatar)) user.setAvatar(avatar);
+                        if (!TextUtils.isEmpty(avatar)) {
+                            user.setAvatar(avatar);
+                            mRootView.setHeaderImg(avatar);
+                        }
                         if (sex != null) user.setSex(sex);
                         if (!TextUtils.isEmpty(birthday)) user.setBirthday(birthday);
                         if (!TextUtils.isEmpty(province)) user.setProvince(province);
                         if (!TextUtils.isEmpty(city)) user.setCity(city);
                         if (TextUtils.isEmpty(autograph)) user.setAutograph(autograph);
                         AppDataHelper.saveUser(user);
-                        mRootView.finishActivity();
                     }
 
                     @Override

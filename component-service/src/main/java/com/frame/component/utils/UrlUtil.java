@@ -1,4 +1,4 @@
-package com.wang.social.personal.utils;
+package com.frame.component.utils;
 
 import android.net.Uri;
 import android.text.TextUtils;
