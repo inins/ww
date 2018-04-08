@@ -34,9 +34,9 @@ public class NetUserHelper {
     }
 
     public void loginTest() {
-        Map<String, Object> param = new NetParam().put("mobile", "18002247238")
+        Map<String, Object> param = new NetParam()
+                .put("mobile", "18002247238")
                 .put("password", "111111")
-                .put("nonceStr", new Random().nextInt())
                 .put("v","2.0.0")
                 .putSignature()
                 .build();
