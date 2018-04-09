@@ -10,11 +10,9 @@ import com.wang.social.login.mvp.contract.TagSelectionContract;
 import com.wang.social.login.mvp.model.entities.Tag;
 import com.wang.social.login.mvp.model.entities.dto.Tags;
 
-import org.simple.eventbus.EventBus;
 import org.simple.eventbus.Subscriber;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -43,7 +41,7 @@ public class TagSelectionPresenter extends
 
     public void getParentTagList() {
         mApiHelper.execute(mRootView,
-                mModel.passwordLogin(),
+                mModel.parentTagList(),
                 new ErrorHandleSubscriber<Tags>(mErrorHandler) {
 
                     @Override
@@ -53,25 +51,7 @@ public class TagSelectionPresenter extends
 
                     @Override
                     public void onError(Throwable e) {
-                        // 加载失败，加载测试数据
-                        final String[] parent = {
-                                "第1页",
-                                "第2页",
-                                "第3页",
-                                "第4页",
-                                "第5页",
-                                "第6页"
-                        };
-
-                        Tags tags = new Tags();
-                        for (int i = 0; i < parent.length; i++) {
-                            Tag tag = new Tag();
-                            tag.setId(i);
-                            tag.setTagName(parent[i]);
-                            tags.getList().add(tag);
-                        }
-
-                        mRootView.resetTabView(tags);
+                        mRootView.showToast(e.getMessage());
                     }
                 }, new Consumer<Disposable>() {
                     @Override

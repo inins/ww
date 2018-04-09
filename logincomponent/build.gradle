@@ -25,7 +25,7 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [host: "passwordLogin"]
+                arguments = [host: "parentTagList"]
             }
         }
     }

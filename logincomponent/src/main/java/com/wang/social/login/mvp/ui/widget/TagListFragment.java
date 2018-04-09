@@ -10,6 +10,7 @@ import com.beloo.widget.chipslayoutmanager.SpacingItemDecoration;
 import com.frame.base.BaseFragment;
 import com.frame.di.component.AppComponent;
 import com.frame.utils.SizeUtils;
+import com.frame.utils.ToastUtil;
 import com.wang.social.login.R;
 import com.wang.social.login.di.component.DaggerTagListComponent;
 import com.wang.social.login.di.module.TagListModule;
@@ -56,6 +57,11 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
     @Override
     public void hideLoading() {
 
+    }
+
+    @Override
+    public void showToast(String msg) {
+        ToastUtil.showToastLong(msg);
     }
 
     @Override
@@ -130,11 +136,17 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
             // 如果有传选中list做来，则说明是删除模式
             mPresenter.setSelectedList(selectedList);
             mode = MODE_DELETE;
+
+            resetTagListView();
         } else {
             // 没有传入选中列表，则需要加载数据
             mPresenter.loadTagList(parentId);
         }
+    }
 
+
+    @Override
+    public void resetTagListView() {
         tagAdapter = new TagAdapter(getContext(), tagDataProvider, tagClickListener);
 
         // RecyclerView 相关设置
@@ -148,10 +160,8 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
         recyclerView.setAdapter(tagAdapter);
     }
 
+
     @Override
     public void setData(@Nullable Object data) {
-
     }
-
-
 }

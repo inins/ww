@@ -7,11 +7,24 @@ import java.util.Map;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
-import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 public interface TagService {
 
+    /**
+     *  获取一级标签列表
+     * @param param
+     * @return
+     */
     @GET("app/tag/parentTagList")
-    Observable<BaseJson<TagsDTO>> parentTagList(@Query("v") String version);
+    Observable<BaseJson<TagsDTO>> parentTagList(@QueryMap Map<String, Object> param);
+
+
+    /**
+     * 获取标签库列表
+     * @param param
+     * @return
+     */
+    @GET("app/tag/taglist")
+    Observable<BaseJson<TagsDTO>> taglist(@QueryMap Map<String, Object> param);
 }

@@ -17,6 +17,6 @@ public interface TagSelectionContract {
 
 
     interface Model extends IModel {
-        Observable<BaseJson<TagsDTO>> passwordLogin();
+        Observable<BaseJson<TagsDTO>> parentTagList();
     }
 }

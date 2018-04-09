@@ -8,7 +8,6 @@ import com.frame.mvp.BasePresenter;
 import com.wang.social.login.mvp.contract.TagListContract;
 import com.wang.social.login.mvp.model.entities.Tag;
 import com.wang.social.login.mvp.model.entities.dto.Tags;
-import com.wang.social.login.mvp.ui.widget.adapter.TagAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,40 +29,7 @@ public class TagListPresenter extends
     ApiHelper mApiHelper;
 
     // 存放Tag的List
-    List<Tag> tags = new ArrayList<>();
-
-
-    final String[] names = {
-            "徒步旅行",
-            "猫咪",
-            "容多肉植物",
-            "火锅",
-            "狗狗",
-            "互联网",
-            "火锅",
-            "狗狗",
-            "互联网",
-            "火锅",
-            "狗狗",
-            "互联网",
-            "火锅",
-            "狗狗",
-            "互联网",
-            "中国好声音",
-            "健身",
-            "互联网",
-            "成都麻将",
-            "容多肉植物"
-    };
-
-    private void initTestData() {
-        for (int i = 0; i < 50; i++) {
-            Tag tag = new Tag();
-            tag.setId(i);
-            tag.setTagName(names[i % names.length]);
-            tags.add(tag);
-        }
-    }
+    List<Tag> tagList = new ArrayList<>();
 
     @Inject
     public TagListPresenter(TagListContract.Model model, TagListContract.View view) {
@@ -71,12 +37,12 @@ public class TagListPresenter extends
     }
 
     public int getTagCount() {
-        return tags.size();
+        return tagList.size();
     }
 
     public Tag getTag(int position) {
-        if (position >= 0 && position < tags.size()) {
-            return tags.get(position);
+        if (position >= 0 && position < tagList.size()) {
+            return tagList.get(position);
         } else {
             return null;
         }
@@ -87,8 +53,32 @@ public class TagListPresenter extends
      * @param parentId
      */
     public void loadTagList(int parentId) {
-        // 测试数据
-        initTestData();
+        mApiHelper.execute(mRootView,
+                mModel.taglist(100, 0, parentId),
+                new ErrorHandleSubscriber<Tags>(mErrorHandler) {
+
+                    @Override
+                    public void onNext(Tags tags) {
+                        tagList = tags.getList();
+
+                        mRootView.resetTagListView();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mRootView.showToast(e.getMessage());
+                    }
+                }, new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+
+                    }
+                }, new Action() {
+                    @Override
+                    public void run() throws Exception {
+
+                    }
+                });
     }
 
     /**
@@ -96,7 +86,7 @@ public class TagListPresenter extends
      * @param list
      */
     public void setSelectedList(List<Tag> list) {
-        tags = list;
+        tagList = list;
     }
 
     /**
@@ -104,7 +94,7 @@ public class TagListPresenter extends
      * @param tag
      */
     public void removeTag(Tag tag) {
-        if (tags.remove(tag)) {
+        if (tagList.remove(tag)) {
             // 更新UI
             mRootView.tagListChanged();
         }

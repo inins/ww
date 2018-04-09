@@ -24,12 +24,12 @@ public class TagSelectionModel extends BaseModel implements TagSelectionContract
     }
 
     @Override
-    public Observable<BaseJson<TagsDTO>> passwordLogin() {
+    public Observable<BaseJson<TagsDTO>> parentTagList() {
         Map<String, Object> param = new NetParam()
                 .put("v","2.0.0")
                 .build();
         return mRepositoryManager
                 .obtainRetrofitService(TagService.class)
-                .parentTagList("2.0.0");
+                .parentTagList(param);
     }
 }
