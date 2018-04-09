@@ -40,4 +40,7 @@
     <string name="login_tag_confirm_title">兴趣大杂烩</string>
     <string name="login_tag_confirm_title_hint">你的兴趣全在这里，返回可以重新选择哦</string>
 
+    <string name="login_bind_phone">绑定手机</string>
+    <string name="login_bind">绑定</string>
+
 </resources>

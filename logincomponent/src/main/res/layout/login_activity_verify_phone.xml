@@ -59,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/login_send_again"
-            android:textColor="#ff189aff"
+            android:textColor="@color/common_blue_deep"
             android:textSize="12sp"
             android:layout_marginTop="15dp"
             />

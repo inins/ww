@@ -10,6 +10,8 @@
         <item name="android:inputType">phone</item>
         <item name="android:digits">0123456789</item>
         <item name="android:maxLength">11</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:textColor">@color/common_text_blank</item>
     </style>
 
     <!-- 验证码输入框规则 -->
@@ -17,12 +19,16 @@
         <item name="android:inputType">number</item>
         <item name="android:digits">0123456789</item>
         <item name="android:maxLength">4</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:textColor">@color/common_text_blank</item>
     </style>
 
     <!-- 密码输入框规则 -->
     <style name="login_passwordInputStyle">
         <item name="android:inputType">textPassword</item>
         <item name="android:maxLength">18</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:textColor">@color/common_text_blank</item>
     </style>
 
     <!-- Loading的样式 -->

@@ -42,6 +42,9 @@
         </activity>
         <activity android:name=".mvp.ui.TagSelectionActivity"
             android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".mvp.ui.BindPhoneActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

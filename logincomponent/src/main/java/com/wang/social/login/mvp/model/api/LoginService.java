@@ -89,4 +89,14 @@ public interface LoginService {
     Observable<BaseJson> sendVerifyCode(@FieldMap Map<String, Object> param);
 
 
+    /**
+     * 换绑手机
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("app/userInfo/replaceMobile")
+    Observable<BaseJson> replaceMobile(@FieldMap Map<String, Object> param);
+
+
 }
