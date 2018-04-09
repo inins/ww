@@ -58,17 +58,20 @@ public interface LoginService {
 
     /**
      * 修改/重置密码（公共）
-     * @param mobile
-     * @param code
-     * @param password
      * @return
      */
     @FormUrlEncoded
     @POST("user/forgetPassword")
-    Observable<BaseJson> userForgetPassword(
-            @Field("mobile") String mobile,
-            @Field("code") String code,
-            @Field("password") String password);
+    Observable<BaseJson> userForgetPassword(@FieldMap Map<String, Object> param);
+
+    /**
+     *  设置密码
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("app/userInfo/setPassword")
+    Observable<BaseJson> userSetPassword(@FieldMap Map<String, Object> param);
 
     /**
      * 手机号码加短信验证码登录

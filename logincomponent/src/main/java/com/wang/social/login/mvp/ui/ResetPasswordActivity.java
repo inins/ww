@@ -1,6 +1,5 @@
 package com.wang.social.login.mvp.ui;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,10 +9,9 @@ import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.frame.base.BaseActivity;
-import com.frame.base.BasicActivity;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.utils.ToastUtil;
@@ -50,9 +48,14 @@ public class ResetPasswordActivity extends BaseActivity<ResetPasswordPresenter> 
     View contentRoot;
     @BindView(R.id.confirm_view)
     View confirmView;
+    @BindView(R.id.title_text_view)
+    TextView titleTV;
+    @BindView(R.id.title_hint_text_view)
+    TextView titleHintTV;
 
     String mMobile;
     String mVerifyCode;
+    boolean isResetPassword;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -70,12 +73,24 @@ public class ResetPasswordActivity extends BaseActivity<ResetPasswordPresenter> 
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
-        // 上面传来的号码
-        mMobile = getIntent().getStringExtra(Keys.NAME_MOBILE);
-        // 验证码
-        mVerifyCode = getIntent().getStringExtra(Keys.NAME_VERIFY_CODE);
+        if (getIntent().hasExtra(Keys.NAME_MOBILE) &&
+                getIntent().hasExtra(Keys.NAME_VERIFY_CODE)) {
+            // 上面传来的号码
+            mMobile = getIntent().getStringExtra(Keys.NAME_MOBILE);
+            // 验证码
+            mVerifyCode = getIntent().getStringExtra(Keys.NAME_VERIFY_CODE);
 
-        Timber.i("mobile = " + mMobile + " code = " + mVerifyCode);
+            Timber.i("mobile = " + mMobile + " code = " + mVerifyCode);
+
+            // 这是重置密码
+            isResetPassword = true;
+        }
+
+        if (!isResetPassword) {
+            titleTV.setText(R.string.login_set_password);
+            titleHintTV.setVisibility(View.VISIBLE);
+            titleHintTV.setText(R.string.login_set_password_hint);
+        }
 
         toolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
             @Override
@@ -108,12 +123,18 @@ public class ResetPasswordActivity extends BaseActivity<ResetPasswordPresenter> 
         // 检测密码规则
         if (!StringUtils.isPassword(password)) {
             ToastUtil.showToastShort(getString(R.string.login_password_input_illegal));
+
+            return;
         }
 
         ViewUtils.hideSoftInputFromWindow(this, passwordEditText);
 
-        // 重设密码
-        mPresenter.resetPassword(mMobile, mVerifyCode, password);
+        if (isResetPassword) {
+            // 重设密码
+            mPresenter.resetPassword(mMobile, mVerifyCode, password);
+        } else {
+            mPresenter.setPassword(password);
+        }
     }
 
     @Override
