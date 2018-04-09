@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.wang.social.socialize">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name="com.frame.base.BaseApplication"
+        android:allowBackup="true"
+        android:screenOrientation="portrait">
+
+        <!-- Meta Data -->
+        <meta-data
+            android:name="com.wang.social.socialize.app.GlobalConfiguration"
+            android:value="ConfigModule" />
+        <activity android:name=".app.MainActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>
