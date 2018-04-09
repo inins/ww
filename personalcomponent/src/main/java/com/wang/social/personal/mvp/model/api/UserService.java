@@ -1,12 +1,12 @@
 package com.wang.social.personal.mvp.model.api;
 
 import com.frame.http.api.BaseJson;
-import com.frame.http.api.BaseListJson;
 import com.wang.social.personal.mvp.entities.AccountBalance;
 import com.wang.social.personal.mvp.entities.CommonEntity;
-import com.wang.social.personal.mvp.entities.Lable;
+import com.wang.social.personal.mvp.entities.lable.Lable;
 import com.wang.social.personal.mvp.entities.QiniuTokenWrap;
 import com.wang.social.personal.mvp.entities.UserWrap;
+import com.wang.social.personal.mvp.entities.lable.LableWrap;
 import com.wang.social.personal.mvp.entities.photo.Photo;
 import com.wang.social.personal.mvp.entities.photo.PhotoListWrap;
 
@@ -65,11 +65,20 @@ public interface UserService {
 
     //个性标签
     @GET("/app/tag/showtag?v=2.0.0")
-    Observable<BaseListJson<Lable>> getShowtag();
+    Observable<BaseJson<LableWrap>> getShowtag();
 
     //个人标签
     @GET("/app/tag/selftags?v=2.0.0")
-    Observable<BaseListJson<Lable>> getSelftags();
+    Observable<BaseJson<LableWrap>> getSelftags(@Query("parentId") int parentId);
+
+    //获取一级标签
+    @GET("/app/tag/parentTagList?v=2.0.0")
+    Observable<BaseJson<LableWrap>> getParentTags();
+
+    //获取一级标签
+    @FormUrlEncoded
+    @POST("/app/tag/deltag?v=2.0.0")
+    Observable<BaseJson<Object>> deltag(@Field("tagId") int tagId);
 
     //个人相册列表
     @POST("/app/userInfo/getPhotoList?v=2.0.0")
@@ -94,4 +103,5 @@ public interface UserService {
     @FormUrlEncoded
     @POST("/app/idea/feedback?v=2.0.0")
     Observable<BaseJson<Object>> feedback(@Field("phone") String phone, @Field("content") String content, @Field("pictures") String pictures);
+
 }

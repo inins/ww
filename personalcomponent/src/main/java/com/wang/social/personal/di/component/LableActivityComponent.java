@@ -2,14 +2,11 @@ package com.wang.social.personal.di.component;
 
 import com.frame.di.component.AppComponent;
 import com.frame.di.scope.ActivityScope;
+import com.wang.social.personal.di.module.LableModule;
 import com.wang.social.personal.di.module.MeDetailModule;
 import com.wang.social.personal.di.module.UserModule;
-import com.wang.social.personal.mvp.ui.activity.AccountActivity;
-import com.wang.social.personal.mvp.ui.activity.AccountExchangeActivity;
-import com.wang.social.personal.mvp.ui.activity.FeedbackActivity;
 import com.wang.social.personal.mvp.ui.activity.LableActivity;
 import com.wang.social.personal.mvp.ui.activity.MeDetailActivity;
-import com.wang.social.personal.mvp.ui.activity.MePhotoActivity;
 
 import dagger.Component;
 
@@ -20,10 +17,7 @@ import dagger.Component;
  * ========================================
  */
 @ActivityScope
-@Component(dependencies = AppComponent.class)
-public interface SingleActivityComponent {
-    void inject(AccountActivity activity);
-    void inject(MePhotoActivity activity);
-    void inject(FeedbackActivity activity);
-    void inject(AccountExchangeActivity activity);
+@Component(modules = {LableModule.class}, dependencies = AppComponent.class)
+public interface LableActivityComponent {
+    void inject(LableActivity activity);
 }

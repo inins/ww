@@ -74,6 +74,7 @@ public class AccountActivity extends BasicAppActivity implements IView {
                 AccountDepositDetailActivity.start(this);
                 break;
             case R.id.btn_exchange_stone:
+                AccountExchangeActivity.start(this);
                 break;
             case R.id.btn_about_stone:
                 DialogNoticeStone.newDialog(this).show();

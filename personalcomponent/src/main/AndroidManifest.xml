@@ -18,6 +18,7 @@
         <activity android:name=".mvp.ui.activity.SettingMsgActivity" />
         <activity android:name=".mvp.ui.activity.FeedbackActivity" />
         <activity android:name=".mvp.ui.activity.AccountActivity" />
+        <activity android:name=".mvp.ui.activity.AccountExchangeActivity" />
         <activity android:name=".mvp.ui.activity.AccountDepositActivity" />
         <activity android:name=".mvp.ui.activity.AccountRechargeActivity" />
         <activity android:name=".mvp.ui.activity.AccountDepositRecordActivity" />

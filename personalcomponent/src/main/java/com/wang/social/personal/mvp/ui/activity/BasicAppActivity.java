@@ -30,6 +30,7 @@ public abstract class BasicAppActivity extends BasicActivity {
         dialogLoading = new WeakReference(new DialogLoading(this));
         super.onCreate(savedInstanceState);
         toolbar = ViewUtil.findToolbar((ViewGroup) getWindow().getDecorView());
+        if (toolbar != null) setSupportActionBar(toolbar);
     }
 
     @Override

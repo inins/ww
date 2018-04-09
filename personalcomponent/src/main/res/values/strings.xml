@@ -96,6 +96,14 @@
     <string name="personal_account_stonenotice_title">&#8195;&#8195;宝石是用于产品中消费使用，可用于：支付阅读费用、创建趣聊和觅聊</string>
     <string name="personal_account_stonenotice_note">（宝石只能通过钻石兑换或官方赠送）</string>
 
+    <!--我的账户兑换宝石页面-->
+    <string name="personal_account_exchange_title">兑换宝石</string>
+    <string name="personal_account_exchange_note">宝石可用于非收益付费功能的支付</string>
+    <string name="personal_account_exchange_card_left">拥有宝石</string>
+    <string name="personal_account_exchange_exchange">兑换</string>
+    <string name="personal_account_exchange_exchange_sub">宝石：</string>
+    <string name="personal_account_exchange_btn_go">确认兑换</string>
+
     <!--我的账户提现页面-->
     <string name="personal_account_deposit_title">账户提现</string>
     <string name="personal_account_deposit_btn_right">提现记录</string>
