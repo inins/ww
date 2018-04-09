@@ -31,12 +31,12 @@ public interface LoginContract {
                 String mobile, String password);
 
         Observable<BaseJson<LoginInfoDTO>> verifyCodeLogin(
-                String mobile, String code, String sign, String adCode);
+                String mobile, String code, String adCode);
 
         Observable<BaseJson> userRegister(
                 String mobile, String code, String password, String adCode);
 
         Observable<BaseJson> sendVerifyCode(
-                String mobile, int type, String sign);
+                String mobile, int type);
     }
 }

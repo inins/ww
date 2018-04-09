@@ -20,6 +20,6 @@ public interface ForgotPasswordContract {
 
     interface Model extends IModel {
         Observable<BaseJson> sendVerifyCode(
-                String mobile, int type, String sign);
+                String mobile, int type);
     }
 }
