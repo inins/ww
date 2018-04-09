@@ -10,6 +10,7 @@ import com.frame.http.api.BaseJson;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.IView;
 import com.frame.utils.RxLifecycleUtils;
+import com.frame.utils.StrUtil;
 import com.frame.utils.TimeUtils;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UploadManager;
@@ -54,6 +55,12 @@ public class QiNiuManager {
      * @param uploadListener
      */
     public void uploadFiles(final IView view, final ArrayList<String> files, final OnBatchUploadListener uploadListener) {
+        //如果图片路径集合是空的，那么直接返回
+        if (StrUtil.isEmpty(files)) {
+            if (uploadListener != null) uploadListener.onSuccess(files);
+            return;
+        }
+        if (view != null) view.showLoading();
         getToken(view, new OnTokenListener() {
             @Override
             public void success(final String token) {
@@ -81,6 +88,7 @@ public class QiNiuManager {
 
                     @Override
                     public void onNext(ArrayList<String> strings) {
+                        if (view != null) view.hideLoading();
                         if (uploadListener != null) {
                             uploadListener.onSuccess(strings);
                         }
@@ -88,6 +96,7 @@ public class QiNiuManager {
 
                     @Override
                     public void onError(Throwable e) {
+                        if (view != null) view.hideLoading();
                         if (uploadListener != null) {
                             uploadListener.onFail();
                         }
@@ -117,7 +126,7 @@ public class QiNiuManager {
         if (TextUtils.isEmpty(path)) {
             return;
         }
-        view.showLoading();
+        if (view != null) view.showLoading();
         getToken(view, new OnTokenListener() {
             @Override
             public void success(final String token) {
@@ -141,7 +150,7 @@ public class QiNiuManager {
 
                     @Override
                     public void onNext(String strings) {
-                        view.hideLoading();
+                        if (view != null) view.hideLoading();
                         if (onSingleUploadListener != null) {
                             onSingleUploadListener.onSuccess(strings);
                         }
@@ -149,7 +158,7 @@ public class QiNiuManager {
 
                     @Override
                     public void onError(Throwable e) {
-                        view.hideLoading();
+                        if (view != null) view.hideLoading();
                         if (onSingleUploadListener != null) {
                             onSingleUploadListener.onFail();
                         }

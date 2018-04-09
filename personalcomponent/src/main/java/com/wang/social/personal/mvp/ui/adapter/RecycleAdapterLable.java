@@ -10,8 +10,7 @@ import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
-import com.wang.social.personal.mvp.entities.Lable;
-import com.wang.social.personal.mvp.entities.TestEntity;
+import com.wang.social.personal.mvp.entities.lable.Lable;
 
 import java.util.List;
 
@@ -44,15 +43,13 @@ public class RecycleAdapterLable extends BaseAdapter<Lable> {
 
         @Override
         protected void bindData(Lable lable, int position, OnItemClickListener onItemClickListener) {
-            img_del.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    removeItem(position);
-                }
+            img_del.setOnClickListener((view) -> {
+                if (onLableDelClickListener != null)
+                    onLableDelClickListener.OnDelClick(RecycleAdapterLable.this, lable, position);
             });
 
             img_del.setVisibility(deleteEnable ? View.VISIBLE : View.GONE);
-            img_tag.setVisibility(lable.isShowTag() ? View.VISIBLE : View.GONE);
+            img_tag.setVisibility(lable.getShowTagBool() ? View.VISIBLE : View.GONE);
             text_name.setText(lable.getName());
         }
 
@@ -74,5 +71,15 @@ public class RecycleAdapterLable extends BaseAdapter<Lable> {
 
     public void setDeleteEnable(boolean deleteEnable) {
         this.deleteEnable = deleteEnable;
+    }
+
+    private OnLableDelClickListener onLableDelClickListener;
+
+    public void setOnLableDelClickListener(OnLableDelClickListener onLableDelClickListener) {
+        this.onLableDelClickListener = onLableDelClickListener;
+    }
+
+    public interface OnLableDelClickListener {
+        void OnDelClick(RecycleAdapterLable adapter, Lable lable, int position);
     }
 }

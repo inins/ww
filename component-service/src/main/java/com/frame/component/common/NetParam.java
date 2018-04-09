@@ -44,7 +44,7 @@ public class NetParam {
     public NetParam putSignature() {
         if (StrUtil.isEmpty(paramMap)) return this;
         String randomInt = String.valueOf(new Random().nextInt());
-        paramMap.put("nonceStr",randomInt);
+        paramMap.put("nonceStr", randomInt);
         paramMap.put("signature", PayUtil.signStr(MapUtil.transLinkedHashMap(paramMap), randomInt));
         return this;
     }
