@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.frame.base.BasicActivity;
+import com.frame.component.common.AppConstant;
 import com.frame.component.ui.acticity.WebActivity;
 import com.frame.di.component.AppComponent;
 import com.wang.social.personal.R;
@@ -32,16 +33,16 @@ public class QuestionActivity extends BasicActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_qs:
-                WebActivity.start(this);
+                WebActivity.start(this, AppConstant.Url.aboutQushai);
                 break;
             case R.id.btn_ql:
-                WebActivity.start(this);
+                WebActivity.start(this, AppConstant.Url.aboutFanliao);
                 break;
             case R.id.btn_account:
-                WebActivity.start(this);
+                WebActivity.start(this, AppConstant.Url.aboutAccount);
                 break;
             case R.id.btn_other:
-                WebActivity.start(this);
+                WebActivity.start(this, AppConstant.Url.aboutOther);
                 break;
             case R.id.btn_version:
                 VersionHistoryActivity.start(this);

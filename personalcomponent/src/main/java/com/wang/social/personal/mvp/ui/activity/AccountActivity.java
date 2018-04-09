@@ -9,8 +9,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.frame.component.api.CommonService;
+import com.frame.component.common.AppConstant;
 import com.frame.component.entities.QiNiu;
 import com.frame.component.entities.dto.QiNiuDTO;
+import com.frame.component.ui.acticity.WebActivity;
 import com.frame.di.component.AppComponent;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
@@ -72,6 +74,9 @@ public class AccountActivity extends BasicAppActivity implements IView {
         switch (v.getId()) {
             case R.id.btn_right:
                 AccountDepositDetailActivity.start(this);
+                break;
+            case R.id.btn_question:
+                WebActivity.start(this, AppConstant.Url.commonProblem);
                 break;
             case R.id.btn_exchange_stone:
                 AccountExchangeActivity.start(this);

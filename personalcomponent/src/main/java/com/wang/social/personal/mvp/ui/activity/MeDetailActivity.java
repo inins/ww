@@ -75,7 +75,7 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
         setSupportActionBar(toolbar);
-        photoHelper = PhotoHelperEx.newInstance(this, this);
+        photoHelper = PhotoHelperEx.newInstance(this, this).needOfficialPhoto(true);
         dialogInputName = DialogInput.newDialogName(this);
         dialogInputSign = DialogInput.newDialogSign(this);
         dialogAddress = new DialogAddressPicker(this);
@@ -108,9 +108,9 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
     public void setUserData() {
         User user = AppDataHelper.getUser();
         if (user != null) {
-            mImageLoader.loadImage(this, ImageConfigImpl.
-                    builder()
+            mImageLoader.loadImage(this, ImageConfigImpl.builder()
                     .imageView(imgHeader)
+                    .isCircle(true)
                     .url(user.getAvatar())
                     .build());
             textName.setText(user.getNickname());
@@ -128,6 +128,7 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
         mImageLoader.loadImage(this, ImageConfigImpl.builder()
                 .imageView(imgHeader)
                 .url(url)
+                .isCircle(true)
                 .build());
     }
 

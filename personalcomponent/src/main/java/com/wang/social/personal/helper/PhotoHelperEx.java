@@ -42,21 +42,30 @@ public class PhotoHelperEx extends PhotoHelper {
         return dialog;
     }
 
+    //是否显示官方图库选项，默认不显示
+    public PhotoHelperEx needOfficialPhoto(boolean needOfficialPhoto) {
+        if (dialogPhoto == null || dialogPhoto.get() == null) {
+            dialogPhoto = new WeakReference(newInstanceDialog());
+        }
+        dialogPhoto.get().needOfficialPhoto(needOfficialPhoto);
+        return this;
+    }
+
     public void showDefaultDialog() {
-        if (dialogPhoto.get() == null) {
+        if (dialogPhoto == null || dialogPhoto.get() == null) {
             dialogPhoto = new WeakReference(newInstanceDialog());
         }
         dialogPhoto.get().show();
     }
 
     public void hideDefaultDialog() {
-        if (dialogPhoto.get() != null) {
+        if (dialogPhoto == null || dialogPhoto.get() != null) {
             dialogPhoto.get().hide();
         }
     }
 
     public void dismissDefaultDialog() {
-        if (dialogPhoto.get() != null) {
+        if (dialogPhoto == null || dialogPhoto.get() != null) {
             dialogPhoto.get().dismiss();
         }
     }

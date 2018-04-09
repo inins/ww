@@ -213,17 +213,33 @@
 
             <Space style="@style/common_Space_H" />
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:foreground="?attr/selectableItemBackground"
-                android:gravity="center"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:text="账户常见问题"
-                android:textColor="@color/common_text_dark"
-                android:textSize="11sp" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:text="账户"
+                    android:textColor="@color/common_text_dark"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/btn_question"
+                    android:layout_width="wrap_content"
+                    android:onClick="onClick"
+                    android:layout_height="30dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:text="常见问题"
+                    android:textColor="@color/common_blue_gray"
+                    android:textSize="11sp" />
+
+            </LinearLayout>
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

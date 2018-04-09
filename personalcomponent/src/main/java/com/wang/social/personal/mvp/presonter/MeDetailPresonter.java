@@ -49,7 +49,6 @@ public class MeDetailPresonter extends BasePresenter<MeDetailContract.Model, MeD
     }
 
     public void updateUserAvatar(String path) {
-//        mRootView.showLoading();
         qiNiuManager.uploadFile(mRootView, path, new QiNiuManager.OnSingleUploadListener() {
             @Override
             public void onSuccess(String url) {
@@ -59,7 +58,6 @@ public class MeDetailPresonter extends BasePresenter<MeDetailContract.Model, MeD
             @Override
             public void onFail() {
                 ToastUtil.showToastLong("上传失败");
-//                mRootView.hideLoading();
             }
         });
     }
