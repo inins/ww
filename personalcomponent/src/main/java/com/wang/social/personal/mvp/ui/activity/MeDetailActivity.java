@@ -14,6 +14,7 @@ import com.frame.component.helper.AppDataHelper;
 import com.frame.di.component.AppComponent;
 import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
+import com.frame.utils.TimeUtils;
 import com.frame.utils.ToastUtil;
 import com.wang.social.personal.helper.PhotoHelper;
 import com.wang.social.personal.R;
@@ -75,7 +76,7 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
         setSupportActionBar(toolbar);
-        photoHelper = PhotoHelperEx.newInstance(this, this);
+        photoHelper = PhotoHelperEx.newInstance(this, this).needOfficialPhoto(true);
         dialogInputName = DialogInput.newDialogName(this);
         dialogInputSign = DialogInput.newDialogSign(this);
         dialogAddress = new DialogAddressPicker(this);
@@ -103,19 +104,20 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
             mPresenter.updateUserGender(gender);
         });
         setUserData();
+        mPresenter.getPhotoList();
     }
 
     public void setUserData() {
         User user = AppDataHelper.getUser();
         if (user != null) {
-            mImageLoader.loadImage(this, ImageConfigImpl.
-                    builder()
+            mImageLoader.loadImage(this, ImageConfigImpl.builder()
                     .imageView(imgHeader)
+                    .isCircle(true)
                     .url(user.getAvatar())
                     .build());
             textName.setText(user.getNickname());
             textGender.setText(user.getSexText());
-            textOld.setText(user.getBirthday());
+            textOld.setText(DialogDatePicker.fixDateStr(user.getBirthday()));
             Province province = AddressDataBaseManager.getInstance().queryProvinceById(user.getProvinceInt());
             City city = AddressDataBaseManager.getInstance().queryCityById(user.getCityInt());
             textAddress.setText((province != null ? province.getName() : "") + (city != null ? city.getName() : ""));
@@ -128,7 +130,13 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
         mImageLoader.loadImage(this, ImageConfigImpl.builder()
                 .imageView(imgHeader)
                 .url(url)
+                .isCircle(true)
                 .build());
+    }
+
+    @Override
+    public void setPhotoCount(int count) {
+        textPhoto.setText(count != 0 ? (count + "张照片") : "");
     }
 
     public void onClick(View v) {

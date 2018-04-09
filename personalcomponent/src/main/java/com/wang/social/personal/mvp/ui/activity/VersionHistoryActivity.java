@@ -11,12 +11,15 @@ import android.view.View;
 
 import com.frame.base.BaseAdapter;
 import com.frame.base.BasicActivity;
+import com.frame.component.common.AppConstant;
+import com.frame.component.ui.acticity.WebActivity;
 import com.frame.di.component.AppComponent;
 import com.frame.utils.FocusUtil;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
 import com.wang.social.personal.common.ItemDecorationDivider;
 import com.wang.social.personal.mvp.entities.TestEntity;
+import com.wang.social.personal.mvp.entities.version.VersionHistory;
 import com.wang.social.personal.mvp.ui.adapter.RecycleAdapterDepositDetail;
 import com.wang.social.personal.mvp.ui.adapter.RecycleAdapterVersionHistory;
 
@@ -25,7 +28,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class VersionHistoryActivity extends BasicActivity implements BaseAdapter.OnItemClickListener<TestEntity> {
+public class VersionHistoryActivity extends BasicActivity implements BaseAdapter.OnItemClickListener<VersionHistory> {
 
     @BindView(R2.id.recycler)
     RecyclerView recycler;
@@ -55,27 +58,28 @@ public class VersionHistoryActivity extends BasicActivity implements BaseAdapter
         recycler.setAdapter(adapter);
         recycler.addItemDecoration(new ItemDecorationDivider(this).setLineMargin(15));
 
-        //测试数据
-        List<TestEntity> results = new ArrayList() {{
-            add(new TestEntity());
-            add(new TestEntity());
-            add(new TestEntity());
-            add(new TestEntity());
+        List<VersionHistory> results = new ArrayList() {{
+            add(new VersionHistory("2.0.0", "V2.0.0版本"));
         }};
         adapter.refreshData(results);
     }
 
     public void onClick(View v) {
-
+        switch (v.getId()) {
+            case R.id.btn_history:
+                WebActivity.start(this, AppConstant.Url.aboutHistory);
+                break;
+        }
     }
 
     @Override
-    public void onItemClick(TestEntity testEntity, int position) {
-
+    public void onItemClick(VersionHistory version, int position) {
+        if ("2.0.0".equals(version.getVersionName())) {
+            WebActivity.start(this, AppConstant.Url.currentVersion);
+        }
     }
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
-
     }
 }

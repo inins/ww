@@ -30,37 +30,11 @@ public class NetPhotoHelper {
     }
 
     public void netGetPhotoList(IView view, OnPhotoListApiCallBack callBack) {
-//        mRepositoryManager.obtainRetrofitService(UserService.class).getPhotoList()
-//                .subscribeOn(Schedulers.newThread())
-//                .doOnSubscribe(new Consumer<Disposable>() {
-//                    @Override
-//                    public void accept(Disposable disposable) throws Exception {
-//                        view.showLoading();
-//                    }
-//                })
-//                .subscribeOn(AndroidSchedulers.mainThread())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .doFinally(new Action() {
-//                    @Override
-//                    public void run() throws Exception {
-//                        view.hideLoading();
-//                    }
-//                })
-//                .compose(RxLifecycleUtils.bindToLifecycle(view))
-//                .subscribe(new ErrorHandleSubscriber<BaseJson<PhotoListWrap>>(mErrorHandler) {
-//                    @Override
-//                    public void onNext(BaseJson<PhotoListWrap> baseJson) {
-//                        PhotoListWrap wrap = baseJson.getData();
-//                        List<Photo> photoList = wrap.getList();
-//                        if (callBack != null) callBack.onSuccess(photoList);
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        if (callBack != null) callBack.onError(e);
-//                    }
-//                });
-        MyApiHelper.execute(view, true,
+        netGetPhotoList(view, true, callBack);
+    }
+
+    public void netGetPhotoList(IView view, boolean needLoading, OnPhotoListApiCallBack callBack) {
+        MyApiHelper.execute(view, needLoading,
                 mRepositoryManager.obtainRetrofitService(UserService.class).getPhotoList(),
                 new ErrorHandleSubscriber<BaseJson<PhotoListWrap>>(mErrorHandler) {
                     @Override

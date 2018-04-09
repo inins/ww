@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.frame.base.BasicActivity;
+import com.frame.component.common.AppConstant;
 import com.frame.component.helper.QiNiuManager;
 import com.frame.component.ui.acticity.WebActivity;
 import com.frame.component.utils.ListUtil;
@@ -130,7 +131,7 @@ public class FeedbackActivity extends BasicAppActivity implements PhotoHelper.On
                 }
                 break;
             case R.id.btn_question:
-                WebActivity.start(this);
+                WebActivity.start(this, AppConstant.Url.proposal);
                 break;
         }
     }

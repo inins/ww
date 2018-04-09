@@ -21,7 +21,7 @@ import java.lang.ref.WeakReference;
  */
 public abstract class BasicAppActivity extends BasicActivity {
 
-    private Toolbar toolbar;
+    protected Toolbar toolbar;
 
     private WeakReference<DialogLoading> dialogLoading;
 
@@ -29,6 +29,10 @@ public abstract class BasicAppActivity extends BasicActivity {
     protected void onCreate(Bundle savedInstanceState) {
         dialogLoading = new WeakReference(new DialogLoading(this));
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void beforeInitData() {
         toolbar = ViewUtil.findToolbar((ViewGroup) getWindow().getDecorView());
         if (toolbar != null) setSupportActionBar(toolbar);
     }

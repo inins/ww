@@ -1,14 +1,19 @@
 package com.frame.component.entities;
 
+import android.text.TextUtils;
+
 import com.frame.utils.StrUtil;
+import com.frame.utils.TimeUtils;
 
 import java.io.Serializable;
+
+import lombok.Data;
 
 /**
  * Created by liaoinstan on 2018/4/3.
  * 用户实体
  */
-
+@Data
 public class User implements Serializable {
 
     /**
@@ -56,102 +61,18 @@ public class User implements Serializable {
         return StrUtil.str2int(city);
     }
 
+//    public String getAstro() {
+//        if (TextUtils.isEmpty(birthday)) return "";
+//        if (birthday.indexOf(" ") != -1)
+//            birthday = birthday.substring(birthday.indexOf(" "));
+//        String[] split = birthday.split("-");
+//        if (split == null || split.length < 3) return "";
+//        int year = Integer.parseInt(split[0]);
+//        int mouth = Integer.parseInt(split[1]);
+//        int day = Integer.parseInt(split[2]);
+//        return TimeUtils.getAstro(mouth, day);
+//    }
+
     /////////////////////////////////
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public String getAutograph() {
-        return autograph;
-    }
-
-    public void setAutograph(String autograph) {
-        this.autograph = autograph;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public int getSex() {
-        return sex;
-    }
-
-    public void setSex(int sex) {
-        this.sex = sex;
-    }
-
-    public long getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(long createTime) {
-        this.createTime = createTime;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getProvince() {
-        return province;
-    }
-
-    public void setProvince(String province) {
-        this.province = province;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getBirthday() {
-
-        return birthday;
-    }
-
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
-    }
-
-    public String getConstellation() {
-        return constellation;
-    }
-
-    public void setConstellation(String constellation) {
-        this.constellation = constellation;
-    }
 }

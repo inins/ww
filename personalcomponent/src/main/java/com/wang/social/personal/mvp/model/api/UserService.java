@@ -1,12 +1,14 @@
 package com.wang.social.personal.mvp.model.api;
 
 import com.frame.http.api.BaseJson;
+import com.wang.social.personal.mvp.base.BaseListWrap;
 import com.wang.social.personal.mvp.entities.AccountBalance;
 import com.wang.social.personal.mvp.entities.CommonEntity;
 import com.wang.social.personal.mvp.entities.lable.Lable;
 import com.wang.social.personal.mvp.entities.QiniuTokenWrap;
 import com.wang.social.personal.mvp.entities.UserWrap;
 import com.wang.social.personal.mvp.entities.lable.LableWrap;
+import com.wang.social.personal.mvp.entities.photo.OffiPic;
 import com.wang.social.personal.mvp.entities.photo.Photo;
 import com.wang.social.personal.mvp.entities.photo.PhotoListWrap;
 
@@ -79,6 +81,10 @@ public interface UserService {
     @FormUrlEncoded
     @POST("/app/tag/deltag?v=2.0.0")
     Observable<BaseJson<Object>> deltag(@Field("tagId") int tagId);
+
+    //官方相册列表
+    @GET("/system/pictureLibrary?v=2.0.0")
+    Observable<BaseJson<BaseListWrap<OffiPic>>> getOfficialPhotoList(@Query("type") int type);
 
     //个人相册列表
     @POST("/app/userInfo/getPhotoList?v=2.0.0")

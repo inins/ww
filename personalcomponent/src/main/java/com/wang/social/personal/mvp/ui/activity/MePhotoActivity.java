@@ -25,15 +25,23 @@ import com.wang.social.personal.helper.PhotoHelperEx;
 import com.wang.social.personal.mvp.entities.photo.Photo;
 import com.wang.social.personal.mvp.ui.adapter.RecycleAdapterMePhoto;
 import com.wang.social.personal.mvp.ui.dialog.DialogSure;
+import com.wang.social.personal.mvp.ui.view.TitleView;
 import com.wang.social.personal.net.helper.NetPhotoHelper;
+import com.wang.social.personal.utils.viewutils.ViewUtil;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MePhotoActivity extends BasicAppActivity implements IView, PhotoHelper.OnPhotoCallback {
+
+    @BindView(R.id.titleview)
+    TitleView titleview;
+    @BindView(R2.id.recycler)
+    RecyclerView recycler;
 
     @Inject
     NetPhotoHelper netPhotoHelper;
@@ -43,20 +51,15 @@ public class MePhotoActivity extends BasicAppActivity implements IView, PhotoHel
     ImageLoader mImageLoader;
 
     private PhotoHelperEx photoHelperEx;
-
-    @BindView(R2.id.recycler)
-    RecyclerView recycler;
-    @BindView(R2.id.toolbar)
-    Toolbar toolbar;
     private RecycleAdapterMePhoto adapter;
-
     private Photo modifyPhoto;
+
+    private int MAXCOUNT = 3;//最多只能有三张
 
     public static void start(Context context) {
         Intent intent = new Intent(context, MePhotoActivity.class);
         context.startActivity(intent);
     }
-
 
     @Override
     public int initView(@NonNull Bundle savedInstanceState) {
@@ -65,7 +68,6 @@ public class MePhotoActivity extends BasicAppActivity implements IView, PhotoHel
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
-        setSupportActionBar(toolbar);
         FocusUtil.focusToTop(toolbar);
 
         photoHelperEx = PhotoHelperEx.newInstance(this, this);
@@ -79,11 +81,19 @@ public class MePhotoActivity extends BasicAppActivity implements IView, PhotoHel
         netGetPhotoList();
     }
 
+    private void setTitleviewCount() {
+        titleview.setSubTitle("(" + adapter.getResultsCount() + "/" + MAXCOUNT + ")");
+    }
+
     private RecycleAdapterMePhoto.OnPhotoClickListener onPhotoClickListener = new RecycleAdapterMePhoto.OnPhotoClickListener() {
         @Override
         public void onAdd(View v) {
-            modifyPhoto = null;
-            photoHelperEx.showDefaultDialog();
+            if (adapter.getResultsCount() < 3) {
+                modifyPhoto = null;
+                photoHelperEx.showDefaultDialog();
+            } else {
+                ToastUtil.showToastLong("最多只能上传3张图片");
+            }
         }
 
         @Override
@@ -156,6 +166,7 @@ public class MePhotoActivity extends BasicAppActivity implements IView, PhotoHel
             @Override
             public void onSuccess(List<Photo> photoList) {
                 adapter.refreshData(photoList);
+                setTitleviewCount();
             }
 
             @Override
@@ -170,6 +181,7 @@ public class MePhotoActivity extends BasicAppActivity implements IView, PhotoHel
             @Override
             public void onSuccess(Photo photo) {
                 adapter.insertItem(adapter.getItemCount() - 1, photo);
+                setTitleviewCount();
             }
 
             @Override
@@ -184,6 +196,7 @@ public class MePhotoActivity extends BasicAppActivity implements IView, PhotoHel
             @Override
             public void onSuccess() {
                 adapter.removeItemById(userPhotoId);
+                setTitleviewCount();
             }
 
             @Override
@@ -207,5 +220,12 @@ public class MePhotoActivity extends BasicAppActivity implements IView, PhotoHel
                 ToastUtil.showToastLong(e.getMessage());
             }
         });
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

@@ -30,6 +30,8 @@ public class DialogBottomPhoto extends BaseDialog implements View.OnClickListene
     TextView btnCamera;
     @BindView(R.id.btn_photo)
     TextView btnPhoto;
+    @BindView(R.id.lay_official)
+    View lay_official;
 
     public DialogBottomPhoto(Context context) {
         super(context);
@@ -76,6 +78,9 @@ public class DialogBottomPhoto extends BaseDialog implements View.OnClickListene
         }
     }
 
+    public void needOfficialPhoto(boolean needOfficialPhoto) {
+        lay_official.setVisibility(needOfficialPhoto ? View.VISIBLE : View.GONE);
+    }
 
     private OnPhotoListener onPhotoListener;
 

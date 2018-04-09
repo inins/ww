@@ -1,19 +1,22 @@
 package com.wang.social.personal.mvp.ui.adapter;
 
 import android.content.Context;
-import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
 import com.wang.social.personal.R;
 import com.wang.social.personal.mvp.entities.TestEntity;
+import com.wang.social.personal.mvp.entities.version.VersionHistory;
 
 import java.util.List;
 
-public class RecycleAdapterVersionHistory extends BaseAdapter<TestEntity> {
+import butterknife.BindView;
 
-    public List<TestEntity> getResults() {
+public class RecycleAdapterVersionHistory extends BaseAdapter<VersionHistory> {
+
+    public List<VersionHistory> getResults() {
         return valueList;
     }
 
@@ -22,20 +25,22 @@ public class RecycleAdapterVersionHistory extends BaseAdapter<TestEntity> {
         return new Holder(context, parent, R.layout.personal_item_version_history);
     }
 
-    public class Holder extends BaseViewHolder<TestEntity> {
+    public class Holder extends BaseViewHolder<VersionHistory> {
+        @BindView(R.id.text_version)
+        TextView textVersion;
+
         public Holder(Context context, ViewGroup root, int layoutRes) {
             super(context, root, layoutRes);
         }
 
         @Override
-        protected void bindData(TestEntity itemValue, int position, OnItemClickListener onItemClickListener) {
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (onItemClickListener != null)
-                        onItemClickListener.onItemClick(itemValue, position);
-                }
-            });
+        protected void bindData(VersionHistory bean, int position, OnItemClickListener onItemClickListener) {
+            textVersion.setText(bean.getVersionText());
+        }
+
+        @Override
+        protected boolean useItemClickListener() {
+            return true;
         }
 
         @Override

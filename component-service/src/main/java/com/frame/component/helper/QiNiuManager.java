@@ -6,6 +6,7 @@ import com.frame.component.api.Api;
 import com.frame.component.api.CommonService;
 import com.frame.component.entities.QiNiu;
 import com.frame.component.entities.dto.QiNiuDTO;
+import com.frame.component.utils.UrlUtil;
 import com.frame.http.api.BaseJson;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.IView;
@@ -124,6 +125,11 @@ public class QiNiuManager {
      */
     public void uploadFile(final IView view, final String path, final OnSingleUploadListener onSingleUploadListener) {
         if (TextUtils.isEmpty(path)) {
+            return;
+        }
+        //特殊处理：如果传入的path本身就是网络图片地址，则直接回调成功
+        if (StrUtil.isUrl(path)) {
+            if (onSingleUploadListener != null) onSingleUploadListener.onSuccess(path);
             return;
         }
         if (view != null) view.showLoading();

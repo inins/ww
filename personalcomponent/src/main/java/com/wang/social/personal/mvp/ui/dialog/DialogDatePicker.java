@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.frame.component.view.DatePicker;
+import com.frame.utils.StrUtil;
 import com.frame.utils.TimeUtils;
 import com.wang.social.personal.R;
 
@@ -92,16 +93,32 @@ public class DialogDatePicker extends BaseDialog implements View.OnClickListener
 
     ///////////////////////////
 
-    public void setDate(String dateStr) {
-        if (TextUtils.isEmpty(dateStr)) return;
+    //从生日及其星座字符中解析出年月日，只针对该dialog生成的字符串有效
+    //格式必须满足："年-月-日 星座"
+    //解析失败返回null
+    public static int[] analysisDateStr(String dateStr) {
+        if (TextUtils.isEmpty(dateStr)) return null;
         if (dateStr.indexOf(" ") != -1)
-            dateStr = dateStr.substring(dateStr.indexOf(" "));
+            dateStr = dateStr.substring(0, dateStr.indexOf(" "));
         String[] split = dateStr.split("-");
-        if (split == null || split.length < 3) return;
+        if (split == null || split.length < 3) return null;
         int year = Integer.parseInt(split[0]);
         int mouth = Integer.parseInt(split[1]);
         int day = Integer.parseInt(split[2]);
-        mDatePicker.setDate(year, mouth, day, false);
+        return new int[]{year, mouth, day};
+    }
+
+    //把没有解析出星座并
+    public static String fixDateStr(String dateStr) {
+        int[] split = analysisDateStr(dateStr);
+        if (StrUtil.isEmpty(split)) return dateStr;
+        return dateStr + " " + TimeUtils.getAstro(split[1], split[2]);
+    }
+
+    public void setDate(String dateStr) {
+        int[] split = analysisDateStr(dateStr);
+        if (StrUtil.isEmpty(split)) return;
+        mDatePicker.setDate(split[0], split[1], split[2], false);
     }
 
     ///////////////////////////
