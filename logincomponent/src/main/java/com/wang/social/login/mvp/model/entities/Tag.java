@@ -20,6 +20,9 @@ public class Tag implements Parcelable {
     public void clickTag() {
         state = state == 0 ? 1 : 0;
     }
+    public void unselect() {
+        state = 0;
+    }
 
     @Override
     public int describeContents() {

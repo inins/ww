@@ -18,7 +18,11 @@ import com.wang.social.login.mvp.contract.TagListContract;
 import com.wang.social.login.mvp.model.entities.Tag;
 import com.wang.social.login.mvp.presenter.TagListPresenter;
 import com.wang.social.login.mvp.ui.widget.adapter.TagAdapter;
+import com.wang.social.login.utils.Keys;
 
+
+import org.simple.eventbus.EventBus;
+import org.simple.eventbus.Subscriber;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,20 +35,31 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
     public final static String MODE_DELETE = "MODE_DELETE";
     public final static String NAME_SELECTED_LIST = "NAME_SELECTED_LIST";
     public final static String NAME_PARENT_ID = "NAME_PARENT_ID";
+    public final static String NAME_MODE = "NAME_MODE";
 
     /**
      *  返回TagListFragment
      * @param list 选中列表(主要在 兴趣大杂烩时使用)
      * @return
      */
-    public static TagListFragment newInstance(int parentId, ArrayList<Tag> list) {
+    public static TagListFragment newSelectionMode(int parentId, ArrayList<Tag> list) {
         TagListFragment fragment = new TagListFragment();
 
         Bundle bundle = new Bundle();
+        bundle.putString(NAME_MODE, MODE_SELECTION);
         bundle.putInt(NAME_PARENT_ID, parentId);
-        if (null != list) {
-            bundle.putParcelableArrayList(NAME_SELECTED_LIST, list);
-        }
+        bundle.putParcelableArrayList(NAME_SELECTED_LIST, list);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
+    public static TagListFragment newDeleteMode(int parentId, ArrayList<Tag> list) {
+        TagListFragment fragment = new TagListFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putString(NAME_MODE, MODE_DELETE);
+        bundle.putInt(NAME_PARENT_ID, parentId);
+        bundle.putParcelableArrayList(NAME_SELECTED_LIST, list);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -99,12 +114,16 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
         @Override
         public void onTagClick(Tag tag) {
             boolean selected = mPresenter.tagClick(tag);
+
+            EventBus.getDefault().post(tag, selected ? Keys.EVENTBUS_TAG_SELECTED : Keys.EVENTBUS_TAG_UNSELECT);
         }
 
         @Override
         public void onDelete(Tag tag) {
             // 将tag从列表删除
             mPresenter.removeTag(tag);
+
+            EventBus.getDefault().post(tag, Keys.EVENTBUS_TAG_DELETE);
         }
     };
 
@@ -130,17 +149,17 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
         if (getArguments() != null) {
             selectedList = getArguments().getParcelableArrayList(NAME_SELECTED_LIST);
             parentId = getArguments().getInt(NAME_PARENT_ID);
+            mode = getArguments().getString(NAME_MODE);
         }
 
-        if (null != selectedList && selectedList.size() > 0) {
-            // 如果有传选中list做来，则说明是删除模式
+        if (mode.equals(MODE_DELETE)) {
+            // 删除模式
             mPresenter.setSelectedList(selectedList);
-            mode = MODE_DELETE;
 
             resetTagListView();
         } else {
             // 没有传入选中列表，则需要加载数据
-            mPresenter.loadTagList(parentId);
+            mPresenter.loadTagList(parentId, selectedList);
         }
     }
 
@@ -160,6 +179,14 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
         recyclerView.setAdapter(tagAdapter);
     }
 
+    /**
+     * 收到删除的通知，需要让界面执行取消选中的操作，因为可能是不用的界面
+     * @param tag
+     */
+    @Subscriber(tag = Keys.EVENTBUS_TAG_DELETE)
+    public void tagDelete(Tag tag) {
+        mPresenter.unselectTag(tag);
+    }
 
     @Override
     public void setData(@Nullable Object data) {

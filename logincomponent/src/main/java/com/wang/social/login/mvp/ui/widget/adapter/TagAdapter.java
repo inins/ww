@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.wang.social.login.R;
 import com.wang.social.login.mvp.model.entities.Tag;
 
+import timber.log.Timber;
+
 public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
     /**
      * 数据提供

@@ -52,7 +52,7 @@ public class TagListPresenter extends
      * 加载标签列表
      * @param parentId
      */
-    public void loadTagList(int parentId) {
+    public void loadTagList(int parentId, List<Tag> list) {
         mApiHelper.execute(mRootView,
                 mModel.taglist(100, 0, parentId),
                 new ErrorHandleSubscriber<Tags>(mErrorHandler) {
@@ -60,6 +60,15 @@ public class TagListPresenter extends
                     @Override
                     public void onNext(Tags tags) {
                         tagList = tags.getList();
+
+                        // 获取的新标签需要先判断是否已经被选择了
+                        for (Tag t1 : tagList) {
+                            for (Tag t2 : list) {
+                                if (t1.getId() == t2.getId()) {
+                                    t1.setState(t2.getState());
+                                }
+                            }
+                        }
 
                         mRootView.resetTagListView();
                     }
@@ -100,6 +109,18 @@ public class TagListPresenter extends
         }
     }
 
+
+    public void unselectTag(Tag tag) {
+        for (Tag t : tagList) {
+            if (t.getId() == tag.getId()) {
+                t.unselect();
+
+                mRootView.tagListChanged();
+                return;
+            }
+        }
+    }
+
     /**
      * Tag点击
      * @param tag
@@ -108,6 +129,8 @@ public class TagListPresenter extends
     public boolean tagClick(Tag tag) {
         if (null != tag) {
             tag.clickTag();
+
+            mRootView.tagListChanged();
 
             return tag.isPersonalTag();
         }

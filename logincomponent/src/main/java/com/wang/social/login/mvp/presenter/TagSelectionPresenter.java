@@ -67,6 +67,45 @@ public class TagSelectionPresenter extends
     }
 
     /**
+     * 选中Tag
+     * @param tag
+     * @return
+     */
+    public void selectTag(Tag tag) {
+        selectedList.add(tag);
+    }
+
+    /**
+     * 取消选择
+     * @param tag
+     */
+    public void unselectTag(Tag tag) {
+        int i;
+        boolean unselect = false;
+        for (i = 0; i < selectedList.size(); i++) {
+            Tag t = selectedList.get(i);
+            if (t.getId() == tag.getId()) {
+                unselect = true;
+                break;
+            }
+        }
+
+        if (unselect) {
+            selectedList.remove(i);
+        }
+    }
+
+    public boolean isSelected(Tag tag) {
+        for (Tag t : selectedList) {
+            if (t.getId() == tag.getId()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * 选中数量
      * @return
      */

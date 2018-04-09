@@ -23,10 +23,12 @@ import com.wang.social.login.mvp.model.entities.Tag;
 import com.wang.social.login.mvp.model.entities.dto.Tags;
 import com.wang.social.login.mvp.presenter.TagSelectionPresenter;
 import com.wang.social.login.mvp.ui.widget.TagListFragment;
+import com.wang.social.login.utils.Keys;
 
 import org.simple.eventbus.EventBus;
 import org.simple.eventbus.Subscriber;
 
+import java.security.Key;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -159,7 +161,8 @@ public class TagSelectionActivity extends BaseActivity<TagSelectionPresenter> im
         // 这里不需要parentId，所以传入-1
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.content_layout, TagListFragment.newInstance(-1, mPresenter.getSelectedList()))
+                .add(R.id.content_layout,
+                        TagListFragment.newDeleteMode(-1, mPresenter.getSelectedList()))
                 .commit();
     }
 
@@ -184,7 +187,7 @@ public class TagSelectionActivity extends BaseActivity<TagSelectionPresenter> im
             @Override
             public Fragment getItem(int position) {
                 Tag parentTag = tags.getList().get(position);
-                return TagListFragment.newInstance(parentTag.getId(), null);
+                return TagListFragment.newSelectionMode(parentTag.getId(), mPresenter.getSelectedList());
             }
 
             @Override
@@ -228,6 +231,27 @@ public class TagSelectionActivity extends BaseActivity<TagSelectionPresenter> im
         }
     }
 
+    @Subscriber(tag = Keys.EVENTBUS_TAG_SELECTED)
+    public void tagSelected(Tag tag) {
+        // 将Tag加入已选列表
+        mPresenter.selectTag(tag);
+
+        refreshCountTV();
+    }
+
+    @Subscriber(tag = Keys.EVENTBUS_TAG_UNSELECT)
+    public void tagUnselect(Tag tag) {
+        mPresenter.unselectTag(tag);
+
+        refreshCountTV();
+    }
+
+    @Subscriber(tag = Keys.EVENTBUS_TAG_DELETE)
+    public void tagDelete(Tag tag) {
+        mPresenter.unselectTag(tag);
+
+        refreshCountTV();
+    }
 
     @Override
     public void onDestroy() {
