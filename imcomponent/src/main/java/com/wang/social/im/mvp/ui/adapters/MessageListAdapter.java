@@ -13,6 +13,8 @@ import com.wang.social.im.mvp.ui.adapters.holders.BaseMessageViewHolder;
 import com.wang.social.im.mvp.ui.adapters.holders.ImageViewHolder;
 import com.wang.social.im.mvp.ui.adapters.holders.TextViewHolder;
 
+import lombok.Setter;
+
 /**
  * 消息列表适配器
  * <p>
@@ -43,6 +45,9 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
 
     private ConversationType mConversationType;
 
+    @Setter
+    private BaseMessageViewHolder.OnHandleListener handleListener;
+
     public MessageListAdapter(ConversationType conversationType) {
         this.mConversationType = conversationType;
     }
@@ -64,6 +69,20 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
                 viewHolder = new ImageViewHolder(context, parent, R.layout.im_item_msg_image_right);
                 break;
         }
+        if (viewHolder == null) {
+            return null;
+        }
+        //配置全局参数
+        if (mConversationType == ConversationType.PRIVATE) {
+            viewHolder.showHeader = true;
+            viewHolder.showNickname = false;
+        } else if (mConversationType == ConversationType.SOCIAL || mConversationType == ConversationType.TEAM) {
+            viewHolder.showHeader = true;
+            viewHolder.showNickname = true;
+        } else if (mConversationType == ConversationType.MIRROR) {
+            viewHolder.showHeader = false;
+            viewHolder.showNickname = true;
+        }
         return viewHolder;
     }
 
@@ -71,6 +90,7 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         UIMessage currentMessage = valueList.get(position);
         ((BaseMessageViewHolder) holder).conversationType = mConversationType;
+        ((BaseMessageViewHolder) holder).mHandleListener = handleListener;
         if (position > 0) {
             UIMessage lastMessage = valueList.get(position - 1);
             if (currentMessage.getTimMessage().timestamp() - lastMessage.getTimMessage().timestamp() < 60) {
@@ -134,5 +154,23 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
                 viewType = -1;
         }
         return viewType;
+    }
+
+    /**
+     * 根据数据查询索引
+     * @param uiMessage
+     * @return
+     */
+    public int findPosition(UIMessage uiMessage) {
+        int position = -1;
+        if (valueList != null && valueList.size() > 0) {
+            for (UIMessage message : valueList) {
+                if (message.getTimMessage().getMsgUniqueId() == uiMessage.getTimMessage().getMsgUniqueId()) {
+                    position = valueList.indexOf(message);
+                    break;
+                }
+            }
+        }
+        return position;
     }
 }

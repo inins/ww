@@ -1,7 +1,6 @@
 package com.frame.component.app;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.frame.component.api.Api;
 import com.frame.component.entities.HttpStatus;
@@ -13,9 +12,8 @@ import com.frame.utils.InterceptorUtils;
 
 import java.util.LinkedHashMap;
 
-import okhttp3.FormBody;
-import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
+import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.Response;
 
@@ -38,9 +36,13 @@ public class GlobalHttpHandlerImp implements GlobalHttpHandler {
     @Override
     public Response onHttpResultResponse(String httpResult, Interceptor.Chain chan, Response response) {
         /*这里可以先客户端一步拿到Http的请求结果，可以做Json解析，错误码判断等*/
-        HttpStatus httpStatus = FrameUtils.obtainAppComponentFromContext(mContext).gson().fromJson(httpResult, HttpStatus.class);
-        if (httpStatus != null && httpStatus.getCode() != Api.SUCCESS_CODE) {
-            throw new ApiException(httpStatus.getCode(), httpStatus.getMessage());
+        MediaType mediaType = response.body().contentType();
+        //如果返回的数据没有指定内容类型，或者是Json数据则进行错误码判断
+        if (mediaType == null || mediaType.subtype() == null || mediaType.subtype().equalsIgnoreCase("json")) {
+            HttpStatus httpStatus = FrameUtils.obtainAppComponentFromContext(mContext).gson().fromJson(httpResult, HttpStatus.class);
+            if (httpStatus != null && httpStatus.getCode() != Api.SUCCESS_CODE) {
+                throw new ApiException(httpStatus.getCode(), httpStatus.getMessage());
+            }
         }
         return response;
     }
