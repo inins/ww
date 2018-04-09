@@ -44,14 +44,6 @@ public class BundleImgView extends FrameLayout {
     private boolean dragble;
     private boolean editble;
 
-    public void setDragble(boolean dragble) {
-        this.dragble = dragble;
-    }
-
-    public List<BundleImgEntity> getResults() {
-        return results;
-    }
-
     public BundleImgView(@NonNull Context context) {
         this(context, null);
     }
@@ -116,7 +108,7 @@ public class BundleImgView extends FrameLayout {
 
     //############### 对外方法 ################
 
-    public RecyclerView getRecyclerView(){
+    public RecyclerView getRecyclerView() {
         return recyclerView;
     }
 
@@ -134,6 +126,47 @@ public class BundleImgView extends FrameLayout {
         void onPhotoShowClick(String path);
 
         void onPhotoAddClick(View v);
+    }
+
+    public abstract static class OnBundleSimpleClickListener implements OnBundleClickListener {
+
+        @Override
+        public void onPhotoDelClick(View v) {
+        }
+
+        @Override
+        public void onPhotoShowClick(String path) {
+        }
+
+        @Override
+        public abstract void onPhotoAddClick(View v);
+    }
+
+    //设置是否可拓展
+    public void setDragble(boolean dragble) {
+        this.dragble = dragble;
+    }
+
+    //获取结果集
+    public List<BundleImgEntity> getResults() {
+        return results;
+    }
+
+    //获取结果集(string 集合)
+    public List<String> getResultsStrArray() {
+        List<String> strResults = new ArrayList<>();
+        if (!StrUtil.isEmpty(results)) {
+            for (BundleImgEntity entity : results) {
+                strResults.add(entity.getPath());
+            }
+        }
+        return strResults;
+    }
+
+    //获取结果集数量
+    public int getResultCount() {
+        if (results == null) return 0;
+        return results.size();
     }
 
     public void setEditble(boolean editble) {

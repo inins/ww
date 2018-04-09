@@ -29,6 +29,7 @@
                 android:layout_gravity="right"
                 android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
+                android:onClick="onClick"
                 android:text="@string/personal_feedback_btn_right"
                 android:textColor="@color/common_blue_deep"
                 android:textSize="16sp" />
@@ -69,7 +70,7 @@
                     android:gravity="left|top"
                     android:hint="@string/personal_feedback_hint_feedback"
                     android:inputType="textMultiLine"
-                    android:maxLength="255"
+                    android:maxLength="500"
                     android:minLines="7"
                     android:padding="10dp"
                     android:textColor="@color/common_text_blank"
@@ -77,6 +78,7 @@
                     android:textSize="@dimen/personal_text_nomal" />
 
                 <TextView
+                    android:id="@+id/text_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|bottom"
@@ -147,6 +149,7 @@
                 android:gravity="bottom"
                 android:hint="@string/personal_feedback_hint_phone"
                 android:inputType="phone"
+                android:maxLength="11"
                 android:paddingBottom="3dp"
                 android:paddingLeft="0dp" />
 
@@ -155,10 +158,12 @@
             <Space style="@style/common_Space_H" />
 
             <TextView
+                android:id="@+id/btn_question"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_gravity="center_horizontal"
                 android:gravity="center"
+                android:onClick="onClick"
                 android:text="@string/personal_feedback_help"
                 android:textColor="@color/common_blue_deep"
                 android:textSize="12sp" />

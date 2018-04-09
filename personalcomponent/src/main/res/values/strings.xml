@@ -87,9 +87,14 @@
     <string name="personal_account_title">我的账户</string>
     <string name="personal_account_btn_right">明细</string>
     <string name="personal_account_note">钻石可用于查看付费内容/参与游戏</string>
-    <string name="personal_account_card">全部钻石：</string>
+    <string name="personal_account_diamond_left">钻石数：</string>
+    <string name="personal_account_diamond_right">兑换宝石</string>
+    <string name="personal_account_stone_left">宝石数：</string>
+    <string name="personal_account_stone_about">宝石相关</string>
     <string name="personal_account_btn_recharge">充值</string>
     <string name="personal_account_btn_diposit">提现</string>
+    <string name="personal_account_stonenotice_title">&#8195;&#8195;宝石是用于产品中消费使用，可用于：支付阅读费用、创建趣聊和觅聊</string>
+    <string name="personal_account_stonenotice_note">（宝石只能通过钻石兑换或官方赠送）</string>
 
     <!--我的账户提现页面-->
     <string name="personal_account_deposit_title">账户提现</string>

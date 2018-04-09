@@ -24,11 +24,7 @@ public class PhotoHelper {
     }
 
     public void startPic() {
-        PictureSelector.from(activity)
-                .maxSelection(1)
-                .spanCount(2)
-                .isClip(true)
-                .forResult(PHOTO_PIC);
+        ToastUtil.showToastLong("开发中");
     }
 
     public void startCamera() {
@@ -36,7 +32,11 @@ public class PhotoHelper {
     }
 
     public void startPhoto() {
-        ToastUtil.showToastLong("开发中");
+        PictureSelector.from(activity)
+                .maxSelection(1)
+                .spanCount(2)
+                .isClip(true)
+                .forResult(PHOTO_PIC);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

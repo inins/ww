@@ -89,4 +89,9 @@ public interface UserService {
     @FormUrlEncoded
     @POST("/app/userInfo/editPhoto?v=2.0.0")
     Observable<BaseJson<Boolean>> editPhoto(@Field("userPhotoId") int userPhotoId, @Field("photoUrl") String photoUrl);
+
+    //意见反馈
+    @FormUrlEncoded
+    @POST("/app/idea/feedback?v=2.0.0")
+    Observable<BaseJson<Object>> feedback(@Field("phone") String phone, @Field("content") String content, @Field("pictures") String pictures);
 }

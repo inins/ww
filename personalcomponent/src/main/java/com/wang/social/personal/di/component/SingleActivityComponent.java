@@ -5,6 +5,7 @@ import com.frame.di.scope.ActivityScope;
 import com.wang.social.personal.di.module.MeDetailModule;
 import com.wang.social.personal.di.module.UserModule;
 import com.wang.social.personal.mvp.ui.activity.AccountActivity;
+import com.wang.social.personal.mvp.ui.activity.FeedbackActivity;
 import com.wang.social.personal.mvp.ui.activity.MeDetailActivity;
 import com.wang.social.personal.mvp.ui.activity.MePhotoActivity;
 
@@ -21,4 +22,5 @@ import dagger.Component;
 public interface SingleActivityComponent {
     void inject(AccountActivity activity);
     void inject(MePhotoActivity activity);
+    void inject(FeedbackActivity activity);
 }
