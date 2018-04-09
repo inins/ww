@@ -73,7 +73,7 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
         ((BaseMessageViewHolder) holder).conversationType = mConversationType;
         if (position > 0) {
             UIMessage lastMessage = valueList.get(position - 1);
-            if (currentMessage.getTimMessage().timestamp() - lastMessage.getTimMessage().timestamp() < 60 * 1000) {
+            if (currentMessage.getTimMessage().timestamp() - lastMessage.getTimMessage().timestamp() < 60) {
                 ((BaseMessageViewHolder) holder).showTimestamp = false;
             }
         }

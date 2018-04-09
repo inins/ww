@@ -104,7 +104,7 @@ public class RequestInterceptor implements Interceptor {
 
         //打印响应结果
         String bodyString = null;
-        if (responseBody != null && isParseable(responseBody.contentType())) {
+        if (responseBody != null /*&& isParseable(responseBody.contentType())*/) {
             bodyString = printResult(request, originalResponse, logResponse);
         }
 
@@ -116,7 +116,7 @@ public class RequestInterceptor implements Interceptor {
             final String message = originalResponse.message();
             final String url = originalResponse.request().url().toString();
 
-            if (responseBody != null && isParseable(responseBody.contentType())) {
+            if (responseBody != null /*&& isParseable(responseBody.contentType())*/) {
                 mPrinter.printJsonResponse(TimeUnit.NANOSECONDS.toMillis(t2 - t1), isSuccessful,
                         code, header, responseBody.contentType(), bodyString, segmentList, message, url);
             } else {

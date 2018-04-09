@@ -51,21 +51,37 @@ public class ImageViewHolder extends BaseMessageViewHolder<UIMessage> {
         } else {
             msgTvTime.setVisibility(View.GONE);
         }
-        //头像
+
         TIMUserProfile profile = itemValue.getTimMessage().getSenderProfile();
+        String faceUrl;
+        if (itemValue.getTimMessage().isSelf()) {
+            faceUrl = getSelfFaceUrl();
+        } else {
+            if (showNickname) {
+                msgTvName.setVisibility(View.VISIBLE);
+                if (profile != null) {
+                    msgTvName.setText(profile.getRemark());
+                    faceUrl = profile.getFaceUrl();
+                } else {
+                    msgTvName.setText("");
+                    faceUrl = "";
+                }
+            } else {
+                msgTvName.setVisibility(View.GONE);
+                if (profile != null) {
+                    faceUrl = profile.getFaceUrl();
+                } else {
+                    faceUrl = "";
+                }
+            }
+        }
+        //头像
         mImageLoader.loadImage(getContext(), ImageConfigImpl.builder()
-                .placeholder(R.drawable.common_default_placehohlder)
+                .placeholder(R.drawable.common_default_circle_placehohlder)
                 .imageView(msgIvPortrait)
                 .isCircle(true)
-                .url(profile.getFaceUrl())
+                .url(faceUrl)
                 .build());
-        //昵称显示
-        if (!itemValue.getTimMessage().isSelf() && showNickname) {
-            msgTvName.setVisibility(View.VISIBLE);
-            msgTvName.setText(profile.getRemark());
-        } else {
-            msgTvName.setVisibility(View.GONE);
-        }
         //图片
         TIMMessage timMessage = itemValue.getTimMessage();
         for (int i = 0, max = (int) timMessage.getElementCount(); i < max; i++) {
@@ -77,7 +93,7 @@ public class ImageViewHolder extends BaseMessageViewHolder<UIMessage> {
                     mImageLoader.loadImage(getContext(), ImageConfigImpl.builder()
                             .imageView(msgIvImage)
                             .url(images.get(0).getUrl())
-                            .placeholder(R.drawable.common_default_placehohlder)
+                            .placeholder(R.drawable.common_default_circle_placehohlder)
                             .transformation(new RoundedCornersTransformation(getContext().getResources().getDimensionPixelOffset(R.dimen.im_msg_image_radius), 0))
                             .build());
                     break;

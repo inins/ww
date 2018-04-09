@@ -30,9 +30,9 @@ public class GlideImageLoaderStrategy implements BaseImageLoaderStrategy<ImageCo
     public void loadImage(Context cxt, ImageConfigImpl config) {
         Preconditions.checkNotNull(cxt, "%s cannot be null!", Context.class.getName());
         Preconditions.checkNotNull(config, "%s cannot be null!", ImageConfigImpl.class.getName());
-        if (TextUtils.isEmpty(config.getUrl())) {
-            throw new NullPointerException("Url is required");
-        }
+//        if (TextUtils.isEmpty(config.getUrl())) {
+//            throw new NullPointerException("Url is required");
+//        }
         Preconditions.checkNotNull(config.getImageView(), "ImageView is required");
 
         GlideRequests requests;
