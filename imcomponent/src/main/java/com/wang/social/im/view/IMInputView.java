@@ -113,7 +113,7 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
                             public void run() {
                                 mInputViewListener.onInputViewExpanded();
                             }
-                        }, 125L);
+                        }, 200L);
                     }
                 }
                 hideEmotionBoard();
@@ -129,7 +129,12 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
                         showInputKeyBoard();
 
                         if (mInputViewListener != null){
-                            mInputViewListener.onInputViewExpanded();
+                            postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mInputViewListener.onInputViewExpanded();
+                                }
+                            }, 200L);
                         }
                     } else {
                         if (isKeyBoardActive) {
@@ -180,7 +185,7 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
                             public void run() {
                                 mInputViewListener.onInputViewExpanded();
                             }
-                        }, 125L);
+                        }, 200L);
                     }
                 }
                 return false;
@@ -195,7 +200,12 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
                         showInputKeyBoard();
 
                         if (mInputViewListener != null){
-                            mInputViewListener.onInputViewExpanded();
+                            postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mInputViewListener.onInputViewExpanded();
+                                }
+                            }, 200L);
                         }
                     } else {
                         if (isKeyBoardActive) {

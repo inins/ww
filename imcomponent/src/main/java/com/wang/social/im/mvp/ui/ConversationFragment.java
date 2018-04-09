@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -16,6 +17,8 @@ import com.frame.utils.SizeUtils;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMManager;
+import com.tencent.imsdk.TIMMessage;
+import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.ext.message.TIMManagerExt;
 import com.wang.social.im.R;
 import com.wang.social.im.di.component.DaggerConversationComponent;
@@ -25,6 +28,7 @@ import com.wang.social.im.mvp.contract.ConversationContract;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 import com.wang.social.im.mvp.presenter.ConversationPresenter;
 import com.wang.social.im.mvp.ui.adapters.MessageListAdapter;
+import com.wang.social.im.mvp.ui.adapters.holders.BaseMessageViewHolder;
 import com.wang.social.im.view.IMInputView;
 import com.wang.social.im.view.plugin.PluginModule;
 
@@ -41,7 +45,7 @@ import timber.log.Timber;
  * Create by ChenJing on 2018-04-03 15:14
  * ======================================
  */
-public class ConversationFragment extends BaseFragment<ConversationPresenter> implements ConversationContract.View, IMInputView.IInputViewListener {
+public class ConversationFragment extends BaseFragment<ConversationPresenter> implements ConversationContract.View, IMInputView.IInputViewListener, BaseMessageViewHolder.OnHandleListener {
 
     @BindView(R.id.fc_message_list)
     RecyclerView fcMessageList;
@@ -101,6 +105,7 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
         fcInput.setConversationType(mConversationType);
         mLayoutManager = new LinearLayoutManager(mActivity);
         fcMessageList.setLayoutManager(mLayoutManager);
+        ((SimpleItemAnimator) fcMessageList.getItemAnimator()).setSupportsChangeAnimations(false);
         fcMessageList.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
@@ -111,6 +116,7 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
             }
         });
         mAdapter = new MessageListAdapter(mConversationType);
+        mAdapter.setHandleListener(this);
         fcMessageList.setAdapter(mAdapter);
 
         mPresenter.setAdapter(mAdapter);
@@ -151,21 +157,24 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
 
     @Override
     public void showMessages(List<UIMessage> uiMessages) {
-        if (mAdapter.getData() == null) {
-            mAdapter.refreshData(uiMessages);
-        } else {
-            mAdapter.addItem(uiMessages);
-        }
-        fcMessageList.smoothScrollToPosition(mAdapter.getItemCount() - 1);
-    }
-
-    @Override
-    public void showMessage(UIMessage uiMessage) {
         boolean needScroll = true;
         int lastVisiblePosition = mLayoutManager.findLastVisibleItemPosition();
         if (mAdapter.getItemCount() - lastVisiblePosition > 3) {
             needScroll = false;
         }
+        if (mAdapter.getData() == null) {
+            mAdapter.refreshData(uiMessages);
+        } else {
+            mAdapter.addItem(uiMessages);
+        }
+        //如果最新消息没有显示在可见区域则不进行滚动
+        if (needScroll) {
+            fcMessageList.smoothScrollToPosition(mAdapter.getItemCount() - 1);
+        }
+    }
+
+    @Override
+    public void showMessage(UIMessage uiMessage) {
         if (mAdapter.getData() == null) {
             List<UIMessage> list = new ArrayList<>();
             list.add(uiMessage);
@@ -173,10 +182,8 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
         } else {
             mAdapter.addItem(uiMessage);
         }
-        //如果最新消息没有显示在可见区域则不进行滚动
-        if (needScroll) {
-            fcMessageList.smoothScrollToPosition(mAdapter.getItemCount() - 1);
-        }
+
+        fcMessageList.smoothScrollToPosition(mAdapter.getItemCount() - 1);
     }
 
     @Override
@@ -187,6 +194,14 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
             fcMessageList.scrollToPosition(mAdapter.getData().size() - 1);
         } else {
             mAdapter.insertItem(0, uiMessages);
+        }
+    }
+
+    @Override
+    public void refreshMessage(UIMessage uiMessage) {
+        int position = mAdapter.findPosition(uiMessage);
+        if (position != -1){
+            mAdapter.notifyItemChanged(position);
         }
     }
 
@@ -212,11 +227,51 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
 
     @Override
     public void onInputViewExpanded() {
-        fcMessageList.scrollToPosition(mAdapter.getData().size() - 1);
+        int lastVisiblePosition = mLayoutManager.findLastVisibleItemPosition();
+        if (mAdapter.getItemCount() - lastVisiblePosition < 5) {
+            fcMessageList.scrollToPosition(mAdapter.getData().size() - 1);
+        }
     }
 
     @Override
     public void onInputViewCollapsed() {
+
+    }
+
+    @Override
+    public void onErrorClick(int position, UIMessage uiMessage) {
+        //将此条消息重新发送
+        mConversation.sendMessage(uiMessage.getTimMessage(), new TIMValueCallBack<TIMMessage>() {
+            @Override
+            public void onError(int i, String s) {
+                mAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onSuccess(TIMMessage timMessage) {
+                mAdapter.notifyDataSetChanged();
+            }
+        });
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onContentClick(View view, UIMessage uiMessage, int position) {
+
+    }
+
+    @Override
+    public void onContentLongClick(View view, UIMessage uiMessage, int position) {
+
+    }
+
+    @Override
+    public void onPortraitClick(View view, UIMessage uiMessage, int position) {
+
+    }
+
+    @Override
+    public void onPortraitLongClick(View view, UIMessage uiMessage, int position) {
 
     }
 }
