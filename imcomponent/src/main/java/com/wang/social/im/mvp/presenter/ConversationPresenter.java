@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.frame.di.scope.FragmentScope;
 import com.frame.mvp.BasePresenter;
 import com.frame.utils.ToastUtil;
+import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
@@ -106,6 +107,33 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
                     return;
                 }
                 mRootView.insertMessages(UIMessage.obtain(timMessages));
+            }
+        });
+    }
+
+    /**
+     * 删除一条消息
+     * @param uiMessage
+     */
+    public void deleteMessage(UIMessage uiMessage){
+
+    }
+
+    /**
+     * 撤回一条消息
+     * @param uiMessage
+     */
+    public void withDrawMessage(UIMessage uiMessage){
+        mConversationExt.revokeMessage(uiMessage.getTimMessage(), new TIMCallBack() {
+            @Override
+            public void onError(int i, String s) {
+                ToastUtil.showToastShort(s);
+            }
+
+            @Override
+            public void onSuccess() {
+                // TODO: 2018-04-09 修改消息内容为通知消息
+                mRootView.refreshMessage(uiMessage);
             }
         });
     }
