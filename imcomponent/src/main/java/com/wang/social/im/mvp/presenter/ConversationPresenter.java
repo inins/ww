@@ -4,10 +4,12 @@ import android.support.annotation.NonNull;
 
 import com.frame.di.scope.FragmentScope;
 import com.frame.mvp.BasePresenter;
+import com.frame.utils.ToastUtil;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageListener;
+import com.tencent.imsdk.TIMTextElem;
 import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.ext.message.TIMConversationExt;
 import com.tencent.imsdk.ext.message.TIMManagerExt;
@@ -27,7 +29,7 @@ import javax.inject.Inject;
  * ======================================
  */
 @FragmentScope
-public class ConversationPresenter extends BasePresenter<ConversationContract.Model, ConversationContract.View> implements TIMMessageListener {
+public class ConversationPresenter extends BasePresenter<ConversationContract.Model, ConversationContract.View> implements TIMMessageListener{
 
     private MessageListAdapter mAdapter;
     private TIMConversation mConversation;
@@ -74,7 +76,7 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
     @Override
     public boolean onNewMessages(List<TIMMessage> list) {
         if (list != null) {
-            mRootView.insertMessages(UIMessage.obtain(list));
+            mRootView.showMessages(UIMessage.obtain(list));
         }
         return false;
     }
@@ -84,7 +86,7 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
      */
     public void getHistoryMessage() {
         TIMMessage lastMessage = null;
-        if (mAdapter != null && mAdapter.getData().size() > 0) {
+        if (mAdapter != null && mAdapter.getData() != null && mAdapter.getData().size() > 0) {
             lastMessage = mAdapter.getData().get(mAdapter.getItemCount() - 1).getTimMessage();
         }
         mConversationExt.getMessage(20, lastMessage, new TIMValueCallBack<List<TIMMessage>>() {
@@ -98,12 +100,31 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
                 if (timMessages == null) {
                     return;
                 }
-                List<UIMessage> uiMessages = new ArrayList<>();
-                for (TIMMessage message : timMessages) {
-                    uiMessages.add(UIMessage.obtain(message));
-                }
-                mRootView.showMessages(uiMessages);
+                mRootView.insertMessages(UIMessage.obtain(timMessages));
             }
         });
+    }
+
+    /**
+     * 发送一条文本消息
+     * @param content
+     */
+    public void sendTextMessage(String content){
+        TIMMessage message = new TIMMessage();
+        TIMTextElem textElem = new TIMTextElem();
+        textElem.setText(content);
+        message.addElement(textElem);
+        mConversation.sendMessage(message, new TIMValueCallBack<TIMMessage>() {
+            @Override
+            public void onError(int i, String s) {
+
+            }
+
+            @Override
+            public void onSuccess(TIMMessage timMessage) {
+
+            }
+        });
+        mRootView.showMessage(UIMessage.obtain(message));
     }
 }

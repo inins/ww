@@ -61,6 +61,7 @@
         android:layout_marginRight="17dp"/>
 
     <LinearLayout
+        android:id="@+id/user_protocol_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -81,7 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/login_wang_wang_user_protocol"
-            android:textColor="#ff999999"
+            android:textColor="@color/common_blue_deep"
             android:textSize="12dp"
             />
     </LinearLayout>

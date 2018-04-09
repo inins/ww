@@ -1,5 +1,6 @@
 package com.wang.social.login.mvp.model;
 
+import com.frame.component.common.NetParam;
 import com.frame.di.scope.ActivityScope;
 import com.frame.http.api.BaseJson;
 import com.frame.integration.IRepositoryManager;
@@ -7,6 +8,8 @@ import com.frame.mvp.BaseModel;
 import com.wang.social.login.mvp.contract.ForgotPasswordContract;
 import com.wang.social.login.mvp.model.api.LoginService;
 import com.wang.social.login.mvp.model.entities.dto.LoginInfoDTO;
+
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -20,9 +23,15 @@ public class ForgotPasswordModel extends BaseModel implements ForgotPasswordCont
     }
 
     @Override
-    public Observable<BaseJson> sendVerifyCode(String mobile, int type, String sign) {
+    public Observable<BaseJson> sendVerifyCode(String mobile, int type) {
+        Map<String, Object> param = new NetParam()
+                .put("mobile", mobile)
+                .put("type", type)
+                .put("v","2.0.0")
+                .putSignature()
+                .build();
         return mRepositoryManager
                 .obtainRetrofitService(LoginService.class)
-                .sendVerifyCode(mobile, type, sign);
+                .sendVerifyCode(param);
     }
 }

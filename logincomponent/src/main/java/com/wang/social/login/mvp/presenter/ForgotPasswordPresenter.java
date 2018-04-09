@@ -49,7 +49,7 @@ public class ForgotPasswordPresenter extends
         mMobile = mobile;
 
         mApiHelper.executeForData(mRootView,
-                mModel.sendVerifyCode(mobile, type, ""),
+                mModel.sendVerifyCode(mobile, type),
                 new ErrorHandleSubscriber(mErrorHandler) {
                     @Override
                     public void onNext(Object o) {

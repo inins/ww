@@ -3,8 +3,11 @@ package com.wang.social.login.mvp.model.api;
 import com.wang.social.login.mvp.model.entities.dto.LoginInfoDTO;
 import com.frame.http.api.BaseJson;
 
+import java.util.Map;
+
 import io.reactivex.Observable;
 import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
@@ -20,63 +23,37 @@ public interface LoginService {
 
     /**
      * 密码登陆
-     * @param mobile 手机号码
-     * @param password 密码
-     * @Param sign 签名
      * @return
      */
     @FormUrlEncoded
     @POST("login/password")
-    Observable<BaseJson<LoginInfoDTO>> passwordLogin(
-            @Field("mobile") String mobile,
-            @Field("password") String password,
-            @Field("sign") String sign);
+    Observable<BaseJson<LoginInfoDTO>> passwordLogin(@FieldMap Map<String, Object> param);
 
 
     /**
      * 手机号码加短信验证码登录
-     * @param mobile 手机号码
-     * @param code 短信验证码
-     * @param sign 签名
-     * @param adCode 区域编码
      * @return
      */
     @FormUrlEncoded
     @POST("login/smsCode")
-    Observable<BaseJson<LoginInfoDTO>> verifyCodeLogin(
-            @Field("mobile") String mobile,
-            @Field("code") String code,
-            @Field("sign") String sign,
-            @Field("adCode") String adCode);
+    Observable<BaseJson<LoginInfoDTO>> verifyCodeLogin(@FieldMap Map<String, Object> param);
 
 
     /**
      * 手机号码加短信验证码注册用户
-     * @param mobile 手机号
-     * @param code 短信验证码
-     * @param password 设置的密码
-     * @param adCode 区域编码
      * @return
      */
     @FormUrlEncoded
     @POST("user/register")
-    Observable<BaseJson> userRegister(
-            @Field("mobile") String mobile,
-            @Field("code") String code,
-            @Field("password") String password,
-            @Field("adCode") String adCode);
+    Observable<BaseJson> userRegister(@FieldMap Map<String, Object> param);
 
     /**
      * 修改/重置密码（前置验证）验证验证码
-     * @param mobile
-     * @param code
      * @return
      */
     @FormUrlEncoded
     @POST("user/preVerifyForForgetPassword")
-    Observable<BaseJson> preVerifyForForgetPassword(
-            @Field("mobile") String mobile,
-            @Field("code") String code);
+    Observable<BaseJson> preVerifyForForgetPassword(@FieldMap Map<String, Object> param);
 
 
     /**
@@ -95,9 +72,6 @@ public interface LoginService {
 
     /**
      * 手机号码加短信验证码登录
-     * @param mobile 手机号码
-     * @param type 用途类型
-     * @param sign 签名
      *
      用途类型
     （注册 type=1;
@@ -109,10 +83,7 @@ public interface LoginService {
      */
     @FormUrlEncoded
     @POST("common/sendVerifyCode")
-    Observable<BaseJson> sendVerifyCode(
-            @Field("mobile") String mobile,
-            @Field("type") int type,
-            @Field("sign") String sign);
+    Observable<BaseJson> sendVerifyCode(@FieldMap Map<String, Object> param);
 
 
 }

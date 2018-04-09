@@ -31,7 +31,7 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:paddingTop="10dp"
-        android:textColor="@color/im_message_txt"
+        android:textColor="@color/common_white"
         android:textSize="@dimen/im_msg_text_size"
         app:layout_constraintRight_toLeftOf="@id/msg_iv_portrait"
         app:layout_constraintTop_toTopOf="@id/msg_iv_portrait"

@@ -106,7 +106,7 @@ public class ForgotPasswordActivity extends BaseActivity<ForgotPasswordPresenter
         // 获取验证码成功，跳转到输入验证码界面
         VerifyPhoneActivity.start(this, mobile);
 
-        finish();
+//        finish();
     }
 
     private DialogFragmentLoading mLoadingDialog;

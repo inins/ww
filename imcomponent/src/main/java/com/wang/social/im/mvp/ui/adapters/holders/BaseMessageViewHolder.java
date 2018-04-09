@@ -1,10 +1,13 @@
 package com.wang.social.im.mvp.ui.adapters.holders;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import com.frame.base.BaseViewHolder;
 import com.frame.http.imageloader.ImageLoader;
+import com.frame.utils.FrameUtils;
+import com.frame.utils.ScreenUtils;
 import com.frame.utils.TimeUtils;
 import com.tencent.imsdk.TIMConversationType;
 import com.wang.social.im.enums.ConversationType;
@@ -25,7 +28,6 @@ import javax.inject.Inject;
  */
 public abstract class BaseMessageViewHolder<T> extends BaseViewHolder<T>{
 
-    @Inject
     ImageLoader mImageLoader;
 
     public ConversationType conversationType;
@@ -33,10 +35,16 @@ public abstract class BaseMessageViewHolder<T> extends BaseViewHolder<T>{
     public boolean showNickname;
 
     public BaseMessageViewHolder(Context context, ViewGroup root, int layoutRes) {
-        super(context, root, layoutRes);
+        super(context, null, layoutRes);
+
+        RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ScreenUtils.getScreenWidth(), ViewGroup.LayoutParams.WRAP_CONTENT);
+        itemView.setLayoutParams(lp);
+
+        mImageLoader = FrameUtils.obtainAppComponentFromContext(context).imageLoader();
     }
 
     protected String getTimeStr(long timestamp){
+        timestamp = timestamp * 1000;
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date(timestamp));
         int messageYear = cal.get(Calendar.YEAR);
@@ -51,5 +59,9 @@ public abstract class BaseMessageViewHolder<T> extends BaseViewHolder<T>{
         }else {
             return TimeUtils.millis2String(timestamp, new SimpleDateFormat("HH:mm:ss", Locale.getDefault()));
         }
+    }
+
+    protected String getSelfFaceUrl(){
+        return "http://resouce.dongdongwedding.com/2017-08-08_rtUbDxhH.png";
     }
 }

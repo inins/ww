@@ -14,14 +14,12 @@ import com.frame.http.api.Mapper;
 
 public class LoginInfoDTO implements Mapper<LoginInfo>{
     private String token;
-    private String rongCloudToken;
     private User userInfo;
 
     @Override
     public LoginInfo transform() {
         LoginInfo loginInfo = new LoginInfo();
         loginInfo.setToken(token == null ? "" : token);
-        loginInfo.setRongCloudToken(rongCloudToken == null ? "" : rongCloudToken);
         loginInfo.setUserInfo(userInfo);
         return loginInfo;
     }

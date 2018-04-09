@@ -27,6 +27,8 @@ import com.wang.social.im.BuildConfig;
 
 import java.util.List;
 
+import timber.log.Timber;
+
 /**
  * ======================================
  * {@link Application}代理实现类
@@ -35,6 +37,8 @@ import java.util.List;
  * ======================================
  */
 public class ImAppLifecycleImpl implements AppDelegate {
+
+    private final String TAG = this.getClass().getCanonicalName();
 
     @Override
     public void attachBaseContext(Context base) {
@@ -101,7 +105,7 @@ public class ImAppLifecycleImpl implements AppDelegate {
          */
         @Override
         public void onForceOffline() {
-
+            Timber.tag(TAG).d("onForceOffline");
         }
 
         /**
@@ -109,7 +113,7 @@ public class ImAppLifecycleImpl implements AppDelegate {
          */
         @Override
         public void onUserSigExpired() {
-
+            Timber.tag(TAG).d("onUserSigExpired");
         }
     }
 
@@ -120,17 +124,17 @@ public class ImAppLifecycleImpl implements AppDelegate {
 
         @Override
         public void onConnected() {
-
+            Timber.tag(TAG).d("im server onConnected");
         }
 
         @Override
         public void onDisconnected(int i, String s) {
-
+            Timber.tag(TAG).d("im server onDisconnected");
         }
 
         @Override
         public void onWifiNeedAuth(String s) {
-
+            Timber.tag(TAG).d("onWifiNeedAuth");
         }
     }
 
@@ -142,22 +146,22 @@ public class ImAppLifecycleImpl implements AppDelegate {
 
         @Override
         public void OnAddFriends(List<TIMUserProfile> list) {
-
+            Timber.tag(TAG).d("OnAddFriends");
         }
 
         @Override
         public void OnDelFriends(List<String> list) {
-
+            Timber.tag(TAG).d("OnDelFriends");
         }
 
         @Override
         public void OnFriendProfileUpdate(List<TIMUserProfile> list) {
-
+            Timber.tag(TAG).d("OnFriendProfileUpdate");
         }
 
         @Override
         public void OnAddFriendReqs(List<TIMSNSChangeInfo> list) {
-
+            Timber.tag(TAG).d("OnAddFriendReqs");
         }
     }
 
@@ -169,32 +173,32 @@ public class ImAppLifecycleImpl implements AppDelegate {
 
         @Override
         public void onMemberJoin(String s, List<TIMGroupMemberInfo> list) {
-
+            Timber.tag(TAG).d("onMemberJoin");
         }
 
         @Override
         public void onMemberQuit(String s, List<String> list) {
-
+            Timber.tag(TAG).d("onMemberQuit");
         }
 
         @Override
         public void onMemberUpdate(String s, List<TIMGroupMemberInfo> list) {
-
+            Timber.tag(TAG).d("onMemberUpdate");
         }
 
         @Override
         public void onGroupAdd(TIMGroupCacheInfo timGroupCacheInfo) {
-
+            Timber.tag(TAG).d("onGroupAdd");
         }
 
         @Override
         public void onGroupDelete(String s) {
-
+            Timber.tag(TAG).d("onGroupDelete");
         }
 
         @Override
         public void onGroupUpdate(TIMGroupCacheInfo timGroupCacheInfo) {
-
+            Timber.tag(TAG).d("onGroupUpdate");
         }
     }
 }

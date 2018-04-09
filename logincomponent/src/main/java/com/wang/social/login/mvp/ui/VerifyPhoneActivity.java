@@ -104,7 +104,7 @@ public class VerifyPhoneActivity extends BaseActivity<VerifyPhonePresenter> impl
         // 验证码验证成功，跳转到修改密码界面
         ResetPasswordActivity.start(this, mobile, code);
 
-        finish();
+//        finish();
     }
 
     private DialogFragmentLoading mLoadingDialog;
