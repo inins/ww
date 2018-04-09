@@ -14,6 +14,7 @@ import com.frame.component.helper.AppDataHelper;
 import com.frame.di.component.AppComponent;
 import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
+import com.frame.utils.TimeUtils;
 import com.frame.utils.ToastUtil;
 import com.wang.social.personal.helper.PhotoHelper;
 import com.wang.social.personal.R;
@@ -103,6 +104,7 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
             mPresenter.updateUserGender(gender);
         });
         setUserData();
+        mPresenter.getPhotoList();
     }
 
     public void setUserData() {
@@ -115,7 +117,7 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
                     .build());
             textName.setText(user.getNickname());
             textGender.setText(user.getSexText());
-            textOld.setText(user.getBirthday());
+            textOld.setText(DialogDatePicker.fixDateStr(user.getBirthday()));
             Province province = AddressDataBaseManager.getInstance().queryProvinceById(user.getProvinceInt());
             City city = AddressDataBaseManager.getInstance().queryCityById(user.getCityInt());
             textAddress.setText((province != null ? province.getName() : "") + (city != null ? city.getName() : ""));
@@ -130,6 +132,11 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
                 .url(url)
                 .isCircle(true)
                 .build());
+    }
+
+    @Override
+    public void setPhotoCount(int count) {
+        textPhoto.setText(count != 0 ? (count + "张照片") : "");
     }
 
     public void onClick(View v) {

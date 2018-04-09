@@ -11,6 +11,8 @@ public class PhotoHelperEx extends PhotoHelper {
 
     //使用弱引用持有dialog，以便及时回收
     private WeakReference<DialogBottomPhoto> dialogPhoto;
+    //是否显示官方图库选项，默认不显示
+    private boolean needOfficialPhoto;
 
     private PhotoHelperEx(Activity activity, OnPhotoCallback callback) {
         super(activity, callback);
@@ -23,6 +25,7 @@ public class PhotoHelperEx extends PhotoHelper {
 
     private DialogBottomPhoto newInstanceDialog() {
         DialogBottomPhoto dialog = new DialogBottomPhoto(activity);
+        dialog.needOfficialPhoto(needOfficialPhoto);
         dialog.setOnPhotoListener(new DialogBottomPhoto.OnPhotoListener() {
             @Override
             public void onPicClick(View v) {
@@ -44,6 +47,7 @@ public class PhotoHelperEx extends PhotoHelper {
 
     //是否显示官方图库选项，默认不显示
     public PhotoHelperEx needOfficialPhoto(boolean needOfficialPhoto) {
+        this.needOfficialPhoto = needOfficialPhoto;
         if (dialogPhoto == null || dialogPhoto.get() == null) {
             dialogPhoto = new WeakReference(newInstanceDialog());
         }

@@ -1,6 +1,7 @@
 package com.wang.social.personal.utils.viewutils;
 
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -22,14 +23,13 @@ public class ViewUtil {
     public static Toolbar findToolbar(ViewGroup viewGroup) {
         for (int i = 0; i < viewGroup.getChildCount(); i++) {
             View child = viewGroup.getChildAt(i);
-            if (child instanceof ViewGroup) {
-                findToolbar((ViewGroup) child);
+            if (child instanceof Toolbar) {
+                return (Toolbar) child;
+            } else if (child instanceof ViewGroup) {
+                Toolbar toolbar = findToolbar((ViewGroup) child);
+                if (toolbar != null) return toolbar;
             } else {
-                if (child instanceof Toolbar) {
-                    return (Toolbar) child;
-                } else {
-                    continue;
-                }
+                continue;
             }
         }
         return null;

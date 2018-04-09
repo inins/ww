@@ -120,12 +120,15 @@ public class OfficialPhotoActivity extends BasicAppActivity implements IView, Ba
 
     private void netGetPhotoList() {
         MyApiHelper.execute(this, true,
-                mRepositoryManager.obtainRetrofitService(UserService.class).getOfficialPhotoList(3),
+                mRepositoryManager.obtainRetrofitService(UserService.class).getOfficialPhotoList(1),
                 new ErrorHandleSubscriber<BaseJson<BaseListWrap<OffiPic>>>(mErrorHandler) {
                     @Override
                     public void onNext(BaseJson<BaseListWrap<OffiPic>> baseJson) {
-                        List<OffiPic> offiPicList = baseJson.getData().getList();
-                        adapter.refreshData(offiPicList);
+                        BaseListWrap<OffiPic> wrap = baseJson.getData();
+                        if (wrap != null) {
+                            List<OffiPic> offiPicList = wrap.getList();
+                            adapter.refreshData(offiPicList);
+                        }
                     }
 
                     @Override

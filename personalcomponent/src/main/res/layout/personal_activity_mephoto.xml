@@ -36,11 +36,11 @@
             android:orientation="vertical">
 
             <com.wang.social.personal.mvp.ui.view.TitleView
+                android:id="@+id/titleview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="15dp"
                 app:personal_textNote="@string/personal_mephoto_note"
-                app:personal_textSubTitle="(3/3)"
                 app:personal_textTitle="@string/personal_mephoto_title" />
 
             <android.support.v7.widget.RecyclerView
