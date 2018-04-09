@@ -54,8 +54,9 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
         Tag tag = dataProvider.getItem(position);
         if (null == tag) return;
 
+        Timber.i(tag.getId() + " " + tag.getTagName() + " " + tag.getState());
         // 设置选中和未选中
-        if (tag.isPersonalTag()) {
+        if (tag.isPersonalTag() || dataProvider.isDeleteMode()) {
             holder.textLayout.setBackground(
                     context.getResources().
                             getDrawable(R.drawable.login_shape_rect_corner_solid_blue_deep));

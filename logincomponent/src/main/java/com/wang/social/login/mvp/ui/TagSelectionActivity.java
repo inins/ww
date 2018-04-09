@@ -95,7 +95,8 @@ public class TagSelectionActivity extends BaseActivity<TagSelectionPresenter> im
     /**
      * 选中数量格文字式化
      */
-    private void refreshCountTV() {
+    @Override
+    public void refreshCountTV() {
         selectedCountTV.setText("(" + mPresenter.getSelectedTagCount() + ")");
     }
 
@@ -167,7 +168,9 @@ public class TagSelectionActivity extends BaseActivity<TagSelectionPresenter> im
     }
 
     private void initSelectionData() {
-        mPresenter.getParentTagList();
+        // 先加载 已选推荐标签列表
+        mPresenter.myRecommendTag();
+//        mPresenter.getParentTagList();
     }
 
     @Override
@@ -227,6 +230,7 @@ public class TagSelectionActivity extends BaseActivity<TagSelectionPresenter> im
                 break;
             case MODE_CONFIRM:
                 // 兴趣大杂烩
+                mPresenter.updateRecommendTag();
                 break;
         }
     }

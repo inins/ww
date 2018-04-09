@@ -39,6 +39,33 @@ public class TagSelectionPresenter extends
         super(model, view);
     }
 
+    public void updateRecommendTag() {
+        mApiHelper.execute(mRootView,
+                mModel.updateRecommendTag(selectedList),
+                new ErrorHandleSubscriber(mErrorHandler) {
+                    @Override
+                    public void onNext(Object o) {
+                        mRootView.showToast(o.toString());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mRootView.showToast(e.getMessage());
+                    }
+                }, new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+
+                    }
+                }, new Action() {
+                    @Override
+                    public void run() throws Exception {
+
+                    }
+                });
+
+    }
+
     public void getParentTagList() {
         mApiHelper.execute(mRootView,
                 mModel.parentTagList(),
@@ -47,6 +74,38 @@ public class TagSelectionPresenter extends
                     @Override
                     public void onNext(Tags tags) {
                         mRootView.resetTabView(tags);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mRootView.showToast(e.getMessage());
+                    }
+                }, new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+
+                    }
+                }, new Action() {
+                    @Override
+                    public void run() throws Exception {
+
+                    }
+                });
+    }
+
+    public void myRecommendTag() {
+        mApiHelper.execute(mRootView,
+                // 这里需要一次获取所有的标签，所以给一个很大的数字
+                mModel.myRecommendTag(Integer.MAX_VALUE, 0),
+                new ErrorHandleSubscriber<Tags>(mErrorHandler) {
+
+                    @Override
+                    public void onNext(Tags tags) {
+                        selectedList = (ArrayList<Tag>) tags.getList();
+                        mRootView.refreshCountTV();
+
+                        // 开始加载标签数据
+                        getParentTagList();
                     }
 
                     @Override

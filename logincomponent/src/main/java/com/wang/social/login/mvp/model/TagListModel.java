@@ -7,8 +7,10 @@ import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.BaseModel;
 import com.wang.social.login.mvp.contract.TagListContract;
 import com.wang.social.login.mvp.model.api.TagService;
+import com.wang.social.login.mvp.model.entities.Tag;
 import com.wang.social.login.mvp.model.entities.dto.TagsDTO;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;

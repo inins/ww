@@ -20,8 +20,12 @@ public class Tag implements Parcelable {
     public void clickTag() {
         state = state == 0 ? 1 : 0;
     }
-    public void unselect() {
+    public void setUnselected() {
         state = 0;
+    }
+    public void setSelected() { state = 1; }
+    public String getPrintString() {
+        return Integer.toString(id) + " " + tagName + " " + state;
     }
 
     @Override

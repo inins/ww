@@ -3,7 +3,10 @@ package com.wang.social.login.mvp.contract;
 import com.frame.http.api.BaseJson;
 import com.frame.mvp.IModel;
 import com.frame.mvp.IView;
+import com.wang.social.login.mvp.model.entities.Tag;
 import com.wang.social.login.mvp.model.entities.dto.TagsDTO;
+
+import java.util.List;
 
 import io.reactivex.Observable;
 

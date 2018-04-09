@@ -11,6 +11,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
     }
 
+
     defaultConfig {
         if(project.isRunAlone){
             applicationId "com.dongdongkeji.wangwangsocial"
@@ -78,6 +79,10 @@ dependencies {
     implementation project(':component-service')
     annotationProcessor project(':router-anno-compiler')
 
+    compile 'com.umeng.sdk:share-core:latest.integration'
+    compile 'com.umeng.sdk:share-qq:latest.integration'
+    compile 'com.umeng.sdk:share-wechat:latest.integration'
+    compile 'com.umeng.sdk:share-sina:latest.integration'
 }
 
 //combuild {

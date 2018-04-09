@@ -6,7 +6,10 @@ import com.wang.social.login.mvp.model.entities.dto.TagsDTO;
 import java.util.Map;
 
 import io.reactivex.Observable;
+import retrofit2.http.FieldMap;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.QueryMap;
 
 public interface TagService {
@@ -27,4 +30,24 @@ public interface TagService {
      */
     @GET("app/tag/taglist")
     Observable<BaseJson<TagsDTO>> taglist(@QueryMap Map<String, Object> param);
+
+
+    /**
+     * 编辑推荐标签（首页/话题）
+     * @param param
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("app/tag/updateRecommendTag")
+    Observable<BaseJson> updateRecommendTag(@FieldMap Map<String, Object> param);
+
+
+    /**
+     * 已选推荐标签列表（首页/话题）
+     * @param param
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("app/tag/myRecommendTag")
+    Observable<BaseJson<TagsDTO>> myRecommendTag(@FieldMap Map<String, Object> param);
 }
