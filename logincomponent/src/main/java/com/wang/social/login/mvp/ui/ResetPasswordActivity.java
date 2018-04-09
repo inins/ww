@@ -39,6 +39,11 @@ public class ResetPasswordActivity extends BaseActivity<ResetPasswordPresenter> 
         context.startActivity(intent);
     }
 
+    public static void start(Context context) {
+        Intent intent = new Intent(context, ResetPasswordActivity.class);
+        context.startActivity(intent);
+    }
+
 
     @BindView(R.id.toolbar)
     SocialToolbar toolbar;
@@ -114,6 +119,8 @@ public class ResetPasswordActivity extends BaseActivity<ResetPasswordPresenter> 
             //否则隐藏密码
             passwordEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
         }
+        // 将光标移至文字末尾
+        passwordEditText.setSelection(passwordEditText.getText().length());
     }
 
     @OnClick(R.id.confirm_view)
