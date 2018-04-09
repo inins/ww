@@ -81,7 +81,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
      */
     public void messageLogin(String mobile, String code) {
         mApiHelper.execute(mRootView,
-                mModel.verifyCodeLogin(mobile, code, "", ""),
+                mModel.verifyCodeLogin(mobile, code, ""),
                 new ErrorHandleSubscriber<LoginInfo>(mErrorHandler) {
 
                     @Override
@@ -157,7 +157,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
      */
     public void sendVerifyCode(String mobile, int type) {
         mApiHelper.executeForData(mRootView,
-                mModel.sendVerifyCode(mobile, type, ""),
+                mModel.sendVerifyCode(mobile, type),
                 new ErrorHandleSubscriber(mErrorHandler) {
 
                     @Override
