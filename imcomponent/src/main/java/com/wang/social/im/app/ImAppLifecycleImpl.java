@@ -3,13 +3,11 @@ package com.wang.social.im.app;
 import android.app.Application;
 import android.content.Context;
 
-import com.frame.base.App;
 import com.frame.base.delegate.AppDelegate;
 import com.frame.component.app.Constant;
 import com.frame.utils.FrameUtils;
 import com.tencent.imsdk.TIMConnListener;
 import com.tencent.imsdk.TIMGroupMemberInfo;
-import com.tencent.imsdk.TIMGroupSettings;
 import com.tencent.imsdk.TIMLogLevel;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMSNSChangeInfo;
@@ -27,7 +25,7 @@ import com.tencent.imsdk.ext.sns.TIMFriendshipProxyListener;
 import com.tencent.imsdk.ext.sns.TIMUserConfigSnsExt;
 import com.wang.social.im.BuildConfig;
 
-import org.simple.eventbus.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -67,7 +65,7 @@ public class ImAppLifecycleImpl implements AppDelegate {
         //初始化SDK基本配置
         TIMSdkConfig config = new TIMSdkConfig(Constant.IM_APPID)
                 .enableCrashReport(false) //是否开启Crash上报
-                .enableLogPrint(BuildConfig.LOG_DEBUG) //设置是否打印日志
+                .enableLogPrint(BuildConfig.DEBUG) //设置是否打印日志
                 .setLogLevel(TIMLogLevel.DEBUG) //设置日志打印级别
                 .setLogPath(FrameUtils.obtainAppComponentFromContext(application).cacheFile().getPath() + "/imlog/"); //设置日志保存路径
         //初始化
@@ -145,7 +143,7 @@ public class ImAppLifecycleImpl implements AppDelegate {
 
     /**
      * 监听资料关系链变化
-     * 当关系链发生变化时，使用{@link org.simple.eventbus.EventBus}通知相关界面进行更新
+     * 当关系链发生变化时，使用{@link EventBus}通知相关界面进行更新
      */
     private class ImFriendShipProxyListener implements TIMFriendshipProxyListener{
 
@@ -172,7 +170,7 @@ public class ImAppLifecycleImpl implements AppDelegate {
 
     /**
      * 群组相关信息变化监听
-     * 当群组信息发生变化时，使用{@link org.simple.eventbus.EventBus}通知相关界面进行更新
+     * 当群组信息发生变化时，使用{@link EventBus}通知相关界面进行更新
      */
     private class ImGroupAssistantListener implements TIMGroupAssistantListener{
 

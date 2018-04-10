@@ -2,13 +2,11 @@ package com.wang.social.im.mvp.ui;
 
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -20,10 +18,10 @@ import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMValueCallBack;
-import com.tencent.imsdk.ext.message.TIMManagerExt;
 import com.tencent.imsdk.ext.message.TIMMessageExt;
 import com.tencent.imsdk.ext.message.TIMMessageLocator;
 import com.wang.social.im.R;
+import com.wang.social.im.R2;
 import com.wang.social.im.di.component.DaggerConversationComponent;
 import com.wang.social.im.di.modules.ConversationModule;
 import com.wang.social.im.enums.ConversationType;
@@ -36,13 +34,13 @@ import com.wang.social.im.view.IMInputView;
 import com.wang.social.im.view.plugin.PluginModule;
 import com.wang.social.im.widget.MessageHandlePopup;
 
-import org.simple.eventbus.Subscriber;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import timber.log.Timber;
 
 /**
  * ======================================
@@ -53,9 +51,9 @@ import timber.log.Timber;
  */
 public class ConversationFragment extends BaseFragment<ConversationPresenter> implements ConversationContract.View, IMInputView.IInputViewListener, BaseMessageViewHolder.OnHandleListener {
 
-    @BindView(R.id.fc_message_list)
+    @BindView(R2.id.fc_message_list)
     RecyclerView fcMessageList;
-    @BindView(R.id.fc_input)
+    @BindView(R2.id.fc_input)
     IMInputView fcInput;
 
     private ConversationType mConversationType;
@@ -138,7 +136,7 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     mTouchDownY = event.getY();
-                } else if (event.getY() - mTouchDownY > SizeUtils.dp2px(20)) {
+                } else if (event.getAction() == MotionEvent.ACTION_MOVE && event.getY() - mTouchDownY > SizeUtils.dp2px(50)) {
                     fcInput.collapse();
                 }
                 return false;
@@ -149,6 +147,11 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     @Override
     public void setData(@Nullable Object data) {
 
+    }
+
+    @Override
+    public boolean useEventBus() {
+        return true;
     }
 
     @Override
@@ -307,12 +310,16 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
 
     }
 
-    @Subscriber
-    public void onMessageRevoke(TIMMessageLocator messageLocator){
-        for (UIMessage uiMessage : mAdapter.getData()){
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(TIMMessageLocator messageLocator) {
+        for (UIMessage uiMessage : mAdapter.getData()) {
             TIMMessageExt messageExt = new TIMMessageExt(uiMessage.getTimMessage());
-            if (messageExt.checkEquals(messageLocator)){
+            if (messageExt.checkEquals(messageLocator)) {
+                //执行删除消息
+                mPresenter.deleteMessage(uiMessage);
                 mAdapter.notifyDataSetChanged();
+
+                break;
             }
         }
     }

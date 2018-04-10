@@ -16,6 +16,7 @@ import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMTextElem;
 import com.tencent.imsdk.TIMUserProfile;
 import com.wang.social.im.R;
+import com.wang.social.im.R2;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 import com.wang.social.im.view.emotion.EmojiDisplay;
 
@@ -30,19 +31,19 @@ import butterknife.BindView;
  */
 public class TextViewHolder extends BaseMessageViewHolder<UIMessage> {
 
-    @BindView(R.id.msg_iv_portrait)
+    @BindView(R2.id.msg_iv_portrait)
     ImageView msgIvPortrait;
-    @BindView(R.id.msg_tv_text)
+    @BindView(R2.id.msg_tv_text)
     TextView msgTvText;
-    @BindView(R.id.msg_tv_time)
+    @BindView(R2.id.msg_tv_time)
     TextView msgTvTime;
-    @BindView(R.id.msg_tv_name)
+    @BindView(R2.id.msg_tv_name)
     @Nullable
     TextView msgTvName;
-    @BindView(R.id.msg_iv_error)
+    @BindView(R2.id.msg_iv_error)
     @Nullable
     ImageView msgIvError;
-    @BindView(R.id.msg_pb_progress)
+    @BindView(R2.id.msg_pb_progress)
     @Nullable
     ContentLoadingProgressBar msgPbProgress;
 

@@ -49,5 +49,9 @@
                 <action android:name="com.tencent.qalsdk.service.TASK_REMOVED" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".ui.ConversationActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
     </application>
 </manifest>

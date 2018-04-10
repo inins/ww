@@ -1,16 +1,21 @@
 package com.wang.social.im.mvp.model.entities;
 
 
+import com.google.gson.Gson;
 import com.tencent.imsdk.TIMCustomElem;
 import com.tencent.imsdk.TIMElem;
 import com.tencent.imsdk.TIMElemType;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageStatus;
+import com.wang.social.im.enums.CustomElemType;
 import com.wang.social.im.enums.MessageScope;
 import com.wang.social.im.enums.MessageType;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import lombok.Getter;
@@ -49,7 +54,7 @@ public class UIMessage {
         List<UIMessage> uiMessages = new ArrayList<>();
         for (int i = timMessages.size() - 1; i >= 0; i--) {
             TIMMessage timMessage = timMessages.get(i);
-            if (timMessage.status() == TIMMessageStatus.HasDeleted){ //若消息已经删除则不显示
+            if (timMessage.status() == TIMMessageStatus.HasDeleted) { //若消息已经删除则不显示
                 continue;
             }
             uiMessages.add(UIMessage.obtain(timMessage));
@@ -63,17 +68,26 @@ public class UIMessage {
             TIMElem elem = timMessage.getElement(i);
             if (elem instanceof TIMCustomElem) {
                 TIMCustomElem customElem = (TIMCustomElem) elem;
-                String dataJson = Arrays.toString(customElem.getData());
-                // TODO: 2018-04-02 需拟定以哪个字段来判断当前消息是否为匿名消息或分身消息或者是否为其他自定义消息
-//                if (customElem.getDesc().equals("anonymity")){
-//                    messageScope = MessageScope.ANONYMITY;
-//                    carryUserInfo = new Gson().fromJson(dataJson, CarryUserInfo.class);
-//                    break;
-//                }else if (customElem.getDesc().equals("shadow")){
-//                    messageScope = MessageScope.SHADOW;
-//                    carryUserInfo = new Gson().fromJson(dataJson, CarryUserInfo.class);
-//                    break;
-//                }
+                try {
+                    String dataJson = new String(customElem.getData(), "UTF-8");
+
+                    JSONObject jsonObject = new JSONObject(dataJson);
+                    String type = jsonObject.getString("type");
+                    CustomElemType elemType = CustomElemType.valueOf(type);
+                    if (elemType == CustomElemType.ANONYMITY) {
+                        messageScope = MessageScope.ANONYMITY;
+                        carryUserInfo = new Gson().fromJson(dataJson, CarryUserInfo.class);
+                        break;
+                    } else if (elemType == CustomElemType.SHADOW) {
+                        messageScope = MessageScope.SHADOW;
+                        carryUserInfo = new Gson().fromJson(dataJson, CarryUserInfo.class);
+                        break;
+                    }
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -81,22 +95,44 @@ public class UIMessage {
     private void setType(TIMMessage timMessage) {
         int elementCount = (int) timMessage.getElementCount();
         for (int i = 0; i < elementCount; i++) {
-            TIMElem elem =  timMessage.getElement(i);
-            if (elem.getType() == TIMElemType.Text){
+            TIMElem elem = timMessage.getElement(i);
+            if (elem.getType() == TIMElemType.Text) {
                 messageType = MessageType.TEXT;
-            }else if (elem.getType() == TIMElemType.Face){
+                break;
+            } else if (elem.getType() == TIMElemType.Face) {
                 messageType = MessageType.EMOTION;
-            }else if (elem.getType() == TIMElemType.Image){
+                break;
+            } else if (elem.getType() == TIMElemType.Image) {
                 messageType = MessageType.IMAGE;
-            }else if (elem.getType() == TIMElemType.Location){
+                break;
+            } else if (elem.getType() == TIMElemType.Location) {
                 messageType = MessageType.LOCATION;
-            }else if (elem.getType() == TIMElemType.Sound){
+                break;
+            } else if (elem.getType() == TIMElemType.Sound) {
                 messageType = MessageType.VOICE;
-            }else if (elem.getType() == TIMElemType.SNSTips){
+                break;
+            } else if (elem.getType() == TIMElemType.SNSTips) {
                 messageType = MessageType.NOTIFY;
-            }else if (elem.getType() == TIMElemType.Custom){
-                TIMCustomElem customElem = (TIMCustomElem) elem;
-                // TODO: 2018-04-02 获取自定义消息类型
+                break;
+            } else if (elem.getType() == TIMElemType.Custom) {
+                try {
+                    TIMCustomElem customElem = (TIMCustomElem) elem;
+                    String dataJson = new String(customElem.getData(), "UTF-8");
+
+                    JSONObject jsonObject = new JSONObject(dataJson);
+                    String type = jsonObject.getString("type");
+                    CustomElemType elemType = CustomElemType.valueOf(type);
+                    if (elemType == CustomElemType.RED_ENVELOP) {
+                        messageType = MessageType.RED_ENVELOP;
+                    } else if (elemType == CustomElemType.REVOKE) {
+                        messageType = MessageType.NOTIFY;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+
             }
         }
     }

@@ -15,6 +15,7 @@ import com.tencent.imsdk.TIMImageElem;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMUserProfile;
 import com.wang.social.im.R;
+import com.wang.social.im.R2;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 
 import java.util.ArrayList;
@@ -30,13 +31,13 @@ import butterknife.BindView;
  */
 public class ImageViewHolder extends BaseMessageViewHolder<UIMessage> {
 
-    @BindView(R.id.msg_tv_time)
+    @BindView(R2.id.msg_tv_time)
     TextView msgTvTime;
-    @BindView(R.id.msg_iv_portrait)
+    @BindView(R2.id.msg_iv_portrait)
     ImageView msgIvPortrait;
-    @BindView(R.id.msg_tv_name)
+    @BindView(R2.id.msg_tv_name)
     TextView msgTvName;
-    @BindView(R.id.msg_iv_image)
+    @BindView(R2.id.msg_iv_image)
     ImageView msgIvImage;
 
     public ImageViewHolder(Context context, ViewGroup root, int layoutRes) {

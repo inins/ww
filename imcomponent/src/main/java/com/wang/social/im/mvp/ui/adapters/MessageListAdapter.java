@@ -38,8 +38,8 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
     private final int TYPE_RECEIVE_EMOTION = 8;
     private final int TYPE_SEND_EMOTION = 9;
     //红包消息
-    private final int TYPE_RECEIVE_REDPACKET = 10;
-    private final int TYPE_SEND_REDPACKET = 11;
+    private final int TYPE_RECEIVE_RED_ENVELOP = 10;
+    private final int TYPE_SEND_RED_ENVELOP = 11;
     //通知消息
     private final int TYPE_NOTIFY = 12;
 
@@ -67,6 +67,9 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
                 break;
             case TYPE_SEND_IMAGE:
                 viewHolder = new ImageViewHolder(context, parent, R.layout.im_item_msg_image_right);
+                break;
+            case TYPE_NOTIFY:
+
                 break;
         }
         if (viewHolder == null) {
@@ -142,11 +145,11 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
                     viewType = TYPE_RECEIVE_LOCATION;
                 }
                 break;
-            case REDPACKET:
+            case RED_ENVELOP:
                 if (message.getTimMessage().isSelf()) {
-                    viewType = TYPE_SEND_REDPACKET;
+                    viewType = TYPE_SEND_RED_ENVELOP;
                 } else {
-                    viewType = TYPE_RECEIVE_REDPACKET;
+                    viewType = TYPE_RECEIVE_RED_ENVELOP;
                 }
                 break;
             case NOTIFY:
