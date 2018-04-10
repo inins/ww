@@ -5,12 +5,9 @@ import com.frame.http.api.ApiHelper;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
-import com.frame.utils.ToastUtil;
 import com.wang.social.login.mvp.contract.TagSelectionContract;
 import com.wang.social.login.mvp.model.entities.Tag;
 import com.wang.social.login.mvp.model.entities.dto.Tags;
-
-import org.simple.eventbus.Subscriber;
 
 import java.util.ArrayList;
 
@@ -186,12 +183,6 @@ public class TagSelectionPresenter extends
      */
     public ArrayList<Tag> getSelectedList() {
         return selectedList;
-    }
-
-
-    @Subscriber
-    private void selectedTagDeletedByConfirm(Tag tag) {
-        ToastUtil.showToastLong("删除");
     }
 
     @Override

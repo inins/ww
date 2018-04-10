@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.frame.base.BaseActivity;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
-import com.frame.utils.ToastUtil;
+import com.frame.entities.EventBean;
 import com.wang.social.login.R;
 import com.wang.social.login.di.component.DaggerTagSelectionComponent;
 import com.wang.social.login.di.module.TagSelectionModule;
@@ -25,15 +25,11 @@ import com.wang.social.login.mvp.presenter.TagSelectionPresenter;
 import com.wang.social.login.mvp.ui.widget.TagListFragment;
 import com.wang.social.login.utils.Keys;
 
-import org.greenrobot.eventbus.Subscribe;
-import org.simple.eventbus.EventBus;
-import org.simple.eventbus.Subscriber;
-
-import java.security.Key;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 public class TagSelectionActivity extends BaseActivity<TagSelectionPresenter> implements
         TagSelectionContract.View {
@@ -236,26 +232,64 @@ public class TagSelectionActivity extends BaseActivity<TagSelectionPresenter> im
         }
     }
 
-    @Subscribe(tag = Keys.EVENTBUS_TAG_SELECTED)
-    public void tagSelected(Tag tag) {
-        // 将Tag加入已选列表
-        mPresenter.selectTag(tag);
+//    @Subscribe(tag = Keys.EVENTBUS_TAG_SELECTED)
+//    public void tagSelected(Tag tag) {
+//        // 将Tag加入已选列表
+//        mPresenter.selectTag(tag);
+//
+//        refreshCountTV();
+//    }
+//
+//    @Subscribe(tag = Keys.EVENTBUS_TAG_UNSELECT)
+//    public void tagUnselect(Tag tag) {
+//        mPresenter.unselectTag(tag);
+//
+//        refreshCountTV();
+//    }
+//
+//    @Subscribe(tag = Keys.EVENTBUS_TAG_DELETE)
+//    public void tagDelete(Tag tag) {
+//        mPresenter.unselectTag(tag);
+//
+//        refreshCountTV();
+//    }
 
-        refreshCountTV();
-    }
+    @Override
+    public void onCommonEvent(EventBean event) {
+        Timber.i("EventBuss 事件通知");
+        if (event.getEvent() != EventBean.EVENTBUS_TAG_SELECTED &&
+                event.getEvent() != EventBean.EVENTBUS_TAG_UNSELECT &&
+                event.getEvent() != EventBean.EVENTBUS_TAG_DELETE) {
+            return;
+        }
 
-    @Subscribe(tag = Keys.EVENTBUS_TAG_UNSELECT)
-    public void tagUnselect(Tag tag) {
-        mPresenter.unselectTag(tag);
+        Tag tag;
 
-        refreshCountTV();
-    }
+        if (event.get(Keys.EVENTBUS_TAG_DELETE) instanceof Tag) {
+            tag = (Tag) event.get(Keys.EVENTBUS_TAG_DELETE);
+            mPresenter.unselectTag(tag);
+        } else {
+            throw new ClassCastException("EventBus 返回数据类型不符，需要 Tag");
+        }
 
-    @Subscribe(tag = Keys.EVENTBUS_TAG_DELETE)
-    public void tagDelete(Tag tag) {
-        mPresenter.unselectTag(tag);
+        switch (event.getEvent()) {
+            case EventBean.EVENTBUS_TAG_SELECTED:
+                // 将Tag加入已选列表
+                mPresenter.selectTag(tag);
 
-        refreshCountTV();
+                refreshCountTV();
+                break;
+            case EventBean.EVENTBUS_TAG_UNSELECT:
+                mPresenter.unselectTag(tag);
+
+                refreshCountTV();
+                break;
+            case EventBean.EVENTBUS_TAG_DELETE:
+                mPresenter.unselectTag(tag);
+
+                refreshCountTV();
+                break;
+        }
     }
 
     @Override

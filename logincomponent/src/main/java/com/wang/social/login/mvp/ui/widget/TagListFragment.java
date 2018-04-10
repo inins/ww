@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import timber.log.Timber;
 
 public class TagListFragment extends BaseFragment<TagListPresenter> implements
         TagListContract.View {
@@ -114,8 +115,9 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
         public void onTagClick(Tag tag) {
             boolean selected = mPresenter.tagClick(tag);
 
-            EventBean bean = new EventBean(EventBean.EVENTBUS_TAG_UNSELECT);
-            EventBus.getDefault().post(tag, selected ? Keys.EVENTBUS_TAG_SELECTED : Keys.EVENTBUS_TAG_UNSELECT);
+            EventBean bean = new EventBean(selected ? EventBean.EVENTBUS_TAG_SELECTED : EventBean.EVENTBUS_TAG_UNSELECT);
+            bean.put(selected ? Keys.EVENTBUS_TAG_SELECTED : Keys.EVENTBUS_TAG_UNSELECT, tag);
+            EventBus.getDefault().post(bean);
         }
 
         @Override
@@ -123,7 +125,9 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
             // 将tag从列表删除
             mPresenter.removeTag(tag);
 
-            EventBus.getDefault().post(tag, Keys.EVENTBUS_TAG_DELETE);
+            EventBean bean = new EventBean(EventBean.EVENTBUS_TAG_DELETE);
+            bean.put(Keys.EVENTBUS_TAG_DELETE, tag);
+            EventBus.getDefault().post(bean);
         }
     };
 
@@ -181,11 +185,25 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
 
     /**
      * 收到删除的通知，需要让界面执行取消选中的操作，因为可能是不用的界面
-     * @param tag
      */
-    @Subscriber(tag = Keys.EVENTBUS_TAG_DELETE)
-    public void tagDelete(Tag tag) {
-        mPresenter.unselectTag(tag);
+//    @Subscriber(tag = Keys.EVENTBUS_TAG_DELETE)
+//    public void tagDelete(Tag tag) {
+//        mPresenter.unselectTag(tag);
+//    }
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        Timber.i("EventBuss 事件通知");
+        switch (event.getEvent()) {
+            case EventBean.EVENTBUS_TAG_DELETE:
+                if (event.get(Keys.EVENTBUS_TAG_DELETE) instanceof Tag) {
+                    Tag tag = (Tag) event.get(Keys.EVENTBUS_TAG_DELETE);
+                    mPresenter.unselectTag(tag);
+                } else {
+                    throw new ClassCastException("EventBus 返回数据类型不符，需要 Tag");
+                }
+                break;
+        }
     }
 
     @Override
