@@ -9,6 +9,7 @@ import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.beloo.widget.chipslayoutmanager.SpacingItemDecoration;
 import com.frame.base.BaseFragment;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.ToastUtil;
 import com.wang.social.login.R;
@@ -113,6 +114,7 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
         public void onTagClick(Tag tag) {
             boolean selected = mPresenter.tagClick(tag);
 
+            EventBean bean = new EventBean(EventBean.EVENTBUS_TAG_UNSELECT);
             EventBus.getDefault().post(tag, selected ? Keys.EVENTBUS_TAG_SELECTED : Keys.EVENTBUS_TAG_UNSELECT);
         }
 
