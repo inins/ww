@@ -123,4 +123,32 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
                 .sendVerifyCode(param);
     }
 
+    /**
+     * 第三方登录
+     *
+     * @param platform 用户绑定数据类型，2.微信注册 3.qq注册 4新浪微博
+     * @param uid 对应平台ID
+     * @param nickname 昵称
+     * @param headUrl 头像
+     * @param sex 性别 0 男 1女
+     * @param adCode 区域编码
+     * @return
+     */
+    @Override
+    public Observable<BaseJson<LoginInfoDTO>> platformLogin(
+            int platform, String uid, String nickname, String headUrl, int sex, String adCode) {
+        Map<String, Object> param = new NetParam()
+                .put("platform", platform)
+                .put("uid", uid)
+                .put("nickname", nickname)
+                .put("headUrl", headUrl)
+                .put("sex", sex)
+                .put("adCode", adCode)
+                .put("v","2.0.0")
+                .build();
+        return mRepositoryManager
+                .obtainRetrofitService(LoginService.class)
+                .platformLogin(param);
+    }
+
 }

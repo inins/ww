@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.frame.utils.ToastUtil;
 import com.wang.social.personal.R;
+import com.wang.social.personal.R2;
 
 import butterknife.BindView;
 
@@ -19,9 +20,9 @@ import butterknife.BindView;
  */
 public abstract class BaseDialogOkCancel extends BaseDialog {
 
-    @BindView(R.id.btn_cancel)
+    @BindView(R2.id.btn_cancel)
     TextView btnCancel;
-    @BindView(R.id.btn_ok)
+    @BindView(R2.id.btn_ok)
     TextView btnOk;
 
     private String okBtnText;

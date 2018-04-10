@@ -1,5 +1,6 @@
 package com.wang.social.login.mvp.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,9 +16,11 @@ import android.widget.TextView;
 import com.frame.base.BaseActivity;
 import com.frame.utils.BarUtils;
 import com.frame.utils.ToastUtil;
+import com.umeng.socialize.UMShareAPI;
 import com.wang.social.login.R;
 import com.frame.di.component.AppComponent;
 import com.frame.router.facade.annotation.RouteNode;
+import com.wang.social.login.R2;
 import com.wang.social.login.di.component.DaggerLoginComponent;
 import com.wang.social.login.di.module.LoginModule;
 import com.wang.social.login.mvp.contract.LoginContract;
@@ -45,33 +48,33 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         context.startActivity(intent);
     }
 
-    @BindView(R.id.root_view)
+    @BindView(R2.id.root_view)
     View rootView;
-    @BindView(R.id.title_text_view)
+    @BindView(R2.id.title_text_view)
     TextView titleTV; // 标题（登录/注册）
-    @BindView(R.id.phone_edit_text)
+    @BindView(R2.id.phone_edit_text)
     EditText phoneET; // 手机号输入框
-    @BindView(R.id.password_login_layout)
+    @BindView(R2.id.password_login_layout)
     View passwordLoginLayout; // 密码登录输入View
-    @BindView(R.id.password_edit_text)
+    @BindView(R2.id.password_edit_text)
     EditText passwordET; // 密码输入框
-    @BindView(R.id.forgot_password_text_view)
+    @BindView(R2.id.forgot_password_text_view)
     TextView forgotPasswordTV; // 忘记密码
-    @BindView(R.id.message_login_layout)
+    @BindView(R2.id.message_login_layout)
     View messageLoginLayout; // 短信登录输入View
-    @BindView(R.id.verify_code_edit_text)
+    @BindView(R2.id.verify_code_edit_text)
     EditText verifyCodeET; // 验证码输入框
-    @BindView(R.id.get_verify_code_text_view)
+    @BindView(R2.id.get_verify_code_text_view)
     CountDownView getVerifyCodeTV; // 获取验证码
-    @BindView(R.id.switch_login_text_view)
+    @BindView(R2.id.switch_login_text_view)
     TextView switchLoginTV; // 切换登录模式
-    @BindView(R.id.third_party_login_layout)
+    @BindView(R2.id.third_party_login_layout)
     View thirdPartyLoginLayout;// 第三方登录按钮区域
-    @BindView(R.id.switch_login_register_text_view)
+    @BindView(R2.id.switch_login_register_text_view)
     TextView switchLoginRegisterTV; // 切换登录注册模式
-    @BindView(R.id.login_text_view)
+    @BindView(R2.id.login_text_view)
     TextView loginTV; // 登录
-    @BindView(R.id.user_protocol_layout)
+    @BindView(R2.id.user_protocol_layout)
     View userProtocolLayout;
 
 
@@ -145,7 +148,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         ViewUtils.controlKeyboardLayout(rootView, loginTV);
     }
 
-    @OnClick(R.id.switch_login_text_view)
+    @OnClick(R2.id.switch_login_text_view)
     public void switchLoginMode() {
         // 切换登录模式
         if (launchMode.equals(LAUNCH_MODE_MESSAGE_LOGIN)) {
@@ -160,7 +163,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         this.finish();
     }
 
-    @OnClick(R.id.switch_login_register_text_view)
+    @OnClick(R2.id.switch_login_register_text_view)
     public void switchLoginRegister() {
         // 切换登录注册模式
         if (launchMode.equals(LAUNCH_MODE_MESSAGE_LOGIN)) {
@@ -176,12 +179,12 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         this.finish();
     }
 
-    @OnClick(R.id.forgot_password_text_view)
+    @OnClick(R2.id.forgot_password_text_view)
     public void forgotPassword() {
         ForgotPasswordActivity.start(this);
     }
 
-    @OnCheckedChanged(R.id.checkbox)
+    @OnCheckedChanged(R2.id.checkbox)
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if(isChecked){
             //如果选中，显示密码
@@ -194,7 +197,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         passwordET.setSelection(passwordET.getText().length());
     }
 
-    @OnClick(R.id.get_verify_code_text_view)
+    @OnClick(R2.id.get_verify_code_text_view)
     public void setGetVerifyCode() {
         // 检测手机号
         if (!checkInputPhoneNO()) {
@@ -228,25 +231,25 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         mPresenter.sendVerifyCode(phoneET.getText().toString(), type);
     }
 
-    @OnClick(R.id.wechat_image_view)
+    @OnClick(R2.id.wechat_image_view)
     public void wechatLogin() {
-
+        mPresenter.wxLogin();
     }
 
-    @OnClick(R.id.qq_image_view)
+    @OnClick(R2.id.qq_image_view)
     public void qqLogin() {
-
+        mPresenter.qqLogin();
     }
 
-    @OnClick(R.id.weibo_image_view)
+    @OnClick(R2.id.weibo_image_view)
     public void weiboLogin() {
-
+        mPresenter.sinaLogin();
     }
 
     /**
      * 显示用户协议
      */
-    @OnClick(R.id.user_protocol_text_view)
+    @OnClick(R2.id.user_protocol_text_view)
     public void userProtocol() {
         UserProtocolActivity.start(this);
     }
@@ -254,7 +257,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     /**
      * 登录
      */
-    @OnClick(R.id.login_text_view)
+    @OnClick(R2.id.login_text_view)
     public void login() {
         switch(launchMode) {
             case LAUNCH_MODE_PASSWORD_LOGIN:
@@ -392,5 +395,23 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     public void onSendVerifyCodeSuccess() {
         // 验证码请求成功，开始倒计时
         getVerifyCodeTV.start();
+    }
+
+    @Override
+    public Activity getActivity() {
+        return this;
+    }
+
+
+    /**
+     * 友盟平台需要的回调
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 }

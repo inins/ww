@@ -9,6 +9,7 @@ import android.view.View;
 import com.frame.base.BasicActivity;
 import com.frame.di.component.AppComponent;
 import com.wang.social.personal.R;
+import com.wang.social.personal.R2;
 
 public class AccountDepositActivity extends BasicActivity {
 
@@ -30,7 +31,7 @@ public class AccountDepositActivity extends BasicActivity {
 
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_right:
+            case R2.id.btn_right:
                 AccountDepositRecordActivity.start(this);
                 break;
         }

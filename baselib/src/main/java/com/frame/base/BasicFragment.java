@@ -11,12 +11,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.frame.base.delegate.IFragment;
+import com.frame.entities.EventBean;
 import com.frame.integration.cache.Cache;
 import com.frame.integration.cache.CacheType;
 import com.frame.integration.lifecycle.FragmentLifecycleable;
 import com.frame.mvp.BasePresenter;
 import com.frame.utils.FrameUtils;
 import com.trello.rxlifecycle2.android.FragmentEvent;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import javax.inject.Inject;
 
@@ -90,5 +94,10 @@ public abstract class BasicFragment extends Fragment implements IFragment, Fragm
     @Override
     public boolean useEventBus() {
         return false;
+    }
+
+    //默认的eventbus事件处理方法
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCommonEvent(EventBean event) {
     }
 }

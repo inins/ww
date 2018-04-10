@@ -5,16 +5,11 @@ import com.frame.http.api.ApiHelper;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
-import com.frame.utils.ToastUtil;
 import com.wang.social.login.mvp.contract.TagSelectionContract;
 import com.wang.social.login.mvp.model.entities.Tag;
 import com.wang.social.login.mvp.model.entities.dto.Tags;
 
-import org.simple.eventbus.EventBus;
-import org.simple.eventbus.Subscriber;
-
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -41,37 +36,18 @@ public class TagSelectionPresenter extends
         super(model, view);
     }
 
-    public void getParentTagList() {
+    public void updateRecommendTag() {
         mApiHelper.execute(mRootView,
-                mModel.passwordLogin(),
-                new ErrorHandleSubscriber<Tags>(mErrorHandler) {
-
+                mModel.updateRecommendTag(selectedList),
+                new ErrorHandleSubscriber(mErrorHandler) {
                     @Override
-                    public void onNext(Tags tags) {
-                        mRootView.resetTabView(tags);
+                    public void onNext(Object o) {
+                        mRootView.showToast(o.toString());
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        // 加载失败，加载测试数据
-                        final String[] parent = {
-                                "第1页",
-                                "第2页",
-                                "第3页",
-                                "第4页",
-                                "第5页",
-                                "第6页"
-                        };
-
-                        Tags tags = new Tags();
-                        for (int i = 0; i < parent.length; i++) {
-                            Tag tag = new Tag();
-                            tag.setId(i);
-                            tag.setTagName(parent[i]);
-                            tags.getList().add(tag);
-                        }
-
-                        mRootView.resetTabView(tags);
+                        mRootView.showToast(e.getMessage());
                     }
                 }, new Consumer<Disposable>() {
                     @Override
@@ -84,6 +60,105 @@ public class TagSelectionPresenter extends
 
                     }
                 });
+
+    }
+
+    public void getParentTagList() {
+        mApiHelper.execute(mRootView,
+                mModel.parentTagList(),
+                new ErrorHandleSubscriber<Tags>(mErrorHandler) {
+
+                    @Override
+                    public void onNext(Tags tags) {
+                        mRootView.resetTabView(tags);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mRootView.showToast(e.getMessage());
+                    }
+                }, new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+
+                    }
+                }, new Action() {
+                    @Override
+                    public void run() throws Exception {
+
+                    }
+                });
+    }
+
+    public void myRecommendTag() {
+        mApiHelper.execute(mRootView,
+                // 这里需要一次获取所有的标签，所以给一个很大的数字
+                mModel.myRecommendTag(Integer.MAX_VALUE, 0),
+                new ErrorHandleSubscriber<Tags>(mErrorHandler) {
+
+                    @Override
+                    public void onNext(Tags tags) {
+                        selectedList = (ArrayList<Tag>) tags.getList();
+                        mRootView.refreshCountTV();
+
+                        // 开始加载标签数据
+                        getParentTagList();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mRootView.showToast(e.getMessage());
+                    }
+                }, new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+
+                    }
+                }, new Action() {
+                    @Override
+                    public void run() throws Exception {
+
+                    }
+                });
+    }
+
+    /**
+     * 选中Tag
+     * @param tag
+     * @return
+     */
+    public void selectTag(Tag tag) {
+        selectedList.add(tag);
+    }
+
+    /**
+     * 取消选择
+     * @param tag
+     */
+    public void unselectTag(Tag tag) {
+        int i;
+        boolean unselect = false;
+        for (i = 0; i < selectedList.size(); i++) {
+            Tag t = selectedList.get(i);
+            if (t.getId() == tag.getId()) {
+                unselect = true;
+                break;
+            }
+        }
+
+        if (unselect) {
+            selectedList.remove(i);
+        }
+    }
+
+    public boolean isSelected(Tag tag) {
+        for (Tag t : selectedList) {
+            if (t.getId() == tag.getId()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -108,12 +183,6 @@ public class TagSelectionPresenter extends
      */
     public ArrayList<Tag> getSelectedList() {
         return selectedList;
-    }
-
-
-    @Subscriber
-    private void selectedTagDeletedByConfirm(Tag tag) {
-        ToastUtil.showToastLong("删除");
     }
 
     @Override

@@ -66,7 +66,7 @@ public class VersionHistoryActivity extends BasicActivity implements BaseAdapter
 
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_history:
+            case R2.id.btn_history:
                 WebActivity.start(this, AppConstant.Url.aboutHistory);
                 break;
         }

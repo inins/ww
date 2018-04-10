@@ -11,6 +11,7 @@ import com.wang.social.personal.mvp.entities.lable.LableWrap;
 import com.wang.social.personal.mvp.entities.photo.OffiPic;
 import com.wang.social.personal.mvp.entities.photo.Photo;
 import com.wang.social.personal.mvp.entities.photo.PhotoListWrap;
+import com.wang.social.personal.mvp.entities.user.QrcodeInfo;
 
 import java.util.Map;
 
@@ -64,6 +65,10 @@ public interface UserService {
 
     @GET("/app/userWallet/accountBalance?v=2.0.0")
     Observable<BaseJson<AccountBalance>> accountBalance();
+
+    //通过id 获取用户基本信息
+    @GET("/user/getUserInfoByUserId?v=2.0.0")
+    Observable<BaseJson<QrcodeInfo>> getUserInfoByUserId(@Query("userId") int userId);
 
     //个性标签
     @GET("/app/tag/showtag?v=2.0.0")

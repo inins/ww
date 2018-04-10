@@ -12,6 +12,7 @@
     <string name="login_verify_phone">验证手机</string>
     <string name="login_verify_phone_hint">短信验证码即将发送到手机</string>
     <string name="login_send_again">重新发送</string>
+    <string name="login_set_password_hint">设置之后你可以使用手机号登录</string>
 
     <string name="login_login">登录</string>
     <string name="login_register">注册</string>
@@ -38,5 +39,8 @@
     <string name="login_selected_count">已选</string>
     <string name="login_tag_confirm_title">兴趣大杂烩</string>
     <string name="login_tag_confirm_title_hint">你的兴趣全在这里，返回可以重新选择哦</string>
+
+    <string name="login_bind_phone">绑定手机</string>
+    <string name="login_bind">绑定</string>
 
 </resources>

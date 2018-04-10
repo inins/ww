@@ -8,7 +8,7 @@
     android:paddingRight="5dp">
 
     <ImageView
-        android:id="@+id/personal_imageview"
+        android:id="@+id/img_header"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginBottom="8dp"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/text_time"
+        android:id="@+id/text_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -27,7 +27,7 @@
         android:text="埃米尔"
         android:textColor="@color/common_text_blank_dark"
         android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/personal_imageview"
+        app:layout_constraintStart_toEndOf="@+id/img_header"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -39,7 +39,7 @@
         android:textColor="@color/common_text_dark"
         android:textSize="11sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/text_time"
-        app:layout_constraintTop_toBottomOf="@+id/text_time" />
+        app:layout_constraintStart_toStartOf="@+id/text_name"
+        app:layout_constraintTop_toBottomOf="@+id/text_name" />
 
 </android.support.constraint.ConstraintLayout>

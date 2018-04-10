@@ -22,11 +22,11 @@ import butterknife.ButterKnife;
  * 选择性别弹窗
  */
 public class DialogBottomGender extends BaseDialog implements View.OnClickListener {
-    @BindView(R.id.btn_m)
+    @BindView(R2.id.btn_m)
     TextView btn_m;
-    @BindView(R.id.btn_fm)
+    @BindView(R2.id.btn_fm)
     TextView btn_fm;
-    @BindView(R.id.btn_cancel)
+    @BindView(R2.id.btn_cancel)
     TextView btn_cancel;
 
     public DialogBottomGender(Context context) {
@@ -55,13 +55,13 @@ public class DialogBottomGender extends BaseDialog implements View.OnClickListen
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_m:
+            case R2.id.btn_m:
                 if (onGenderSelectListener != null) onGenderSelectListener.onGenderSelect("男");
                 break;
-            case R.id.btn_fm:
+            case R2.id.btn_fm:
                 if (onGenderSelectListener != null) onGenderSelectListener.onGenderSelect("女");
                 break;
-            case R.id.btn_cancel:
+            case R2.id.btn_cancel:
                 dismiss();
                 break;
         }

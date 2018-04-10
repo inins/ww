@@ -38,7 +38,7 @@
                 android:layout_width="302dp"
                 android:layout_height="wrap_content"
                 android:text="@string/login_go_to_register"
-                android:textColor="#ff189aff"
+                android:textColor="@color/common_blue_deep"
                 android:textSize="17sp"
                 android:gravity="center"
                 android:padding="16dp"

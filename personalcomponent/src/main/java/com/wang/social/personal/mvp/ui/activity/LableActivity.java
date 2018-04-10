@@ -120,7 +120,7 @@ public class LableActivity extends BaseAppActivity<LablePresonter> implements La
 
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_right:
+            case R2.id.btn_right:
                 if (!adapter_show.isDeleteEnable()) {
                     btn_right.setText(getResources().getString(R.string.personal_lable_btn_right_finish));
                     adapter_show.setDeleteEnable(true);

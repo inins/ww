@@ -20,6 +20,7 @@ import javax.inject.Singleton;
 
 import dagger.BindsInstance;
 import dagger.Component;
+import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 
 /**
@@ -62,6 +63,8 @@ public interface AppComponent {
     Cache.Factory cacheFactory();
 
     void inject(AppDelegateImp appDelegateImp);
+
+    HttpUrl httpUrl();
 
     @Component.Builder
     interface Builder{

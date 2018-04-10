@@ -14,6 +14,7 @@ import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.utils.StrUtil;
 import com.frame.utils.ToastUtil;
 import com.wang.social.personal.R;
+import com.wang.social.personal.R2;
 import com.wang.social.personal.mvp.entities.photo.Photo;
 
 import javax.inject.Inject;
@@ -33,13 +34,12 @@ public class RecycleAdapterMePhoto extends BaseAdapter<Photo> {
 
     @Override
     protected BaseViewHolder createViewHolder(Context context, ViewGroup parent, int viewType) {
-        switch (viewType) {
-            case TYPE_SRC_ITEM:
-                return new HolderItem(context, parent, viewType);
-            case TYPE_SRC_ADD:
-                return new HolderAdd(context, parent, viewType);
-            default:
-                return null;
+        if (viewType==TYPE_SRC_ITEM){
+            return new HolderItem(context, parent, viewType);
+        }else if (viewType==TYPE_SRC_ADD){
+            return new HolderAdd(context, parent, viewType);
+        }else {
+            return null;
         }
     }
 
@@ -67,11 +67,11 @@ public class RecycleAdapterMePhoto extends BaseAdapter<Photo> {
     }
 
     public class HolderItem extends BaseViewHolder<Photo> {
-        @BindView(R.id.img_photo)
+        @BindView(R2.id.img_photo)
         ImageView imgPhoto;
-        @BindView(R.id.btn_del)
+        @BindView(R2.id.btn_del)
         ImageView btnDel;
-        @BindView(R.id.btn_modify)
+        @BindView(R2.id.btn_modify)
         TextView btnModify;
 
         public HolderItem(Context context, ViewGroup root, int layoutRes) {

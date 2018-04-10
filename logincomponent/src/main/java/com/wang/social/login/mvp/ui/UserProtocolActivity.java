@@ -9,6 +9,7 @@ import com.frame.base.BasicActivity;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.wang.social.login.R;
+import com.wang.social.login.R2;
 
 import butterknife.BindView;
 
@@ -19,7 +20,7 @@ public class UserProtocolActivity extends BasicActivity {
         context.startActivity(intent);
     }
 
-    @BindView(R.id.toolbar)
+    @BindView(R2.id.toolbar)
     SocialToolbar toolbar;
 
     @Override

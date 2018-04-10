@@ -9,6 +9,7 @@ import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 /**
@@ -58,17 +59,20 @@ public interface LoginService {
 
     /**
      * 修改/重置密码（公共）
-     * @param mobile
-     * @param code
-     * @param password
      * @return
      */
     @FormUrlEncoded
     @POST("user/forgetPassword")
-    Observable<BaseJson> userForgetPassword(
-            @Field("mobile") String mobile,
-            @Field("code") String code,
-            @Field("password") String password);
+    Observable<BaseJson> userForgetPassword(@FieldMap Map<String, Object> param);
+
+    /**
+     *  设置密码
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("app/userInfo/setPassword")
+    Observable<BaseJson> userSetPassword(@FieldMap Map<String, Object> param);
 
     /**
      * 手机号码加短信验证码登录
@@ -86,4 +90,23 @@ public interface LoginService {
     Observable<BaseJson> sendVerifyCode(@FieldMap Map<String, Object> param);
 
 
+    /**
+     * 换绑手机
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("app/userInfo/replaceMobile")
+    Observable<BaseJson> replaceMobile(@FieldMap Map<String, Object> param);
+
+
+    /**
+     * 第三方登录
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("login/platform")
+    @Headers("Content-Type: application/x-www-form-urlencoded; charset=utf-8")
+    Observable<BaseJson<LoginInfoDTO>> platformLogin(@FieldMap Map<String, Object> param);
 }

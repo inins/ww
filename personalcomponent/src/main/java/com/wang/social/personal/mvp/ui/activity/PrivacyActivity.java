@@ -9,6 +9,7 @@ import android.view.View;
 import com.frame.base.BasicActivity;
 import com.frame.di.component.AppComponent;
 import com.wang.social.personal.R;
+import com.wang.social.personal.R2;
 
 public class PrivacyActivity extends BasicActivity {
 
@@ -30,16 +31,16 @@ public class PrivacyActivity extends BasicActivity {
 
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_friend:
+            case R2.id.btn_friend:
                 PrivacyShowListActivity.start(this);
                 break;
-            case R.id.btn_ql:
+            case R2.id.btn_ql:
                 PrivacyShowListActivity.start(this);
                 break;
-            case R.id.btn_qs:
+            case R2.id.btn_qs:
                 PrivacyShowListActivity.start(this);
                 break;
-            case R.id.btn_topic:
+            case R2.id.btn_topic:
                 PrivacyShowListActivity.start(this);
                 break;
         }

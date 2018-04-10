@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
 
+import com.frame.component.helper.AppDataHelper;
 import com.wang.social.login.BuildConfig;
 import com.frame.base.delegate.AppDelegate;
 import com.frame.component.app.GlobalHttpHandlerImp;
@@ -34,6 +35,8 @@ public class GlobalConfiguration implements ConfigModule{
         builder.baseUrl(BuildConfig.APP_DOMAIN)
                 .globalHttpHandler(new GlobalHttpHandlerImp(context))
                 .responseErrorListener(new ResponseErrorListenerImp());
+
+//        AppDataHelper.saveToken("Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMzgyMzE1MDQyMCIsImNyZWF0ZWQiOjE1MjMyMzY2ODI1MDQsImlkIjoxMDAxNiwiZXhwIjoxNTIzODQxNDgyfQ.UxUXiemH6uk9APp5gg6Ye7HEbGKOyRVqTD6Rm3tkbn5STl6i6SUp_RH81f6__L6i35Mvuvd0JJaJJCpNh0WbNQ");
     }
 
     @Override

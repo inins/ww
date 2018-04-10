@@ -1,5 +1,5 @@
-//apply plugin: 'com.component.build'
-apply plugin: 'com.android.application'
+apply plugin: 'com.component.build'
+//apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.butterknife'
 
 android {
@@ -32,7 +32,7 @@ android {
             debug {
                 buildConfigField "boolean", "LOG_DEBUG", "true"
                 buildConfigField "boolean", "USE_CANARY", "true"
-                buildConfigField "String", "APP_DOMAIN", "\"http://frogking.top:8080/\""
+//                buildConfigField "String", "APP_DOMAIN", "\"http://frogking.top:8080/\""
 //                buildConfigField "String", "APP_DOMAIN", "\"http://192.168.1.154:8080/\""
                 minifyEnabled false
                 proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -86,7 +86,7 @@ dependencies {
     implementation project(':pictureselectorcomponent')
 }
 
-//combuild {
-//    applicationName = 'com.frame.base.BaseApplication'
-//    isRegisterCompoAuto = true
-//}
+combuild {
+    applicationName = 'com.frame.base.BaseApplication'
+    isRegisterCompoAuto = true
+}

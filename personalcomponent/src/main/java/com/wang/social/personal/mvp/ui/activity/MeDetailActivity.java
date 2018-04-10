@@ -12,10 +12,12 @@ import android.widget.TextView;
 import com.frame.component.entities.User;
 import com.frame.component.helper.AppDataHelper;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
 import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.utils.TimeUtils;
 import com.frame.utils.ToastUtil;
+import com.wang.social.personal.R2;
 import com.wang.social.personal.helper.PhotoHelper;
 import com.wang.social.personal.R;
 import com.wang.social.personal.data.db.AddressDataBaseManager;
@@ -38,21 +40,21 @@ import timber.log.Timber;
 
 public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> implements MeDetailContract.View, PhotoHelper.OnPhotoCallback {
 
-    @BindView(R.id.toolbar)
+    @BindView(R2.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.img_header)
+    @BindView(R2.id.img_header)
     ImageView imgHeader;
-    @BindView(R.id.text_name)
+    @BindView(R2.id.text_name)
     TextView textName;
-    @BindView(R.id.text_gender)
+    @BindView(R2.id.text_gender)
     TextView textGender;
-    @BindView(R.id.text_old)
+    @BindView(R2.id.text_old)
     TextView textOld;
-    @BindView(R.id.text_address)
+    @BindView(R2.id.text_address)
     TextView textAddress;
-    @BindView(R.id.text_photo)
+    @BindView(R2.id.text_photo)
     TextView textPhoto;
-    @BindView(R.id.text_sign)
+    @BindView(R2.id.text_sign)
     TextView textSign;
     private DialogBottomGender dialogGender;
     private DialogAddressPicker dialogAddress;
@@ -71,6 +73,20 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
     @Override
     public int initView(@NonNull Bundle savedInstanceState) {
         return R.layout.personal_activity_medetail;
+    }
+
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        switch (event.getEvent()){
+            case EventBean.EVENT_MEPHOTO_CHANGE:
+                mPresenter.getPhotoList();
+                break;
+        }
     }
 
     @Override
@@ -141,27 +157,27 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
 
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.lay_header:
+            case R2.id.lay_header:
                 photoHelper.showDefaultDialog();
                 break;
-            case R.id.lay_name:
+            case R2.id.lay_name:
                 dialogInputName.setText(textName.getText().toString());
                 dialogInputName.show();
                 break;
-            case R.id.lay_gender:
+            case R2.id.lay_gender:
                 dialogGender.show();
                 break;
-            case R.id.lay_old:
+            case R2.id.lay_old:
                 dialogDate.setDate(textOld.getText().toString());
                 dialogDate.show();
                 break;
-            case R.id.lay_address:
+            case R2.id.lay_address:
                 dialogAddress.show();
                 break;
-            case R.id.lay_photo:
+            case R2.id.lay_photo:
                 MePhotoActivity.start(this);
                 break;
-            case R.id.lay_sign:
+            case R2.id.lay_sign:
                 dialogInputSign.setText(textSign.getText().toString());
                 dialogInputSign.show();
                 break;

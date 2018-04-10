@@ -14,8 +14,9 @@ import android.widget.TextView;
 import com.frame.base.BaseActivity;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
-import com.frame.utils.ToastUtil;
+import com.frame.entities.EventBean;
 import com.wang.social.login.R;
+import com.wang.social.login.R2;
 import com.wang.social.login.di.component.DaggerTagSelectionComponent;
 import com.wang.social.login.di.module.TagSelectionModule;
 import com.wang.social.login.mvp.contract.TagSelectionContract;
@@ -23,14 +24,13 @@ import com.wang.social.login.mvp.model.entities.Tag;
 import com.wang.social.login.mvp.model.entities.dto.Tags;
 import com.wang.social.login.mvp.presenter.TagSelectionPresenter;
 import com.wang.social.login.mvp.ui.widget.TagListFragment;
-
-import org.simple.eventbus.EventBus;
-import org.simple.eventbus.Subscriber;
+import com.wang.social.login.utils.Keys;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 public class TagSelectionActivity extends BaseActivity<TagSelectionPresenter> implements
         TagSelectionContract.View {
@@ -59,21 +59,21 @@ public class TagSelectionActivity extends BaseActivity<TagSelectionPresenter> im
         start(context, MODE_CONFIRM, selectedList);
     }
 
-    @BindView(R.id.toolbar)
+    @BindView(R2.id.toolbar)
     SocialToolbar toolbar;
-    @BindView(R.id.tab_layout)
+    @BindView(R2.id.tab_layout)
     TabLayout tabLayout;
-    @BindView(R.id.view_pager)
+    @BindView(R2.id.view_pager)
     ViewPager viewPager;
-    @BindView(R.id.selected_count_hint_text_view)
+    @BindView(R2.id.selected_count_hint_text_view)
     TextView selectedCountHintTV;
-    @BindView(R.id.selected_count_text_view)
+    @BindView(R2.id.selected_count_text_view)
     TextView selectedCountTV;
-    @BindView(R.id.content_layout)
+    @BindView(R2.id.content_layout)
     LinearLayout contentLayout;
-    @BindView(R.id.title_text_view)
+    @BindView(R2.id.title_text_view)
     TextView titleTV;
-    @BindView(R.id.title_hint_text_view)
+    @BindView(R2.id.title_hint_text_view)
     TextView titleHintTV;
 
     String mode = MODE_SELECTION;
@@ -90,10 +90,16 @@ public class TagSelectionActivity extends BaseActivity<TagSelectionPresenter> im
         refreshCountTV();
     }
 
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
     /**
      * 选中数量格文字式化
      */
-    private void refreshCountTV() {
+    @Override
+    public void refreshCountTV() {
         selectedCountTV.setText("(" + mPresenter.getSelectedTagCount() + ")");
     }
 
@@ -159,12 +165,14 @@ public class TagSelectionActivity extends BaseActivity<TagSelectionPresenter> im
         // 这里不需要parentId，所以传入-1
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.content_layout, TagListFragment.newInstance(-1, mPresenter.getSelectedList()))
+                .add(R2.id.content_layout, TagListFragment.newDeleteMode(-1, mPresenter.getSelectedList()))
                 .commit();
     }
 
     private void initSelectionData() {
-        mPresenter.getParentTagList();
+        // 先加载 已选推荐标签列表
+        mPresenter.myRecommendTag();
+//        mPresenter.getParentTagList();
     }
 
     @Override
@@ -184,7 +192,7 @@ public class TagSelectionActivity extends BaseActivity<TagSelectionPresenter> im
             @Override
             public Fragment getItem(int position) {
                 Tag parentTag = tags.getList().get(position);
-                return TagListFragment.newInstance(parentTag.getId(), null);
+                return TagListFragment.newSelectionMode(parentTag.getId(), mPresenter.getSelectedList());
             }
 
             @Override
@@ -214,7 +222,7 @@ public class TagSelectionActivity extends BaseActivity<TagSelectionPresenter> im
 
     }
 
-    @OnClick(R.id.selected_count_layout)
+    @OnClick(R2.id.selected_count_layout)
     public void selectedCountClicked() {
         switch (mode) {
             case MODE_SELECTION:
@@ -224,10 +232,70 @@ public class TagSelectionActivity extends BaseActivity<TagSelectionPresenter> im
                 break;
             case MODE_CONFIRM:
                 // 兴趣大杂烩
+                mPresenter.updateRecommendTag();
                 break;
         }
     }
 
+//    @Subscribe(tag = Keys.EVENTBUS_TAG_SELECTED)
+//    public void tagSelected(Tag tag) {
+//        // 将Tag加入已选列表
+//        mPresenter.selectTag(tag);
+//
+//        refreshCountTV();
+//    }
+//
+//    @Subscribe(tag = Keys.EVENTBUS_TAG_UNSELECT)
+//    public void tagUnselect(Tag tag) {
+//        mPresenter.unselectTag(tag);
+//
+//        refreshCountTV();
+//    }
+//
+//    @Subscribe(tag = Keys.EVENTBUS_TAG_DELETE)
+//    public void tagDelete(Tag tag) {
+//        mPresenter.unselectTag(tag);
+//
+//        refreshCountTV();
+//    }
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        Timber.i("EventBuss 事件通知");
+        if (event.getEvent() != EventBean.EVENTBUS_TAG_SELECTED &&
+                event.getEvent() != EventBean.EVENTBUS_TAG_UNSELECT &&
+                event.getEvent() != EventBean.EVENTBUS_TAG_DELETE) {
+            return;
+        }
+
+        Tag tag;
+
+        if (event.get(Keys.EVENTBUS_TAG_DELETE) instanceof Tag) {
+            tag = (Tag) event.get(Keys.EVENTBUS_TAG_DELETE);
+            mPresenter.unselectTag(tag);
+        } else {
+            throw new ClassCastException("EventBus 返回数据类型不符，需要 Tag");
+        }
+
+        switch (event.getEvent()) {
+            case EventBean.EVENTBUS_TAG_SELECTED:
+                // 将Tag加入已选列表
+                mPresenter.selectTag(tag);
+
+                refreshCountTV();
+                break;
+            case EventBean.EVENTBUS_TAG_UNSELECT:
+                mPresenter.unselectTag(tag);
+
+                refreshCountTV();
+                break;
+            case EventBean.EVENTBUS_TAG_DELETE:
+                mPresenter.unselectTag(tag);
+
+                refreshCountTV();
+                break;
+        }
+    }
 
     @Override
     public void onDestroy() {

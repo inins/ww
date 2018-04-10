@@ -32,6 +32,36 @@ public class ResetPasswordPresenter extends
     }
 
 
+    public void setPassword(String password) {
+        mApiHelper.executeForData(mRootView,
+                mModel.userSetPassword(password),
+                new ErrorHandleSubscriber(mErrorHandler) {
+
+                    @Override
+                    public void onNext(Object o) {
+                        // 提示成功
+                        mRootView.showToast(o.toString());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mRootView.showToast(e.getMessage());
+                    }
+
+                }, new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                        mRootView.showLoading();
+                    }
+                }, new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mRootView.hideLoading();
+                    }
+                });
+    }
+
+
     public void resetPassword(String mobile, String code, String password) {
         mApiHelper.executeForData(mRootView,
                 mModel.userForgetPassword(mobile, code, password),

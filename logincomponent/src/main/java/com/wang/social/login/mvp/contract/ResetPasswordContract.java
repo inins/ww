@@ -16,5 +16,8 @@ public interface ResetPasswordContract {
     interface Model extends IModel {
         Observable<BaseJson> userForgetPassword(
                 String mobile, String code, String password);
+
+        Observable<BaseJson> userSetPassword(
+                String password);
     }
 }

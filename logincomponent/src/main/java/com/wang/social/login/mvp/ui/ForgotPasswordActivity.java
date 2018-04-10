@@ -16,6 +16,7 @@ import com.frame.di.component.AppComponent;
 import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.ToastUtil;
 import com.wang.social.login.R;
+import com.wang.social.login.R2;
 import com.wang.social.login.di.component.DaggerForgotPasswordComponent;
 import com.wang.social.login.di.module.ForgotPasswordModule;
 import com.wang.social.login.mvp.contract.ForgotPasswordContract;
@@ -37,13 +38,13 @@ public class ForgotPasswordActivity extends BaseActivity<ForgotPasswordPresenter
     }
 
 
-    @BindView(R.id.toolbar)
+    @BindView(R2.id.toolbar)
     SocialToolbar toolbar;
-    @BindView(R.id.edit_text)
+    @BindView(R2.id.edit_text)
     EditText phoneEditText;
-    @BindView(R.id.content_root)
+    @BindView(R2.id.content_root)
     View contentRoot;
-    @BindView(R.id.get_verify_code)
+    @BindView(R2.id.get_verify_code)
     View getVerifyCodeView;
 
     @Override
@@ -75,7 +76,7 @@ public class ForgotPasswordActivity extends BaseActivity<ForgotPasswordPresenter
         ViewUtils.controlKeyboardLayout(contentRoot, getVerifyCodeView);
     }
 
-    @OnClick(R.id.get_verify_code)
+    @OnClick(R2.id.get_verify_code)
     public void getVerifyCode() {
         ViewUtils.hideSoftInputFromWindow(this, phoneEditText);
 

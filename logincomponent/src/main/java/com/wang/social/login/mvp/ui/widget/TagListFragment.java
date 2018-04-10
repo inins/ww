@@ -9,20 +9,26 @@ import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.beloo.widget.chipslayoutmanager.SpacingItemDecoration;
 import com.frame.base.BaseFragment;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
 import com.frame.utils.SizeUtils;
+import com.frame.utils.ToastUtil;
 import com.wang.social.login.R;
+import com.wang.social.login.R2;
 import com.wang.social.login.di.component.DaggerTagListComponent;
 import com.wang.social.login.di.module.TagListModule;
 import com.wang.social.login.mvp.contract.TagListContract;
 import com.wang.social.login.mvp.model.entities.Tag;
 import com.wang.social.login.mvp.presenter.TagListPresenter;
 import com.wang.social.login.mvp.ui.widget.adapter.TagAdapter;
+import com.wang.social.login.utils.Keys;
 
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import timber.log.Timber;
 
 public class TagListFragment extends BaseFragment<TagListPresenter> implements
         TagListContract.View {
@@ -30,20 +36,31 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
     public final static String MODE_DELETE = "MODE_DELETE";
     public final static String NAME_SELECTED_LIST = "NAME_SELECTED_LIST";
     public final static String NAME_PARENT_ID = "NAME_PARENT_ID";
+    public final static String NAME_MODE = "NAME_MODE";
 
     /**
      *  返回TagListFragment
      * @param list 选中列表(主要在 兴趣大杂烩时使用)
      * @return
      */
-    public static TagListFragment newInstance(int parentId, ArrayList<Tag> list) {
+    public static TagListFragment newSelectionMode(int parentId, ArrayList<Tag> list) {
         TagListFragment fragment = new TagListFragment();
 
         Bundle bundle = new Bundle();
+        bundle.putString(NAME_MODE, MODE_SELECTION);
         bundle.putInt(NAME_PARENT_ID, parentId);
-        if (null != list) {
-            bundle.putParcelableArrayList(NAME_SELECTED_LIST, list);
-        }
+        bundle.putParcelableArrayList(NAME_SELECTED_LIST, list);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
+    public static TagListFragment newDeleteMode(int parentId, ArrayList<Tag> list) {
+        TagListFragment fragment = new TagListFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putString(NAME_MODE, MODE_DELETE);
+        bundle.putInt(NAME_PARENT_ID, parentId);
+        bundle.putParcelableArrayList(NAME_SELECTED_LIST, list);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -59,11 +76,16 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
     }
 
     @Override
+    public void showToast(String msg) {
+        ToastUtil.showToastLong(msg);
+    }
+
+    @Override
     public void tagListChanged() {
         tagAdapter.notifyDataSetChanged();
     }
 
-    @BindView(R.id.recycler_view)
+    @BindView(R2.id.recycler_view)
     RecyclerView recyclerView;
 
     TagAdapter tagAdapter;
@@ -89,16 +111,29 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
         }
     };
 
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
     private TagAdapter.TagClickListener tagClickListener = new TagAdapter.TagClickListener() {
         @Override
         public void onTagClick(Tag tag) {
             boolean selected = mPresenter.tagClick(tag);
+
+            EventBean bean = new EventBean(selected ? EventBean.EVENTBUS_TAG_SELECTED : EventBean.EVENTBUS_TAG_UNSELECT);
+            bean.put(selected ? Keys.EVENTBUS_TAG_SELECTED : Keys.EVENTBUS_TAG_UNSELECT, tag);
+            EventBus.getDefault().post(bean);
         }
 
         @Override
         public void onDelete(Tag tag) {
             // 将tag从列表删除
             mPresenter.removeTag(tag);
+
+            EventBean bean = new EventBean(EventBean.EVENTBUS_TAG_DELETE);
+            bean.put(Keys.EVENTBUS_TAG_DELETE, tag);
+            EventBus.getDefault().post(bean);
         }
     };
 
@@ -124,17 +159,23 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
         if (getArguments() != null) {
             selectedList = getArguments().getParcelableArrayList(NAME_SELECTED_LIST);
             parentId = getArguments().getInt(NAME_PARENT_ID);
+            mode = getArguments().getString(NAME_MODE);
         }
 
-        if (null != selectedList && selectedList.size() > 0) {
-            // 如果有传选中list做来，则说明是删除模式
+        if (mode.equals(MODE_DELETE)) {
+            // 删除模式
             mPresenter.setSelectedList(selectedList);
-            mode = MODE_DELETE;
+
+            resetTagListView();
         } else {
             // 没有传入选中列表，则需要加载数据
-            mPresenter.loadTagList(parentId);
+            mPresenter.loadTagList(parentId, selectedList);
         }
+    }
 
+
+    @Override
+    public void resetTagListView() {
         tagAdapter = new TagAdapter(getContext(), tagDataProvider, tagClickListener);
 
         // RecyclerView 相关设置
@@ -148,10 +189,30 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
         recyclerView.setAdapter(tagAdapter);
     }
 
-    @Override
-    public void setData(@Nullable Object data) {
+    /**
+     * 收到删除的通知，需要让界面执行取消选中的操作，因为可能是不用的界面
+     */
+//    @Subscriber(tag = Keys.EVENTBUS_TAG_DELETE)
+//    public void tagDelete(Tag tag) {
+//        mPresenter.unselectTag(tag);
+//    }
 
+    @Override
+    public void onCommonEvent(EventBean event) {
+        Timber.i("EventBuss 事件通知");
+        switch (event.getEvent()) {
+            case EventBean.EVENTBUS_TAG_DELETE:
+                if (event.get(Keys.EVENTBUS_TAG_DELETE) instanceof Tag) {
+                    Tag tag = (Tag) event.get(Keys.EVENTBUS_TAG_DELETE);
+                    mPresenter.unselectTag(tag);
+                } else {
+                    throw new ClassCastException("EventBus 返回数据类型不符，需要 Tag");
+                }
+                break;
+        }
     }
 
-
+    @Override
+    public void setData(@Nullable Object data) {
+    }
 }

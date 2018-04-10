@@ -9,6 +9,8 @@ package com.frame.component.api;
 
 public interface Api {
 
+    String DOMAIN = "http://frogking.top:8080";
+
     /**
      * 接口请求成功状态码
      */
@@ -18,4 +20,8 @@ public interface Api {
      * 七牛文件存储路径
      */
     String QINIU_PREFIX = "http://resouce.dongdongwedding.com/";
+
+    //获取用户二维码
+    String USER_QRCODE = "/user/getUserQrcodeByUserId";
+
 }

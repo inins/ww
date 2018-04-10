@@ -31,5 +31,6 @@
         <activity android:name=".mvp.ui.activity.PrivacyActivity" />
         <activity android:name=".mvp.ui.activity.PrivacyShowListActivity" />
         <activity android:name=".mvp.ui.activity.LableActivity" />
+        <activity android:name=".mvp.ui.activity.QrcodeActivity" />
     </application>
 </manifest>

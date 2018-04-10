@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.wang.social.pictureselector">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -7,7 +8,8 @@
     <application
         android:name="com.frame.base.BaseApplication"
         android:allowBackup="true"
-        android:screenOrientation="portrait">
+        android:screenOrientation="portrait"
+        tools:replace="android:name">
 
         <!-- Meta Data -->
         <meta-data
@@ -15,7 +17,8 @@
             android:value="ConfigModule" />
         <!-- ********* -->
 
-        <activity android:name="com.wang.social.pictureselector.app.MainActivity"
+        <activity
+            android:name="com.wang.social.pictureselector.app.MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden">
             <intent-filter>
@@ -24,12 +27,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.wang.social.pictureselector.ActivityPictureClip"
-            android:screenOrientation="portrait"/>
-        <activity android:name="com.wang.social.pictureselector.ActivityPictureSelector"
-            android:screenOrientation="portrait"/>
-        <activity android:name="com.wang.social.pictureselector.ActivityPicturePreview"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.wang.social.pictureselector.ActivityPictureClip"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.wang.social.pictureselector.ActivityPictureSelector"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.wang.social.pictureselector.ActivityPicturePreview"
+            android:screenOrientation="portrait" />
 
     </application>
 </manifest>

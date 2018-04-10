@@ -2,6 +2,7 @@ package com.frame.component.entities;
 
 import android.text.TextUtils;
 
+import com.frame.component.api.Api;
 import com.frame.utils.StrUtil;
 import com.frame.utils.TimeUtils;
 
@@ -61,18 +62,7 @@ public class User implements Serializable {
         return StrUtil.str2int(city);
     }
 
-//    public String getAstro() {
-//        if (TextUtils.isEmpty(birthday)) return "";
-//        if (birthday.indexOf(" ") != -1)
-//            birthday = birthday.substring(birthday.indexOf(" "));
-//        String[] split = birthday.split("-");
-//        if (split == null || split.length < 3) return "";
-//        int year = Integer.parseInt(split[0]);
-//        int mouth = Integer.parseInt(split[1]);
-//        int day = Integer.parseInt(split[2]);
-//        return TimeUtils.getAstro(mouth, day);
-//    }
-
-    /////////////////////////////////
-
+    public String getQrcodeImg() {
+        return Api.DOMAIN + Api.USER_QRCODE + "?v=2.0.0&userId=" + userId;
+    }
 }
