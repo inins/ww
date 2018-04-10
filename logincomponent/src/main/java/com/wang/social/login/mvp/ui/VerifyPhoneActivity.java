@@ -14,6 +14,7 @@ import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.utils.ToastUtil;
 import com.wang.social.login.R;
+import com.wang.social.login.R2;
 import com.wang.social.login.di.component.DaggerVerifyPhoneComponent;
 import com.wang.social.login.di.module.VerifyPhoneModule;
 import com.wang.social.login.mvp.contract.VerifyPhoneContract;
@@ -36,15 +37,15 @@ public class VerifyPhoneActivity extends BaseActivity<VerifyPhonePresenter> impl
     }
 
 
-    @BindView(R.id.toolbar)
+    @BindView(R2.id.toolbar)
     SocialToolbar toolbar;
-    @BindView(R.id.content_root)
+    @BindView(R2.id.content_root)
     View contentRoot;
-    @BindView(R.id.phone_text_view)
+    @BindView(R2.id.phone_text_view)
     TextView phoneTextView;
-    @BindView(R.id.send_again_text_view)
+    @BindView(R2.id.send_again_text_view)
     TextView sendAgainTextView;
-    @BindView(R.id.verification_code_input)
+    @BindView(R2.id.verification_code_input)
     VerificationCodeInput verificationCodeInput;
 
     String mMobile;

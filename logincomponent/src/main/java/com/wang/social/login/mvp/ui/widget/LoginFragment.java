@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.frame.base.BaseFragment;
 import com.frame.di.component.AppComponent;
 import com.wang.social.login.R;
+import com.wang.social.login.R2;
 import com.wang.social.login.mvp.ui.LoginActivity;
 
 import butterknife.BindView;
@@ -34,29 +35,29 @@ public class LoginFragment extends BaseFragment {
         context.startActivity(intent);
     }
 
-    @BindView(R.id.title_text_view)
+    @BindView(R2.id.title_text_view)
     TextView titleTV; // 标题（登录/注册）
-    @BindView(R.id.phone_edit_text)
+    @BindView(R2.id.phone_edit_text)
     EditText phoneET; // 手机号输入框
-    @BindView(R.id.password_login_layout)
+    @BindView(R2.id.password_login_layout)
     View passwordLoginLayout; // 密码登录输入View
-    @BindView(R.id.password_edit_text)
+    @BindView(R2.id.password_edit_text)
     EditText passwordET; // 密码输入框
-    @BindView(R.id.forgot_password_text_view)
+    @BindView(R2.id.forgot_password_text_view)
     TextView forgotPasswordTV; // 忘记密码
-    @BindView(R.id.message_login_layout)
+    @BindView(R2.id.message_login_layout)
     View messageLoginLayout; // 短信登录输入View
-    @BindView(R.id.verify_code_edit_text)
+    @BindView(R2.id.verify_code_edit_text)
     EditText verifyCodeET; // 验证码输入框
-    @BindView(R.id.get_verify_code_text_view)
+    @BindView(R2.id.get_verify_code_text_view)
     TextView getVerifyCodeTV; // 获取验证码
-    @BindView(R.id.switch_login_text_view)
+    @BindView(R2.id.switch_login_text_view)
     TextView switchLoginTV; // 切换登录模式
-    @BindView(R.id.third_party_login_layout)
+    @BindView(R2.id.third_party_login_layout)
     View thirdPartyLoginLayout;// 第三方登录按钮区域
-    @BindView(R.id.switch_login_register_text_view)
+    @BindView(R2.id.switch_login_register_text_view)
     TextView switchLoginRegisterTV; // 切换登录注册模式
-    @BindView(R.id.login_text_view)
+    @BindView(R2.id.login_text_view)
     TextView loginTV; // 登录
 
 
@@ -118,12 +119,12 @@ public class LoginFragment extends BaseFragment {
 
     }
 
-    @OnClick(R.id.login_text_view)
+    @OnClick(R2.id.login_text_view)
     public void login() {
 
     }
 
-    @OnClick(R.id.switch_login_text_view)
+    @OnClick(R2.id.switch_login_text_view)
     public void switchLoginMode() {
         // 切换登录模式
         if (launchMode.equals(LAUNCH_MODE_MESSAGE_LOGIN)) {
@@ -138,7 +139,7 @@ public class LoginFragment extends BaseFragment {
         getActivity().finish();
     }
 
-    @OnClick(R.id.switch_login_register_text_view)
+    @OnClick(R2.id.switch_login_register_text_view)
     public void switchLoginRegister() {
         // 切换登录注册模式
         if (launchMode.equals(LAUNCH_MODE_MESSAGE_LOGIN)) {
@@ -156,7 +157,7 @@ public class LoginFragment extends BaseFragment {
 
 
 
-    @OnCheckedChanged(R.id.checkbox)
+    @OnCheckedChanged(R2.id.checkbox)
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if(isChecked){
             //如果选中，显示密码
@@ -167,17 +168,17 @@ public class LoginFragment extends BaseFragment {
         }
     }
 
-    @OnClick(R.id.wechat_image_view)
+    @OnClick(R2.id.wechat_image_view)
     public void wechatLogin() {
 
     }
 
-    @OnClick(R.id.qq_image_view)
+    @OnClick(R2.id.qq_image_view)
     public void qqLogin() {
 
     }
 
-    @OnClick(R.id.weibo_image_view)
+    @OnClick(R2.id.weibo_image_view)
     public void weiboLogin() {
 
     }

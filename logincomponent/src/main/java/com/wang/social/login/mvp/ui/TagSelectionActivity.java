@@ -16,6 +16,7 @@ import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.wang.social.login.R;
+import com.wang.social.login.R2;
 import com.wang.social.login.di.component.DaggerTagSelectionComponent;
 import com.wang.social.login.di.module.TagSelectionModule;
 import com.wang.social.login.mvp.contract.TagSelectionContract;
@@ -58,21 +59,21 @@ public class TagSelectionActivity extends BaseActivity<TagSelectionPresenter> im
         start(context, MODE_CONFIRM, selectedList);
     }
 
-    @BindView(R.id.toolbar)
+    @BindView(R2.id.toolbar)
     SocialToolbar toolbar;
-    @BindView(R.id.tab_layout)
+    @BindView(R2.id.tab_layout)
     TabLayout tabLayout;
-    @BindView(R.id.view_pager)
+    @BindView(R2.id.view_pager)
     ViewPager viewPager;
-    @BindView(R.id.selected_count_hint_text_view)
+    @BindView(R2.id.selected_count_hint_text_view)
     TextView selectedCountHintTV;
-    @BindView(R.id.selected_count_text_view)
+    @BindView(R2.id.selected_count_text_view)
     TextView selectedCountTV;
-    @BindView(R.id.content_layout)
+    @BindView(R2.id.content_layout)
     LinearLayout contentLayout;
-    @BindView(R.id.title_text_view)
+    @BindView(R2.id.title_text_view)
     TextView titleTV;
-    @BindView(R.id.title_hint_text_view)
+    @BindView(R2.id.title_hint_text_view)
     TextView titleHintTV;
 
     String mode = MODE_SELECTION;
@@ -159,8 +160,7 @@ public class TagSelectionActivity extends BaseActivity<TagSelectionPresenter> im
         // 这里不需要parentId，所以传入-1
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.content_layout,
-                        TagListFragment.newDeleteMode(-1, mPresenter.getSelectedList()))
+                .add(R2.id.content_layout, TagListFragment.newInstance(-1, mPresenter.getSelectedList()))
                 .commit();
     }
 

@@ -16,6 +16,7 @@ import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.utils.ToastUtil;
 import com.wang.social.login.R;
+import com.wang.social.login.R2;
 import com.wang.social.login.di.component.DaggerResetPasswordComponent;
 import com.wang.social.login.di.module.ResetPasswordModule;
 import com.wang.social.login.mvp.contract.ResetPasswordContract;
@@ -45,13 +46,13 @@ public class ResetPasswordActivity extends BaseActivity<ResetPasswordPresenter> 
     }
 
 
-    @BindView(R.id.toolbar)
+    @BindView(R2.id.toolbar)
     SocialToolbar toolbar;
-    @BindView(R.id.edit_text)
+    @BindView(R2.id.edit_text)
     EditText passwordEditText;
-    @BindView(R.id.content_root)
+    @BindView(R2.id.content_root)
     View contentRoot;
-    @BindView(R.id.confirm_view)
+    @BindView(R2.id.confirm_view)
     View confirmView;
     @BindView(R.id.title_text_view)
     TextView titleTV;
@@ -110,7 +111,7 @@ public class ResetPasswordActivity extends BaseActivity<ResetPasswordPresenter> 
         ViewUtils.controlKeyboardLayout(contentRoot, confirmView);
     }
 
-    @OnCheckedChanged(R.id.checkbox)
+    @OnCheckedChanged(R2.id.checkbox)
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if(isChecked){
             //如果选中，显示密码
@@ -123,7 +124,7 @@ public class ResetPasswordActivity extends BaseActivity<ResetPasswordPresenter> 
         passwordEditText.setSelection(passwordEditText.getText().length());
     }
 
-    @OnClick(R.id.confirm_view)
+    @OnClick(R2.id.confirm_view)
     public void confirm() {
         String password = passwordEditText.getText().toString();
 

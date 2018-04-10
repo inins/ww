@@ -13,6 +13,7 @@ import com.frame.entities.EventBean;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.ToastUtil;
 import com.wang.social.login.R;
+import com.wang.social.login.R2;
 import com.wang.social.login.di.component.DaggerTagListComponent;
 import com.wang.social.login.di.module.TagListModule;
 import com.wang.social.login.mvp.contract.TagListContract;
@@ -84,7 +85,7 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
         tagAdapter.notifyDataSetChanged();
     }
 
-    @BindView(R.id.recycler_view)
+    @BindView(R2.id.recycler_view)
     RecyclerView recyclerView;
 
     TagAdapter tagAdapter;
