@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.personal_activity_main);
 
-        BarUtils.setColor(this, ContextCompat.getColor(this, R.color.common_blue));
+        BarUtils.setColor(this, ContextCompat.getColor(this, R.color.common_blue), 0);
 
         Fragment personalFragment = PersonalFragment.newInstance();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();

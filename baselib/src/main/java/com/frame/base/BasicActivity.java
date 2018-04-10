@@ -7,12 +7,17 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.frame.base.delegate.IActivity;
 import com.frame.component.service.AutowiredService;
+import com.frame.entities.EventBean;
 import com.frame.integration.cache.Cache;
 import com.frame.integration.cache.CacheType;
 import com.frame.integration.lifecycle.ActivityLifecycleable;
 import com.frame.mvp.BasePresenter;
 import com.frame.utils.FrameUtils;
 import com.trello.rxlifecycle2.android.ActivityEvent;
+
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import javax.inject.Inject;
 
@@ -59,7 +64,8 @@ public abstract class BasicActivity extends AppCompatActivity implements IActivi
     }
 
     //这个方法在initData前执行，用于在设置数据前进行一些必要的初始化
-    protected void beforeInitData(){}
+    protected void beforeInitData() {
+    }
 
     @Override
     protected void onDestroy() {
@@ -93,5 +99,10 @@ public abstract class BasicActivity extends AppCompatActivity implements IActivi
     @Override
     public boolean useFragment() {
         return true;
+    }
+
+    //默认的eventbus事件处理方法
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCommonEvent(EventBean event) {
     }
 }

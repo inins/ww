@@ -34,7 +34,10 @@ public abstract class BasicAppActivity extends BasicActivity {
     @Override
     protected void beforeInitData() {
         toolbar = ViewUtil.findToolbar((ViewGroup) getWindow().getDecorView());
-        if (toolbar != null) setSupportActionBar(toolbar);
+        if (toolbar != null) {
+            toolbar.setTitle("");
+            setSupportActionBar(toolbar);
+        }
     }
 
     @Override
