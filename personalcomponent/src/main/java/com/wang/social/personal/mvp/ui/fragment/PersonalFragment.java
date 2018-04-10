@@ -104,13 +104,6 @@ public class PersonalFragment extends BasicFragment {
     public void initData(@Nullable Bundle savedInstanceState) {
         toolbar.bringToFront();
         setUserData();
-
-        btnRight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SettingActivity.start(getContext());
-            }
-        });
     }
 
     private void setUserData() {
@@ -131,40 +124,30 @@ public class PersonalFragment extends BasicFragment {
 
     }
 
-    @OnClick({R2.id.lay_nameboard, R2.id.btn_left, R2.id.btn_me_account, R2.id.btn_me_lable, R2.id.btn_me_feedback, R2.id.btn_me_share, R2.id.btn_me_about, R2.id.btn_me_eva})
+    @OnClick({R2.id.lay_nameboard, R2.id.btn_right, R2.id.btn_left, R2.id.btn_me_account, R2.id.btn_me_lable, R2.id.btn_me_feedback, R2.id.btn_me_share, R2.id.btn_me_about, R2.id.btn_me_eva})
     public void onViewClicked(View v) {
-        switch (v.getId()) {
-            case R2.id.lay_nameboard:
-                AddressDataBaseManager.init();
-                MeDetailActivity.start(getContext());
-                break;
-//            case R2.id.btn_right:
-//                SettingActivity.start(getContext());
-//                break;
-            case R2.id.btn_left:
-                User user = AppDataHelper.getUser();
-                if (user != null) {
-                    QrcodeActivity.start(getContext(), user.getUserId());
-                }
-                break;
-            case R2.id.btn_me_account:
-                AccountActivity.start(getContext());
-                break;
-            case R2.id.btn_me_lable:
-                LableActivity.start(getContext());
-                break;
-            case R2.id.btn_me_feedback:
-                FeedbackActivity.start(getContext());
-                break;
-            case R2.id.btn_me_share:
-                break;
-            case R2.id.btn_me_about:
-                AboutActivity.start(getContext(), AppConstant.Url.wwAbout);
-                break;
-            case R2.id.btn_me_eva:
-                netUserHelper.loginTest();
-                ToastUtil.showToastLong("test");
-                break;
+        if (v.getId() == R.id.lay_nameboard) {
+            AddressDataBaseManager.init();
+            MeDetailActivity.start(getContext());
+        } else if (v.getId() == R.id.btn_left) {
+            User user = AppDataHelper.getUser();
+            if (user != null) {
+                QrcodeActivity.start(getContext(), user.getUserId());
+            }
+        } else if (v.getId() == R.id.btn_right) {
+            SettingActivity.start(getContext());
+        } else if (v.getId() == R.id.btn_me_account) {
+            AccountActivity.start(getContext());
+        } else if (v.getId() == R.id.btn_me_lable) {
+            LableActivity.start(getContext());
+        } else if (v.getId() == R.id.btn_me_feedback) {
+            FeedbackActivity.start(getContext());
+        } else if (v.getId() == R.id.btn_me_share) {
+
+        } else if (v.getId() == R.id.btn_me_about) {
+            AboutActivity.start(getContext(), AppConstant.Url.wwAbout);
+        } else if (v.getId() == R.id.btn_me_eva) {
+            netUserHelper.loginTest();
         }
     }
 
