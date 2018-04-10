@@ -9,7 +9,7 @@ import android.arch.lifecycle.OnLifecycleEvent;
 import com.frame.utils.Preconditions;
 import com.trello.rxlifecycle2.RxLifecycle;
 
-import org.simple.eventbus.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Action;
@@ -107,12 +107,12 @@ public class BasePresenter<M extends IModel, V extends IView> implements IPresen
     }
 
     /**
-     * 若使用{@link org.simple.eventbus.EventBus}则返回 true, 默认为使用
+     * 若使用{@link org.greenrobot.eventbus.EventBus}则返回 true, 默认为使用
      *
      * @return
      */
     public boolean useEventBus(){
-        return true;
+        return false;
     }
 
     /**

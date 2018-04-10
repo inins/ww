@@ -89,6 +89,6 @@ public abstract class BasicFragment extends Fragment implements IFragment, Fragm
 
     @Override
     public boolean useEventBus() {
-        return true;
+        return false;
     }
 }
