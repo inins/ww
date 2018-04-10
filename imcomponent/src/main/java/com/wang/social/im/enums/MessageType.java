@@ -31,5 +31,5 @@ public enum MessageType {
     /*
      * 红包消息
      */
-    REDPACKET
+    RED_ENVELOP
 }

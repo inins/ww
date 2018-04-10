@@ -6,6 +6,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.wang.social.personal.R;
+import com.wang.social.personal.R2;
 
 import butterknife.BindView;
 
@@ -14,7 +15,7 @@ import butterknife.BindView;
  */
 public class DialogSure extends BaseDialogOkCancel {
 
-    @BindView(R.id.text_title)
+    @BindView(R2.id.text_title)
     TextView textTitle;
 
     private String title;

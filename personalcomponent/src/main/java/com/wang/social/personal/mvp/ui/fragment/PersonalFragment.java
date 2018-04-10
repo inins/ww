@@ -15,8 +15,10 @@ import com.frame.component.common.AppConstant;
 import com.frame.component.entities.User;
 import com.frame.component.helper.AppDataHelper;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
 import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
+import com.frame.utils.ToastUtil;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
 import com.wang.social.personal.data.db.AddressDataBaseManager;
@@ -52,17 +54,17 @@ public class PersonalFragment extends BasicFragment {
 
     @BindView(R2.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.btn_left)
+    @BindView(R2.id.btn_left)
     ImageView btnLeft;
-    @BindView(R.id.btn_right)
+    @BindView(R2.id.btn_right)
     ImageView btnRight;
-    @BindView(R.id.img_header)
+    @BindView(R2.id.img_header)
     ImageView imgHeader;
-    @BindView(R.id.text_name)
+    @BindView(R2.id.text_name)
     TextView textName;
-    @BindView(R.id.text_count_sq)
+    @BindView(R2.id.text_count_sq)
     TextView textCountSq;
-    @BindView(R.id.text_count_ht)
+    @BindView(R2.id.text_count_ht)
     TextView textCountHt;
 
     @Inject
@@ -80,12 +82,17 @@ public class PersonalFragment extends BasicFragment {
     }
 
     @Override
-    public void setupFragmentComponent(@NonNull AppComponent appComponent) {
-        DaggerFragmentComponent.builder()
-                .appComponent(appComponent)
-                .userModule(new UserModule())
-                .build()
-                .inject(this);
+    public boolean useEventBus() {
+        return true;
+    }
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        switch (event.getEvent()) {
+            case EventBean.EVENT_USERINFO_CHANGE:
+                setUserData();
+                break;
+        }
     }
 
     @Override
@@ -119,43 +126,42 @@ public class PersonalFragment extends BasicFragment {
 
     @OnClick({R2.id.lay_nameboard, R2.id.btn_right, R2.id.btn_left, R2.id.btn_me_account, R2.id.btn_me_lable, R2.id.btn_me_feedback, R2.id.btn_me_share, R2.id.btn_me_about, R2.id.btn_me_eva})
     public void onViewClicked(View v) {
-        switch (v.getId()) {
-            case R.id.lay_nameboard:
-                AddressDataBaseManager.init();
-                MeDetailActivity.start(getContext());
-                break;
-            case R.id.btn_right:
-                SettingActivity.start(getContext());
-                break;
-            case R.id.btn_left:
-                User user = AppDataHelper.getUser();
-                if (user != null) {
-                    QrcodeActivity.start(getContext(), user.getUserId());
-                }
-                break;
-            case R.id.btn_me_account:
-                AccountActivity.start(getContext());
-                break;
-            case R.id.btn_me_lable:
-                LableActivity.start(getContext());
-                break;
-            case R.id.btn_me_feedback:
-                FeedbackActivity.start(getContext());
-                break;
-            case R.id.btn_me_share:
-                break;
-            case R.id.btn_me_about:
-                AboutActivity.start(getContext(), AppConstant.Url.wwAbout);
-                break;
-            case R.id.btn_me_eva:
-                netUserHelper.loginTest();
-                break;
+        if (v.getId() == R.id.lay_nameboard) {
+            AddressDataBaseManager.init();
+            MeDetailActivity.start(getContext());
+        } else if (v.getId() == R.id.btn_left) {
+            User user = AppDataHelper.getUser();
+            if (user != null) {
+                QrcodeActivity.start(getContext(), user.getUserId());
+            }
+        } else if (v.getId() == R.id.btn_right) {
+            SettingActivity.start(getContext());
+        } else if (v.getId() == R.id.btn_me_account) {
+            AccountActivity.start(getContext());
+        } else if (v.getId() == R.id.btn_me_lable) {
+            LableActivity.start(getContext());
+        } else if (v.getId() == R.id.btn_me_feedback) {
+            FeedbackActivity.start(getContext());
+        } else if (v.getId() == R.id.btn_me_share) {
+
+        } else if (v.getId() == R.id.btn_me_about) {
+            AboutActivity.start(getContext(), AppConstant.Url.wwAbout);
+        } else if (v.getId() == R.id.btn_me_eva) {
+            netUserHelper.loginTest();
         }
     }
 
     @Override
+    public void setupFragmentComponent(@NonNull AppComponent appComponent) {
+        DaggerFragmentComponent.builder()
+                .appComponent(appComponent)
+                .userModule(new UserModule())
+                .build()
+                .inject(this);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         unbinder = ButterKnife.bind(this, rootView);
         return rootView;

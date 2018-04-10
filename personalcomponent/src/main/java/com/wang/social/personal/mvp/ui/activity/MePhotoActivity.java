@@ -11,6 +11,7 @@ import android.view.View;
 
 import com.frame.component.helper.QiNiuManager;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
 import com.frame.http.imageloader.ImageLoader;
 import com.frame.mvp.IView;
 import com.frame.utils.FocusUtil;
@@ -29,6 +30,8 @@ import com.wang.social.personal.mvp.ui.view.TitleView;
 import com.wang.social.personal.net.helper.NetPhotoHelper;
 import com.wang.social.personal.utils.viewutils.ViewUtil;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -38,7 +41,7 @@ import butterknife.ButterKnife;
 
 public class MePhotoActivity extends BasicAppActivity implements IView, PhotoHelper.OnPhotoCallback {
 
-    @BindView(R.id.titleview)
+    @BindView(R2.id.titleview)
     TitleView titleview;
     @BindView(R2.id.recycler)
     RecyclerView recycler;
@@ -182,6 +185,7 @@ public class MePhotoActivity extends BasicAppActivity implements IView, PhotoHel
             public void onSuccess(Photo photo) {
                 adapter.insertItem(adapter.getItemCount() - 1, photo);
                 setTitleviewCount();
+                EventBus.getDefault().post(new EventBean(EventBean.EVENT_MEPHOTO_CHANGE));
             }
 
             @Override
@@ -197,6 +201,7 @@ public class MePhotoActivity extends BasicAppActivity implements IView, PhotoHel
             public void onSuccess() {
                 adapter.removeItemById(userPhotoId);
                 setTitleviewCount();
+                EventBus.getDefault().post(new EventBean(EventBean.EVENT_MEPHOTO_CHANGE));
             }
 
             @Override

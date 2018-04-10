@@ -30,4 +30,9 @@ public class ConversationActivity extends BasicActivity{
         transaction.add(R.id.conversation, conversationFragment, ConversationFragment.class.getName());
         transaction.commitAllowingStateLoss();
     }
+
+    @Override
+    public boolean useEventBus() {
+        return false;
+    }
 }

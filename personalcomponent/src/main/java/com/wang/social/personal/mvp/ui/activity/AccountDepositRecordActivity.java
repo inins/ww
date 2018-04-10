@@ -70,7 +70,7 @@ public class AccountDepositRecordActivity extends BasicActivity implements BaseA
 
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_right:
+            case R2.id.btn_right:
                 List<TestEntity> results = new ArrayList() {{
                     add(new TestEntity());
                     add(new TestEntity());

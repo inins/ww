@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
 import com.wang.social.im.R;
+import com.wang.social.im.R2;
 
 import java.util.List;
 
@@ -30,9 +31,9 @@ public class PluginGridAdapter extends BaseAdapter<PluginModule> {
 
     class ViewHolder extends BaseViewHolder<PluginModule> {
 
-        @BindView(R.id.ipi_plugin_icon)
+        @BindView(R2.id.ipi_plugin_icon)
         ImageView ipiPluginIcon;
-        @BindView(R.id.ipi_plugin_name)
+        @BindView(R2.id.ipi_plugin_name)
         TextView ipiPluginName;
 
         public ViewHolder(Context context, ViewGroup root) {

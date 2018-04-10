@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.wang.social.personal.R;
+import com.wang.social.personal.R2;
 import com.wang.social.personal.helper.DelayHelper;
 
 import butterknife.BindView;
@@ -17,7 +18,7 @@ import butterknife.BindView;
  * 加载弹窗
  */
 public class DialogLoading extends BaseDialog {
-    @BindView(R.id.tipTextView)
+    @BindView(R2.id.tipTextView)
     TextView tipTextView;
     private String msg;
 

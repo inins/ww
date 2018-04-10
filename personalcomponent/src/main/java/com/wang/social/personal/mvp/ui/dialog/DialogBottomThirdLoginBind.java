@@ -19,11 +19,11 @@ import butterknife.OnClick;
  * 第三方账户绑定弹出
  */
 public class DialogBottomThirdLoginBind extends BaseDialog {
-    @BindView(R.id.btn_weixin)
+    @BindView(R2.id.btn_weixin)
     TextView btn_weixin;
-    @BindView(R.id.btn_weibo)
+    @BindView(R2.id.btn_weibo)
     TextView btn_weibo;
-    @BindView(R.id.btn_qq)
+    @BindView(R2.id.btn_qq)
     TextView btn_qq;
 
     public DialogBottomThirdLoginBind(Context context) {
@@ -46,15 +46,15 @@ public class DialogBottomThirdLoginBind extends BaseDialog {
     protected void intView(View root) {
     }
 
-    @OnClick({R.id.btn_weixin, R.id.btn_weibo, R.id.btn_qq, R.id.btn_cancel})
+    @OnClick({R2.id.btn_weixin, R2.id.btn_weibo, R2.id.btn_qq, R2.id.btn_cancel})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_weixin:
-            case R.id.btn_weibo:
-            case R.id.btn_qq:
+            case R2.id.btn_weixin:
+            case R2.id.btn_weibo:
+            case R2.id.btn_qq:
                 ToastUtil.showToastShort("建设中...");
                 break;
-            case R.id.btn_cancel:
+            case R2.id.btn_cancel:
                 dismiss();
                 break;
         }

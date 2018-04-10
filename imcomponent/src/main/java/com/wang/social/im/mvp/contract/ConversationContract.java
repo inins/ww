@@ -1,5 +1,7 @@
 package com.wang.social.im.mvp.contract;
 
+import android.content.Context;
+
 import com.frame.mvp.IModel;
 import com.frame.mvp.IView;
 import com.wang.social.im.mvp.model.entities.UIMessage;
@@ -39,6 +41,12 @@ public interface ConversationContract {
          * @param uiMessage
          */
         void refreshMessage(UIMessage uiMessage);
+
+        /**
+         * 获取上下文
+         * @return
+         */
+        Context getContext();
     }
 
     interface Model extends IModel{

@@ -22,6 +22,7 @@ import com.frame.mvp.IView;
 import com.frame.utils.RxLifecycleUtils;
 import com.frame.utils.ToastUtil;
 import com.wang.social.personal.R;
+import com.wang.social.personal.R2;
 import com.wang.social.personal.di.component.DaggerSingleActivityComponent;
 import com.wang.social.personal.mvp.entities.AccountBalance;
 import com.wang.social.personal.mvp.model.api.UserService;
@@ -47,11 +48,11 @@ public class AccountActivity extends BasicAppActivity implements IView {
     @Inject
     IRepositoryManager mRepositoryManager;
 
-    @BindView(R.id.toolbar)
+    @BindView(R2.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.text_all)
+    @BindView(R2.id.text_all)
     TextView textAll;
-    @BindView(R.id.text_coulduse)
+    @BindView(R2.id.text_coulduse)
     TextView textCoulduse;
 
     public static void start(Context context) {
@@ -72,22 +73,22 @@ public class AccountActivity extends BasicAppActivity implements IView {
 
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_right:
+            case R2.id.btn_right:
                 AccountDepositDetailActivity.start(this);
                 break;
-            case R.id.btn_question:
+            case R2.id.btn_question:
                 WebActivity.start(this, AppConstant.Url.commonProblem);
                 break;
-            case R.id.btn_exchange_stone:
+            case R2.id.btn_exchange_stone:
                 AccountExchangeActivity.start(this);
                 break;
-            case R.id.btn_about_stone:
+            case R2.id.btn_about_stone:
                 DialogNoticeStone.newDialog(this).show();
                 break;
-            case R.id.btn_recharge:
+            case R2.id.btn_recharge:
                 AccountRechargeActivity.start(this);
                 break;
-            case R.id.btn_deposit:
+            case R2.id.btn_deposit:
                 AccountDepositActivity.start(this);
                 break;
         }

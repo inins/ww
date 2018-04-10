@@ -7,6 +7,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.wang.social.personal.R;
+import com.wang.social.personal.R2;
 import com.wang.social.personal.utils.viewutils.EditTextUtil;
 
 import butterknife.BindView;
@@ -16,11 +17,11 @@ import butterknife.BindView;
  */
 public class DialogInput extends BaseDialogOkCancel {
 
-    @BindView(R.id.text_title)
+    @BindView(R2.id.text_title)
     TextView textTitle;
-    @BindView(R.id.text_note)
+    @BindView(R2.id.text_note)
     TextView textNote;
-    @BindView(R.id.edit_input)
+    @BindView(R2.id.edit_input)
     EditText editInput;
 
     private String title;

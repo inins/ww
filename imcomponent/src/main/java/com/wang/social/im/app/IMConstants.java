@@ -14,4 +14,9 @@ public interface IMConstants {
     String USER_SIGN_2 = "eJxlj01Pg0AURff8CsLa6MzAzKBJF34gQWsbCk3YEYQpPBoGGKalpvG-q9hEEu-2nPdu7tkwTdOKl9F1luftQepUf3TCMu9MC1lXf7DroEgzndqq*A" +
             "fFqQMl0mynhZogppQShOYOFEJq2MHFOEHW1gdJZsZQ7NOp5veF833PKeJsrkA5wTcvfAx8t-RY*Iz6cnOMWO1Ixu1t7Vcc5auKjGM27tcv-ToeCNzDw1Ne3rCmv1V*E" +
             "2j1TjYJDSKJneVKJ9tXkcce9pOwY15VLhazSg2NuGwiGHNOXXdGj0IN0MpJIAhTTGz0E8v4NL4AJetdhQ__";
+
+    /**
+     * 撤回消息发送时间超过两分钟
+     */
+    int TIM_ERROR_CODE_REVOKE_TIMEOUT = 10031;
 }

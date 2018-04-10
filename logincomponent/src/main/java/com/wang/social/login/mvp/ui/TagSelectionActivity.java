@@ -222,7 +222,7 @@ public class TagSelectionActivity extends BaseActivity<TagSelectionPresenter> im
 
     }
 
-    @OnClick(R.id.selected_count_layout)
+    @OnClick(R2.id.selected_count_layout)
     public void selectedCountClicked() {
         switch (mode) {
             case MODE_SELECTION:

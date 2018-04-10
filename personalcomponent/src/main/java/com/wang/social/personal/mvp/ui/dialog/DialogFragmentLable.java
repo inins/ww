@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.frame.utils.SizeUtils;
 import com.wang.social.personal.R;
+import com.wang.social.personal.R2;
 import com.wang.social.personal.common.GridSpacingItemDecoration;
 import com.wang.social.personal.mvp.entities.TestEntity;
 import com.wang.social.personal.mvp.ui.adapter.RecycleAdapterLableUser;
@@ -33,15 +34,15 @@ import butterknife.Unbinder;
 public class DialogFragmentLable extends DialogFragment {
 
     private Unbinder bind;
-    @BindView(R.id.text_name)
+    @BindView(R2.id.text_name)
     TextView textName;
-    @BindView(R.id.img_tag)
+    @BindView(R2.id.img_tag)
     ImageView imgTag;
-    @BindView(R.id.img_del)
+    @BindView(R2.id.img_del)
     ImageView imgDel;
-    @BindView(R.id.text_count)
+    @BindView(R2.id.text_count)
     TextView textCount;
-    @BindView(R.id.recycler)
+    @BindView(R2.id.recycler)
     RecyclerView recycler;
     private RecycleAdapterLableUser adapter;
 
