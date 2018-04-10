@@ -29,6 +29,7 @@ import com.wang.social.personal.mvp.ui.activity.AccountActivity;
 import com.wang.social.personal.mvp.ui.activity.FeedbackActivity;
 import com.wang.social.personal.mvp.ui.activity.LableActivity;
 import com.wang.social.personal.mvp.ui.activity.MeDetailActivity;
+import com.wang.social.personal.mvp.ui.activity.QrcodeActivity;
 import com.wang.social.personal.mvp.ui.activity.SettingActivity;
 import com.wang.social.personal.net.helper.NetUserHelper;
 
@@ -116,7 +117,7 @@ public class PersonalFragment extends BasicFragment {
 
     }
 
-    @OnClick({R2.id.lay_nameboard, R2.id.btn_right, R2.id.btn_me_account, R2.id.btn_me_lable, R2.id.btn_me_feedback, R2.id.btn_me_share, R2.id.btn_me_about, R2.id.btn_me_eva})
+    @OnClick({R2.id.lay_nameboard, R2.id.btn_right, R2.id.btn_left, R2.id.btn_me_account, R2.id.btn_me_lable, R2.id.btn_me_feedback, R2.id.btn_me_share, R2.id.btn_me_about, R2.id.btn_me_eva})
     public void onViewClicked(View v) {
         switch (v.getId()) {
             case R.id.lay_nameboard:
@@ -125,6 +126,12 @@ public class PersonalFragment extends BasicFragment {
                 break;
             case R.id.btn_right:
                 SettingActivity.start(getContext());
+                break;
+            case R.id.btn_left:
+                User user = AppDataHelper.getUser();
+                if (user != null) {
+                    QrcodeActivity.start(getContext(), user.getUserId());
+                }
                 break;
             case R.id.btn_me_account:
                 AccountActivity.start(getContext());

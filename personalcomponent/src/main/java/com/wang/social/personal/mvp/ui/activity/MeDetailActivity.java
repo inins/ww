@@ -31,6 +31,8 @@ import com.wang.social.personal.mvp.ui.dialog.DialogBottomGender;
 import com.wang.social.personal.mvp.ui.dialog.DialogDatePicker;
 import com.wang.social.personal.mvp.ui.dialog.DialogInput;
 
+import org.simple.eventbus.EventBus;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -73,6 +75,10 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
         return R.layout.personal_activity_medetail;
     }
 
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void onCommonEvent(EventBean event) {
+//    }
+
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
         setSupportActionBar(toolbar);
@@ -105,6 +111,7 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
         });
         setUserData();
         mPresenter.getPhotoList();
+
     }
 
     public void setUserData() {

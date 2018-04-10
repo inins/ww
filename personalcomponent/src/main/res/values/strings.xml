@@ -192,4 +192,7 @@
     <string name="personal_lable_me_note">你的兴趣都在这里</string>
     <string name="personal_lable_flb">没有合适的？</string>
 
+    <!--我的二维码-->
+    <string name="personal_qrcode_title">我的二维码</string>
+    <string name="personal_qrcode_notice">扫描上面二维码，添加往往好友</string>
 </resources>
