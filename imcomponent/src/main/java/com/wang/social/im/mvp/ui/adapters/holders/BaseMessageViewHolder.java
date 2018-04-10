@@ -36,7 +36,6 @@ public abstract class BaseMessageViewHolder<T> extends BaseViewHolder<T> {
     ImageLoader mImageLoader;
 
     public ConversationType conversationType;
-    public boolean showTimestamp = true;
     public boolean showNickname;
     public boolean showHeader;
     public OnHandleListener mHandleListener;

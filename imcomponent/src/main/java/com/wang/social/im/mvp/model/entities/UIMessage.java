@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * ==========================================
@@ -32,6 +33,9 @@ public class UIMessage {
     private MessageType messageType;
     @Getter
     private CarryUserInfo carryUserInfo;
+    @Getter
+    @Setter
+    private boolean showTime;
 
     public static UIMessage obtain(TIMMessage message) {
         UIMessage uiMessage = new UIMessage();

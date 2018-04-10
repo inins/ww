@@ -45,7 +45,7 @@ public class ImageViewHolder extends BaseMessageViewHolder<UIMessage> {
 
     @Override
     protected void bindData(UIMessage itemValue, int position, BaseAdapter.OnItemClickListener onItemClickListener) {
-        if (showTimestamp) {
+        if (itemValue.isShowTime()) {
             msgTvTime.setVisibility(View.VISIBLE);
             msgTvTime.setText(getTimeStr(itemValue.getTimMessage().timestamp()));
         } else {

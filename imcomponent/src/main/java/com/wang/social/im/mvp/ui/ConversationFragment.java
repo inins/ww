@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -20,6 +21,8 @@ import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.ext.message.TIMManagerExt;
+import com.tencent.imsdk.ext.message.TIMMessageExt;
+import com.tencent.imsdk.ext.message.TIMMessageLocator;
 import com.wang.social.im.R;
 import com.wang.social.im.di.component.DaggerConversationComponent;
 import com.wang.social.im.di.modules.ConversationModule;
@@ -31,6 +34,9 @@ import com.wang.social.im.mvp.ui.adapters.MessageListAdapter;
 import com.wang.social.im.mvp.ui.adapters.holders.BaseMessageViewHolder;
 import com.wang.social.im.view.IMInputView;
 import com.wang.social.im.view.plugin.PluginModule;
+import com.wang.social.im.widget.MessageHandlePopup;
+
+import org.simple.eventbus.Subscriber;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -200,7 +206,7 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     @Override
     public void refreshMessage(UIMessage uiMessage) {
         int position = mAdapter.findPosition(uiMessage);
-        if (position != -1){
+        if (position != -1) {
             mAdapter.notifyItemChanged(position);
         }
     }
@@ -235,7 +241,6 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
 
     @Override
     public void onInputViewCollapsed() {
-
     }
 
     @Override
@@ -262,7 +267,34 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
 
     @Override
     public void onContentLongClick(View view, UIMessage uiMessage, int position) {
+        boolean showTop = true;
+        if (position <= mLayoutManager.findFirstVisibleItemPosition() + 1) {
+            showTop = false;
+        }
+        MessageHandlePopup handlePopup = new MessageHandlePopup(mActivity, uiMessage.getTimMessage().isSelf(), uiMessage, showTop);
+        handlePopup.setHandleListener(new MessageHandlePopup.OnHandleListener() {
+            @Override
+            public void onDelete(UIMessage uiMessage) {
+                mPresenter.deleteMessage(uiMessage);
+            }
 
+            @Override
+            public void onWithdraw(UIMessage uiMessage) {
+                mPresenter.withDrawMessage(uiMessage);
+            }
+        });
+
+        int y = 0;
+        if (showTop) {
+            y = -(view.getHeight() + SizeUtils.dp2px(23));
+        }
+        int x = view.getWidth() / 2;
+        if (uiMessage.getTimMessage().isSelf()) {
+            x = x - getResources().getDimensionPixelOffset(R.dimen.im_msg_handle_popup_width) / 2;
+        } else {
+            x = x - getResources().getDimensionPixelOffset(R.dimen.im_msg_handle_popup_width_narrow) / 2;
+        }
+        handlePopup.showAsDropDown(view, x, y);
     }
 
     @Override
@@ -273,5 +305,15 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     @Override
     public void onPortraitLongClick(View view, UIMessage uiMessage, int position) {
 
+    }
+
+    @Subscriber
+    public void onMessageRevoke(TIMMessageLocator messageLocator){
+        for (UIMessage uiMessage : mAdapter.getData()){
+            TIMMessageExt messageExt = new TIMMessageExt(uiMessage.getTimMessage());
+            if (messageExt.checkEquals(messageLocator)){
+                mAdapter.notifyDataSetChanged();
+            }
+        }
     }
 }

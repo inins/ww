@@ -93,9 +93,11 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
         ((BaseMessageViewHolder) holder).mHandleListener = handleListener;
         if (position > 0) {
             UIMessage lastMessage = valueList.get(position - 1);
-            if (currentMessage.getTimMessage().timestamp() - lastMessage.getTimMessage().timestamp() < 60) {
-                ((BaseMessageViewHolder) holder).showTimestamp = false;
+            if (currentMessage.getTimMessage().timestamp() - lastMessage.getTimMessage().timestamp() > 60) {
+                currentMessage.setShowTime(true);
             }
+        } else {
+            currentMessage.setShowTime(true);
         }
         ((BaseViewHolder) holder).setData(currentMessage, position, onItemClickListener);
     }
@@ -158,6 +160,7 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
 
     /**
      * 根据数据查询索引
+     *
      * @param uiMessage
      * @return
      */
