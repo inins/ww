@@ -11,7 +11,6 @@ import com.frame.component.app.ResponseErrorListenerImp;
 import com.frame.di.module.GlobalConfigModule;
 import com.frame.http.log.RequestInterceptor;
 import com.frame.integration.ConfigModule;
-import com.wang.social.login.app.AppLifecycleImpl;
 import com.wang.social.socialize.BuildConfig;
 
 import java.util.List;

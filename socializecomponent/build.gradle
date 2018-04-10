@@ -1,7 +1,7 @@
-//apply plugin: 'com.component.build'
+
+//apply plugin: 'com.android.application'
 //apply plugin: 'com.jakewharton.butterknife'
-apply plugin: 'com.android.application'
-apply plugin: 'com.jakewharton.butterknife'
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
@@ -13,9 +13,9 @@ android {
 
 
     defaultConfig {
-        if(project.isRunAlone){
-            applicationId "com.dongdongkeji.wangwangsocial"
-        }
+//        if(project.isRunAlone){
+//            applicationId "com.dongdongkeji.wangwangsocial"
+//        }
 
         minSdkVersion rootProject.ext.android["minSdkVersion"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
@@ -29,7 +29,27 @@ android {
                 arguments = [host: "parentTagList"]
             }
         }
+
+        manifestPlaceholders = [qqappid: "1106099147"]
     }
+
+    signingConfigs {
+
+        debug {
+            keyAlias 'dongdong'
+            keyPassword '123456'
+            storeFile file('D:/项目/JKS/dongdongkey.jks')
+            storePassword '123456'
+        }
+
+        release {
+            keyAlias 'dongdong'
+            keyPassword '123456'
+            storeFile file('D:/项目/JKS/dongdongkey.jks')
+            storePassword '123456'
+        }
+    }
+
     if (project.isRunAlone) {
         buildTypes {
             debug {
@@ -53,6 +73,7 @@ android {
     }
 
     resourcePrefix "socialize_"
+
 }
 
 dependencies {
@@ -79,10 +100,15 @@ dependencies {
     implementation project(':component-service')
     annotationProcessor project(':router-anno-compiler')
 
-    compile 'com.umeng.sdk:share-core:latest.integration'
-    compile 'com.umeng.sdk:share-qq:latest.integration'
-    compile 'com.umeng.sdk:share-wechat:latest.integration'
-    compile 'com.umeng.sdk:share-sina:latest.integration'
+    compile 'com.umeng.sdk:common:1.5.0'
+    compile 'com.umeng.sdk:utdid:1.1.5.3'
+    // 在App上线前请务必删除集成调试库，避免无关信息的打印
+    compile 'com.umeng.sdk:debug:1.0.0'
+
+    compile 'com.umeng.sdk:share-core:6.9.0'
+    compile 'com.umeng.sdk:share-qq:6.9.0'
+    compile 'com.umeng.sdk:share-wechat:6.9.0'
+    compile 'com.umeng.sdk:share-sina:6.9.0'
 }
 
 //combuild {
