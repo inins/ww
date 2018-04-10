@@ -1,5 +1,7 @@
 package com.wang.social.login.mvp.contract;
 
+import android.app.Activity;
+
 import com.wang.social.login.mvp.model.entities.dto.LoginInfoDTO;
 import com.frame.http.api.BaseJson;
 import com.frame.mvp.IModel;
@@ -23,6 +25,7 @@ public interface LoginContract {
          * 获取验证码成功的回调
          */
         void onSendVerifyCodeSuccess();
+        Activity getActivity();
     }
 
     interface Model extends IModel{
@@ -38,5 +41,8 @@ public interface LoginContract {
 
         Observable<BaseJson> sendVerifyCode(
                 String mobile, int type);
+
+        Observable<BaseJson<LoginInfoDTO>> platformLogin(
+                int platform, String uid, String nickname, String headUrl, int sex, String adCode);
     }
 }

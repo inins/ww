@@ -8,8 +8,10 @@ import com.frame.http.api.ApiHelper;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
+import com.wang.social.socialize.SocializeUtil;
 
 import java.sql.Time;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -108,6 +110,37 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
     }
 
     /**
+     * 第三方登录
+     */
+    private void platformLogin(int platform, String uid, String nickname, String headUrl, int sex) {
+        mApiHelper.execute(mRootView,
+                mModel.platformLogin(platform, uid, nickname, headUrl, sex, ""),
+                new ErrorHandleSubscriber<LoginInfo>(mErrorHandler) {
+
+                    @Override
+                    public void onNext(LoginInfo loginInfo) {
+                    }
+
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mRootView.showToast(e.getMessage());
+                    }
+
+                }, new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+//                        mRootView.showLoading();
+                    }
+                }, new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mRootView.hideLoading();
+                    }
+                });
+    }
+
+    /**
      * 注册
      * @param mobile
      * @param code
@@ -183,6 +216,60 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
                         mRootView.hideLoading();
                     }
                 });
+    }
+
+    // 第三方登录回调
+    private SocializeUtil.ThirdPartyLoginListener thirdPartyLoginListener = new SocializeUtil.ThirdPartyLoginListener() {
+        @Override
+        public void onStart(int platform) {
+            mRootView.showLoading();
+        }
+
+        @Override
+        public void onComplete(int platform, Map<String, String> data) {
+
+        }
+
+        @Override
+        public void onComplete(int platform, String uid, String nickname, int sex, String headUrl) {
+            Timber.i(
+                    String.format(
+                            "授权成功 : %d %s %s %s %d \n %s",
+                            platform, platform, uid, nickname, sex, headUrl));
+            // 授权登录成功，调用往往第三方登录接口
+            platformLogin(platform, uid, nickname, headUrl, sex);
+        }
+
+        @Override
+        public void onError(int platform, Throwable t) {
+            mRootView.hideLoading();
+        }
+
+        @Override
+        public void onCancel(int platform) {
+            mRootView.hideLoading();
+        }
+    };
+
+    /**
+     * 微信登录
+     */
+    public void wxLogin() {
+        SocializeUtil.wxLogin(mRootView.getActivity(), thirdPartyLoginListener);
+    }
+
+    /**
+     * QQ登录
+     */
+    public void qqLogin() {
+        SocializeUtil.qqLogin(mRootView.getActivity(), thirdPartyLoginListener);
+    }
+
+    /**
+     * 新浪微博登录
+     */
+    public void sinaLogin() {
+        SocializeUtil.sinaLogin(mRootView.getActivity(), thirdPartyLoginListener);
     }
 
     @Override

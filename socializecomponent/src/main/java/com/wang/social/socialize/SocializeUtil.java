@@ -31,13 +31,21 @@ public class SocializeUtil {
     }
 
     public interface ThirdPartyLoginListener {
-
+        /**
+         * 开始授权登录
+         * @param platform
+         */
         void onStart(@LoginPlatform int platform);
 
+        /**
+         *  登录成功回调，友盟的返回
+         * @param platform
+         * @param data
+         */
         void onComplete(@LoginPlatform int platform, Map<String, String> data);
 
         /**
-         * 登录成功返回数据
+         * 登录成功回调，解析了友盟数据，返回我们需要的数据
          * @param platform 用户绑定数据类型，2.微信注册 3.qq注册 4新浪微博
          * @param uid 对应平台ID
          * @param nickname 昵称
@@ -46,8 +54,17 @@ public class SocializeUtil {
          */
         void onComplete(@LoginPlatform int platform, String uid, String nickname, int sex, String headUrl);
 
+        /**
+         * 授权登录异常
+         * @param platform
+         * @param t
+         */
         void onError(@LoginPlatform int platform, Throwable t);
 
+        /**
+         * 用户取消授权登录
+         * @param platform
+         */
         void onCancel(@LoginPlatform int platform);
     }
 
@@ -123,7 +140,7 @@ public class SocializeUtil {
                         thirdPartyLoginListener.onComplete(getLoginType(platform),
                                 data.get("uid"),
                                 data.get("name"),
-                                data.get("gender").equals("0") ? 1 : 0,
+                                data.get("gender").equals("0") ? 0 : 1,
                                 data.get("iconurl"));
                     }
                 }

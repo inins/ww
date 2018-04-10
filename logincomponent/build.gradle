@@ -28,7 +28,29 @@ android {
                 arguments = [host: "parentTagList"]
             }
         }
+
+        manifestPlaceholders = [qqappid: "1106099147"]
     }
+
+
+
+    signingConfigs {
+
+        debug {
+            keyAlias 'dongdong'
+            keyPassword '123456'
+            storeFile file('D:/项目/JKS/dongdongkey.jks')
+            storePassword '123456'
+        }
+
+        release {
+            keyAlias 'dongdong'
+            keyPassword '123456'
+            storeFile file('D:/项目/JKS/dongdongkey.jks')
+            storePassword '123456'
+        }
+    }
+
     if (project.isRunAlone) {
         buildTypes {
             debug {
@@ -55,8 +77,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     //test
     testImplementation 'junit:junit:4.12'
     debugImplementation rootProject.ext.dependencies["canary-debug"]
@@ -77,8 +98,8 @@ dependencies {
     implementation rootProject.ext.dependencies["constraint-layout"]
     implementation project(':component-service')
     annotationProcessor project(':router-anno-compiler')
-
     compile 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'
+    implementation project(':socializecomponent')
 }
 
 //combuild {

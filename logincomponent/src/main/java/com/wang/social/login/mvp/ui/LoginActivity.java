@@ -1,5 +1,6 @@
 package com.wang.social.login.mvp.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import com.frame.base.BaseActivity;
 import com.frame.utils.BarUtils;
 import com.frame.utils.ToastUtil;
+import com.umeng.socialize.UMShareAPI;
 import com.wang.social.login.R;
 import com.frame.di.component.AppComponent;
 import com.frame.router.facade.annotation.RouteNode;
@@ -230,17 +232,17 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @OnClick(R.id.wechat_image_view)
     public void wechatLogin() {
-
+        mPresenter.wxLogin();
     }
 
     @OnClick(R.id.qq_image_view)
     public void qqLogin() {
-
+        mPresenter.qqLogin();
     }
 
     @OnClick(R.id.weibo_image_view)
     public void weiboLogin() {
-
+        mPresenter.sinaLogin();
     }
 
     /**
@@ -392,5 +394,23 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     public void onSendVerifyCodeSuccess() {
         // 验证码请求成功，开始倒计时
         getVerifyCodeTV.start();
+    }
+
+    @Override
+    public Activity getActivity() {
+        return this;
+    }
+
+
+    /**
+     * 友盟平台需要的回调
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 }

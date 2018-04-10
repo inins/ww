@@ -9,6 +9,7 @@ import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 /**
@@ -99,4 +100,13 @@ public interface LoginService {
     Observable<BaseJson> replaceMobile(@FieldMap Map<String, Object> param);
 
 
+    /**
+     * 第三方登录
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("login/platform")
+    @Headers("Content-Type: application/x-www-form-urlencoded; charset=utf-8")
+    Observable<BaseJson<LoginInfoDTO>> platformLogin(@FieldMap Map<String, Object> param);
 }

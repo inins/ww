@@ -10,7 +10,6 @@
 
     <application
         android:name="com.frame.base.BaseApplication"
-        android:label="社会化组件"
         android:allowBackup="true"
         android:screenOrientation="portrait">
 
