@@ -25,6 +25,7 @@ import com.wang.social.login.mvp.presenter.TagSelectionPresenter;
 import com.wang.social.login.mvp.ui.widget.TagListFragment;
 import com.wang.social.login.utils.Keys;
 
+import org.greenrobot.eventbus.Subscribe;
 import org.simple.eventbus.EventBus;
 import org.simple.eventbus.Subscriber;
 
@@ -235,7 +236,7 @@ public class TagSelectionActivity extends BaseActivity<TagSelectionPresenter> im
         }
     }
 
-    @Subscriber(tag = Keys.EVENTBUS_TAG_SELECTED)
+    @Subscribe(tag = Keys.EVENTBUS_TAG_SELECTED)
     public void tagSelected(Tag tag) {
         // 将Tag加入已选列表
         mPresenter.selectTag(tag);
@@ -243,14 +244,14 @@ public class TagSelectionActivity extends BaseActivity<TagSelectionPresenter> im
         refreshCountTV();
     }
 
-    @Subscriber(tag = Keys.EVENTBUS_TAG_UNSELECT)
+    @Subscribe(tag = Keys.EVENTBUS_TAG_UNSELECT)
     public void tagUnselect(Tag tag) {
         mPresenter.unselectTag(tag);
 
         refreshCountTV();
     }
 
-    @Subscriber(tag = Keys.EVENTBUS_TAG_DELETE)
+    @Subscribe(tag = Keys.EVENTBUS_TAG_DELETE)
     public void tagDelete(Tag tag) {
         mPresenter.unselectTag(tag);
 

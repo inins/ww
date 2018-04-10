@@ -20,9 +20,7 @@ import com.wang.social.login.mvp.presenter.TagListPresenter;
 import com.wang.social.login.mvp.ui.widget.adapter.TagAdapter;
 import com.wang.social.login.utils.Keys;
 
-
-import org.simple.eventbus.EventBus;
-import org.simple.eventbus.Subscriber;
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
