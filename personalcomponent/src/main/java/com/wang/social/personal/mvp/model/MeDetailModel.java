@@ -7,6 +7,7 @@ import com.frame.mvp.BaseModel;
 import com.wang.social.personal.mvp.contract.MeDetailContract;
 import com.wang.social.personal.mvp.entities.CommonEntity;
 import com.wang.social.personal.mvp.entities.QiniuTokenWrap;
+import com.wang.social.personal.mvp.entities.photo.PhotoListWrap;
 import com.wang.social.personal.mvp.model.api.UserService;
 
 import java.util.Map;
@@ -41,5 +42,12 @@ public class MeDetailModel extends BaseModel implements MeDetailContract.Model {
         return mRepositoryManager
                 .obtainRetrofitService(UserService.class)
                 .updateUserInfo(map);
+    }
+
+    @Override
+    public Observable<BaseJson<PhotoListWrap>> getPhotoList() {
+        return mRepositoryManager
+                .obtainRetrofitService(UserService.class)
+                .getPhotoList();
     }
 }

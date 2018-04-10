@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 
 import com.frame.utils.FrameUtils;
 
-import org.simple.eventbus.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * ========================================

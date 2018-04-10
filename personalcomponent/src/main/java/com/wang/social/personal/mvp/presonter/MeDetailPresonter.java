@@ -15,7 +15,10 @@ import com.frame.utils.ToastUtil;
 import com.frame.component.common.NetParam;
 import com.wang.social.personal.mvp.contract.MeDetailContract;
 import com.wang.social.personal.mvp.entities.CommonEntity;
+import com.wang.social.personal.mvp.entities.photo.Photo;
+import com.wang.social.personal.net.helper.NetPhotoHelper;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -38,6 +41,8 @@ public class MeDetailPresonter extends BasePresenter<MeDetailContract.Model, MeD
     ApiHelper mApiHelper;
     @Inject
     QiNiuManager qiNiuManager;
+    @Inject
+    NetPhotoHelper netPhotoHelper;
 
     @Inject
     public MeDetailPresonter(MeDetailContract.Model model, MeDetailContract.View view) {
@@ -49,7 +54,6 @@ public class MeDetailPresonter extends BasePresenter<MeDetailContract.Model, MeD
     }
 
     public void updateUserAvatar(String path) {
-//        mRootView.showLoading();
         qiNiuManager.uploadFile(mRootView, path, new QiNiuManager.OnSingleUploadListener() {
             @Override
             public void onSuccess(String url) {
@@ -59,7 +63,6 @@ public class MeDetailPresonter extends BasePresenter<MeDetailContract.Model, MeD
             @Override
             public void onFail() {
                 ToastUtil.showToastLong("上传失败");
-//                mRootView.hideLoading();
             }
         });
     }
@@ -131,6 +134,20 @@ public class MeDetailPresonter extends BasePresenter<MeDetailContract.Model, MeD
                         ToastUtil.showToastShort(e.getMessage());
                     }
                 });
+    }
+
+    public void getPhotoList() {
+        netPhotoHelper.netGetPhotoList(mRootView, false, new NetPhotoHelper.OnPhotoListApiCallBack() {
+            @Override
+            public void onSuccess(List<Photo> photoList) {
+                mRootView.setPhotoCount(photoList != null ? photoList.size() : 0);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                ToastUtil.showToastShort(e.getMessage());
+            }
+        });
     }
 
     @Override

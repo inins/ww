@@ -252,4 +252,13 @@ public class StrUtil {
         }
     }
 
+    //把一个字符串list 转化成逗号分隔的单独字符串
+    public static String getStrDotByList(List<String> list) {
+        if (isEmpty(list)) return "";
+        String ret = "";
+        for (String str : list) {
+            ret += str + ",";
+        }
+        return subLastChart(ret, ",");
+    }
 }

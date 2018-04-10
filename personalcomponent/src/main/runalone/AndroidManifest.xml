@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.wang.social.personal">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -12,6 +13,7 @@
         android:label="@string/personal_app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        tools:replace="android:label"
         android:theme="@style/common_AppTheme">
 
         <!-- Meta Data -->
@@ -29,10 +31,12 @@
 
         <activity android:name=".mvp.ui.activity.MeDetailActivity" />
         <activity android:name=".mvp.ui.activity.MePhotoActivity" />
+        <activity android:name=".mvp.ui.activity.OfficialPhotoActivity" />
         <activity android:name=".mvp.ui.activity.SettingActivity" />
         <activity android:name=".mvp.ui.activity.SettingMsgActivity" />
         <activity android:name=".mvp.ui.activity.FeedbackActivity" />
         <activity android:name=".mvp.ui.activity.AccountActivity" />
+        <activity android:name=".mvp.ui.activity.AccountExchangeActivity" />
         <activity android:name=".mvp.ui.activity.AccountDepositActivity" />
         <activity android:name=".mvp.ui.activity.AccountRechargeActivity" />
         <activity android:name=".mvp.ui.activity.AccountDepositRecordActivity" />

@@ -21,18 +21,27 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/btn_pic"
+            <LinearLayout
+                android:id="@+id/lay_official"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:foreground="?attr/selectableItemBackground"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="@string/personal_medetail_dialog_pic"
-                android:textColor="@color/common_text_blank_dark"
-                android:textSize="16sp" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
 
-            <View style="@style/common_Line_H" />
+                <TextView
+                    android:id="@+id/btn_pic"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="@string/personal_medetail_dialog_pic"
+                    android:textColor="@color/common_text_blank_dark"
+                    android:textSize="16sp" />
+
+                <View style="@style/common_Line_H" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/btn_camera"

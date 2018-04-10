@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_white"
+    android:fitsSystemWindows="true">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:theme="@style/personal_AppTheme.AppBarOverlay"
+        app:elevation="0dp">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/transparent"
+            app:navigationIcon="@drawable/common_ic_back"
+            app:popupTheme="@style/personal_AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <com.wang.social.personal.mvp.ui.view.TitleView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:personal_textNote="@string/personal_account_exchange_note"
+                app:personal_textTitle="@string/personal_account_exchange_title" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/personal_shape_rect_gradient_blank_coner"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/personal_account_exchange_card_left"
+                    android:textColor="@color/common_text_dark_light"
+                    android:textSize="@dimen/personal_text_small" />
+
+                <TextView
+                    android:id="@+id/text_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:drawablePadding="10dp"
+                    android:drawableRight="@drawable/personal_ic_stone"
+                    android:text="0"
+                    android:textColor="@color/common_white"
+                    android:textSize="50sp"
+                    tools:text="1600" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/personal_account_exchange_exchange"
+                android:textColor="@color/common_text_blank"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="3dp"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="兑换比例 1:100"
+                android:textColor="@color/common_blue_gray"
+                android:textSize="11sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/personal_shape_rect_light_coner_left"
+                    android:scaleType="center"
+                    android:src="@drawable/personal_ic_sub" />
+
+                <EditText
+                    android:background="#fdfdfd"
+                    style="@style/personal_EditNone"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:inputType="numberSigned"
+                    android:hint="数量" />
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/personal_shape_rect_light_coner_right"
+                    android:scaleType="center"
+                    android:src="@drawable/personal_ic_add" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/personal_account_exchange_exchange_sub"
+                    android:textColor="@color/common_text_blank"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="800"
+                    android:textColor="@color/common_blue_deep"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/btn_recharge"
+                android:layout_width="230dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/personal_shape_rect_gradient_blue_conerfull"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:onClick="onClick"
+                android:text="@string/personal_account_exchange_btn_go"
+                android:textColor="@color/common_white"
+                android:textSize="16sp" />
+
+            <Space style="@style/common_Space_H" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_gravity="center_horizontal"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="已兑换：21000宝石"
+                android:textColor="@color/common_text_dark"
+                android:textSize="11sp" />
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</android.support.design.widget.CoordinatorLayout>

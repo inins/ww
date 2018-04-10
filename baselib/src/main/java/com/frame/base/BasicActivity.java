@@ -51,11 +51,15 @@ public abstract class BasicActivity extends AppCompatActivity implements IActivi
         } catch (Exception e) {
             e.printStackTrace();
         }
+        beforeInitData();
         initData(savedInstanceState);
 
         //将页面自动装载到组件框架,以供其他组件调用
         AutowiredService.Factory.getInstance().create().autowire(this);
     }
+
+    //这个方法在initData前执行，用于在设置数据前进行一些必要的初始化
+    protected void beforeInitData(){}
 
     @Override
     protected void onDestroy() {
@@ -83,7 +87,7 @@ public abstract class BasicActivity extends AppCompatActivity implements IActivi
 
     @Override
     public boolean useEventBus() {
-        return true;
+        return false;
     }
 
     @Override

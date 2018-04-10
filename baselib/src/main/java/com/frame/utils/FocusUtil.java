@@ -10,6 +10,7 @@ public class FocusUtil {
 
     //下面代码使焦点回到view
     public static void focusToTop(View view) {
+        if (view == null) return;
         view.setFocusable(true);
         view.setFocusableInTouchMode(true);
         view.requestFocus();

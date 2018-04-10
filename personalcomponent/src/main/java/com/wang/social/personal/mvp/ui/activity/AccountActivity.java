@@ -9,8 +9,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.frame.component.api.CommonService;
+import com.frame.component.common.AppConstant;
 import com.frame.component.entities.QiNiu;
 import com.frame.component.entities.dto.QiNiuDTO;
+import com.frame.component.ui.acticity.WebActivity;
 import com.frame.di.component.AppComponent;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
@@ -23,6 +25,7 @@ import com.wang.social.personal.R;
 import com.wang.social.personal.di.component.DaggerSingleActivityComponent;
 import com.wang.social.personal.mvp.entities.AccountBalance;
 import com.wang.social.personal.mvp.model.api.UserService;
+import com.wang.social.personal.mvp.ui.dialog.DialogNoticeStone;
 
 import javax.inject.Inject;
 
@@ -72,6 +75,15 @@ public class AccountActivity extends BasicAppActivity implements IView {
             case R.id.btn_right:
                 AccountDepositDetailActivity.start(this);
                 break;
+            case R.id.btn_question:
+                WebActivity.start(this, AppConstant.Url.commonProblem);
+                break;
+            case R.id.btn_exchange_stone:
+                AccountExchangeActivity.start(this);
+                break;
+            case R.id.btn_about_stone:
+                DialogNoticeStone.newDialog(this).show();
+                break;
             case R.id.btn_recharge:
                 AccountRechargeActivity.start(this);
                 break;
@@ -91,89 +103,36 @@ public class AccountActivity extends BasicAppActivity implements IView {
     }
 
     private void netGetAccountData() {
-//        mRepositoryManager.obtainRetrofitService(UserService.class).accountBalance()
-//                .subscribeOn(Schedulers.newThread())
-//                .doOnSubscribe(new Consumer<Disposable>() {
-//                    @Override
-//                    public void accept(Disposable disposable) throws Exception {
-//                        showLoading();
-//                    }
-//                })
-//                .subscribeOn(AndroidSchedulers.mainThread())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .doFinally(new Action() {
-//                    @Override
-//                    public void run() throws Exception {
-//                        hideLoading();
-//                    }
-//                })
-//                .compose(RxLifecycleUtils.bindToLifecycle((IView) AccountActivity.this))
-//                .subscribe(new ErrorHandleSubscriber<BaseJson<AccountBalance>>(mErrorHandler) {
-//                    @Override
-//                    public void onNext(BaseJson<AccountBalance> baseJson) {
-//                        AccountBalance accountBalance = baseJson.getData();
-//                        textAll.setText(accountBalance.getAmountDiamond() + "");
-//                        textCoulduse.setText("可提现钻石：" + accountBalance.getAmount());
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        ToastUtil.showToastShort(e.getMessage());
-//                    }
-//                });
-
-        Observable<BaseJson<QiNiuDTO>> observable = mRepositoryManager.obtainRetrofitService(CommonService.class).getQiNiuToken();
-        observable
-                .compose(RxLifecycleUtils.bindToLifecycle((IView) AccountActivity.this))
-                .map(new Function<BaseJson<QiNiuDTO>, QiNiu>() {
+        mRepositoryManager.obtainRetrofitService(UserService.class).accountBalance()
+                .subscribeOn(Schedulers.newThread())
+                .doOnSubscribe(new Consumer<Disposable>() {
                     @Override
-                    public QiNiu apply(BaseJson<QiNiuDTO> t) {
-                        return t.getData().transform();
+                    public void accept(Disposable disposable) throws Exception {
+                        showLoading();
                     }
                 })
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<QiNiu>() {
+                .doFinally(new Action() {
                     @Override
-                    public void accept(QiNiu qiNiu) throws Exception {
-                        ToastUtil.showToastLong("success");
+                    public void run() throws Exception {
+                        hideLoading();
+                    }
+                })
+                .compose(RxLifecycleUtils.bindToLifecycle((IView) AccountActivity.this))
+                .subscribe(new ErrorHandleSubscriber<BaseJson<AccountBalance>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseJson<AccountBalance> baseJson) {
+                        AccountBalance accountBalance = baseJson.getData();
+                        textAll.setText(accountBalance.getAmountDiamond() + "");
+                        textCoulduse.setText("可提现钻石：" + accountBalance.getAmount());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        ToastUtil.showToastShort(e.getMessage());
                     }
                 });
-//                .subscribe(new Consumer<BaseJson<QiNiuDTO>>() {
-//                    @Override
-//                    public void accept(BaseJson<QiNiuDTO> qiNiuDTOBaseJson) throws Exception {
-//                        ToastUtil.showToastLong("success");
-//                    }
-//                });
-//        observable.compose(RxLifecycleUtils.bindToLifecycle((IView) AccountActivity.this));
-//        observable.map(new Function<BaseJson<QiNiuDTO>, QiNiu>() {
-//            @Override
-//            public QiNiu apply(BaseJson<QiNiuDTO> t) {
-//                return t.getData().transform();
-//            }
-//        })
-//                .subscribe(new Observer<QiNiu>() {
-//                    @Override
-//                    public void onSubscribe(Disposable d) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onNext(QiNiu qiNiu) {
-//                        ToastUtil.showToastLong("success");
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        ToastUtil.showToastLong("onError");
-//                        e.printStackTrace();
-//                    }
-//
-//                    @Override
-//                    public void onComplete() {
-//
-//                    }
-//                });
     }
 
     @Override

@@ -43,10 +43,13 @@
                 app:personal_textTitle="@string/personal_version_history_title" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/btn_history"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginLeft="15dp"
+                android:foreground="?attr/selectableItemBackground"
                 android:gravity="center_vertical"
+                android:onClick="onClick"
+                android:paddingLeft="15dp"
                 android:text="@string/personal_version_history_tag"
                 android:textColor="@color/common_text_blank_dark"
                 android:textSize="16sp" />

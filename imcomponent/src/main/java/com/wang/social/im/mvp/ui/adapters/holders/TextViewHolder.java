@@ -1,6 +1,8 @@
 package com.wang.social.im.mvp.ui.adapters.holders;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
+import android.support.v4.widget.ContentLoadingProgressBar;
 import android.text.SpannableString;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +20,6 @@ import com.wang.social.im.mvp.model.entities.UIMessage;
 import com.wang.social.im.view.emotion.EmojiDisplay;
 
 import butterknife.BindView;
-import io.reactivex.annotations.Nullable;
 
 /**
  * ==========================================
@@ -38,6 +39,12 @@ public class TextViewHolder extends BaseMessageViewHolder<UIMessage> {
     @BindView(R.id.msg_tv_name)
     @Nullable
     TextView msgTvName;
+    @BindView(R.id.msg_iv_error)
+    @Nullable
+    ImageView msgIvError;
+    @BindView(R.id.msg_pb_progress)
+    @Nullable
+    ContentLoadingProgressBar msgPbProgress;
 
     public TextViewHolder(Context context, ViewGroup root, int layoutRes) {
         super(context, root, layoutRes);
@@ -45,7 +52,7 @@ public class TextViewHolder extends BaseMessageViewHolder<UIMessage> {
 
     @Override
     protected void bindData(UIMessage itemValue, int position, BaseAdapter.OnItemClickListener onItemClickListener) {
-        if (showTimestamp){
+        if (itemValue.isShowTime()){
             msgTvTime.setVisibility(View.VISIBLE);
             msgTvTime.setText(getTimeStr(itemValue.getTimMessage().timestamp()));
         }else {
@@ -77,7 +84,7 @@ public class TextViewHolder extends BaseMessageViewHolder<UIMessage> {
         }
 
         mImageLoader.loadImage(getContext(), ImageConfigImpl.builder()
-                .placeholder(R.drawable.common_default_circle_placehohlder)
+                .placeholder(R.drawable.common_default_circle_placeholder)
                 .imageView(msgIvPortrait)
                 .isCircle(true)
                 .url(faceUrl)
@@ -92,6 +99,14 @@ public class TextViewHolder extends BaseMessageViewHolder<UIMessage> {
                 break;
             }
         }
+
+        if (timMessage.isSelf()){
+            showStatus(itemValue, msgIvError, msgPbProgress);
+            setErrorListener(msgIvError, itemValue, position);
+        }else {
+            setPortraitListener(msgIvPortrait, itemValue, position);
+        }
+        setContentListener(msgTvText, itemValue, position, false, true);
     }
 
     @Override

@@ -20,10 +20,14 @@ import com.tencent.imsdk.TIMUserStatusListener;
 import com.tencent.imsdk.ext.group.TIMGroupAssistantListener;
 import com.tencent.imsdk.ext.group.TIMGroupCacheInfo;
 import com.tencent.imsdk.ext.group.TIMUserConfigGroupExt;
+import com.tencent.imsdk.ext.message.TIMMessageLocator;
+import com.tencent.imsdk.ext.message.TIMMessageRevokedListener;
 import com.tencent.imsdk.ext.message.TIMUserConfigMsgExt;
 import com.tencent.imsdk.ext.sns.TIMFriendshipProxyListener;
 import com.tencent.imsdk.ext.sns.TIMUserConfigSnsExt;
 import com.wang.social.im.BuildConfig;
+
+import org.simple.eventbus.EventBus;
 
 import java.util.List;
 
@@ -82,6 +86,7 @@ public class ImAppLifecycleImpl implements AppDelegate {
         //消息扩展配置
         userConfig = new TIMUserConfigMsgExt(userConfig)
                 .enableStorage(true)//设置消息存储
+                .setMessageRevokedListener(new MessageRevokeListener())
                 .enableReadReceipt(false); //关闭消息已读回执
         //资料关系链扩展配置
         userConfig = new TIMUserConfigSnsExt(userConfig)
@@ -199,6 +204,17 @@ public class ImAppLifecycleImpl implements AppDelegate {
         @Override
         public void onGroupUpdate(TIMGroupCacheInfo timGroupCacheInfo) {
             Timber.tag(TAG).d("onGroupUpdate");
+        }
+    }
+
+    /**
+     * 消息撤销监听
+     */
+    private class MessageRevokeListener implements TIMMessageRevokedListener{
+
+        @Override
+        public void onMessageRevoked(TIMMessageLocator timMessageLocator) {
+            EventBus.getDefault().post(timMessageLocator);
         }
     }
 }

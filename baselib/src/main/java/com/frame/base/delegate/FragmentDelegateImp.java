@@ -10,7 +10,7 @@ import android.view.View;
 
 import com.frame.utils.FrameUtils;
 
-import org.simple.eventbus.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;

@@ -11,6 +11,7 @@ import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
 import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
+import com.frame.utils.StrUtil;
 import com.frame.utils.ToastUtil;
 import com.wang.social.personal.R;
 import com.wang.social.personal.mvp.entities.photo.Photo;
@@ -139,6 +140,11 @@ public class RecycleAdapterMePhoto extends BaseAdapter<Photo> {
         return -1;
     }
     ////////////////////////////////
+
+    public int getResultsCount() {
+        if (StrUtil.isEmpty(getData())) return 0;
+        return getData().size();
+    }
 
     private OnPhotoClickListener onPhotoClickListener;
 

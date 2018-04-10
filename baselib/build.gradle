@@ -83,7 +83,7 @@ dependencies {
     //tools
     api rootProject.ext.dependencies["dagger2"]
     annotationProcessor rootProject.ext.dependencies["dagger2-compiler"]
-    api rootProject.ext.dependencies["androideventbus"]
+    api rootProject.ext.dependencies["eventbus"]
     api rootProject.ext.dependencies["gson"]
     api(rootProject.ext.dependencies["rxpermissions2"]) {
         exclude module: 'rxjava'

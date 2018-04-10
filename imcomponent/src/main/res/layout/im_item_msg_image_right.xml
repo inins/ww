@@ -17,7 +17,7 @@
         android:scaleType="centerCrop"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/msg_tv_time"
-        tools:src="@mipmap/ic_launcher" />
+        tools:src="@drawable/common_default_circle_placeholder" />
 
     <ImageView
         android:id="@+id/msg_iv_image"
@@ -27,5 +27,5 @@
         android:scaleType="centerCrop"
         app:layout_constraintRight_toLeftOf="@id/msg_iv_portrait"
         app:layout_constraintTop_toTopOf="@id/msg_iv_portrait"
-        tools:src="@mipmap/ic_launcher" />
+        tools:src="@drawable/im_image_message_placeholder" />
 </android.support.constraint.ConstraintLayout>

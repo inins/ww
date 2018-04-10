@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.frame.di.scope.FragmentScope;
 import com.frame.mvp.BasePresenter;
 import com.frame.utils.ToastUtil;
+import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
@@ -29,7 +30,7 @@ import javax.inject.Inject;
  * ======================================
  */
 @FragmentScope
-public class ConversationPresenter extends BasePresenter<ConversationContract.Model, ConversationContract.View> implements TIMMessageListener{
+public class ConversationPresenter extends BasePresenter<ConversationContract.Model, ConversationContract.View> implements TIMMessageListener {
 
     private MessageListAdapter mAdapter;
     private TIMConversation mConversation;
@@ -48,6 +49,7 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
 
     /**
      * 设置会话对象
+     *
      * @param conversation
      */
     public void setConversation(@NonNull TIMConversation conversation) {
@@ -70,13 +72,17 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
 
     /**
      * 接收到新消息
+     *
      * @param list
      * @return
      */
     @Override
     public boolean onNewMessages(List<TIMMessage> list) {
-        if (list != null) {
-            mRootView.showMessages(UIMessage.obtain(list));
+        if (list != null && list.size() > 0) {
+            if (list.get(0).getConversation().getType() == mConversation.getType() &&
+                    list.get(0).getConversation().getPeer().equals(mConversation.getPeer())) {
+                mRootView.showMessages(UIMessage.obtain(list));
+            }
         }
         return false;
     }
@@ -89,7 +95,7 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
         if (mAdapter != null && mAdapter.getData() != null && mAdapter.getData().size() > 0) {
             lastMessage = mAdapter.getData().get(mAdapter.getItemCount() - 1).getTimMessage();
         }
-        mConversationExt.getMessage(20, lastMessage, new TIMValueCallBack<List<TIMMessage>>() {
+        mConversationExt.getLocalMessage(20, lastMessage, new TIMValueCallBack<List<TIMMessage>>() {
             @Override
             public void onError(int i, String s) {
 
@@ -106,10 +112,38 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
     }
 
     /**
+     * 删除一条消息
+     * @param uiMessage
+     */
+    public void deleteMessage(UIMessage uiMessage){
+
+    }
+
+    /**
+     * 撤回一条消息
+     * @param uiMessage
+     */
+    public void withDrawMessage(UIMessage uiMessage){
+        mConversationExt.revokeMessage(uiMessage.getTimMessage(), new TIMCallBack() {
+            @Override
+            public void onError(int i, String s) {
+                ToastUtil.showToastShort(s);
+            }
+
+            @Override
+            public void onSuccess() {
+                // TODO: 2018-04-09 修改消息内容为通知消息
+                mRootView.refreshMessage(uiMessage);
+            }
+        });
+    }
+
+    /**
      * 发送一条文本消息
+     *
      * @param content
      */
-    public void sendTextMessage(String content){
+    public void sendTextMessage(String content) {
         TIMMessage message = new TIMMessage();
         TIMTextElem textElem = new TIMTextElem();
         textElem.setText(content);
@@ -117,12 +151,12 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
         mConversation.sendMessage(message, new TIMValueCallBack<TIMMessage>() {
             @Override
             public void onError(int i, String s) {
-
+                mRootView.refreshMessage(UIMessage.obtain(message));
             }
 
             @Override
             public void onSuccess(TIMMessage timMessage) {
-
+                mRootView.refreshMessage(UIMessage.obtain(timMessage));
             }
         });
         mRootView.showMessage(UIMessage.obtain(message));

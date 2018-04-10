@@ -45,7 +45,7 @@ public class ImageViewHolder extends BaseMessageViewHolder<UIMessage> {
 
     @Override
     protected void bindData(UIMessage itemValue, int position, BaseAdapter.OnItemClickListener onItemClickListener) {
-        if (showTimestamp) {
+        if (itemValue.isShowTime()) {
             msgTvTime.setVisibility(View.VISIBLE);
             msgTvTime.setText(getTimeStr(itemValue.getTimMessage().timestamp()));
         } else {
@@ -77,7 +77,7 @@ public class ImageViewHolder extends BaseMessageViewHolder<UIMessage> {
         }
         //头像
         mImageLoader.loadImage(getContext(), ImageConfigImpl.builder()
-                .placeholder(R.drawable.common_default_circle_placehohlder)
+                .placeholder(R.drawable.common_default_circle_placeholder)
                 .imageView(msgIvPortrait)
                 .isCircle(true)
                 .url(faceUrl)
@@ -93,7 +93,7 @@ public class ImageViewHolder extends BaseMessageViewHolder<UIMessage> {
                     mImageLoader.loadImage(getContext(), ImageConfigImpl.builder()
                             .imageView(msgIvImage)
                             .url(images.get(0).getUrl())
-                            .placeholder(R.drawable.common_default_circle_placehohlder)
+                            .placeholder(R.drawable.common_default_circle_placeholder)
                             .transformation(new RoundedCornersTransformation(getContext().getResources().getDimensionPixelOffset(R.dimen.im_msg_image_radius), 0))
                             .build());
                     break;

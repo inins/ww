@@ -63,12 +63,23 @@ public class TitleView extends FrameLayout {
         text_subtitle = findViewById(R.id.text_subtitle);
         text_note = findViewById(R.id.text_note);
 
-        text_title.setText(title);
-        text_subtitle.setText(subTitle);
-        text_note.setText(note);
+        setTitle(title);
+        setSubTitle(subTitle);
+        setNote(note);
+    }
 
+    public void setTitle(String title) {
+        text_title.setText(title);
         text_title.setVisibility(TextUtils.isEmpty(title) ? GONE : VISIBLE);
+    }
+
+    public void setSubTitle(String subTitle) {
+        text_subtitle.setText(subTitle);
         text_subtitle.setVisibility(TextUtils.isEmpty(subTitle) ? GONE : VISIBLE);
+    }
+
+    public void setNote(String note) {
+        text_note.setText(note);
         text_note.setVisibility(TextUtils.isEmpty(note) ? GONE : VISIBLE);
     }
 }

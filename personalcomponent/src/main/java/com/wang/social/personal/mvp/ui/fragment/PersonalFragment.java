@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.frame.base.BasicFragment;
+import com.frame.component.common.AppConstant;
 import com.frame.component.entities.User;
 import com.frame.component.helper.AppDataHelper;
 import com.frame.di.component.AppComponent;
@@ -103,6 +104,7 @@ public class PersonalFragment extends BasicFragment {
             mImageLoader.loadImage(getContext(), ImageConfigImpl.
                     builder()
                     .imageView(imgHeader)
+                    .isCircle(true)
                     .url(user.getAvatar())
                     .build());
             textName.setText(user.getNickname());
@@ -136,7 +138,7 @@ public class PersonalFragment extends BasicFragment {
             case R.id.btn_me_share:
                 break;
             case R.id.btn_me_about:
-                AboutActivity.start(getContext());
+                AboutActivity.start(getContext(), AppConstant.Url.wwAbout);
                 break;
             case R.id.btn_me_eva:
                 netUserHelper.loginTest();

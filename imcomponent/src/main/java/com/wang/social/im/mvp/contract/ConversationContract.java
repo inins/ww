@@ -16,11 +16,29 @@ public interface ConversationContract {
 
     interface View extends IView{
 
+        /**
+         * 添加新消息集合
+         * @param uiMessages
+         */
         void showMessages(List<UIMessage> uiMessages);
 
+        /**
+         * 添加一条新消息
+         * @param uiMessage
+         */
         void showMessage(UIMessage uiMessage);
 
+        /**
+         * 插入历史消息
+         * @param uiMessages
+         */
         void insertMessages(List<UIMessage> uiMessages);
+
+        /**
+         * 刷新一条消息
+         * @param uiMessage
+         */
+        void refreshMessage(UIMessage uiMessage);
     }
 
     interface Model extends IModel{
