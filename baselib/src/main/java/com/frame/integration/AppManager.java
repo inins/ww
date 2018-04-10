@@ -10,9 +10,9 @@ import android.os.Process;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
-import org.simple.eventbus.EventBus;
-import org.simple.eventbus.Subscriber;
-import org.simple.eventbus.ThreadMode;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -33,7 +33,6 @@ public class AppManager {
     protected final String TAG = this.getClass().getSimpleName();
     //当为true时表示Activity不需要加入到Activity容器中进行统一管理(默认false)
     public static final String IS_NOT_ADD_ACTIVITY_LIST = "is_not_add_activity_list";
-    public static final String APP_MANAGER_MESSAGE = "app_manager_message";
     public static final int START_ACTIVITY = 1000;
     public static final int SHOW_SNACKBAR = 1001;
     public static final int KIALL_ALL = 1002;
@@ -62,8 +61,8 @@ public class AppManager {
      *
      * @param message
      */
-    @Subscriber(tag = APP_MANAGER_MESSAGE, mode = ThreadMode.MAIN)
-    public void onReceive(Message message) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(Message message) {
         switch (message.what) {
             case START_ACTIVITY:
                 if (message.obj != null) {
@@ -91,12 +90,12 @@ public class AppManager {
     }
 
     /**
-     * 通过此方法遥控{@link AppManager},让{@link #onReceive(Message)}执行对应方法
+     * 通过此方法遥控{@link AppManager},让{@link #onEventMainThread(Message)} 执行对应方法
      *
      * @param message
      */
     public static void post(Message message) {
-        EventBus.getDefault().post(message, APP_MANAGER_MESSAGE);
+        EventBus.getDefault().post(message);
     }
 
     /**
@@ -115,7 +114,7 @@ public class AppManager {
     }
 
     /**
-     * 提供给外部扩展{@link AppManager#onReceive(Message)}方法
+     * 提供给外部扩展{@link AppManager#onEventMainThread(Message)}方法
      *
      * @param mHandleListener
      */

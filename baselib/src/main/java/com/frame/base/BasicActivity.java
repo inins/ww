@@ -87,7 +87,7 @@ public abstract class BasicActivity extends AppCompatActivity implements IActivi
 
     @Override
     public boolean useEventBus() {
-        return true;
+        return false;
     }
 
     @Override
