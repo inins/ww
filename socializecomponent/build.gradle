@@ -1,7 +1,7 @@
 
-//apply plugin: 'com.android.application'
-//apply plugin: 'com.jakewharton.butterknife'
-apply plugin: 'com.android.library'
+apply plugin: 'com.android.application'
+apply plugin: 'com.jakewharton.butterknife'
+//apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
@@ -13,9 +13,9 @@ android {
 
 
     defaultConfig {
-//        if(project.isRunAlone){
-//            applicationId "com.dongdongkeji.wangwangsocial"
-//        }
+        if(project.isRunAlone){
+            applicationId "com.dongdongkeji.wangwangsocial"
+        }
 
         minSdkVersion rootProject.ext.android["minSdkVersion"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
@@ -38,7 +38,7 @@ android {
         debug {
             keyAlias 'dongdong'
             keyPassword '123456'
-            storeFile file('D:/项目/JKS/dongdongkey.jks')
+            storeFile file('../dongdongkey.jks')
             storePassword '123456'
         }
 

@@ -100,7 +100,7 @@ dependencies {
     annotationProcessor project(':router-anno-compiler')
     compile 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'
 
-    implementation project(':socializecomponent')
+//    implementation project(':socializecomponent')
 }
 
 //combuild {

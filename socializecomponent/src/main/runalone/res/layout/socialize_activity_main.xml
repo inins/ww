@@ -26,4 +26,41 @@
         android:text="新浪微博登录"
         android:layout_marginTop="10dp"/>
 
+    <Button
+        android:id="@+id/share_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="分享"
+        android:layout_marginTop="10dp"/>
+    <Button
+        android:id="@+id/wx_share_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="微信好友"
+        android:layout_marginTop="10dp"/>
+    <Button
+        android:id="@+id/wx_circle_share_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="微信朋友圈"
+        android:layout_marginTop="10dp"/>
+    <Button
+        android:id="@+id/qq_share_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="QQ好友"
+        android:layout_marginTop="10dp"/>
+    <Button
+        android:id="@+id/qq_zone_share_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="QZone"
+        android:layout_marginTop="10dp"/>
+    <Button
+        android:id="@+id/sina_share_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="新浪微博"
+        android:layout_marginTop="10dp"/>
+
 </LinearLayout>

@@ -29,6 +29,7 @@ import com.wang.social.login.mvp.ui.widget.CountDownView;
 import com.wang.social.login.mvp.ui.widget.DialogFragmentLoading;
 import com.wang.social.login.utils.StringUtils;
 import com.wang.social.login.utils.ViewUtils;
+import com.wang.social.socialize.Test;
 
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
