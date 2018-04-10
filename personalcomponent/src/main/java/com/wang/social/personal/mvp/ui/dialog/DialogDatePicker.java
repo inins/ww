@@ -20,6 +20,7 @@ import com.frame.component.view.DatePicker;
 import com.frame.utils.StrUtil;
 import com.frame.utils.TimeUtils;
 import com.wang.social.personal.R;
+import com.wang.social.personal.R2;
 
 import java.text.NumberFormat;
 
@@ -33,13 +34,13 @@ import butterknife.OnClick;
  */
 public class DialogDatePicker extends BaseDialog implements View.OnClickListener {
 
-    @BindView(R.id.dayPicker_dialog)
+    @BindView(R2.id.dayPicker_dialog)
     DatePicker mDatePicker;
-    @BindView(R.id.btn_dialog_date_cancel)
+    @BindView(R2.id.btn_dialog_date_cancel)
     TextView mCancelButton;
-    @BindView(R.id.btn_dialog_date_decide)
+    @BindView(R2.id.btn_dialog_date_decide)
     TextView mDecideButton;
-    @BindView(R.id.text_astro)
+    @BindView(R2.id.text_astro)
     TextView text_astro;
 
     public DialogDatePicker(Context context) {
@@ -69,13 +70,13 @@ public class DialogDatePicker extends BaseDialog implements View.OnClickListener
         });
     }
 
-    @OnClick({R.id.btn_dialog_date_cancel, R.id.btn_dialog_date_decide})
+    @OnClick({R2.id.btn_dialog_date_cancel, R2.id.btn_dialog_date_decide})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_dialog_date_cancel:
+            case R2.id.btn_dialog_date_cancel:
                 dismiss();
                 break;
-            case R.id.btn_dialog_date_decide:
+            case R2.id.btn_dialog_date_decide:
                 if (mOnDateChooseListener != null) {
                     NumberFormat numberFormat = NumberFormat.getNumberInstance();
                     numberFormat.setMinimumIntegerDigits(2);

@@ -54,9 +54,9 @@ public class ResetPasswordActivity extends BaseActivity<ResetPasswordPresenter> 
     View contentRoot;
     @BindView(R2.id.confirm_view)
     View confirmView;
-    @BindView(R.id.title_text_view)
+    @BindView(R2.id.title_text_view)
     TextView titleTV;
-    @BindView(R.id.title_hint_text_view)
+    @BindView(R2.id.title_hint_text_view)
     TextView titleHintTV;
 
     String mMobile;

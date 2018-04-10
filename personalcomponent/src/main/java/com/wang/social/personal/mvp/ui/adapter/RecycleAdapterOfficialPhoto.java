@@ -12,6 +12,7 @@ import com.frame.base.BaseViewHolder;
 import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.wang.social.personal.R;
+import com.wang.social.personal.R2;
 import com.wang.social.personal.mvp.entities.TestEntity;
 import com.wang.social.personal.mvp.entities.photo.OffiPic;
 import com.wang.social.personal.mvp.entities.photo.Photo;
@@ -33,7 +34,7 @@ public class RecycleAdapterOfficialPhoto extends BaseAdapter<OffiPic> {
 
     public class Holder extends BaseViewHolder<OffiPic> {
 
-        @BindView(R.id.img_photo)
+        @BindView(R2.id.img_photo)
         ImageView img_photo;
 
         public Holder(Context context, ViewGroup root, int layoutRes) {

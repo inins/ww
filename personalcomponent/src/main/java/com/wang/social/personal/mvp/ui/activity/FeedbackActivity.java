@@ -31,6 +31,7 @@ import com.frame.utils.ToastUtil;
 import com.liaoinstan.springview.widget.SpringView;
 import com.qiniu.android.utils.StringUtils;
 import com.wang.social.personal.R;
+import com.wang.social.personal.R2;
 import com.wang.social.personal.common.SimpleTextWatcher;
 import com.wang.social.personal.di.component.DaggerSingleActivityComponent;
 import com.wang.social.personal.helper.AppValiHelper;
@@ -54,15 +55,15 @@ import retrofit2.http.Field;
 
 public class FeedbackActivity extends BasicAppActivity implements PhotoHelper.OnPhotoCallback, IView {
 
-    @BindView(R.id.toolbar)
+    @BindView(R2.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.bundleview)
+    @BindView(R2.id.bundleview)
     BundleImgView bundleview;
-    @BindView(R.id.edit_suggest)
+    @BindView(R2.id.edit_suggest)
     EditText editSuggest;
-    @BindView(R.id.text_count)
+    @BindView(R2.id.text_count)
     TextView textCount;
-    @BindView(R.id.edit_phone)
+    @BindView(R2.id.edit_phone)
     EditText editPhone;
 
     @Inject
@@ -120,7 +121,7 @@ public class FeedbackActivity extends BasicAppActivity implements PhotoHelper.On
 
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_right:
+            case R2.id.btn_right:
                 String suggest = editSuggest.getText().toString();
                 String phone = editPhone.getText().toString();
                 String msg = AppValiHelper.feedback(phone, suggest);
@@ -130,7 +131,7 @@ public class FeedbackActivity extends BasicAppActivity implements PhotoHelper.On
                     netUploadCommit(phone, suggest);
                 }
                 break;
-            case R.id.btn_question:
+            case R2.id.btn_question:
                 WebActivity.start(this, AppConstant.Url.proposal);
                 break;
         }

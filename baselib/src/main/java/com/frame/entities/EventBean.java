@@ -20,15 +20,20 @@ public class EventBean implements Serializable {
     public static final int EVENTBUS_TAG_UNSELECT = 0xffa102;
     // 标签删除
     public static final int EVENTBUS_TAG_DELETE = 0xffa103;
+    //相册数量已修改，通知个人详情页面重新刷新数量
+    public static final int EVENT_MEPHOTO_CHANGE = 0xffa201;
+    //个人信息已修改，通知相关页面刷新
+    public static final int EVENT_USERINFO_CHANGE = 0xffa202;
 
     @IntDef({
             EVENTBUS_TAG_SELECTED,
             EVENTBUS_TAG_UNSELECT,
-            EVENTBUS_TAG_DELETE
+            EVENTBUS_TAG_DELETE,
+            EVENT_MEPHOTO_CHANGE,
+            EVENT_USERINFO_CHANGE
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface EventBeanType {
-
     }
 
     private @EventBeanType int event;

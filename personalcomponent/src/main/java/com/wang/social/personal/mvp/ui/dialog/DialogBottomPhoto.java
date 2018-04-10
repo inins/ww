@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.wang.social.personal.R;
+import com.wang.social.personal.R2;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,15 +23,15 @@ import butterknife.OnClick;
  * 选择图片弹窗
  */
 public class DialogBottomPhoto extends BaseDialog implements View.OnClickListener {
-    @BindView(R.id.btn_cancel)
+    @BindView(R2.id.btn_cancel)
     TextView btn_cancel;
-    @BindView(R.id.btn_pic)
+    @BindView(R2.id.btn_pic)
     TextView btnPic;
-    @BindView(R.id.btn_camera)
+    @BindView(R2.id.btn_camera)
     TextView btnCamera;
-    @BindView(R.id.btn_photo)
+    @BindView(R2.id.btn_photo)
     TextView btnPhoto;
-    @BindView(R.id.lay_official)
+    @BindView(R2.id.lay_official)
     View lay_official;
 
     public DialogBottomPhoto(Context context) {
@@ -60,19 +61,19 @@ public class DialogBottomPhoto extends BaseDialog implements View.OnClickListene
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_pic:
+            case R2.id.btn_pic:
                 if (onPhotoListener != null) onPhotoListener.onPicClick(view);
                 dismiss();
                 break;
-            case R.id.btn_camera:
+            case R2.id.btn_camera:
                 if (onPhotoListener != null) onPhotoListener.onCameraClick(view);
                 dismiss();
                 break;
-            case R.id.btn_photo:
+            case R2.id.btn_photo:
                 if (onPhotoListener != null) onPhotoListener.onPhotoClick(view);
                 dismiss();
                 break;
-            case R.id.btn_cancel:
+            case R2.id.btn_cancel:
                 dismiss();
                 break;
         }

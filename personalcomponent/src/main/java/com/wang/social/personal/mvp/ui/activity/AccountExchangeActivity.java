@@ -17,6 +17,7 @@ import com.frame.mvp.IView;
 import com.frame.utils.RxLifecycleUtils;
 import com.frame.utils.ToastUtil;
 import com.wang.social.personal.R;
+import com.wang.social.personal.R2;
 import com.wang.social.personal.di.component.DaggerSingleActivityComponent;
 import com.wang.social.personal.mvp.entities.AccountBalance;
 import com.wang.social.personal.mvp.model.api.UserService;
@@ -57,7 +58,7 @@ public class AccountExchangeActivity extends BasicAppActivity implements IView {
 
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_right:
+            case R2.id.btn_right:
                 break;
         }
     }

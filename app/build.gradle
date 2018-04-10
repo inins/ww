@@ -22,6 +22,7 @@ android {
                 arguments = [host: "app"]
             }
         }
+        manifestPlaceholders = [qqappid: "1106099147"]
     }
     buildTypes {
         debug {

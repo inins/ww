@@ -30,11 +30,11 @@ public class RecycleAdapterPrivacyShowList extends BaseAdapter<ShowListCate> {
     }
 
     public class HolderHeader extends BaseViewHolder<ShowListCate> {
-        @BindView(R.id.text_title)
+        @BindView(R2.id.text_title)
         TextView text_title;
-        @BindView(R.id.text_count)
+        @BindView(R2.id.text_count)
         TextView text_count;
-        @BindView(R.id.listlayout)
+        @BindView(R2.id.listlayout)
         ListViewLinearLayout listlayout;
         ListAdapterPrivacyShowList adapter;
 

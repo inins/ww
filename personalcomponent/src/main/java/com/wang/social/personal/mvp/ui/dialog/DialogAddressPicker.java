@@ -11,6 +11,7 @@ import com.frame.component.view.DatePicker;
 import com.frame.component.view.WheelPicker;
 import com.frame.utils.TimeUtils;
 import com.wang.social.personal.R;
+import com.wang.social.personal.R2;
 import com.wang.social.personal.data.db.AddressDataBaseManager;
 import com.wang.social.personal.mvp.entities.City;
 import com.wang.social.personal.mvp.entities.Province;
@@ -31,15 +32,15 @@ import butterknife.OnClick;
  */
 public class DialogAddressPicker extends BaseDialog implements View.OnClickListener {
 
-    @BindView(R.id.wheel_province)
+    @BindView(R2.id.wheel_province)
     WheelPicker<Province> wheel_province;
-    @BindView(R.id.wheel_city)
+    @BindView(R2.id.wheel_city)
     WheelPicker<City> wheel_city;
-    @BindView(R.id.btn_dialog_date_cancel)
+    @BindView(R2.id.btn_dialog_date_cancel)
     TextView mCancelButton;
-    @BindView(R.id.btn_dialog_date_decide)
+    @BindView(R2.id.btn_dialog_date_decide)
     TextView mDecideButton;
-    @BindView(R.id.text_astro)
+    @BindView(R2.id.text_astro)
     TextView text_astro;
 
     public DialogAddressPicker(Context context) {
@@ -78,13 +79,13 @@ public class DialogAddressPicker extends BaseDialog implements View.OnClickListe
         });
     }
 
-    @OnClick({R.id.btn_dialog_date_cancel, R.id.btn_dialog_date_decide})
+    @OnClick({R2.id.btn_dialog_date_cancel, R2.id.btn_dialog_date_decide})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_dialog_date_cancel:
+            case R2.id.btn_dialog_date_cancel:
                 dismiss();
                 break;
-            case R.id.btn_dialog_date_decide:
+            case R2.id.btn_dialog_date_decide:
                 if (onAddressSelectListener != null) {
                     Province province = wheel_province.getSelectData();
                     City city = wheel_city.getSelectData();

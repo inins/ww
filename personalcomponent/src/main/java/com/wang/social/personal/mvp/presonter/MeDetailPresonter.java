@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.frame.component.entities.User;
 import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.QiNiuManager;
+import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
@@ -13,10 +14,14 @@ import com.frame.mvp.BasePresenter;
 import com.frame.utils.RxLifecycleUtils;
 import com.frame.utils.ToastUtil;
 import com.frame.component.common.NetParam;
+import com.wang.social.personal.helper.MyApiHelper;
 import com.wang.social.personal.mvp.contract.MeDetailContract;
 import com.wang.social.personal.mvp.entities.CommonEntity;
 import com.wang.social.personal.mvp.entities.photo.Photo;
+import com.wang.social.personal.mvp.model.api.UserService;
 import com.wang.social.personal.net.helper.NetPhotoHelper;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 import java.util.Map;
@@ -93,26 +98,11 @@ public class MeDetailPresonter extends BasePresenter<MeDetailContract.Model, MeD
                 .put("province", province)
                 .put("city", city)
                 .build();
-        mModel.updateUserInfo(map)
-                .subscribeOn(Schedulers.newThread())
-                .doOnSubscribe(new Consumer<Disposable>() {
+        MyApiHelper.execute(mRootView, true,
+                mModel.updateUserInfo(map),
+                new ErrorHandleSubscriber<BaseJson<CommonEntity>>(mErrorHandler) {
                     @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        mRootView.showLoading();
-                    }
-                })
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doFinally(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mRootView.hideLoading();
-                    }
-                })
-                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
-                .subscribe(new ErrorHandleSubscriber<BaseJson<CommonEntity>>(mErrorHandler) {
-                    @Override
-                    public void onNext(BaseJson<CommonEntity> baseJson) {
+                    public void onNext(BaseJson<CommonEntity> basejson) {
                         User user = AppDataHelper.getUser();
                         if (user == null) return;
                         if (!TextUtils.isEmpty(nickname)) user.setNickname(nickname);
@@ -126,11 +116,11 @@ public class MeDetailPresonter extends BasePresenter<MeDetailContract.Model, MeD
                         if (!TextUtils.isEmpty(city)) user.setCity(city);
                         if (TextUtils.isEmpty(autograph)) user.setAutograph(autograph);
                         AppDataHelper.saveUser(user);
+                        EventBus.getDefault().post(new EventBean(EventBean.EVENT_USERINFO_CHANGE));
                     }
 
                     @Override
                     public void onError(Throwable e) {
-//                        super.onError(e);
                         ToastUtil.showToastShort(e.getMessage());
                     }
                 });

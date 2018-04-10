@@ -15,6 +15,7 @@ import com.frame.mvp.IView;
 import com.frame.utils.StatusBarUtil;
 import com.frame.utils.ToastUtil;
 import com.wang.social.personal.R;
+import com.wang.social.personal.R2;
 import com.wang.social.personal.di.component.DaggerSingleActivityComponent;
 import com.wang.social.personal.mvp.entities.user.QrcodeInfo;
 import com.wang.social.personal.net.helper.NetUserHelper;
@@ -26,13 +27,13 @@ import butterknife.ButterKnife;
 
 public class QrcodeActivity extends BasicAppActivity implements IView {
 
-    @BindView(R.id.img_header)
+    @BindView(R2.id.img_header)
     ImageView imgHeader;
-    @BindView(R.id.text_name)
+    @BindView(R2.id.text_name)
     TextView textName;
-    @BindView(R.id.text_detail)
+    @BindView(R2.id.text_detail)
     TextView textDetail;
-    @BindView(R.id.img_qrcode)
+    @BindView(R2.id.img_qrcode)
     ImageView imgQrcode;
 
     @Inject
@@ -80,7 +81,7 @@ public class QrcodeActivity extends BasicAppActivity implements IView {
 
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_qs:
+            case R2.id.btn_qs:
                 break;
         }
     }

@@ -11,6 +11,7 @@ import com.frame.base.BaseActivity;
 import com.frame.base.BasicActivity;
 import com.frame.di.component.AppComponent;
 import com.wang.social.personal.R;
+import com.wang.social.personal.R2;
 import com.wang.social.personal.mvp.ui.dialog.DialogBottomThirdLoginBind;
 
 public class SettingActivity extends BasicActivity {
@@ -33,28 +34,28 @@ public class SettingActivity extends BasicActivity {
 
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_psw:
+            case R2.id.btn_psw:
                 break;
-            case R.id.btn_phone:
+            case R2.id.btn_phone:
                 break;
-            case R.id.btn_thirdlogin:
+            case R2.id.btn_thirdlogin:
                 new DialogBottomThirdLoginBind(this).show();
                 break;
-            case R.id.btn_secret:
+            case R2.id.btn_secret:
                 PrivacyActivity.start(this);
                 break;
-            case R.id.btn_clear:
+            case R2.id.btn_clear:
                 break;
-            case R.id.btn_shutdownlist:
+            case R2.id.btn_shutdownlist:
                 BlackListActivity.start(this);
                 break;
-            case R.id.btn_blacklist:
+            case R2.id.btn_blacklist:
                 BlackListActivity.start(this);
                 break;
-            case R.id.btn_msg:
+            case R2.id.btn_msg:
                 SettingMsgActivity.start(this);
                 break;
-            case R.id.btn_logout:
+            case R2.id.btn_logout:
                 break;
         }
     }

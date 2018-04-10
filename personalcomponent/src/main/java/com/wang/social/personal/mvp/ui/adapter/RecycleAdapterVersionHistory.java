@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
 import com.wang.social.personal.R;
+import com.wang.social.personal.R2;
 import com.wang.social.personal.mvp.entities.TestEntity;
 import com.wang.social.personal.mvp.entities.version.VersionHistory;
 
@@ -26,7 +27,7 @@ public class RecycleAdapterVersionHistory extends BaseAdapter<VersionHistory> {
     }
 
     public class Holder extends BaseViewHolder<VersionHistory> {
-        @BindView(R.id.text_version)
+        @BindView(R2.id.text_version)
         TextView textVersion;
 
         public Holder(Context context, ViewGroup root, int layoutRes) {

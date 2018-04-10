@@ -13,6 +13,7 @@ import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.utils.ToastUtil;
 import com.wang.social.login.R;
+import com.wang.social.login.R2;
 import com.wang.social.login.di.component.DaggerBindPhoneComponent;
 import com.wang.social.login.di.module.BindPhoneModule;
 import com.wang.social.login.mvp.contract.BindPhoneContract;
@@ -34,17 +35,17 @@ public class BindPhoneActivity extends BaseActivity<BindPhonePresenter> implemen
     }
 
 
-    @BindView(R.id.toolbar)
+    @BindView(R2.id.toolbar)
     SocialToolbar toolbar;
-    @BindView(R.id.phone_edit_text)
+    @BindView(R2.id.phone_edit_text)
     EditText phoneEditText;
-    @BindView(R.id.verify_code_edit_text)
+    @BindView(R2.id.verify_code_edit_text)
     EditText verifyCodeET;
-    @BindView(R.id.content_root)
+    @BindView(R2.id.content_root)
     View contentRoot;
-    @BindView(R.id.bind_text_view)
+    @BindView(R2.id.bind_text_view)
     TextView bindTV;
-    @BindView(R.id.get_verify_code_text_view)
+    @BindView(R2.id.get_verify_code_text_view)
     CountDownView getVerifyCodeTV;
 
     @Override
@@ -76,7 +77,7 @@ public class BindPhoneActivity extends BaseActivity<BindPhonePresenter> implemen
         ViewUtils.controlKeyboardLayout(contentRoot, bindTV);
     }
 
-    @OnClick(R.id.get_verify_code_text_view)
+    @OnClick(R2.id.get_verify_code_text_view)
     public void getVerifyCode() {
         ViewUtils.hideSoftInputFromWindow(this, phoneEditText);
 
@@ -97,7 +98,7 @@ public class BindPhoneActivity extends BaseActivity<BindPhonePresenter> implemen
         }
     }
 
-    @OnClick(R.id.bind_text_view)
+    @OnClick(R2.id.bind_text_view)
     public void vindPhone() {
         String mobile = phoneEditText.getText().toString();
 
