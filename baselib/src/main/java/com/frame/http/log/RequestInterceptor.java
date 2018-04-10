@@ -79,12 +79,14 @@ public class RequestInterceptor implements Interceptor {
 
         boolean logRequest = printLevel == Level.ALL || (printLevel != Level.NONE && printLevel == Level.REQUEST);
 
-        if (logRequest && !isImage(request.body().contentType())) {
-            //打印请求信息
-            if (request.body() != null && isParseable(request.body().contentType())) {
-                mPrinter.printJsonRequest(request, parseParams(request));
-            } else {
-                mPrinter.printFileRequest(request);
+        if (logRequest) {
+            if (request != null && request.body() != null && !isImage(request.body().contentType())) {
+                //打印请求信息
+                if (request.body() != null && isParseable(request.body().contentType())) {
+                    mPrinter.printJsonRequest(request, parseParams(request));
+                } else {
+                    mPrinter.printFileRequest(request);
+                }
             }
         }
 
@@ -104,8 +106,10 @@ public class RequestInterceptor implements Interceptor {
 
         //打印响应结果
         String bodyString = null;
-        if (responseBody != null && !isImage(responseBody.contentType())/*&& isParseable(responseBody.contentType())*/) {
-            bodyString = printResult(request, originalResponse, logResponse);
+        if (responseBody != null /*&& isParseable(responseBody.contentType())*/) {
+            if (!isImage(responseBody.contentType())) {
+                bodyString = printResult(request, originalResponse, logResponse);
+            }
         }
 
         if (logResponse && !isImage(responseBody.contentType())) {
@@ -226,7 +230,7 @@ public class RequestInterceptor implements Interceptor {
                 || isHtml(mediaType) || isXml(mediaType);
     }
 
-    public static boolean isImage(MediaType mediaType){
+    public static boolean isImage(MediaType mediaType) {
         if (mediaType == null || mediaType.type() == null) return false;
         return mediaType.type().equals("image");
     }
