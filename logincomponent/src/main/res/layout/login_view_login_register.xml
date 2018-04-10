@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/login_phone_number"
-            android:textColor="#@color/common_text_blank"
+            android:textColor="@color/common_text_blank"
             android:textSize="17sp"
             android:layout_marginTop="25dp"
             />
@@ -61,7 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/login_verify_code"
-                android:textColor="#@color/common_text_blank"
+                android:textColor="@color/common_text_blank"
                 android:textSize="17sp"
                 />
 
@@ -126,7 +126,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/login_password"
-                android:textColor="#@color/common_text_blank"
+                android:textColor="@color/common_text_blank"
                 android:textSize="17sp"
                 />
 

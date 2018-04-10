@@ -342,6 +342,15 @@ public class SocializeUtil {
 //        new DialogShare().show(fragmentManager, TAG);
 //    }
 
+    /**
+     * 分享网页
+     * @param fragmentManager FragmentDialog 需要
+     * @param listener 回调
+     * @param url 分享链接
+     * @param title 标题
+     * @param content 内容
+     * @param imageUrl 图标
+     */
     public static void shareWeb(FragmentManager fragmentManager, ShareListener listener,
                                 String url, String title, String content, String imageUrl) {
         shareListener = listener;

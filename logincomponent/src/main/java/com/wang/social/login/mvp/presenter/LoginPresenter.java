@@ -1,6 +1,5 @@
 package com.wang.social.login.mvp.presenter;
 
-import com.frame.utils.ToastUtil;
 import com.wang.social.login.mvp.contract.LoginContract;
 import com.wang.social.login.mvp.model.entities.LoginInfo;
 import com.frame.di.scope.ActivityScope;
@@ -10,15 +9,10 @@ import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
 import com.wang.social.socialize.SocializeUtil;
 
-import java.sql.Time;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
@@ -219,19 +213,14 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
     }
 
     // 第三方登录回调
-    private SocializeUtil.ThirdPartyLoginListener thirdPartyLoginListener = new SocializeUtil.ThirdPartyLoginListener() {
+    private SocializeUtil.LoginListener loginListener = new SocializeUtil.LoginListener() {
         @Override
         public void onStart(int platform) {
             mRootView.showLoading();
         }
 
         @Override
-        public void onComplete(int platform, Map<String, String> data) {
-
-        }
-
-        @Override
-        public void onComplete(int platform, String uid, String nickname, int sex, String headUrl) {
+        public void onComplete(int platform, Map<String, String> data, String uid, String nickname, int sex, String headUrl) {
             Timber.i(
                     String.format(
                             "授权成功 : %d %s %s %s %d \n %s",
@@ -255,21 +244,21 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
      * 微信登录
      */
     public void wxLogin() {
-        SocializeUtil.wxLogin(mRootView.getActivity(), thirdPartyLoginListener);
+        SocializeUtil.wxLogin(mRootView.getActivity(), loginListener);
     }
 
     /**
      * QQ登录
      */
     public void qqLogin() {
-        SocializeUtil.qqLogin(mRootView.getActivity(), thirdPartyLoginListener);
+        SocializeUtil.qqLogin(mRootView.getActivity(), loginListener);
     }
 
     /**
      * 新浪微博登录
      */
     public void sinaLogin() {
-        SocializeUtil.sinaLogin(mRootView.getActivity(), thirdPartyLoginListener);
+        SocializeUtil.sinaLogin(mRootView.getActivity(), loginListener);
     }
 
     @Override
