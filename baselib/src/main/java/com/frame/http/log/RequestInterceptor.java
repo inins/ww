@@ -79,7 +79,7 @@ public class RequestInterceptor implements Interceptor {
 
         boolean logRequest = printLevel == Level.ALL || (printLevel != Level.NONE && printLevel == Level.REQUEST);
 
-        if (logRequest) {
+        if (logRequest && !isImage(request.body().contentType())) {
             //打印请求信息
             if (request.body() != null && isParseable(request.body().contentType())) {
                 mPrinter.printJsonRequest(request, parseParams(request));
@@ -104,11 +104,11 @@ public class RequestInterceptor implements Interceptor {
 
         //打印响应结果
         String bodyString = null;
-        if (responseBody != null /*&& isParseable(responseBody.contentType())*/) {
+        if (responseBody != null && !isImage(responseBody.contentType())/*&& isParseable(responseBody.contentType())*/) {
             bodyString = printResult(request, originalResponse, logResponse);
         }
 
-        if (logResponse) {
+        if (logResponse && !isImage(responseBody.contentType())) {
             final List<String> segmentList = request.url().encodedPathSegments();
             final String header = originalResponse.headers().toString();
             final int code = originalResponse.code();
@@ -224,6 +224,11 @@ public class RequestInterceptor implements Interceptor {
         return isText(mediaType) || isPlain(mediaType)
                 || isJson(mediaType) || isForm(mediaType)
                 || isHtml(mediaType) || isXml(mediaType);
+    }
+
+    public static boolean isImage(MediaType mediaType){
+        if (mediaType == null || mediaType.type() == null) return false;
+        return mediaType.type().equals("image");
     }
 
     public static boolean isText(MediaType mediaType) {
