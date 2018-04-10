@@ -111,6 +111,11 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
         }
     };
 
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
     private TagAdapter.TagClickListener tagClickListener = new TagAdapter.TagClickListener() {
         @Override
         public void onTagClick(Tag tag) {

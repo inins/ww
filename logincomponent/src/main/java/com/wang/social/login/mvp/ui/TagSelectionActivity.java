@@ -90,6 +90,11 @@ public class TagSelectionActivity extends BaseActivity<TagSelectionPresenter> im
         refreshCountTV();
     }
 
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
     /**
      * 选中数量格文字式化
      */
@@ -160,7 +165,7 @@ public class TagSelectionActivity extends BaseActivity<TagSelectionPresenter> im
         // 这里不需要parentId，所以传入-1
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R2.id.content_layout, TagListFragment.newInstance(-1, mPresenter.getSelectedList()))
+                .add(R2.id.content_layout, TagListFragment.newDeleteMode(-1, mPresenter.getSelectedList()))
                 .commit();
     }
 

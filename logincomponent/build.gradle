@@ -39,14 +39,14 @@ android {
         debug {
             keyAlias 'dongdong'
             keyPassword '123456'
-            storeFile file('D:/项目/JKS/dongdongkey.jks')
+            storeFile file('../dongdongkey.jks')
             storePassword '123456'
         }
 
         release {
             keyAlias 'dongdong'
             keyPassword '123456'
-            storeFile file('D:/项目/JKS/dongdongkey.jks')
+            storeFile file('../dongdongkey.jks')
             storePassword '123456'
         }
     }
