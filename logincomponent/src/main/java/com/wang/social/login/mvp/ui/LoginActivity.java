@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.frame.base.BaseActivity;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.path.HomePath;
 import com.frame.component.router.ui.UIRouter;
 import com.frame.component.ui.base.BaseAppActivity;
@@ -422,7 +423,8 @@ public class LoginActivity extends BaseAppActivity<LoginPresenter> implements Lo
     @Override
     public void gotoMainPage() {
         // 路由跳转
-        UIRouter.getInstance().openUri(this, HomePath.HOME_URL, null);
+//        UIRouter.getInstance().openUri(this, HomePath.HOME_URL, null);
+        CommonHelper.HomeHelper.startHomeActivity(this);
         finish();
     }
 

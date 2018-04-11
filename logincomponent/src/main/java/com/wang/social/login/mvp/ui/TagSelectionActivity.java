@@ -14,12 +14,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.frame.base.BaseActivity;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.path.HomePath;
 import com.frame.component.router.ui.UIRouter;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
+import com.frame.integration.ActivityLifecycle;
+import com.frame.integration.AppManager;
 import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.ToastUtil;
 import com.wang.social.login.R;
@@ -32,10 +35,14 @@ import com.wang.social.login.mvp.model.entities.dto.Tags;
 import com.wang.social.login.mvp.presenter.TagSelectionPresenter;
 import com.wang.social.login.mvp.ui.widget.TagListFragment;
 import com.wang.social.login.utils.Keys;
+import com.wang.social.socialize.app.AppLifecycleImpl;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -112,6 +119,9 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
     String mode = MODE_SELECTION;
     // 是否是从登录页面跳转过来的
     boolean fromLogin = false;
+
+    @Inject
+    AppManager appManager;
 
     /**
      * 选中数量文字初始化
@@ -369,8 +379,6 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
         if (fromLogin) {
             // 如果是从登录页面跳转过来的，则需要跳转到首页
             gotoMainPage();
-
-            finish();
         } else {
             finish();
         }
@@ -382,8 +390,11 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
     private void gotoMainPage() {
         // 跳转到首页
         // 路由跳转
-        UIRouter.getInstance().openUri(this, HomePath.HOME_URL, null);
+//        UIRouter.getInstance().openUri(this, HomePath.HOME_URL, null);
+        CommonHelper.HomeHelper.startHomeActivity(this);
         finish();
+
+        appManager.killActivity(TagSelectionActivity.class);
     }
 
     /**
