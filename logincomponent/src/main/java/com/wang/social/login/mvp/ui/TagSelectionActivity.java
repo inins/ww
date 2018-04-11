@@ -326,10 +326,8 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
         }
 
         Tag tag;
-
-        if (event.get(Keys.EVENTBUS_TAG_DELETE) instanceof Tag) {
-            tag = (Tag) event.get(Keys.EVENTBUS_TAG_DELETE);
-            mPresenter.unselectTag(tag);
+        if (event.get(Keys.EVENTBUS_TAG_ENTITY) instanceof Tag) {
+            tag = (Tag) event.get(Keys.EVENTBUS_TAG_ENTITY);
         } else {
             throw new ClassCastException("EventBus 返回数据类型不符，需要 Tag");
         }
