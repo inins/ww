@@ -12,9 +12,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.frame.base.BaseActivity;
+import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
+import com.frame.utils.ToastUtil;
 import com.wang.social.login.R;
 import com.wang.social.login.R2;
 import com.wang.social.login.di.component.DaggerTagSelectionComponent;
@@ -32,7 +34,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import timber.log.Timber;
 
-public class TagSelectionActivity extends BaseActivity<TagSelectionPresenter> implements
+public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter> implements
         TagSelectionContract.View {
     public final static String NAME_MODE = "NAME_MODE";
     public final static String NAME_SELECTED_LIST = "NAME_SELECTED_LIST";
@@ -209,17 +211,17 @@ public class TagSelectionActivity extends BaseActivity<TagSelectionPresenter> im
 
     @Override
     public void showToast(String msg) {
-
+        ToastUtil.showToastLong(msg);
     }
 
     @Override
     public void showLoading() {
-
+        showLoadingDialog();
     }
 
     @Override
     public void hideLoading() {
-
+        dismissLoadingDialog();
     }
 
     @OnClick(R2.id.selected_count_layout)
@@ -300,5 +302,13 @@ public class TagSelectionActivity extends BaseActivity<TagSelectionPresenter> im
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    /**
+     * 退出
+     * 如果是从登录过来的，则需要跳转到首页，否则直接返回
+     */
+    private void quit() {
+
     }
 }

@@ -3,6 +3,7 @@ package com.wang.social.login.mvp.model.entities;
 
 import com.frame.component.entities.User;
 import com.frame.http.api.BaseJson;
+import com.wang.social.login.mvp.model.entities.dto.Tags;
 
 import lombok.Data;
 
@@ -15,6 +16,7 @@ import lombok.Data;
  */
 @Data
 public class LoginInfo {
-    private String token;
-    private User userInfo;
+    String token;
+    User userInfo;
+    Tags userTags;
 }

@@ -10,12 +10,4 @@ import lombok.Data;
 @Data
 public class Tags {
     List<Tag> list = new ArrayList<>();
-
-    public List<Tag> getList() {
-        return list;
-    }
-
-    public void setList(List<Tag> list) {
-        this.list = list;
-    }
 }
