@@ -322,6 +322,9 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(TIMMessageLocator messageLocator) {
+        if (mAdapter == null) {
+            return;
+        }
         for (UIMessage uiMessage : mAdapter.getData()) {
             TIMMessageExt messageExt = new TIMMessageExt(uiMessage.getTimMessage());
             if (messageExt.checkEquals(messageLocator)) {

@@ -1,8 +1,6 @@
-
 //apply plugin: 'com.android.application'
 apply plugin: 'com.android.library'
-//apply plugin: 'com.jakewharton.butterknife'
-
+apply plugin: 'com.jakewharton.butterknife'
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
@@ -13,10 +11,6 @@ android {
     }
 
     defaultConfig {
-//        if(project.isRunAlone){
-//            applicationId "com.dongdongkeji.wangwangsocial"
-//        }
-
         minSdkVersion rootProject.ext.android["minSdkVersion"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
         versionCode rootProject.ext.android["versionCode"]
@@ -35,19 +29,8 @@ android {
             debug {
                 buildConfigField "boolean", "LOG_DEBUG", "true"
                 buildConfigField "boolean", "USE_CANARY", "true"
-                buildConfigField "String", "APP_DOMAIN", "\"http://frogking.top:8080/\""
                 minifyEnabled false
                 proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            }
-        }
-
-        sourceSets {
-            main {
-                manifest.srcFile 'src/main/runalone/AndroidManifest.xml'
-                java.srcDirs = ['src/main/java', 'src/main/runalone/java']
-                res.srcDirs = ['src/main/res', 'src/main/runalone/res']
-                assets.srcDirs = ['src/main/assets', 'src/main/runalone/assets']
-                jniLibs.srcDirs = ['src/main/jniLibs', 'src/main/runalone/jniLibs']
             }
         }
     }
