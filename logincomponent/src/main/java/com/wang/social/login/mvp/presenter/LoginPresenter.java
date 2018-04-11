@@ -1,5 +1,7 @@
 package com.wang.social.login.mvp.presenter;
 
+import com.frame.component.helper.AppDataHelper;
+import com.frame.component.router.ui.UIRouter;
 import com.wang.social.login.mvp.contract.LoginContract;
 import com.wang.social.login.mvp.model.entities.LoginInfo;
 import com.frame.di.scope.ActivityScope;
@@ -49,6 +51,12 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
 
                     @Override
                     public void onNext(LoginInfo loginInfo) {
+                        // 保存数据
+                        AppDataHelper.saveToken(loginInfo.getToken());
+                        AppDataHelper.saveUser(loginInfo.getUserInfo());
+
+                        // 路由跳转
+//                        UIRouter.getInstance().openUri(mRootView.getActivity(), HomePath.HOME_URL, null);
                     }
 
 
