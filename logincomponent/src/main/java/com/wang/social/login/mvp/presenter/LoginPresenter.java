@@ -86,7 +86,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
         if (loginInfo.getUserTags() == null ||
                 loginInfo.getUserTags().getList().size() <= 0) {
             // 跳转到标签选择页面
-            TagSelectionActivity.startSelection(mRootView.getActivity());
+            TagSelectionActivity.startSelectionFromLogin(mRootView.getActivity());
             mRootView.getActivity().finish();
         } else {
             // 跳转到首页
@@ -138,6 +138,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
 
                     @Override
                     public void onNext(LoginInfo loginInfo) {
+                        doLoginSuccess(loginInfo);
                     }
 
 
@@ -161,9 +162,9 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
 
     /**
      * 注册
-     * @param mobile
-     * @param code
-     * @param password
+     * @param mobile 手机号码
+     * @param code 短信验证码
+     * @param password 设置的密码
      */
     public void register(String mobile, String code, String password) {
         mApiHelper.execute(mRootView,

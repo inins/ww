@@ -199,7 +199,7 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
 
     @Override
     public void onCommonEvent(EventBean event) {
-        Timber.i("EventBuss 事件通知");
+//        Timber.i("EventBuss 事件通知");
         switch (event.getEvent()) {
             case EventBean.EVENTBUS_TAG_DELETE:
                 if (event.get(Keys.EVENTBUS_TAG_DELETE) instanceof Tag) {

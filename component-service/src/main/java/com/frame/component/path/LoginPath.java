@@ -13,9 +13,14 @@ public interface LoginPath extends BasePath{
 
     //登陆页面
     String LOGIN_PATH = "login";
-    //标签选择页面
-    String TAG_PATH = "tag_select";
-
     String LOGIN_URL = SCHEME + HOST + LOGIN_PATH;
-    String TAG_URL = SCHEME + HOST + TAG_PATH;
+    // 标签选择
+    String LOGIN_TAG_SELECTION = "login_tag_selection";
+    String LOGIN_TAG_SELECTION_URL = SCHEME + HOST + LOGIN_TAG_SELECTION;
+    // 手机绑定
+    String LOGIN_BIND_PHONE = "login_bind_phone";
+    String LOGIN_BIND_PHONE_URL = SCHEME + HOST + LOGIN_BIND_PHONE;
+    // 修改/重置密码
+    String LOGIN_RESET_PASSWORD = "login_reset_password";
+    String LOGIN_RESET_PASSWORD_URL = SCHEME + HOST + LOGIN_RESET_PASSWORD;
 }

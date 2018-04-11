@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.frame.base.BaseActivity;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
+import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.ToastUtil;
 import com.wang.social.login.R;
 import com.wang.social.login.R2;
@@ -26,6 +27,7 @@ import com.wang.social.login.utils.ViewUtils;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+@RouteNode(path = "/login_bind_phone", desc = "手机绑定")
 public class BindPhoneActivity extends BaseActivity<BindPhonePresenter> implements
     BindPhoneContract.View {
 
@@ -33,7 +35,6 @@ public class BindPhoneActivity extends BaseActivity<BindPhonePresenter> implemen
         Intent intent = new Intent(context, BindPhoneActivity.class);
         context.startActivity(intent);
     }
-
 
     @BindView(R2.id.toolbar)
     SocialToolbar toolbar;
