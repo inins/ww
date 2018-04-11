@@ -15,6 +15,7 @@ import com.frame.base.BaseActivity;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
+import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.ToastUtil;
 import com.wang.social.login.R;
 import com.wang.social.login.R2;
@@ -32,6 +33,7 @@ import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import timber.log.Timber;
 
+@RouteNode(path = "/login_reset_password", desc = "修改/重置密码")
 public class ResetPasswordActivity extends BaseAppActivity<ResetPasswordPresenter> implements ResetPasswordContract.View {
 
     public static void start(Context context, String mobile, String verifyCode) {
