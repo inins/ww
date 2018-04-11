@@ -2,24 +2,18 @@ package com.wang.social.personal.mvp.ui.dialog;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.frame.component.view.DatePicker;
+import com.frame.component.ui.dialog.BaseDialog;
 import com.frame.component.view.WheelPicker;
-import com.frame.utils.TimeUtils;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
 import com.wang.social.personal.data.db.AddressDataBaseManager;
 import com.wang.social.personal.mvp.entities.City;
 import com.wang.social.personal.mvp.entities.Province;
 
-import java.text.FieldPosition;
-import java.text.Format;
-import java.text.ParsePosition;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -81,18 +75,18 @@ public class DialogAddressPicker extends BaseDialog implements View.OnClickListe
 
     @OnClick({R2.id.btn_dialog_date_cancel, R2.id.btn_dialog_date_decide})
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R2.id.btn_dialog_date_cancel:
-                dismiss();
-                break;
-            case R2.id.btn_dialog_date_decide:
-                if (onAddressSelectListener != null) {
-                    Province province = wheel_province.getSelectData();
-                    City city = wheel_city.getSelectData();
-                    onAddressSelectListener.onAddressSelect(province, city);
-                }
-                dismiss();
-                break;
+        int i = view.getId();
+        if (i == R.id.btn_dialog_date_cancel) {
+            dismiss();
+
+        } else if (i == R.id.btn_dialog_date_decide) {
+            if (onAddressSelectListener != null) {
+                Province province = wheel_province.getSelectData();
+                City city = wheel_city.getSelectData();
+                onAddressSelectListener.onAddressSelect(province, city);
+            }
+            dismiss();
+
         }
     }
 

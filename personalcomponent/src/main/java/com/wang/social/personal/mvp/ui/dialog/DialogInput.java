@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
-import com.wang.social.personal.utils.viewutils.EditTextUtil;
+import com.frame.component.utils.viewutils.EditTextUtil;
 
 import butterknife.BindView;
 

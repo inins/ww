@@ -1,21 +1,16 @@
 package com.wang.social.personal.mvp.ui.dialog;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.frame.component.ui.dialog.BaseDialog;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 
 /**
@@ -60,22 +55,22 @@ public class DialogBottomPhoto extends BaseDialog implements View.OnClickListene
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R2.id.btn_pic:
-                if (onPhotoListener != null) onPhotoListener.onPicClick(view);
-                dismiss();
-                break;
-            case R2.id.btn_camera:
-                if (onPhotoListener != null) onPhotoListener.onCameraClick(view);
-                dismiss();
-                break;
-            case R2.id.btn_photo:
-                if (onPhotoListener != null) onPhotoListener.onPhotoClick(view);
-                dismiss();
-                break;
-            case R2.id.btn_cancel:
-                dismiss();
-                break;
+        int i = view.getId();
+        if (i == R.id.btn_pic) {
+            if (onPhotoListener != null) onPhotoListener.onPicClick(view);
+            dismiss();
+
+        } else if (i == R.id.btn_camera) {
+            if (onPhotoListener != null) onPhotoListener.onCameraClick(view);
+            dismiss();
+
+        } else if (i == R.id.btn_photo) {
+            if (onPhotoListener != null) onPhotoListener.onPhotoClick(view);
+            dismiss();
+
+        } else if (i == R.id.btn_cancel) {
+            dismiss();
+
         }
     }
 

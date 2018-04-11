@@ -1,15 +1,14 @@
-package com.wang.social.personal.mvp.ui.dialog;
+package com.frame.component.ui.dialog;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.wang.social.personal.R;
-import com.wang.social.personal.R2;
-import com.wang.social.personal.helper.DelayHelper;
+import com.frame.component.service.R;
+import com.frame.component.service.R2;
 
 import butterknife.BindView;
 
@@ -42,7 +41,7 @@ public class DialogLoading extends BaseDialog {
 
     @Override
     protected int getView() {
-        return R.layout.personal_dialog_loading;
+        return R.layout.dialog_loading;
     }
 
     @Override

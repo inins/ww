@@ -1,21 +1,13 @@
 package com.wang.social.personal.mvp.ui.dialog;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.TextView;
 
+import com.frame.component.ui.dialog.BaseDialog;
 import com.frame.component.view.DatePicker;
 import com.frame.utils.StrUtil;
 import com.frame.utils.TimeUtils;
@@ -72,23 +64,23 @@ public class DialogDatePicker extends BaseDialog implements View.OnClickListener
 
     @OnClick({R2.id.btn_dialog_date_cancel, R2.id.btn_dialog_date_decide})
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R2.id.btn_dialog_date_cancel:
-                dismiss();
-                break;
-            case R2.id.btn_dialog_date_decide:
-                if (mOnDateChooseListener != null) {
-                    NumberFormat numberFormat = NumberFormat.getNumberInstance();
-                    numberFormat.setMinimumIntegerDigits(2);
-                    int year = mDatePicker.getYear();
-                    int month = mDatePicker.getMonth();
-                    int day = mDatePicker.getDay();
-                    String astro = text_astro.getText().toString();
-                    String showDate = year + "-" + numberFormat.format(month) + "-" + numberFormat.format(day);
-                    mOnDateChooseListener.onDateChoose(year, month, day, astro, showDate);
-                }
-                dismiss();
-                break;
+        int i = view.getId();
+        if (i == R.id.btn_dialog_date_cancel) {
+            dismiss();
+
+        } else if (i == R.id.btn_dialog_date_decide) {
+            if (mOnDateChooseListener != null) {
+                NumberFormat numberFormat = NumberFormat.getNumberInstance();
+                numberFormat.setMinimumIntegerDigits(2);
+                int year = mDatePicker.getYear();
+                int month = mDatePicker.getMonth();
+                int day = mDatePicker.getDay();
+                String astro = text_astro.getText().toString();
+                String showDate = year + "-" + numberFormat.format(month) + "-" + numberFormat.format(day);
+                mOnDateChooseListener.onDateChoose(year, month, day, astro, showDate);
+            }
+            dismiss();
+
         }
     }
 

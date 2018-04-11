@@ -1,20 +1,16 @@
 package com.wang.social.personal.mvp.ui.dialog;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.frame.component.ui.dialog.BaseDialog;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 
 /**
@@ -54,16 +50,16 @@ public class DialogBottomGender extends BaseDialog implements View.OnClickListen
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R2.id.btn_m:
-                if (onGenderSelectListener != null) onGenderSelectListener.onGenderSelect("男");
-                break;
-            case R2.id.btn_fm:
-                if (onGenderSelectListener != null) onGenderSelectListener.onGenderSelect("女");
-                break;
-            case R2.id.btn_cancel:
-                dismiss();
-                break;
+        int i = view.getId();
+        if (i == R.id.btn_m) {
+            if (onGenderSelectListener != null) onGenderSelectListener.onGenderSelect("男");
+
+        } else if (i == R.id.btn_fm) {
+            if (onGenderSelectListener != null) onGenderSelectListener.onGenderSelect("女");
+
+        } else if (i == R.id.btn_cancel) {
+            dismiss();
+
         }
     }
 

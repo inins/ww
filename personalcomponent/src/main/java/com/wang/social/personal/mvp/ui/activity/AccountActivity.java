@@ -8,11 +8,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
-import com.frame.component.api.CommonService;
 import com.frame.component.common.AppConstant;
-import com.frame.component.entities.QiNiu;
-import com.frame.component.entities.dto.QiNiuDTO;
 import com.frame.component.ui.acticity.WebActivity;
+import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.di.component.AppComponent;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
@@ -32,13 +30,10 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class AccountActivity extends BasicAppActivity implements IView {
@@ -72,25 +67,25 @@ public class AccountActivity extends BasicAppActivity implements IView {
     }
 
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R2.id.btn_right:
-                AccountDepositDetailActivity.start(this);
-                break;
-            case R2.id.btn_question:
-                WebActivity.start(this, AppConstant.Url.commonProblem);
-                break;
-            case R2.id.btn_exchange_stone:
-                AccountExchangeActivity.start(this);
-                break;
-            case R2.id.btn_about_stone:
-                DialogNoticeStone.newDialog(this).show();
-                break;
-            case R2.id.btn_recharge:
-                AccountRechargeActivity.start(this);
-                break;
-            case R2.id.btn_deposit:
-                AccountDepositActivity.start(this);
-                break;
+        int i = v.getId();
+        if (i == R.id.btn_right) {
+            AccountDepositDetailActivity.start(this);
+
+        } else if (i == R.id.btn_question) {
+            WebActivity.start(this, AppConstant.Url.commonProblem);
+
+        } else if (i == R.id.btn_exchange_stone) {
+            AccountExchangeActivity.start(this);
+
+        } else if (i == R.id.btn_about_stone) {
+            DialogNoticeStone.newDialog(this).show();
+
+        } else if (i == R.id.btn_recharge) {
+            AccountRechargeActivity.start(this);
+
+        } else if (i == R.id.btn_deposit) {
+            AccountDepositActivity.start(this);
+
         }
     }
 

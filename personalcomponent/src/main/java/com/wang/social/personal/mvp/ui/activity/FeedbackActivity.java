@@ -5,18 +5,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.frame.base.BasicActivity;
 import com.frame.component.common.AppConstant;
 import com.frame.component.helper.QiNiuManager;
 import com.frame.component.ui.acticity.WebActivity;
+import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.component.utils.ListUtil;
 import com.frame.di.component.AppComponent;
 import com.frame.http.api.BaseJson;
@@ -28,8 +25,6 @@ import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.IView;
 import com.frame.utils.StrUtil;
 import com.frame.utils.ToastUtil;
-import com.liaoinstan.springview.widget.SpringView;
-import com.qiniu.android.utils.StringUtils;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
 import com.wang.social.personal.common.SimpleTextWatcher;
@@ -38,11 +33,9 @@ import com.wang.social.personal.helper.AppValiHelper;
 import com.wang.social.personal.helper.MyApiHelper;
 import com.wang.social.personal.helper.PhotoHelper;
 import com.wang.social.personal.helper.PhotoHelperEx;
-import com.wang.social.personal.mvp.entities.photo.Photo;
 import com.wang.social.personal.mvp.model.api.UserService;
 import com.wang.social.personal.mvp.ui.view.bundleimgview.BundleImgEntity;
 import com.wang.social.personal.mvp.ui.view.bundleimgview.BundleImgView;
-import com.wang.social.personal.net.helper.NetPhotoHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,8 +43,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import retrofit2.http.Field;
 
 public class FeedbackActivity extends BasicAppActivity implements PhotoHelper.OnPhotoCallback, IView {
 
@@ -120,20 +111,20 @@ public class FeedbackActivity extends BasicAppActivity implements PhotoHelper.On
     }
 
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R2.id.btn_right:
-                String suggest = editSuggest.getText().toString();
-                String phone = editPhone.getText().toString();
-                String msg = AppValiHelper.feedback(phone, suggest);
-                if (msg != null) {
-                    ToastUtil.showToastLong(msg);
-                } else {
-                    netUploadCommit(phone, suggest);
-                }
-                break;
-            case R2.id.btn_question:
-                WebActivity.start(this, AppConstant.Url.proposal);
-                break;
+        int i = v.getId();
+        if (i == R.id.btn_right) {
+            String suggest = editSuggest.getText().toString();
+            String phone = editPhone.getText().toString();
+            String msg = AppValiHelper.feedback(phone, suggest);
+            if (msg != null) {
+                ToastUtil.showToastLong(msg);
+            } else {
+                netUploadCommit(phone, suggest);
+            }
+
+        } else if (i == R.id.btn_question) {
+            WebActivity.start(this, AppConstant.Url.proposal);
+
         }
     }
 

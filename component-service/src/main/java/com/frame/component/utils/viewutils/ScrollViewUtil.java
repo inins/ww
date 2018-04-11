@@ -1,4 +1,4 @@
-package com.wang.social.personal.utils.viewutils;
+package com.frame.component.utils.viewutils;
 
 import android.support.v4.widget.NestedScrollView;
 import android.view.View;

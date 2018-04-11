@@ -30,10 +30,10 @@ public class AccountDepositActivity extends BasicActivity {
     }
 
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R2.id.btn_right:
-                AccountDepositRecordActivity.start(this);
-                break;
+        int i = v.getId();
+        if (i == R.id.btn_right) {
+            AccountDepositRecordActivity.start(this);
+
         }
     }
 
