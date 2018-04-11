@@ -22,13 +22,19 @@
             android:value="ConfigModule" />
         <!-- ********* -->
 
-        <activity android:name=".mvp.ui.activity.LoadupActivity">
+
+        <!--启动页（广告页）-->
+        <activity
+            android:name=".mvp.ui.activity.LoadupActivity"
+            android:theme="@style/common_AppTheme.NoTitleFullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!--首页-->
         <activity
             android:name=".mvp.ui.activity.MainActivity"
             android:launchMode="singleTask" />

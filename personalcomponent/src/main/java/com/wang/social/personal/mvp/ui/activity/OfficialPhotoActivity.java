@@ -24,7 +24,7 @@ import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
 import com.wang.social.personal.common.GridSpacingItemDecoration;
 import com.wang.social.personal.di.component.DaggerSingleActivityComponent;
-import com.wang.social.personal.helper.MyApiHelper;
+import com.frame.http.api.ApiHelperEx;
 import com.wang.social.personal.mvp.base.BaseListWrap;
 import com.wang.social.personal.mvp.entities.photo.OffiPic;
 import com.wang.social.personal.mvp.entities.photo.Photo;
@@ -111,7 +111,7 @@ public class OfficialPhotoActivity extends BasicAppActivity implements IView, Ba
     //////////////  网络请求  /////////////////
 
     private void netGetPhotoList() {
-        MyApiHelper.execute(this, true,
+        ApiHelperEx.execute(this, true,
                 mRepositoryManager.obtainRetrofitService(UserService.class).getOfficialPhotoList(1),
                 new ErrorHandleSubscriber<BaseJson<BaseListWrap<OffiPic>>>(mErrorHandler) {
                     @Override

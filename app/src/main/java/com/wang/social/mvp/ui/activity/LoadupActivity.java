@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.widget.RadioGroup;
 
+import com.frame.component.helper.AppDataHelper;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
@@ -27,7 +29,11 @@ public class LoadupActivity extends BasicAppActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                MainActivity.start(LoadupActivity.this);
+                if (CommonHelper.LoginHelper.isLogin()) {
+                    MainActivity.start(LoadupActivity.this);
+                } else {
+                    CommonHelper.LoginHelper.startLoginActivity(LoadupActivity.this);
+                }
                 finish();
             }
         }, 2000);

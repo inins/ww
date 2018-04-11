@@ -1,10 +1,7 @@
-package com.wang.social.personal.helper;
+package com.frame.http.api;
 
-import com.frame.http.api.BaseJson;
-import com.frame.http.api.Mapper;
 import com.frame.mvp.IView;
 import com.frame.utils.RxLifecycleUtils;
-import com.frame.utils.ToastUtil;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -12,17 +9,24 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
-public class MyApiHelper {
+/**
+ * Created by liaointan
+ *
+ * 对{@link ApiHelper}的拓展
+ * 提供自动的loading接口调用
+ * 允许IView为null，允许不进行lifecycle绑定
+ * 不对接口entity进行DTO转换，如需要自行在回调中处理
+ */
+public class ApiHelperEx {
 
     /**
      * 基于Rxjava 调用API 帮助类方法，bindView,doOnSubscribe,doFinally均可以为空
      * bindView 为null 则不绑定生命周期
      * doOnSubscribe,doFinally 为null 则不会执行
      */
-    public static <T> void execute(IView bindView, Observable<T> observable, Observer<T> observer, Consumer<Disposable> doOnSubscribe, Action doFinally) {
+    private static <T> void execute(IView bindView, Observable<T> observable, Observer<T> observer, Consumer<Disposable> doOnSubscribe, Action doFinally) {
         observable = observable.subscribeOn(Schedulers.io());
         if (bindView != null) {
             observable = observable.compose(RxLifecycleUtils.bindToLifecycle(bindView));

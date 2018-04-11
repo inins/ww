@@ -11,14 +11,12 @@ import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
-import com.frame.utils.RxLifecycleUtils;
 import com.frame.utils.ToastUtil;
 import com.frame.component.common.NetParam;
-import com.wang.social.personal.helper.MyApiHelper;
+import com.frame.http.api.ApiHelperEx;
 import com.wang.social.personal.mvp.contract.MeDetailContract;
 import com.wang.social.personal.mvp.entities.CommonEntity;
 import com.wang.social.personal.mvp.entities.photo.Photo;
-import com.wang.social.personal.mvp.model.api.UserService;
 import com.wang.social.personal.net.helper.NetPhotoHelper;
 
 import org.greenrobot.eventbus.EventBus;
@@ -27,12 +25,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2018/4/3.
@@ -98,7 +90,7 @@ public class MeDetailPresonter extends BasePresenter<MeDetailContract.Model, MeD
                 .put("province", province)
                 .put("city", city)
                 .build();
-        MyApiHelper.execute(mRootView, true,
+        ApiHelperEx.execute(mRootView, true,
                 mModel.updateUserInfo(map),
                 new ErrorHandleSubscriber<BaseJson<CommonEntity>>(mErrorHandler) {
                     @Override

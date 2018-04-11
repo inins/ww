@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.frame.component.entities.User;
 import com.frame.component.helper.AppDataHelper;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
@@ -64,8 +65,12 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
     ImageLoader mImageLoader;
 
     public static void start(Context context) {
-        Intent intent = new Intent(context, MeDetailActivity.class);
-        context.startActivity(intent);
+        if (CommonHelper.LoginHelper.isLogin()) {
+            Intent intent = new Intent(context, MeDetailActivity.class);
+            context.startActivity(intent);
+        } else {
+            CommonHelper.LoginHelper.startLoginActivity(context);
+        }
     }
 
     @Override
@@ -80,7 +85,7 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
 
     @Override
     public void onCommonEvent(EventBean event) {
-        switch (event.getEvent()){
+        switch (event.getEvent()) {
             case EventBean.EVENT_MEPHOTO_CHANGE:
                 mPresenter.getPhotoList();
                 break;

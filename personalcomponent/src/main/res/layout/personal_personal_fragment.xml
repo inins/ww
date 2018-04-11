@@ -82,7 +82,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:text="白无常白先生"
+                        android:hint="请登录"
                         android:textColor="@color/common_text_blank"
                         android:textSize="20sp" />
 

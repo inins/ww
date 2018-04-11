@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import com.frame.base.delegate.IActivity;
 import com.frame.component.service.AutowiredService;
@@ -43,6 +44,10 @@ public abstract class BasicActivity extends AppCompatActivity implements IActivi
     private Cache<String, Object> mCache;
     private Unbinder mUnbinder;
 
+    //是否支持双击退出（默认否）
+    private boolean needDoubleClickExit = false;
+    private long exitTime;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +70,25 @@ public abstract class BasicActivity extends AppCompatActivity implements IActivi
 
     //这个方法在initData前执行，用于在设置数据前进行一些必要的初始化
     protected void beforeInitData() {
+    }
+
+    @Override
+    public void onBackPressed() {
+        //双击退出
+        if (needDoubleClickExit) {
+            if ((System.currentTimeMillis() - exitTime) > 2000) {
+                Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                super.finish();
+            }
+        }else {
+            super.onBackPressed();
+        }
+    }
+
+    public void setNeedDoubleClickExit(boolean needDoubleClickExit) {
+        this.needDoubleClickExit = needDoubleClickExit;
     }
 
     @Override

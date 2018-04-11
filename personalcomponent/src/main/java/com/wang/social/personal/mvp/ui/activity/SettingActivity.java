@@ -10,14 +10,18 @@ import android.view.View;
 import com.frame.base.BaseActivity;
 import com.frame.base.BasicActivity;
 import com.frame.component.helper.AppDataHelper;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.path.HomePath;
 import com.frame.component.path.LoginPath;
 import com.frame.component.router.ui.UIRouter;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
 import com.wang.social.personal.mvp.ui.dialog.DialogBottomThirdLoginBind;
 import com.wang.social.personal.mvp.ui.dialog.DialogSure;
+
+import org.greenrobot.eventbus.EventBus;
 
 public class SettingActivity extends BasicActivity {
 
@@ -26,6 +30,19 @@ public class SettingActivity extends BasicActivity {
         context.startActivity(intent);
     }
 
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        switch (event.getEvent()) {
+            case EventBean.EVENT_LOGOUT:
+                finish();
+                break;
+        }
+    }
 
     @Override
     public int initView(@NonNull Bundle savedInstanceState) {
@@ -58,8 +75,9 @@ public class SettingActivity extends BasicActivity {
             DialogSure.showDialog(this, "确定要退出登录？", () -> {
                 AppDataHelper.removeToken();
                 AppDataHelper.removeUser();
-                UIRouter.getInstance().openUri(SettingActivity.this, LoginPath.LOGIN_URL, null);
-                finish();
+//                UIRouter.getInstance().openUri(SettingActivity.this, LoginPath.LOGIN_URL, null);
+                CommonHelper.LoginHelper.startLoginActivity(SettingActivity.this);
+                EventBus.getDefault().post(new EventBean(EventBean.EVENT_LOGOUT));
             });
         }
     }

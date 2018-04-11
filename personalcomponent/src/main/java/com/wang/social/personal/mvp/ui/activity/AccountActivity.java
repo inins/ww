@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.frame.component.common.AppConstant;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.ui.acticity.WebActivity;
 import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.di.component.AppComponent;
@@ -51,8 +52,12 @@ public class AccountActivity extends BasicAppActivity implements IView {
     TextView textCoulduse;
 
     public static void start(Context context) {
-        Intent intent = new Intent(context, AccountActivity.class);
-        context.startActivity(intent);
+        if (CommonHelper.LoginHelper.isLogin()) {
+            Intent intent = new Intent(context, AccountActivity.class);
+            context.startActivity(intent);
+        } else {
+            CommonHelper.LoginHelper.startLoginActivity(context);
+        }
     }
 
     @Override
