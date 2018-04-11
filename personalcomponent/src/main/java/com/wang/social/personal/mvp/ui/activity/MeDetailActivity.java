@@ -156,31 +156,31 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
     }
 
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R2.id.lay_header:
-                photoHelper.showDefaultDialog();
-                break;
-            case R2.id.lay_name:
-                dialogInputName.setText(textName.getText().toString());
-                dialogInputName.show();
-                break;
-            case R2.id.lay_gender:
-                dialogGender.show();
-                break;
-            case R2.id.lay_old:
-                dialogDate.setDate(textOld.getText().toString());
-                dialogDate.show();
-                break;
-            case R2.id.lay_address:
-                dialogAddress.show();
-                break;
-            case R2.id.lay_photo:
-                MePhotoActivity.start(this);
-                break;
-            case R2.id.lay_sign:
-                dialogInputSign.setText(textSign.getText().toString());
-                dialogInputSign.show();
-                break;
+        int i = v.getId();
+        if (i == R.id.lay_header) {
+            photoHelper.showDefaultDialog();
+
+        } else if (i == R.id.lay_name) {
+            dialogInputName.setText(textName.getText().toString());
+            dialogInputName.show();
+
+        } else if (i == R.id.lay_gender) {
+            dialogGender.show();
+
+        } else if (i == R.id.lay_old) {
+            dialogDate.setDate(textOld.getText().toString());
+            dialogDate.show();
+
+        } else if (i == R.id.lay_address) {
+            dialogAddress.show();
+
+        } else if (i == R.id.lay_photo) {
+            MePhotoActivity.start(this);
+
+        } else if (i == R.id.lay_sign) {
+            dialogInputSign.setText(textSign.getText().toString());
+            dialogInputSign.show();
+
         }
     }
 

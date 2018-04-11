@@ -72,25 +72,25 @@ public class AccountActivity extends BasicAppActivity implements IView {
     }
 
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R2.id.btn_right:
-                AccountDepositDetailActivity.start(this);
-                break;
-            case R2.id.btn_question:
-                WebActivity.start(this, AppConstant.Url.commonProblem);
-                break;
-            case R2.id.btn_exchange_stone:
-                AccountExchangeActivity.start(this);
-                break;
-            case R2.id.btn_about_stone:
-                DialogNoticeStone.newDialog(this).show();
-                break;
-            case R2.id.btn_recharge:
-                AccountRechargeActivity.start(this);
-                break;
-            case R2.id.btn_deposit:
-                AccountDepositActivity.start(this);
-                break;
+        int i = v.getId();
+        if (i == R.id.btn_right) {
+            AccountDepositDetailActivity.start(this);
+
+        } else if (i == R.id.btn_question) {
+            WebActivity.start(this, AppConstant.Url.commonProblem);
+
+        } else if (i == R.id.btn_exchange_stone) {
+            AccountExchangeActivity.start(this);
+
+        } else if (i == R.id.btn_about_stone) {
+            DialogNoticeStone.newDialog(this).show();
+
+        } else if (i == R.id.btn_recharge) {
+            AccountRechargeActivity.start(this);
+
+        } else if (i == R.id.btn_deposit) {
+            AccountDepositActivity.start(this);
+
         }
     }
 

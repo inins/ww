@@ -155,6 +155,16 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mConversation = null;
+        mConversationType = null;
+        mAdapter = null;
+        mLayoutManager = null;
+        mTargetId = null;
+    }
+
+    @Override
     public void showLoading() {
 
     }
@@ -270,9 +280,9 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
 
     @Override
     public void onContentLongClick(View view, UIMessage uiMessage, int position) {
-        boolean showTop = true;
-        if (position <= mLayoutManager.findFirstVisibleItemPosition() + 1) {
-            showTop = false;
+        boolean showTop = false;
+        if (position > mLayoutManager.findFirstVisibleItemPosition()) {
+            showTop = true;
         }
         MessageHandlePopup handlePopup = new MessageHandlePopup(mActivity, uiMessage.getTimMessage().isSelf(), uiMessage, showTop);
         handlePopup.setHandleListener(new MessageHandlePopup.OnHandleListener() {
@@ -289,7 +299,7 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
 
         int y = 0;
         if (showTop) {
-            y = -(view.getHeight() + SizeUtils.dp2px(23));
+            y = -(view.getHeight() + SizeUtils.dp2px(18));
         }
         int x = view.getWidth() / 2;
         if (uiMessage.getTimMessage().isSelf()) {
@@ -317,8 +327,7 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
             if (messageExt.checkEquals(messageLocator)) {
                 //执行删除消息
                 mPresenter.deleteMessage(uiMessage);
-                mAdapter.notifyDataSetChanged();
-
+                mPresenter.addRevokeNotifyMsg(uiMessage, false);
                 break;
             }
         }

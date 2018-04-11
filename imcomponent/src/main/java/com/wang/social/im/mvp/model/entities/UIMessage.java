@@ -71,9 +71,7 @@ public class UIMessage {
                 try {
                     String dataJson = new String(customElem.getData(), "UTF-8");
 
-                    JSONObject jsonObject = new JSONObject(dataJson);
-                    String type = jsonObject.getString("type");
-                    CustomElemType elemType = CustomElemType.valueOf(type);
+                    CustomElemType elemType = CustomElemType.getElemType(customElem);
                     if (elemType == CustomElemType.ANONYMITY) {
                         messageScope = MessageScope.ANONYMITY;
                         carryUserInfo = new Gson().fromJson(dataJson, CarryUserInfo.class);
@@ -84,8 +82,6 @@ public class UIMessage {
                         break;
                     }
                 } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
@@ -115,24 +111,13 @@ public class UIMessage {
                 messageType = MessageType.NOTIFY;
                 break;
             } else if (elem.getType() == TIMElemType.Custom) {
-                try {
-                    TIMCustomElem customElem = (TIMCustomElem) elem;
-                    String dataJson = new String(customElem.getData(), "UTF-8");
-
-                    JSONObject jsonObject = new JSONObject(dataJson);
-                    String type = jsonObject.getString("type");
-                    CustomElemType elemType = CustomElemType.valueOf(type);
-                    if (elemType == CustomElemType.RED_ENVELOP) {
-                        messageType = MessageType.RED_ENVELOP;
-                    } else if (elemType == CustomElemType.REVOKE) {
-                        messageType = MessageType.NOTIFY;
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
+                TIMCustomElem customElem = (TIMCustomElem) elem;
+                CustomElemType elemType = CustomElemType.getElemType(customElem);
+                if (elemType == CustomElemType.RED_ENVELOP) {
+                    messageType = MessageType.RED_ENVELOP;
+                } else if (elemType == CustomElemType.REVOKE) {
+                    messageType = MessageType.NOTIFY;
                 }
-
             }
         }
     }

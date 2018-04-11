@@ -4,28 +4,39 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
+import android.widget.RadioGroup;
 
-import com.frame.base.BaseActivity;
 import com.frame.base.BasicActivity;
-import com.frame.component.router.Router;
-import com.frame.component.service.personal.PersonalService;
+import com.frame.component.view.UnScrollViewPager;
 import com.frame.di.component.AppComponent;
 import com.frame.router.facade.annotation.RouteNode;
+import com.frame.utils.StatusBarUtil;
 import com.wang.social.R;
+import com.wang.social.mvp.ui.adapter.PagerAdapterHome;
+
+import butterknife.BindView;
 
 @RouteNode(path = "/main", desc = "首页")
-public class MainActivity extends BasicActivity {
+public class MainActivity extends BasicActivity implements RadioGroup.OnCheckedChangeListener {
 
-    private Fragment fragment;
+    @BindView(R.id.group_tab)
+    RadioGroup groupTab;
+    @BindView(R.id.pager)
+    ViewPager pager;
+
+    private PagerAdapterHome pagerAdapter;
+    private int[] tabsId = new int[]{R.id.tab_1, R.id.tab_2, R.id.tab_3, R.id.tab_4};
+
+    @Override
+    public boolean useFragment() {
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public void setupActivityComponent(@NonNull AppComponent appComponent) {
-
+        StatusBarUtil.setStatusBarColor(this, R.color.common_blue_deep);
     }
 
     @Override
@@ -35,17 +46,23 @@ public class MainActivity extends BasicActivity {
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();;
-        if (fragment != null){
-            transaction.remove(fragment).commit();
-            fragment = null;
+        groupTab.setOnCheckedChangeListener(this);
+        pagerAdapter = new PagerAdapterHome(getSupportFragmentManager());
+        pager.setOffscreenPageLimit(4);
+        pager.setAdapter(pagerAdapter);
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
+        for (int i = 0; i < tabsId.length; i++) {
+            if (tabsId[i] == checkedId) {
+                pager.setCurrentItem(i, false);
+            }
         }
-        Router router = Router.getInstance();
-        PersonalService personalService = (PersonalService) router.getService(PersonalService.class.getName());
-        if (personalService != null){
-             fragment = personalService.getPersonalFragment();
-             transaction.add(R.id.fragment, fragment, fragment.getClass().getName());
-             transaction.commitAllowingStateLoss();
-        }
+    }
+
+    @Override
+    public void setupActivityComponent(@NonNull AppComponent appComponent) {
+
     }
 }

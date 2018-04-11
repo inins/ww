@@ -80,9 +80,8 @@ public class QrcodeActivity extends BasicAppActivity implements IView {
     }
 
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R2.id.btn_qs:
-                break;
+        int i = v.getId();
+        if (i == R.id.btn_qs) {
         }
     }
 

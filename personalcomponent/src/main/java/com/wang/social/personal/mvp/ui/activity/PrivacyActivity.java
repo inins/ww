@@ -30,19 +30,19 @@ public class PrivacyActivity extends BasicActivity {
     }
 
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R2.id.btn_friend:
-                PrivacyShowListActivity.start(this);
-                break;
-            case R2.id.btn_ql:
-                PrivacyShowListActivity.start(this);
-                break;
-            case R2.id.btn_qs:
-                PrivacyShowListActivity.start(this);
-                break;
-            case R2.id.btn_topic:
-                PrivacyShowListActivity.start(this);
-                break;
+        int i = v.getId();
+        if (i == R.id.btn_friend) {
+            PrivacyShowListActivity.start(this);
+
+        } else if (i == R.id.btn_ql) {
+            PrivacyShowListActivity.start(this);
+
+        } else if (i == R.id.btn_qs) {
+            PrivacyShowListActivity.start(this);
+
+        } else if (i == R.id.btn_topic) {
+            PrivacyShowListActivity.start(this);
+
         }
     }
 

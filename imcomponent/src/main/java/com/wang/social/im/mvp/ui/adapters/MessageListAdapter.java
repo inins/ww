@@ -11,6 +11,7 @@ import com.wang.social.im.mvp.model.entities.UIMessage;
 import com.wang.social.im.enums.ConversationType;
 import com.wang.social.im.mvp.ui.adapters.holders.BaseMessageViewHolder;
 import com.wang.social.im.mvp.ui.adapters.holders.ImageViewHolder;
+import com.wang.social.im.mvp.ui.adapters.holders.NotifyViewHolder;
 import com.wang.social.im.mvp.ui.adapters.holders.TextViewHolder;
 
 import lombok.Setter;
@@ -69,7 +70,7 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
                 viewHolder = new ImageViewHolder(context, parent, R.layout.im_item_msg_image_right);
                 break;
             case TYPE_NOTIFY:
-
+                viewHolder = new NotifyViewHolder(context, parent);
                 break;
         }
         if (viewHolder == null) {

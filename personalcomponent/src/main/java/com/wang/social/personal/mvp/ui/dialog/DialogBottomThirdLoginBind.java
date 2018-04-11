@@ -48,15 +48,13 @@ public class DialogBottomThirdLoginBind extends BaseDialog {
 
     @OnClick({R2.id.btn_weixin, R2.id.btn_weibo, R2.id.btn_qq, R2.id.btn_cancel})
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R2.id.btn_weixin:
-            case R2.id.btn_weibo:
-            case R2.id.btn_qq:
-                ToastUtil.showToastShort("建设中...");
-                break;
-            case R2.id.btn_cancel:
-                dismiss();
-                break;
+        int i = view.getId();
+        if (i == R.id.btn_weixin || i == R.id.btn_weibo || i == R.id.btn_qq) {
+            ToastUtil.showToastShort("建设中...");
+
+        } else if (i == R.id.btn_cancel) {
+            dismiss();
+
         }
     }
 }

@@ -120,20 +120,20 @@ public class FeedbackActivity extends BasicAppActivity implements PhotoHelper.On
     }
 
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R2.id.btn_right:
-                String suggest = editSuggest.getText().toString();
-                String phone = editPhone.getText().toString();
-                String msg = AppValiHelper.feedback(phone, suggest);
-                if (msg != null) {
-                    ToastUtil.showToastLong(msg);
-                } else {
-                    netUploadCommit(phone, suggest);
-                }
-                break;
-            case R2.id.btn_question:
-                WebActivity.start(this, AppConstant.Url.proposal);
-                break;
+        int i = v.getId();
+        if (i == R.id.btn_right) {
+            String suggest = editSuggest.getText().toString();
+            String phone = editPhone.getText().toString();
+            String msg = AppValiHelper.feedback(phone, suggest);
+            if (msg != null) {
+                ToastUtil.showToastLong(msg);
+            } else {
+                netUploadCommit(phone, suggest);
+            }
+
+        } else if (i == R.id.btn_question) {
+            WebActivity.start(this, AppConstant.Url.proposal);
+
         }
     }
 
