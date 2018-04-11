@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -130,7 +131,18 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
      */
     @Override
     public void refreshCountTV() {
-        selectedCountTV.setText("(" + mPresenter.getSelectedTagCount() + ")");
+        int count = mPresenter.getSelectedTagCount();
+
+        if (count > 0) {
+            selectedCountHintTV.setVisibility(View.VISIBLE);
+            selectedCountTV.setVisibility(View.VISIBLE);
+            selectedCountTV.setText("(" + mPresenter.getSelectedTagCount() + ")");
+        } else {
+            selectedCountHintTV.setVisibility(View.INVISIBLE);
+            selectedCountTV.setVisibility(View.INVISIBLE);
+        }
+
+
     }
 
     /**
