@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.frame.base.BaseActivity;
+import com.frame.component.path.HomePath;
+import com.frame.component.router.ui.UIRouter;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.utils.BarUtils;
 import com.frame.utils.ToastUtil;
@@ -402,6 +404,26 @@ public class LoginActivity extends BaseAppActivity<LoginPresenter> implements Lo
     @Override
     public Activity getActivity() {
         return this;
+    }
+
+    /**
+     * 跳转到标签选择
+     */
+    @Override
+    public void gotoTagSelection() {
+//        UIRouter.getInstance().openUri(this, HomePath.HOME_URL, null);
+        TagSelectionActivity.startSelectionFromLogin(this);
+        finish();
+    }
+
+    /**
+     * 跳转到首页
+     */
+    @Override
+    public void gotoMainPage() {
+        // 路由跳转
+        UIRouter.getInstance().openUri(this, HomePath.HOME_URL, null);
+        finish();
     }
 
 

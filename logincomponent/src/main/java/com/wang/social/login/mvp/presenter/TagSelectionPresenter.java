@@ -39,7 +39,7 @@ public class TagSelectionPresenter extends
      * 编辑推荐标签
      */
     public void updateRecommendTag() {
-        mApiHelper.execute(mRootView,
+        mApiHelper.executeNone(mRootView,
                 mModel.updateRecommendTag(selectedList),
                 new ErrorHandleSubscriber(mErrorHandler) {
                     @Override

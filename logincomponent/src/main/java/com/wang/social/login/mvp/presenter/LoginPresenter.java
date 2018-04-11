@@ -1,6 +1,7 @@
 package com.wang.social.login.mvp.presenter;
 
 import com.frame.component.helper.AppDataHelper;
+import com.frame.component.path.HomePath;
 import com.frame.component.router.ui.UIRouter;
 import com.wang.social.login.mvp.contract.LoginContract;
 import com.wang.social.login.mvp.model.entities.LoginInfo;
@@ -86,12 +87,10 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
         if (loginInfo.getUserTags() == null ||
                 loginInfo.getUserTags().getList().size() <= 0) {
             // 跳转到标签选择页面
-            TagSelectionActivity.startSelectionFromLogin(mRootView.getActivity());
-            mRootView.getActivity().finish();
+            mRootView.gotoTagSelection();
         } else {
             // 跳转到首页
-            // 路由跳转
-//                            UIRouter.getInstance().openUri(mRootView.getActivity(), HomePath.HOME_URL, null);
+            mRootView.gotoMainPage();
         }
     }
 
@@ -174,7 +173,9 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
                     @Override
                     public void onNext(Object o) {
                         // 提示注册成功
-                        mRootView.showToast("注册成功");
+                        // 跳转到标签选择页面
+                        TagSelectionActivity.startSelectionFromLogin(mRootView.getActivity());
+                        mRootView.getActivity().finish();
                     }
 
                     @Override
