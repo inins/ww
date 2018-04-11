@@ -15,6 +15,8 @@ import android.widget.TextView;
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.beloo.widget.chipslayoutmanager.SpacingItemDecoration;
 import com.frame.base.BaseAdapter;
+import com.frame.component.path.LoginPath;
+import com.frame.component.router.ui.UIRouter;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.di.component.AppComponent;
 import com.frame.http.api.error.RxErrorHandler;
@@ -135,7 +137,8 @@ public class LableActivity extends BaseAppActivity<LablePresonter> implements La
                 adapter_me.setDeleteEnable(false);
                 adapter_me.notifyDataSetChanged();
             }
-
+        } else if (i == R.id.btn_add) {
+            UIRouter.getInstance().openUri(this, LoginPath.TAG_URL, null);
         }
     }
 

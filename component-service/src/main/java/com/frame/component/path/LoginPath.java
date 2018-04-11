@@ -13,5 +13,9 @@ public interface LoginPath extends BasePath{
 
     //登陆页面
     String LOGIN_PATH = "login";
+    //标签选择页面
+    String TAG_PATH = "tag_select";
+
     String LOGIN_URL = SCHEME + HOST + LOGIN_PATH;
+    String TAG_URL = SCHEME + HOST + TAG_PATH;
 }

@@ -11,6 +11,7 @@ import com.frame.base.BasicActivity;
 import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.component.view.UnScrollViewPager;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
 import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.StatusBarUtil;
 import com.wang.social.R;
@@ -32,6 +33,18 @@ public class MainActivity extends BasicAppActivity implements RadioGroup.OnCheck
     @Override
     public boolean useFragment() {
         return true;
+    }
+
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        switch (event.getEvent()){
+//            case EventBean
+        }
     }
 
     @Override

@@ -15,6 +15,7 @@ import com.frame.base.BaseActivity;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
+import com.frame.router.facade.annotation.RouteNode;
 import com.wang.social.login.R;
 import com.wang.social.login.R2;
 import com.wang.social.login.di.component.DaggerTagSelectionComponent;
@@ -32,6 +33,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import timber.log.Timber;
 
+@RouteNode(path = "/tag_select", desc = "标签选择页")
 public class TagSelectionActivity extends BaseActivity<TagSelectionPresenter> implements
         TagSelectionContract.View {
     public final static String NAME_MODE = "NAME_MODE";
