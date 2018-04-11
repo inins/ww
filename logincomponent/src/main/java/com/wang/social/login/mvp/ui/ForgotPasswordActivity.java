@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.frame.base.BaseActivity;
 import com.frame.base.BasicActivity;
 import com.frame.component.router.Router;
+import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.router.facade.annotation.RouteNode;
@@ -29,7 +30,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 @RouteNode(path = "/forgotPassword", desc = "忘记密码")
-public class ForgotPasswordActivity extends BaseActivity<ForgotPasswordPresenter> implements
+public class ForgotPasswordActivity extends BaseAppActivity<ForgotPasswordPresenter> implements
     ForgotPasswordContract.View {
 
     public static void start(Context context) {
@@ -110,14 +111,16 @@ public class ForgotPasswordActivity extends BaseActivity<ForgotPasswordPresenter
 //        finish();
     }
 
-    private DialogFragmentLoading mLoadingDialog;
+//    private DialogFragmentLoading mLoadingDialog;
     @Override
     public void showLoading() {
-        mLoadingDialog = DialogFragmentLoading.showDialog(getSupportFragmentManager(), TAG);
+//        mLoadingDialog = DialogFragmentLoading.showDialog(getSupportFragmentManager(), TAG);
+        showLoadingDialog();
     }
 
     @Override
     public void hideLoading() {
-        mLoadingDialog.dismiss();
+//        mLoadingDialog.dismiss();
+        dismissLoadingDialog();
     }
 }

@@ -28,8 +28,6 @@ import java.util.List;
  */
 
 public class VerificationCodeInput extends LinearLayout implements TextWatcher, View.OnKeyListener {
-    private static final String TAG = "VerificationCodeInput";
-
     // 几个输入框
     private int boxCount = 4;
     // 输入框宽高
@@ -79,6 +77,7 @@ public class VerificationCodeInput extends LinearLayout implements TextWatcher, 
             // 输入框
             EditText editText = new EditText(getContext());
             editText.setGravity(Gravity.CENTER);
+            editText.setCursorVisible(false);
 
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                     LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);

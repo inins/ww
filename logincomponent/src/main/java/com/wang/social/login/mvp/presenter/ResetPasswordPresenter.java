@@ -40,7 +40,7 @@ public class ResetPasswordPresenter extends
                     @Override
                     public void onNext(Object o) {
                         // 提示成功
-                        mRootView.showToast(o.toString());
+//                        mRootView.showToast(o.toString());
                     }
 
                     @Override
@@ -70,7 +70,7 @@ public class ResetPasswordPresenter extends
                     @Override
                     public void onNext(Object o) {
                         // 提示成功
-                        mRootView.showToast(o.toString());
+//                        mRootView.showToast(o.toString());
                     }
 
                     @Override

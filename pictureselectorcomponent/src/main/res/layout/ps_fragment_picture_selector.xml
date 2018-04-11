@@ -2,12 +2,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#FFFFFF">
 
     <RelativeLayout
         android:id="@+id/top_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <com.frame.component.view.SocialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:toolbar_left_icon="@drawable/ps_close_btn"/>
 
         <android.support.v7.widget.AppCompatSpinner
             android:id="@+id/spinner"
@@ -21,8 +28,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="确定"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            android:textColor="@color/common_colorAccent"
+            android:textSize="14sp"
+            android:background="@android:color/transparent"/>
 
     </RelativeLayout>
 
