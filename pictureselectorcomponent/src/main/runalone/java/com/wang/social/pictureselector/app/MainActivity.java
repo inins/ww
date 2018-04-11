@@ -15,6 +15,7 @@ import com.wang.social.pictureselector.ActivityPictureClip;
 import com.wang.social.pictureselector.ActivityPicturePreview;
 import com.wang.social.pictureselector.PictureSelector;
 import com.wang.social.pictureselector.R;
+import com.wang.social.pictureselector.ui.widget.DialogActionSheet;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -40,6 +41,33 @@ public class MainActivity extends AppCompatActivity {
 
         singleBtn = findViewById(R.id.start_image_selector);
         singleBtn.setOnClickListener(buttonListener);
+
+        findViewById(R.id.pop_dialog_btn)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        DialogActionSheet.newInstance()
+                                .addItem("官方图库", new DialogActionSheet.ClickListener() {
+                                    @Override
+                                    public void onClick(DialogActionSheet dialog, View v) {
+
+                                    }
+                                })
+                                .addItem("拍摄", new DialogActionSheet.ClickListener() {
+                                    @Override
+                                    public void onClick(DialogActionSheet dialog, View v) {
+
+                                    }
+                                })
+                                .addItem("相册", new DialogActionSheet.ClickListener() {
+                                    @Override
+                                    public void onClick(DialogActionSheet dialog, View v) {
+
+                                    }
+                                })
+                                .show(getSupportFragmentManager(), "");
+                    }
+                });
     }
 
     private View.OnClickListener buttonListener = new View.OnClickListener() {

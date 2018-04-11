@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.frame.base.BaseActivity;
+import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.utils.BarUtils;
 import com.frame.utils.ToastUtil;
 import com.umeng.socialize.UMShareAPI;
@@ -35,7 +36,7 @@ import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 @RouteNode(path = "/login", desc = "登陆页")
-public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginContract.View {
+public class LoginActivity extends BaseAppActivity<LoginPresenter> implements LoginContract.View {
 
     public final static String NAME_LAUNCH_MODE = "NAME_LAUNCH_MODE";
     public final static String LAUNCH_MODE_PASSWORD_LOGIN = "MODE_PASSWORD_LOGIN";
@@ -80,7 +81,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     String launchMode = LAUNCH_MODE_PASSWORD_LOGIN;
 
-    private DialogFragmentLoading mDialogLoading;
+//    private DialogFragmentLoading mDialogLoading;
 
 
     @Override
@@ -142,7 +143,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             loginTV.setText(getString(R.string.login_register));
             passwordET.setHint(R.string.login_password_set_hint);
             switchLoginRegisterTV.setText(getString(R.string.login_go_to_login));
-            rootView.setBackground(getResources().getDrawable(R.drawable.bg));
+            rootView.setBackground(getResources().getDrawable(R.drawable.login_bg));
         }
 
         ViewUtils.controlKeyboardLayout(rootView, loginTV);
@@ -378,12 +379,14 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void showLoading() {
-        mDialogLoading = DialogFragmentLoading.showDialog(getSupportFragmentManager(), TAG);
+//        mDialogLoading = DialogFragmentLoading.showDialog(getSupportFragmentManager(), TAG);
+        showLoadingDialog();
     }
 
     @Override
     public void hideLoading() {
-        mDialogLoading.dismiss();
+//        mDialogLoading.dismiss();
+        dismissLoadingDialog();
     }
 
     @Override

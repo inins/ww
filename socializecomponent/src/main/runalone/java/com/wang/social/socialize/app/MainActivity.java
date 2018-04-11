@@ -63,6 +63,59 @@ public class MainActivity extends BasicActivity {
             }
         });
 
+        Button shareBtn = findViewById(R.id.share_btn);
+        shareBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                SocializeUtil.share(getSupportFragmentManager(), shareListener);
+                SocializeUtil.shareWeb(getSupportFragmentManager(),
+                        shareListener,
+                        "http://www.wangsocial.com/",
+                        "往往",
+                        "有点2的社交软件",
+                        "http://resouce.dongdongwedding.com/activity_cashcow_moneyTree.png");
+            }
+        });
+
+        findViewById(R.id.wx_share_btn)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        SocializeUtil.umShare(MainActivity.this, SocializeUtil.SHARE_PLATFORM_WX);
+                    }
+                });
+
+        findViewById(R.id.wx_circle_share_btn)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        SocializeUtil.umShare(MainActivity.this, SocializeUtil.SHARE_PLATFORM_WX_CIRCLE);
+                    }
+                });
+
+        findViewById(R.id.qq_share_btn)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        SocializeUtil.umShare(MainActivity.this, SocializeUtil.SHARE_PLATFORM_QQ);
+                    }
+                });
+
+        findViewById(R.id.qq_zone_share_btn)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        SocializeUtil.umShare(MainActivity.this, SocializeUtil.SHARE_PLATFORM_QQ_ZONE);
+                    }
+                });
+
+        findViewById(R.id.sina_share_btn)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        SocializeUtil.umShare(MainActivity.this, SocializeUtil.SHARE_PLATFORM_SINA_WEIBO);
+                    }
+                });
     }
 
     @Override
@@ -71,20 +124,36 @@ public class MainActivity extends BasicActivity {
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 
+    private SocializeUtil.ShareListener shareListener = new SocializeUtil.ShareListener() {
+        @Override
+        public void onStart(int platform) {
 
-    private SocializeUtil.ThirdPartyLoginListener thirdPartyLoginListener = new SocializeUtil.ThirdPartyLoginListener() {
+        }
+
+        @Override
+        public void onResult(int platform) {
+
+        }
+
+        @Override
+        public void onError(int platform, Throwable t) {
+
+        }
+
+        @Override
+        public void onCancel(int platform) {
+
+        }
+    };
+
+    private SocializeUtil.LoginListener loginListener = new SocializeUtil.LoginListener() {
         @Override
         public void onStart(int type) {
             Timber.i("onStart");
         }
 
         @Override
-        public void onComplete(int type, Map<String, String> data) {
-            Timber.i("onComplete");
-        }
-
-        @Override
-        public void onComplete(int type, String uid, String name, int gender, String iconUrl) {
+        public void onComplete(int type, Map<String, String> data, String uid, String name, int gender, String iconUrl) {
             Timber.i("onComplete");
             Timber.i(String.format("%s \n %s \n %s \n %d \n %s", getLoginTypeName(type), uid, name, gender, iconUrl));
         }
@@ -114,15 +183,15 @@ public class MainActivity extends BasicActivity {
     }
 
     private void wxLogin() {
-        SocializeUtil.wxLogin(this, thirdPartyLoginListener);
+        SocializeUtil.wxLogin(this, loginListener);
     }
 
     private void qqLogin() {
-        SocializeUtil.qqLogin(this, thirdPartyLoginListener);
+        SocializeUtil.qqLogin(this, loginListener);
     }
 
     private void sinaLogin() {
-        SocializeUtil.sinaLogin(this, thirdPartyLoginListener);
+        SocializeUtil.sinaLogin(this, loginListener);
     }
 
     @Override

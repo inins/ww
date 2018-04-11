@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="16dp"
-    app:cardElevation="10dp"
-    app:cardBackgroundColor="#FFFFFF">
+    android:background="@drawable/login_frame_bg">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,9 +27,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/login_phone_number"
-            android:textColor="#ff434343"
+            android:textColor="@color/common_text_blank"
             android:textSize="17sp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="20dp"
             />
 
         <EditText
@@ -46,7 +43,7 @@
             android:paddingTop="7dp"
             android:paddingBottom="7dp"
             android:background="@drawable/login_login_edit_text_bg"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="22dp"
             style="@style/login_phoneInputStyle"/>
 
 
@@ -61,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/login_verify_code"
-                android:textColor="#ff434343"
+                android:textColor="@color/common_text_blank"
                 android:textSize="17sp"
                 />
 
@@ -126,7 +123,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/login_password"
-                android:textColor="#ff434343"
+                android:textColor="@color/common_text_blank"
                 android:textSize="17sp"
                 />
 
@@ -207,7 +204,7 @@
             android:orientation="vertical"
             android:gravity="center_horizontal"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="24dp">
+            android:layout_marginTop="20dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -241,7 +238,7 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="11dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginStart="50dp"
                 android:layout_marginEnd="50dp">
@@ -275,4 +272,4 @@
     </LinearLayout>
 
 
-</android.support.v7.widget.CardView>
+</FrameLayout>

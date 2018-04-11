@@ -42,7 +42,7 @@ public class TagSelectionPresenter extends
                 new ErrorHandleSubscriber(mErrorHandler) {
                     @Override
                     public void onNext(Object o) {
-                        mRootView.showToast(o.toString());
+//                        mRootView.showToast(o.toString());
                     }
 
                     @Override

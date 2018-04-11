@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 
+import com.frame.component.view.SocialToolbar;
 import com.wang.social.pictureselector.ActivityPictureClip;
 import com.wang.social.pictureselector.PictureSelector;
 import com.wang.social.pictureselector.R;
@@ -55,6 +56,7 @@ public class FragmentPictureSelector extends Fragment {
     ThumbnailAdapter thumbnailAdapter;
 
     Button confirmBtn;
+    SocialToolbar toolbar;
 
     // 文件夹数据加载监听
     private IControllerListener albumControllerListener = new IControllerListener() {
@@ -127,7 +129,8 @@ public class FragmentPictureSelector extends Fragment {
                 } else {
                     // 超出图片数量
                     Toast.makeText(getActivity(),
-                            "最多选择 " + SelectorSpec.getInstance().getMaxSelection() + "张图片",
+                            String.format(getString(R.string.ps_max_prompt),
+                                    SelectorSpec.getInstance().getMaxSelection()),
                             Toast.LENGTH_SHORT)
                             .show();
                 }
@@ -136,7 +139,7 @@ public class FragmentPictureSelector extends Fragment {
             // 选中列表里有数据确认按钮才能点击
             if (selectedList.size() > 0) {
                 confirmBtn.setEnabled(true);
-                confirmBtn.setText("确定 (" + selectedList.size() + ")");
+                confirmBtn.setText(getString(R.string.ps_confirm) +" (" + selectedList.size() + ")");
             } else {
                 confirmBtn.setEnabled(false);
             }
@@ -159,6 +162,17 @@ public class FragmentPictureSelector extends Fragment {
 
         appCompatSpinner = rootView.findViewById(R.id.spinner);
         recyclerView = rootView.findViewById(R.id.recycler_view);
+
+        // toolbar 左边图标退出
+        toolbar = rootView.findViewById(R.id.toolbar);
+        toolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
+            @Override
+            public void onButtonClick(SocialToolbar.ClickType clickType) {
+                if (clickType == SocialToolbar.ClickType.LEFT_ICON) {
+                    getActivity().finish();
+                }
+            }
+        });
 
         confirmBtn = rootView.findViewById(R.id.confirm_btn);
         // 确定按钮

@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.frame.base.BaseActivity;
+import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.utils.ToastUtil;
@@ -31,7 +32,7 @@ import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import timber.log.Timber;
 
-public class ResetPasswordActivity extends BaseActivity<ResetPasswordPresenter> implements ResetPasswordContract.View {
+public class ResetPasswordActivity extends BaseAppActivity<ResetPasswordPresenter> implements ResetPasswordContract.View {
 
     public static void start(Context context, String mobile, String verifyCode) {
         Intent intent = new Intent(context, ResetPasswordActivity.class);
@@ -151,15 +152,16 @@ public class ResetPasswordActivity extends BaseActivity<ResetPasswordPresenter> 
     }
 
 
-
-    private DialogFragmentLoading mLoadingDialog;
+    //    private DialogFragmentLoading mLoadingDialog;
     @Override
     public void showLoading() {
-        mLoadingDialog = DialogFragmentLoading.showDialog(getSupportFragmentManager(), TAG);
+//        mLoadingDialog = DialogFragmentLoading.showDialog(getSupportFragmentManager(), TAG);
+        showLoadingDialog();
     }
 
     @Override
     public void hideLoading() {
-        mLoadingDialog.dismiss();
+//        mLoadingDialog.dismiss();
+        dismissLoadingDialog();
     }
 }
