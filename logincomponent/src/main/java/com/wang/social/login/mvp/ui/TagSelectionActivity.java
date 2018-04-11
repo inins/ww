@@ -95,8 +95,8 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
      * @param context      context
      * @param selectedList 已选列表
      */
-    public static void startConfirm(Context context, ArrayList<Tag> selectedList) {
-        start(context, MODE_CONFIRM, selectedList, false);
+    public static void startConfirm(Context context, ArrayList<Tag> selectedList, boolean fromLogin) {
+        start(context, MODE_CONFIRM, selectedList, fromLogin);
     }
 
     @BindView(R2.id.toolbar)
@@ -298,8 +298,7 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
             case MODE_SELECTION:
                 // 标签选择模式
                 // 跳转到兴趣大杂烩
-                Timber.i("click --------------------------");
-                startConfirm(TagSelectionActivity.this, mPresenter.getSelectedList());
+                startConfirm(TagSelectionActivity.this, mPresenter.getSelectedList(), fromLogin);
                 break;
             case MODE_CONFIRM:
                 // 兴趣大杂烩
@@ -391,7 +390,11 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
         // 跳转到首页
         // 路由跳转
 //        UIRouter.getInstance().openUri(this, HomePath.HOME_URL, null);
-        CommonHelper.HomeHelper.startHomeActivity(this);
+        if (fromLogin) {
+            CommonHelper.HomeHelper.startHomeActivity(this);
+        }
+
+
         finish();
 
         appManager.killActivity(TagSelectionActivity.class);

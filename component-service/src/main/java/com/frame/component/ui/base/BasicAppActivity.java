@@ -48,6 +48,21 @@ public abstract class BasicAppActivity extends BasicActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private boolean isResume = false;
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        isResume = true;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        isResume = false;
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -55,15 +70,19 @@ public abstract class BasicAppActivity extends BasicActivity {
     }
 
     public final void showLoadingDialog() {
+        if (!isResume) return;
+
         if (dialogLoading.get() == null) dialogLoading = new WeakReference(new DialogLoading(this));
         dialogLoading.get().show();
     }
 
     public final void dismissLoadingDialog() {
+        if (!isResume) return;
         if (dialogLoading.get() != null) dialogLoading.get().dismiss();
     }
 
     public final void hideLoadingDialog() {
+        if (!isResume) return;
         if (dialogLoading.get() != null) dialogLoading.get().hide();
     }
 }
