@@ -122,7 +122,7 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
             boolean selected = mPresenter.tagClick(tag);
 
             EventBean bean = new EventBean(selected ? EventBean.EVENTBUS_TAG_SELECTED : EventBean.EVENTBUS_TAG_UNSELECT);
-            bean.put(selected ? Keys.EVENTBUS_TAG_SELECTED : Keys.EVENTBUS_TAG_UNSELECT, tag);
+            bean.put(Keys.EVENTBUS_TAG_ENTITY, tag);
             EventBus.getDefault().post(bean);
         }
 
@@ -132,7 +132,7 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
             mPresenter.removeTag(tag);
 
             EventBean bean = new EventBean(EventBean.EVENTBUS_TAG_DELETE);
-            bean.put(Keys.EVENTBUS_TAG_DELETE, tag);
+            bean.put(Keys.EVENTBUS_TAG_ENTITY, tag);
             EventBus.getDefault().post(bean);
         }
     };
