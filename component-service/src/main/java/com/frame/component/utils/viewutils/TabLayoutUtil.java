@@ -1,4 +1,4 @@
-package com.wang.social.personal.utils.viewutils;
+package com.frame.component.utils.viewutils;
 
 import android.support.design.widget.TabLayout;
 import android.view.View;

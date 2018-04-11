@@ -6,10 +6,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.frame.component.helper.QiNiuManager;
+import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.http.imageloader.ImageLoader;
@@ -28,7 +28,6 @@ import com.wang.social.personal.mvp.ui.adapter.RecycleAdapterMePhoto;
 import com.wang.social.personal.mvp.ui.dialog.DialogSure;
 import com.wang.social.personal.mvp.ui.view.TitleView;
 import com.wang.social.personal.net.helper.NetPhotoHelper;
-import com.wang.social.personal.utils.viewutils.ViewUtil;
 
 import org.greenrobot.eventbus.EventBus;
 

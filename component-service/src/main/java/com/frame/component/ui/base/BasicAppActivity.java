@@ -1,23 +1,21 @@
-package com.wang.social.personal.mvp.ui.activity;
+package com.frame.component.ui.base;
 
 import android.os.Bundle;
-import android.support.v4.widget.NestedScrollView;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
-import android.widget.ScrollView;
 import android.support.v7.widget.Toolbar;
 
 import com.frame.base.BasicActivity;
-import com.wang.social.personal.mvp.ui.dialog.DialogLoading;
-import com.wang.social.personal.utils.viewutils.ViewUtil;
+import com.frame.component.ui.dialog.DialogLoading;
+import com.frame.component.utils.viewutils.ViewUtil;
 
 import java.lang.ref.WeakReference;
 
 
 /**
- * Created by liaoinstan on 2016/7/1 0001.
+ * Created by liaoinstan on
+ * 默认的对话框弹窗
+ * 提供toolbar自动设置返回事件
  */
 public abstract class BasicAppActivity extends BasicActivity {
 

@@ -4,11 +4,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.TextView;
 
+import com.frame.component.ui.dialog.BaseDialog;
 import com.wang.social.personal.R;
-
-import butterknife.BindView;
 
 /**
  * 宝石提醒弹窗

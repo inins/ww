@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.frame.component.ui.dialog.BaseDialog;
 import com.frame.utils.ToastUtil;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;

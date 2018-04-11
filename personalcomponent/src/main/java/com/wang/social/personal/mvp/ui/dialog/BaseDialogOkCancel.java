@@ -8,7 +8,7 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.frame.utils.ToastUtil;
+import com.frame.component.ui.dialog.BaseDialog;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
 

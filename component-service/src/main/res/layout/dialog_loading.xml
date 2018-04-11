@@ -3,7 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:background="@drawable/personal_shape_rect_corner_dark_trans"
+    android:background="@drawable/shape_rect_corner_dark_trans"
     android:gravity="center"
     android:minHeight="60dp"
     android:minWidth="100dp"

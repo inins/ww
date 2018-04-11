@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.di.component.AppComponent;
 import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
@@ -23,7 +24,6 @@ import com.wang.social.personal.net.helper.NetUserHelper;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class QrcodeActivity extends BasicAppActivity implements IView {
 
