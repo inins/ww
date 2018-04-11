@@ -81,18 +81,18 @@ public class DialogAddressPicker extends BaseDialog implements View.OnClickListe
 
     @OnClick({R2.id.btn_dialog_date_cancel, R2.id.btn_dialog_date_decide})
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R2.id.btn_dialog_date_cancel:
-                dismiss();
-                break;
-            case R2.id.btn_dialog_date_decide:
-                if (onAddressSelectListener != null) {
-                    Province province = wheel_province.getSelectData();
-                    City city = wheel_city.getSelectData();
-                    onAddressSelectListener.onAddressSelect(province, city);
-                }
-                dismiss();
-                break;
+        int i = view.getId();
+        if (i == R.id.btn_dialog_date_cancel) {
+            dismiss();
+
+        } else if (i == R.id.btn_dialog_date_decide) {
+            if (onAddressSelectListener != null) {
+                Province province = wheel_province.getSelectData();
+                City city = wheel_city.getSelectData();
+                onAddressSelectListener.onAddressSelect(province, city);
+            }
+            dismiss();
+
         }
     }
 

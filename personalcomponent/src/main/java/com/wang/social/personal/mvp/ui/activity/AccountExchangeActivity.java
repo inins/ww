@@ -57,9 +57,8 @@ public class AccountExchangeActivity extends BasicAppActivity implements IView {
     }
 
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R2.id.btn_right:
-                break;
+        int i = v.getId();
+        if (i == R.id.btn_right) {
         }
     }
 

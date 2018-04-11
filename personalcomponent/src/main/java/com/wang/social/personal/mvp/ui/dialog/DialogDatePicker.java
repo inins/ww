@@ -72,23 +72,23 @@ public class DialogDatePicker extends BaseDialog implements View.OnClickListener
 
     @OnClick({R2.id.btn_dialog_date_cancel, R2.id.btn_dialog_date_decide})
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R2.id.btn_dialog_date_cancel:
-                dismiss();
-                break;
-            case R2.id.btn_dialog_date_decide:
-                if (mOnDateChooseListener != null) {
-                    NumberFormat numberFormat = NumberFormat.getNumberInstance();
-                    numberFormat.setMinimumIntegerDigits(2);
-                    int year = mDatePicker.getYear();
-                    int month = mDatePicker.getMonth();
-                    int day = mDatePicker.getDay();
-                    String astro = text_astro.getText().toString();
-                    String showDate = year + "-" + numberFormat.format(month) + "-" + numberFormat.format(day);
-                    mOnDateChooseListener.onDateChoose(year, month, day, astro, showDate);
-                }
-                dismiss();
-                break;
+        int i = view.getId();
+        if (i == R.id.btn_dialog_date_cancel) {
+            dismiss();
+
+        } else if (i == R.id.btn_dialog_date_decide) {
+            if (mOnDateChooseListener != null) {
+                NumberFormat numberFormat = NumberFormat.getNumberInstance();
+                numberFormat.setMinimumIntegerDigits(2);
+                int year = mDatePicker.getYear();
+                int month = mDatePicker.getMonth();
+                int day = mDatePicker.getDay();
+                String astro = text_astro.getText().toString();
+                String showDate = year + "-" + numberFormat.format(month) + "-" + numberFormat.format(day);
+                mOnDateChooseListener.onDateChoose(year, month, day, astro, showDate);
+            }
+            dismiss();
+
         }
     }
 

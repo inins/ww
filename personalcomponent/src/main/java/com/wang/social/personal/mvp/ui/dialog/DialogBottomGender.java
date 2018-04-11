@@ -54,16 +54,16 @@ public class DialogBottomGender extends BaseDialog implements View.OnClickListen
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R2.id.btn_m:
-                if (onGenderSelectListener != null) onGenderSelectListener.onGenderSelect("男");
-                break;
-            case R2.id.btn_fm:
-                if (onGenderSelectListener != null) onGenderSelectListener.onGenderSelect("女");
-                break;
-            case R2.id.btn_cancel:
-                dismiss();
-                break;
+        int i = view.getId();
+        if (i == R.id.btn_m) {
+            if (onGenderSelectListener != null) onGenderSelectListener.onGenderSelect("男");
+
+        } else if (i == R.id.btn_fm) {
+            if (onGenderSelectListener != null) onGenderSelectListener.onGenderSelect("女");
+
+        } else if (i == R.id.btn_cancel) {
+            dismiss();
+
         }
     }
 

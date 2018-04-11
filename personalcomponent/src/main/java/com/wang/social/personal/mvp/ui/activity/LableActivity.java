@@ -119,22 +119,22 @@ public class LableActivity extends BaseAppActivity<LablePresonter> implements La
     }
 
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R2.id.btn_right:
-                if (!adapter_show.isDeleteEnable()) {
-                    btn_right.setText(getResources().getString(R.string.personal_lable_btn_right_finish));
-                    adapter_show.setDeleteEnable(true);
-                    adapter_show.notifyDataSetChanged();
-                    adapter_me.setDeleteEnable(true);
-                    adapter_me.notifyDataSetChanged();
-                } else {
-                    btn_right.setText(getResources().getString(R.string.personal_lable_btn_right_edit));
-                    adapter_show.setDeleteEnable(false);
-                    adapter_show.notifyDataSetChanged();
-                    adapter_me.setDeleteEnable(false);
-                    adapter_me.notifyDataSetChanged();
-                }
-                break;
+        int i = v.getId();
+        if (i == R.id.btn_right) {
+            if (!adapter_show.isDeleteEnable()) {
+                btn_right.setText(getResources().getString(R.string.personal_lable_btn_right_finish));
+                adapter_show.setDeleteEnable(true);
+                adapter_show.notifyDataSetChanged();
+                adapter_me.setDeleteEnable(true);
+                adapter_me.notifyDataSetChanged();
+            } else {
+                btn_right.setText(getResources().getString(R.string.personal_lable_btn_right_edit));
+                adapter_show.setDeleteEnable(false);
+                adapter_show.notifyDataSetChanged();
+                adapter_me.setDeleteEnable(false);
+                adapter_me.notifyDataSetChanged();
+            }
+
         }
     }
 
