@@ -1,5 +1,7 @@
 package com.wang.social.login.mvp.presenter;
 
+import com.frame.component.helper.AppDataHelper;
+import com.frame.component.router.ui.UIRouter;
 import com.wang.social.login.mvp.contract.LoginContract;
 import com.wang.social.login.mvp.model.entities.LoginInfo;
 import com.frame.di.scope.ActivityScope;
@@ -7,6 +9,7 @@ import com.frame.http.api.ApiHelper;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
+import com.wang.social.login.mvp.ui.TagSelectionActivity;
 import com.wang.social.socialize.SocializeUtil;
 
 import java.util.Map;
@@ -49,8 +52,8 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
 
                     @Override
                     public void onNext(LoginInfo loginInfo) {
+                        doLoginSuccess(loginInfo);
                     }
-
 
                     @Override
                     public void onError(Throwable e) {
@@ -71,6 +74,28 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
     }
 
     /**
+     * 登录成功后的操作
+     * @param loginInfo 返回的用户信息
+     */
+    private void doLoginSuccess(LoginInfo loginInfo) {
+        Timber.i("登录成功");
+        // 保存数据
+        AppDataHelper.saveToken(loginInfo.getToken());
+        AppDataHelper.saveUser(loginInfo.getUserInfo());
+
+        if (loginInfo.getUserTags() == null ||
+                loginInfo.getUserTags().getList().size() <= 0) {
+            // 跳转到标签选择页面
+            TagSelectionActivity.startSelection(mRootView.getActivity());
+            mRootView.getActivity().finish();
+        } else {
+            // 跳转到首页
+            // 路由跳转
+//                            UIRouter.getInstance().openUri(mRootView.getActivity(), HomePath.HOME_URL, null);
+        }
+    }
+
+    /**
      * 短信登录
      * @param mobile
      * @param code
@@ -82,8 +107,8 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
 
                     @Override
                     public void onNext(LoginInfo loginInfo) {
+                        doLoginSuccess(loginInfo);
                     }
-
 
                     @Override
                     public void onError(Throwable e) {

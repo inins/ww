@@ -136,6 +136,8 @@ public class TagSelectionPresenter extends
      * @param tag
      */
     public void unselectTag(Tag tag) {
+        if (null == tag) return;
+
         int i;
         boolean unselect = false;
         for (i = 0; i < selectedList.size(); i++) {
@@ -163,7 +165,7 @@ public class TagSelectionPresenter extends
 
     /**
      * 选中数量
-     * @return
+     * @return 选中数量
      */
     public int getSelectedTagCount() {
         return selectedList.size();
