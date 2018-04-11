@@ -39,6 +39,15 @@ public enum CustomElemType {
         this.value = value;
     }
 
+    public static CustomElemType getElemType(String value) {
+        for (CustomElemType elemType : values()) {
+            if (elemType.value.equals(value)){
+                return elemType;
+            }
+        }
+        throw new IllegalArgumentException("No such  type!");
+    }
+
     public String getValue() {
         return value;
     }
@@ -50,7 +59,7 @@ public enum CustomElemType {
             JSONObject jsonObject = new JSONObject(dataJson);
             if (jsonObject.has("type")) {
                 String type = jsonObject.getString("type");
-                return CustomElemType.valueOf(type);
+                return CustomElemType.getElemType(type);
             } else {
                 return null;
             }

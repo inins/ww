@@ -136,7 +136,7 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
         mConversationExt.revokeMessage(uiMessage.getTimMessage(), new TIMCallBack() {
             @Override
             public void onError(int i, String s) {
-                if (i == IMConstants.TIM_ERROR_CODE_REVOKE_TIMEOUT){
+                if (i == IMConstants.TIM_ERROR_CODE_REVOKE_TIMEOUT) {
                     ToastUtil.showToastShort(mRootView.getContext().getString(R.string.im_toast_revoke_timeout));
                 }
             }
@@ -147,7 +147,7 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
                     int position = mAdapter.findPosition(uiMessage);
                     mAdapter.removeItem(position);
                     //插入一条通知消息
-                    addRevokeNotifyMsg();
+                    addRevokeNotifyMsg(uiMessage, true);
                 }
             }
         });
@@ -167,18 +167,21 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
     /**
      * 添加一条撤回通知
      */
-    public void addRevokeNotifyMsg() {
+    public void addRevokeNotifyMsg(UIMessage uiMessage, boolean isSelf) {
         TIMMessage timMessage = new TIMMessage();
         TIMCustomElem customElem = new TIMCustomElem();
         RevokeElem revokeElem = new RevokeElem();
         revokeElem.setType(CustomElemType.REVOKE);
-        revokeElem.setSender(TIMManager.getInstance().getLoginUser());
+        if (isSelf){
+            revokeElem.setSender(TIMManager.getInstance().getLoginUser());
+        }else {
+            revokeElem.setSender(uiMessage.getTimMessage().getSender());
+        }
         customElem.setData(gson.toJson(revokeElem).getBytes());
         timMessage.addElement(customElem);
 
-        if (insertLocalMessage(timMessage) > 0){
-            mRootView.showMessage(UIMessage.obtain(timMessage));
-        }
+        insertLocalMessage(timMessage);
+        mRootView.showMessage(UIMessage.obtain(timMessage));
     }
 
     /**

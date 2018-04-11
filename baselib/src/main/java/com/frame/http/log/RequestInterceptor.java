@@ -80,11 +80,13 @@ public class RequestInterceptor implements Interceptor {
         boolean logRequest = printLevel == Level.ALL || (printLevel != Level.NONE && printLevel == Level.REQUEST);
 
         if (logRequest) {
-            //打印请求信息
-            if (request.body() != null && isParseable(request.body().contentType())) {
-                mPrinter.printJsonRequest(request, parseParams(request));
-            } else {
-                mPrinter.printFileRequest(request);
+            if (request != null && request.body() != null && !isImage(request.body().contentType())) {
+                //打印请求信息
+                if (request.body() != null && isParseable(request.body().contentType())) {
+                    mPrinter.printJsonRequest(request, parseParams(request));
+                } else {
+                    mPrinter.printFileRequest(request);
+                }
             }
         }
 
@@ -105,10 +107,12 @@ public class RequestInterceptor implements Interceptor {
         //打印响应结果
         String bodyString = null;
         if (responseBody != null /*&& isParseable(responseBody.contentType())*/) {
-            bodyString = printResult(request, originalResponse, logResponse);
+            if (!isImage(responseBody.contentType())) {
+                bodyString = printResult(request, originalResponse, logResponse);
+            }
         }
 
-        if (logResponse) {
+        if (logResponse && !isImage(responseBody.contentType())) {
             final List<String> segmentList = request.url().encodedPathSegments();
             final String header = originalResponse.headers().toString();
             final int code = originalResponse.code();
@@ -224,6 +228,11 @@ public class RequestInterceptor implements Interceptor {
         return isText(mediaType) || isPlain(mediaType)
                 || isJson(mediaType) || isForm(mediaType)
                 || isHtml(mediaType) || isXml(mediaType);
+    }
+
+    public static boolean isImage(MediaType mediaType) {
+        if (mediaType == null || mediaType.type() == null) return false;
+        return mediaType.type().equals("image");
     }
 
     public static boolean isText(MediaType mediaType) {
