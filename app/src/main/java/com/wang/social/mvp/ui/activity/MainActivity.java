@@ -1,5 +1,7 @@
-package com.wang.social.mvp.ui;
+package com.wang.social.mvp.ui.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -29,6 +31,11 @@ public class MainActivity extends BasicAppActivity implements RadioGroup.OnCheck
 
     private PagerAdapterHome pagerAdapter;
     private int[] tabsId = new int[]{R.id.tab_1, R.id.tab_2, R.id.tab_3, R.id.tab_4};
+
+    public static void start(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        context.startActivity(intent);
+    }
 
     @Override
     public boolean useFragment() {

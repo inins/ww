@@ -1,5 +1,6 @@
 package com.wang.social.personal.mvp.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,6 +20,7 @@ import com.frame.entities.EventBean;
 import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.utils.ToastUtil;
+import com.umeng.socialize.UMShareAPI;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
 import com.wang.social.personal.data.db.AddressDataBaseManager;
@@ -34,6 +36,7 @@ import com.wang.social.personal.mvp.ui.activity.MeDetailActivity;
 import com.wang.social.personal.mvp.ui.activity.QrcodeActivity;
 import com.wang.social.personal.mvp.ui.activity.SettingActivity;
 import com.wang.social.personal.net.helper.NetUserHelper;
+import com.wang.social.socialize.SocializeUtil;
 
 import javax.inject.Inject;
 
@@ -143,12 +146,23 @@ public class PersonalFragment extends BasicFragment {
         } else if (v.getId() == R.id.btn_me_feedback) {
             FeedbackActivity.start(getContext());
         } else if (v.getId() == R.id.btn_me_share) {
-
+            SocializeUtil.shareWeb(getChildFragmentManager(),
+                    null,
+                    "http://www.wangsocial.com/",
+                    "往往",
+                    "有点2的社交软件",
+                    "http://resouce.dongdongwedding.com/activity_cashcow_moneyTree.png");
         } else if (v.getId() == R.id.btn_me_about) {
             AboutActivity.start(getContext(), AppConstant.Url.wwAbout);
         } else if (v.getId() == R.id.btn_me_eva) {
             netUserHelper.loginTest();
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(getContext()).onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

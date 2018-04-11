@@ -5,7 +5,6 @@ import android.content.Intent;
 
 import com.frame.utils.ToastUtil;
 import com.wang.social.personal.mvp.ui.activity.OfficialPhotoActivity;
-import com.wang.social.pictureselector.ActivityPicturePreview;
 import com.wang.social.pictureselector.PictureSelector;
 
 public class PhotoHelper {

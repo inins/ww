@@ -5,8 +5,10 @@ import android.content.Context;
 import android.support.v4.app.FragmentManager;
 
 import com.frame.base.delegate.AppDelegate;
+import com.frame.component.api.Api;
 import com.frame.component.app.GlobalHttpHandlerImp;
 import com.frame.component.app.ResponseErrorListenerImp;
+import com.frame.component.common.AppConstant;
 import com.frame.di.module.GlobalConfigModule;
 import com.frame.http.log.RequestInterceptor;
 import com.frame.integration.ConfigModule;
@@ -31,7 +33,7 @@ public class GlobalConfiguration implements ConfigModule{
         if (!BuildConfig.LOG_DEBUG){ //release的时候不再输出网络请求日志
             builder.printHttpLogLevel(RequestInterceptor.Level.NONE);
         }
-        builder.baseUrl(BuildConfig.APP_DOMAIN)
+        builder.baseUrl(Api.DOMAIN)
                 .globalHttpHandler(new GlobalHttpHandlerImp(context))
                 .responseErrorListener(new ResponseErrorListenerImp());
     }

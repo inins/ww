@@ -22,14 +22,15 @@
             android:value="ConfigModule" />
         <!-- ********* -->
 
-        <activity
-            android:name=".mvp.ui.MainActivity"
-            android:launchMode="singleTask">
+        <activity android:name=".mvp.ui.activity.LoadupActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".mvp.ui.activity.MainActivity"
+            android:launchMode="singleTask" />
     </application>
 </manifest>

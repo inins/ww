@@ -140,7 +140,7 @@ public class DialogShare extends DialogFragment {
 
         initView(view);
 
-        Dialog dialog = new Dialog(getActivity());
+        Dialog dialog = new Dialog(getActivity(), R.style.common_PopupDialog);
         dialog.setContentView(view);
 
         // 在屏幕底部
@@ -148,8 +148,8 @@ public class DialogShare extends DialogFragment {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         dialog.setCancelable(false);
-        // 点击外部不消失
-        dialog.setCanceledOnTouchOutside(false);
+        // 点击外部消失
+        dialog.setCanceledOnTouchOutside(true);
 
         return dialog;
     }

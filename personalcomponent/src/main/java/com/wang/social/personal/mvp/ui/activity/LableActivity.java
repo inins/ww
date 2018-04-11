@@ -19,10 +19,12 @@ import com.frame.component.path.LoginPath;
 import com.frame.component.router.ui.UIRouter;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.integration.IRepositoryManager;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.StrUtil;
+import com.frame.utils.ToastUtil;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
 import com.wang.social.personal.common.GridSpacingItemDecoration;
@@ -68,6 +70,21 @@ public class LableActivity extends BaseAppActivity<LablePresonter> implements La
     public static void start(Context context) {
         Intent intent = new Intent(context, LableActivity.class);
         context.startActivity(intent);
+    }
+
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        switch (event.getEvent()){
+            case EventBean.EVENTBUS_TAG_UPDATED:
+                TabLayout.Tab tab = tablayout.getTabAt(tablayout.getSelectedTabPosition());
+                mPresenter.getSelftags((int) tab.getTag());
+                break;
+        }
     }
 
     @Override
@@ -138,7 +155,7 @@ public class LableActivity extends BaseAppActivity<LablePresonter> implements La
                 adapter_me.notifyDataSetChanged();
             }
         } else if (i == R.id.btn_add) {
-            UIRouter.getInstance().openUri(this, LoginPath.TAG_URL, null);
+            UIRouter.getInstance().openUri(this, LoginPath.LOGIN_TAG_SELECTION_URL, null);
         }
     }
 

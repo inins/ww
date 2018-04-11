@@ -40,7 +40,9 @@ public class SettingActivity extends BasicActivity {
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.btn_psw) {
+            UIRouter.getInstance().openUri(this, LoginPath.LOGIN_RESET_PASSWORD_URL, null);
         } else if (i == R.id.btn_phone) {
+            UIRouter.getInstance().openUri(this, LoginPath.LOGIN_BIND_PHONE_URL, null);
         } else if (i == R.id.btn_thirdlogin) {
             new DialogBottomThirdLoginBind(this).show();
         } else if (i == R.id.btn_secret) {
