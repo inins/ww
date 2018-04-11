@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.beloo.widget.chipslayoutmanager.SpacingItemDecoration;
 import com.frame.base.BaseAdapter;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.path.LoginPath;
 import com.frame.component.router.ui.UIRouter;
 import com.frame.component.ui.base.BaseAppActivity;
@@ -68,8 +69,12 @@ public class LableActivity extends BaseAppActivity<LablePresonter> implements La
     private DialogFragmentLable dialogLable;
 
     public static void start(Context context) {
-        Intent intent = new Intent(context, LableActivity.class);
-        context.startActivity(intent);
+        if (CommonHelper.LoginHelper.isLogin()) {
+            Intent intent = new Intent(context, LableActivity.class);
+            context.startActivity(intent);
+        } else {
+            CommonHelper.LoginHelper.startLoginActivity(context);
+        }
     }
 
     @Override

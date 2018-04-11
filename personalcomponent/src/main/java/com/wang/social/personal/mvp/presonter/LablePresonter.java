@@ -6,7 +6,7 @@ import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
 import com.frame.utils.ToastUtil;
-import com.wang.social.personal.helper.MyApiHelper;
+import com.frame.http.api.ApiHelperEx;
 import com.wang.social.personal.mvp.contract.LableContract;
 import com.wang.social.personal.mvp.entities.lable.Lable;
 import com.wang.social.personal.mvp.entities.lable.LableWrap;
@@ -32,7 +32,7 @@ public class LablePresonter extends BasePresenter<LableContract.Model, LableCont
     }
 
     public void getShowtag() {
-        MyApiHelper.execute(mRootView, true,
+        ApiHelperEx.execute(mRootView, true,
                 mModel.getShowtag(),
                 new ErrorHandleSubscriber<BaseJson<LableWrap>>(mErrorHandler) {
                     @Override
@@ -50,7 +50,7 @@ public class LablePresonter extends BasePresenter<LableContract.Model, LableCont
     }
 
     public void getSelftags(int parentId) {
-        MyApiHelper.execute(mRootView, true,
+        ApiHelperEx.execute(mRootView, true,
                 mModel.getSelftags(parentId),
                 new ErrorHandleSubscriber<BaseJson<LableWrap>>(mErrorHandler) {
                     @Override
@@ -68,7 +68,7 @@ public class LablePresonter extends BasePresenter<LableContract.Model, LableCont
     }
 
     public void deltag(int tagId) {
-        MyApiHelper.execute(mRootView, true,
+        ApiHelperEx.execute(mRootView, true,
                 mModel.deltag(tagId),
                 new ErrorHandleSubscriber<BaseJson<Object>>(mErrorHandler) {
                     @Override
@@ -84,7 +84,7 @@ public class LablePresonter extends BasePresenter<LableContract.Model, LableCont
     }
 
     public void getParentTags() {
-        MyApiHelper.execute(mRootView, true,
+        ApiHelperEx.execute(mRootView, true,
                 mModel.getParentTags(),
                 new ErrorHandleSubscriber<BaseJson<LableWrap>>(mErrorHandler) {
                     @Override

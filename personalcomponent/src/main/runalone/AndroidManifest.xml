@@ -20,6 +20,9 @@
         <meta-data
             android:name="com.wang.social.personal.app.GlobalConfiguration"
             android:value="ConfigModule" />
+        <meta-data
+            android:name="com.wang.social.personal.app.PersonalGlobalConfiguration"
+            android:value="ConfigModule" />
 
         <activity android:name="com.wang.social.personal.ui.MainActivity">
             <intent-filter>

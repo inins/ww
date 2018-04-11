@@ -5,13 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.widget.RadioGroup;
 
-import com.frame.base.BasicActivity;
+import com.frame.component.service.personal.PersonalFragmentInterface;
 import com.frame.component.ui.base.BasicAppActivity;
-import com.frame.component.view.UnScrollViewPager;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.router.facade.annotation.RouteNode;
@@ -49,8 +47,10 @@ public class MainActivity extends BasicAppActivity implements RadioGroup.OnCheck
 
     @Override
     public void onCommonEvent(EventBean event) {
-        switch (event.getEvent()){
-//            case EventBean
+        switch (event.getEvent()) {
+            case EventBean.EVENT_LOGOUT:
+                finish();
+                break;
         }
     }
 
@@ -58,6 +58,7 @@ public class MainActivity extends BasicAppActivity implements RadioGroup.OnCheck
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         StatusBarUtil.setStatusBarColor(this, R.color.common_blue_deep);
+        setNeedDoubleClickExit(true);
     }
 
     @Override
@@ -79,6 +80,15 @@ public class MainActivity extends BasicAppActivity implements RadioGroup.OnCheck
             if (tabsId[i] == checkedId) {
                 pager.setCurrentItem(i, false);
             }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Fragment currentFragment = pagerAdapter.getCurrentFragment();
+        if (currentFragment instanceof PersonalFragmentInterface) {
+            currentFragment.onActivityResult(requestCode, resultCode, data);
         }
     }
 

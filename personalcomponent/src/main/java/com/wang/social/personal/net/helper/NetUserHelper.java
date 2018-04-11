@@ -8,16 +8,12 @@ import com.frame.http.api.error.RxErrorHandler;
 import com.frame.integration.IRepositoryManager;
 import com.frame.component.common.NetParam;
 import com.frame.mvp.IView;
-import com.wang.social.personal.helper.MyApiHelper;
+import com.frame.http.api.ApiHelperEx;
 import com.wang.social.personal.mvp.entities.UserWrap;
-import com.wang.social.personal.mvp.entities.photo.Photo;
-import com.wang.social.personal.mvp.entities.photo.PhotoListWrap;
 import com.wang.social.personal.mvp.entities.user.QrcodeInfo;
 import com.wang.social.personal.mvp.model.api.UserService;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import javax.inject.Inject;
 
@@ -61,7 +57,7 @@ public class NetUserHelper {
     }
 
     public void getUserInfoByUserId(IView view, int userId, OnUserApiCallBack callBack) {
-        MyApiHelper.execute(view, true,
+        ApiHelperEx.execute(view, true,
                 mRepositoryManager.obtainRetrofitService(UserService.class).getUserInfoByUserId(userId),
                 new ErrorHandleSubscriber<BaseJson<QrcodeInfo>>(mErrorHandler) {
                     @Override

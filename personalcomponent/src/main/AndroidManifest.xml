@@ -12,6 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/common_AppTheme">
 
+        <meta-data
+            android:name="com.wang.social.personal.app.PersonalGlobalConfiguration"
+            android:value="ConfigModule" />
+
         <activity android:name=".mvp.ui.activity.MeDetailActivity" />
         <activity android:name=".mvp.ui.activity.MePhotoActivity" />
         <activity android:name=".mvp.ui.activity.OfficialPhotoActivity" />

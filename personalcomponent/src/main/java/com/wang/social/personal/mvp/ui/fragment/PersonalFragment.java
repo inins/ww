@@ -15,6 +15,8 @@ import com.frame.base.BasicFragment;
 import com.frame.component.common.AppConstant;
 import com.frame.component.entities.User;
 import com.frame.component.helper.AppDataHelper;
+import com.frame.component.helper.CommonHelper;
+import com.frame.component.service.personal.PersonalFragmentInterface;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.http.imageloader.ImageLoader;
@@ -53,7 +55,7 @@ import butterknife.Unbinder;
  * ========================================
  */
 
-public class PersonalFragment extends BasicFragment {
+public class PersonalFragment extends BasicFragment implements PersonalFragmentInterface{
 
     @BindView(R2.id.toolbar)
     Toolbar toolbar;
@@ -130,12 +132,13 @@ public class PersonalFragment extends BasicFragment {
     @OnClick({R2.id.lay_nameboard, R2.id.btn_right, R2.id.btn_left, R2.id.btn_me_account, R2.id.btn_me_lable, R2.id.btn_me_feedback, R2.id.btn_me_share, R2.id.btn_me_about, R2.id.btn_me_eva})
     public void onViewClicked(View v) {
         if (v.getId() == R.id.lay_nameboard) {
-            AddressDataBaseManager.init();
             MeDetailActivity.start(getContext());
         } else if (v.getId() == R.id.btn_left) {
             User user = AppDataHelper.getUser();
-            if (user != null) {
+            if (CommonHelper.LoginHelper.isLogin()) {
                 QrcodeActivity.start(getContext(), user.getUserId());
+            } else {
+                CommonHelper.LoginHelper.startLoginActivity(getContext());
             }
         } else if (v.getId() == R.id.btn_right) {
             SettingActivity.start(getContext());
@@ -161,7 +164,6 @@ public class PersonalFragment extends BasicFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
         UMShareAPI.get(getContext()).onActivityResult(requestCode, resultCode, data);
     }
 

@@ -5,7 +5,7 @@ import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.IView;
-import com.wang.social.personal.helper.MyApiHelper;
+import com.frame.http.api.ApiHelperEx;
 import com.wang.social.personal.mvp.entities.photo.Photo;
 import com.wang.social.personal.mvp.entities.photo.PhotoListWrap;
 import com.wang.social.personal.mvp.model.api.UserService;
@@ -34,7 +34,7 @@ public class NetPhotoHelper {
     }
 
     public void netGetPhotoList(IView view, boolean needLoading, OnPhotoListApiCallBack callBack) {
-        MyApiHelper.execute(view, needLoading,
+        ApiHelperEx.execute(view, needLoading,
                 mRepositoryManager.obtainRetrofitService(UserService.class).getPhotoList(),
                 new ErrorHandleSubscriber<BaseJson<PhotoListWrap>>(mErrorHandler) {
                     @Override
@@ -52,7 +52,7 @@ public class NetPhotoHelper {
     }
 
     public void netAddPhoto(IView view, String url, OnPhotoAddApiCallBack callBack) {
-        MyApiHelper.execute(view, true,
+        ApiHelperEx.execute(view, true,
                 mRepositoryManager.obtainRetrofitService(UserService.class).addPhoto(url),
                 new ErrorHandleSubscriber<BaseJson<Photo>>(mErrorHandler) {
                     @Override
@@ -72,7 +72,7 @@ public class NetPhotoHelper {
     }
 
     public void netDelPhoto(IView view, int userPhotoId, OnPhotoModifyApiCallBack callBack) {
-        MyApiHelper.execute(view, true,
+        ApiHelperEx.execute(view, true,
                 mRepositoryManager.obtainRetrofitService(UserService.class).delPhoto(userPhotoId),
                 new ErrorHandleSubscriber<BaseJson<Boolean>>(mErrorHandler) {
                     @Override
@@ -88,7 +88,7 @@ public class NetPhotoHelper {
     }
 
     public void netModifyPhoto(IView view, int userPhotoId, String url, OnPhotoModifyApiCallBack callBack) {
-        MyApiHelper.execute(view, true,
+        ApiHelperEx.execute(view, true,
                 mRepositoryManager.obtainRetrofitService(UserService.class).editPhoto(userPhotoId, url),
                 new ErrorHandleSubscriber<BaseJson<Boolean>>(mErrorHandler) {
                     @Override

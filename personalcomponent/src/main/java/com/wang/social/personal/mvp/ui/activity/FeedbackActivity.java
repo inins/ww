@@ -30,7 +30,7 @@ import com.wang.social.personal.R2;
 import com.wang.social.personal.common.SimpleTextWatcher;
 import com.wang.social.personal.di.component.DaggerSingleActivityComponent;
 import com.wang.social.personal.helper.AppValiHelper;
-import com.wang.social.personal.helper.MyApiHelper;
+import com.frame.http.api.ApiHelperEx;
 import com.wang.social.personal.helper.PhotoHelper;
 import com.wang.social.personal.helper.PhotoHelperEx;
 import com.wang.social.personal.mvp.model.api.UserService;
@@ -178,7 +178,7 @@ public class FeedbackActivity extends BasicAppActivity implements PhotoHelper.On
 
     //提交内容
     private void netGetPhotoList(String phone, String content, String pictures) {
-        MyApiHelper.execute(this, true,
+        ApiHelperEx.execute(this, true,
                 mRepositoryManager.obtainRetrofitService(UserService.class).feedback(phone, content, pictures),
                 new ErrorHandleSubscriber<BaseJson<Object>>(mErrorHandler) {
                     @Override

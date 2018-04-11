@@ -16,8 +16,16 @@ import com.wang.social.mvp.ui.fragment.BuildFragment;
 
 public class PagerAdapterHome extends FragmentPagerAdapter {
 
+    private Fragment currentFragment;
+
     public PagerAdapterHome(FragmentManager fm) {
         super(fm);
+    }
+
+    @Override
+    public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        currentFragment = (Fragment) object;
+        super.setPrimaryItem(container, position, object);
     }
 
     @Override
@@ -45,5 +53,9 @@ public class PagerAdapterHome extends FragmentPagerAdapter {
             default:
                 return null;
         }
+    }
+
+    public Fragment getCurrentFragment() {
+        return currentFragment;
     }
 }
