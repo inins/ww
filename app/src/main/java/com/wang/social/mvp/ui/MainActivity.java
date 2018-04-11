@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.widget.RadioGroup;
 
 import com.frame.base.BasicActivity;
+import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.component.view.UnScrollViewPager;
 import com.frame.di.component.AppComponent;
 import com.frame.router.facade.annotation.RouteNode;
@@ -18,7 +19,7 @@ import com.wang.social.mvp.ui.adapter.PagerAdapterHome;
 import butterknife.BindView;
 
 @RouteNode(path = "/main", desc = "首页")
-public class MainActivity extends BasicActivity implements RadioGroup.OnCheckedChangeListener {
+public class MainActivity extends BasicAppActivity implements RadioGroup.OnCheckedChangeListener {
 
     @BindView(R.id.group_tab)
     RadioGroup groupTab;
