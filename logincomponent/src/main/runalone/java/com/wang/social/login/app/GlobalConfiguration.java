@@ -12,6 +12,7 @@ import com.frame.component.app.ResponseErrorListenerImp;
 import com.frame.di.module.GlobalConfigModule;
 import com.frame.http.log.RequestInterceptor;
 import com.frame.integration.ConfigModule;
+import com.wang.social.socialize.SocializeUtil;
 
 import java.util.List;
 
@@ -37,6 +38,7 @@ public class GlobalConfiguration implements ConfigModule{
                 .responseErrorListener(new ResponseErrorListenerImp());
 
 //        AppDataHelper.saveToken("Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMzgyMzE1MDQyMCIsImNyZWF0ZWQiOjE1MjMyMzY2ODI1MDQsImlkIjoxMDAxNiwiZXhwIjoxNTIzODQxNDgyfQ.UxUXiemH6uk9APp5gg6Ye7HEbGKOyRVqTD6Rm3tkbn5STl6i6SUp_RH81f6__L6i35Mvuvd0JJaJJCpNh0WbNQ");
+
     }
 
     @Override

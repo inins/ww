@@ -14,6 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.frame.base.BaseActivity;
+import com.frame.component.path.HomePath;
+import com.frame.component.router.ui.UIRouter;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
@@ -100,7 +102,7 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
     TextView selectedCountHintTV;
     @BindView(R2.id.selected_count_text_view)
     TextView selectedCountTV;
-    @BindView(R2.id.content_layout)
+    @BindView(R2.id.ts_content_layout)
     LinearLayout contentLayout;
     @BindView(R2.id.title_text_view)
     TextView titleTV;
@@ -222,7 +224,7 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
         // 这里不需要parentId，所以传入-1
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R2.id.content_layout, TagListFragment.newDeleteMode(-1, mPresenter.getSelectedList()))
+                .add(R2.id.ts_content_layout, TagListFragment.newDeleteMode(-1, mPresenter.getSelectedList()))
                 .commit();
     }
 
@@ -376,7 +378,10 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
      * 跳转到首页
      */
     private void gotoMainPage() {
-        ToastUtil.showToastLong("跳转到首页");
+        // 跳转到首页
+        // 路由跳转
+        UIRouter.getInstance().openUri(this, HomePath.HOME_URL, null);
+        finish();
     }
 
     /**

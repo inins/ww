@@ -26,6 +26,8 @@ public interface LoginContract {
          */
         void onSendVerifyCodeSuccess();
         Activity getActivity();
+        void gotoTagSelection();
+        void gotoMainPage();
     }
 
     interface Model extends IModel{

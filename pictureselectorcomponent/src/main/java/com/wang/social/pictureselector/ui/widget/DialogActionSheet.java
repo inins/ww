@@ -134,7 +134,7 @@ public class DialogActionSheet extends DialogFragment {
         if (itemList.size() > 0) {
             scrollView.setVisibility(View.VISIBLE);
 
-            LinearLayout contentLayout = view.findViewById(R.id.content_layout);
+            LinearLayout contentLayout = view.findViewById(R.id.psd_content_layout);
 
             final float scale = getActivity().getResources().getDisplayMetrics().density;
 
