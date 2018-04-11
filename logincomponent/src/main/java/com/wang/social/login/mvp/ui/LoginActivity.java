@@ -29,8 +29,6 @@ import com.wang.social.login.mvp.ui.widget.CountDownView;
 import com.wang.social.login.mvp.ui.widget.DialogFragmentLoading;
 import com.wang.social.login.utils.StringUtils;
 import com.wang.social.login.utils.ViewUtils;
-import com.wang.social.socialize.SocializeUtil;
-import com.wang.social.socialize.Test;
 
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
@@ -144,7 +142,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             loginTV.setText(getString(R.string.login_register));
             passwordET.setHint(R.string.login_password_set_hint);
             switchLoginRegisterTV.setText(getString(R.string.login_go_to_login));
-            rootView.setBackground(getResources().getDrawable(R.drawable.bg));
+            rootView.setBackground(getResources().getDrawable(R.drawable.login_bg));
         }
 
         ViewUtils.controlKeyboardLayout(rootView, loginTV);
@@ -381,6 +379,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     public void showLoading() {
         mDialogLoading = DialogFragmentLoading.showDialog(getSupportFragmentManager(), TAG);
+
     }
 
     @Override
