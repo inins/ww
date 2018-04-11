@@ -1,7 +1,0 @@
-auto generated, do not change !!!! 
-
-HOST : login
-
-登陆页
-/login
-
