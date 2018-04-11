@@ -224,7 +224,8 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
         // 这里不需要parentId，所以传入-1
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R2.id.ts_content_layout, TagListFragment.newDeleteMode(-1, mPresenter.getSelectedList()))
+                .add(R.id.ts_content_layout,
+                        TagListFragment.newDeleteMode(-1, mPresenter.getSelectedList()))
                 .commit();
     }
 
@@ -287,6 +288,7 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
             case MODE_SELECTION:
                 // 标签选择模式
                 // 跳转到兴趣大杂烩
+                Timber.i("click --------------------------");
                 startConfirm(TagSelectionActivity.this, mPresenter.getSelectedList());
                 break;
             case MODE_CONFIRM:
