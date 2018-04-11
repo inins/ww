@@ -27,7 +27,6 @@ public class TagSelectionPresenter extends
     @Inject
     ApiHelper mApiHelper;
 
-
     // 已选列表
     ArrayList<Tag> selectedList = new ArrayList<>();
 
@@ -36,6 +35,9 @@ public class TagSelectionPresenter extends
         super(model, view);
     }
 
+    /**
+     * 编辑推荐标签
+     */
     public void updateRecommendTag() {
         mApiHelper.execute(mRootView,
                 mModel.updateRecommendTag(selectedList),
@@ -43,6 +45,8 @@ public class TagSelectionPresenter extends
                     @Override
                     public void onNext(Object o) {
 //                        mRootView.showToast(o.toString());
+                        // 编辑推荐标签成功
+                        mRootView.onUpdateRecommendTag();
                     }
 
                     @Override
@@ -52,12 +56,12 @@ public class TagSelectionPresenter extends
                 }, new Consumer<Disposable>() {
                     @Override
                     public void accept(Disposable disposable) throws Exception {
-
+                        mRootView.showLoading();
                     }
                 }, new Action() {
                     @Override
                     public void run() throws Exception {
-
+                        mRootView.hideLoading();
                     }
                 });
 
@@ -80,12 +84,12 @@ public class TagSelectionPresenter extends
                 }, new Consumer<Disposable>() {
                     @Override
                     public void accept(Disposable disposable) throws Exception {
-
+                        mRootView.showLoading();
                     }
                 }, new Action() {
                     @Override
                     public void run() throws Exception {
-
+                        mRootView.hideLoading();
                     }
                 });
     }
@@ -98,7 +102,9 @@ public class TagSelectionPresenter extends
 
                     @Override
                     public void onNext(Tags tags) {
-                        selectedList = (ArrayList<Tag>) tags.getList();
+                        if (null != tags) {
+                            selectedList = (ArrayList<Tag>) tags.getList();
+                        }
                         mRootView.refreshCountTV();
 
                         // 开始加载标签数据
@@ -107,23 +113,27 @@ public class TagSelectionPresenter extends
 
                     @Override
                     public void onError(Throwable e) {
-                        mRootView.showToast(e.getMessage());
+//                        mRootView.showToast(e.getMessage());
+                        // 如果失败则认为没有已选标签
+                        // 开始加载标签数据
+                        getParentTagList();
                     }
                 }, new Consumer<Disposable>() {
                     @Override
                     public void accept(Disposable disposable) throws Exception {
-
+                        mRootView.showLoading();
                     }
                 }, new Action() {
                     @Override
                     public void run() throws Exception {
-
+                        mRootView.hideLoading();
                     }
                 });
     }
 
     /**
      * 选中Tag
+     *
      * @param tag
      * @return
      */
@@ -133,6 +143,7 @@ public class TagSelectionPresenter extends
 
     /**
      * 取消选择
+     *
      * @param tag
      */
     public void unselectTag(Tag tag) {
@@ -165,6 +176,7 @@ public class TagSelectionPresenter extends
 
     /**
      * 选中数量
+     *
      * @return 选中数量
      */
     public int getSelectedTagCount() {
@@ -173,6 +185,7 @@ public class TagSelectionPresenter extends
 
     /**
      * 设置选中列表
+     *
      * @param list
      */
     public void setSelectedTagList(ArrayList<Tag> list) {
@@ -181,6 +194,7 @@ public class TagSelectionPresenter extends
 
     /**
      * 返回选中列表
+     *
      * @return
      */
     public ArrayList<Tag> getSelectedList() {

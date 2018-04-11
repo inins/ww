@@ -8,6 +8,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -28,6 +29,8 @@ import com.wang.social.login.mvp.presenter.TagSelectionPresenter;
 import com.wang.social.login.mvp.ui.widget.TagListFragment;
 import com.wang.social.login.utils.Keys;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -37,6 +40,7 @@ import timber.log.Timber;
 public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter> implements
         TagSelectionContract.View {
     public final static String NAME_MODE = "NAME_MODE";
+    public final static String NAME_FROM_LOGIN = "NAME_FROM_LOGIN";
     public final static String NAME_SELECTED_LIST = "NAME_SELECTED_LIST";
     // 标签选择
     public final static String MODE_SELECTION = "MODE_SELECTION";
@@ -44,21 +48,43 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
     public final static String MODE_CONFIRM = "MODE_CONFIRM";
     public final static String TAG_DELETE = "TAG_DELETE";
 
-    public static void start(Context context, String mode, ArrayList<Tag> selectedList) {
+    private static void start(Context context, String mode, ArrayList<Tag> selectedList, boolean fromLogin) {
         Intent intent = new Intent(context, TagSelectionActivity.class);
         intent.putExtra(NAME_MODE, mode);
+        intent.putExtra(NAME_FROM_LOGIN, fromLogin);
         if (null != selectedList) {
             intent.putParcelableArrayListExtra(NAME_SELECTED_LIST, selectedList);
         }
         context.startActivity(intent);
     }
 
-    public static void startSelection(Context context) {
-        start(context, MODE_SELECTION, null);
+
+    /**
+     * 当登录用户没有选择任何标签的时候需要调用此方法进入标签选择
+     *
+     * @param context context
+     */
+    public static void startSelectionFromLogin(Context context) {
+        start(context, MODE_SELECTION, null, true);
     }
 
+    /**
+     * 开始标签选择
+     *
+     * @param context context
+     */
+    public static void startSelection(Context context) {
+        start(context, MODE_SELECTION, null, false);
+    }
+
+    /**
+     * 开始确认标签选择
+     *
+     * @param context      context
+     * @param selectedList 已选列表
+     */
     public static void startConfirm(Context context, ArrayList<Tag> selectedList) {
-        start(context, MODE_CONFIRM, selectedList);
+        start(context, MODE_CONFIRM, selectedList, false);
     }
 
     @BindView(R2.id.toolbar)
@@ -79,6 +105,8 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
     TextView titleHintTV;
 
     String mode = MODE_SELECTION;
+    // 是否是从登录页面跳转过来的
+    boolean fromLogin = false;
 
     /**
      * 选中数量文字初始化
@@ -105,6 +133,16 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
         selectedCountTV.setText("(" + mPresenter.getSelectedTagCount() + ")");
     }
 
+    /**
+     * 更新已选标签成功，直接跳转到首页
+     */
+    @Override
+    public void onUpdateRecommendTag() {
+        EventBus.getDefault().post(new EventBean(EventBean.EVENTBUS_TAG_UPDATED));
+
+        gotoMainPage();
+    }
+
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
         DaggerTagSelectionComponent.builder()
@@ -124,13 +162,16 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
         if (getIntent().hasExtra(NAME_MODE)) {
             mode = getIntent().getStringExtra(NAME_MODE);
         }
+        // 是否是从登录页面跳转过来的
+        fromLogin = getIntent().getBooleanExtra(NAME_FROM_LOGIN, false);
 
         // ToolBar左边按钮，返回
         toolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
             @Override
             public void onButtonClick(SocialToolbar.ClickType clickType) {
                 if (clickType == SocialToolbar.ClickType.LEFT_ICON) {
-                    TagSelectionActivity.this.finish();
+                    // 退出
+                    quit();
                 }
             }
         });
@@ -263,7 +304,7 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
 
     @Override
     public void onCommonEvent(EventBean event) {
-        Timber.i("EventBuss 事件通知");
+//        Timber.i("EventBuss 事件通知");
         if (event.getEvent() != EventBean.EVENTBUS_TAG_SELECTED &&
                 event.getEvent() != EventBean.EVENTBUS_TAG_UNSELECT &&
                 event.getEvent() != EventBean.EVENTBUS_TAG_DELETE) {
@@ -309,6 +350,36 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
      * 如果是从登录过来的，则需要跳转到首页，否则直接返回
      */
     private void quit() {
+        if (fromLogin) {
+            // 如果是从登录页面跳转过来的，则需要跳转到首页
+            gotoMainPage();
 
+            finish();
+        } else {
+            finish();
+        }
+    }
+
+    /**
+     * 跳转到首页
+     */
+    private void gotoMainPage() {
+        ToastUtil.showToastLong("跳转到首页");
+    }
+
+    /**
+     * 拦截返回键，执行退出操作
+     * @param keyCode 按键
+     * @param event 按键
+     * @return
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                && event.getAction() == KeyEvent.ACTION_DOWN) {
+            quit();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

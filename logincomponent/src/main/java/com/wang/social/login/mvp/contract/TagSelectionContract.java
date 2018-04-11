@@ -17,6 +17,8 @@ public interface TagSelectionContract {
 
         void resetTabView(Tags tags);
         void refreshCountTV();
+        // 更新已选标签成功
+        void onUpdateRecommendTag();
     }
 
 
