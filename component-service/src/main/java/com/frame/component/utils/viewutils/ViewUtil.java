@@ -1,7 +1,6 @@
-package com.wang.social.personal.utils.viewutils;
+package com.frame.component.utils.viewutils;
 
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 

@@ -1,4 +1,4 @@
-package com.wang.social.personal.mvp.ui.dialog;
+package com.frame.component.ui.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -11,7 +11,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.wang.social.personal.R;
+
+import com.frame.component.service.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

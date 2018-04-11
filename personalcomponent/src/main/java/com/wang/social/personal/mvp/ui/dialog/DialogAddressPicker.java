@@ -2,24 +2,18 @@ package com.wang.social.personal.mvp.ui.dialog;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.frame.component.view.DatePicker;
+import com.frame.component.ui.dialog.BaseDialog;
 import com.frame.component.view.WheelPicker;
-import com.frame.utils.TimeUtils;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
 import com.wang.social.personal.data.db.AddressDataBaseManager;
 import com.wang.social.personal.mvp.entities.City;
 import com.wang.social.personal.mvp.entities.Province;
 
-import java.text.FieldPosition;
-import java.text.Format;
-import java.text.ParsePosition;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;

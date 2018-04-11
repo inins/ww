@@ -11,12 +11,11 @@ import android.widget.TextView;
 
 import com.frame.component.entities.User;
 import com.frame.component.helper.AppDataHelper;
+import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
-import com.frame.utils.TimeUtils;
-import com.frame.utils.ToastUtil;
 import com.wang.social.personal.R2;
 import com.wang.social.personal.helper.PhotoHelper;
 import com.wang.social.personal.R;
@@ -36,7 +35,6 @@ import com.wang.social.personal.mvp.ui.dialog.DialogInput;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import timber.log.Timber;
 
 public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> implements MeDetailContract.View, PhotoHelper.OnPhotoCallback {
 
