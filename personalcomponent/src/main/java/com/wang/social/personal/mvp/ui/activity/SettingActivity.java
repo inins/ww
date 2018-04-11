@@ -14,6 +14,7 @@ import com.frame.component.helper.CommonHelper;
 import com.frame.component.path.HomePath;
 import com.frame.component.path.LoginPath;
 import com.frame.component.router.ui.UIRouter;
+import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.wang.social.personal.R;
@@ -23,7 +24,7 @@ import com.wang.social.personal.mvp.ui.dialog.DialogSure;
 
 import org.greenrobot.eventbus.EventBus;
 
-public class SettingActivity extends BasicActivity {
+public class SettingActivity extends BasicAppActivity {
 
     public static void start(Context context) {
         Intent intent = new Intent(context, SettingActivity.class);
