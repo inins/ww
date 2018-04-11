@@ -9,6 +9,7 @@ import com.frame.http.api.ApiHelper;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
+import com.wang.social.login.mvp.ui.TagSelectionActivity;
 import com.wang.social.socialize.SocializeUtil;
 
 import java.util.Map;
@@ -84,6 +85,8 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
         if (loginInfo.getUserTags() == null ||
                 loginInfo.getUserTags().getList().size() <= 0) {
             // 跳转到标签选择页面
+            TagSelectionActivity.startSelection(mRootView.getActivity());
+            mRootView.getActivity().finish();
         } else {
             // 跳转到首页
             // 路由跳转
