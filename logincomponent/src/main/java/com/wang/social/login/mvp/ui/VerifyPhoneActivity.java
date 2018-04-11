@@ -6,10 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.frame.base.BaseActivity;
-import com.frame.base.BasicActivity;
+import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.utils.ToastUtil;
@@ -19,7 +16,6 @@ import com.wang.social.login.di.component.DaggerVerifyPhoneComponent;
 import com.wang.social.login.di.module.VerifyPhoneModule;
 import com.wang.social.login.mvp.contract.VerifyPhoneContract;
 import com.wang.social.login.mvp.presenter.VerifyPhonePresenter;
-import com.wang.social.login.mvp.ui.widget.DialogFragmentLoading;
 import com.wang.social.login.mvp.ui.widget.VerificationCodeInput;
 import com.wang.social.login.utils.Keys;
 import com.wang.social.login.utils.ViewUtils;
@@ -27,7 +23,7 @@ import com.wang.social.login.utils.ViewUtils;
 import butterknife.BindView;
 import timber.log.Timber;
 
-public class VerifyPhoneActivity extends BaseActivity<VerifyPhonePresenter> implements
+public class VerifyPhoneActivity extends BaseAppActivity<VerifyPhonePresenter> implements
     VerifyPhoneContract.View{
 
     public static void start(Context context, String mobile) {
@@ -108,14 +104,16 @@ public class VerifyPhoneActivity extends BaseActivity<VerifyPhonePresenter> impl
 //        finish();
     }
 
-    private DialogFragmentLoading mLoadingDialog;
+    //    private DialogFragmentLoading mLoadingDialog;
     @Override
     public void showLoading() {
-        mLoadingDialog = DialogFragmentLoading.showDialog(getSupportFragmentManager(), TAG);
+//        mLoadingDialog = DialogFragmentLoading.showDialog(getSupportFragmentManager(), TAG);
+        showLoadingDialog();
     }
 
     @Override
     public void hideLoading() {
-        mLoadingDialog.dismiss();
+//        mLoadingDialog.dismiss();
+        dismissLoadingDialog();
     }
 }

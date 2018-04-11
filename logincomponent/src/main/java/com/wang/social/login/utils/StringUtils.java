@@ -12,11 +12,12 @@ public class StringUtils {
 
     /**
      * 检测密码格式
+     * 6-18位，必须是字母和数字
      * @param password
      * @return
      */
     public static boolean isPassword(String password) {
-        String regex = "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,18}$";
+        String regex = "^[0-9A-Za-z]{6,18}$";
 
         return regexMatch(regex, password);
     }
