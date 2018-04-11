@@ -10,6 +10,7 @@ import android.view.View;
 import com.frame.base.BaseActivity;
 import com.frame.base.BasicActivity;
 import com.frame.component.helper.AppDataHelper;
+import com.frame.component.path.HomePath;
 import com.frame.component.path.LoginPath;
 import com.frame.component.router.ui.UIRouter;
 import com.frame.di.component.AppComponent;
@@ -56,6 +57,7 @@ public class SettingActivity extends BasicActivity {
                 AppDataHelper.removeToken();
                 AppDataHelper.removeUser();
                 UIRouter.getInstance().openUri(SettingActivity.this, LoginPath.LOGIN_URL, null);
+                finish();
             });
         }
     }

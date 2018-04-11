@@ -30,9 +30,14 @@ public class DataBaseUtil {
 
     //把数据库文件拷贝到应用目录下
     public static void packDataBase(Context context, String DB_NAME) {
-        String dbPath = "/data/data/" + getAppProcessName(context) + "/databases/" + DB_NAME;
+        String drPath = "/data/data/" + getAppProcessName(context) + "/databases/";
+        String dbPath = drPath + DB_NAME;
+        File dr = new File(drPath);
+        if (!dr.exists()) {
+            dr.mkdirs();
+        }
         File file = new File(dbPath);
-        if (file.exists()){
+        if (file.exists()) {
             file.delete();
         }
         if (!new File(dbPath).exists()) {

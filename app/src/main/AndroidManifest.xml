@@ -22,7 +22,9 @@
             android:value="ConfigModule" />
         <!-- ********* -->
 
-        <activity android:name=".mvp.ui.MainActivity">
+        <activity
+            android:name=".mvp.ui.MainActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
