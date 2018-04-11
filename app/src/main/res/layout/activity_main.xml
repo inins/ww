@@ -31,31 +31,33 @@
             <RadioButton
                 android:id="@+id/tab_1"
                 style="@style/RadioHomeTab"
-                android:drawableTop="@android:drawable/ic_input_add"
+                android:drawableTop="@drawable/select_home_tab_w"
                 android:text="@string/home_tab_w"
-                tools:checked="true" />
+                android:checked="true" />
 
             <RadioButton
                 android:id="@+id/tab_2"
                 style="@style/RadioHomeTab"
-                android:drawableTop="@android:drawable/ic_input_add"
+                android:drawableTop="@drawable/select_home_tab_a"
                 android:text="@string/home_tab_a" />
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:scaleType="center"
                 android:src="@drawable/ic_home_tab_center"
                 android:layout_height="match_parent" />
 
             <RadioButton
                 android:id="@+id/tab_3"
                 style="@style/RadioHomeTab"
-                android:drawableTop="@android:drawable/ic_input_add"
+                android:drawableTop="@drawable/select_home_tab_n"
                 android:text="@string/home_tab_n" />
 
             <RadioButton
                 android:id="@+id/tab_4"
                 style="@style/RadioHomeTab"
-                android:drawableTop="@android:drawable/ic_input_add"
+                android:drawableTop="@drawable/select_home_tab_g"
                 android:text="@string/home_tab_g" />
 
         </RadioGroup>

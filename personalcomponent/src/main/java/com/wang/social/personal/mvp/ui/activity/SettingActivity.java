@@ -9,10 +9,14 @@ import android.view.View;
 
 import com.frame.base.BaseActivity;
 import com.frame.base.BasicActivity;
+import com.frame.component.helper.AppDataHelper;
+import com.frame.component.path.LoginPath;
+import com.frame.component.router.ui.UIRouter;
 import com.frame.di.component.AppComponent;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
 import com.wang.social.personal.mvp.ui.dialog.DialogBottomThirdLoginBind;
+import com.wang.social.personal.mvp.ui.dialog.DialogSure;
 
 public class SettingActivity extends BasicActivity {
 
@@ -48,6 +52,11 @@ public class SettingActivity extends BasicActivity {
         } else if (i == R.id.btn_msg) {
             SettingMsgActivity.start(this);
         } else if (i == R.id.btn_logout) {
+            DialogSure.showDialog(this, "确定要退出登录？", () -> {
+                AppDataHelper.removeToken();
+                AppDataHelper.removeUser();
+                UIRouter.getInstance().openUri(SettingActivity.this, LoginPath.LOGIN_URL, null);
+            });
         }
     }
 
