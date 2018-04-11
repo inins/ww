@@ -81,8 +81,6 @@ public class LoginActivity extends BaseAppActivity<LoginPresenter> implements Lo
 
     String launchMode = LAUNCH_MODE_PASSWORD_LOGIN;
 
-//    private DialogFragmentLoading mDialogLoading;
-
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -379,13 +377,11 @@ public class LoginActivity extends BaseAppActivity<LoginPresenter> implements Lo
 
     @Override
     public void showLoading() {
-//        mDialogLoading = DialogFragmentLoading.showDialog(getSupportFragmentManager(), TAG);
         showLoadingDialog();
     }
 
     @Override
     public void hideLoading() {
-//        mDialogLoading.dismiss();
         dismissLoadingDialog();
     }
 
@@ -394,6 +390,9 @@ public class LoginActivity extends BaseAppActivity<LoginPresenter> implements Lo
         ToastUtil.showToastLong(msg);
     }
 
+    /**
+     * 请求验证码成功后的回调
+     */
     @Override
     public void onSendVerifyCodeSuccess() {
         // 验证码请求成功，开始倒计时

@@ -35,18 +35,19 @@ public class GlobalHttpHandlerImp implements GlobalHttpHandler {
 
     @Override
     public Response onHttpResultResponse(String httpResult, Interceptor.Chain chan, Response response) {
-        try {
-            /*这里可以先客户端一步拿到Http的请求结果，可以做Json解析，错误码判断等*/
-            MediaType mediaType = response.body().contentType();
-            //如果返回的数据没有指定内容类型，或者是Json数据则进行错误码判断
-            if (mediaType == null || mediaType.subtype() == null || mediaType.subtype().equalsIgnoreCase("json")) {
-                HttpStatus httpStatus = FrameUtils.obtainAppComponentFromContext(mContext).gson().fromJson(httpResult, HttpStatus.class);
-                if (httpStatus != null && httpStatus.getCode() != Api.SUCCESS_CODE) {
-                    throw new ApiException(httpStatus.getCode(), httpStatus.getMessage());
-                }
+        /*这里可以先客户端一步拿到Http的请求结果，可以做Json解析，错误码判断等*/
+        MediaType mediaType = response.body().contentType();
+        //如果返回的数据没有指定内容类型，或者是Json数据则进行错误码判断
+        if (mediaType == null || mediaType.subtype() == null || mediaType.subtype().equalsIgnoreCase("json")) {
+            HttpStatus httpStatus = null;
+            try {
+                httpStatus = FrameUtils.obtainAppComponentFromContext(mContext).gson().fromJson(httpResult, HttpStatus.class);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+            if (httpStatus != null && httpStatus.getCode() != Api.SUCCESS_CODE) {
+                throw new ApiException(httpStatus.getCode(), httpStatus.getMessage());
+            }
         }
         return response;
     }

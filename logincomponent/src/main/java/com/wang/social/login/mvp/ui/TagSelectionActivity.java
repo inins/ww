@@ -303,4 +303,12 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
     public void onDestroy() {
         super.onDestroy();
     }
+
+    /**
+     * 退出
+     * 如果是从登录过来的，则需要跳转到首页，否则直接返回
+     */
+    private void quit() {
+
+    }
 }

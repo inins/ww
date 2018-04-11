@@ -78,6 +78,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
      * @param loginInfo 返回的用户信息
      */
     private void doLoginSuccess(LoginInfo loginInfo) {
+        Timber.i("登录成功");
         // 保存数据
         AppDataHelper.saveToken(loginInfo.getToken());
         AppDataHelper.saveUser(loginInfo.getUserInfo());
