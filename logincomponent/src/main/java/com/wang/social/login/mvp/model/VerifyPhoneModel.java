@@ -41,4 +41,17 @@ public class VerifyPhoneModel extends BaseModel implements VerifyPhoneContract.M
                 .obtainRetrofitService(LoginService.class)
                 .preVerifyForForgetPassword(param);
     }
+
+    @Override
+    public Observable<BaseJson> sendVerifyCode(String mobile, int type) {
+            Map<String, Object> param = new NetParam()
+                    .put("mobile", mobile)
+                    .put("type", type)
+                    .put("v","2.0.0")
+                    .putSignature()
+                    .build();
+            return mRepositoryManager
+                    .obtainRetrofitService(LoginService.class)
+                    .sendVerifyCode(param);
+    }
 }

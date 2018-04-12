@@ -72,6 +72,49 @@ public class VerifyPhonePresenter extends
                 });
     }
 
+    /**
+     * 手机号码加短信验证码登录
+     * @param mobile 手机号码
+     *
+    用途类型
+    （注册 type=1;
+    找回密码 type=2;
+    三方账号绑定手机 type=4;
+    更换手机号 type=5;
+    短信登录 type=6）
+     * @return
+     */
+    public void sendVerifyCode(String mobile) {
+        mApiHelper.executeForData(mRootView,
+                mModel.sendVerifyCode(mobile, 2), // 找回密码 type=2
+                new ErrorHandleSubscriber(mErrorHandler) {
+
+                    @Override
+                    public void onNext(Object o) {
+//                        mRootView.showToast(o.toString());
+
+                        mRootView.onSendVerifyCodeSuccess();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mRootView.showToast(e.getMessage());
+                    }
+
+                }, new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                        mRootView.showLoading();
+                    }
+                }, new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mRootView.hideLoading();
+                    }
+                });
+    }
+
+
     @Override
     public void onDestroy() {
         super.onDestroy();
