@@ -1,5 +1,7 @@
 package com.wang.social.pictureselector.ui;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -23,6 +25,7 @@ public class FragmentPicturePreview extends Fragment {
     View rootView;
     ViewPager viewPager;
     PreviewAdapter previewAdapter;
+    String[] files;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -31,6 +34,22 @@ public class FragmentPicturePreview extends Fragment {
 
         viewPager = rootView.findViewById(R.id.view_pager);
 
+        rootView.findViewById(R.id.cancel_text_view)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        getActivity().finish();
+                    }
+                });
+
+        rootView.findViewById(R.id.confirm_text_view)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
+
         return rootView;
     }
 
@@ -38,11 +57,18 @@ public class FragmentPicturePreview extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        String[] files = getActivity().getIntent().getStringArrayExtra(PictureSelector.NAME_FILE_PATH_LIST);
+        files = getActivity().getIntent().getStringArrayExtra(PictureSelector.NAME_FILE_PATH_LIST);
 
         if (null != files && files.length > 0) {
             previewAdapter = new PreviewAdapter(getContext(), files);
             viewPager.setAdapter(previewAdapter);
         }
+    }
+
+    private void finishWithResult(String[] list) {
+        Intent intent = new Intent();
+        intent.putExtra(PictureSelector.NAME_FILE_PATH_LIST, list);
+        getActivity().setResult(Activity.RESULT_OK, intent);
+        getActivity().finish();
     }
 }

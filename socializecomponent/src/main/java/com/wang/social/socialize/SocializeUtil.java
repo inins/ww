@@ -20,6 +20,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.Map;
 
+import timber.log.Timber;
+
 public class SocializeUtil {
     public final static String TAG = SocializeUtil.class.getSimpleName().toString();
     /**
@@ -125,6 +127,7 @@ public class SocializeUtil {
 
 
     public static void init(Application application) {
+        Timber.i("友盟初始化...");
         /*
          * 初始化common库
          * 参数1:上下文，不能为空
@@ -151,7 +154,7 @@ public class SocializeUtil {
         // QQ和Qzone appid appkey
         PlatformConfig.setQQZone("1106099147", "GImOYfGQ1twdofyv");
         // 新浪微博 appkey appsecret
-        PlatformConfig.setSinaWeibo("2310796351", "d19680a11876ebdecceb1ac21a903076", "http://socialize_weibo.com");
+        PlatformConfig.setSinaWeibo("2310796351", "d19680a11876ebdecceb1ac21a903076", "http://weibo.com");
     }
 
     private static @LoginPlatform

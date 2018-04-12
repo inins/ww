@@ -15,11 +15,15 @@ public interface VerifyPhoneContract {
          *  验证码验证成功
          */
         void onCheckVerifyCodeSuccess(String mobile, String code);
+        void onSendVerifyCodeSuccess();
     }
 
 
     interface Model extends IModel {
         Observable<BaseJson> preVerifyForForgetPassword(
                 String mobile, String code);
+
+        Observable<BaseJson> sendVerifyCode(
+                String mobile, int type);
     }
 }

@@ -15,6 +15,7 @@ import com.wang.social.pictureselector.ui.FragmentPictureClip;
 public class ActivityPictureClip extends AppCompatActivity {
 
     FragmentPictureClip fragmentPictureClip;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,13 +25,21 @@ public class ActivityPictureClip extends AppCompatActivity {
 
         setContentView(R.layout.ps_activity_picture_clip);
 
-        Button confirmBtn = findViewById(R.id.confirm_btn);
-        confirmBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragmentPictureClip.clip();
-            }
-        });
+        findViewById(R.id.cancel_text_view)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                });
+
+        findViewById(R.id.confirm_text_view)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        fragmentPictureClip.clip();
+                    }
+                });
 
         fragmentPictureClip = new FragmentPictureClip();
         getSupportFragmentManager()

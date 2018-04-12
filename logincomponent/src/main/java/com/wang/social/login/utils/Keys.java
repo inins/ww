@@ -9,11 +9,8 @@ public class Keys {
     public final static String NAME_MOBILE = "NAME_MOBILE";
     public final static String NAME_VERIFY_CODE = "NAME_VERIFY_CODE";
 
-    public final static String EVENTBUS_TAG_SELECTED = "EVENTBUS_TAG_SELECTED";
-    public final static String EVENTBUS_TAG_UNSELECT = "EVENTBUS_TAG_UNSELECT";
     public final static String EVENTBUS_TAG_DELETE = "EVENTBUS_TAG_DELETE";
     public final static String EVENTBUS_TAG_ENTITY = "EVENTBUS_TAG_ENTITY";
-
 
     public final static String NAME_MODE = "NAME_MODE";
     public final static String NAME_FROM_LOGIN = "NAME_FROM_LOGIN";
@@ -38,4 +35,16 @@ public class Keys {
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface TagType {}
+
+    /**
+     * 密码修改类型
+     */
+    public final static int TYPE_RESET_PASSWORD = 1;
+    public final static int TYPE_FORGOT_PASSWORD = 2;
+    @IntDef({
+            TYPE_RESET_PASSWORD,
+            TYPE_FORGOT_PASSWORD
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface TypePasswordUI {}
 }

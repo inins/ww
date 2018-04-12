@@ -35,6 +35,18 @@ public class PictureSelector {
         return new PictureSelector(fragment);
     }
 
+    /**
+     * 裁切图片
+     * @param activity activity
+     * @param image 图片路径
+     * @param requestCode requestCode
+     */
+    public static void clip(@NonNull Activity activity, String image, int requestCode) {
+        Intent intent = new Intent(activity, ActivityPictureClip.class);
+        intent.putExtra(PictureSelector.NAME_FILE_PATH, image);
+        activity.startActivityForResult(intent, requestCode);
+    }
+
     private final WeakReference<Activity> activity;
     private final WeakReference<Fragment> fragment;
     private final SelectorSpec selectorSpec;

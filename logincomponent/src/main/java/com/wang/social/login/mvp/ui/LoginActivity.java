@@ -19,7 +19,9 @@ import com.frame.component.path.HomePath;
 import com.frame.component.router.ui.UIRouter;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.utils.BarUtils;
+import com.frame.utils.FrameUtils;
 import com.frame.utils.ToastUtil;
+import com.squareup.leakcanary.RefWatcher;
 import com.umeng.socialize.UMShareAPI;
 import com.wang.social.login.R;
 import com.frame.di.component.AppComponent;
@@ -37,6 +39,7 @@ import com.wang.social.login.utils.ViewUtils;
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 @RouteNode(path = "/login", desc = "登陆页")
 public class LoginActivity extends BaseAppActivity<LoginPresenter> implements LoginContract.View {
@@ -439,5 +442,20 @@ public class LoginActivity extends BaseAppActivity<LoginPresenter> implements Lo
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+
+
+        if (FrameUtils.obtainAppComponentFromContext(this).extras().get(RefWatcher.class.getName())
+                instanceof RefWatcher) {
+            Timber.i("Watch this!");
+            RefWatcher refWatcher = (RefWatcher)FrameUtils.obtainAppComponentFromContext(this).extras().get(RefWatcher.class.getName());
+
+            refWatcher.watch(this);
+        }
     }
 }

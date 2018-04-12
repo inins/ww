@@ -23,4 +23,7 @@ public interface LoginPath extends BasePath{
     // 修改/重置密码
     String LOGIN_RESET_PASSWORD = "login_reset_password";
     String LOGIN_RESET_PASSWORD_URL = SCHEME + HOST + LOGIN_RESET_PASSWORD;
+    // 验证手机
+    String LOGIN_VERIFY_PHONE = "login_verify_phone";
+    String LOGIN_VERIFY_PHONE_URL = SCHEME + HOST + LOGIN_VERIFY_PHONE;
 }

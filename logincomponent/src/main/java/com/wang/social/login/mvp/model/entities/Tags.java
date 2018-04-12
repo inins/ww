@@ -1,4 +1,4 @@
-package com.wang.social.login.mvp.model.entities.dto;
+package com.wang.social.login.mvp.model.entities;
 
 import com.wang.social.login.mvp.model.entities.Tag;
 

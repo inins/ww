@@ -30,7 +30,6 @@ public class FragmentPictureClip extends Fragment {
 
         clipImageLayout = rootView.findViewById(R.id.clip_image_layout);
 
-
         return rootView;
     }
 

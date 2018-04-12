@@ -7,14 +7,15 @@ import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
 import com.wang.social.login.mvp.contract.TagSelectionContract;
+import com.wang.social.login.mvp.model.entities.PersonalTagCount;
 import com.wang.social.login.mvp.model.entities.Tag;
-import com.wang.social.login.mvp.model.entities.dto.Tags;
+import com.wang.social.login.mvp.model.entities.Tags;
+import com.wang.social.login.mvp.model.entities.dto.PersonalTagCountDTO;
 
 import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
@@ -76,7 +77,6 @@ public class TagSelectionPresenter extends
         mApiHelper.execute(mRootView,
                 mModel.parentTagList(),
                 new ErrorHandleSubscriber<Tags>(mErrorHandler) {
-
                     @Override
                     public void onNext(Tags tags) {
                         mRootView.resetTabView(tags);
@@ -125,6 +125,40 @@ public class TagSelectionPresenter extends
                         // 如果失败则认为没有已选标签
                         // 开始加载标签数据
                         getParentTagList();
+                    }
+                }, new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                        mRootView.showLoading();
+                    }
+                }, new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mRootView.hideLoading();
+                    }
+                });
+    }
+
+
+    /**
+     * 编辑推荐标签
+     */
+    public void findMyTagCount() {
+        mApiHelper.execute(mRootView,
+                mModel.findMyTagCount(),
+                new ErrorHandleSubscriber<PersonalTagCount>(mErrorHandler) {
+
+                    @Override
+                    public void onNext(PersonalTagCount tagCount) {
+                        mRootView.setMyTagCount(tagCount.getTagCount());
+
+                        // 开始加载标签数据
+                        getParentTagList();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mRootView.showToast(e.getMessage());
                     }
                 }, new Consumer<Disposable>() {
                     @Override

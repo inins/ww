@@ -7,8 +7,9 @@ import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.BaseModel;
 import com.wang.social.login.mvp.contract.TagSelectionContract;
 import com.wang.social.login.mvp.model.api.TagService;
+import com.wang.social.login.mvp.model.entities.PersonalTagCount;
 import com.wang.social.login.mvp.model.entities.Tag;
-import com.wang.social.login.mvp.model.entities.dto.Tags;
+import com.wang.social.login.mvp.model.entities.dto.PersonalTagCountDTO;
 import com.wang.social.login.mvp.model.entities.dto.TagsDTO;
 
 import java.util.List;
@@ -86,5 +87,15 @@ public class TagSelectionModel extends BaseModel implements TagSelectionContract
         return mRepositoryManager
                 .obtainRetrofitService(TagService.class)
                 .addPersonalTag(param);
+    }
+
+    @Override
+    public Observable<BaseJson<PersonalTagCountDTO>> findMyTagCount() {
+        Map<String, Object> param = new NetParam()
+                .put("v","2.0.0")
+                .build();
+        return mRepositoryManager
+                .obtainRetrofitService(TagService.class)
+                .findMyTagCount(param);
     }
 }
