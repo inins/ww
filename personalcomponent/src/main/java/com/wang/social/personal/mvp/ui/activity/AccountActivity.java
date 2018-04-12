@@ -52,12 +52,12 @@ public class AccountActivity extends BasicAppActivity implements IView {
     TextView textCoulduse;
 
     public static void start(Context context) {
-        if (CommonHelper.LoginHelper.isLogin()) {
+//        if (CommonHelper.LoginHelper.isLogin()) {
             Intent intent = new Intent(context, AccountActivity.class);
             context.startActivity(intent);
-        } else {
-            CommonHelper.LoginHelper.startLoginActivity(context);
-        }
+//        } else {
+//            CommonHelper.LoginHelper.startLoginActivity(context);
+//        }
     }
 
     @Override

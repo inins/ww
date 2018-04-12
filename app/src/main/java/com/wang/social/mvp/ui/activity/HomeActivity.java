@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 import android.widget.RadioGroup;
 
 import com.frame.component.service.personal.PersonalFragmentInterface;
@@ -16,22 +17,24 @@ import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.StatusBarUtil;
 import com.wang.social.R;
 import com.wang.social.mvp.ui.adapter.PagerAdapterHome;
+import com.wang.social.mvp.ui.dialog.DialogHomeAdd;
 
 import butterknife.BindView;
 
 @RouteNode(path = "/main", desc = "首页")
-public class MainActivity extends BasicAppActivity implements RadioGroup.OnCheckedChangeListener {
+public class HomeActivity extends BasicAppActivity implements RadioGroup.OnCheckedChangeListener {
 
     @BindView(R.id.group_tab)
     RadioGroup groupTab;
     @BindView(R.id.pager)
     ViewPager pager;
 
+    private DialogHomeAdd dialogHomeAdd;
     private PagerAdapterHome pagerAdapter;
     private int[] tabsId = new int[]{R.id.tab_1, R.id.tab_2, R.id.tab_3, R.id.tab_4};
 
     public static void start(Context context) {
-        Intent intent = new Intent(context, MainActivity.class);
+        Intent intent = new Intent(context, HomeActivity.class);
         context.startActivity(intent);
     }
 
@@ -63,7 +66,7 @@ public class MainActivity extends BasicAppActivity implements RadioGroup.OnCheck
 
     @Override
     public int initView(@NonNull Bundle savedInstanceState) {
-        return R.layout.activity_main;
+        return R.layout.activity_home;
     }
 
     @Override
@@ -72,6 +75,7 @@ public class MainActivity extends BasicAppActivity implements RadioGroup.OnCheck
         pagerAdapter = new PagerAdapterHome(getSupportFragmentManager());
         pager.setOffscreenPageLimit(4);
         pager.setAdapter(pagerAdapter);
+        dialogHomeAdd = new DialogHomeAdd(this);
     }
 
     @Override
@@ -80,6 +84,14 @@ public class MainActivity extends BasicAppActivity implements RadioGroup.OnCheck
             if (tabsId[i] == checkedId) {
                 pager.setCurrentItem(i, false);
             }
+        }
+    }
+
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.img_add:
+                dialogHomeAdd.show();
+                break;
         }
     }
 

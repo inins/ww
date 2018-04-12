@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <FrameLayout
+        android:id="@+id/btn_qs"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@drawable/shape_oval_white"
+        android:foreground="?attr/selectableItemBackgroundBorderless">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableTop="@drawable/ic_dialog_qs"
+            android:lineSpacingExtra="1dp"
+            android:text="@string/common_qs"
+            android:textColor="@color/common_text_blank_dark"
+            android:textSize="14sp" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/btn_topic"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/shape_oval_white"
+        android:foreground="?attr/selectableItemBackgroundBorderless">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableTop="@drawable/ic_dialog_topic"
+            android:lineSpacingExtra="1dp"
+            android:text="@string/common_topc"
+            android:textColor="@color/common_text_blank_dark"
+            android:textSize="14sp" />
+
+    </FrameLayout>
+
+</LinearLayout>

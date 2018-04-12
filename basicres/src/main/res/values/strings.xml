@@ -1,2 +1,4 @@
 <resources>
+    <string name="common_qs">趣晒</string>
+    <string name="common_topc">话题</string>
 </resources>

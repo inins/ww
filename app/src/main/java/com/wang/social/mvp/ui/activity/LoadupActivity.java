@@ -3,19 +3,11 @@ package com.wang.social.mvp.ui.activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.v4.view.ViewPager;
-import android.widget.RadioGroup;
 
-import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.di.component.AppComponent;
-import com.frame.entities.EventBean;
-import com.frame.utils.StatusBarUtil;
 import com.wang.social.R;
-import com.wang.social.mvp.ui.adapter.PagerAdapterHome;
-
-import butterknife.BindView;
 
 public class LoadupActivity extends BasicAppActivity {
 
@@ -30,7 +22,7 @@ public class LoadupActivity extends BasicAppActivity {
             @Override
             public void run() {
                 if (CommonHelper.LoginHelper.isLogin()) {
-                    MainActivity.start(LoadupActivity.this);
+                    HomeActivity.start(LoadupActivity.this);
                 } else {
                     CommonHelper.LoginHelper.startLoginActivity(LoadupActivity.this);
                 }

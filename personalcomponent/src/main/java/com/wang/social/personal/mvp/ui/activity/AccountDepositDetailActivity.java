@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 
 import com.frame.base.BaseAdapter;
 import com.frame.base.BasicActivity;
@@ -18,12 +19,13 @@ import com.wang.social.personal.R2;
 import com.wang.social.personal.common.ItemDecorationDivider;
 import com.wang.social.personal.mvp.entities.TestEntity;
 import com.wang.social.personal.mvp.ui.adapter.RecycleAdapterDepositDetail;
-import com.wang.social.personal.mvp.ui.adapter.RecycleAdapterDepositRecord;
+import com.wang.social.personal.mvp.ui.dialog.DepositePopupWindow;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class AccountDepositDetailActivity extends BasicActivity implements BaseAdapter.OnItemClickListener<TestEntity> {
 
@@ -31,7 +33,10 @@ public class AccountDepositDetailActivity extends BasicActivity implements BaseA
     RecyclerView recycler;
     @BindView(R2.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.btn_right)
+    TextView btnRight;
     private RecycleAdapterDepositDetail adapter;
+    private DepositePopupWindow popupWindow;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, AccountDepositDetailActivity.class);
@@ -48,6 +53,7 @@ public class AccountDepositDetailActivity extends BasicActivity implements BaseA
     public void initData(@NonNull Bundle savedInstanceState) {
         FocusUtil.focusToTop(toolbar);
 
+        popupWindow = new DepositePopupWindow(this);
         adapter = new RecycleAdapterDepositDetail();
         adapter.setOnItemClickListener(this);
         recycler.setNestedScrollingEnabled(false);
@@ -79,7 +85,10 @@ public class AccountDepositDetailActivity extends BasicActivity implements BaseA
     }
 
     public void onClick(View v) {
-
+        int id = v.getId();
+        if (id == R.id.btn_right) {
+            popupWindow.showPopupWindow(v);
+        }
     }
 
     @Override
@@ -90,5 +99,12 @@ public class AccountDepositDetailActivity extends BasicActivity implements BaseA
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
 
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

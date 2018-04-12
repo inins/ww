@@ -20,7 +20,27 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@android:color/transparent"
             app:navigationIcon="@drawable/common_ic_back"
-            app:popupTheme="@style/personal_AppTheme.PopupOverlay" />
+            app:popupTheme="@style/personal_AppTheme.PopupOverlay">
+
+            <TextView
+                android:id="@+id/btn_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/personal_shape_rect_hint_conerfull"
+                android:drawablePadding="8dp"
+                android:drawableRight="@drawable/personal_ic_down_dark"
+                android:onClick="onClick"
+                android:paddingBottom="5dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="5dp"
+                android:text="全部"
+                android:textColor="@color/common_text_blank"
+                android:textSize="15sp" />
+
+        </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 
@@ -43,10 +63,10 @@
                 app:personal_textTitle="@string/personal_account_deposit_detail_title" />
 
             <android.support.v7.widget.RecyclerView
-                android:layout_marginTop="20dp"
                 android:id="@+id/recycler"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp" />
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

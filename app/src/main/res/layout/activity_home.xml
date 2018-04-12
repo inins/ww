@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".mvp.ui.activity.MainActivity">
+    tools:context=".mvp.ui.activity.HomeActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,9 +31,9 @@
             <RadioButton
                 android:id="@+id/tab_1"
                 style="@style/RadioHomeTab"
+                android:checked="true"
                 android:drawableTop="@drawable/select_home_tab_w"
-                android:text="@string/home_tab_w"
-                android:checked="true" />
+                android:text="@string/home_tab_w" />
 
             <RadioButton
                 android:id="@+id/tab_2"
@@ -42,11 +42,13 @@
                 android:text="@string/home_tab_a" />
 
             <ImageView
+                android:id="@+id/img_add"
+                android:onClick="onClick"
                 android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:scaleType="center"
-                android:src="@drawable/ic_home_tab_center"
-                android:layout_height="match_parent" />
+                android:src="@drawable/ic_home_tab_center" />
 
             <RadioButton
                 android:id="@+id/tab_3"
