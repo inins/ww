@@ -67,6 +67,9 @@ public class TagSelectionPresenter extends
 
     }
 
+    /**
+     * 获取一级标签列表(标签页Tab标题)
+     */
     public void getParentTagList() {
         mApiHelper.execute(mRootView,
                 mModel.parentTagList(),
@@ -94,6 +97,9 @@ public class TagSelectionPresenter extends
                 });
     }
 
+    /**
+     * 已选推荐标签列表(兴趣标签)
+     */
     public void myRecommendTag() {
         mApiHelper.execute(mRootView,
                 // 这里需要一次获取所有的标签，所以给一个很大的数字
@@ -130,6 +136,8 @@ public class TagSelectionPresenter extends
                     }
                 });
     }
+
+
 
     /**
      * 选中Tag

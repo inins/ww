@@ -41,7 +41,6 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
     /**
      *  返回TagListFragment
      * @param list 选中列表(主要在 兴趣大杂烩时使用)
-     * @return
      */
     public static TagListFragment newSelectionMode(int parentId, ArrayList<Tag> list) {
         TagListFragment fragment = new TagListFragment();

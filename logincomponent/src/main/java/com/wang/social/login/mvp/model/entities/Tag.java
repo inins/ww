@@ -3,6 +3,8 @@ package com.wang.social.login.mvp.model.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Date;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +15,8 @@ public class Tag implements Parcelable {
     private String tagName;
     // state:是否已选为个人标签(0：不是，1：是)
     private int state;
+    // isInterest:是否为个人兴趣推荐标签(0:不是，1：是)
+    private int isInterest;
 
     public boolean isPersonalTag() {
         return getState() == 1;
