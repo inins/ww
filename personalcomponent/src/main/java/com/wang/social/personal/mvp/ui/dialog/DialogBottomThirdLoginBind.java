@@ -50,12 +50,26 @@ public class DialogBottomThirdLoginBind extends BaseDialog {
     @OnClick({R2.id.btn_weixin, R2.id.btn_weibo, R2.id.btn_qq, R2.id.btn_cancel})
     public void onClick(View view) {
         int i = view.getId();
-        if (i == R.id.btn_weixin || i == R.id.btn_weibo || i == R.id.btn_qq) {
-            ToastUtil.showToastShort("建设中...");
-
+        if (i == R.id.btn_weixin) {
+            if (onThirdLoginDialogListener!=null) onThirdLoginDialogListener.onWeiXinClick(view);
+        } else if (i == R.id.btn_weibo) {
+            if (onThirdLoginDialogListener!=null) onThirdLoginDialogListener.onWeiBoClick(view);
+        } else if (i == R.id.btn_qq) {
+            if (onThirdLoginDialogListener!=null) onThirdLoginDialogListener.onQQClick(view);
         } else if (i == R.id.btn_cancel) {
             dismiss();
-
         }
+    }
+
+    OnThirdLoginDialogListener onThirdLoginDialogListener;
+
+    public void setOnThirdLoginDialogListener(OnThirdLoginDialogListener onThirdLoginDialogListener) {
+        this.onThirdLoginDialogListener = onThirdLoginDialogListener;
+    }
+
+    public interface OnThirdLoginDialogListener{
+        void onWeiXinClick(View v);
+        void onWeiBoClick(View v);
+        void onQQClick(View v);
     }
 }

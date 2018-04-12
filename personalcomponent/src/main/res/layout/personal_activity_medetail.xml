@@ -131,8 +131,8 @@
             <TextView
                 android:id="@+id/lay_old"
                 style="@style/personal_TextMeItem"
-                android:onClick="onClick"
                 android:hint="暂无"
+                android:onClick="onClick"
                 android:text="@string/personal_medetail_old" />
             <!--android:drawableRight="@drawable/ic_me_next"-->
 
@@ -201,19 +201,20 @@
 
             <TextView
                 android:id="@+id/text_sign"
-                android:layout_marginLeft="120dp"
                 style="@style/personal_TextMeItemContent"
                 android:layout_gravity="right|center_vertical"
+                android:layout_marginLeft="120dp"
                 android:layout_marginRight="15dp"
-                android:paddingTop="12dp"
+                android:hint="未设置"
                 android:paddingBottom="12dp"
-                tools:text="签名很长很长，一行都放不下了放不下放不下放不下放不下，可以放好几行"
-                android:hint="未设置" />
+                android:paddingTop="12dp"
+                tools:text="签名很长很长，一行都放不下了放不下放不下放不下放不下，可以放好几行" />
 
             <TextView
                 android:id="@+id/lay_sign"
                 style="@style/personal_TextMeItem"
                 android:onClick="onClick"
+                android:foreground="@null"
                 android:text="@string/personal_medetail_sign" />
             <!--android:drawableRight="@drawable/ic_me_next"-->
 

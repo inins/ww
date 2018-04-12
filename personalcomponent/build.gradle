@@ -1,5 +1,5 @@
-apply plugin: 'com.component.build'
-//apply plugin: 'com.android.application'
+//apply plugin: 'com.component.build'
+apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.butterknife'
 
 android {
@@ -40,15 +40,15 @@ android {
                 proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             }
         }
-//        sourceSets {
-//            main {
-//                manifest.srcFile 'src/main/runalone/AndroidManifest.xml'
-//                java.srcDirs = ['src/main/java', 'src/main/runalone/java']
-//                res.srcDirs = ['src/main/res', 'src/main/runalone/res']
-//                assets.srcDirs = ['src/main/assets', 'src/main/runalone/assets']
-//                jniLibs.srcDirs = ['src/main/jniLibs', 'src/main/runalone/jniLibs']
-//            }
-//        }
+        sourceSets {
+            main {
+                manifest.srcFile 'src/main/runalone/AndroidManifest.xml'
+                java.srcDirs = ['src/main/java', 'src/main/runalone/java']
+                res.srcDirs = ['src/main/res', 'src/main/runalone/res']
+                assets.srcDirs = ['src/main/assets', 'src/main/runalone/assets']
+                jniLibs.srcDirs = ['src/main/jniLibs', 'src/main/runalone/jniLibs']
+            }
+        }
     }
 
     resourcePrefix "personal_"
@@ -86,7 +86,7 @@ dependencies {
     implementation project(':socializecomponent')
 }
 
-combuild {
-    applicationName = 'com.frame.base.BaseApplication'
-    isRegisterCompoAuto = true
-}
+//combuild {
+//    applicationName = 'com.frame.base.BaseApplication'
+//    isRegisterCompoAuto = true
+//}

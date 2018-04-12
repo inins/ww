@@ -115,4 +115,9 @@ public interface UserService {
     @POST("/app/idea/feedback?v=2.0.0")
     Observable<BaseJson<Object>> feedback(@Field("phone") String phone, @Field("content") String content, @Field("pictures") String pictures);
 
+    //绑定三方账户
+    @FormUrlEncoded
+    @POST("/app/userInfo/bind?v=2.0.0")
+    Observable<BaseJson<Object>> bindThirdLogin(@Field("platform") String platform, @Field("uid") String uid);
+
 }

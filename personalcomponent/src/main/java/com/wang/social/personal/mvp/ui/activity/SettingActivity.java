@@ -17,14 +17,37 @@ import com.frame.component.router.ui.UIRouter;
 import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
+import com.frame.http.api.ApiHelperEx;
+import com.frame.http.api.BaseJson;
+import com.frame.http.api.error.ErrorHandleSubscriber;
+import com.frame.http.api.error.RxErrorHandler;
+import com.frame.http.imageloader.ImageLoader;
+import com.frame.integration.IRepositoryManager;
+import com.frame.mvp.IView;
+import com.frame.utils.ToastUtil;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
+import com.wang.social.personal.di.component.DaggerSingleActivityComponent;
+import com.wang.social.personal.mvp.model.api.UserService;
 import com.wang.social.personal.mvp.ui.dialog.DialogBottomThirdLoginBind;
 import com.wang.social.personal.mvp.ui.dialog.DialogSure;
+import com.wang.social.personal.net.helper.NetThirdLoginBindHelper;
+import com.wang.social.socialize.SocializeUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
-public class SettingActivity extends BasicAppActivity {
+import java.util.Map;
+
+import javax.inject.Inject;
+
+import retrofit2.http.Field;
+
+public class SettingActivity extends BasicAppActivity implements IView {
+
+    @Inject
+    NetThirdLoginBindHelper netThirdLoginBindHelper;
+
+    private DialogBottomThirdLoginBind dialogThirdLogin;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, SettingActivity.class);
@@ -52,17 +75,33 @@ public class SettingActivity extends BasicAppActivity {
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
+        dialogThirdLogin = new DialogBottomThirdLoginBind(this);
+        dialogThirdLogin.setOnThirdLoginDialogListener(new DialogBottomThirdLoginBind.OnThirdLoginDialogListener() {
+            @Override
+            public void onWeiXinClick(View v) {
+                netThirdLoginBindHelper.netBindWeiXin(SettingActivity.this, SettingActivity.this);
+            }
 
+            @Override
+            public void onWeiBoClick(View v) {
+                netThirdLoginBindHelper.netBindWeiBo(SettingActivity.this, SettingActivity.this);
+            }
+
+            @Override
+            public void onQQClick(View v) {
+                netThirdLoginBindHelper.netBindQQ(SettingActivity.this, SettingActivity.this);
+            }
+        });
     }
 
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.btn_psw) {
-            UIRouter.getInstance().openUri(this, LoginPath.LOGIN_RESET_PASSWORD_URL, null);
+            CommonHelper.LoginHelper.startSetPswActivity(this);
         } else if (i == R.id.btn_phone) {
-            UIRouter.getInstance().openUri(this, LoginPath.LOGIN_BIND_PHONE_URL, null);
+            CommonHelper.LoginHelper.startBindPhoneActivity(this);
         } else if (i == R.id.btn_thirdlogin) {
-            new DialogBottomThirdLoginBind(this).show();
+            dialogThirdLogin.show();
         } else if (i == R.id.btn_secret) {
             PrivacyActivity.start(this);
         } else if (i == R.id.btn_clear) {
@@ -76,7 +115,6 @@ public class SettingActivity extends BasicAppActivity {
             DialogSure.showDialog(this, "确定要退出登录？", () -> {
                 AppDataHelper.removeToken();
                 AppDataHelper.removeUser();
-//                UIRouter.getInstance().openUri(SettingActivity.this, LoginPath.LOGIN_URL, null);
                 CommonHelper.LoginHelper.startLoginActivity(SettingActivity.this);
                 EventBus.getDefault().post(new EventBean(EventBean.EVENT_LOGOUT));
             });
@@ -85,6 +123,20 @@ public class SettingActivity extends BasicAppActivity {
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
+        DaggerSingleActivityComponent
+                .builder()
+                .appComponent(appComponent)
+                .build()
+                .inject(this);
+    }
 
+    @Override
+    public void showLoading() {
+        showLoadingDialog();
+    }
+
+    @Override
+    public void hideLoading() {
+        dismissLoadingDialog();
     }
 }

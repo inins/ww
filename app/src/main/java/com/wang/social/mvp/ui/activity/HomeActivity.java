@@ -60,7 +60,7 @@ public class HomeActivity extends BasicAppActivity implements RadioGroup.OnCheck
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBarUtil.setStatusBarColor(this, R.color.common_blue_deep);
+        StatusBarUtil.setStatusBarColor(this, R.color.common_white);
         setNeedDoubleClickExit(true);
     }
 
@@ -71,13 +71,15 @@ public class HomeActivity extends BasicAppActivity implements RadioGroup.OnCheck
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
+        dialogHomeAdd = new DialogHomeAdd(this);
         groupTab.setOnCheckedChangeListener(this);
         pagerAdapter = new PagerAdapterHome(getSupportFragmentManager());
         pager.setOffscreenPageLimit(4);
         pager.setAdapter(pagerAdapter);
-        dialogHomeAdd = new DialogHomeAdd(this);
+        pager.addOnPageChangeListener(onPageChangeListener);
     }
 
+    //tab动作，切换viewpager
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
         for (int i = 0; i < tabsId.length; i++) {
@@ -87,6 +89,28 @@ public class HomeActivity extends BasicAppActivity implements RadioGroup.OnCheck
         }
     }
 
+    //页面切换事件
+    private ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.SimpleOnPageChangeListener() {
+        @Override
+        public void onPageSelected(int position) {
+            switch (tabsId[position]) {
+                case R.id.tab_1:
+                    StatusBarUtil.setStatusBarColor(HomeActivity.this, R.color.common_white);
+                    break;
+                case R.id.tab_2:
+                    StatusBarUtil.setStatusBarColor(HomeActivity.this, R.color.common_white);
+                    break;
+                case R.id.tab_3:
+                    StatusBarUtil.setStatusBarColor(HomeActivity.this, R.color.common_white);
+                    break;
+                case R.id.tab_4:
+                    StatusBarUtil.setStatusBarColor(HomeActivity.this, R.color.common_blue_deep);
+                    break;
+            }
+        }
+    };
+
+    //中间按钮点击事件
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_add:
@@ -95,6 +119,7 @@ public class HomeActivity extends BasicAppActivity implements RadioGroup.OnCheck
         }
     }
 
+    //友盟回调需要此处进行处理
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

@@ -59,7 +59,6 @@ public abstract class BasicAppActivity extends BasicActivity {
     @Override
     protected void onPause() {
         super.onPause();
-
         isResume = false;
     }
 
@@ -70,8 +69,6 @@ public abstract class BasicAppActivity extends BasicActivity {
     }
 
     public final void showLoadingDialog() {
-        if (!isResume) return;
-
         if (dialogLoading.get() == null) dialogLoading = new WeakReference(new DialogLoading(this));
         dialogLoading.get().show();
     }

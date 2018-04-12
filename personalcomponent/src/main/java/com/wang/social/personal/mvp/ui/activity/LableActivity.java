@@ -160,7 +160,7 @@ public class LableActivity extends BaseAppActivity<LablePresonter> implements La
                 adapter_me.notifyDataSetChanged();
             }
         } else if (i == R.id.btn_add) {
-            UIRouter.getInstance().openUri(this, LoginPath.LOGIN_TAG_SELECTION_URL, null);
+            CommonHelper.LoginHelper.startTagSelectActivity(this);
         }
     }
 

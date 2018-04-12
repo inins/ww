@@ -12,6 +12,7 @@ import com.wang.social.personal.mvp.ui.activity.MeDetailActivity;
 import com.wang.social.personal.mvp.ui.activity.MePhotoActivity;
 import com.wang.social.personal.mvp.ui.activity.OfficialPhotoActivity;
 import com.wang.social.personal.mvp.ui.activity.QrcodeActivity;
+import com.wang.social.personal.mvp.ui.activity.SettingActivity;
 
 import dagger.Component;
 
@@ -30,4 +31,5 @@ public interface SingleActivityComponent {
     void inject(AccountExchangeActivity activity);
     void inject(OfficialPhotoActivity activity);
     void inject(QrcodeActivity activity);
+    void inject(SettingActivity activity);
 }
