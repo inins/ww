@@ -17,6 +17,8 @@ public class SelectorSpec {
     boolean clip = true;
     // 图片显示引擎
     ImageEngine imageEngine = new GlideEngine();
+    // 需要裁切的图片
+    String imageres;
 
     private SelectorSpec() {
     }
@@ -75,5 +77,13 @@ public class SelectorSpec {
 
     public void setImageEngine(ImageEngine imageEngine) {
         this.imageEngine = imageEngine;
+    }
+
+    public String getImageres() {
+        return imageres;
+    }
+
+    public void setImageres(String imageres) {
+        this.imageres = imageres;
     }
 }

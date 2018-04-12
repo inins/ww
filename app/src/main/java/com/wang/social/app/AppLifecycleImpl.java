@@ -8,7 +8,6 @@ import com.frame.utils.FrameUtils;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 import com.wang.social.BuildConfig;
-import com.wang.social.socialize.SocializeUtil;
 
 import butterknife.ButterKnife;
 import timber.log.Timber;
@@ -43,8 +42,6 @@ public class AppLifecycleImpl implements AppDelegate{
                 .extras()
                 .put(RefWatcher.class.getName(),
                         BuildConfig.USE_CANARY ? LeakCanary.install(application) : RefWatcher.DISABLED);
-
-        SocializeUtil.init(application);
     }
 
     @Override

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -7,7 +7,46 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v4.view.ViewPager>
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_layout">
+
+    </android.support.v4.view.ViewPager>
+
+    <LinearLayout
+        android:id="@+id/bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:background="@color/common_white_trans"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+        <TextView
+            android:id="@+id/cancel_text_view"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="取消"
+            android:textColor="#ff434343"
+            android:textSize="16sp"
+            android:layout_weight="1"
+            android:gravity="center"
+            />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#ff868382"
+            />
+
+        <TextView
+            android:id="@+id/confirm_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="设定"
+            android:textColor="#ff189aff"
+            android:textSize="16sp"
+            android:layout_weight="1"
+            android:gravity="center"
+            />
+    </LinearLayout>
 
 
-</FrameLayout>
+</RelativeLayout>

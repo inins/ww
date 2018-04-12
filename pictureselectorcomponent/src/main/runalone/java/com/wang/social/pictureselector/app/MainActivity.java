@@ -68,6 +68,15 @@ public class MainActivity extends AppCompatActivity {
                                 .show(getSupportFragmentManager(), "");
                     }
                 });
+
+
+        findViewById(R.id.guanfang_btn)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // 官方图库
+                    }
+                });
     }
 
     private View.OnClickListener buttonListener = new View.OnClickListener() {

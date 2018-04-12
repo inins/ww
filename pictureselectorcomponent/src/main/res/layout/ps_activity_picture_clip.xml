@@ -4,24 +4,48 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF">
 
-    <RelativeLayout
-        android:id="@+id/top_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:id="@+id/confirm_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="确定"
-            android:layout_centerInParent="true"/>
-
-    </RelativeLayout>
-
     <FrameLayout
         android:id="@+id/clip_view_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/top_layout"/>
+        android:layout_above="@+id/bottom_layout"/>
+
+    <LinearLayout
+        android:id="@+id/bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:background="@color/common_white_trans"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+        <TextView
+            android:id="@+id/cancel_text_view"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="取消"
+            android:textColor="@color/common_text_blank_dark"
+            android:textSize="16sp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@android:color/darker_gray"
+            />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#ff868382"
+            />
+
+        <TextView
+            android:id="@+id/confirm_text_view"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="设定"
+            android:textColor="#ff189aff"
+            android:textSize="16sp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@android:color/darker_gray"
+            />
+    </LinearLayout>
 
 </RelativeLayout>
