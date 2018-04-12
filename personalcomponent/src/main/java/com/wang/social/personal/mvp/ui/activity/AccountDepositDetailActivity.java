@@ -33,7 +33,7 @@ public class AccountDepositDetailActivity extends BasicActivity implements BaseA
     RecyclerView recycler;
     @BindView(R2.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.btn_right)
+    @BindView(R2.id.btn_right)
     TextView btnRight;
     private RecycleAdapterDepositDetail adapter;
     private DepositePopupWindow popupWindow;

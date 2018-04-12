@@ -16,7 +16,7 @@ import butterknife.OnClick;
 public class DialogHomeAdd extends BaseDialog {
 
     public DialogHomeAdd(Context context) {
-        super(context);
+        super(context,R.style.common_PopupDialog);
     }
 
     @Override
