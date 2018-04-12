@@ -257,4 +257,5 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
     @Override
     public void setData(@Nullable Object data) {
     }
+
 }

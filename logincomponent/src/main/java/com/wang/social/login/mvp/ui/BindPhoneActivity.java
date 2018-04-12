@@ -12,7 +12,9 @@ import com.frame.base.BaseActivity;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.router.facade.annotation.RouteNode;
+import com.frame.utils.FrameUtils;
 import com.frame.utils.ToastUtil;
+import com.squareup.leakcanary.RefWatcher;
 import com.wang.social.login.R;
 import com.wang.social.login.R2;
 import com.wang.social.login.di.component.DaggerBindPhoneComponent;
@@ -26,6 +28,7 @@ import com.wang.social.login.utils.ViewUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 @RouteNode(path = "/login_bind_phone", desc = "手机绑定")
 public class BindPhoneActivity extends BaseActivity<BindPhonePresenter> implements
@@ -136,5 +139,19 @@ public class BindPhoneActivity extends BaseActivity<BindPhonePresenter> implemen
     @Override
     public void hideLoading() {
         mLoadingDialog.dismiss();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+
+        if (FrameUtils.obtainAppComponentFromContext(this).extras().get(RefWatcher.class.getName())
+                instanceof RefWatcher) {
+            Timber.i("Watch this!");
+            RefWatcher refWatcher = (RefWatcher)FrameUtils.obtainAppComponentFromContext(this).extras().get(RefWatcher.class.getName());
+
+            refWatcher.watch(this);
+        }
     }
 }

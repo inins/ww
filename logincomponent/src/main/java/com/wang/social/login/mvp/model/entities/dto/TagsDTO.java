@@ -2,6 +2,7 @@ package com.wang.social.login.mvp.model.entities.dto;
 
 import com.frame.http.api.Mapper;
 import com.wang.social.login.mvp.model.entities.Tag;
+import com.wang.social.login.mvp.model.entities.Tags;
 
 import java.util.ArrayList;
 import java.util.List;

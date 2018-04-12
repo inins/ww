@@ -2,8 +2,6 @@ package com.wang.social.login.mvp.model.entities;
 
 
 import com.frame.component.entities.User;
-import com.frame.http.api.BaseJson;
-import com.wang.social.login.mvp.model.entities.dto.Tags;
 
 import lombok.Data;
 

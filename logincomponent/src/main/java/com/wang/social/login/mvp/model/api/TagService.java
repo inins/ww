@@ -1,6 +1,8 @@
 package com.wang.social.login.mvp.model.api;
 
 import com.frame.http.api.BaseJson;
+import com.wang.social.login.mvp.model.entities.PersonalTagCount;
+import com.wang.social.login.mvp.model.entities.dto.PersonalTagCountDTO;
 import com.wang.social.login.mvp.model.entities.dto.TagsDTO;
 
 import java.util.Map;
@@ -49,4 +51,11 @@ public interface TagService {
     @FormUrlEncoded
     @POST("app/tag/add")
     Observable<BaseJson> addPersonalTag(@FieldMap Map<String, Object> param);
+
+
+    /**
+     * 获取用户总的标签个数
+     */
+    @GET("app/tag/findMyTagCount")
+    Observable<BaseJson<PersonalTagCountDTO>> findMyTagCount(@QueryMap Map<String, Object> param);
 }

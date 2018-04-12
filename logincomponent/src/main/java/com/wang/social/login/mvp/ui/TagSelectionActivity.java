@@ -20,14 +20,16 @@ import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.integration.AppManager;
 import com.frame.router.facade.annotation.RouteNode;
+import com.frame.utils.FrameUtils;
 import com.frame.utils.ToastUtil;
+import com.squareup.leakcanary.RefWatcher;
 import com.wang.social.login.R;
 import com.wang.social.login.R2;
 import com.wang.social.login.di.component.DaggerTagSelectionComponent;
 import com.wang.social.login.di.module.TagSelectionModule;
 import com.wang.social.login.mvp.contract.TagSelectionContract;
 import com.wang.social.login.mvp.model.entities.Tag;
-import com.wang.social.login.mvp.model.entities.dto.Tags;
+import com.wang.social.login.mvp.model.entities.Tags;
 import com.wang.social.login.mvp.presenter.TagSelectionPresenter;
 import com.wang.social.login.mvp.ui.widget.TagListFragment;
 import com.wang.social.login.utils.Keys;
@@ -40,6 +42,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 import static com.wang.social.login.utils.Keys.MODE_CONFIRM;
 import static com.wang.social.login.utils.Keys.MODE_SELECTION;
@@ -150,12 +153,12 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
      */
     @Override
     public void refreshCountTV() {
-        int count = mPresenter.getSelectedTagCount();
+        int count = mMyTagCount + mPresenter.getSelectedTagCount();
 
         if (count > 0) {
             selectedCountHintTV.setVisibility(View.VISIBLE);
             selectedCountTV.setVisibility(View.VISIBLE);
-            selectedCountTV.setText("(" + mPresenter.getSelectedTagCount() + ")");
+            selectedCountTV.setText("(" + count + ")");
         } else {
             selectedCountHintTV.setVisibility(View.INVISIBLE);
             selectedCountTV.setVisibility(View.INVISIBLE);
@@ -170,6 +173,14 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
         EventBus.getDefault().post(new EventBean(EventBean.EVENTBUS_TAG_UPDATED));
 
         gotoMainPage();
+    }
+
+    private int mMyTagCount = 0;
+    @Override
+    public void setMyTagCount(int count) {
+        mMyTagCount = count;
+
+        refreshCountTV();
     }
 
     @Override
@@ -248,7 +259,8 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
     private void initSelectionData() {
         if (mTagType == TAG_TYPE_PERSONAL) {
             // 个人标签模式下，需要现价在已经选了多少个了
-            mPresenter.getParentTagList();
+//            mPresenter.getParentTagList();
+            mPresenter.findMyTagCount();
         } else {
             // 兴趣标签模式下，需要现价在已经的兴趣标签
             mPresenter.myRecommendTag();
@@ -370,6 +382,14 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
     @Override
     public void onDestroy() {
         super.onDestroy();
+
+        if (FrameUtils.obtainAppComponentFromContext(this).extras().get(RefWatcher.class.getName())
+            instanceof RefWatcher) {
+            Timber.i("Watch this!");
+            RefWatcher refWatcher = (RefWatcher)FrameUtils.obtainAppComponentFromContext(this).extras().get(RefWatcher.class.getName());
+
+            refWatcher.watch(this);
+        }
     }
 
     /**
