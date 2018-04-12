@@ -30,36 +30,46 @@ import java.util.List;
 import butterknife.BindView;
 import timber.log.Timber;
 
+import static com.wang.social.login.utils.Keys.MODE_CONFIRM;
+import static com.wang.social.login.utils.Keys.MODE_SELECTION;
+import static com.wang.social.login.utils.Keys.NAME_MODE;
+import static com.wang.social.login.utils.Keys.NAME_PARENT_ID;
+import static com.wang.social.login.utils.Keys.NAME_SELECTED_LIST;
+import static com.wang.social.login.utils.Keys.NAME_TAG_TYPE;
+import static com.wang.social.login.utils.Keys.TAG_TYPE_INTEREST;
+import static com.wang.social.login.utils.Keys.TAG_TYPE_PERSONAL;
+
 public class TagListFragment extends BaseFragment<TagListPresenter> implements
         TagListContract.View {
-    public final static String MODE_SELECTION = "MODE_SELECTION";
-    public final static String MODE_DELETE = "MODE_DELETE";
-    public final static String NAME_SELECTED_LIST = "NAME_SELECTED_LIST";
-    public final static String NAME_PARENT_ID = "NAME_PARENT_ID";
-    public final static String NAME_MODE = "NAME_MODE";
 
     /**
      *  返回TagListFragment
      * @param list 选中列表(主要在 兴趣大杂烩时使用)
      */
-    public static TagListFragment newSelectionMode(int parentId, ArrayList<Tag> list) {
+    public static TagListFragment newSelectionMode(int parentId, ArrayList<Tag> list, @Keys.TagType int type) {
         TagListFragment fragment = new TagListFragment();
 
         Bundle bundle = new Bundle();
         bundle.putString(NAME_MODE, MODE_SELECTION);
         bundle.putInt(NAME_PARENT_ID, parentId);
         bundle.putParcelableArrayList(NAME_SELECTED_LIST, list);
+        bundle.putInt(NAME_TAG_TYPE, type);
         fragment.setArguments(bundle);
         return fragment;
     }
 
-    public static TagListFragment newDeleteMode(int parentId, ArrayList<Tag> list) {
+    /**
+     * 编辑模式
+     * @param list
+     * @return
+     */
+    public static TagListFragment newConfirmMode(ArrayList<Tag> list, @Keys.TagType int type) {
         TagListFragment fragment = new TagListFragment();
 
         Bundle bundle = new Bundle();
-        bundle.putString(NAME_MODE, MODE_DELETE);
-        bundle.putInt(NAME_PARENT_ID, parentId);
+        bundle.putString(NAME_MODE, MODE_CONFIRM);
         bundle.putParcelableArrayList(NAME_SELECTED_LIST, list);
+        bundle.putInt(NAME_TAG_TYPE, type);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -88,12 +98,14 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
     RecyclerView recyclerView;
 
     TagAdapter tagAdapter;
+    // 标签列表模式（选择或者编辑）
     String mode = MODE_SELECTION;
-
     // 父标签id
     int parentId = 0;
+    // 标签列表类型（个人标签还是兴趣标签）
+    @Keys.TagType int tagListType = TAG_TYPE_PERSONAL;
 
-    private TagAdapter.TagDataProvider tagDataProvider = new TagAdapter.TagDataProvider() {
+    private TagAdapter.DataProvider tagDataProvider = new TagAdapter.DataProvider() {
         @Override
         public int getItemCount() {
             return mPresenter.getTagCount();
@@ -106,7 +118,27 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
 
         @Override
         public boolean isDeleteMode() {
-            return mode.equals(MODE_DELETE);
+            return mode.equals(MODE_CONFIRM);
+        }
+
+        /**
+         * 是否选中，需要根据当前标签列表的模式来判断
+         * @param tag
+         * @return
+         */
+        @Override
+        public boolean isSelected(Tag tag) {
+            // 编辑模式一定是选中
+            if (isDeleteMode()) return true;
+
+            switch (tagListType) {
+                case TAG_TYPE_PERSONAL:
+                    return tag.isPersonalTag() || tag.isPersonalSelectedTag();
+                case TAG_TYPE_INTEREST:
+                    return tag.isInterest();
+            }
+
+            return false;
         }
     };
 
@@ -118,7 +150,19 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
     private TagAdapter.TagClickListener tagClickListener = new TagAdapter.TagClickListener() {
         @Override
         public void onTagClick(Tag tag) {
-            boolean selected = mPresenter.tagClick(tag);
+            // 个人标签模式下，已经是个人标签的标签不可点击
+            if (tagListType == TAG_TYPE_PERSONAL) {
+                if (tag.isPersonalTag()) return;
+            }
+
+            // 执行 Tag 点击动作
+            tag.clickTag();
+
+            // 点击后 Tag 是否被选中了
+            boolean selected = tagListType == TAG_TYPE_PERSONAL ?
+                    tag.isPersonalSelectedTag() | tag.isPersonalTag() : tag.isInterest();
+
+            tagListChanged();
 
             EventBean bean = new EventBean(selected ? EventBean.EVENTBUS_TAG_SELECTED : EventBean.EVENTBUS_TAG_UNSELECT);
             bean.put(Keys.EVENTBUS_TAG_ENTITY, tag);
@@ -150,8 +194,6 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
         return R.layout.login_fragment_tag_list;
     }
 
-
-
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         List<Tag> selectedList = null;
@@ -159,10 +201,11 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
             selectedList = getArguments().getParcelableArrayList(NAME_SELECTED_LIST);
             parentId = getArguments().getInt(NAME_PARENT_ID);
             mode = getArguments().getString(NAME_MODE);
+            tagListType = getArguments().getInt(NAME_TAG_TYPE);
         }
 
-        if (mode.equals(MODE_DELETE)) {
-            // 删除模式
+        if (mode.equals(MODE_CONFIRM)) {
+            // 确认模式
             mPresenter.setSelectedList(selectedList);
 
             resetTagListView();

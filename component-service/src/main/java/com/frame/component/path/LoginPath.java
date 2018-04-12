@@ -9,7 +9,7 @@ package com.frame.component.path;
 
 public interface LoginPath extends BasePath{
 
-    String HOST = "parentTagList/";
+    String HOST = "login/";
 
     //登陆页面
     String LOGIN_PATH = "login";

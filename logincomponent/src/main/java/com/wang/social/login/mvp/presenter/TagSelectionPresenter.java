@@ -2,6 +2,7 @@ package com.wang.social.login.mvp.presenter;
 
 import com.frame.di.scope.ActivityScope;
 import com.frame.http.api.ApiHelper;
+import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
@@ -41,12 +43,12 @@ public class TagSelectionPresenter extends
     public void updateRecommendTag() {
         mApiHelper.executeNone(mRootView,
                 mModel.updateRecommendTag(selectedList),
-                new ErrorHandleSubscriber(mErrorHandler) {
+                new ErrorHandleSubscriber<BaseJson>(mErrorHandler) {
                     @Override
-                    public void onNext(Object o) {
+                    public void onNext(BaseJson o) {
 //                        mRootView.showToast(o.toString());
                         // 编辑推荐标签成功
-                        mRootView.onUpdateRecommendTag();
+                        mRootView.onUpdateTagSuccess();
                     }
 
                     @Override
@@ -137,6 +139,37 @@ public class TagSelectionPresenter extends
                 });
     }
 
+    /**
+     * 编辑推荐标签
+     */
+    public void addPersonalTag() {
+        mApiHelper.executeNone(mRootView,
+                mModel.addPersonalTag(selectedList),
+                new ErrorHandleSubscriber<BaseJson>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseJson o) {
+//                        mRootView.showToast(o.toString());
+                        // 编辑标签成功
+                        mRootView.onUpdateTagSuccess();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mRootView.showToast(e.getMessage());
+                    }
+                }, new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                        mRootView.showLoading();
+                    }
+                }, new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mRootView.hideLoading();
+                    }
+                });
+
+    }
 
 
     /**

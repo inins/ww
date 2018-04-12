@@ -16,8 +16,6 @@ public interface TagService {
 
     /**
      *  获取一级标签列表
-     * @param param
-     * @return
      */
     @GET("app/tag/parentTagList")
     Observable<BaseJson<TagsDTO>> parentTagList(@QueryMap Map<String, Object> param);
@@ -25,8 +23,6 @@ public interface TagService {
 
     /**
      * 获取标签库列表
-     * @param param
-     * @return
      */
     @GET("app/tag/taglist")
     Observable<BaseJson<TagsDTO>> taglist(@QueryMap Map<String, Object> param);
@@ -34,8 +30,6 @@ public interface TagService {
 
     /**
      * 编辑推荐标签（首页/话题）
-     * @param param
-     * @return
      */
     @FormUrlEncoded
     @POST("app/tag/updateRecommendTag")
@@ -44,10 +38,15 @@ public interface TagService {
 
     /**
      * 已选推荐标签列表（首页/话题）
-     * @param param
-     * @return
      */
     @FormUrlEncoded
     @POST("app/tag/myRecommendTag")
     Observable<BaseJson<TagsDTO>> myRecommendTag(@FieldMap Map<String, Object> param);
+
+    /**
+     * 添加个人标签
+     */
+    @FormUrlEncoded
+    @POST("app/tag/add")
+    Observable<BaseJson> addPersonalTag(@FieldMap Map<String, Object> param);
 }

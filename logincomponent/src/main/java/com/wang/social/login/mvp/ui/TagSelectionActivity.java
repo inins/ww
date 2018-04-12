@@ -3,7 +3,6 @@ package com.wang.social.login.mvp.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -14,15 +13,11 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.frame.base.BaseActivity;
 import com.frame.component.helper.CommonHelper;
-import com.frame.component.path.HomePath;
-import com.frame.component.router.ui.UIRouter;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
-import com.frame.integration.ActivityLifecycle;
 import com.frame.integration.AppManager;
 import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.ToastUtil;
@@ -39,8 +34,6 @@ import com.wang.social.login.utils.Keys;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 
 import javax.inject.Inject;
@@ -48,34 +41,20 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.wang.social.login.utils.Keys.MODE_CONFIRM;
+import static com.wang.social.login.utils.Keys.MODE_SELECTION;
+import static com.wang.social.login.utils.Keys.NAME_FROM_LOGIN;
+import static com.wang.social.login.utils.Keys.NAME_MODE;
+import static com.wang.social.login.utils.Keys.NAME_SELECTED_LIST;
+import static com.wang.social.login.utils.Keys.NAME_TAG_TYPE;
+import static com.wang.social.login.utils.Keys.TAG_TYPE_INTEREST;
+import static com.wang.social.login.utils.Keys.TAG_TYPE_PERSONAL;
+
 @RouteNode(path = "/login_tag_selection", desc = "标签选择")
 public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter> implements
         TagSelectionContract.View {
-    public final static String NAME_MODE = "NAME_MODE";
-    public final static String NAME_FROM_LOGIN = "NAME_FROM_LOGIN";
-    public final static String NAME_TAG_TYPE = "NAME_TAG_TYPE";
-    public final static String NAME_SELECTED_LIST = "NAME_SELECTED_LIST";
-    // 标签选择
-    public final static String MODE_SELECTION = "MODE_SELECTION";
-    // 兴趣大杂烩
-    public final static String MODE_CONFIRM = "MODE_CONFIRM";
-    public final static String TAG_DELETE = "TAG_DELETE";
 
-
-    /**
-     * 标签类型定义
-     */
-    public final static int TYPE_UNKNOWN = -1;  // 标签类型未知
-    public final static int TYPE_INTEREST = 0;  // 兴趣标签
-    public final static int TYPE_PERSONAL = 1;  // 个人标签
-    @IntDef({
-            TYPE_UNKNOWN,
-            TYPE_INTEREST,
-            TYPE_PERSONAL
-    })
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface TagType {}
-    private @TagType int mTagType = TYPE_PERSONAL; // 标签类型，个人中心模块需要调用，所以默认为个人标签
+    private @Keys.TagType int mTagType = TAG_TYPE_PERSONAL; // 标签类型，个人中心模块需要调用，所以默认为个人标签
 
     /**
      * 启动标签选择页面
@@ -85,10 +64,11 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
      * @param fromLogin 是否是从Login页面跳转过来的
      * @param type 类型，兴趣标签或者个人标签，加载已选和提交更改时需要调用不同的接口
      */
-    private static void start(Context context, String mode, ArrayList<Tag> selectedList, boolean fromLogin, @TagType int type) {
+    private static void start(Context context, String mode, ArrayList<Tag> selectedList, boolean fromLogin, @Keys.TagType int type) {
         Intent intent = new Intent(context, TagSelectionActivity.class);
         intent.putExtra(NAME_MODE, mode);
         intent.putExtra(NAME_FROM_LOGIN, fromLogin);
+        intent.putExtra(NAME_TAG_TYPE, type);
         if (null != selectedList) {
             intent.putParcelableArrayListExtra(NAME_SELECTED_LIST, selectedList);
         }
@@ -102,20 +82,20 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
      * 从登录页面启动的一定是兴趣标签
      */
     public static void startSelectionFromLogin(Context context) {
-        start(context, MODE_SELECTION, null, true, TYPE_INTEREST);
+        start(context, MODE_SELECTION, null, true, TAG_TYPE_INTEREST);
     }
 
     /**
      * 启动标签选择页面
      */
-    public static void startSelection(Context context, @TagType int type) {
+    public static void startSelection(Context context, @Keys.TagType int type) {
         start(context, MODE_SELECTION, null, false, type);
     }
 
     /**
      * 开始确认标签选择
      */
-    public static void startConfirm(Context context, ArrayList<Tag> selectedList, boolean fromLogin, @TagType int type) {
+    public static void startConfirm(Context context, ArrayList<Tag> selectedList, boolean fromLogin, @Keys.TagType int type) {
         start(context, MODE_CONFIRM, selectedList, fromLogin, type);
     }
 
@@ -152,6 +132,11 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
             selectedCountHintTV.setText(getString(R.string.login_confirm));
         }
 
+        // 如果是个人标签，则显示 选定
+        if (mTagType == TAG_TYPE_PERSONAL) {
+            selectedCountHintTV.setText(getString(R.string.login_selected));
+        }
+
         refreshCountTV();
     }
 
@@ -175,15 +160,13 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
             selectedCountHintTV.setVisibility(View.INVISIBLE);
             selectedCountTV.setVisibility(View.INVISIBLE);
         }
-
-
     }
 
     /**
      * 更新已选标签成功，直接跳转到首页
      */
     @Override
-    public void onUpdateRecommendTag() {
+    public void onUpdateTagSuccess() {
         EventBus.getDefault().post(new EventBean(EventBean.EVENTBUS_TAG_UPDATED));
 
         gotoMainPage();
@@ -212,7 +195,7 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
         // 是否是从登录页面跳转过来的
         fromLogin = getIntent().getBooleanExtra(NAME_FROM_LOGIN, false);
         // 读取标签类型,默认为个人标签
-        mTagType = getIntent().getIntExtra(NAME_TAG_TYPE, TYPE_PERSONAL);
+        mTagType = getIntent().getIntExtra(NAME_TAG_TYPE, TAG_TYPE_PERSONAL);
 
         // ToolBar左边按钮，返回
         toolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
@@ -258,14 +241,18 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.ts_content_layout,
-                        TagListFragment.newDeleteMode(-1, mPresenter.getSelectedList()))
+                        TagListFragment.newConfirmMode(mPresenter.getSelectedList(), mTagType))
                 .commit();
     }
 
     private void initSelectionData() {
-        // 先加载 已选推荐标签列表
-        mPresenter.myRecommendTag();
-//        mPresenter.getParentTagList();
+        if (mTagType == TAG_TYPE_PERSONAL) {
+            // 个人标签模式下，需要现价在已经选了多少个了
+            mPresenter.getParentTagList();
+        } else {
+            // 兴趣标签模式下，需要现价在已经的兴趣标签
+            mPresenter.myRecommendTag();
+        }
     }
 
     @Override
@@ -285,7 +272,7 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
             @Override
             public Fragment getItem(int position) {
                 Tag parentTag = tags.getList().get(position);
-                return TagListFragment.newSelectionMode(parentTag.getId(), mPresenter.getSelectedList());
+                return TagListFragment.newSelectionMode(parentTag.getId(), mPresenter.getSelectedList(), mTagType);
             }
 
             @Override
@@ -315,17 +302,31 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
         dismissLoadingDialog();
     }
 
+    /**
+     * 右上角文字区域点击
+     */
     @OnClick(R2.id.selected_count_layout)
     public void selectedCountClicked() {
         switch (mode) {
             case MODE_SELECTION:
                 // 标签选择模式
-                // 跳转到兴趣大杂烩
-                startConfirm(TagSelectionActivity.this, mPresenter.getSelectedList(), fromLogin, mTagType);
+                if (mTagType == TAG_TYPE_PERSONAL) {
+                    // 个人标签选择，直接调用添加个人标签接口
+                    mPresenter.addPersonalTag();
+                } else {
+                    // 跳转到兴趣大杂烩
+                    startConfirm(TagSelectionActivity.this, mPresenter.getSelectedList(), fromLogin, mTagType);
+                }
                 break;
             case MODE_CONFIRM:
-                // 兴趣大杂烩
-                mPresenter.updateRecommendTag();
+                // 确认模式，提交选择
+                if (TAG_TYPE_INTEREST == mTagType) {
+                    // 提交兴趣标签
+                    mPresenter.updateRecommendTag();
+                } else {
+                    // 提交个人标签
+                    mPresenter.addPersonalTag();
+                }
                 break;
         }
     }
@@ -389,12 +390,10 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
      */
     private void gotoMainPage() {
         // 跳转到首页
-        // 路由跳转
-//        UIRouter.getInstance().openUri(this, HomePath.HOME_URL, null);
         if (fromLogin) {
+            // 路由跳转
             CommonHelper.HomeHelper.startHomeActivity(this);
         }
-
 
         finish();
 

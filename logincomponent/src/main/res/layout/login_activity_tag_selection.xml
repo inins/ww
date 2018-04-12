@@ -87,10 +87,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/title_layout"
-            app:tabTextAppearance="@style/login_TagSelectionTabText"
             app:tabMode="scrollable"
             app:tabIndicatorColor="@color/common_blue_deep"
-            app:tabIndicatorHeight="2dp"
+            app:tabIndicatorHeight="1dp"
             app:tabSelectedTextColor="@color/common_blue_deep"
             app:tabTextColor="@color/common_text_blank_dark">
 

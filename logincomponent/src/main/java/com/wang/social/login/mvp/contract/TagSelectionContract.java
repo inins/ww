@@ -18,7 +18,7 @@ public interface TagSelectionContract {
         void resetTabView(Tags tags);
         void refreshCountTV();
         // 更新已选标签成功
-        void onUpdateRecommendTag();
+        void onUpdateTagSuccess();
     }
 
 
@@ -26,5 +26,6 @@ public interface TagSelectionContract {
         Observable<BaseJson<TagsDTO>> parentTagList();
         Observable<BaseJson> updateRecommendTag(List<Tag> list);
         Observable<BaseJson<TagsDTO>> myRecommendTag(int size, int current);
+        Observable<BaseJson> addPersonalTag(List<Tag> list);
     }
 }

@@ -8,6 +8,7 @@ import com.frame.mvp.BasePresenter;
 import com.wang.social.login.mvp.contract.TagListContract;
 import com.wang.social.login.mvp.model.entities.Tag;
 import com.wang.social.login.mvp.model.entities.dto.Tags;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,12 +25,11 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-import timber.log.Timber;
 
 
 @ActivityScope
 public class TagListPresenter extends
-        BasePresenter<TagListContract.Model, TagListContract.View>  {
+        BasePresenter<TagListContract.Model, TagListContract.View> {
 
     @Inject
     RxErrorHandler mErrorHandler;
@@ -59,7 +59,8 @@ public class TagListPresenter extends
     }
 
     /**
-     * 新加载的标签列表，可能在已选列表中，所以需要检测
+     * 新加载的标签列表，可能在已选列表中，所以需要检测,这应该只需要在兴趣标签模式下进行
+     *
      * @param tags 从服务器获取的标签数据
      * @param list 已经选择的标签列表
      */
@@ -81,6 +82,7 @@ public class TagListPresenter extends
 
     /**
      * 加载标签列表
+     *
      * @param parentId
      */
     public void loadTagList(int parentId, List<Tag> list) {
@@ -99,29 +101,29 @@ public class TagListPresenter extends
                                 emitter.onComplete();
                             }
                         })
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Observer<Integer>() {
-                            @Override
-                            public void onSubscribe(Disposable d) {
-                                compositeDisposable.add(d);
-                            }
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Observer<Integer>() {
+                                    @Override
+                                    public void onSubscribe(Disposable d) {
+                                        compositeDisposable.add(d);
+                                    }
 
-                            @Override
-                            public void onNext(Integer integer) {
+                                    @Override
+                                    public void onNext(Integer integer) {
 
-                            }
+                                    }
 
-                            @Override
-                            public void onError(Throwable e) {
+                                    @Override
+                                    public void onError(Throwable e) {
 
-                            }
+                                    }
 
-                            @Override
-                            public void onComplete() {
-                                mRootView.resetTagListView();
-                            }
-                        });
+                                    @Override
+                                    public void onComplete() {
+                                        mRootView.resetTagListView();
+                                    }
+                                });
                     }
 
                     @Override
@@ -143,6 +145,7 @@ public class TagListPresenter extends
 
     /**
      * 设置Tag数据为上个页面传过来的选中列表
+     *
      * @param list
      */
     public void setSelectedList(List<Tag> list) {
@@ -151,6 +154,7 @@ public class TagListPresenter extends
 
     /**
      * 移除Tag
+     *
      * @param tag
      */
     public void removeTag(Tag tag) {
@@ -170,23 +174,6 @@ public class TagListPresenter extends
                 return;
             }
         }
-    }
-
-    /**
-     * Tag点击
-     * @param tag
-     * @return
-     */
-    public boolean tagClick(Tag tag) {
-        if (null != tag) {
-            tag.clickTag();
-
-            mRootView.tagListChanged();
-
-            return tag.isPersonalTag();
-        }
-
-        return false;
     }
 
     @Override

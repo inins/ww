@@ -1,7 +1,6 @@
 package com.wang.social.login.mvp.ui.widget.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,16 +12,15 @@ import android.widget.TextView;
 import com.wang.social.login.R;
 import com.wang.social.login.mvp.model.entities.Tag;
 
-import timber.log.Timber;
-
 public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
     /**
      * 数据提供
      */
-    public interface TagDataProvider {
+    public interface DataProvider {
         int getItemCount();
         Tag getItem(int position);
         boolean isDeleteMode();
+        boolean isSelected(Tag tag);
     }
 
     public interface TagClickListener {
@@ -31,10 +29,10 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
     }
 
     Context context;
-    TagDataProvider dataProvider;
+    DataProvider dataProvider;
     TagClickListener clickListener;
 
-    public TagAdapter(Context context, TagDataProvider dataProvider, TagClickListener clickListener) {
+    public TagAdapter(Context context, DataProvider dataProvider, TagClickListener clickListener) {
         this.context = context;
         this.dataProvider = dataProvider;
         this.clickListener = clickListener;
@@ -54,15 +52,14 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
         Tag tag = dataProvider.getItem(position);
         if (null == tag) return;
 
-//        Timber.i(tag.getId() + " " + tag.getTagName() + " " + tag.getState());
         // 设置选中和未选中
-        if (tag.isPersonalTag() || dataProvider.isDeleteMode()) {
-            holder.textLayout.setBackground(
+        if (dataProvider.isSelected(tag)) {
+            holder.nameTV.setBackground(
                     context.getResources().
                             getDrawable(R.drawable.login_shape_rect_corner_solid_blue_deep));
             holder.nameTV.setTextColor(Color.WHITE);
         } else {
-            holder.textLayout.setBackground(
+            holder.nameTV.setBackground(
                     context.getResources().
                             getDrawable(R.drawable.login_shape_rect_corner_stroke_blue_deep));
             holder.nameTV.setTextColor(
@@ -88,8 +85,8 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
             // 选择模式下删除按钮不可见
             holder.deleteIV.setVisibility(View.GONE);
             // 点击
-            holder.textLayout.setTag(tag);
-            holder.textLayout.setOnClickListener(new View.OnClickListener() {
+            holder.nameTV.setTag(tag);
+            holder.nameTV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (v.getTag() instanceof Tag) {
@@ -109,14 +106,11 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        View textLayout;
         TextView nameTV;
         ImageView deleteIV;
 
         public ViewHolder(View itemView) {
             super(itemView);
-
-            textLayout = itemView.findViewById(R.id.text_layout);
             nameTV = itemView.findViewById(R.id.name_text_view);
             deleteIV = itemView.findViewById(R.id.delete_image_view);
         }
