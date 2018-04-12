@@ -77,12 +77,10 @@ public abstract class BasicAppActivity extends BasicActivity {
     }
 
     public final void dismissLoadingDialog() {
-        if (!isResume) return;
         if (dialogLoading.get() != null) dialogLoading.get().dismiss();
     }
 
     public final void hideLoadingDialog() {
-        if (!isResume) return;
         if (dialogLoading.get() != null) dialogLoading.get().hide();
     }
 }
