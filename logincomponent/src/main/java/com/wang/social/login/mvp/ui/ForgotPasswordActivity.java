@@ -75,7 +75,7 @@ public class ForgotPasswordActivity extends BaseAppActivity<ForgotPasswordPresen
             }
         });
 
-        ViewUtils.controlKeyboardLayout(contentRoot, getVerifyCodeView);
+//        ViewUtils.controlKeyboardLayout(contentRoot, getVerifyCodeView);
     }
 
     @OnClick(R2.id.get_verify_code)
