@@ -16,8 +16,6 @@ import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.beloo.widget.chipslayoutmanager.SpacingItemDecoration;
 import com.frame.base.BaseAdapter;
 import com.frame.component.helper.CommonHelper;
-import com.frame.component.path.LoginPath;
-import com.frame.component.router.ui.UIRouter;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
@@ -45,7 +43,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 
-public class LableActivity extends BaseAppActivity<LablePresonter> implements LableContract.View, BaseAdapter.OnItemClickListener<Lable>, RecycleAdapterLable.OnLableDelClickListener {
+public class LableActivity extends BaseAppActivity<LablePresonter> implements LableContract.View, RecycleAdapterLable.OnLableDelClickListener {
 
     @BindView(R2.id.toolbar)
     Toolbar toolbar;
@@ -84,10 +82,11 @@ public class LableActivity extends BaseAppActivity<LablePresonter> implements La
 
     @Override
     public void onCommonEvent(EventBean event) {
-        switch (event.getEvent()){
+        switch (event.getEvent()) {
             case EventBean.EVENTBUS_TAG_UPDATED:
                 TabLayout.Tab tab = tablayout.getTabAt(tablayout.getSelectedTabPosition());
                 mPresenter.getSelftags((int) tab.getTag());
+                mPresenter.getShowtag();
                 break;
         }
     }
@@ -103,7 +102,6 @@ public class LableActivity extends BaseAppActivity<LablePresonter> implements La
         dialogLable = new DialogFragmentLable();
 
         adapter_show = new RecycleAdapterLable();
-        adapter_show.setOnItemClickListener(this);
         adapter_show.setOnLableDelClickListener(this);
         recycler_show.setNestedScrollingEnabled(false);
         recycler_show.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -112,6 +110,7 @@ public class LableActivity extends BaseAppActivity<LablePresonter> implements La
 
         adapter_me = new RecycleAdapterLable();
         adapter_me.setOnLableDelClickListener(this);
+        adapter_me.setOnItemClickListener(onMeItemClickListener);
         recycler_me.setNestedScrollingEnabled(false);
         recycler_me.setLayoutManager(ChipsLayoutManager.newBuilder(this).setOrientation(ChipsLayoutManager.HORIZONTAL).build());
         recycler_me.addItemDecoration(new SpacingItemDecoration(SizeUtils.dp2px(5), SizeUtils.dp2px(5)));
@@ -129,17 +128,28 @@ public class LableActivity extends BaseAppActivity<LablePresonter> implements La
         mPresenter.getParentTags();
     }
 
-    @Override
-    public void onItemClick(Lable lable, int position) {
-        if (lable.getShowTagBool())
-            dialogLable.show(getSupportFragmentManager(), "dialogFragmentLable");
-    }
+
+    private BaseAdapter.OnItemClickListener<Lable> onMeItemClickListener = (lable, position) -> {
+        if (adapter_show.getItemCount() < 4) {
+            String ids = adapter_show.getIdsByAdd(lable);
+            mPresenter.updateShowtag(ids);
+        } else {
+            ToastUtil.showToastLong("您的个性标签已经达到上限了");
+        }
+    };
 
     @Override
     public void OnDelClick(RecycleAdapterLable adapter, Lable lable, int position) {
         DialogSure.showDialog(this, "确认要删除该标签？", () -> {
-            mPresenter.deltag(lable.getId());
-            adapter.removeItem(position);
+            if (adapter == adapter_show) {
+                //删除个性标签
+                String ids = adapter_show.getIdsByDel(lable);
+                mPresenter.updateShowtag(ids);
+            } else if (adapter == adapter_me) {
+                //删除个人标签
+                mPresenter.deltag(lable.getId());
+                adapter.removeItem(position);
+            }
         });
     }
 

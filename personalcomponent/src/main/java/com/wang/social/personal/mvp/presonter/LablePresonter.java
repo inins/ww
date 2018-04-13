@@ -32,7 +32,7 @@ public class LablePresonter extends BasePresenter<LableContract.Model, LableCont
     }
 
     public void getShowtag() {
-        ApiHelperEx.execute(mRootView, true,
+        ApiHelperEx.execute(mRootView, false,
                 mModel.getShowtag(),
                 new ErrorHandleSubscriber<BaseJson<LableWrap>>(mErrorHandler) {
                     @Override
@@ -40,6 +40,22 @@ public class LablePresonter extends BasePresenter<LableContract.Model, LableCont
                         LableWrap wrap = basejson.getData();
                         List<Lable> lables = wrap.getList();
                         mRootView.freshTagList(lables);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        ToastUtil.showToastLong(e.getMessage());
+                    }
+                });
+    }
+
+    public void updateShowtag(String tagIds) {
+        ApiHelperEx.execute(mRootView, true,
+                mModel.addShowtag(tagIds),
+                new ErrorHandleSubscriber<BaseJson<Object>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseJson<Object> basejson) {
+                        getShowtag();
                     }
 
                     @Override
@@ -74,6 +90,7 @@ public class LablePresonter extends BasePresenter<LableContract.Model, LableCont
                     @Override
                     public void onNext(BaseJson<Object> basejson) {
                         ToastUtil.showToastLong(basejson.getMessage());
+                        getShowtag();
                     }
 
                     @Override

@@ -110,10 +110,12 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/text_clear"
                     style="@style/personal_TextMeItemContent"
                     android:layout_gravity="right|center_vertical"
                     android:layout_marginRight="30dp"
-                    android:hint="0M" />
+                    android:hint="0K"
+                    android:textColor="@color/common_text_dark_light" />
 
                 <TextView
                     android:id="@+id/btn_clear"

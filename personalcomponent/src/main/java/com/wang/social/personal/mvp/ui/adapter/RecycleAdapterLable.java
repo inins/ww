@@ -1,6 +1,7 @@
 package com.wang.social.personal.mvp.ui.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -8,10 +9,12 @@ import android.widget.TextView;
 
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
+import com.frame.utils.StrUtil;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
 import com.wang.social.personal.mvp.entities.lable.Lable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -19,10 +22,6 @@ import butterknife.BindView;
 public class RecycleAdapterLable extends BaseAdapter<Lable> {
 
     private boolean deleteEnable;
-
-    public List<Lable> getResults() {
-        return valueList;
-    }
 
     @Override
     protected BaseViewHolder createViewHolder(Context context, ViewGroup parent, int viewType) {
@@ -61,6 +60,39 @@ public class RecycleAdapterLable extends BaseAdapter<Lable> {
         protected boolean useItemClickListener() {
             return true;
         }
+    }
+
+    /////////////////////
+
+    public String getIds() {
+        return getIds(valueList);
+    }
+
+    private String getIds(List<Lable> lableList) {
+        if (StrUtil.isEmpty(lableList)) return "";
+        String ids = "";
+        for (Lable lable : lableList) {
+            ids += lable.getId() + ",";
+        }
+        return StrUtil.subLastChart(ids, ",");
+    }
+
+    public String getIdsByAdd(Lable lable) {
+        if (StrUtil.isEmpty(valueList)) return String.valueOf(lable.getId());
+        List<Lable> tempList = new ArrayList<>();
+        tempList.addAll(valueList);
+        tempList.add(lable);
+        return getIds(tempList);
+    }
+
+    public String getIdsByDel(Lable lable) {
+        if (StrUtil.isEmpty(valueList)) return "";
+        List<Lable> tempList = new ArrayList<>();
+        for (Lable item : valueList) {
+            if (item.getId() == lable.getId()) continue;
+            tempList.add(item);
+        }
+        return getIds(tempList);
     }
 
     /////////////////////

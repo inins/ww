@@ -4,45 +4,37 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 
-import com.frame.base.BaseActivity;
-import com.frame.base.BasicActivity;
 import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.CommonHelper;
-import com.frame.component.path.HomePath;
-import com.frame.component.path.LoginPath;
-import com.frame.component.router.ui.UIRouter;
 import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
-import com.frame.http.api.ApiHelperEx;
-import com.frame.http.api.BaseJson;
-import com.frame.http.api.error.ErrorHandleSubscriber;
-import com.frame.http.api.error.RxErrorHandler;
-import com.frame.http.imageloader.ImageLoader;
-import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.IView;
 import com.frame.utils.ToastUtil;
+import com.umeng.socialize.UMShareAPI;
 import com.wang.social.personal.R;
-import com.wang.social.personal.R2;
 import com.wang.social.personal.di.component.DaggerSingleActivityComponent;
-import com.wang.social.personal.mvp.model.api.UserService;
 import com.wang.social.personal.mvp.ui.dialog.DialogBottomThirdLoginBind;
 import com.wang.social.personal.mvp.ui.dialog.DialogSure;
 import com.wang.social.personal.net.helper.NetThirdLoginBindHelper;
-import com.wang.social.socialize.SocializeUtil;
+import com.wang.social.personal.utils.ClearCacheUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.Map;
-
 import javax.inject.Inject;
 
-import retrofit2.http.Field;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class SettingActivity extends BasicAppActivity implements IView {
+
+    @BindView(R.id.text_clear)
+    TextView text_clear;
 
     @Inject
     NetThirdLoginBindHelper netThirdLoginBindHelper;
@@ -76,35 +68,46 @@ public class SettingActivity extends BasicAppActivity implements IView {
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
         dialogThirdLogin = new DialogBottomThirdLoginBind(this);
-        dialogThirdLogin.setOnThirdLoginDialogListener(new DialogBottomThirdLoginBind.OnThirdLoginDialogListener() {
-            @Override
-            public void onWeiXinClick(View v) {
-                netThirdLoginBindHelper.netBindWeiXin(SettingActivity.this, SettingActivity.this);
-            }
+        dialogThirdLogin.setOnThirdLoginDialogListener(onThirdLoginDialogListener);
 
-            @Override
-            public void onWeiBoClick(View v) {
-                netThirdLoginBindHelper.netBindWeiBo(SettingActivity.this, SettingActivity.this);
-            }
-
-            @Override
-            public void onQQClick(View v) {
-                netThirdLoginBindHelper.netBindQQ(SettingActivity.this, SettingActivity.this);
-            }
-        });
+        text_clear.setText(ClearCacheUtil.getAppCacheSize(this));
     }
 
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.btn_psw) {
-            CommonHelper.LoginHelper.startSetPswActivity(this);
+            //修改密码前需要先绑定手机号
+            if (!CommonHelper.LoginHelper.isLogin()) return;
+            if (TextUtils.isEmpty(AppDataHelper.getUser().getPhone())) {
+                DialogSure.showDialog(this, "请先绑定手机？", () -> {
+                    CommonHelper.LoginHelper.startBindPhoneActivity(this);
+                });
+            } else {
+                CommonHelper.LoginHelper.startSetPswActivity(this);
+            }
         } else if (i == R.id.btn_phone) {
             CommonHelper.LoginHelper.startBindPhoneActivity(this);
         } else if (i == R.id.btn_thirdlogin) {
-            dialogThirdLogin.show();
+            //绑定三方账号前需要先绑定手机号
+            if (!CommonHelper.LoginHelper.isLogin()) return;
+            if (TextUtils.isEmpty(AppDataHelper.getUser().getPhone())) {
+                DialogSure.showDialog(this, "请先绑定手机？", () -> {
+                    CommonHelper.LoginHelper.startBindPhoneActivity(this);
+                });
+            } else {
+                netGetBindHistoryAndShow();
+            }
         } else if (i == R.id.btn_secret) {
             PrivacyActivity.start(this);
         } else if (i == R.id.btn_clear) {
+            if (ClearCacheUtil.getAppCacheSizeValue(this) == 0) {
+                ToastUtil.showToastShort("没有需要清除的缓存");
+                return;
+            }
+            DialogSure.showDialog(this, "清除缓存将会删除您应用内的本地图片及数据且无法恢复，确认继续？", () -> {
+                ClearCacheUtil.clearAPPCache(SettingActivity.this);
+                text_clear.setText(ClearCacheUtil.getAppCacheSize(SettingActivity.this));
+            });
         } else if (i == R.id.btn_shutdownlist) {
             BlackListActivity.start(this);
         } else if (i == R.id.btn_blacklist) {
@@ -119,6 +122,48 @@ public class SettingActivity extends BasicAppActivity implements IView {
                 EventBus.getDefault().post(new EventBean(EventBean.EVENT_LOGOUT));
             });
         }
+    }
+
+    //绑定弹窗点击事件
+    private DialogBottomThirdLoginBind.OnThirdLoginDialogListener onThirdLoginDialogListener = new DialogBottomThirdLoginBind.OnThirdLoginDialogListener() {
+        @Override
+        public void onWeiXinClick(View v, boolean binded) {
+            if (!binded) {
+                netThirdLoginBindHelper.netBindWeiXin(SettingActivity.this, SettingActivity.this);
+            } else {
+                DialogSure.showDialog(SettingActivity.this, "确定要解绑微信？", () -> {
+                    netThirdLoginBindHelper.netUnBindWeiXin(SettingActivity.this);
+                });
+            }
+        }
+
+        @Override
+        public void onWeiBoClick(View v, boolean binded) {
+            if (!binded) {
+                netThirdLoginBindHelper.netBindWeiBo(SettingActivity.this, SettingActivity.this);
+            } else {
+                DialogSure.showDialog(SettingActivity.this, "确定要解绑微博？", () -> {
+                    netThirdLoginBindHelper.netUnBindWeiBo(SettingActivity.this);
+                });
+            }
+        }
+
+        @Override
+        public void onQQClick(View v, boolean binded) {
+            if (!binded) {
+                netThirdLoginBindHelper.netBindQQ(SettingActivity.this, SettingActivity.this);
+            } else {
+                DialogSure.showDialog(SettingActivity.this, "确定要解绑QQ？", () -> {
+                    netThirdLoginBindHelper.netUnBindQQ(SettingActivity.this);
+                });
+            }
+        }
+    };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -138,5 +183,13 @@ public class SettingActivity extends BasicAppActivity implements IView {
     @Override
     public void hideLoading() {
         dismissLoadingDialog();
+    }
+
+    //检查绑定状态，并弹出窗口
+    private void netGetBindHistoryAndShow() {
+        netThirdLoginBindHelper.netBindList(this, (bindHistories) -> {
+            dialogThirdLogin.setBindHistories(bindHistories);
+            dialogThirdLogin.show();
+        });
     }
 }

@@ -49,6 +49,20 @@ android {
                 jniLibs.srcDirs = ['src/main/jniLibs', 'src/main/runalone/jniLibs']
             }
         }
+        signingConfigs {
+            debug {
+                keyAlias 'dongdong'
+                keyPassword '123456'
+                storeFile file('../dongdongkey.jks')
+                storePassword '123456'
+            }
+            release {
+                keyAlias 'dongdong'
+                keyPassword '123456'
+                storeFile file('../dongdongkey.jks')
+                storePassword '123456'
+            }
+        }
     }
 
     resourcePrefix "personal_"

@@ -11,6 +11,7 @@ import com.wang.social.personal.mvp.entities.lable.LableWrap;
 import com.wang.social.personal.mvp.entities.photo.OffiPic;
 import com.wang.social.personal.mvp.entities.photo.Photo;
 import com.wang.social.personal.mvp.entities.photo.PhotoListWrap;
+import com.wang.social.personal.mvp.entities.thirdlogin.BindHistory;
 import com.wang.social.personal.mvp.entities.user.QrcodeInfo;
 
 import java.util.Map;
@@ -74,6 +75,11 @@ public interface UserService {
     @GET("/app/tag/showtag?v=2.0.0")
     Observable<BaseJson<LableWrap>> getShowtag();
 
+    //添加个性标签
+    @FormUrlEncoded
+    @POST("/app/tag/update_showtag?v=2.0.0")
+    Observable<BaseJson<Object>> addShowtag(@Field("tagIds") String tagIds);
+
     //个人标签
     @GET("/app/tag/selftags?v=2.0.0")
     Observable<BaseJson<LableWrap>> getSelftags(@Query("parentId") int parentId);
@@ -82,7 +88,7 @@ public interface UserService {
     @GET("/app/tag/parentTagList?v=2.0.0")
     Observable<BaseJson<LableWrap>> getParentTags();
 
-    //获取一级标签
+    //删除标签
     @FormUrlEncoded
     @POST("/app/tag/deltag?v=2.0.0")
     Observable<BaseJson<Object>> deltag(@Field("tagId") int tagId);
@@ -119,5 +125,14 @@ public interface UserService {
     @FormUrlEncoded
     @POST("/app/userInfo/bind?v=2.0.0")
     Observable<BaseJson<Object>> bindThirdLogin(@Field("platform") String platform, @Field("uid") String uid);
+
+    //解除绑定三方账户
+    @FormUrlEncoded
+    @POST("/app/userInfo/unBind?v=2.0.0")
+    Observable<BaseJson<Object>> unBindThirdLogin(@Field("platform") String platform);
+
+    //获取绑定记录
+    @GET("/app/userInfo/bindList?v=2.0.0")
+    Observable<BaseJson<BaseListWrap<BindHistory>>> bindList();
 
 }

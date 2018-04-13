@@ -13,11 +13,14 @@ import com.frame.http.api.error.RxErrorHandler;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.IView;
 import com.frame.utils.ToastUtil;
+import com.wang.social.personal.mvp.base.BaseListWrap;
 import com.wang.social.personal.mvp.entities.UserWrap;
+import com.wang.social.personal.mvp.entities.thirdlogin.BindHistory;
 import com.wang.social.personal.mvp.entities.user.QrcodeInfo;
 import com.wang.social.personal.mvp.model.api.UserService;
 import com.wang.social.socialize.SocializeUtil;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -117,9 +120,65 @@ public class NetThirdLoginBindHelper {
                 });
     }
 
+    public void netUnBindWeiXin(IView view) {
+        netUnBindThirdLogin(view, String.valueOf(SocializeUtil.LOGIN_PLATFORM_WEIXIN));
+    }
+
+    public void netUnBindWeiBo(IView view) {
+        netUnBindThirdLogin(view, String.valueOf(SocializeUtil.LOGIN_PLATFORM_SINA_WEIBO));
+    }
+
+    public void netUnBindQQ(IView view) {
+        netUnBindThirdLogin(view, String.valueOf(SocializeUtil.LOGIN_PLATFORM_QQ));
+    }
+
+    //解除绑定
+    private void netUnBindThirdLogin(IView view, String platform) {
+        ApiHelperEx.execute(view, true,
+                mRepositoryManager.obtainRetrofitService(UserService.class).unBindThirdLogin(platform),
+                new ErrorHandleSubscriber<BaseJson<Object>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseJson<Object> basejson) {
+                        ToastUtil.showToastLong(basejson.getMessage());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        ToastUtil.showToastLong(e.getMessage());
+                    }
+                });
+    }
+
+    //获取绑定记录
+    public void netBindList(IView view, OnBindListApiCallBack callBack) {
+        ApiHelperEx.execute(view, true,
+                mRepositoryManager.obtainRetrofitService(UserService.class).bindList(),
+                new ErrorHandleSubscriber<BaseJson<BaseListWrap<BindHistory>>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseJson<BaseListWrap<BindHistory>> basejson) {
+                        BaseListWrap<BindHistory> wrap = basejson.getData();
+                        if (wrap != null) {
+                            List<BindHistory> bindHistories = wrap.getList();
+                            if (callBack != null) callBack.onSuccess(bindHistories);
+                        } else {
+                            if (callBack != null) callBack.onSuccess(null);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        ToastUtil.showToastLong(e.getMessage());
+                    }
+                });
+    }
+
     public interface OnUserApiCallBack {
         void onSuccess(QrcodeInfo qrcodeInfo);
 
         void onError(Throwable e);
+    }
+
+    public interface OnBindListApiCallBack {
+        void onSuccess(List<BindHistory> bindHistories);
     }
 }

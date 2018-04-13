@@ -36,6 +36,13 @@ public class LableModel extends BaseModel implements LableContract.Model {
     }
 
     @Override
+    public Observable<BaseJson<Object>> addShowtag(String tagIds) {
+        return mRepositoryManager
+                .obtainRetrofitService(UserService.class)
+                .addShowtag(tagIds);
+    }
+
+    @Override
     public Observable<BaseJson<LableWrap>> getSelftags(int parentId) {
         return mRepositoryManager
                 .obtainRetrofitService(UserService.class)

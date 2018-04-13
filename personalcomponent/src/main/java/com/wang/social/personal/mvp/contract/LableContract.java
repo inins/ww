@@ -10,6 +10,7 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
+import retrofit2.http.Query;
 
 /**
  * =========================================
@@ -32,6 +33,8 @@ public interface LableContract {
     interface Model extends IModel {
 
         Observable<BaseJson<LableWrap>> getShowtag();
+
+        Observable<BaseJson<Object>> addShowtag(@Query("tagIds") String tagIds);
 
         Observable<BaseJson<LableWrap>> getSelftags(int parentId);
 
