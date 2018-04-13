@@ -43,7 +43,8 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
         TagListContract.View {
 
     /**
-     *  返回TagListFragment
+     * 返回TagListFragment
+     *
      * @param list 选中列表(主要在 兴趣大杂烩时使用)
      */
     public static TagListFragment newSelectionMode(int parentId, ArrayList<Tag> list, @Keys.TagType int type) {
@@ -60,6 +61,7 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
 
     /**
      * 编辑模式
+     *
      * @param list
      * @return
      */
@@ -105,7 +107,8 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
     // 父标签id
     int parentId = 0;
     // 标签列表类型（个人标签还是兴趣标签）
-    @Keys.TagType int tagListType = TAG_TYPE_PERSONAL;
+    @Keys.TagType
+    int tagListType = TAG_TYPE_PERSONAL;
 
     private TagAdapter.DataProvider tagDataProvider = new TagAdapter.DataProvider() {
         @Override
@@ -240,7 +243,6 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
 //    public void tagDelete(Tag tag) {
 //        mPresenter.unselectTag(tag);
 //    }
-
     @Override
     public void onCommonEvent(EventBean event) {
 //        Timber.i("EventBuss 事件通知");
@@ -252,6 +254,10 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
                 } else {
                     throw new ClassCastException("EventBus 返回数据类型不符，需要 Tag");
                 }
+                break;
+            case EventBean.EVENTBUS_TAG_SELECTED:
+                break;
+            case EventBean.EVENTBUS_TAG_UNSELECT:
                 break;
         }
     }

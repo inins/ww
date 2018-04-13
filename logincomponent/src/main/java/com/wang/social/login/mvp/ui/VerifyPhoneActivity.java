@@ -20,11 +20,13 @@ import com.wang.social.login.di.component.DaggerVerifyPhoneComponent;
 import com.wang.social.login.di.module.VerifyPhoneModule;
 import com.wang.social.login.mvp.contract.VerifyPhoneContract;
 import com.wang.social.login.mvp.presenter.VerifyPhonePresenter;
+import com.wang.social.login.mvp.ui.widget.CountDownView;
 import com.wang.social.login.mvp.ui.widget.VerificationCodeInput;
 import com.wang.social.login.utils.Keys;
 import com.wang.social.login.utils.ViewUtils;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import timber.log.Timber;
 
 
@@ -46,7 +48,7 @@ public class VerifyPhoneActivity extends BaseAppActivity<VerifyPhonePresenter> i
     @BindView(R2.id.phone_text_view)
     TextView phoneTextView;
     @BindView(R2.id.send_again_text_view)
-    TextView sendAgainTextView;
+    CountDownView sendAgainTextView;
     @BindView(R2.id.verification_code_input)
     VerificationCodeInput verificationCodeInput;
 
@@ -77,6 +79,9 @@ public class VerifyPhoneActivity extends BaseAppActivity<VerifyPhonePresenter> i
             mMobile = getIntent().getStringExtra(Keys.NAME_MOBILE);
 
             phoneTextView.setText(mMobile);
+
+            // 开始倒计时
+            sendAgainTextView.start();
         } else {
             // 不显示手机号码
             phoneTextView.setVisibility(View.INVISIBLE);
@@ -90,6 +95,9 @@ public class VerifyPhoneActivity extends BaseAppActivity<VerifyPhonePresenter> i
                 mPresenter.sendVerifyCode(mMobile);
             }
         }
+
+        // 不需要框框
+        sendAgainTextView.setHasBackground(false);
 
         toolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
             @Override
@@ -110,7 +118,13 @@ public class VerifyPhoneActivity extends BaseAppActivity<VerifyPhonePresenter> i
             }
         });
 
-        ViewUtils.controlKeyboardLayout(contentRoot, sendAgainTextView);
+//        ViewUtils.controlKeyboardLayout(contentRoot, sendAgainTextView);
+    }
+
+    @OnClick(R2.id.send_again_text_view)
+    public void sendVerifyCodeAgain() {
+        // 获取验证码
+        mPresenter.sendVerifyCode(mMobile);
     }
 
     @Override
@@ -125,10 +139,20 @@ public class VerifyPhoneActivity extends BaseAppActivity<VerifyPhonePresenter> i
     }
 
     @Override
+    public void onCheckVerifyCodeFailed(String msg) {
+        ToastUtil.showToastLong(msg);
+
+        verificationCodeInput.setEnabled(true);
+    }
+
+    @Override
     public void onSendVerifyCodeSuccess() {
         // 显示验证码已发送到手机
         phoneTextView.setVisibility(View.VISIBLE);
         phoneTextView.setText(mMobile);
+
+        // 倒计时开始
+        sendAgainTextView.start();
     }
 
     //    private DialogFragmentLoading mLoadingDialog;

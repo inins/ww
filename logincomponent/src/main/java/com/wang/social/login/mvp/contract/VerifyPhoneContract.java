@@ -15,6 +15,7 @@ public interface VerifyPhoneContract {
          *  验证码验证成功
          */
         void onCheckVerifyCodeSuccess(String mobile, String code);
+        void onCheckVerifyCodeFailed(String msg);
         void onSendVerifyCodeSuccess();
     }
 
