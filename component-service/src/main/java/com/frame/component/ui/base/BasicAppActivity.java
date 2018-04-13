@@ -1,5 +1,6 @@
 package com.frame.component.ui.base;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.ViewGroup;
@@ -22,6 +23,11 @@ public abstract class BasicAppActivity extends BasicActivity {
     protected Toolbar toolbar;
 
     private WeakReference<DialogLoading> dialogLoading;
+
+//    @Override
+//    protected void attachBaseContext(Context newBase) {
+//        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

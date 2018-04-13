@@ -10,6 +10,7 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowActionBar">false</item>
         <item name="android:background">@null</item>
+        <item name="android:fontFamily">@font/common_appfont</item>
     </style>
 
     <!--全屏-->
@@ -21,6 +22,10 @@
     <style name="common_AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="common_AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="common_ltxfont" parent="@android:style/TextAppearance.Small">
+        <item name="android:fontFamily">@font/common_ltx</item>
+    </style>
 
     <!--底部弹窗出场入场动画-->
     <style name="common_AnimBottom" parent="@android:style/Animation">
@@ -50,8 +55,7 @@
         <item name="android:windowAnimationStyle">@null</item>
     </style>
 
-    <style name="common_loadingProgressBar" parent="Base.Widget.AppCompat.ProgressBar">
-    </style>
+    <style name="common_loadingProgressBar" parent="Base.Widget.AppCompat.ProgressBar"></style>
 
     <!--水平分割线-->
     <style name="common_Line_H">
