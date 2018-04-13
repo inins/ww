@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.wang.social.funshow">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name="com.frame.base.BaseApplication"
+        android:allowBackup="true"
+        android:screenOrientation="portrait">
+
+        <meta-data
+            android:name="com.wang.social.funshow.app.FunshowGlobalConfiguration"
+            android:value="ConfigModule" />
+
+    </application>
+
+</manifest>

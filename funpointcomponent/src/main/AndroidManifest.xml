@@ -10,6 +10,9 @@
         android:allowBackup="true"
         android:screenOrientation="portrait">
 
+        <meta-data
+            android:name="com.wang.social.funpoint.app.FunpointGlobalConfiguration"
+            android:value="ConfigModule" />
 
     </application>
 
