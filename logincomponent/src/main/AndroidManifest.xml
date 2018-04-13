@@ -5,9 +5,7 @@
 
     <application
         android:allowBackup="true"
-        android:label="@string/login_app_name"
         android:supportsRtl="true"
-        tools:replace="android:label"
         android:theme="@style/common_AppTheme">
 
         <activity android:name=".mvp.ui.LoginActivity"
@@ -26,9 +24,6 @@
         <activity android:name=".mvp.ui.VerifyPhoneActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateVisible">
-        </activity>
-        <activity android:name=".mvp.ui.UserProtocolActivity"
-            android:screenOrientation="portrait">
         </activity>
         <activity android:name=".mvp.ui.TagSelectionActivity"
             android:screenOrientation="portrait">

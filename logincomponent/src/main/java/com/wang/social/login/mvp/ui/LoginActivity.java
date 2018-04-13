@@ -14,12 +14,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.frame.base.BaseActivity;
+import com.frame.component.common.AppConstant;
+import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.path.HomePath;
 import com.frame.component.router.ui.UIRouter;
+import com.frame.component.ui.acticity.WebActivity;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.utils.BarUtils;
 import com.frame.utils.FrameUtils;
+import com.frame.utils.StatusBarUtil;
 import com.frame.utils.ToastUtil;
 import com.squareup.leakcanary.RefWatcher;
 import com.umeng.socialize.UMShareAPI;
@@ -105,7 +109,9 @@ public class LoginActivity extends BaseAppActivity<LoginPresenter> implements Lo
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        BarUtils.setTranslucent(this);
+//        BarUtils.setTranslucent(this);
+        StatusBarUtil.setTranslucent(this);
+        StatusBarUtil.setTextDark(this);
 
         if (this.getIntent().hasExtra(NAME_LAUNCH_MODE)) {
             launchMode = this.getIntent().getStringExtra(NAME_LAUNCH_MODE);
@@ -256,7 +262,7 @@ public class LoginActivity extends BaseAppActivity<LoginPresenter> implements Lo
      */
     @OnClick(R2.id.user_protocol_text_view)
     public void userProtocol() {
-        UserProtocolActivity.start(this);
+        WebActivity.start(this, AppConstant.Url.userAgreement);
     }
 
     /**
