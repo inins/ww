@@ -205,6 +205,8 @@ public class SocializeUtil {
                                 data.get("name"),
                                 data.get("gender").equals("0") ? 0 : 1,
                                 data.get("iconurl"));
+
+                        loginListener = null;
                     }
                 }
 
@@ -218,6 +220,8 @@ public class SocializeUtil {
                 public void onError(SHARE_MEDIA platform, int action, Throwable t) {
                     if (null != loginListener) {
                         loginListener.onError(getLoginType(platform), t);
+
+                        loginListener = null;
                     }
                 }
 
@@ -230,6 +234,8 @@ public class SocializeUtil {
                 public void onCancel(SHARE_MEDIA platform, int action) {
                     if (null != loginListener) {
                         loginListener.onCancel(getLoginType(platform));
+
+                        loginListener = null;
                     }
                 }
             };
@@ -256,6 +262,8 @@ public class SocializeUtil {
         public void onResult(SHARE_MEDIA platform) {
             if (null != shareListener) {
                 shareListener.onResult(toSharePlatform(platform));
+
+                shareListener = null;
             }
         }
 
@@ -268,6 +276,8 @@ public class SocializeUtil {
         public void onError(SHARE_MEDIA platform, Throwable t) {
             if (null != shareListener) {
                 shareListener.onError(toSharePlatform(platform), t);
+
+                shareListener = null;
             }
         }
 
@@ -279,6 +289,8 @@ public class SocializeUtil {
         public void onCancel(SHARE_MEDIA platform) {
             if (null != shareListener) {
                 shareListener.onCancel(toSharePlatform(platform));
+
+                shareListener = null;
             }
         }
     };

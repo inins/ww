@@ -156,7 +156,7 @@ public class LoginActivity extends BaseAppActivity<LoginPresenter> implements Lo
             rootView.setBackground(getResources().getDrawable(R.drawable.login_bg));
         }
 
-        ViewUtils.controlKeyboardLayout(rootView, loginTV);
+//        ViewUtils.controlKeyboardLayout(rootView, loginTV);
     }
 
     @OnClick(R2.id.switch_login_text_view)
