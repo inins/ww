@@ -29,7 +29,8 @@ public class CommonHelper {
         }
 
         public static void startSetPswActivity(Context context) {
-            UIRouter.getInstance().openUri(context, LoginPath.LOGIN_RESET_PASSWORD_URL, null);
+            //跳转验证手机页面，该页面验证成功后会跳转设置密码页面
+            UIRouter.getInstance().openUri(context, LoginPath.LOGIN_VERIFY_PHONE_URL, null);
         }
     }
 

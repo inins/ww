@@ -17,6 +17,7 @@ import com.frame.mvp.IView;
 import com.frame.utils.ToastUtil;
 import com.umeng.socialize.UMShareAPI;
 import com.wang.social.personal.R;
+import com.wang.social.personal.R2;
 import com.wang.social.personal.di.component.DaggerSingleActivityComponent;
 import com.wang.social.personal.mvp.ui.dialog.DialogBottomThirdLoginBind;
 import com.wang.social.personal.mvp.ui.dialog.DialogSure;
@@ -33,7 +34,7 @@ import butterknife.OnClick;
 
 public class SettingActivity extends BasicAppActivity implements IView {
 
-    @BindView(R.id.text_clear)
+    @BindView(R2.id.text_clear)
     TextView text_clear;
 
     @Inject
