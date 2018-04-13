@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
 import com.frame.component.router.Router;
+import com.frame.component.service.funpoint.FunpointService;
 import com.frame.component.service.personal.PersonalService;
 import com.wang.social.mvp.ui.fragment.BuildFragment;
 import com.wang.social.mvp.ui.fragment.PlazaFragment;
@@ -42,7 +43,8 @@ public class PagerAdapterPlaza extends FragmentPagerAdapter {
             case 1:
                 return BuildFragment.newInstance();
             case 2:
-                return BuildFragment.newInstance();
+                FunpointService funpointService = (FunpointService) Router.getInstance().getService(FunpointService.class.getName());
+                return funpointService.getFunpointFragment();
             default:
                 return null;
         }
