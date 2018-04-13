@@ -1,5 +1,5 @@
-//apply plugin: 'com.component.build'
-apply plugin: 'com.android.application'
+apply plugin: 'com.component.build'
+//apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.butterknife'
 
 android {
@@ -100,7 +100,7 @@ dependencies {
     implementation project(':socializecomponent')
 }
 
-//combuild {
-//    applicationName = 'com.frame.base.BaseApplication'
-//    isRegisterCompoAuto = true
-//}
+combuild {
+    applicationName = 'com.frame.base.BaseApplication'
+    isRegisterCompoAuto = true
+}
