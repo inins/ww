@@ -17,6 +17,7 @@ public class Keys {
     public final static String NAME_TAG_TYPE = "NAME_TAG_TYPE";
     public final static String NAME_SELECTED_LIST = "NAME_SELECTED_LIST";
     public final static String NAME_PARENT_ID = "NAME_PARENT_ID";
+    public final static String NAME_PASSWOR_UI_TYPE = "NAME_PASSWOR_UI_TYPE";
     // 标签选择
     public final static String MODE_SELECTION = "MODE_SELECTION";
     // 确认标签选择
@@ -41,9 +42,11 @@ public class Keys {
      */
     public final static int TYPE_RESET_PASSWORD = 1;
     public final static int TYPE_FORGOT_PASSWORD = 2;
+    public final static int TYPE_SET_PASSWORD = 3;
     @IntDef({
             TYPE_RESET_PASSWORD,
-            TYPE_FORGOT_PASSWORD
+            TYPE_FORGOT_PASSWORD,
+            TYPE_SET_PASSWORD
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface TypePasswordUI {}

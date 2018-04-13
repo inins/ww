@@ -39,8 +39,7 @@ public class ResetPasswordPresenter extends
 
                     @Override
                     public void onNext(Object o) {
-                        // 提示成功
-//                        mRootView.showToast(o.toString());
+                        mRootView.onSetPasswordSuccess();
                     }
 
                     @Override
@@ -69,8 +68,7 @@ public class ResetPasswordPresenter extends
 
                     @Override
                     public void onNext(Object o) {
-                        // 提示成功
-//                        mRootView.showToast(o.toString());
+                        mRootView.onResetPasswordSuccess();
                     }
 
                     @Override

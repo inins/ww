@@ -32,9 +32,10 @@ import timber.log.Timber;
 public class VerifyPhoneActivity extends BaseAppActivity<VerifyPhonePresenter> implements
     VerifyPhoneContract.View{
 
-    public static void start(Context context, String mobile) {
+    public static void start(Context context, String mobile, @Keys.TypePasswordUI int type) {
         Intent intent = new Intent(context, VerifyPhoneActivity.class);
         intent.putExtra(Keys.NAME_MOBILE, mobile);
+        intent.putExtra(Keys.NAME_PASSWOR_UI_TYPE, type);
         context.startActivity(intent);
     }
 
@@ -50,6 +51,7 @@ public class VerifyPhoneActivity extends BaseAppActivity<VerifyPhonePresenter> i
     VerificationCodeInput verificationCodeInput;
 
     String mMobile;
+    @Keys.TypePasswordUI int mUIType = Keys.TYPE_FORGOT_PASSWORD;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -67,6 +69,9 @@ public class VerifyPhoneActivity extends BaseAppActivity<VerifyPhonePresenter> i
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
+        // 默认是重设密码
+        mUIType = getIntent().getIntExtra(Keys.NAME_PASSWOR_UI_TYPE, Keys.TYPE_RESET_PASSWORD);
+
         if (getIntent().hasExtra(Keys.NAME_MOBILE)) {
             // 登录页面忘记密码跳转过来，会传入一个号码
             mMobile = getIntent().getStringExtra(Keys.NAME_MOBILE);
@@ -116,7 +121,7 @@ public class VerifyPhoneActivity extends BaseAppActivity<VerifyPhonePresenter> i
     @Override
     public void onCheckVerifyCodeSuccess(String mobile, String code) {
         // 验证码验证成功，跳转到修改密码界面
-        ResetPasswordActivity.start(this, mobile, code);
+        ResetPasswordActivity.start(this, mobile, code, mUIType);
     }
 
     @Override

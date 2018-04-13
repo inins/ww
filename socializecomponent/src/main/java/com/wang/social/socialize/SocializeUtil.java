@@ -29,23 +29,28 @@ public class SocializeUtil {
      */
     public static final String WX_APP_ID = "wxb6c49c8240e7d9f2";
 
+    /**
+     * 第三方登录平台
+     */
     public static final int LOGIN_PLATFORM_UNKNOWN = -1;
-    public static final int LOGIN_PLATFORM_WEIXIN = 2;
-    public static final int LOGIN_PLATFORM_QQ = 3;
-    public static final int LOGIN_PLATFORM_SINA_WEIBO = 4;
+    public static final int LOGIN_PLATFORM_WEIXIN = 2;      // 微信
+    public static final int LOGIN_PLATFORM_QQ = 3;          // QQ
+    public static final int LOGIN_PLATFORM_SINA_WEIBO = 4;  // 新浪微博
 
     @IntDef({LOGIN_PLATFORM_UNKNOWN, LOGIN_PLATFORM_WEIXIN, LOGIN_PLATFORM_QQ, LOGIN_PLATFORM_SINA_WEIBO})
     @Retention(RetentionPolicy.SOURCE)
     public @interface LoginPlatform {
     }
 
-
+    /**
+     * 第三方分享平台
+     */
     public final static int SHARE_PLATFORM_UNKNOWN = -1;
-    public final static int SHARE_PLATFORM_WX = 0;
-    public final static int SHARE_PLATFORM_WX_CIRCLE = 1;
-    public final static int SHARE_PLATFORM_QQ = 2;
-    public final static int SHARE_PLATFORM_QQ_ZONE = 3;
-    public final static int SHARE_PLATFORM_SINA_WEIBO = 4;
+    public final static int SHARE_PLATFORM_WX = 0;          // 微信好友
+    public final static int SHARE_PLATFORM_WX_CIRCLE = 1;   // 微信朋友圈
+    public final static int SHARE_PLATFORM_QQ = 2;          // QQ好友
+    public final static int SHARE_PLATFORM_QQ_ZONE = 3;     // QQ空间
+    public final static int SHARE_PLATFORM_SINA_WEIBO = 4;  // 新浪微博
 
     @IntDef({
             SHARE_PLATFORM_UNKNOWN,

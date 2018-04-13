@@ -208,6 +208,9 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
         // 读取标签类型,默认为个人标签
         mTagType = getIntent().getIntExtra(NAME_TAG_TYPE, TAG_TYPE_PERSONAL);
 
+        fromLogin = true;
+        mTagType = TAG_TYPE_INTEREST;
+
         // ToolBar左边按钮，返回
         toolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
             @Override
@@ -377,6 +380,8 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
                 refreshCountTV();
                 break;
         }
+
+
     }
 
     @Override
@@ -397,7 +402,7 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
      * 如果是从登录过来的，则需要跳转到首页，否则直接返回
      */
     private void quit() {
-        if (fromLogin) {
+        if (fromLogin && (mode.equals(MODE_SELECTION))) {
             // 如果是从登录页面跳转过来的，则需要跳转到首页
             gotoMainPage();
         } else {

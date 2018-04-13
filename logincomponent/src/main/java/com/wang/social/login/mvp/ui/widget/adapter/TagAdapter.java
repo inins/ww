@@ -31,13 +31,13 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
     }
 
     WeakReference<Context> context;
-    DataProvider dataProvider;
-    TagClickListener clickListener;
+    WeakReference<DataProvider> dataProvider;
+    WeakReference<TagClickListener> clickListener;
 
     public TagAdapter(Context context, DataProvider dataProvider, TagClickListener clickListener) {
         this.context = new WeakReference<>(context);
-        this.dataProvider = dataProvider;
-        this.clickListener = clickListener;
+        this.dataProvider = new WeakReference<>(dataProvider);
+        this.clickListener = new WeakReference<>(clickListener);
     }
 
     @Override
@@ -51,11 +51,11 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         if (null == dataProvider) return;
-        Tag tag = dataProvider.getItem(position);
+        Tag tag = dataProvider.get().getItem(position);
         if (null == tag) return;
 
         // 设置选中和未选中
-        if (dataProvider.isSelected(tag)) {
+        if (dataProvider.get().isSelected(tag)) {
             holder.nameTV.setBackground(
                     context.get().getResources().
                             getDrawable(R.drawable.login_shape_rect_corner_solid_blue_deep));
@@ -69,7 +69,7 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
         }
         holder.nameTV.setText(tag.getTagName());
 
-        if (dataProvider.isDeleteMode()) {
+        if (dataProvider.get().isDeleteMode()) {
             // 删除
             holder.deleteIV.setTag(tag);
             holder.deleteIV.setOnClickListener(new View.OnClickListener() {
@@ -78,7 +78,7 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
                     if (v.getTag() instanceof Tag) {
 
                         if (null != clickListener) {
-                            clickListener.onDelete((Tag) v.getTag());
+                            clickListener.get().onDelete((Tag) v.getTag());
                         }
                     }
                 }
@@ -94,7 +94,7 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
                     if (v.getTag() instanceof Tag) {
 
                         if (null != clickListener) {
-                            clickListener.onTagClick((Tag) v.getTag());
+                            clickListener.get().onTagClick((Tag) v.getTag());
                         }
                     }
                 }
@@ -104,7 +104,7 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return dataProvider == null ? 0 : dataProvider.getItemCount();
+        return dataProvider == null ? 0 : dataProvider.get().getItemCount();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

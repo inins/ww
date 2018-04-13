@@ -14,6 +14,7 @@ public interface BindPhoneContract {
          * 获取验证码成功的回调
          */
         void onSendVerifyCodeSuccess(String mobile);
+        void onReplaceMobileSuccess();
     }
 
 

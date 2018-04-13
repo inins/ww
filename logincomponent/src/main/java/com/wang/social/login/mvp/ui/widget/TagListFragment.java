@@ -91,7 +91,9 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
 
     @Override
     public void tagListChanged() {
-        tagAdapter.notifyDataSetChanged();
+        if (null != tagAdapter) {
+            tagAdapter.notifyDataSetChanged();
+        }
     }
 
     @BindView(R2.id.recycler_view)
@@ -244,8 +246,8 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
 //        Timber.i("EventBuss 事件通知");
         switch (event.getEvent()) {
             case EventBean.EVENTBUS_TAG_DELETE:
-                if (event.get(Keys.EVENTBUS_TAG_DELETE) instanceof Tag) {
-                    Tag tag = (Tag) event.get(Keys.EVENTBUS_TAG_DELETE);
+                if (event.get(Keys.EVENTBUS_TAG_ENTITY) instanceof Tag) {
+                    Tag tag = (Tag) event.get(Keys.EVENTBUS_TAG_ENTITY);
                     mPresenter.unselectTag(tag);
                 } else {
                     throw new ClassCastException("EventBus 返回数据类型不符，需要 Tag");
