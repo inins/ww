@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:gravity="center_horizontal">
+    android:gravity="center_horizontal"
+    android:fitsSystemWindows="true">
 
     <com.frame.component.view.SocialToolbar
         android:id="@+id/toolbar"
@@ -25,7 +26,7 @@
             android:text="@string/login_verify_phone"
             android:textColor="@color/common_text_blank"
             android:textSize="29sp"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="80dp"
             />
 
         <TextView
@@ -34,7 +35,7 @@
             android:text="@string/login_verify_phone_hint"
             android:textColor="@color/common_text_blank_dark"
             android:textSize="14sp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="20dp"
             />
 
         <TextView
@@ -52,9 +53,9 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginTop="34dp"/>
+            android:layout_marginTop="30dp"/>
 
-        <TextView
+        <com.wang.social.login.mvp.ui.widget.CountDownView
             android:id="@+id/send_again_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -62,6 +63,7 @@
             android:textColor="@color/common_blue_deep"
             android:textSize="12sp"
             android:layout_marginTop="15dp"
+            android:gravity="center"
             />
 
     </LinearLayout>

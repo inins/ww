@@ -15,6 +15,7 @@ import com.frame.base.BaseActivity;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
+import com.frame.integration.AppManager;
 import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.ToastUtil;
 import com.wang.social.login.R;
@@ -28,6 +29,8 @@ import com.wang.social.login.utils.Keys;
 import com.wang.social.login.utils.StringUtils;
 import com.wang.social.login.utils.ViewUtils;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
@@ -36,10 +39,11 @@ import timber.log.Timber;
 @RouteNode(path = "/login_reset_password", desc = "修改/重置密码")
 public class ResetPasswordActivity extends BaseAppActivity<ResetPasswordPresenter> implements ResetPasswordContract.View {
 
-    public static void start(Context context, String mobile, String verifyCode) {
+    public static void start(Context context, String mobile, String verifyCode, @Keys.TypePasswordUI int type) {
         Intent intent = new Intent(context, ResetPasswordActivity.class);
         intent.putExtra(Keys.NAME_MOBILE, mobile);
         intent.putExtra(Keys.NAME_VERIFY_CODE, verifyCode);
+        intent.putExtra(Keys.NAME_PASSWOR_UI_TYPE, type);
         context.startActivity(intent);
     }
 
@@ -64,7 +68,10 @@ public class ResetPasswordActivity extends BaseAppActivity<ResetPasswordPresente
 
     String mMobile;
     String mVerifyCode;
-    boolean isResetPassword;
+    @Keys.TypePasswordUI int mUIType;
+
+    @Inject
+    AppManager appManager;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -82,20 +89,15 @@ public class ResetPasswordActivity extends BaseAppActivity<ResetPasswordPresente
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
-        if (getIntent().hasExtra(Keys.NAME_MOBILE) &&
-                getIntent().hasExtra(Keys.NAME_VERIFY_CODE)) {
-            // 上面传来的号码
-            mMobile = getIntent().getStringExtra(Keys.NAME_MOBILE);
-            // 验证码
-            mVerifyCode = getIntent().getStringExtra(Keys.NAME_VERIFY_CODE);
+        // UI类型，默认设置密码
+        mUIType = getIntent().getIntExtra(Keys.NAME_PASSWOR_UI_TYPE, Keys.TYPE_SET_PASSWORD);
+        // 上面传来的号码
+        mMobile = getIntent().getStringExtra(Keys.NAME_MOBILE);
+        // 验证码
+        mVerifyCode = getIntent().getStringExtra(Keys.NAME_VERIFY_CODE);
 
-            Timber.i("mobile = " + mMobile + " code = " + mVerifyCode);
-
-            // 这是重置密码
-            isResetPassword = true;
-        }
-
-        if (!isResetPassword) {
+        // 设置密码
+        if (mUIType == Keys.TYPE_SET_PASSWORD) {
             titleTV.setText(R.string.login_set_password);
             titleHintTV.setVisibility(View.VISIBLE);
             titleHintTV.setText(R.string.login_set_password_hint);
@@ -140,11 +142,12 @@ public class ResetPasswordActivity extends BaseAppActivity<ResetPasswordPresente
 
         ViewUtils.hideSoftInputFromWindow(this, passwordEditText);
 
-        if (isResetPassword) {
+        // 设置密码
+        if (mUIType == Keys.TYPE_SET_PASSWORD) {
+            mPresenter.setPassword(password);
+        } else {
             // 重设密码
             mPresenter.resetPassword(mMobile, mVerifyCode, password);
-        } else {
-            mPresenter.setPassword(password);
         }
     }
 
@@ -153,17 +156,34 @@ public class ResetPasswordActivity extends BaseAppActivity<ResetPasswordPresente
         ToastUtil.showToastLong(msg);
     }
 
+    /**
+     * 修改密码成功
+     */
+    @Override
+    public void onResetPasswordSuccess() {
+        ToastUtil.showToastLong(getString(R.string.login_reset_success));
 
-    //    private DialogFragmentLoading mLoadingDialog;
+        finish();
+
+        appManager.killActivity(ForgotPasswordActivity.class);
+        appManager.killActivity(VerifyPhoneActivity.class);
+    }
+
+    @Override
+    public void onSetPasswordSuccess() {
+        ToastUtil.showToastLong(getString(R.string.login_set_success));
+
+        finish();
+    }
+
+
     @Override
     public void showLoading() {
-//        mLoadingDialog = DialogFragmentLoading.showDialog(getSupportFragmentManager(), TAG);
         showLoadingDialog();
     }
 
     @Override
     public void hideLoading() {
-//        mLoadingDialog.dismiss();
         dismissLoadingDialog();
     }
 }

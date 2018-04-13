@@ -20,11 +20,13 @@ import com.wang.social.login.di.component.DaggerVerifyPhoneComponent;
 import com.wang.social.login.di.module.VerifyPhoneModule;
 import com.wang.social.login.mvp.contract.VerifyPhoneContract;
 import com.wang.social.login.mvp.presenter.VerifyPhonePresenter;
+import com.wang.social.login.mvp.ui.widget.CountDownView;
 import com.wang.social.login.mvp.ui.widget.VerificationCodeInput;
 import com.wang.social.login.utils.Keys;
 import com.wang.social.login.utils.ViewUtils;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import timber.log.Timber;
 
 
@@ -32,9 +34,10 @@ import timber.log.Timber;
 public class VerifyPhoneActivity extends BaseAppActivity<VerifyPhonePresenter> implements
     VerifyPhoneContract.View{
 
-    public static void start(Context context, String mobile) {
+    public static void start(Context context, String mobile, @Keys.TypePasswordUI int type) {
         Intent intent = new Intent(context, VerifyPhoneActivity.class);
         intent.putExtra(Keys.NAME_MOBILE, mobile);
+        intent.putExtra(Keys.NAME_PASSWOR_UI_TYPE, type);
         context.startActivity(intent);
     }
 
@@ -45,11 +48,12 @@ public class VerifyPhoneActivity extends BaseAppActivity<VerifyPhonePresenter> i
     @BindView(R2.id.phone_text_view)
     TextView phoneTextView;
     @BindView(R2.id.send_again_text_view)
-    TextView sendAgainTextView;
+    CountDownView sendAgainTextView;
     @BindView(R2.id.verification_code_input)
     VerificationCodeInput verificationCodeInput;
 
     String mMobile;
+    @Keys.TypePasswordUI int mUIType = Keys.TYPE_FORGOT_PASSWORD;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -67,11 +71,17 @@ public class VerifyPhoneActivity extends BaseAppActivity<VerifyPhonePresenter> i
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
+        // 默认是重设密码
+        mUIType = getIntent().getIntExtra(Keys.NAME_PASSWOR_UI_TYPE, Keys.TYPE_RESET_PASSWORD);
+
         if (getIntent().hasExtra(Keys.NAME_MOBILE)) {
             // 登录页面忘记密码跳转过来，会传入一个号码
             mMobile = getIntent().getStringExtra(Keys.NAME_MOBILE);
 
             phoneTextView.setText(mMobile);
+
+            // 开始倒计时
+            sendAgainTextView.start();
         } else {
             // 不显示手机号码
             phoneTextView.setVisibility(View.INVISIBLE);
@@ -85,6 +95,9 @@ public class VerifyPhoneActivity extends BaseAppActivity<VerifyPhonePresenter> i
                 mPresenter.sendVerifyCode(mMobile);
             }
         }
+
+        // 不需要框框
+        sendAgainTextView.setHasBackground(false);
 
         toolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
             @Override
@@ -105,7 +118,13 @@ public class VerifyPhoneActivity extends BaseAppActivity<VerifyPhonePresenter> i
             }
         });
 
-        ViewUtils.controlKeyboardLayout(contentRoot, sendAgainTextView);
+//        ViewUtils.controlKeyboardLayout(contentRoot, sendAgainTextView);
+    }
+
+    @OnClick(R2.id.send_again_text_view)
+    public void sendVerifyCodeAgain() {
+        // 获取验证码
+        mPresenter.sendVerifyCode(mMobile);
     }
 
     @Override
@@ -116,7 +135,14 @@ public class VerifyPhoneActivity extends BaseAppActivity<VerifyPhonePresenter> i
     @Override
     public void onCheckVerifyCodeSuccess(String mobile, String code) {
         // 验证码验证成功，跳转到修改密码界面
-        ResetPasswordActivity.start(this, mobile, code);
+        ResetPasswordActivity.start(this, mobile, code, mUIType);
+    }
+
+    @Override
+    public void onCheckVerifyCodeFailed(String msg) {
+        ToastUtil.showToastLong(msg);
+
+        verificationCodeInput.setEnabled(true);
     }
 
     @Override
@@ -124,6 +150,9 @@ public class VerifyPhoneActivity extends BaseAppActivity<VerifyPhonePresenter> i
         // 显示验证码已发送到手机
         phoneTextView.setVisibility(View.VISIBLE);
         phoneTextView.setText(mMobile);
+
+        // 倒计时开始
+        sendAgainTextView.start();
     }
 
     //    private DialogFragmentLoading mLoadingDialog;

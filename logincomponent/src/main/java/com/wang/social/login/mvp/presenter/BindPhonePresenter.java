@@ -80,6 +80,7 @@ public class BindPhonePresenter extends
                 new ErrorHandleSubscriber(mErrorHandler) {
                     @Override
                     public void onNext(Object o) {
+                        mRootView.onReplaceMobileSuccess();
                     }
 
                     @Override

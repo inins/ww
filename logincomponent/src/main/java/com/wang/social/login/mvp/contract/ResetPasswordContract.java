@@ -10,6 +10,9 @@ import io.reactivex.Observable;
 public interface ResetPasswordContract {
     interface View extends IView {
         void showToast(String msg);
+
+        void onResetPasswordSuccess();
+        void onSetPasswordSuccess();
     }
 
 

@@ -56,7 +56,8 @@ public class VerifyPhonePresenter extends
 
                     @Override
                     public void onError(Throwable e) {
-                        mRootView.showToast(e.getMessage());
+                        // 验证失败
+                        mRootView.onCheckVerifyCodeFailed(e.getMessage());
                     }
 
                 }, new Consumer<Disposable>() {

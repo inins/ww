@@ -377,6 +377,8 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
                 refreshCountTV();
                 break;
         }
+
+
     }
 
     @Override
@@ -397,7 +399,7 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
      * 如果是从登录过来的，则需要跳转到首页，否则直接返回
      */
     private void quit() {
-        if (fromLogin) {
+        if (fromLogin && (mode.equals(MODE_SELECTION))) {
             // 如果是从登录页面跳转过来的，则需要跳转到首页
             gotoMainPage();
         } else {

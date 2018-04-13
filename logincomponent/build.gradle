@@ -1,8 +1,11 @@
-
-//apply plugin: 'com.android.application'
+if (isRunAlone.toBoolean()) {
+    apply plugin: 'com.android.application'
+} else {
+    apply plugin: 'com.component.build'
+}
 //apply plugin: 'com.jakewharton.butterknife'
 
-apply plugin: 'com.component.build'
+
 apply plugin: 'com.jakewharton.butterknife'
 
 android {
@@ -14,7 +17,7 @@ android {
     }
 
     defaultConfig {
-        if(project.isRunAlone){
+        if(isRunAlone.toBoolean()){
             applicationId "com.dongdongkeji.wangwangsocial"
         }
 
@@ -53,7 +56,7 @@ android {
         }
     }
 
-    if (project.isRunAlone) {
+    if (isRunAlone.toBoolean()) {
         buildTypes {
             debug {
                 buildConfigField "boolean", "LOG_DEBUG", "true"
@@ -64,15 +67,15 @@ android {
             }
         }
 
-//        sourceSets {
-//            main {
-//                manifest.srcFile 'src/main/runalone/AndroidManifest.xml'
-//                java.srcDirs = ['src/main/java', 'src/main/runalone/java']
-//                res.srcDirs = ['src/main/res', 'src/main/runalone/res']
-//                assets.srcDirs = ['src/main/assets', 'src/main/runalone/assets']
-//                jniLibs.srcDirs = ['src/main/jniLibs', 'src/main/runalone/jniLibs']
-//            }
-//        }
+        sourceSets {
+            main {
+                manifest.srcFile 'src/main/runalone/AndroidManifest.xml'
+                java.srcDirs = ['src/main/java', 'src/main/runalone/java']
+                res.srcDirs = ['src/main/res', 'src/main/runalone/res']
+                assets.srcDirs = ['src/main/assets', 'src/main/runalone/assets']
+                jniLibs.srcDirs = ['src/main/jniLibs', 'src/main/runalone/jniLibs']
+            }
+        }
     }
 
     resourcePrefix "login_"
@@ -105,7 +108,11 @@ dependencies {
     implementation project(':socializecomponent')
 }
 
-combuild {
-    applicationName = 'com.frame.base.BaseApplication'
-    isRegisterCompoAuto = true
+if (isRunAlone.toBoolean()) {
+
+} else {
+    combuild {
+        applicationName = 'com.frame.base.BaseApplication'
+        isRegisterCompoAuto = true
+    }
 }

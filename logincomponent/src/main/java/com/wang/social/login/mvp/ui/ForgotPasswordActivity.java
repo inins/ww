@@ -23,6 +23,7 @@ import com.wang.social.login.di.module.ForgotPasswordModule;
 import com.wang.social.login.mvp.contract.ForgotPasswordContract;
 import com.wang.social.login.mvp.presenter.ForgotPasswordPresenter;
 import com.wang.social.login.mvp.ui.widget.DialogFragmentLoading;
+import com.wang.social.login.utils.Keys;
 import com.wang.social.login.utils.StringUtils;
 import com.wang.social.login.utils.ViewUtils;
 
@@ -106,7 +107,7 @@ public class ForgotPasswordActivity extends BaseAppActivity<ForgotPasswordPresen
     @Override
     public void onSendVerifyCodeSuccess(String mobile) {
         // 获取验证码成功，跳转到输入验证码界面
-        VerifyPhoneActivity.start(this, mobile);
+        VerifyPhoneActivity.start(this, mobile, Keys.TYPE_FORGOT_PASSWORD);
 
 //        finish();
     }

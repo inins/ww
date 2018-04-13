@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.frame.base.BaseActivity;
+import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.router.facade.annotation.RouteNode;
@@ -31,7 +32,7 @@ import butterknife.OnClick;
 import timber.log.Timber;
 
 @RouteNode(path = "/login_bind_phone", desc = "手机绑定")
-public class BindPhoneActivity extends BaseActivity<BindPhonePresenter> implements
+public class BindPhoneActivity extends BaseAppActivity<BindPhonePresenter> implements
     BindPhoneContract.View {
 
     public static void start(Context context) {
@@ -81,6 +82,9 @@ public class BindPhoneActivity extends BaseActivity<BindPhonePresenter> implemen
         ViewUtils.controlKeyboardLayout(contentRoot, bindTV);
     }
 
+    /**
+     * 获取验证码
+     */
     @OnClick(R2.id.get_verify_code_text_view)
     public void getVerifyCode() {
         ViewUtils.hideSoftInputFromWindow(this, phoneEditText);
@@ -102,8 +106,11 @@ public class BindPhoneActivity extends BaseActivity<BindPhonePresenter> implemen
         }
     }
 
+    /**
+     * 绑定按钮
+     */
     @OnClick(R2.id.bind_text_view)
-    public void vindPhone() {
+    public void bindPhone() {
         String mobile = phoneEditText.getText().toString();
 
         if (!StringUtils.isMobileNO(mobile)) {
@@ -124,21 +131,33 @@ public class BindPhoneActivity extends BaseActivity<BindPhonePresenter> implemen
         ToastUtil.showToastLong(msg);
     }
 
+    /**
+     * 验证码申请成功
+     */
     @Override
     public void onSendVerifyCodeSuccess(String mobile) {
         // 验证码请求成功，开始倒计时
         getVerifyCodeTV.start();
     }
 
-    private DialogFragmentLoading mLoadingDialog;
+    /**
+     * 换绑手机成功，跳转到设置密码页面
+     */
+    @Override
+    public void onReplaceMobileSuccess() {
+        ResetPasswordActivity.start(this);
+
+        finish();
+    }
+
     @Override
     public void showLoading() {
-        mLoadingDialog = DialogFragmentLoading.showDialog(getSupportFragmentManager(), TAG);
+        showLoadingDialog();
     }
 
     @Override
     public void hideLoading() {
-        mLoadingDialog.dismiss();
+        dismissLoadingDialog();
     }
 
     @Override
