@@ -17,7 +17,7 @@ android {
     }
 
     defaultConfig {
-        if(isRunAlone.toBoolean()){
+        if (isRunAlone.toBoolean()) {
             applicationId "com.dongdongkeji.wangwangsocial"
         }
 
@@ -108,11 +108,7 @@ dependencies {
     implementation project(':socializecomponent')
 }
 
-if (isRunAlone.toBoolean()) {
-
-} else {
-    combuild {
-        applicationName = 'com.frame.base.BaseApplication'
-        isRegisterCompoAuto = true
-    }
-}
+//combuild {
+//    applicationName = 'com.frame.base.BaseApplication'
+//    isRegisterCompoAuto = true
+//}

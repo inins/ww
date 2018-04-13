@@ -311,8 +311,9 @@ public class SocializeUtil {
      */
     private static void thirdPartyLogin(@LoginPlatform int platform, Activity activity, LoginListener listener) {
         loginListener = listener;
-        UMShareAPI.get(activity.getApplicationContext()).getPlatformInfo(activity,
-                getUMShareMedia(platform), umAuthListener);
+        UMShareAPI.get(activity).
+                getPlatformInfo(activity,
+                        getUMShareMedia(platform), umAuthListener);
     }
 
     /**
@@ -352,12 +353,13 @@ public class SocializeUtil {
 
     /**
      * 分享网页
+     *
      * @param fragmentManager FragmentDialog 需要
-     * @param listener 回调
-     * @param url 分享链接
-     * @param title 标题
-     * @param content 内容
-     * @param imageUrl 图标
+     * @param listener        回调
+     * @param url             分享链接
+     * @param title           标题
+     * @param content         内容
+     * @param imageUrl        图标
      */
     public static void shareWeb(FragmentManager fragmentManager, ShareListener listener,
                                 String url, String title, String content, String imageUrl) {
@@ -368,11 +370,12 @@ public class SocializeUtil {
 
     /**
      * 分享网页链接
+     *
      * @param activity activity
      * @param platform 分享平台
-     * @param url 链接
-     * @param title 标题
-     * @param content 内容
+     * @param url      链接
+     * @param title    标题
+     * @param content  内容
      * @param imageUrl 图标地址
      */
     public static void umShareWeb(Activity activity, @SharePlatform int platform,

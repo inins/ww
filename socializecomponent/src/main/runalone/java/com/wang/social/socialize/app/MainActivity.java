@@ -81,7 +81,12 @@ public class MainActivity extends BasicActivity {
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        SocializeUtil.umShare(MainActivity.this, SocializeUtil.SHARE_PLATFORM_WX);
+                        SocializeUtil.umShareWeb(MainActivity.this,
+                                SocializeUtil.SHARE_PLATFORM_WX,
+                                "http://www.wangsocial.com/",
+                                "往往",
+                                "有点2的社交软件",
+                                "http://resouce.dongdongwedding.com/activity_cashcow_moneyTree.png");
                     }
                 });
 
@@ -89,7 +94,12 @@ public class MainActivity extends BasicActivity {
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        SocializeUtil.umShare(MainActivity.this, SocializeUtil.SHARE_PLATFORM_WX_CIRCLE);
+                        SocializeUtil.umShareWeb(MainActivity.this,
+                                SocializeUtil.SHARE_PLATFORM_WX_CIRCLE,
+                                "http://www.wangsocial.com/",
+                                "往往",
+                                "有点2的社交软件",
+                                "http://resouce.dongdongwedding.com/activity_cashcow_moneyTree.png");
                     }
                 });
 
@@ -97,7 +107,12 @@ public class MainActivity extends BasicActivity {
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        SocializeUtil.umShare(MainActivity.this, SocializeUtil.SHARE_PLATFORM_QQ);
+                        SocializeUtil.umShareWeb(MainActivity.this,
+                                SocializeUtil.SHARE_PLATFORM_QQ,
+                                "http://www.wangsocial.com/",
+                                "往往",
+                                "有点2的社交软件",
+                                "http://resouce.dongdongwedding.com/activity_cashcow_moneyTree.png");
                     }
                 });
 
@@ -105,7 +120,12 @@ public class MainActivity extends BasicActivity {
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        SocializeUtil.umShare(MainActivity.this, SocializeUtil.SHARE_PLATFORM_QQ_ZONE);
+                        SocializeUtil.umShareWeb(MainActivity.this,
+                                SocializeUtil.SHARE_PLATFORM_QQ_ZONE,
+                                "http://www.wangsocial.com/",
+                                "往往",
+                                "有点2的社交软件",
+                                "http://resouce.dongdongwedding.com/activity_cashcow_moneyTree.png");
                     }
                 });
 
@@ -113,7 +133,12 @@ public class MainActivity extends BasicActivity {
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        SocializeUtil.umShare(MainActivity.this, SocializeUtil.SHARE_PLATFORM_SINA_WEIBO);
+                        SocializeUtil.umShareWeb(MainActivity.this,
+                                SocializeUtil.SHARE_PLATFORM_SINA_WEIBO,
+                                "http://www.wangsocial.com/",
+                                "往往",
+                                "有点2的社交软件",
+                                "http://resouce.dongdongwedding.com/activity_cashcow_moneyTree.png");
                     }
                 });
     }

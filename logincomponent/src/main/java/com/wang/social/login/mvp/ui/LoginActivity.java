@@ -421,7 +421,6 @@ public class LoginActivity extends BaseAppActivity<LoginPresenter> implements Lo
      */
     @Override
     public void gotoTagSelection() {
-//        UIRouter.getInstance().openUri(this, HomePath.HOME_URL, null);
         TagSelectionActivity.startSelectionFromLogin(this);
         finish();
     }
@@ -432,7 +431,6 @@ public class LoginActivity extends BaseAppActivity<LoginPresenter> implements Lo
     @Override
     public void gotoMainPage() {
         // 路由跳转
-//        UIRouter.getInstance().openUri(this, HomePath.HOME_URL, null);
         CommonHelper.HomeHelper.startHomeActivity(this);
         finish();
     }
@@ -453,8 +451,6 @@ public class LoginActivity extends BaseAppActivity<LoginPresenter> implements Lo
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-
 
         if (FrameUtils.obtainAppComponentFromContext(this).extras().get(RefWatcher.class.getName())
                 instanceof RefWatcher) {

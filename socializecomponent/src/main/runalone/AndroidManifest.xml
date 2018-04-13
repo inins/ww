@@ -17,6 +17,7 @@
         <meta-data
             android:name="com.wang.social.socialize.app.GlobalConfiguration"
             android:value="ConfigModule" />
+
         <activity android:name=".app.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>

@@ -157,13 +157,13 @@ public class DialogShare extends DialogFragment {
     private void initView(View view) {
         if (null == view) return;
 
-        TextView cancelTV = view.findViewById(R.id.cancel_text_view);
-        cancelTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
+        view.findViewById(R.id.cancel_text_view)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dismiss();
+                    }
+                });
 
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
