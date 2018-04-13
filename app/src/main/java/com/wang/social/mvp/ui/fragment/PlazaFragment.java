@@ -32,7 +32,7 @@ public class PlazaFragment extends BasicFragment {
     private PagerAdapterPlaza pagerAdapter;
     Unbinder unbinder;
 
-    private String[] titles = new String[]{"趣晒", "话题", "趣聊"};
+    private String[] titles = new String[]{"趣晒", "话题", "趣点"};
 
     public static PlazaFragment newInstance() {
         Bundle args = new Bundle();

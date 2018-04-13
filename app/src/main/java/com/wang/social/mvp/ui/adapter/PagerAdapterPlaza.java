@@ -6,7 +6,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
 import com.frame.component.router.Router;
+import com.frame.component.service.funpoint.FunpointService;
+import com.frame.component.service.funshow.FunshowService;
 import com.frame.component.service.personal.PersonalService;
+import com.frame.component.service.topic.TopicService;
 import com.wang.social.mvp.ui.fragment.BuildFragment;
 import com.wang.social.mvp.ui.fragment.PlazaFragment;
 
@@ -38,11 +41,14 @@ public class PagerAdapterPlaza extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return BuildFragment.newInstance();
+                FunshowService funshowService = (FunshowService) Router.getInstance().getService(FunshowService.class.getName());
+                return funshowService.getFunshowFragment();
             case 1:
-                return BuildFragment.newInstance();
+                TopicService topicService = (TopicService) Router.getInstance().getService(TopicService.class.getName());
+                return topicService.getTopicFragment();
             case 2:
-                return BuildFragment.newInstance();
+                FunpointService funpointService = (FunpointService) Router.getInstance().getService(FunpointService.class.getName());
+                return funpointService.getFunpointFragment();
             default:
                 return null;
         }
