@@ -46,7 +46,7 @@ public class CountDownView extends AppCompatTextView {
         this.hasBackground = hasBackground;
     }
 
-    private void setBackground(int resId) {
+    private void setTextBackground(int resId) {
         if (!hasBackground) return;
 
         setBackground(getContext()
@@ -65,7 +65,7 @@ public class CountDownView extends AppCompatTextView {
                     @Override
                     public void onSubscribe(Disposable d) {
                         compositeDisposable.add(d);
-                        setBackground(R.drawable.login_shape_rect_corner_stroke_gray);
+                        setTextBackground(R.drawable.login_shape_rect_corner_stroke_gray);
                     }
 
                     @Override
@@ -77,7 +77,7 @@ public class CountDownView extends AppCompatTextView {
                     public void onError(Throwable e) {
                         setEnabled(true);
                         CountDownView.this.setText(charSequence);
-                        setBackground(R.drawable.login_shape_rect_corner_stroke_blue_deep);
+                        setTextBackground(R.drawable.login_shape_rect_corner_stroke_blue_deep);
                     }
 
                     @Override
@@ -85,7 +85,7 @@ public class CountDownView extends AppCompatTextView {
                         setEnabled(true);
                         CountDownView.this.setText(charSequence);
 
-                        setBackground(R.drawable.login_shape_rect_corner_stroke_blue_deep);}
+                        setTextBackground(R.drawable.login_shape_rect_corner_stroke_blue_deep);}
                 });
     }
 }

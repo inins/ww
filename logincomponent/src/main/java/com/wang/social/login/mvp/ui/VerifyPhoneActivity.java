@@ -71,6 +71,9 @@ public class VerifyPhoneActivity extends BaseAppActivity<VerifyPhonePresenter> i
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
+        // 不需要框框
+        sendAgainTextView.setHasBackground(false);
+
         // 默认是重设密码
         mUIType = getIntent().getIntExtra(Keys.NAME_PASSWOR_UI_TYPE, Keys.TYPE_RESET_PASSWORD);
 
@@ -95,9 +98,6 @@ public class VerifyPhoneActivity extends BaseAppActivity<VerifyPhonePresenter> i
                 mPresenter.sendVerifyCode(mMobile);
             }
         }
-
-        // 不需要框框
-        sendAgainTextView.setHasBackground(false);
 
         toolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
             @Override

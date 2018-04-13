@@ -311,7 +311,7 @@ public class SocializeUtil {
      */
     private static void thirdPartyLogin(@LoginPlatform int platform, Activity activity, LoginListener listener) {
         loginListener = listener;
-        UMShareAPI.get(activity).getPlatformInfo(activity,
+        UMShareAPI.get(activity.getApplicationContext()).getPlatformInfo(activity,
                 getUMShareMedia(platform), umAuthListener);
     }
 
