@@ -9,11 +9,12 @@ import android.view.View;
 import com.frame.base.BasicActivity;
 import com.frame.component.common.AppConstant;
 import com.frame.component.ui.acticity.WebActivity;
+import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.di.component.AppComponent;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
 
-public class QuestionActivity extends BasicActivity {
+public class QuestionActivity extends BasicAppActivity {
 
     public static void start(Context context) {
         Intent intent = new Intent(context, QuestionActivity.class);

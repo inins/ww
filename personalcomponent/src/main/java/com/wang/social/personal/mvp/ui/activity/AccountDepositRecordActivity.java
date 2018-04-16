@@ -12,6 +12,7 @@ import android.view.View;
 
 import com.frame.base.BaseAdapter;
 import com.frame.base.BasicActivity;
+import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.di.component.AppComponent;
 import com.frame.utils.FocusUtil;
 import com.wang.social.personal.R;
@@ -26,7 +27,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class AccountDepositRecordActivity extends BasicActivity implements BaseAdapter.OnItemClickListener<TestEntity> {
+public class AccountDepositRecordActivity extends BasicAppActivity implements BaseAdapter.OnItemClickListener<TestEntity> {
 
     @BindView(R2.id.recycler)
     RecyclerView recycler;
