@@ -2,6 +2,7 @@ package com.wang.social.login.mvp.model;
 
 import com.frame.component.common.NetParam;
 import com.frame.di.scope.ActivityScope;
+import com.frame.di.scope.FragmentScope;
 import com.frame.http.api.BaseJson;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.BaseModel;
@@ -17,7 +18,7 @@ import javax.inject.Inject;
 
 import io.reactivex.Observable;
 
-@ActivityScope
+@FragmentScope
 public class TagListModel extends BaseModel implements TagListContract.Model {
     @Inject
     public TagListModel(IRepositoryManager repositoryManager) {

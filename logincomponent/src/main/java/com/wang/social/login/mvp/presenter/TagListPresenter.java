@@ -1,6 +1,7 @@
 package com.wang.social.login.mvp.presenter;
 
 import com.frame.di.scope.ActivityScope;
+import com.frame.di.scope.FragmentScope;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
@@ -26,7 +27,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 
-@ActivityScope
+@FragmentScope
 public class TagListPresenter extends
         BasePresenter<TagListContract.Model, TagListContract.View> {
 

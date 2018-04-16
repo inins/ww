@@ -1,6 +1,7 @@
 package com.wang.social.login.di.module;
 
 import com.frame.di.scope.ActivityScope;
+import com.frame.di.scope.FragmentScope;
 import com.wang.social.login.mvp.contract.TagListContract;
 import com.wang.social.login.mvp.model.TagListModel;
 
@@ -16,13 +17,13 @@ public class TagListModule {
         this.view = view;
     }
 
-    @ActivityScope
+    @FragmentScope
     @Provides
     TagListContract.View provideTagListView() {
         return this.view;
     }
 
-    @ActivityScope
+    @FragmentScope
     @Provides
     TagListContract.Model provideTagListModel(TagListModel model) {
         return model;
