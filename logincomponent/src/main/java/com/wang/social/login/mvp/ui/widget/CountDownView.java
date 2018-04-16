@@ -17,7 +17,7 @@ import io.reactivex.disposables.Disposable;
 public class CountDownView extends AppCompatTextView {
 
     // 倒计时时间
-    final int count = 30;
+    final int count = 60;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     CharSequence charSequence;
     boolean hasBackground = true;
