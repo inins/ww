@@ -160,8 +160,8 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
             selectedCountTV.setVisibility(View.VISIBLE);
             selectedCountTV.setText("(" + count + ")");
         } else {
-            selectedCountHintTV.setVisibility(View.INVISIBLE);
-            selectedCountTV.setVisibility(View.INVISIBLE);
+            selectedCountHintTV.setVisibility(View.GONE);
+            selectedCountTV.setVisibility(View.GONE);
         }
     }
 

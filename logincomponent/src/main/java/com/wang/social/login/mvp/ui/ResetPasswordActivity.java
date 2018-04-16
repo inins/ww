@@ -113,7 +113,7 @@ public class ResetPasswordActivity extends BaseAppActivity<ResetPasswordPresente
             }
         });
 
-        ViewUtils.controlKeyboardLayout(contentRoot, confirmView);
+//        ViewUtils.controlKeyboardLayout(contentRoot, confirmView);
     }
 
     @OnCheckedChanged(R2.id.checkbox)

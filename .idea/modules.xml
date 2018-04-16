@@ -9,6 +9,8 @@
       <module fileurl="file://$PROJECT_DIR$/build-gradle/build-gradle.iml" filepath="$PROJECT_DIR$/build-gradle/build-gradle.iml" />
       <module fileurl="file://$PROJECT_DIR$/component-service/component-service.iml" filepath="$PROJECT_DIR$/component-service/component-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/componentlib/componentlib.iml" filepath="$PROJECT_DIR$/componentlib/componentlib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/funpointcomponent/funpointcomponent.iml" filepath="$PROJECT_DIR$/funpointcomponent/funpointcomponent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/funshowcomponent/funshowcomponent.iml" filepath="$PROJECT_DIR$/funshowcomponent/funshowcomponent.iml" />
       <module fileurl="file://$PROJECT_DIR$/imcomponent/imcomponent.iml" filepath="$PROJECT_DIR$/imcomponent/imcomponent.iml" />
       <module fileurl="file://$PROJECT_DIR$/logincomponent/logincomponent.iml" filepath="$PROJECT_DIR$/logincomponent/logincomponent.iml" />
       <module fileurl="file://$PROJECT_DIR$/personalcomponent/personalcomponent.iml" filepath="$PROJECT_DIR$/personalcomponent/personalcomponent.iml" />
@@ -16,6 +18,7 @@
       <module fileurl="file://$PROJECT_DIR$/router-anno-compiler/router-anno-compiler.iml" filepath="$PROJECT_DIR$/router-anno-compiler/router-anno-compiler.iml" />
       <module fileurl="file://$PROJECT_DIR$/router-annotation/router-annotation.iml" filepath="$PROJECT_DIR$/router-annotation/router-annotation.iml" />
       <module fileurl="file://$PROJECT_DIR$/socializecomponent/socializecomponent.iml" filepath="$PROJECT_DIR$/socializecomponent/socializecomponent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/topiccomponent/topiccomponent.iml" filepath="$PROJECT_DIR$/topiccomponent/topiccomponent.iml" />
     </modules>
   </component>
 </project>

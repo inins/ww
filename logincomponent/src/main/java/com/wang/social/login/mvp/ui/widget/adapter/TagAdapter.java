@@ -30,19 +30,20 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
         void onDelete(Tag tag);
     }
 
-    WeakReference<Context> context;
+    Context context;
     WeakReference<DataProvider> dataProvider;
     WeakReference<TagClickListener> clickListener;
 
     public TagAdapter(Context context, DataProvider dataProvider, TagClickListener clickListener) {
-        this.context = new WeakReference<>(context);
+//        this.context = new WeakReference<>(context);
+        this.context = context.getApplicationContext();
         this.dataProvider = new WeakReference<>(dataProvider);
         this.clickListener = new WeakReference<>(clickListener);
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context.get())
+        View view = LayoutInflater.from(context)
                 .inflate(R.layout.login_view_tag, parent, false);
 
         return new ViewHolder(view);
@@ -57,15 +58,15 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
         // 设置选中和未选中
         if (dataProvider.get().isSelected(tag)) {
             holder.nameTV.setBackground(
-                    context.get().getResources().
+                    context.getResources().
                             getDrawable(R.drawable.login_shape_rect_corner_solid_blue_deep));
             holder.nameTV.setTextColor(Color.WHITE);
         } else {
             holder.nameTV.setBackground(
-                    context.get().getResources().
+                    context.getResources().
                             getDrawable(R.drawable.login_shape_rect_corner_stroke_blue_deep));
             holder.nameTV.setTextColor(
-                    context.get().getResources().getColor(R.color.common_blue_deep));
+                    context.getResources().getColor(R.color.common_blue_deep));
         }
         holder.nameTV.setText(tag.getTagName());
 

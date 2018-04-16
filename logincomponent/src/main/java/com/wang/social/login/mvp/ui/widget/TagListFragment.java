@@ -23,6 +23,8 @@ import com.wang.social.login.mvp.ui.widget.adapter.TagAdapter;
 import com.wang.social.login.utils.Keys;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -244,6 +246,7 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
 //        mPresenter.unselectTag(tag);
 //    }
     @Override
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onCommonEvent(EventBean event) {
 //        Timber.i("EventBuss 事件通知");
         switch (event.getEvent()) {
@@ -266,4 +269,8 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
     public void setData(@Nullable Object data) {
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 }

@@ -79,7 +79,7 @@ public class BindPhoneActivity extends BaseAppActivity<BindPhonePresenter> imple
             }
         });
 
-        ViewUtils.controlKeyboardLayout(contentRoot, bindTV);
+//        ViewUtils.controlKeyboardLayout(contentRoot, bindTV);
     }
 
     /**

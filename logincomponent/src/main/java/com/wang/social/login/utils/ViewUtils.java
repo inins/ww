@@ -25,6 +25,8 @@ public class ViewUtils {
             public void onGlobalLayout() {
                 Rect rect = new Rect();
 
+                scrollToView.getWindowVisibleDisplayFrame(rect);
+
                 //获取root在窗体的可视区域
                 root.getWindowVisibleDisplayFrame(rect);
                 //获取root在窗体的不可视区域高度(被其他View遮挡的区域高度)

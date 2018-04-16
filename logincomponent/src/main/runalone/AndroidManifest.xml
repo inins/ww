@@ -7,9 +7,7 @@
     <application
         android:name="com.frame.base.BaseApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/login_launcher"
         android:label="@string/login_app_name"
-        android:roundIcon="@mipmap/login_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/common_AppTheme"
         android:screenOrientation="portrait">
