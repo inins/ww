@@ -9,7 +9,8 @@ package com.frame.component.api;
 
 public interface Api {
 
-    String DOMAIN = "http://frogking.top:8080";
+    String DOMAIN = "http://frogking.top:8080";  //开发
+//    String DOMAIN = "http://192.168.1.149:8088";  //测试
 
     /**
      * 接口请求成功状态码

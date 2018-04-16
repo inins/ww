@@ -5,6 +5,7 @@ import android.content.ComponentCallbacks2;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.support.annotation.NonNull;
+import android.support.multidex.MultiDex;
 
 import com.frame.base.App;
 import com.frame.di.component.AppComponent;
@@ -45,6 +46,7 @@ public class AppDelegateImp implements App, AppDelegate {
     private ComponentCallbacks2 mComponentCallbacks;
 
     public AppDelegateImp(Context context) {
+        MultiDex.install(context);
         //利用反射，将 AndroidManifest.xml 带有 ConfigModule 标签的class 转换成对象集合
         this.mModules = new ManifestParser(context).parse();
         //便利集合，执行每个ConfigModule 中的一些方法

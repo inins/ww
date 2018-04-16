@@ -19,11 +19,12 @@ import android.widget.TextView;
 
 import com.frame.base.BasicActivity;
 import com.frame.component.service.R;
+import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.di.component.AppComponent;
 
 import butterknife.BindView;
 
-public class WebActivity extends BasicActivity {
+public class WebActivity extends BasicAppActivity {
 
     WebView webView;
     ProgressBar progressBar;

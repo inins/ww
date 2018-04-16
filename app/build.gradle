@@ -22,6 +22,10 @@ android {
                 arguments = [host: "app"]
             }
         }
+
+        multiDexEnabled  true
+
+        //三方平台配置
         manifestPlaceholders = [qqappid: "1106099147"]
     }
 
