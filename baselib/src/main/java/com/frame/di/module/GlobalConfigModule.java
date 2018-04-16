@@ -242,8 +242,7 @@ public class GlobalConfigModule {
         }
 
         public Builder printHttpLogLevel(RequestInterceptor.Level level) {
-            this.printHttpLogLevel = Preconditions.checkNotNull(printHttpLogLevel, "The printHttpLogLevel can not be null, use RequestInterceptor.Level.NONE instead.");
-            ;
+            this.printHttpLogLevel = Preconditions.checkNotNull(level, "The printHttpLogLevel can not be null, use RequestInterceptor.Level.NONE instead.");
             return this;
         }
 
