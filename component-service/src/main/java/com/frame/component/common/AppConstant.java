@@ -79,5 +79,13 @@ public class AppConstant {
         public static final String story = "http://wangsocial.com/share/v_2.0/test/contentShared/story/index.html";
         //话题
         public static final String topic = "http://wangsocial.com/share/v_2.0/test/contentShared/topic/index.html";
+
+        //##################################
+        //############  APP  ###############
+        //##################################
+
+        //给个好评，跳转页面
+        public static final String eva = "http://sj.qq.com/myapp/detail.htm?apkName=com.dongdongkeji.wangwangsocial";
+
     }
 }
