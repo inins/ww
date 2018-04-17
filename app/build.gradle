@@ -65,12 +65,21 @@ android {
             buildConfigField "boolean", "USE_CANARY", "false"
             buildConfigField "String", "APP_DOMAIN", "\"http://wangsocial.com:80/\""
 
-            minifyEnabled false
+            minifyEnabled false     //开启代码混淆
+            shrinkResources false    //移除无用的资源文件（AS 3.0.1 后必须开启minifyEnabled后才能开启该标志）
+            zipAlignEnabled true    //是否zip对齐优化
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
             ndk {
                 abiFilters "armeabi", "armeabi-v7a", "arm64-v8a"
             }
+        }
+    }
+    //打包apk自动命名，规则：项目名-版本号-版本名-编译类型-打包时间.apk
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            def releaseTime = new Date().format("yyyyMMddHHmm");
+            outputFileName = "wangwang-${defaultConfig.versionCode}-${defaultConfig.versionName}-${variant.buildType.name}-${releaseTime}.apk"
         }
     }
 }
