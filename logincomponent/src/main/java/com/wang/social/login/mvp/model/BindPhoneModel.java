@@ -7,6 +7,7 @@ import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.BaseModel;
 import com.wang.social.login.mvp.contract.BindPhoneContract;
 import com.wang.social.login.mvp.model.api.LoginService;
+import com.wang.social.login.BuildConfig;
 
 import java.util.Map;
 
@@ -26,7 +27,7 @@ public class BindPhoneModel extends BaseModel implements BindPhoneContract.Model
         Map<String, Object> param = new NetParam()
                 .put("mobile", mobile)
                 .put("type", type)
-                .put("v","2.0.0")
+                .put("v", BuildConfig.VERSION_NAME)
                 .putSignature()
                 .build();
         return mRepositoryManager
@@ -39,7 +40,7 @@ public class BindPhoneModel extends BaseModel implements BindPhoneContract.Model
         Map<String, Object> param = new NetParam()
                 .put("mobile", mobile)
                 .put("code", code)
-                .put("v","2.0.0")
+                .put("v", BuildConfig.VERSION_NAME)
                 .putSignature()
                 .build();
         return mRepositoryManager

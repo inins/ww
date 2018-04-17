@@ -31,5 +31,9 @@ public enum MessageType {
     /*
      * 红包消息
      */
-    RED_ENVELOP
+    RED_ENVELOP,
+    /*
+     * 未知消息
+     */
+    UNKNOWN
 }

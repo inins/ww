@@ -21,4 +21,6 @@
     <color name="common_text_hint">#dddddd</color>      <!--亮色字体-->
 
     <color name="common_bk_light">#F2F2F2</color>      <!--亮灰色背景-->
+
+    <color name="common_list_divider">#e5e5e5</color>
 </resources>

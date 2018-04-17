@@ -15,6 +15,7 @@ import javax.inject.Inject;
 
 import io.reactivex.Observable;
 
+import com.wang.social.login.BuildConfig;
 
 @ActivityScope
 public class ResetPasswordModel extends BaseModel implements ResetPasswordContract.Model {
@@ -29,7 +30,7 @@ public class ResetPasswordModel extends BaseModel implements ResetPasswordContra
                 .put("mobile", mobile)
                 .put("code", code)
                 .put("password", password)
-                .put("v","2.0.0")
+                .put("v", BuildConfig.VERSION_NAME)
                 .build();
         return mRepositoryManager
                 .obtainRetrofitService(LoginService.class)
@@ -40,7 +41,7 @@ public class ResetPasswordModel extends BaseModel implements ResetPasswordContra
     public Observable<BaseJson> userSetPassword(String password) {
         Map<String, Object> param = new NetParam()
                 .put("password", password)
-                .put("v","2.0.0")
+                .put("v", BuildConfig.VERSION_NAME)
                 .build();
         return mRepositoryManager
                 .obtainRetrofitService(LoginService.class)

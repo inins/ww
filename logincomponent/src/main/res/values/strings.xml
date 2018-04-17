@@ -47,5 +47,6 @@
     <string name="login_bind">绑定</string>
     <string name="login_reset_success">重置成功</string>
     <string name="login_set_success">设置成功</string>
+    <string name="login_user_cancel">用户取消</string>
 
 </resources>

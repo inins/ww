@@ -15,6 +15,9 @@ import javax.inject.Inject;
 
 import io.reactivex.Observable;
 
+import com.wang.social.login.BuildConfig;
+
+import com.wang.social.login.BuildConfig;
 @ActivityScope
 public class ForgotPasswordModel extends BaseModel implements ForgotPasswordContract.Model {
     @Inject
@@ -27,7 +30,7 @@ public class ForgotPasswordModel extends BaseModel implements ForgotPasswordCont
         Map<String, Object> param = new NetParam()
                 .put("mobile", mobile)
                 .put("type", type)
-                .put("v","2.0.0")
+                .put("v", BuildConfig.VERSION_NAME)
                 .putSignature()
                 .build();
         return mRepositoryManager

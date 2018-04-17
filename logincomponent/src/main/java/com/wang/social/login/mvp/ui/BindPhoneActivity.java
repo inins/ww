@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -93,7 +95,60 @@ public class BindPhoneActivity extends BaseAppActivity<BindPhonePresenter> imple
             titleTV.setText(R.string.login_rebind_phone);
         }
 
+        phoneEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                watchEditText();
+            }
+        });
+
+        verifyCodeET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                watchEditText();
+            }
+        });
+
+        resetBindTVBg(false);
+
 //        ViewUtils.controlKeyboardLayout(contentRoot, bindTV);
+    }
+
+    private void watchEditText() {
+        resetBindTVBg(StringUtils.isMobileNO(phoneEditText.getText().toString()) &&
+                        StringUtils.isVerifyCode(verifyCodeET.getText().toString()));
+    }
+
+    /**
+     * 重设按钮背景色
+     */
+    private void resetBindTVBg(boolean enable) {
+        if (enable) {
+            bindTV.setBackgroundResource(R.drawable.login_shape_rect_gradient_blue_corner);
+        } else {
+            bindTV.setBackgroundResource(R.drawable.login_shape_rect_gradient_disable_blue_corner);
+        }
+        bindTV.setEnabled(enable);
     }
 
     public boolean userHasPhone() {

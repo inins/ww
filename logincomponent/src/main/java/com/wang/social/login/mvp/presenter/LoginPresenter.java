@@ -3,6 +3,7 @@ package com.wang.social.login.mvp.presenter;
 import com.frame.component.helper.AppDataHelper;
 import com.frame.component.path.HomePath;
 import com.frame.component.router.ui.UIRouter;
+import com.wang.social.login.R;
 import com.wang.social.login.mvp.contract.LoginContract;
 import com.wang.social.login.mvp.model.entities.LoginInfo;
 import com.frame.di.scope.ActivityScope;
@@ -311,11 +312,13 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
         @Override
         public void onError(int platform, Throwable t) {
             mRootView.hideLoading();
+            mRootView.showToast(t.getMessage());
         }
 
         @Override
         public void onCancel(int platform) {
             mRootView.hideLoading();
+            mRootView.showToast(mRootView.getActivity().getString(R.string.login_user_cancel));
         }
     };
 

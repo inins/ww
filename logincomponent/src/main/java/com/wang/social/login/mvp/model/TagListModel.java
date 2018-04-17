@@ -18,6 +18,7 @@ import javax.inject.Inject;
 
 import io.reactivex.Observable;
 
+import com.wang.social.login.BuildConfig;
 @FragmentScope
 public class TagListModel extends BaseModel implements TagListContract.Model {
     @Inject
@@ -39,7 +40,7 @@ public class TagListModel extends BaseModel implements TagListContract.Model {
                 .put("size", size)
                 .put("current", current)
                 .put("parentId", parentId)
-                .put("v","2.0.0")
+                .put("v", BuildConfig.VERSION_NAME)
                 .build();
         return mRepositoryManager
                 .obtainRetrofitService(TagService.class)

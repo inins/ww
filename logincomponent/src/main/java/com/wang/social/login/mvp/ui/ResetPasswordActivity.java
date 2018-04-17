@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
@@ -113,7 +115,39 @@ public class ResetPasswordActivity extends BaseAppActivity<ResetPasswordPresente
             }
         });
 
+        passwordEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                resetConfirmTVBg(StringUtils.isPassword(s.toString()));
+            }
+        });
+
+        resetConfirmTVBg(false);
+
 //        ViewUtils.controlKeyboardLayout(contentRoot, confirmView);
+    }
+
+    /**
+     * 重设按钮背景色
+     */
+    private void resetConfirmTVBg(boolean enable) {
+        if (enable) {
+            confirmView.setBackgroundResource(R.drawable.login_shape_rect_gradient_blue_corner);
+        } else {
+            confirmView.setBackgroundResource(R.drawable.login_shape_rect_gradient_disable_blue_corner);
+        }
+
+        confirmView.setEnabled(enable);
     }
 
     @OnCheckedChanged(R2.id.checkbox)
