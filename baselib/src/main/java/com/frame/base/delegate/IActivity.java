@@ -32,7 +32,7 @@ public interface IActivity {
     void setupActivityComponent(@NonNull AppComponent appComponent);
 
     /**
-     * 是否使用 {@link org.simple.eventbus.EventBus}
+     * 是否使用 {@link org.greenrobot.eventbus.EventBus}
      * @return
      */
     boolean useEventBus();

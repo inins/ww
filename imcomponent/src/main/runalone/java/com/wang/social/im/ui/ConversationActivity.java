@@ -25,7 +25,9 @@ public class ConversationActivity extends BasicActivity{
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
         String targetId = getIntent().getExtras().getString("target");
-        ConversationFragment conversationFragment = ConversationFragment.newInstance(ConversationType.PRIVATE, targetId);
+        int type = getIntent().getExtras().getInt("conversationType");
+        ConversationType conversationType = ConversationType.values()[type];
+        ConversationFragment conversationFragment = ConversationFragment.newInstance(conversationType, targetId);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.conversation, conversationFragment, ConversationFragment.class.getName());
         transaction.commitAllowingStateLoss();

@@ -20,6 +20,7 @@ import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.ext.message.TIMMessageExt;
 import com.tencent.imsdk.ext.message.TIMMessageLocator;
+import com.tencent.imsdk.ext.message.TIMUserConfigMsgExt;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.di.component.DaggerConversationComponent;

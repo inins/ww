@@ -45,7 +45,7 @@ public enum CustomElemType {
                 return elemType;
             }
         }
-        throw new IllegalArgumentException("No such  type!");
+        return null;
     }
 
     public String getValue() {
