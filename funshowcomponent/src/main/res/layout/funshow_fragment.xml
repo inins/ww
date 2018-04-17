@@ -4,15 +4,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/common_white">
+    android:background="@color/common_white"
+    android:fitsSystemWindows="true">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="趣晒"
-        android:textColor="#999"
-        android:textSize="20sp" />
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
+            <com.frame.component.view.barview.BarView
+                android:id="@+id/barview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
+                app:note="@string/funshow_home_bar_note"
+                app:title="@string/funshow_home_bar_title" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@color/common_bk_light"
+                android:clipToPadding="false"
+                android:paddingBottom="7dp"
+                android:paddingTop="7dp" />
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 </FrameLayout>
