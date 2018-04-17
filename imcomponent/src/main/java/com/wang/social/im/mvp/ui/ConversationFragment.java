@@ -156,6 +156,12 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        mPresenter.readMessages();
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         mConversation = null;

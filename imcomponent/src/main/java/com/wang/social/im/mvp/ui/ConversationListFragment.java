@@ -100,12 +100,17 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
 
     @Override
     public void setData(@Nullable Object data) {
-
     }
 
     @Override
     public boolean useEventBus() {
         return true;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refresh();
     }
 
     @Override

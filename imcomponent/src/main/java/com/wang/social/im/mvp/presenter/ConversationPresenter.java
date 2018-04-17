@@ -175,6 +175,9 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
         mRootView.showMessage(UIMessage.obtain(timMessage));
     }
 
+    /**
+     * 将消息状态改为已读
+     */
     public void readMessages(){
         mConversationExt.setReadMessage(null, null);
     }
