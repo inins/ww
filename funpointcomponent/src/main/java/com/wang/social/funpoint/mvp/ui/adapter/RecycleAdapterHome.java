@@ -1,4 +1,4 @@
-package com.wang.social.personal.mvp.ui.adapter;
+package com.wang.social.funpoint.mvp.ui.adapter;
 
 import android.content.Context;
 import android.view.View;
@@ -6,20 +6,16 @@ import android.view.ViewGroup;
 
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
-import com.wang.social.personal.R;
 import com.frame.component.entities.TestEntity;
+import com.wang.social.funpoint.R;
 
 import java.util.List;
 
-public class RecycleAdapterBlacklist extends BaseAdapter<TestEntity> {
-
-    public List<TestEntity> getResults() {
-        return valueList;
-    }
+public class RecycleAdapterHome extends BaseAdapter<TestEntity> {
 
     @Override
     protected BaseViewHolder createViewHolder(Context context, ViewGroup parent, int viewType) {
-        return new Holder(context, parent, R.layout.personal_item_blacklist);
+        return new Holder(context, parent, R.layout.funpoint_item_home);
     }
 
     public class Holder extends BaseViewHolder<TestEntity> {
@@ -40,6 +36,11 @@ public class RecycleAdapterBlacklist extends BaseAdapter<TestEntity> {
 
         @Override
         public void onRelease() {
+        }
+
+        @Override
+        protected boolean useItemClickListener() {
+            return true;
         }
     }
 }

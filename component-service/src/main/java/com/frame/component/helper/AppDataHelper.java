@@ -1,6 +1,7 @@
 package com.frame.component.helper;
 
 import com.frame.component.entities.User;
+import com.frame.component.entities.config.MsgConfig;
 import com.frame.utils.SPUtils;
 
 /**
@@ -12,6 +13,7 @@ public class AppDataHelper {
     private static final String SHARENAME = "app_config";
     private static final String KEY_USER = "user";
     private static final String KEY_TOKEN = "token";
+    private static final String KEY_MSGCONFIG = "msg_config";
 
     /////////////////// 用户对象持久化 ///////////////////
 
@@ -39,5 +41,19 @@ public class AppDataHelper {
 
     public static void removeToken() {
         SPUtils.getInstance(SHARENAME).remove(KEY_TOKEN);
+    }
+
+    /////////////////// msgSetting持久化 ///////////////////
+
+    public static void saveMsgConfig(MsgConfig msgConfig) {
+        SPUtils.getInstance(SHARENAME).put(KEY_MSGCONFIG, msgConfig);
+    }
+
+    public static MsgConfig getMsgConfig() {
+        return (MsgConfig) SPUtils.getInstance(SHARENAME).get(KEY_MSGCONFIG);
+    }
+
+    public static void removeMsgConfig() {
+        SPUtils.getInstance(SHARENAME).remove(KEY_MSGCONFIG);
     }
 }

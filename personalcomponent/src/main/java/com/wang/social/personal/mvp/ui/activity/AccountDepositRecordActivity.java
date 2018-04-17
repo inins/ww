@@ -4,22 +4,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.frame.base.BaseAdapter;
-import com.frame.base.BasicActivity;
 import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.di.component.AppComponent;
-import com.frame.utils.FocusUtil;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
 import com.wang.social.personal.common.ItemDecorationDivider;
-import com.wang.social.personal.mvp.entities.TestEntity;
-import com.wang.social.personal.mvp.ui.adapter.RecycleAdapterDepositRecord;
+import com.frame.component.entities.TestEntity;
 import com.wang.social.personal.mvp.ui.adapter.RecycleAdapterDepositRecordIns;
 
 import java.util.ArrayList;

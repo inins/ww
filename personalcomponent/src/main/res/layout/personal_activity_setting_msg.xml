@@ -59,6 +59,7 @@
                 <Space style="@style/common_Space_H" />
 
                 <com.kyleduo.switchbutton.SwitchButton
+                    android:id="@+id/switch_msg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:kswBackColor="@color/personal_select_light_blue"
@@ -100,6 +101,7 @@
                 <Space style="@style/common_Space_H" />
 
                 <com.kyleduo.switchbutton.SwitchButton
+                    android:id="@+id/switch_showdetail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:kswBackColor="@color/personal_select_light_blue"
@@ -127,6 +129,7 @@
                 <Space style="@style/common_Space_H" />
 
                 <com.kyleduo.switchbutton.SwitchButton
+                    android:id="@+id/switch_voice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:kswBackColor="@color/personal_select_light_blue"
@@ -153,6 +156,7 @@
                 <Space style="@style/common_Space_H" />
 
                 <com.kyleduo.switchbutton.SwitchButton
+                    android:id="@+id/switch_vibration"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:kswBackColor="@color/personal_select_light_blue"

@@ -19,6 +19,8 @@ public class RecycleAdapterBundleImg extends RecyclerView.Adapter<RecyclerView.V
 
     private List<BundleImgEntity> results;
     private boolean enable = true;
+    //最大图片数量，>0时才有效
+    private int maxcount;
     private BundleImgView.OnBundleLoadImgListener onBundleLoadImgListener;
 
     public static final int TYPE_ITEM = 0xff01;
@@ -66,7 +68,6 @@ public class RecycleAdapterBundleImg extends RecyclerView.Adapter<RecyclerView.V
     }
 
     private void bindTypeAdd(HolderAdd holder, int position) {
-//        if (enable) {
         holder.itemView.setVisibility(View.VISIBLE);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,9 +77,11 @@ public class RecycleAdapterBundleImg extends RecyclerView.Adapter<RecyclerView.V
                 }
             }
         });
-//        }else {
-//            holder.itemView.setVisibility(View.GONE);
-//        }
+        if (results != null && results.size() >= maxcount) {
+            holder.itemView.setVisibility(View.GONE);
+        } else {
+            holder.itemView.setVisibility(View.VISIBLE);
+        }
     }
 
     private void bindTypeItem(final HolderItem holder, int position) {
@@ -98,6 +101,7 @@ public class RecycleAdapterBundleImg extends RecyclerView.Adapter<RecyclerView.V
             public void onClick(View v) {
                 results.remove(holder.getLayoutPosition());
                 notifyItemRemoved(holder.getLayoutPosition());
+                notifyItemChanged(getItemCount() - 1);
                 if (bundleClickListener != null) {
                     bundleClickListener.onPhotoDelClick(v);
                 }
@@ -186,5 +190,13 @@ public class RecycleAdapterBundleImg extends RecyclerView.Adapter<RecyclerView.V
 
     public void setOnItemClickListener(OnBunldItemClickListener listener) {
         this.listener = listener;
+    }
+
+    public int getMaxcount() {
+        return maxcount;
+    }
+
+    public void setMaxcount(int maxcount) {
+        this.maxcount = maxcount;
     }
 }

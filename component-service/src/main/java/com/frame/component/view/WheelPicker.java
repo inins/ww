@@ -214,7 +214,7 @@ public class WheelPicker<T> extends View {
     private Runnable mScrollerRunnable = new Runnable() {
         @Override
         public void run() {
-
+            if (mDataList == null || mDataList.size() == 0) return;
             if (mScroller.computeScrollOffset()) {
                 //                if (mIsCyclic) {
 //					int visibleItemCount = 2 * mHalfVisibleItemCount + 1;
@@ -407,10 +407,10 @@ public class WheelPicker<T> extends View {
      * @return 修正后的值
      */
     private int fixItemPosition(int position) {
+        if (mDataList == null || mDataList.size() == 0) return 0;
         if (position < 0) {
             //将数据集限定在0 ~ mDataList.size()-1之间
             position = mDataList.size() + (position % mDataList.size());
-
         }
         if (position >= mDataList.size()) {
             //将数据集限定在0 ~ mDataList.size()-1之间

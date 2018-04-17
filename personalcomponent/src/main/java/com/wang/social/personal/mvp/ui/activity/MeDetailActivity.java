@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,6 +18,8 @@ import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
+import com.frame.utils.RegexUtils;
+import com.frame.utils.ToastUtil;
 import com.wang.social.personal.R2;
 import com.wang.social.personal.helper.PhotoHelper;
 import com.wang.social.personal.R;
@@ -102,12 +105,19 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
         dialogGender = new DialogBottomGender(this);
         dialogDate = new DialogDatePicker(this);
         dialogInputName.setOnInputListener(text -> {
-            textName.setText(text);
-            mPresenter.updateUserName(text);
+            if (TextUtils.isEmpty(text)) return;
+            if (RegexUtils.isUsernameMe(text)) {
+                textName.setText(text);
+                mPresenter.updateUserName(text);
+            } else {
+                ToastUtil.showToastLong("仅允许输入下划线符号");
+            }
         });
         dialogInputSign.setOnInputListener(text -> {
-            textSign.setText(text);
-            mPresenter.updateUserSign(text);
+            if (!TextUtils.isEmpty(text)) {
+                textSign.setText(text);
+                mPresenter.updateUserSign(text);
+            }
         });
         dialogAddress.setOnAddressSelectListener((province, city) -> {
             textAddress.setText(province.getName() + (city != null ? city.getName() : ""));
