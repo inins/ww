@@ -136,7 +136,7 @@ public class LableActivity extends BaseAppActivity<LablePresonter> implements La
             String ids = adapter_show.getIdsByAdd(lable);
             mPresenter.updateShowtag(ids);
         } else {
-            ToastUtil.showToastLong("您的个性标签已经达到上限了");
+            ToastUtil.showToastLong("名片中只能展示4个标签");
         }
     };
 

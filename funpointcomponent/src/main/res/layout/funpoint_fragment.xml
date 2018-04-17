@@ -27,11 +27,13 @@
                 app:cardCornerRadius="18dp"
                 app:cardElevation="5dp">
 
-                <EditText
+                <TextView
+                    android:id="@+id/btn_search"
                     style="@style/common_EditNone"
                     android:layout_height="match_parent"
                     android:drawableLeft="@drawable/funpoint_ic_home_search"
                     android:drawablePadding="5dp"
+                    android:foreground="?attr/selectableItemBackground"
                     android:hint="请输入搜索关键字" />
 
             </android.support.v7.widget.CardView>

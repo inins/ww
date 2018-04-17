@@ -10,13 +10,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.frame.base.BaseAdapter;
-import com.frame.base.BasicActivity;
 import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.di.component.AppComponent;
 import com.frame.utils.FocusUtil;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
-import com.wang.social.personal.common.ItemDecorationDivider;
+import com.frame.component.common.ItemDecorationDivider;
 import com.wang.social.personal.mvp.entities.ShowListCate;
 import com.wang.social.personal.mvp.entities.ShowListGroup;
 import com.wang.social.personal.mvp.ui.adapter.RecycleAdapterPrivacyShowList;

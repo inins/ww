@@ -1,4 +1,11 @@
 <resources>
     <string name="common_qs">趣晒</string>
     <string name="common_topc">话题</string>
+
+    <!--通用-->
+    <string name="common_cancel">取消</string>
+    <string name="common_ok">确定</string>
+    <string name="common_m">男</string>
+    <string name="common_fm">女</string>
+    <string name="common_edit">修改</string>
 </resources>

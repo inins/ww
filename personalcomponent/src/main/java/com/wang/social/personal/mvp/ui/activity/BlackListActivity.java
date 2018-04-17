@@ -16,7 +16,7 @@ import com.frame.di.component.AppComponent;
 import com.frame.utils.FocusUtil;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
-import com.wang.social.personal.common.ItemDecorationDivider;
+import com.frame.component.common.ItemDecorationDivider;
 import com.wang.social.personal.mvp.ui.adapter.RecycleAdapterBlacklist;
 import com.wang.social.personal.mvp.ui.view.TitleView;
 

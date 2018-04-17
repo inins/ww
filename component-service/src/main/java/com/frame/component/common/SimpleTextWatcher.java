@@ -1,4 +1,4 @@
-package com.wang.social.personal.common;
+package com.frame.component.common;
 
 import android.text.Editable;
 import android.text.TextWatcher;

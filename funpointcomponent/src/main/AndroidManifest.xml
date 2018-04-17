@@ -14,6 +14,8 @@
             android:name="com.wang.social.funpoint.app.FunpointGlobalConfiguration"
             android:value="ConfigModule" />
 
+        <activity android:name=".mvp.ui.activity.SearchActivity"/>
+
     </application>
 
 </manifest>
