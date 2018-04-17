@@ -10,9 +10,12 @@ import com.frame.http.api.ApiHelper;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
+import com.wang.social.login.mvp.model.entities.Tag;
+import com.wang.social.login.mvp.model.entities.Tags;
 import com.wang.social.login.mvp.ui.TagSelectionActivity;
 import com.wang.social.socialize.SocializeUtil;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -74,8 +77,45 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
                 });
     }
 
+
     /**
-     * 登录成功后的操作
+     * 已选推荐标签列表(兴趣标签)
+     */
+    public void myRecommendTag() {
+        mApiHelper.execute(mRootView,
+                // 这里需要一次获取所有的标签，所以给一个很大的数字
+                mModel.myRecommendTag(Integer.MAX_VALUE, 0),
+                new ErrorHandleSubscriber<Tags>(mErrorHandler) {
+
+                    @Override
+                    public void onNext(Tags tags) {
+                        if (tags != null && tags.getList() != null) {
+                            doLoginComplete(tags.getList().size() > 0);
+                        } else {
+                            doLoginComplete(false);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        doLoginComplete(false);
+                    }
+                }, new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                        mRootView.showLoading();
+                    }
+                }, new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mRootView.hideLoading();
+                    }
+                });
+    }
+
+    /**
+     * 登录成功后的操作，保存用户信息，尝试获取用户兴趣标签信息
+     *
      * @param loginInfo 返回的用户信息
      */
     private void doLoginSuccess(LoginInfo loginInfo) {
@@ -84,14 +124,23 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
         AppDataHelper.saveToken(loginInfo.getToken());
         AppDataHelper.saveUser(loginInfo.getUserInfo());
 
-        if (loginInfo.getUserTags() == null ||
-                loginInfo.getUserTags().getList().size() <= 0) {
+        // 获取标签信息
+        myRecommendTag();
+    }
+
+    /**
+     * 登录成功后需要判断是否选择了兴趣标签
+     * @param hasTags
+     */
+    private void doLoginComplete(boolean hasTags) {
+        if (!hasTags) {
             // 跳转到标签选择页面
             mRootView.gotoTagSelection();
         } else {
             // 跳转到首页
             mRootView.gotoMainPage();
         }
+
     }
 
     /**
@@ -168,10 +217,13 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
     public void register(String mobile, String code, String password) {
         mApiHelper.execute(mRootView,
                 mModel.userRegister(mobile, code, password, ""),
-                new ErrorHandleSubscriber(mErrorHandler) {
+                new ErrorHandleSubscriber<LoginInfo>(mErrorHandler) {
 
                     @Override
-                    public void onNext(Object o) {
+                    public void onNext(LoginInfo loginInfo) {
+                        // 保存数据
+                        AppDataHelper.saveToken(loginInfo.getToken());
+                        AppDataHelper.saveUser(loginInfo.getUserInfo());
                         // 提示注册成功
                         // 跳转到标签选择页面
                         TagSelectionActivity.startSelectionFromLogin(mRootView.getActivity());

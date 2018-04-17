@@ -2,6 +2,7 @@ package com.wang.social.login.mvp.model.api;
 
 import com.wang.social.login.mvp.model.entities.dto.LoginInfoDTO;
 import com.frame.http.api.BaseJson;
+import com.wang.social.login.mvp.model.entities.dto.TagsDTO;
 
 import java.util.Map;
 
@@ -46,7 +47,7 @@ public interface LoginService {
      */
     @FormUrlEncoded
     @POST("user/register")
-    Observable<BaseJson> userRegister(@FieldMap Map<String, Object> param);
+    Observable<BaseJson<LoginInfoDTO>> userRegister(@FieldMap Map<String, Object> param);
 
     /**
      * 修改/重置密码（前置验证）验证验证码
@@ -109,4 +110,12 @@ public interface LoginService {
     @POST("login/platform")
     @Headers("Content-Type: application/x-www-form-urlencoded; charset=utf-8")
     Observable<BaseJson<LoginInfoDTO>> platformLogin(@FieldMap Map<String, Object> param);
+
+
+    /**
+     * 已选推荐标签列表（首页/话题）
+     */
+    @FormUrlEncoded
+    @POST("app/tag/myRecommendTag")
+    Observable<BaseJson<TagsDTO>> myRecommendTag(@FieldMap Map<String, Object> param);
 }
