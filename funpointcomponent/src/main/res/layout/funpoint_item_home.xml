@@ -32,6 +32,8 @@
         app:cardCornerRadius="8dp">
 
         <ImageView
+            android:id="@+id/img_pic"
+            android:scaleType="centerCrop"
             android:layout_width="match_parent"
             android:layout_height="144dp"
             android:src="@color/common_blue_hint" />

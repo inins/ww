@@ -1,0 +1,145 @@
+package com.frame.component.helper;
+
+import android.annotation.SuppressLint;
+import android.app.Application;
+import android.content.Context;
+import android.text.TextUtils;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.RequestOptions;
+import com.frame.component.service.R;
+import com.frame.http.imageloader.ImageLoader;
+import com.frame.http.imageloader.glide.ImageConfigImpl;
+import com.frame.utils.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import javax.inject.Inject;
+
+/**
+ * Created by liaoinstan
+ * 为mImageLoader提供简单的调用方法
+ */
+
+public class ImageLoaderHelper {
+
+    ImageLoader mImageLoader;
+
+    @Inject
+    public ImageLoaderHelper(ImageLoader mImageLoader) {
+        this.mImageLoader = mImageLoader;
+    }
+
+    ///////////////// 加载方法 ///////////////
+
+    //加载网络图，并设置占位图
+    public void loadCircleImg(ImageView imageView, int errorSrc, String url) {
+        mImageLoader.loadImage(Utils.getContext(), ImageConfigImpl.
+                builder()
+                .imageView(imageView)
+                .placeholder(errorSrc)
+                .errorPic(errorSrc)
+                .isCircle(true)
+                .url(url)
+                .build());
+    }
+
+    //上面方法的重载
+    public void loadCircleImg(ImageView imageView, String url) {
+        loadCircleImg(imageView, R.drawable.default_header, url);
+    }
+
+    public void loadImg(ImageView imageView, int errorSrc, String url) {
+        mImageLoader.loadImage(Utils.getContext(), ImageConfigImpl.
+                builder()
+                .imageView(imageView)
+                .placeholder(errorSrc)
+                .errorPic(errorSrc)
+                .isCircle(false)
+                .url(url)
+                .build());
+    }
+
+    //上面方法的重载
+    public void loadImg(ImageView imageView, String url) {
+        loadImg(imageView, R.drawable.default_header, url);
+    }
+
+    public void loadCircleImg(ImageView imageView, int src) {
+        RequestOptions myOptions = new RequestOptions()
+                .circleCrop();
+        Glide.with(Utils.getContext())
+                .load(src)
+                .apply(myOptions)
+                .transition(new DrawableTransitionOptions().crossFade(200))
+                .into(imageView);
+    }
+
+    public static void loadImg(ImageView imageView, int src) {
+        Glide.with(Utils.getContext())
+                .load(src)
+                .transition(new DrawableTransitionOptions().crossFade(200))
+                .into(imageView);
+    }
+
+    //加载一张图进行高斯模糊处理
+    public static void loadBlurImg(Context context, ImageView imageView, String url) {
+//        url = getRealImgPath(url);
+//        RequestOptions myOptions = new RequestOptions()
+//                .transform(new BlurTransformation(25));
+//        Glide.with(context)
+//                .load(url)
+//                .apply(myOptions)
+//                .transition(new DrawableTransitionOptions().crossFade(200))
+//                .into(imageView);
+    }
+
+    //#########################################
+    //########## 以下方法仅用于测试
+    //#########################################
+    private static List<String> urls = new ArrayList<String>() {{
+//        add("https://a.cdnsbn.com/images/products/l/20857459814.jpg");
+//        add("https://a.cdnsbn.com/images/products/l/10005703602.jpg");
+//        add("https://a.cdnsbn.com/images/products/l/12834780402.jpg");
+//        add("https://b.cdnsbn.com/images/products/l/15403480402.jpg");
+//        add("https://b.cdnsbn.com/images/products/l/05766096301.jpg");
+//        add("https://c.cdnsbn.com/images/products/l/04010986801.jpg");
+//        add("https://c.cdnsbn.com/images/products/l/16588798103.jpg");
+//        add("https://c.cdnsbn.com/images/products/l/11440582501.jpg");
+//        add("https://d.cdnsbn.com/images/products/l/07983430803.jpg");
+//        add("https://d.cdnsbn.com/images/products/l/09104380001.jpg");
+//        add("https://d.cdnsbn.com/images/products/l/16277591101.jpg");
+        add("http://pic17.nipic.com/20110828/5252423_172406917043_2.jpg");
+        add("https://tse3-mm.cn.bing.net/th?id=OIP.WtKvaL2mgGBhoUT28zqD-QHaEo&p=0&o=5&pid=1.1");
+        add("https://tse4-mm.cn.bing.net/th?id=OIP.rfU4rTmf0ZhSLLgIULkw3QHaEo&p=0&o=5&pid=1.1");
+        add("http://i-7.vcimg.com/trim/48b866104e7efc1ffd7367e7423296c11060910/trim.jpg");
+        add("https://tse4-mm.cn.bing.net/th?id=OIP.a-_FMTyk7MSfskBTYJWt0AHaEo&p=0&o=5&pid=1.1");
+        add("https://tse2-mm.cn.bing.net/th?id=OIP.JYIX3pvRuiCLCOrvgLU4ywHaEK&p=0&o=5&pid=1.1");
+        add("https://tse3-mm.cn.bing.net/th?id=OIP.XzZcrXAIrxTtUH97rMlNGQHaEo&p=0&o=5&pid=1.1");
+        add("http://photos.tuchong.com/23552/f/624083.jpg");
+        add("http://img.taopic.com/uploads/allimg/140819/235001-140QZSP628.jpg");
+        add("http://pic28.nipic.com/20130417/3123560_212434335136_2.jpg");
+        add("http://img14.3lian.com/201504/30/192fffb4d0ad2efd65ffcb609a3c0f47.jpg");
+        add("https://tse4-mm.cn.bing.net/th?id=OIP.0OaHeoBAOfe1PJv1Yyz59wHaEK&p=0&o=5&pid=1.1");
+        add("https://tse3-mm.cn.bing.net/th?id=OIP.2T79Y7p4SF-Go6hvY1_zJgHaE8&p=0&o=5&pid=1.1");
+    }};
+
+    public void loadCircleImgTest(ImageView imageView) {
+        if (imageView == null) return;
+        loadCircleImg(imageView, R.drawable.default_header, urls.get(new Random(imageView.hashCode()).nextInt(urls.size() - 1)));
+    }
+
+    public void loadImgTest(ImageView imageView) {
+        if (imageView == null) return;
+        loadImg(imageView, R.drawable.default_header, urls.get(new Random(imageView.hashCode()).nextInt(urls.size() - 1)));
+    }
+
+    public void loadImgTestByPosition(ImageView imageView, int position) {
+        if (imageView == null) return;
+        loadImg(imageView, R.drawable.default_header, urls.get(new Random(position).nextInt(urls.size() - 1)));
+    }
+}
