@@ -322,7 +322,7 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventMainThread(TIMMessageLocator messageLocator) {
+    public void onMessageRevoke(TIMMessageLocator messageLocator) {
         if (mAdapter == null) {
             return;
         }
