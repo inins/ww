@@ -34,11 +34,12 @@ public class ConversationListPresenter extends BasePresenter<ConversationListCon
     /**
      * 获取会话列表
      */
-    public void getConversationList(){
+    public void getConversationList() {
         List<TIMConversation> conversations = TIMManagerExt.getInstance().getConversationList();
         List<TIMConversation> result = new ArrayList<>();
-        for (TIMConversation conversation : conversations){
-            if (conversation.getType() == TIMConversationType.System){
+        for (TIMConversation conversation : conversations) {
+            if (conversation.getType() != TIMConversationType.Group &&
+                    conversation.getType() != TIMConversationType.C2C) {
                 continue;
             }
             result.add(conversation);
@@ -46,12 +47,14 @@ public class ConversationListPresenter extends BasePresenter<ConversationListCon
             conversationExt.getMessage(1, null, new TIMValueCallBack<List<TIMMessage>>() {
                 @Override
                 public void onError(int i, String s) {
-                    Timber.tag(TAG).w("Conversation get message error,"+s);
+                    Timber.tag(TAG).w("Conversation get message error," + s);
                 }
 
                 @Override
                 public void onSuccess(List<TIMMessage> timMessages) {
-
+                    if (timMessages != null && timMessages.size() > 0) {
+                        mRootView.updateMessage(timMessages.get(0));
+                    }
                 }
             });
         }

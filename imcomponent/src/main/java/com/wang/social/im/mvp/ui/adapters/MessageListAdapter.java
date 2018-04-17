@@ -13,6 +13,7 @@ import com.wang.social.im.mvp.ui.adapters.holders.BaseMessageViewHolder;
 import com.wang.social.im.mvp.ui.adapters.holders.ImageViewHolder;
 import com.wang.social.im.mvp.ui.adapters.holders.NotifyViewHolder;
 import com.wang.social.im.mvp.ui.adapters.holders.TextViewHolder;
+import com.wang.social.im.mvp.ui.adapters.holders.UnknownViewHolder;
 
 import lombok.Setter;
 
@@ -43,6 +44,8 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
     private final int TYPE_SEND_RED_ENVELOP = 11;
     //通知消息
     private final int TYPE_NOTIFY = 12;
+    //未知消息
+    private final int TYPE_UNKNOWN = 13;
 
     private ConversationType mConversationType;
 
@@ -71,6 +74,9 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
                 break;
             case TYPE_NOTIFY:
                 viewHolder = new NotifyViewHolder(context, parent);
+                break;
+            default:
+                viewHolder = new UnknownViewHolder(context, parent);
                 break;
         }
         if (viewHolder == null) {
@@ -155,6 +161,9 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
                 break;
             case NOTIFY:
                 viewType = TYPE_NOTIFY;
+                break;
+            case UNKNOWN:
+                viewType = TYPE_UNKNOWN;
                 break;
             default:
                 viewType = -1;

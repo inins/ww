@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- 会话列表 -->
+    <string name="im_cvs_revoke">%s撤回了一条消息</string>
+    <string name="im_cvs_summary_image">[图片]</string>
+    <string name="im_cvs_summary_voice">[录音]</string>
+    <string name="im_cvs_summary_location">[位置]</string>
+    <string name="im_cvs_summary_emotion">[表情]</string>
+    <string name="im_cvs_summary_red_envelope">[红包]</string>
+    <string name="im_cvs_unread_max">99+</string>
 </resources>

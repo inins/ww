@@ -35,9 +35,9 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onSuccess() {
-                        Intent intent = new Intent(MainActivity.this, ConversationActivity.class);
-                        intent.putExtra("target", IMConstants.USRE_IDENTIFIER_2);
+                        Intent intent = new Intent(MainActivity.this, ConversationListActivity.class);
                         startActivity(intent);
+                        finish();
                     }
                 });
             }
@@ -54,9 +54,9 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onSuccess() {
-                        Intent intent = new Intent(MainActivity.this, ConversationActivity.class);
-                        intent.putExtra("target", IMConstants.USRE_IDENTIFIER_1);
+                        Intent intent = new Intent(MainActivity.this, ConversationListActivity.class);
                         startActivity(intent);
+                        finish();
                     }
                 });
             }

@@ -1,5 +1,6 @@
 package com.wang.social.im.mvp.model.entities;
 
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.tencent.imsdk.TIMGroupMemberRoleType;
@@ -19,7 +20,7 @@ public class GroupProfile implements ProfileSummary{
     private TIMGroupDetailInfo profile;
     private TIMGroupBasicSelfInfo selfInfo;
 
-    public GroupProfile(TIMGroupCacheInfo cacheInfo) {
+    public GroupProfile(@NonNull TIMGroupCacheInfo cacheInfo) {
         this.profile = cacheInfo.getGroupInfo();
         this.selfInfo = cacheInfo.getSelfInfo();
     }

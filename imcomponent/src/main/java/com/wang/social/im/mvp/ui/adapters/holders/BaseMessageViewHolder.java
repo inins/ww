@@ -62,12 +62,12 @@ public abstract class BaseMessageViewHolder<T> extends BaseViewHolder<T> {
         int currentDay = cal.get(Calendar.DAY_OF_MONTH);
         if (messageYear != currentYear || messageMonth != currentMonth || messageDay != currentDay) {
             if (messageYear != currentYear){
-                return TimeUtils.millis2String(timestamp);
+                return TimeUtils.millis2String(timestamp, new SimpleDateFormat("yyyy.MM.dd HH:mm", Locale.getDefault()));
             }else {
-                return TimeUtils.millis2String(timestamp, new SimpleDateFormat("MM:dd HH:mm:ss", Locale.getDefault()));
+                return TimeUtils.millis2String(timestamp, new SimpleDateFormat("MM.dd HH:mm", Locale.getDefault()));
             }
         } else {
-            return TimeUtils.millis2String(timestamp, new SimpleDateFormat("HH:mm:ss", Locale.getDefault()));
+            return TimeUtils.millis2String(timestamp, new SimpleDateFormat("HH:mm", Locale.getDefault()));
         }
     }
 

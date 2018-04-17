@@ -1,12 +1,19 @@
 package com.wang.social.im.mvp.model.entities;
 
 
+import android.text.TextUtils;
+
+import com.frame.component.utils.UIUtil;
+import com.frame.utils.Utils;
 import com.google.gson.Gson;
+import com.qiniu.android.utils.StringUtils;
 import com.tencent.imsdk.TIMCustomElem;
 import com.tencent.imsdk.TIMElem;
 import com.tencent.imsdk.TIMElemType;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageStatus;
+import com.tencent.imsdk.TIMTextElem;
+import com.wang.social.im.R;
 import com.wang.social.im.enums.CustomElemType;
 import com.wang.social.im.enums.MessageScope;
 import com.wang.social.im.enums.MessageType;
@@ -35,7 +42,7 @@ public class UIMessage {
     @Getter
     private MessageScope messageScope = MessageScope.NORMAL;
     @Getter
-    private MessageType messageType;
+    private MessageType messageType = MessageType.UNKNOWN;
     @Getter
     private CarryUserInfo carryUserInfo;
     @Getter
@@ -120,5 +127,58 @@ public class UIMessage {
                 }
             }
         }
+    }
+
+    public String getSummary() {
+        String summary = getRevokeSummary();
+        if (!TextUtils.isEmpty(summary)) {
+            return summary;
+        }
+        if (messageType == null) {
+            return "";
+        }
+        switch (messageType) {
+            case TEXT:
+                for (int i = 0, max = (int) timMessage.getElementCount(); i < max; i++) {
+                    TIMElem elem = timMessage.getElement(i);
+                    if (elem instanceof TIMTextElem) {
+                        TIMTextElem textElem = (TIMTextElem) elem;
+                        summary = textElem.getText();
+                    } else {
+                        summary = "";
+                    }
+                }
+                break;
+            case IMAGE:
+                summary = UIUtil.getString(R.string.im_cvs_summary_image);
+                break;
+            case VOICE:
+                summary = UIUtil.getString(R.string.im_cvs_summary_voice);
+                break;
+            case EMOTION:
+                summary = UIUtil.getString(R.string.im_cvs_summary_emotion);
+                break;
+            case LOCATION:
+                summary = UIUtil.getString(R.string.im_cvs_summary_location);
+                break;
+            case RED_ENVELOP:
+                summary = UIUtil.getString(R.string.im_cvs_summary_red_envelope);
+                break;
+            default:
+                summary = "";
+                break;
+        }
+        return summary;
+    }
+
+    private String getRevokeSummary() {
+        if (timMessage.status() == TIMMessageStatus.HasRevoked) {
+            String nickname = "";
+            if (messageScope == MessageScope.NORMAL) {
+                nickname = timMessage.getSenderProfile().getNickName();
+            }
+            return UIUtil.getString(R.string.im_cvs_revoke, nickname);
+        }
+        return null;
     }
 }
