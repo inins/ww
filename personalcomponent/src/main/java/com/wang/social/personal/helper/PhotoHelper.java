@@ -29,9 +29,13 @@ public class PhotoHelper {
         this.cropHelper = new CropHelper(activity, new CropHelper.CropInterface() {
             @Override
             public void cropResult(String path) {
-                Intent intent = new Intent(activity, ActivityPictureClip.class);
-                intent.putExtra(PictureSelector.NAME_FILE_PATH, path);
-                activity.startActivityForResult(intent, PHOTO_CROP);
+                if (isClip) {
+                    Intent intent = new Intent(activity, ActivityPictureClip.class);
+                    intent.putExtra(PictureSelector.NAME_FILE_PATH, path);
+                    activity.startActivityForResult(intent, PHOTO_CROP);
+                }else {
+                    if (callback != null) callback.onResult(path);
+                }
             }
 
             @Override

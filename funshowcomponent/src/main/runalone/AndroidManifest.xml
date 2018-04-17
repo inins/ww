@@ -9,7 +9,9 @@
         android:name="com.frame.base.BaseApplication"
         android:allowBackup="true"
         android:label="@string/funshow_app_name"
-        android:screenOrientation="portrait">
+        android:screenOrientation="portrait"
+        android:theme="@style/common_AppTheme"
+        tools:replace="android:label">
 
         <!-- Meta Data -->
         <meta-data

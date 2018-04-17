@@ -30,7 +30,7 @@ import com.frame.utils.StrUtil;
 import com.frame.utils.ToastUtil;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
-import com.wang.social.personal.common.SimpleTextWatcher;
+import com.frame.component.common.SimpleTextWatcher;
 import com.wang.social.personal.di.component.DaggerSingleActivityComponent;
 import com.wang.social.personal.helper.AppValiHelper;
 import com.frame.http.api.ApiHelperEx;
@@ -41,8 +41,6 @@ import com.wang.social.personal.mvp.ui.view.bundleimgview.BundleImgEntity;
 import com.wang.social.personal.mvp.ui.view.bundleimgview.BundleImgView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
