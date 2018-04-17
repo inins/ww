@@ -10,7 +10,10 @@ import com.frame.base.BaseFragment;
 import com.frame.di.component.AppComponent;
 import com.wang.social.topic.R;
 import com.wang.social.topic.R2;
+import com.wang.social.topic.di.component.DaggerTopicListComponent;
+import com.wang.social.topic.di.module.TopicListModule;
 import com.wang.social.topic.mvp.contract.TopicListContract;
+import com.wang.social.topic.mvp.model.entities.Topic;
 import com.wang.social.topic.mvp.presenter.TopicListPresenter;
 import com.wang.social.topic.mvp.ui.adapter.TopicListAdapter;
 
@@ -29,7 +32,11 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
 
     @Override
     public void setupFragmentComponent(@NonNull AppComponent appComponent) {
-
+        DaggerTopicListComponent.builder()
+                .appComponent(appComponent)
+                .topicListModule(new TopicListModule(this))
+                .build()
+                .inject(this);
     }
 
     @Override
@@ -39,10 +46,7 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        mAdapter = new TopicListAdapter(getContext());
-
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecyclerView.setAdapter(mAdapter);
+        mPresenter.getNewsList();
     }
 
     @Override
@@ -58,5 +62,34 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
     @Override
     public void hideLoading() {
 
+    }
+
+    @Override
+    public void onTopicLoaded() {
+        if (null == mAdapter) {
+            mAdapter = new TopicListAdapter(getContext(), new TopicListAdapter.DataProvider() {
+                @Override
+                public Topic getTopic(int position) {
+                    return mPresenter.getTopic(position);
+                }
+
+                @Override
+                public int getTopicCount() {
+                    return mPresenter.getTopicCount();
+                }
+            });
+
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            mRecyclerView.setAdapter(mAdapter);
+        } else {
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void refreshTopicList() {
+        if (null != mAdapter) {
+            mAdapter.notifyDataSetChanged();
+        }
     }
 }
