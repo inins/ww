@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?attr/selectableItemBackground">
+
+    <ImageView
+        android:id="@+id/icv_iv_portrait"
+        android:layout_width="@dimen/im_cvs_portrait_size"
+        android:layout_height="@dimen/im_cvs_portrait_size"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="@dimen/common_border_margin"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/common_default_circle_placeholder" />
+
+    <TextView
+        android:id="@+id/icv_tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="9dp"
+        android:ellipsize="end"
+        android:lines="1"
+        android:maxWidth="180dp"
+        android:textColor="@color/common_text_blank"
+        android:textSize="13dp"
+        app:layout_constraintLeft_toRightOf="@id/icv_iv_portrait"
+        app:layout_constraintTop_toTopOf="@id/icv_iv_portrait"
+        tools:text="路飞" />
+
+    <TextView
+        android:id="@+id/icv_tv_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="9dp"
+        android:textColor="@color/common_text_dark"
+        android:textSize="11dp"
+        app:layout_constraintBottom_toBottomOf="@id/icv_iv_portrait"
+        app:layout_constraintLeft_toRightOf="@id/icv_iv_portrait"
+        app:layout_constraintTop_toBottomOf="@id/icv_tv_name"
+        tools:text="明天会不会来?" />
+
+    <TextView
+        android:id="@+id/icv_tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/common_border_margin"
+        android:textColor="@color/common_text_dark"
+        android:textSize="11dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/icv_iv_portrait"
+        tools:text="16:34" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/common_border_margin"
+        android:background="@drawable/im_bg_conversation_unread"
+        android:gravity="center"
+        android:textColor="@color/common_white"
+        android:textSize="9dp"
+        app:layout_constraintBottom_toBottomOf="@id/icv_iv_portrait"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:text="99" />
+</android.support.constraint.ConstraintLayout>

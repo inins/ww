@@ -14,4 +14,6 @@
     <color name="im_message_txt">#434343</color>
     <color name="im_message_hint">#999999</color>
     <color name="im_message_nickname">@color/im_message_txt</color>
+
+    <color name="im_cvs_unread_bg">#f24040</color>
 </resources>
