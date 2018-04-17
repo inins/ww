@@ -17,6 +17,7 @@ import com.frame.component.entities.User;
 import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.service.personal.PersonalFragmentInterface;
+import com.frame.component.ui.acticity.WebActivity;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.http.imageloader.ImageLoader;
@@ -55,7 +56,7 @@ import butterknife.Unbinder;
  * ========================================
  */
 
-public class PersonalFragment extends BasicFragment implements PersonalFragmentInterface{
+public class PersonalFragment extends BasicFragment implements PersonalFragmentInterface {
 
     @BindView(R2.id.toolbar)
     Toolbar toolbar;
@@ -158,7 +159,8 @@ public class PersonalFragment extends BasicFragment implements PersonalFragmentI
         } else if (v.getId() == R.id.btn_me_about) {
             AboutActivity.start(getContext(), AppConstant.Url.wwAbout);
         } else if (v.getId() == R.id.btn_me_eva) {
-            netUserHelper.loginTest();
+//            netUserHelper.loginTest();
+            WebActivity.start(getContext(), AppConstant.Url.eva);
         }
     }
 
