@@ -1,3 +1,6 @@
 <resources>
     <string name="funpoint_app_name">FunpointComponent</string>
+
+    <string name="funpoint_search_lack_title">搜索帮助：</string>
+    <string name="funpoint_search_lack_note">1.在输入名称后按下空格生成标签\n2.输入三个关键词搜索更精准\n3.可以使用标签+关键词联合搜索</string>
 </resources>

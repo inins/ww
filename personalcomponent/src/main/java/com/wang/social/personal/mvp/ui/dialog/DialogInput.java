@@ -66,7 +66,6 @@ public class DialogInput extends BaseDialogOkCancel {
             if (onInputListener != null) {
                 onInputListener.onInputText(editInput.getText().toString());
             }
-            dismiss();
         });
     }
 

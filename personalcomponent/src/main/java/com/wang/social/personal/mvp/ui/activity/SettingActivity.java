@@ -105,10 +105,11 @@ public class SettingActivity extends BasicAppActivity implements IView {
                 ToastUtil.showToastShort("没有需要清除的缓存");
                 return;
             }
-            DialogSure.showDialog(this, "清除缓存将会删除您应用内的本地图片及数据且无法恢复，确认继续？", () -> {
-                ClearCacheUtil.clearAPPCache(SettingActivity.this);
-                text_clear.setText(ClearCacheUtil.getAppCacheSize(SettingActivity.this));
-            });
+            //FIXME:清楚缓存不提示，直接清，这里注释掉提示代码
+//            DialogSure.showDialog(this, "清除缓存将会删除您应用内的本地图片及数据且无法恢复，确认继续？", () -> {
+            ClearCacheUtil.clearAPPCache(SettingActivity.this);
+            text_clear.setText(ClearCacheUtil.getAppCacheSize(SettingActivity.this));
+//            });
         } else if (i == R.id.btn_shutdownlist) {
             BlackListActivity.startShutdownList(this);
         } else if (i == R.id.btn_blacklist) {

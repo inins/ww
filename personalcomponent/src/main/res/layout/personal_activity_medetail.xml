@@ -100,7 +100,7 @@
                 style="@style/personal_TextMeItemContent"
                 android:layout_gravity="right|center_vertical"
                 android:layout_marginRight="15dp"
-                android:hint="暂无"
+                android:hint="迷"
                 tools:text="女" />
 
             <TextView
@@ -213,8 +213,8 @@
             <TextView
                 android:id="@+id/lay_sign"
                 style="@style/personal_TextMeItem"
-                android:onClick="onClick"
                 android:foreground="@null"
+                android:onClick="onClick"
                 android:text="@string/personal_medetail_sign" />
             <!--android:drawableRight="@drawable/ic_me_next"-->
 

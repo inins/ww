@@ -59,7 +59,6 @@ public class DialogBottomGender extends BaseDialog implements View.OnClickListen
 
         } else if (i == R.id.btn_cancel) {
             dismiss();
-
         }
     }
 

@@ -17,6 +17,7 @@ import com.frame.component.entities.User;
 import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.service.personal.PersonalFragmentInterface;
+import com.frame.component.ui.acticity.WebActivity;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.http.imageloader.ImageLoader;
@@ -55,7 +56,7 @@ import butterknife.Unbinder;
  * ========================================
  */
 
-public class PersonalFragment extends BasicFragment implements PersonalFragmentInterface{
+public class PersonalFragment extends BasicFragment implements PersonalFragmentInterface {
 
     @BindView(R2.id.toolbar)
     Toolbar toolbar;
@@ -150,7 +151,7 @@ public class PersonalFragment extends BasicFragment implements PersonalFragmentI
             FeedbackActivity.start(getContext());
         } else if (v.getId() == R.id.btn_me_share) {
             SocializeUtil.shareWeb(getChildFragmentManager(),
-                    null,
+                    shareListener,
                     "http://www.wangsocial.com/",
                     "往往",
                     "有点2的社交软件",
@@ -158,9 +159,33 @@ public class PersonalFragment extends BasicFragment implements PersonalFragmentI
         } else if (v.getId() == R.id.btn_me_about) {
             AboutActivity.start(getContext(), AppConstant.Url.wwAbout);
         } else if (v.getId() == R.id.btn_me_eva) {
-            netUserHelper.loginTest();
+//            netUserHelper.loginTest();
+            WebActivity.start(getContext(), AppConstant.Url.eva);
         }
     }
+
+    private SocializeUtil.ShareListener shareListener = new SocializeUtil.ShareListener() {
+
+        @Override
+        public void onStart(int platform) {
+
+        }
+
+        @Override
+        public void onResult(int platform) {
+
+        }
+
+        @Override
+        public void onError(int platform, Throwable t) {
+            ToastUtil.showToastLong(t.getMessage());
+        }
+
+        @Override
+        public void onCancel(int platform) {
+            ToastUtil.showToastLong("分享已取消");
+        }
+    };
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

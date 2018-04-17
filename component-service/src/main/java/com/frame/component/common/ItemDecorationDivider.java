@@ -1,4 +1,4 @@
-package com.wang.social.personal.common;
+package com.frame.component.common;
 
 import android.content.Context;
 import android.content.res.Resources;

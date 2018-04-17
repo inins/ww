@@ -105,10 +105,14 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
         dialogGender = new DialogBottomGender(this);
         dialogDate = new DialogDatePicker(this);
         dialogInputName.setOnInputListener(text -> {
-            if (TextUtils.isEmpty(text)) return;
+            if (TextUtils.isEmpty(text)) {
+                dialogInputName.dismiss();
+                return;
+            }
             if (RegexUtils.isUsernameMe(text)) {
                 textName.setText(text);
                 mPresenter.updateUserName(text);
+                dialogInputName.dismiss();
             } else {
                 ToastUtil.showToastLong("仅允许输入下划线符号");
             }
@@ -118,6 +122,7 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
                 textSign.setText(text);
                 mPresenter.updateUserSign(text);
             }
+            dialogInputSign.dismiss();
         });
         dialogAddress.setOnAddressSelectListener((province, city) -> {
             textAddress.setText(province.getName() + (city != null ? city.getName() : ""));
