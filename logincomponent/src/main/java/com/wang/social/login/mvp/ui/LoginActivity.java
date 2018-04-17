@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
@@ -156,7 +158,88 @@ public class LoginActivity extends BaseAppActivity<LoginPresenter> implements Lo
             rootView.setBackground(getResources().getDrawable(R.drawable.login_bg));
         }
 
+        resetLoginTVBg(false);
+
+        // 监控输入框
+        phoneET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                watchEditText();
+            }
+        });
+
+        verifyCodeET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                watchEditText();
+            }
+        });
+
+        passwordET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                watchEditText();
+            }
+        });
+
 //        ViewUtils.controlKeyboardLayout(rootView, loginTV);
+    }
+
+    private void watchEditText() {
+
+        if (launchMode.equals(LAUNCH_MODE_PASSWORD_LOGIN)) {
+            // 密码登录
+            resetLoginTVBg(checkInputPhoneNO() && checkInputPassword());
+        } else if (launchMode.equals(LAUNCH_MODE_MESSAGE_LOGIN)) {
+            // 短信登录
+            resetLoginTVBg(checkInputPhoneNO() && checkInputVerifyCode());
+        } else {
+            // 注册
+            resetLoginTVBg(checkInputPhoneNO() && checkInputVerifyCode() && checkInputPassword());
+        }
+    }
+
+    /**
+     * 重设登录按钮背景色
+     */
+    private void resetLoginTVBg(boolean enable) {
+        if (enable) {
+            loginTV.setBackgroundResource(R.drawable.login_shape_rect_gradient_blue_corner);
+        } else {
+            loginTV.setBackgroundResource(R.drawable.login_shape_rect_gradient_disable_blue_corner);
+        }
+
+        loginTV.setEnabled(enable);
     }
 
     @OnClick(R2.id.switch_login_text_view)

@@ -17,7 +17,8 @@ public class StringUtils {
      * @return
      */
     public static boolean isPassword(String password) {
-        String regex = "^[0-9A-Za-z]{6,18}$";
+//        String regex = "^[0-9A-Za-z]{6,18}$";
+        String regex = "^([A-Z]|[a-z]|[0-9]|[`~!@#$%^&*()\\-_=+<,>.?/;:'\"\\\\|{\\[\\]~·！@#￥%……&*（）——+|{}《》【】‘；：”“'。，、？]){6,18}$";
 
         return regexMatch(regex, password);
     }

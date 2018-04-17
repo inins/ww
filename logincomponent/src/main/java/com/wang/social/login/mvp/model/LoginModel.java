@@ -17,6 +17,7 @@ import javax.inject.Inject;
 
 import io.reactivex.Observable;
 
+import com.wang.social.login.BuildConfig;
 /**
  * ========================================
  * <p>
@@ -42,7 +43,7 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
         Map<String, Object> param = new NetParam()
                 .put("mobile", mobile)
                 .put("password", password)
-                .put("v","2.0.0")
+                .put("v", BuildConfig.VERSION_NAME)
                 .putSignature()
                 .build();
         return mRepositoryManager
@@ -64,7 +65,7 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
                 .put("mobile", mobile)
                 .put("code", code)
                 .put("adCode", adCode)
-                .put("v","2.0.0")
+                .put("v", BuildConfig.VERSION_NAME)
                 .putSignature()
                 .build();
         return mRepositoryManager
@@ -88,7 +89,7 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
                 .put("code", code)
                 .put("password", password)
                 .put("adCode", adCode)
-                .put("v","2.0.0")
+                .put("v", BuildConfig.VERSION_NAME)
                 .putSignature()
                 .build();
         return mRepositoryManager
@@ -117,7 +118,7 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
         Map<String, Object> param = new NetParam()
                 .put("mobile", mobile)
                 .put("type", type)
-                .put("v","2.0.0")
+                .put("v", BuildConfig.VERSION_NAME)
                 .putSignature()
                 .build();
         return mRepositoryManager
@@ -146,7 +147,7 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
                 .put("headUrl", headUrl)
                 .put("sex", sex)
                 .put("adCode", adCode)
-                .put("v","2.0.0")
+                .put("v", BuildConfig.VERSION_NAME)
                 .build();
         return mRepositoryManager
                 .obtainRetrofitService(LoginService.class)
@@ -159,7 +160,7 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
         Map<String, Object> param = new NetParam()
                 .put("size",size)
                 .put("current",current)
-                .put("v","2.0.0")
+                .put("v", BuildConfig.VERSION_NAME)
                 .build();
         return mRepositoryManager
                 .obtainRetrofitService(TagService.class)

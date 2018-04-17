@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -75,7 +77,40 @@ public class ForgotPasswordActivity extends BaseAppActivity<ForgotPasswordPresen
             }
         });
 
+        phoneEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                resetLoginTVBg(StringUtils.isMobileNO(s.toString()));
+            }
+        });
+
+        resetLoginTVBg(false);
+
 //        ViewUtils.controlKeyboardLayout(contentRoot, getVerifyCodeView);
+    }
+
+
+    /**
+     * 重设登录按钮背景色
+     */
+    private void resetLoginTVBg(boolean enable) {
+        if (enable) {
+            getVerifyCodeView.setBackgroundResource(R.drawable.login_shape_rect_gradient_blue_corner);
+        } else {
+            getVerifyCodeView.setBackgroundResource(R.drawable.login_shape_rect_gradient_disable_blue_corner);
+        }
+
+        getVerifyCodeView.setEnabled(enable);
     }
 
     @OnClick(R2.id.get_verify_code)

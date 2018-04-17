@@ -15,6 +15,8 @@ import javax.inject.Inject;
 
 import io.reactivex.Observable;
 
+import com.wang.social.login.BuildConfig;
+
 @ActivityScope
 public class VerifyPhoneModel extends BaseModel implements VerifyPhoneContract.Model {
     @Inject
@@ -34,7 +36,7 @@ public class VerifyPhoneModel extends BaseModel implements VerifyPhoneContract.M
         Map<String, Object> param = new NetParam()
                 .put("mobile", mobile)
                 .put("code", code)
-                .put("v","2.0.0")
+                .put("v", BuildConfig.VERSION_NAME)
                 .putSignature()
                 .build();
         return mRepositoryManager
@@ -47,7 +49,7 @@ public class VerifyPhoneModel extends BaseModel implements VerifyPhoneContract.M
             Map<String, Object> param = new NetParam()
                     .put("mobile", mobile)
                     .put("type", type)
-                    .put("v","2.0.0")
+                    .put("v", BuildConfig.VERSION_NAME)
                     .putSignature()
                     .build();
             return mRepositoryManager

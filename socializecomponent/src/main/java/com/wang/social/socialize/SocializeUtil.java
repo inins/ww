@@ -2,6 +2,9 @@ package com.wang.social.socialize;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.support.annotation.IntDef;
 import android.support.v4.app.FragmentManager;
 
@@ -18,6 +21,8 @@ import com.wang.social.socialize.widget.DialogShare;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import timber.log.Timber;
@@ -160,6 +165,56 @@ public class SocializeUtil {
         PlatformConfig.setQQZone("1106099147", "GImOYfGQ1twdofyv");
         // 新浪微博 appkey appsecret
         PlatformConfig.setSinaWeibo("2310796351", "d19680a11876ebdecceb1ac21a903076", "http://weibo.com");
+    }
+
+    public static boolean isWeixinAvilible(Context context) {
+        final PackageManager packageManager = context.getApplicationContext().getPackageManager();// 获取packagemanager
+        List<PackageInfo> pinfo = packageManager.getInstalledPackages(0);// 获取所有已安装程序的包信息
+        if (pinfo != null) {
+            for (int i = 0; i < pinfo.size(); i++) {
+                String pn = pinfo.get(i).packageName;
+                if (pn.equals("com.tencent.mm")) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * 判断qq是否可用
+     *
+     * @param context
+     * @return
+     */
+    public static boolean isQQClientAvailable(Context context) {
+        final PackageManager packageManager = context.getApplicationContext().getPackageManager();
+        List<PackageInfo> pinfo = packageManager.getInstalledPackages(0);
+        if (pinfo != null) {
+            for (int i = 0; i < pinfo.size(); i++) {
+                String pn = pinfo.get(i).packageName;
+                if (pn.equals("com.tencent.mobileqq")) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean isWeiboInstalled(Context context) {
+        PackageManager pm;
+        if ((pm = context.getApplicationContext().getPackageManager()) == null) {
+            return false;
+        }
+        List<PackageInfo> packages = pm.getInstalledPackages(0);
+        for (PackageInfo info : packages) {
+            String name = info.packageName.toLowerCase(Locale.ENGLISH);
+            if ("com.sina.weibo".equals(name)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static @LoginPlatform
@@ -322,7 +377,34 @@ public class SocializeUtil {
      * @param listener 回调
      */
     private static void thirdPartyLogin(@LoginPlatform int platform, Activity activity, LoginListener listener) {
+        boolean installed = false;
+        String msg = "";
+        // 先判断是否安装了客户端
+        switch (platform) {
+            case LOGIN_PLATFORM_WEIXIN:
+                installed = isWeixinAvilible(activity);
+                msg = activity.getString(R.string.socialize_wx_not_install);
+                break;
+            case LOGIN_PLATFORM_QQ:
+                installed = isQQClientAvailable(activity);
+                msg = activity.getString(R.string.socialize_qq_not_install);
+                break;
+            case LOGIN_PLATFORM_SINA_WEIBO:
+                installed = isWeiboInstalled(activity);
+                msg = activity.getString(R.string.socialize_wb_not_install);
+                break;
+        }
+
+        if (!installed) {
+            if (null != listener) {
+                listener.onError(platform, new Throwable(msg));
+            }
+
+            return;
+        }
+
         loginListener = listener;
+
         UMShareAPI.get(activity).
                 getPlatformInfo(activity,
                         getUMShareMedia(platform), umAuthListener);
@@ -392,6 +474,37 @@ public class SocializeUtil {
      */
     public static void umShareWeb(Activity activity, @SharePlatform int platform,
                                   String url, String title, String content, String imageUrl) {
+        // 先判断是否安装了对应的客户端
+        boolean installed = false;
+        String msg = "";
+        // 先判断是否安装了客户端
+        switch (platform) {
+            case SHARE_PLATFORM_WX:
+            case SHARE_PLATFORM_WX_CIRCLE:
+                installed = isWeixinAvilible(activity);
+                msg = activity.getString(R.string.socialize_share_wx_not_install);
+                break;
+            case SHARE_PLATFORM_QQ:
+            case SHARE_PLATFORM_QQ_ZONE:
+                installed = isQQClientAvailable(activity);
+                msg = activity.getString(R.string.socialize_share_qq_not_install);
+                break;
+            case SHARE_PLATFORM_SINA_WEIBO:
+                installed = isWeiboInstalled(activity);
+                msg = activity.getString(R.string.socialize_share_wb_not_install);
+                break;
+        }
+
+        if (!installed) {
+            if (null != shareListener) {
+                shareListener.onError(platform, new Throwable(msg));
+                shareListener = null;
+            }
+
+            return;
+        }
+
+
         new ShareAction(activity)
                 .setPlatform(toUMShareMedia(platform))//传入平台
                 .withMedia(new UMWeb(url, title, content, new UMImage(activity, imageUrl))) //分享内容

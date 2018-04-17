@@ -24,7 +24,11 @@ public class StringUtilsTest {
         Assert.assertTrue(StringUtils.isPassword("123456789"));
         Assert.assertTrue(StringUtils.isPassword("aaaaaa"));
         Assert.assertTrue(StringUtils.isPassword("123asd"));
-        Assert.assertFalse(StringUtils.isPassword("1234_56789"));
+        Assert.assertTrue(StringUtils.isPassword("~`!@#$%^&*()_-+="));
+        Assert.assertTrue(StringUtils.isPassword("<,>.?/;:'\"\\|"));
+        Assert.assertTrue(StringUtils.isPassword("{}[]123456"));
+        Assert.assertTrue(StringUtils.isPassword("~·！@#￥%……&*（）-——=+"));
+        Assert.assertTrue(StringUtils.isPassword("~~！@#￥%……&*（）——+；，、"));
     }
 
     @Test
