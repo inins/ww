@@ -110,9 +110,9 @@ public class SettingActivity extends BasicAppActivity implements IView {
                 text_clear.setText(ClearCacheUtil.getAppCacheSize(SettingActivity.this));
             });
         } else if (i == R.id.btn_shutdownlist) {
-            BlackListActivity.start(this);
+            BlackListActivity.startShutdownList(this);
         } else if (i == R.id.btn_blacklist) {
-            BlackListActivity.start(this);
+            BlackListActivity.startBlankList(this);
         } else if (i == R.id.btn_msg) {
             SettingMsgActivity.start(this);
         } else if (i == R.id.btn_logout) {

@@ -10,7 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.frame.base.BaseAdapter;
-import com.frame.base.BasicActivity;
 import com.frame.component.common.AppConstant;
 import com.frame.component.ui.acticity.WebActivity;
 import com.frame.component.ui.base.BasicAppActivity;
@@ -19,9 +18,7 @@ import com.frame.utils.FocusUtil;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
 import com.wang.social.personal.common.ItemDecorationDivider;
-import com.wang.social.personal.mvp.entities.TestEntity;
 import com.wang.social.personal.mvp.entities.version.VersionHistory;
-import com.wang.social.personal.mvp.ui.adapter.RecycleAdapterDepositDetail;
 import com.wang.social.personal.mvp.ui.adapter.RecycleAdapterVersionHistory;
 
 import java.util.ArrayList;

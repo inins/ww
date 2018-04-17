@@ -22,7 +22,7 @@ import com.frame.utils.SizeUtils;
 import com.frame.utils.ToastUtil;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
-import com.wang.social.personal.common.GridSpacingItemDecoration;
+import com.frame.component.common.GridSpacingItemDecoration;
 import com.wang.social.personal.di.component.DaggerSingleActivityComponent;
 import com.frame.http.api.ApiHelperEx;
 import com.wang.social.personal.mvp.base.BaseListWrap;

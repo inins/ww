@@ -19,7 +19,7 @@ import com.frame.utils.SizeUtils;
 import com.frame.utils.ToastUtil;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
-import com.wang.social.personal.common.GridSpacingItemDecoration;
+import com.frame.component.common.GridSpacingItemDecoration;
 import com.wang.social.personal.di.component.DaggerSingleActivityComponent;
 import com.wang.social.personal.helper.PhotoHelper;
 import com.wang.social.personal.helper.PhotoHelperEx;
@@ -183,6 +183,8 @@ public class MePhotoActivity extends BasicAppActivity implements IView, PhotoHel
             @Override
             public void onSuccess(Photo photo) {
                 adapter.insertItem(adapter.getItemCount() - 1, photo);
+                //这里刷新一下最后一个item是因为最后一个item是添加按钮，需求要求超过3张图片要隐藏添加按钮，删除的时候同理
+                adapter.notifyItemChanged(adapter.getItemCount()-1);
                 setTitleviewCount();
                 EventBus.getDefault().post(new EventBean(EventBean.EVENT_MEPHOTO_CHANGE));
             }
@@ -199,6 +201,7 @@ public class MePhotoActivity extends BasicAppActivity implements IView, PhotoHel
             @Override
             public void onSuccess() {
                 adapter.removeItemById(userPhotoId);
+                adapter.notifyItemChanged(adapter.getItemCount()-1);
                 setTitleviewCount();
                 EventBus.getDefault().post(new EventBean(EventBean.EVENT_MEPHOTO_CHANGE));
             }

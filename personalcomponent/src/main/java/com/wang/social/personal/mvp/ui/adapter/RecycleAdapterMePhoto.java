@@ -34,11 +34,11 @@ public class RecycleAdapterMePhoto extends BaseAdapter<Photo> {
 
     @Override
     protected BaseViewHolder createViewHolder(Context context, ViewGroup parent, int viewType) {
-        if (viewType==TYPE_SRC_ITEM){
+        if (viewType == TYPE_SRC_ITEM) {
             return new HolderItem(context, parent, viewType);
-        }else if (viewType==TYPE_SRC_ADD){
+        } else if (viewType == TYPE_SRC_ADD) {
             return new HolderAdd(context, parent, viewType);
-        }else {
+        } else {
             return null;
         }
     }
@@ -112,6 +112,11 @@ public class RecycleAdapterMePhoto extends BaseAdapter<Photo> {
             itemView.setOnClickListener(view -> {
                 if (onPhotoClickListener != null) onPhotoClickListener.onAdd(view);
             });
+            if (valueList != null && valueList.size() >= 3) {
+                itemView.setVisibility(View.GONE);
+            } else {
+                itemView.setVisibility(View.VISIBLE);
+            }
         }
 
         @Override

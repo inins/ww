@@ -218,4 +218,17 @@ public final class RegexUtils {
     public static boolean isNumberAndHorizontal(CharSequence input) {
         return isMatch(REGEX_NUMBER_HORIZONTAL, input);
     }
+
+    ///////////////////////
+
+    /**
+     * 验证用户名
+     * <p>取值范围为a-z,A-Z,0-9,"_",汉字，不能以"_"结尾,用户名必须是1-12位</p>
+     *
+     * @param input 待验证文本
+     * @return {@code true}: 匹配<br>{@code false}: 不匹配
+     */
+    public static boolean isUsernameMe(CharSequence input) {
+        return isMatch(RegexConstants.REGEX_USERNAME_ME, input);
+    }
 }

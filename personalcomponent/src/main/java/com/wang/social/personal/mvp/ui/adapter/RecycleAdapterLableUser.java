@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
 import com.wang.social.personal.R;
-import com.wang.social.personal.mvp.entities.TestEntity;
+import com.frame.component.entities.TestEntity;
 
 public class RecycleAdapterLableUser extends BaseAdapter<TestEntity> {
 

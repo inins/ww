@@ -142,6 +142,11 @@
     <string name="personal_blacklist_title_note">他/她们都是你曾经厌恶的人</string>
     <string name="personal_blacklist_btn_right">全部取消(6)</string>
 
+    <!--好友黑名单页面-->
+    <string name="personal_shutdown_title">趣晒屏蔽列表</string>
+    <string name="personal_shutdown_title_note">此功能，仅影响趣晒是否显示</string>
+    <string name="personal_shutdown_btn_right">全部取消(6)</string>
+
     <!--关于往往页面-->
     <string name="personal_about_btn_right">常见问题</string>
 

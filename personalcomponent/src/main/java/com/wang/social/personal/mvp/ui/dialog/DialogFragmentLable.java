@@ -18,8 +18,8 @@ import android.widget.TextView;
 import com.frame.utils.SizeUtils;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
-import com.wang.social.personal.common.GridSpacingItemDecoration;
-import com.wang.social.personal.mvp.entities.TestEntity;
+import com.frame.component.common.GridSpacingItemDecoration;
+import com.frame.component.entities.TestEntity;
 import com.wang.social.personal.mvp.ui.adapter.RecycleAdapterLableUser;
 
 import java.util.ArrayList;

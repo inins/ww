@@ -1,4 +1,4 @@
-package com.wang.social.personal.common;
+package com.frame.component.common;
 
 import android.graphics.Rect;
 import android.support.v7.widget.GridLayoutManager;
