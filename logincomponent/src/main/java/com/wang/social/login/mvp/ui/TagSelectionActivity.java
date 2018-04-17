@@ -155,7 +155,8 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
     public void refreshCountTV() {
         int count = mMyTagCount + mPresenter.getSelectedTagCount();
 
-        if (count > 0) {
+        // 兴趣标签模式下，用户可能会在确认页面删除掉所有的标签，这个时候也需要提交清空所有的标签
+        if (count > 0 || (mTagType == TAG_TYPE_INTEREST)) {
             selectedCountHintTV.setVisibility(View.VISIBLE);
             selectedCountTV.setVisibility(View.VISIBLE);
             selectedCountTV.setText("(" + count + ")");
