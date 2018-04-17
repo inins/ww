@@ -4,11 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.frame.base.BaseActivity;
+import com.frame.component.entities.User;
+import com.frame.component.helper.AppDataHelper;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
@@ -16,6 +19,7 @@ import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.ToastUtil;
 import com.squareup.leakcanary.RefWatcher;
+import com.tencent.connect.UserInfo;
 import com.wang.social.login.R;
 import com.wang.social.login.R2;
 import com.wang.social.login.di.component.DaggerBindPhoneComponent;
@@ -52,6 +56,11 @@ public class BindPhoneActivity extends BaseAppActivity<BindPhonePresenter> imple
     TextView bindTV;
     @BindView(R2.id.get_verify_code_text_view)
     CountDownView getVerifyCodeTV;
+    @BindView(R2.id.title_text_view)
+    TextView titleTV;
+
+    // 是否是换绑手机
+    boolean isRebind;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -79,7 +88,26 @@ public class BindPhoneActivity extends BaseAppActivity<BindPhonePresenter> imple
             }
         });
 
+        isRebind = userHasPhone();
+        if (isRebind) {
+            titleTV.setText(R.string.login_rebind_phone);
+        }
+
 //        ViewUtils.controlKeyboardLayout(contentRoot, bindTV);
+    }
+
+    public boolean userHasPhone() {
+        User user = AppDataHelper.getUser();
+
+        if (null != user) {
+            String phone = user.getPhone();
+            if (StringUtils.isMobileNO(phone)) {
+                return true;
+            }
+        }
+
+
+        return false;
     }
 
     /**
@@ -115,12 +143,16 @@ public class BindPhoneActivity extends BaseAppActivity<BindPhonePresenter> imple
 
         if (!StringUtils.isMobileNO(mobile)) {
             showToast(getString(R.string.login_phone_input_illegal));
+
+            return;
         }
 
         String verifyCode = verifyCodeET.getText().toString();
 
         if (!StringUtils.isVerifyCode(verifyCode)) {
             showToast(getString(R.string.login_verify_code_input_illegal));
+
+            return;
         }
 
         mPresenter.replaceMobile(mobile, verifyCode);
@@ -145,7 +177,11 @@ public class BindPhoneActivity extends BaseAppActivity<BindPhonePresenter> imple
      */
     @Override
     public void onReplaceMobileSuccess() {
-        ResetPasswordActivity.start(this);
+        if (!isRebind) {
+            ResetPasswordActivity.start(this);
+        } else {
+            showToast(getString(R.string.login_rebind_phone_success));
+        }
 
         finish();
     }

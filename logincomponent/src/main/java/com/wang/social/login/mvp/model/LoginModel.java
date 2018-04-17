@@ -3,11 +3,13 @@ package com.wang.social.login.mvp.model;
 import com.frame.component.common.NetParam;
 import com.wang.social.login.mvp.contract.LoginContract;
 import com.wang.social.login.mvp.model.api.LoginService;
+import com.wang.social.login.mvp.model.api.TagService;
 import com.wang.social.login.mvp.model.entities.dto.LoginInfoDTO;
 import com.frame.di.scope.ActivityScope;
 import com.frame.http.api.BaseJson;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.BaseModel;
+import com.wang.social.login.mvp.model.entities.dto.TagsDTO;
 
 import java.util.Map;
 
@@ -80,7 +82,7 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
      * @return
      */
     @Override
-    public Observable<BaseJson> userRegister(String mobile, String code, String password, String adCode) {
+    public Observable<BaseJson<LoginInfoDTO>> userRegister(String mobile, String code, String password, String adCode) {
         Map<String, Object> param = new NetParam()
                 .put("mobile", mobile)
                 .put("code", code)
@@ -151,4 +153,16 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
                 .platformLogin(param);
     }
 
+
+    @Override
+    public Observable<BaseJson<TagsDTO>> myRecommendTag(int size, int current) {
+        Map<String, Object> param = new NetParam()
+                .put("size",size)
+                .put("current",current)
+                .put("v","2.0.0")
+                .build();
+        return mRepositoryManager
+                .obtainRetrofitService(TagService.class)
+                .myRecommendTag(param);
+    }
 }

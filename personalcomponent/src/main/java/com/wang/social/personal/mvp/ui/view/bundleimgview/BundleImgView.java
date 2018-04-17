@@ -9,6 +9,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,7 @@ import com.frame.utils.SizeUtils;
 import com.frame.utils.StrUtil;
 import com.wang.social.personal.R;
 import com.wang.social.personal.common.DragItemTouchCallback;
-import com.wang.social.personal.common.GridSpacingItemDecoration;
+import com.frame.component.common.GridSpacingItemDecoration;
 import com.wang.social.personal.common.OnRecyclerItemClickListener;
 import com.wang.social.personal.utils.VibratorUtil;
 
@@ -177,6 +178,13 @@ public class BundleImgView extends FrameLayout {
     public void addPhoto(BundleImgEntity bundle) {
         adapter.getResults().add(bundle);
         adapter.notifyItemInserted(adapter.getResults().size());
+        adapter.notifyItemChanged(adapter.getItemCount() - 1);
+    }
+
+    public void addPhotos(List<BundleImgEntity> bundles) {
+        adapter.getResults().addAll(bundles);
+        adapter.notifyItemRangeInserted(adapter.getResults().size() - bundles.size(), bundles.size());
+        adapter.notifyItemChanged(adapter.getItemCount() - 1);
     }
 
     public void clear() {
@@ -195,5 +203,16 @@ public class BundleImgView extends FrameLayout {
 
     public interface OnBundleLoadImgListener {
         void onloadImg(ImageView imageView, String imgurl, int defaultSrc);
+    }
+
+    ///////////////////////
+
+
+    public int getMaxcount() {
+        return adapter.getMaxcount();
+    }
+
+    public void setMaxcount(int maxcount) {
+        adapter.setMaxcount(maxcount);
     }
 }

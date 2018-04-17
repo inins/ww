@@ -1,18 +1,14 @@
 package com.wang.social.personal.mvp.ui.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
 import com.wang.social.personal.R;
-import com.wang.social.personal.interfaces.OnRecycleItemClickListener;
-import com.wang.social.personal.mvp.entities.TestEntity;
+import com.frame.component.entities.TestEntity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RecycleAdapterDepositRecord extends BaseAdapter<TestEntity> {

@@ -6,6 +6,7 @@ import com.wang.social.login.mvp.model.entities.dto.LoginInfoDTO;
 import com.frame.http.api.BaseJson;
 import com.frame.mvp.IModel;
 import com.frame.mvp.IView;
+import com.wang.social.login.mvp.model.entities.dto.TagsDTO;
 
 import io.reactivex.Observable;
 
@@ -38,7 +39,7 @@ public interface LoginContract {
         Observable<BaseJson<LoginInfoDTO>> verifyCodeLogin(
                 String mobile, String code, String adCode);
 
-        Observable<BaseJson> userRegister(
+        Observable<BaseJson<LoginInfoDTO>> userRegister(
                 String mobile, String code, String password, String adCode);
 
         Observable<BaseJson> sendVerifyCode(
@@ -46,5 +47,8 @@ public interface LoginContract {
 
         Observable<BaseJson<LoginInfoDTO>> platformLogin(
                 int platform, String uid, String nickname, String headUrl, int sex, String adCode);
+
+
+        Observable<BaseJson<TagsDTO>> myRecommendTag(int size, int current);
     }
 }

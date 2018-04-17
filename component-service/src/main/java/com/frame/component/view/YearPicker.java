@@ -58,8 +58,8 @@ public class YearPicker extends WheelPicker<String> {
 
         mSelectedYear = Calendar.getInstance().get(Calendar.YEAR);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.YearPicker);
-        mStartYear = a.getInteger(R.styleable.YearPicker_startYear, 1900);
-        mEndYear = a.getInteger(R.styleable.YearPicker_endYear, 2100);
+        mStartYear = a.getInteger(R.styleable.YearPicker_startYear, 1960);
+        mEndYear = a.getInteger(R.styleable.YearPicker_endYear, 2017);
         a.recycle();
 
     }

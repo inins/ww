@@ -1670,8 +1670,8 @@ public final class TimeUtils {
         return sb.toString();
     }
 
-    //更具月日获取星座
-    public static String getAstro(int month, int day) {
+    //更具月日获取12星座
+    public static String getAstro12(int month, int day) {
         String[] astro = new String[]{"摩羯座", "水瓶座", "双鱼座", "白羊座", "金牛座",
                 "双子座", "巨蟹座", "狮子座", "处女座", "天秤座", "天蝎座", "射手座", "摩羯座"};
         int[] arr = new int[]{20, 19, 21, 21, 21, 22, 23, 23, 23, 23, 22, 22};// 两个星座分割日
@@ -1682,5 +1682,26 @@ public final class TimeUtils {
         }
         // 返回索引指向的星座string
         return astro[index];
+    }
+
+    /**
+     * 通过年月获取13星座
+     */
+    public static String getAstro(int month, int day) {
+        int[] dayArr = new int[]{120, 218, 312, 419, 514, 623, 722, 811, 917, 1101, 1124, 1130, 1218};
+        String[] constellationArr = new String[]{"摩羯座", "水瓶座", "双鱼座", "白羊座", "金牛座", "双子座", "巨蟹座", "狮子座", "处女座", "天秤座", "天蝎座", "蛇夫座", "射手座"};
+        int temp = month * 100 + day;
+        int ret = 0;
+        if (temp < dayArr[0] || temp >= dayArr[dayArr.length - 1]) {
+            ret = 12;
+        } else {
+            for (int i = 0; i <= dayArr.length - 2; i++) {
+                if (temp >= dayArr[i] && temp < dayArr[i + 1]) {
+                    ret = i;
+                    break;
+                }
+            }
+        }
+        return constellationArr[ret];
     }
 }

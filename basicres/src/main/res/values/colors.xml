@@ -8,6 +8,7 @@
     <color name="common_blue_deep">#189AFF</color>       <!--往往深蓝-->
     <color name="common_blue_light">#18E7FF</color>       <!--往往浅蓝-->
     <color name="common_blue_gray">#96CBFC</color>       <!--往往灰蓝-->
+    <color name="common_blue_hint">#55C4E7FF</color>       <!--往往小蓝-->
     <color name="common_white">#fefefe</color>      <!--往往白，非纯白-->
     <color name="common_blank">#010101</color>      <!--往往黑，非纯黑-->
     <color name="common_white_trans">#77fefefe</color>      <!--往往白半透明-->
@@ -18,4 +19,6 @@
     <color name="common_text_dark_light">#aaaaaa</color>      <!--灰亮色字体-->
     <color name="common_text_light">#cccccc</color>      <!--亮色字体-->
     <color name="common_text_hint">#dddddd</color>      <!--亮色字体-->
+
+    <color name="common_bk_light">#F2F2F2</color>      <!--亮灰色背景-->
 </resources>

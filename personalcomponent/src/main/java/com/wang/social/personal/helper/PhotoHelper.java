@@ -3,6 +3,7 @@ package com.wang.social.personal.helper;
 import android.app.Activity;
 import android.content.Intent;
 
+import com.frame.utils.StrUtil;
 import com.frame.utils.ToastUtil;
 import com.wang.social.personal.mvp.ui.activity.OfficialPhotoActivity;
 import com.wang.social.pictureselector.ActivityPictureClip;
@@ -13,6 +14,10 @@ public class PhotoHelper {
     private static final int PHOTO_PIC = 0xf111;
     private static final int PHOTO_PHOTO = 0xf112;
     private static final int PHOTO_CROP = 0xf113;
+
+    //最大选择数量，默认为1，超过1则不会裁剪
+    protected int maxSelectCount = 1;
+    protected boolean isClip = true;
 
     protected Activity activity;
     protected OnPhotoCallback callback;
@@ -45,9 +50,9 @@ public class PhotoHelper {
 
     public void startPhoto() {
         PictureSelector.from(activity)
-                .maxSelection(1)
+                .maxSelection(maxSelectCount)
                 .spanCount(2)
-                .isClip(true)
+                .isClip(isClip)
                 .forResult(PHOTO_PHOTO);
     }
 
@@ -56,7 +61,7 @@ public class PhotoHelper {
         if (Activity.RESULT_OK == resultCode) {
             if (PHOTO_PHOTO == requestCode) {
                 String[] list = data.getStringArrayExtra(PictureSelector.NAME_FILE_PATH_LIST);
-                if (callback != null) callback.onResult(list[0]);
+                if (callback != null) callback.onResult(format2Str(list));
             } else if (PHOTO_CROP == requestCode) {
                 String path = data.getStringExtra(PictureSelector.NAME_FILE_PATH);
                 if (callback != null) callback.onResult(path);
@@ -69,7 +74,36 @@ public class PhotoHelper {
 
     /////////////////////////////
 
+    public static String[] format2Array(String pathListStr) {
+        return pathListStr.split(",");
+    }
+
+    public static String format2Str(String[] pathList) {
+        if (StrUtil.isEmpty(pathList)) return "";
+        String ret = "";
+        for (String path : pathList) {
+            ret += path + ",";
+        }
+        return StrUtil.subLastChart(ret, ",");
+    }
+
     public interface OnPhotoCallback {
         void onResult(String path);
+    }
+
+    public int getMaxSelectCount() {
+        return maxSelectCount;
+    }
+
+    public void setMaxSelectCount(int maxSelectCount) {
+        this.maxSelectCount = maxSelectCount;
+    }
+
+    public boolean isClip() {
+        return isClip;
+    }
+
+    public void setClip(boolean clip) {
+        isClip = clip;
     }
 }

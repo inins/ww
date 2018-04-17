@@ -5,12 +5,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.frame.component.common.AppConstant;
+import com.frame.component.entities.User;
+import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.QiNiuManager;
 import com.frame.component.ui.acticity.WebActivity;
 import com.frame.component.ui.base.BasicAppActivity;
@@ -38,6 +41,8 @@ import com.wang.social.personal.mvp.ui.view.bundleimgview.BundleImgEntity;
 import com.wang.social.personal.mvp.ui.view.bundleimgview.BundleImgView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -67,6 +72,8 @@ public class FeedbackActivity extends BasicAppActivity implements PhotoHelper.On
     QiNiuManager qiNiuManager;
     PhotoHelperEx photoHelperEx;
 
+    private int MaxPhotoCount = 3;
+
     public static void start(Context context) {
         Intent intent = new Intent(context, FeedbackActivity.class);
         context.startActivity(intent);
@@ -80,8 +87,9 @@ public class FeedbackActivity extends BasicAppActivity implements PhotoHelper.On
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
-        setSupportActionBar(toolbar);
+        bundleview.setMaxcount(MaxPhotoCount);
         photoHelperEx = PhotoHelperEx.newInstance(this, this);
+        photoHelperEx.setClip(false);
         bundleview.setOnBundleLoadImgListener(new BundleImgView.OnBundleLoadImgListener() {
             @Override
             public void onloadImg(ImageView imageView, String imgurl, int defaultSrc) {
@@ -94,11 +102,9 @@ public class FeedbackActivity extends BasicAppActivity implements PhotoHelper.On
         bundleview.setOnBundleClickListener(new BundleImgView.OnBundleSimpleClickListener() {
             @Override
             public void onPhotoAddClick(View v) {
-                if (bundleview.getResultCount() < 3) {
-                    photoHelperEx.showDefaultDialog();
-                } else {
-                    ToastUtil.showToastLong("最多只能添加三张图片");
-                }
+                int count = MaxPhotoCount - bundleview.getResultCount();
+                photoHelperEx.setMaxSelectCount(count);
+                photoHelperEx.showDefaultDialog();
             }
         });
         editSuggest.addTextChangedListener(new SimpleTextWatcher() {
@@ -108,14 +114,22 @@ public class FeedbackActivity extends BasicAppActivity implements PhotoHelper.On
                 textCount.setText(text.length() + "/500");
             }
         });
+
+        //如果用户已有手机号自动填充
+
+        User user = AppDataHelper.getUser();
+        if (user != null && !TextUtils.isEmpty(user.getPhone())) {
+            editPhone.setText(user.getPhone());
+        }
     }
 
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.btn_right) {
+            int picCount = bundleview.getResultCount();
             String suggest = editSuggest.getText().toString();
             String phone = editPhone.getText().toString();
-            String msg = AppValiHelper.feedback(phone, suggest);
+            String msg = AppValiHelper.feedback(phone, suggest, picCount);
             if (msg != null) {
                 ToastUtil.showToastLong(msg);
             } else {
@@ -124,13 +138,18 @@ public class FeedbackActivity extends BasicAppActivity implements PhotoHelper.On
 
         } else if (i == R.id.btn_question) {
             WebActivity.start(this, AppConstant.Url.proposal);
-
         }
     }
 
     @Override
     public void onResult(String path) {
-        bundleview.addPhoto(new BundleImgEntity(path));
+        String[] pathArray = PhotoHelper.format2Array(path);
+        if (StrUtil.isEmpty(pathArray)) return;
+        List<BundleImgEntity> pathList = new ArrayList<>();
+        for (String str : pathArray) {
+            pathList.add(new BundleImgEntity(str));
+        }
+        bundleview.addPhotos(pathList);
     }
 
     @Override

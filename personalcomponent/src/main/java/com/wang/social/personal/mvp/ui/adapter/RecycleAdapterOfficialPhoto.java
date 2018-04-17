@@ -1,11 +1,8 @@
 package com.wang.social.personal.mvp.ui.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
@@ -13,9 +10,7 @@ import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
-import com.wang.social.personal.mvp.entities.TestEntity;
 import com.wang.social.personal.mvp.entities.photo.OffiPic;
-import com.wang.social.personal.mvp.entities.photo.Photo;
 
 import butterknife.BindView;
 

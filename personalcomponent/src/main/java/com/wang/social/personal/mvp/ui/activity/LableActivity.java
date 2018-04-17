@@ -26,7 +26,7 @@ import com.frame.utils.StrUtil;
 import com.frame.utils.ToastUtil;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
-import com.wang.social.personal.common.GridSpacingItemDecoration;
+import com.frame.component.common.GridSpacingItemDecoration;
 import com.wang.social.personal.common.OnSimpleTabSelectedListener;
 import com.wang.social.personal.di.component.DaggerLableActivityComponent;
 import com.wang.social.personal.di.module.LableModule;
@@ -130,6 +130,8 @@ public class LableActivity extends BaseAppActivity<LablePresonter> implements La
 
 
     private BaseAdapter.OnItemClickListener<Lable> onMeItemClickListener = (lable, position) -> {
+        //非编辑状态下不能添加标签
+        if (!adapter_me.isDeleteEnable()) return;
         if (adapter_show.getItemCount() < 4) {
             String ids = adapter_show.getIdsByAdd(lable);
             mPresenter.updateShowtag(ids);
@@ -140,6 +142,10 @@ public class LableActivity extends BaseAppActivity<LablePresonter> implements La
 
     @Override
     public void OnDelClick(RecycleAdapterLable adapter, Lable lable, int position) {
+        if (adapter == adapter_show && adapter_show.getItemCount() <= 1) {
+            ToastUtil.showToastLong("至少展示一个标签");
+            return;
+        }
         DialogSure.showDialog(this, "确认要删除该标签？", () -> {
             if (adapter == adapter_show) {
                 //删除个性标签
