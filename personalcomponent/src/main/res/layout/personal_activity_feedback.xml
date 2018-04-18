@@ -50,7 +50,7 @@
             android:paddingLeft="15dp"
             android:paddingRight="15dp">
 
-            <com.wang.social.personal.mvp.ui.view.TitleView
+            <com.frame.component.view.TitleView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:personal_textNote="@string/personal_feedback_notice_feedback"

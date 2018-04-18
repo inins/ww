@@ -18,7 +18,7 @@ import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
 import com.frame.component.common.ItemDecorationDivider;
 import com.wang.social.personal.mvp.ui.adapter.RecycleAdapterBlacklist;
-import com.wang.social.personal.mvp.ui.view.TitleView;
+import com.frame.component.view.TitleView;
 
 import java.util.ArrayList;
 import java.util.List;

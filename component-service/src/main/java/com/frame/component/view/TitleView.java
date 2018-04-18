@@ -1,8 +1,7 @@
-package com.wang.social.personal.mvp.ui.view;
+package com.frame.component.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -11,7 +10,7 @@ import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.wang.social.personal.R;
+import com.frame.component.service.R;
 
 /**
  * Created by Administrator on 2018/3/29.
@@ -43,17 +42,17 @@ public class TitleView extends FrameLayout {
 
     private void init(AttributeSet attrs) {
         if (attrs != null) {
-            final TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.personal_TitleView, 0, 0);
-            title = ta.getString(R.styleable.personal_TitleView_personal_textTitle);
-            subTitle = ta.getString(R.styleable.personal_TitleView_personal_textSubTitle);
-            note = ta.getString(R.styleable.personal_TitleView_personal_textNote);
+            final TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.TitleView, 0, 0);
+            title = ta.getString(R.styleable.TitleView_personal_textTitle);
+            subTitle = ta.getString(R.styleable.TitleView_personal_textSubTitle);
+            note = ta.getString(R.styleable.TitleView_personal_textNote);
             ta.recycle();
         }
     }
 
     @Override
     protected void onFinishInflate() {
-        LayoutInflater.from(getContext()).inflate(R.layout.personal_lay_titleview, this, true);
+        LayoutInflater.from(getContext()).inflate(R.layout.view_titleview, this, true);
         super.onFinishInflate();
         initView();
     }

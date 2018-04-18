@@ -3,4 +3,9 @@
 
     <string name="funshow_home_bar_title">趣晒魔</string>
     <string name="funshow_home_bar_note">发布趣晒20条以上</string>
+    <string name="funshow_home_pop_dislike">不感兴趣...</string>
+
+    <!--趣晒魔页面-->
+    <string name="funshow_home_hotuserlist_title">趣晒魔</string>
+    <string name="funshow_home_hotuserlist_note">发布趣晒20条以上，他们都是爱秀的达人</string>
 </resources>

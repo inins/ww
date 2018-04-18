@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <declare-styleable name="TitleView">
+        <attr name="personal_textTitle" format="string" />
+        <attr name="personal_textSubTitle" format="string" />
+        <attr name="personal_textNote" format="string" />
+    </declare-styleable>
+
     <declare-styleable name="BarView">
         <attr name="title" format="string" />
         <attr name="note" format="string" />

@@ -53,8 +53,8 @@ public class ConversationViewHolder extends BaseViewHolder<UIConversation> {
         icvTvName.setText(name);
         if (!TextUtils.isEmpty(portrait)) {
             mImageLoader.loadImage(getContext(), ImageConfigImpl.builder()
-                    .errorPic(R.drawable.default_header)
-                    .placeholder(R.drawable.default_header)
+                    .errorPic(R.drawable.default_circle)
+                    .placeholder(R.drawable.default_circle)
                     .imageView(icvIvPortrait)
                     .url(portrait)
                     .build());

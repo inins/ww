@@ -1,9 +1,6 @@
 package com.frame.component.helper;
 
-import android.annotation.SuppressLint;
-import android.app.Application;
 import android.content.Context;
-import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -12,6 +9,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.frame.component.service.R;
 import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
+import com.frame.utils.FrameUtils;
 import com.frame.utils.Utils;
 
 import java.util.ArrayList;
@@ -22,23 +20,19 @@ import javax.inject.Inject;
 
 /**
  * Created by liaoinstan
- * 为mImageLoader提供简单的调用方法
+ * 为mImageLoader提供简单的静态方法调用
+ * ImageLoaderHelper.loadCircleImg(imageView ,url);
+ * 使用Test方法将随机加载一张网络图片
+ * ImageLoaderHelper.loadCircleImgTest(imageView);
  */
 
 public class ImageLoaderHelper {
 
-    ImageLoader mImageLoader;
-
-    @Inject
-    public ImageLoaderHelper(ImageLoader mImageLoader) {
-        this.mImageLoader = mImageLoader;
-    }
-
     ///////////////// 加载方法 ///////////////
 
     //加载网络图，并设置占位图
-    public void loadCircleImg(ImageView imageView, int errorSrc, String url) {
-        mImageLoader.loadImage(Utils.getContext(), ImageConfigImpl.
+    public static void loadCircleImg(ImageView imageView, int errorSrc, String url) {
+        getImageLoader().loadImage(Utils.getContext(), ImageConfigImpl.
                 builder()
                 .imageView(imageView)
                 .placeholder(errorSrc)
@@ -49,12 +43,12 @@ public class ImageLoaderHelper {
     }
 
     //上面方法的重载
-    public void loadCircleImg(ImageView imageView, String url) {
-        loadCircleImg(imageView, R.drawable.default_header, url);
+    public static void loadCircleImg(ImageView imageView, String url) {
+        loadCircleImg(imageView, R.drawable.default_circle, url);
     }
 
-    public void loadImg(ImageView imageView, int errorSrc, String url) {
-        mImageLoader.loadImage(Utils.getContext(), ImageConfigImpl.
+    public static void loadImg(ImageView imageView, int errorSrc, String url) {
+        getImageLoader().loadImage(Utils.getContext(), ImageConfigImpl.
                 builder()
                 .imageView(imageView)
                 .placeholder(errorSrc)
@@ -65,11 +59,11 @@ public class ImageLoaderHelper {
     }
 
     //上面方法的重载
-    public void loadImg(ImageView imageView, String url) {
-        loadImg(imageView, R.drawable.default_header, url);
+    public static void loadImg(ImageView imageView, String url) {
+        loadImg(imageView, R.drawable.default_rect, url);
     }
 
-    public void loadCircleImg(ImageView imageView, int src) {
+    public static void loadCircleImg(ImageView imageView, int src) {
         RequestOptions myOptions = new RequestOptions()
                 .circleCrop();
         Glide.with(Utils.getContext())
@@ -96,6 +90,10 @@ public class ImageLoaderHelper {
 //                .apply(myOptions)
 //                .transition(new DrawableTransitionOptions().crossFade(200))
 //                .into(imageView);
+    }
+
+    public static ImageLoader getImageLoader() {
+        return FrameUtils.obtainAppComponentFromContext(Utils.getContext()).imageLoader();
     }
 
     //#########################################
@@ -128,18 +126,21 @@ public class ImageLoaderHelper {
         add("https://tse3-mm.cn.bing.net/th?id=OIP.2T79Y7p4SF-Go6hvY1_zJgHaE8&p=0&o=5&pid=1.1");
     }};
 
-    public void loadCircleImgTest(ImageView imageView) {
+    //随机加载一张网络图片（圆形）
+    public static void loadCircleImgTest(ImageView imageView) {
         if (imageView == null) return;
-        loadCircleImg(imageView, R.drawable.default_header, urls.get(new Random(imageView.hashCode()).nextInt(urls.size() - 1)));
+        loadCircleImg(imageView, R.drawable.default_circle, urls.get(new Random(imageView.hashCode()).nextInt(urls.size() - 1)));
     }
 
-    public void loadImgTest(ImageView imageView) {
+    //随机加载一张网络图片
+    public static void loadImgTest(ImageView imageView) {
         if (imageView == null) return;
-        loadImg(imageView, R.drawable.default_header, urls.get(new Random(imageView.hashCode()).nextInt(urls.size() - 1)));
+        loadImg(imageView, R.drawable.default_rect, urls.get(new Random(imageView.hashCode()).nextInt(urls.size() - 1)));
     }
 
-    public void loadImgTestByPosition(ImageView imageView, int position) {
+    //随机加载一张网络图片，以position作为随机种子
+    public static void loadImgTestByPosition(ImageView imageView, int position) {
         if (imageView == null) return;
-        loadImg(imageView, R.drawable.default_header, urls.get(new Random(position).nextInt(urls.size() - 1)));
+        loadImg(imageView, R.drawable.default_rect, urls.get(new Random(position).nextInt(urls.size() - 1)));
     }
 }

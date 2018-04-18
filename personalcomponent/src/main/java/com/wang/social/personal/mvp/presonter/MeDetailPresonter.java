@@ -106,7 +106,7 @@ public class MeDetailPresonter extends BasePresenter<MeDetailContract.Model, MeD
                         if (!TextUtils.isEmpty(birthday)) user.setBirthday(birthday);
                         if (!TextUtils.isEmpty(province)) user.setProvince(province);
                         if (!TextUtils.isEmpty(city)) user.setCity(city);
-                        if (TextUtils.isEmpty(autograph)) user.setAutograph(autograph);
+                        if (!TextUtils.isEmpty(autograph)) user.setAutograph(autograph);
                         AppDataHelper.saveUser(user);
                         EventBus.getDefault().post(new EventBean(EventBean.EVENT_USERINFO_CHANGE));
                     }

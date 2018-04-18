@@ -26,7 +26,7 @@ import com.wang.social.personal.helper.PhotoHelperEx;
 import com.wang.social.personal.mvp.entities.photo.Photo;
 import com.wang.social.personal.mvp.ui.adapter.RecycleAdapterMePhoto;
 import com.wang.social.personal.mvp.ui.dialog.DialogSure;
-import com.wang.social.personal.mvp.ui.view.TitleView;
+import com.frame.component.view.TitleView;
 import com.wang.social.personal.net.helper.NetPhotoHelper;
 
 import org.greenrobot.eventbus.EventBus;

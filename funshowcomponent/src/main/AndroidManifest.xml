@@ -14,6 +14,8 @@
             android:name="com.wang.social.funshow.app.FunshowGlobalConfiguration"
             android:value="ConfigModule" />
 
+        <activity android:name=".mvp.ui.activity.HotUserListActivity" />
+        <activity android:name=".mvp.ui.activity.FunshowDetailActivity" />
     </application>
 
 </manifest>

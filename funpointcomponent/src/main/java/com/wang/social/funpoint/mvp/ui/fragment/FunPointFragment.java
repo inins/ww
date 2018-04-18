@@ -51,8 +51,8 @@ public class FunPointFragment extends BasicFragment implements BaseAdapter.OnIte
     @BindView(R2.id.btn_search)
     View btnSearch;
 
-    @Inject
-    ImageLoaderHelper imageLoaderHelper;
+//    @Inject
+//    ImageLoaderHelper imageLoaderHelper;
 
     private RecycleAdapterLable adapterLable;
     private RecycleAdapterHome adapterHome;
@@ -78,7 +78,7 @@ public class FunPointFragment extends BasicFragment implements BaseAdapter.OnIte
         recyclerLable.setAdapter(adapterLable);
         recyclerLable.addItemDecoration(new GridSpacingItemDecoration(1, SizeUtils.dp2px(5), GridLayoutManager.HORIZONTAL, false));
 
-        adapterHome = new RecycleAdapterHome(imageLoaderHelper);
+        adapterHome = new RecycleAdapterHome();
         adapterHome.setOnItemClickListener(this);
         recyclerContent.setNestedScrollingEnabled(false);
         recyclerContent.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));

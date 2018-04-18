@@ -31,7 +31,7 @@
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <com.wang.social.personal.mvp.ui.view.TitleView
+        <com.frame.component.view.TitleView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="15dp"
@@ -49,7 +49,7 @@
                 android:layout_gravity="right|center_vertical"
                 android:layout_marginRight="15dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/default_header" />
+                android:src="@drawable/default_circle" />
 
             <TextView
                 android:id="@+id/lay_header"
