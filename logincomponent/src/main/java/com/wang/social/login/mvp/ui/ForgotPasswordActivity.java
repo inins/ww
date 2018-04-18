@@ -90,7 +90,7 @@ public class ForgotPasswordActivity extends BaseAppActivity<ForgotPasswordPresen
 
             @Override
             public void afterTextChanged(Editable s) {
-                resetLoginTVBg(StringUtils.isMobileNO(s.toString()));
+                resetLoginTVBg(s.toString().length() >= 11);
             }
         });
 

@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.frame.base.BaseFragment;
 import com.frame.di.component.AppComponent;
+import com.frame.utils.ToastUtil;
 import com.wang.social.topic.R;
 import com.wang.social.topic.R2;
 import com.wang.social.topic.di.component.DaggerTopicListComponent;
@@ -55,6 +56,16 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (null != mAdapter) {
+            mAdapter.onDestroy();
+            mAdapter = null;
+        }
+    }
+
+    @Override
     public void showLoading() {
 
     }
@@ -77,7 +88,13 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
                 public int getTopicCount() {
                     return mPresenter.getTopicCount();
                 }
-            });
+            },
+                    new TopicListAdapter.ClickListener() {
+                        @Override
+                        public void onTopicClick() {
+                            ToastUtil.showToastLong("ROOTVIEW");
+                        }
+                    });
 
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             mRecyclerView.setAdapter(mAdapter);

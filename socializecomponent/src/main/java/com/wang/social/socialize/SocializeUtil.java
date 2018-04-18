@@ -13,6 +13,7 @@ import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareConfig;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
@@ -254,11 +255,15 @@ public class SocializeUtil {
                 @Override
                 public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
                     if (null != loginListener) {
+                        int gender = 0;
+                        if (data.get("gender") != null) {
+                            gender = data.get("gender").equals("0") ? 0 : 1;
+                        }
                         loginListener.onComplete(getLoginType(platform),
                                 data,
                                 data.get("uid"),
                                 data.get("name"),
-                                data.get("gender").equals("0") ? 0 : 1,
+                                gender,
                                 data.get("iconurl"));
 
                         loginListener = null;
@@ -405,6 +410,11 @@ public class SocializeUtil {
 
         loginListener = listener;
 
+        UMShareConfig config = new UMShareConfig();
+        config.isNeedAuthOnGetUserInfo(true);
+
+        UMShareAPI.get(activity).setShareConfig(config);
+
         UMShareAPI.get(activity).
                 getPlatformInfo(activity,
                         getUMShareMedia(platform), umAuthListener);
@@ -504,6 +514,11 @@ public class SocializeUtil {
             return;
         }
 
+
+//        UMShareConfig config = new UMShareConfig();
+//        config.isNeedAuthOnGetUserInfo(true);
+//
+//        UMShareAPI.get(activity).setShareConfig(config);
 
         new ShareAction(activity)
                 .setPlatform(toUMShareMedia(platform))//传入平台

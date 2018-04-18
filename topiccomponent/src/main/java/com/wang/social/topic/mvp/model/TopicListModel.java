@@ -38,4 +38,28 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
                 .getNewsList(param);
     }
 
+    @Override
+    public Observable<BaseJson<TopicRspDTO>> getHotList(int size, int current) {
+        Map<String, Object> param = new NetParam()
+                .put("size",size)
+                .put("current",current)
+                .put("v", BuildConfig.VERSION_NAME)
+                .build();
+        return mRepositoryManager
+                .obtainRetrofitService(TopicService.class)
+                .getHotList(param);
+    }
+
+    @Override
+    public Observable<BaseJson<TopicRspDTO>> getLowList(int size, int current) {
+        Map<String, Object> param = new NetParam()
+                .put("size",size)
+                .put("current",current)
+                .put("v", BuildConfig.VERSION_NAME)
+                .build();
+        return mRepositoryManager
+                .obtainRetrofitService(TopicService.class)
+                .getLowList(param);
+    }
+
 }

@@ -20,4 +20,16 @@ public interface TopicService {
      */
     @GET("app/topic/getNewsList")
     Observable<BaseJson<TopicRspDTO>> getNewsList(@QueryMap Map<String, Object> param);
+
+    /**
+     * 最热话题列表
+     */
+    @GET("app/topic/getHotList")
+    Observable<BaseJson<TopicRspDTO>> getHotList(@QueryMap Map<String, Object> param);
+
+    /**
+     * 无人问津话题列表
+     */
+    @GET("app/topic/getLowList")
+    Observable<BaseJson<TopicRspDTO>> getLowList(@QueryMap Map<String, Object> param);
 }
