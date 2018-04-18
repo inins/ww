@@ -8,4 +8,9 @@
     <!--趣晒魔页面-->
     <string name="funshow_home_hotuserlist_title">趣晒魔</string>
     <string name="funshow_home_hotuserlist_note">发布趣晒20条以上，他们都是爱秀的达人</string>
+
+    <!--趣晒详情页面-->
+    <string name="funshow_home_funshow_detail_btn_right">举报</string>
+    <string name="funshow_home_funshow_detail_eva_hint">说说你的看法吧</string>
+    <string name="funshow_home_funshow_detail_eva_more">查看更多></string>
 </resources>

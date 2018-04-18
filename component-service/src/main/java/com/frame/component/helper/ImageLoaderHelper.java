@@ -143,4 +143,9 @@ public class ImageLoaderHelper {
         if (imageView == null) return;
         loadImg(imageView, R.drawable.default_rect, urls.get(new Random(position).nextInt(urls.size() - 1)));
     }
+
+    //获取一张随机的网络图片
+    public static String getRandomImg() {
+        return urls.get(new Random().nextInt(urls.size() - 1));
+    }
 }

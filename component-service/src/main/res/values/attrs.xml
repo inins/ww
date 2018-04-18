@@ -6,6 +6,10 @@
         <attr name="editble" format="boolean" />
         <!-- 是否可拖拽手动排序 -->
         <attr name="dragble" format="boolean" />
+        <attr name="space_width" format="dimension" />
+        <attr name="wihi" format="float" />
+        <attr name="corner" format="dimension" />
+        <attr name="colcount" format="integer" />
     </declare-styleable>
 
     <declare-styleable name="TitleView">

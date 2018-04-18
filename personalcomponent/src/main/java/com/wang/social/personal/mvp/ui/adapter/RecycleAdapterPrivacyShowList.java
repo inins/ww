@@ -1,24 +1,16 @@
 package com.wang.social.personal.mvp.ui.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
-import com.frame.component.helper.SelectHelper;
-import com.frame.utils.ToastUtil;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
 import com.wang.social.personal.mvp.entities.ShowListCate;
-import com.wang.social.personal.mvp.entities.ShowListGroup;
-import com.wang.social.personal.mvp.ui.view.ListViewLinearLayout;
-
-import org.w3c.dom.Text;
+import com.frame.component.view.ListViewLinearLayout;
 
 import butterknife.BindView;
 

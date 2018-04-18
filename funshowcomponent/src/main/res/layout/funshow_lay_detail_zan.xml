@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:orientation="vertical"
+    tools:background="@color/common_white">
+
+    <ImageView
+        android:id="@+id/img_more"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginStart="15dp"
+        android:paddingRight="15dp"
+        android:scaleType="center"
+        android:src="@drawable/funshow_ic_more"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/text_zan" />
+
+    <TextView
+        android:id="@+id/text_zan"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginEnd="20dp"
+        android:drawableLeft="@drawable/common_select_zan"
+        android:drawablePadding="5dp"
+        android:gravity="center"
+        android:text="110"
+        android:textColor="@color/common_text_dark"
+        android:textSize="11sp"
+        app:layout_constraintEnd_toStartOf="@+id/text_comment"
+        app:layout_constraintTop_toTopOf="@+id/text_comment" />
+
+    <TextView
+        android:id="@+id/text_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginEnd="20dp"
+        android:drawableLeft="@drawable/common_ic_comment"
+        android:drawablePadding="5dp"
+        android:gravity="center"
+        android:text="110"
+        android:textColor="@color/common_text_dark"
+        android:textSize="11sp"
+        app:layout_constraintEnd_toStartOf="@+id/text_share"
+        app:layout_constraintTop_toTopOf="@+id/text_share" />
+
+    <TextView
+        android:id="@+id/text_share"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="8dp"
+        android:drawableLeft="@drawable/common_ic_share"
+        android:drawablePadding="5dp"
+        android:gravity="center"
+        android:text="110"
+        android:textColor="@color/common_text_dark"
+        android:textSize="11sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/line1"
+        style="@style/common_Line_H"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@+id/img_more" />
+
+    <TextView
+        android:id="@+id/text_zan_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="8dp"
+        android:text="88个赞"
+        android:textColor="@color/common_text_blank"
+        android:textSize="13sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line1" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_zan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/text_zan_count"
+        tools:layout_height="26dp" />
+
+</android.support.constraint.ConstraintLayout>
