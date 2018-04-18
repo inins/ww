@@ -24,6 +24,8 @@ import com.tencent.imsdk.ext.message.TIMUserConfigMsgExt;
 import com.tencent.imsdk.ext.sns.TIMFriendshipProxyListener;
 import com.tencent.imsdk.ext.sns.TIMUserConfigSnsExt;
 import com.wang.social.im.BuildConfig;
+import com.wang.social.im.enums.ConnectionStatus;
+import com.wang.social.im.enums.ConversationType;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -128,16 +130,19 @@ public class ImAppLifecycleImpl implements AppDelegate {
         @Override
         public void onConnected() {
             Timber.tag(TAG).d("im server onConnected");
+            EventBus.getDefault().post(ConnectionStatus.CONNECTED);
         }
 
         @Override
         public void onDisconnected(int i, String s) {
             Timber.tag(TAG).d("im server onDisconnected");
+            EventBus.getDefault().post(ConnectionStatus.DISCONNECTED);
         }
 
         @Override
         public void onWifiNeedAuth(String s) {
             Timber.tag(TAG).d("onWifiNeedAuth");
+            EventBus.getDefault().post(ConnectionStatus.DISCONNECTED);
         }
     }
 

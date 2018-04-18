@@ -33,6 +33,7 @@ public class UIConversation implements Comparable {
     @Getter
     private ConversationType conversationType;
     @Setter
+    @Getter
     private UIMessage lastMessage;
 
     public UIConversation(@NonNull TIMConversation conversation) {

@@ -8,15 +8,18 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp">
 
         <ImageView
+            android:id="@+id/pay_flag_image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:src="@drawable/topic_list_item_pay_icon"/>
 
         <TextView
+            android:id="@+id/create_date_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="04-08"
@@ -81,8 +84,9 @@
                 android:layout_height="19dp"/>
 
             <TextView
-                android:layout_width="97dp"
-                android:layout_height="12dp"
+                android:id="@+id/user_name_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="白无常白总的事迹"
                 android:textColor="#ff434343"
                 android:textSize="12sp"
@@ -93,8 +97,8 @@
 
         <ImageView
             android:id="@+id/image_view"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_width="67dp"
+            android:layout_height="86dp"
             android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/title_text_view"
             android:layout_alignBottom="@+id/user_info_layout"
@@ -103,5 +107,75 @@
 
 
     </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center_vertical|end">
+
+        <CheckBox
+            android:id="@+id/praise_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:checked="false"
+            android:button="@drawable/topic_praise_selector"/>
+
+        <TextView
+            android:id="@+id/praise_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="110"
+            android:textColor="#ff818181"
+            android:textSize="12sp"
+            android:layout_marginLeft="6dp"
+            />
+
+        <ImageView
+            android:id="@+id/comment_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/topic_pinglun_ico"
+            android:layout_marginLeft="25dp"
+            />
+
+        <TextView
+            android:id="@+id/comment_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20"
+            android:textColor="#ff818181"
+            android:textSize="12sp"
+            android:layout_marginLeft="6dp"
+            />
+
+        <ImageView
+            android:id="@+id/share_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/topic_zhuanfa_ico"
+            android:layout_marginLeft="25dp"/>
+
+        <TextView
+            android:id="@+id/share_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20"
+            android:textColor="#ff818181"
+            android:textSize="12sp"
+            android:gravity="left|center_vertical"
+            android:layout_marginLeft="6dp"
+            />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ffe5e5e5"
+        />
 
 </LinearLayout>

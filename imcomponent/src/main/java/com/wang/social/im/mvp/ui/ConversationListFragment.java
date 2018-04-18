@@ -15,6 +15,8 @@ import com.frame.di.component.AppComponent;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMMessage;
+import com.tencent.imsdk.ext.message.TIMMessageExt;
+import com.tencent.imsdk.ext.message.TIMMessageLocator;
 import com.wang.social.im.R;
 import com.wang.social.im.app.IMConstants;
 import com.wang.social.im.di.component.DaggerConversationListComponent;
@@ -26,6 +28,9 @@ import com.wang.social.im.mvp.presenter.ConversationListPresenter;
 import com.wang.social.im.mvp.ui.adapters.ConversationAdapter;
 import com.wang.social.im.ui.ConversationActivity;
 import com.wang.social.im.ui.ConversationListActivity;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -97,7 +102,17 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
 
     @Override
     public void setData(@Nullable Object data) {
+    }
 
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refresh();
     }
 
     @Override
@@ -140,6 +155,41 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
             mAdapter.notifyDataSetChanged();
             return;
         }
+        doUpdate(message);
+        refresh();
+    }
+
+    @Override
+    public void updateMessages(List<TIMMessage> messages) {
+        if (messages == null || messages.size() == 0){
+            mAdapter.notifyDataSetChanged();
+            return;
+        }
+        for (TIMMessage message : messages){
+            doUpdate(message);
+        }
+        refresh();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onNewMessage(TIMMessage message) {
+        updateMessage(message);
+    }
+
+    private void refresh() {
+        Collections.sort(mConversations);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onItemClick(UIConversation conversation, int position) {
+        Intent intent = new Intent(getActivity(), ConversationActivity.class);
+        intent.putExtra("target", conversation.getIdentify());
+        intent.putExtra("conversationType", conversation.getConversationType().ordinal());
+        startActivity(intent);
+    }
+
+    private void doUpdate(TIMMessage message) {
         if (message.getConversation().getType() != TIMConversationType.C2C &&
                 message.getConversation().getType() != TIMConversationType.Group) {
             return;
@@ -155,19 +205,23 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
         }
         uiConversation.setLastMessage(UIMessage.obtain(message));
         mConversations.add(uiConversation);
-        refresh();
     }
 
-    private void refresh() {
-        Collections.sort(mConversations);
-        mAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onItemClick(UIConversation conversation, int position) {
-        Intent intent = new Intent(getActivity(), ConversationActivity.class);
-        intent.putExtra("target", conversation.getIdentify());
-        intent.putExtra("conversationType", conversation.getConversationType().ordinal());
-        startActivity(intent);
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageRevoke(TIMMessageLocator messageLocator) {
+        if (mAdapter == null) {
+            return;
+        }
+        for (UIConversation conversation : mAdapter.getData()) {
+            UIMessage lastMessage = conversation.getLastMessage();
+            if (lastMessage != null){
+                TIMMessageExt messageExt = new TIMMessageExt(lastMessage.getTimMessage());
+                if (messageExt.checkEquals(messageLocator)) {
+                    lastMessage.refresh();
+                    refresh();
+                    break;
+                }
+            }
+        }
     }
 }

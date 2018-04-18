@@ -36,6 +36,11 @@ public class TopicFragment extends BaseFragment<TopicPresenter> implements Topic
     TabLayout mTabLayout;
     @BindView(R2.id.view_pager)
     ViewPager mViewPager;
+    final int[] TAB_TITLES = {
+            R2.string.topic_newest,
+            R2.string.topic_hottest,
+            R2.string.topic_no_interest
+    };
 
 
     public static TopicFragment newInstance() {
@@ -99,6 +104,11 @@ public class TopicFragment extends BaseFragment<TopicPresenter> implements Topic
      * 初始化话题列表
      */
     private void initTopicList() {
+        mTabLayout.removeAllTabs();
+        for (int resId : TAB_TITLES) {
+            mTabLayout.addTab(mTabLayout.newTab().setText(getString(resId)));
+        }
+
         mTabLayout.setupWithViewPager(mViewPager);
         mViewPager.setAdapter(new FragmentPagerAdapter(getFragmentManager()) {
             @Override
@@ -108,7 +118,12 @@ public class TopicFragment extends BaseFragment<TopicPresenter> implements Topic
 
             @Override
             public int getCount() {
-                return 3;
+                return TAB_TITLES.length;
+            }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return getString(TAB_TITLES[position]);
             }
         });
     }

@@ -51,16 +51,14 @@ public class ConversationViewHolder extends BaseViewHolder<UIConversation> {
         String portrait = itemValue.getPortrait();
 
         icvTvName.setText(name);
-        if (!TextUtils.isEmpty(portrait)) {
-            mImageLoader.loadImage(getContext(), ImageConfigImpl.builder()
-                    .errorPic(R.drawable.default_circle)
-                    .placeholder(R.drawable.default_circle)
-                    .imageView(icvIvPortrait)
-                    .url(portrait)
-                    .build());
-        } else {
-            icvIvPortrait.setImageResource(R.drawable.common_default_circle_placeholder);
-        }
+
+        mImageLoader.loadImage(getContext(), ImageConfigImpl.builder()
+                .errorPic(R.drawable.common_default_circle_placeholder)
+                .placeholder(R.drawable.common_default_circle_placeholder)
+                .imageView(icvIvPortrait)
+                .url(portrait)
+                .isCircle(true)
+                .build());
 
         String summary = itemValue.getLastMessageSummary();
         icvTvMessage.setText(EmojiDisplay.spannableFilter(getContext(), new SpannableString(summary), summary, getContext().getResources().getDimensionPixelSize(R.dimen.im_cvs_message_txt_size)));

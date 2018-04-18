@@ -24,6 +24,8 @@ import com.wang.social.im.mvp.model.entities.RevokeElem;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 import com.wang.social.im.mvp.ui.adapters.MessageListAdapter;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -69,6 +71,7 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
     public void onDestroy() {
         super.onDestroy();
         mConversation = null;
+        mConversationExt = null;
         mAdapter = null;
         gson = null;
         TIMManager.getInstance().removeMessageListener(this);
@@ -143,14 +146,52 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
 
             @Override
             public void onSuccess() {
-                if (doDeleteMessage(uiMessage)) {
-                    int position = mAdapter.findPosition(uiMessage);
-                    mAdapter.removeItem(position);
-                    //插入一条通知消息
-                    addRevokeNotifyMsg(uiMessage, true);
-                }
+                uiMessage.refresh();
+                mRootView.refreshMessage(uiMessage);
             }
         });
+    }
+
+    /**
+     * 将消息状态改为已读
+     */
+    public void readMessages(){
+        mConversationExt.setReadMessage(null, null);
+    }
+
+    /**
+     * 发送一条文本消息
+     *
+     * @param content
+     */
+    public void sendTextMessage(String content) {
+        TIMMessage message = new TIMMessage();
+        TIMTextElem textElem = new TIMTextElem();
+        textElem.setText(content);
+        message.addElement(textElem);
+
+        doSendMessage(message);
+    }
+
+    /**
+     * 执行发送
+     * @param message
+     */
+    private void doSendMessage(TIMMessage message){
+        mConversation.sendMessage(message, new TIMValueCallBack<TIMMessage>() {
+            @Override
+            public void onError(int i, String s) {
+                mRootView.refreshMessage(UIMessage.obtain(message));
+            }
+
+            @Override
+            public void onSuccess(TIMMessage timMessage) {
+                mRootView.refreshMessage(UIMessage.obtain(timMessage));
+            }
+        });
+        mRootView.showMessage(UIMessage.obtain(message));
+
+        EventBus.getDefault().post(message);
     }
 
     /**
@@ -165,55 +206,11 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
     }
 
     /**
-     * 添加一条撤回通知
-     */
-    public void addRevokeNotifyMsg(UIMessage uiMessage, boolean isSelf) {
-        TIMMessage timMessage = new TIMMessage();
-        TIMCustomElem customElem = new TIMCustomElem();
-        RevokeElem revokeElem = new RevokeElem();
-        revokeElem.setType(CustomElemType.REVOKE);
-        if (isSelf){
-            revokeElem.setSender(TIMManager.getInstance().getLoginUser());
-        }else {
-            revokeElem.setSender(uiMessage.getTimMessage().getSender());
-        }
-        customElem.setData(gson.toJson(revokeElem).getBytes());
-        timMessage.addElement(customElem);
-
-        insertLocalMessage(timMessage);
-        mRootView.showMessage(UIMessage.obtain(timMessage));
-    }
-
-    /**
      * 插入一条信息到本地库
      *
      * @param timMessage
      */
     private int insertLocalMessage(TIMMessage timMessage) {
         return mConversationExt.saveMessage(timMessage, TIMManager.getInstance().getLoginUser(), false);
-    }
-
-    /**
-     * 发送一条文本消息
-     *
-     * @param content
-     */
-    public void sendTextMessage(String content) {
-        TIMMessage message = new TIMMessage();
-        TIMTextElem textElem = new TIMTextElem();
-        textElem.setText(content);
-        message.addElement(textElem);
-        mConversation.sendMessage(message, new TIMValueCallBack<TIMMessage>() {
-            @Override
-            public void onError(int i, String s) {
-                mRootView.refreshMessage(UIMessage.obtain(message));
-            }
-
-            @Override
-            public void onSuccess(TIMMessage timMessage) {
-                mRootView.refreshMessage(UIMessage.obtain(timMessage));
-            }
-        });
-        mRootView.showMessage(UIMessage.obtain(message));
     }
 }

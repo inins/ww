@@ -18,6 +18,7 @@ import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMValueCallBack;
+import com.tencent.imsdk.ext.message.TIMConversationExt;
 import com.tencent.imsdk.ext.message.TIMMessageExt;
 import com.tencent.imsdk.ext.message.TIMMessageLocator;
 import com.tencent.imsdk.ext.message.TIMUserConfigMsgExt;
@@ -25,6 +26,7 @@ import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.di.component.DaggerConversationComponent;
 import com.wang.social.im.di.modules.ConversationModule;
+import com.wang.social.im.enums.ConnectionStatus;
 import com.wang.social.im.enums.ConversationType;
 import com.wang.social.im.mvp.contract.ConversationContract;
 import com.wang.social.im.mvp.model.entities.UIMessage;
@@ -156,6 +158,12 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        mPresenter.readMessages();
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         mConversation = null;
@@ -221,7 +229,11 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     public void refreshMessage(UIMessage uiMessage) {
         int position = mAdapter.findPosition(uiMessage);
         if (position != -1) {
-            mAdapter.notifyItemChanged(position);
+            int startPosition = mLayoutManager.findFirstVisibleItemPosition();
+            int endPosition = mLayoutManager.findLastVisibleItemPosition();
+            if (position >= startPosition && position <= endPosition) {
+                mAdapter.notifyItemChanged(position);
+            }
         }
     }
 
@@ -322,18 +334,29 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventMainThread(TIMMessageLocator messageLocator) {
+    public void onMessageRevoke(TIMMessageLocator messageLocator) {
         if (mAdapter == null) {
             return;
         }
         for (UIMessage uiMessage : mAdapter.getData()) {
             TIMMessageExt messageExt = new TIMMessageExt(uiMessage.getTimMessage());
             if (messageExt.checkEquals(messageLocator)) {
-                //执行删除消息
-                mPresenter.deleteMessage(uiMessage);
-                mPresenter.addRevokeNotifyMsg(uiMessage, false);
+                uiMessage.refresh();
+                refreshMessage(uiMessage);
                 break;
             }
+        }
+    }
+
+    /**
+     * 断线重连时，同步撤回消息
+     * @param status
+     */
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void onConnectionStatusChanged(ConnectionStatus status) {
+        if (mConversationType != ConversationType.PRIVATE && status == ConnectionStatus.CONNECTED) {
+            TIMConversationExt ext = new TIMConversationExt(mConversation);
+            ext.syncMsgRevokedNotification(null);
         }
     }
 }

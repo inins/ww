@@ -534,13 +534,5 @@ public class LoginActivity extends BaseAppActivity<LoginPresenter> implements Lo
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        if (FrameUtils.obtainAppComponentFromContext(this).extras().get(RefWatcher.class.getName())
-                instanceof RefWatcher) {
-            Timber.i("Watch this!");
-            RefWatcher refWatcher = (RefWatcher)FrameUtils.obtainAppComponentFromContext(this).extras().get(RefWatcher.class.getName());
-
-            refWatcher.watch(this);
-        }
     }
 }

@@ -18,5 +18,5 @@ public interface IMConstants {
     /**
      * 撤回消息发送时间超过两分钟
      */
-    int TIM_ERROR_CODE_REVOKE_TIMEOUT = 10031;
+    int TIM_ERROR_CODE_REVOKE_TIMEOUT = 6223;
 }
