@@ -84,6 +84,10 @@ public class ConversationViewHolder extends BaseViewHolder<UIConversation> {
     @Override
     public void onRelease() {
         super.onRelease();
+        mImageLoader.clear(getContext(), ImageConfigImpl.builder()
+                .imageView(icvIvPortrait)
+                .isClearMemory(true)
+                .build());
         mImageLoader = null;
     }
 }
