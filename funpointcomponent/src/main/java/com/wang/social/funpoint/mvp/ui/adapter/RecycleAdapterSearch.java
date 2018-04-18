@@ -15,11 +15,11 @@ import butterknife.BindView;
 
 public class RecycleAdapterSearch extends BaseAdapter<TestEntity> {
 
-    ImageLoaderHelper imageLoaderHelper;
-
-    public RecycleAdapterSearch(ImageLoaderHelper imageLoaderHelper) {
-        this.imageLoaderHelper = imageLoaderHelper;
-    }
+//    ImageLoaderHelper imageLoaderHelper;
+//
+//    public RecycleAdapterSearch(ImageLoaderHelper imageLoaderHelper) {
+//        this.imageLoaderHelper = imageLoaderHelper;
+//    }
 
     @Override
     protected BaseViewHolder createViewHolder(Context context, ViewGroup parent, int viewType) {
@@ -36,7 +36,7 @@ public class RecycleAdapterSearch extends BaseAdapter<TestEntity> {
 
         @Override
         protected void bindData(TestEntity itemValue, int position, OnItemClickListener onItemClickListener) {
-            imageLoaderHelper.loadImgTest(imgPic);
+            ImageLoaderHelper.loadImgTest(imgPic);
         }
 
         @Override

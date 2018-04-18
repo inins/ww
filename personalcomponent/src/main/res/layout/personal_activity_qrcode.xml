@@ -50,7 +50,7 @@
             android:layout_height="45dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="20dp"
-            android:src="@drawable/default_header"
+            android:src="@drawable/default_circle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

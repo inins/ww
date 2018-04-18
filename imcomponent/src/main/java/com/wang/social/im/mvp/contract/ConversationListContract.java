@@ -28,6 +28,12 @@ public interface ConversationListContract {
          * @param message
          */
         void updateMessage(TIMMessage message);
+
+        /**
+         * 更新会话列表的消息
+         * @param messages
+         */
+        void updateMessages(List<TIMMessage> messages);
     }
 
     interface Model extends IModel{

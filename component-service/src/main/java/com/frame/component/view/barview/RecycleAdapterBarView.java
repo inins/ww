@@ -7,16 +7,12 @@ import android.widget.ImageView;
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
 import com.frame.component.entities.TestEntity;
+import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.service.R;
+import com.frame.utils.FrameUtils;
 
 
 public class RecycleAdapterBarView extends BaseAdapter<BarUser> {
-
-    private BarView.OnLoadImageCallBack onLoadImageCallBack;
-
-    public void setOnLoadImageCallBack(BarView.OnLoadImageCallBack onLoadImageCallBack) {
-        this.onLoadImageCallBack = onLoadImageCallBack;
-    }
 
     @Override
     protected BaseViewHolder createViewHolder(Context context, ViewGroup parent, int viewType) {
@@ -33,9 +29,7 @@ public class RecycleAdapterBarView extends BaseAdapter<BarUser> {
 
         @Override
         protected void bindData(BarUser bean, int position, OnItemClickListener onItemClickListener) {
-            if (onLoadImageCallBack != null) {
-                onLoadImageCallBack.OnImageLoad(img_header, bean.getImgUrl());
-            }
+            ImageLoaderHelper.loadCircleImg(img_header, bean.getImgUrl());
         }
 
         @Override

@@ -2,13 +2,11 @@ package com.wang.social.funshow.ui;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.frame.utils.BarUtils;
 import com.wang.social.funshow.R;
-import com.wang.social.funshow.ui.fragment.FunShowFragment;
+import com.wang.social.funshow.mvp.ui.fragment.FunShowFragment;
 
 public class MainActivity extends AppCompatActivity {
 

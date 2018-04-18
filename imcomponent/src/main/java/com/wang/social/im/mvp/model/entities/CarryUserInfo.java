@@ -2,6 +2,8 @@ package com.wang.social.im.mvp.model.entities;
 
 import com.tencent.imsdk.TIMElem;
 
+import lombok.Getter;
+
 /**
  * ==========================================
  * 消息携带的用户信息， 当发送匿名消息或使用分身发送消息时需使用{@link com.tencent.imsdk.TIMMessage#addElement(TIMElem)}中添加{@link com.tencent.imsdk.TIMCustomElem}
@@ -13,4 +15,8 @@ import com.tencent.imsdk.TIMElem;
  */
 public class CarryUserInfo {
 
+    @Getter
+    private String nickname;
+    @Getter
+    private String faceUrl;
 }

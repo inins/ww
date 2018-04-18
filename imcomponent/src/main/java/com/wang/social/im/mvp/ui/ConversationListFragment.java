@@ -15,6 +15,8 @@ import com.frame.di.component.AppComponent;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMMessage;
+import com.tencent.imsdk.ext.message.TIMMessageExt;
+import com.tencent.imsdk.ext.message.TIMMessageLocator;
 import com.wang.social.im.R;
 import com.wang.social.im.app.IMConstants;
 import com.wang.social.im.di.component.DaggerConversationListComponent;
@@ -153,21 +155,19 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
             mAdapter.notifyDataSetChanged();
             return;
         }
-        if (message.getConversation().getType() != TIMConversationType.C2C &&
-                message.getConversation().getType() != TIMConversationType.Group) {
+        doUpdate(message);
+        refresh();
+    }
+
+    @Override
+    public void updateMessages(List<TIMMessage> messages) {
+        if (messages == null || messages.size() == 0){
+            mAdapter.notifyDataSetChanged();
             return;
         }
-        UIConversation uiConversation = new UIConversation(message.getConversation());
-        Iterator<UIConversation> iterator = mConversations.iterator();
-        while (iterator.hasNext()) {
-            UIConversation item = iterator.next();
-            if (item.equals(uiConversation)) {
-                iterator.remove();
-                break;
-            }
+        for (TIMMessage message : messages){
+            doUpdate(message);
         }
-        uiConversation.setLastMessage(UIMessage.obtain(message));
-        mConversations.add(uiConversation);
         refresh();
     }
 
@@ -187,5 +187,41 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
         intent.putExtra("target", conversation.getIdentify());
         intent.putExtra("conversationType", conversation.getConversationType().ordinal());
         startActivity(intent);
+    }
+
+    private void doUpdate(TIMMessage message) {
+        if (message.getConversation().getType() != TIMConversationType.C2C &&
+                message.getConversation().getType() != TIMConversationType.Group) {
+            return;
+        }
+        UIConversation uiConversation = new UIConversation(message.getConversation());
+        Iterator<UIConversation> iterator = mConversations.iterator();
+        while (iterator.hasNext()) {
+            UIConversation item = iterator.next();
+            if (item.equals(uiConversation)) {
+                iterator.remove();
+                break;
+            }
+        }
+        uiConversation.setLastMessage(UIMessage.obtain(message));
+        mConversations.add(uiConversation);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageRevoke(TIMMessageLocator messageLocator) {
+        if (mAdapter == null) {
+            return;
+        }
+        for (UIConversation conversation : mAdapter.getData()) {
+            UIMessage lastMessage = conversation.getLastMessage();
+            if (lastMessage != null){
+                TIMMessageExt messageExt = new TIMMessageExt(lastMessage.getTimMessage());
+                if (messageExt.checkEquals(messageLocator)) {
+                    lastMessage.refresh();
+                    refresh();
+                    break;
+                }
+            }
+        }
     }
 }
