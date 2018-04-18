@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         if(project.isRunAlone){
-            applicationId "com.wang.social.topic.app"
+            applicationId "com.dongdongkeji.wangwangsocial"
         }
         minSdkVersion rootProject.ext.android["minSdkVersion"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
