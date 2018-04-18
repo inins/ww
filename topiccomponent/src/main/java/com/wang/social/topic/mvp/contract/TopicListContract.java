@@ -21,8 +21,21 @@ public interface TopicListContract {
          * @param isCondition 是否为大量知识(0:不是，1：是)
          * @param size 每页条数
          * @param current 当前页码
-         * @return
          */
         Observable<BaseJson<TopicRspDTO>> getNewsList(String isCondition, int size, int current);
+
+        /**
+         * 最热话题列表
+         * @param size 每页条数
+         * @param current 当前页码
+         */
+        Observable<BaseJson<TopicRspDTO>> getHotList(int size, int current);
+
+        /**
+         * 无人问津话题列表
+         * @param size 每页条数
+         * @param current 当前页码
+         */
+        Observable<BaseJson<TopicRspDTO>> getLowList(int size, int current);
     }
 }

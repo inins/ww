@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,12 +28,23 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
         int getTopicCount();
     }
 
+    public interface ClickListener {
+        void onTopicClick();
+    }
+
     Context mContext;
     DataProvider mDataProvider;
+    ClickListener mClickListener;
 
-    public TopicListAdapter(Context context, DataProvider dataprovider) {
+    public TopicListAdapter(Context context, DataProvider dataprovider, ClickListener clickListener) {
         this.mContext = context.getApplicationContext();
         this.mDataProvider = dataprovider;
+        this.mClickListener = clickListener;
+    }
+
+    public void onDestroy() {
+        mDataProvider = null;
+        mClickListener = null;
     }
 
     private Topic getTopic(int position) {
@@ -92,6 +104,20 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
         holder.commentTV.setText(topic.getTopicCommentNum());
         // 阅读次数
         holder.shareTV.setText(topic.getTopicReadNum());
+
+        // 点击
+        holder.rootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        holder.praiseCB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+            }
+        });
     }
 
     @Override
@@ -101,6 +127,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+        View rootView;
         ImageView payFlagIV;
         TextView createDateTV;
         TextView titleTV;
@@ -118,6 +145,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
         public ViewHolder(View itemView) {
             super(itemView);
 
+            rootView = itemView.findViewById(R.id.root_view);
             payFlagIV = itemView.findViewById(R.id.pay_flag_image_view);
             createDateTV = itemView.findViewById(R.id.create_date_text_view);
             titleTV = itemView.findViewById(R.id.title_text_view);
