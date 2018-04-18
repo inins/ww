@@ -405,9 +405,13 @@ public class SocializeUtil {
 
         loginListener = listener;
 
-        UMShareAPI.get(activity).
-                getPlatformInfo(activity,
+        UMShareAPI.get(activity)
+                .doOauthVerify(activity,
                         getUMShareMedia(platform), umAuthListener);
+
+//        UMShareAPI.get(activity).
+//                getPlatformInfo(activity,
+//                        getUMShareMedia(platform), umAuthListener);
     }
 
     /**
