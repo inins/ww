@@ -36,13 +36,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.frame.component.view.TitleView
-                android:id="@+id/titleview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="15dp"
-                app:personal_textNote="@string/funshow_home_hotuserlist_note"
-                app:personal_textTitle="@string/funshow_home_hotuserlist_title" />
+
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler"

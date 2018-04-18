@@ -1,6 +1,5 @@
-package com.wang.social.personal.mvp.ui.view.bundleimgview;
+package com.frame.component.view.bundleimgview;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,8 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.wang.social.personal.R;
-import com.wang.social.personal.common.DragItemTouchCallback;
+
+import com.frame.component.common.DragItemTouchCallback;
+import com.frame.component.service.R;
 
 import java.util.Collections;
 import java.util.List;
@@ -42,9 +42,9 @@ public class RecycleAdapterBundleImg extends RecyclerView.Adapter<RecyclerView.V
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case TYPE_ADD:
-                return new HolderAdd(LayoutInflater.from(parent.getContext()).inflate(R.layout.personal_bundle_item_recycle_add, parent, false));
+                return new HolderAdd(LayoutInflater.from(parent.getContext()).inflate(R.layout.bundle_item_recycle_add, parent, false));
             case TYPE_ITEM:
-                return new HolderItem(LayoutInflater.from(parent.getContext()).inflate(R.layout.personal_bundle_item_recycle, parent, false));
+                return new HolderItem(LayoutInflater.from(parent.getContext()).inflate(R.layout.bundle_item_recycle, parent, false));
             default:
                 Log.d("error", "viewholder is null");
                 return null;

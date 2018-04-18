@@ -1,4 +1,4 @@
-package com.wang.social.personal.common;
+package com.frame.component.common;
 
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.widget.RecyclerView;

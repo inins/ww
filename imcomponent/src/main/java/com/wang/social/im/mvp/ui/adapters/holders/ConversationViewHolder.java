@@ -14,6 +14,7 @@ import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.utils.FrameUtils;
 import com.wang.social.im.R;
+import com.wang.social.im.R2;
 import com.wang.social.im.mvp.model.entities.UIConversation;
 import com.wang.social.im.view.emotion.EmojiDisplay;
 
@@ -27,15 +28,15 @@ import butterknife.BindView;
  */
 public class ConversationViewHolder extends BaseViewHolder<UIConversation> {
 
-    @BindView(R.id.icv_iv_portrait)
+    @BindView(R2.id.icv_iv_portrait)
     ImageView icvIvPortrait;
-    @BindView(R.id.icv_tv_name)
+    @BindView(R2.id.icv_tv_name)
     TextView icvTvName;
-    @BindView(R.id.icv_tv_message)
+    @BindView(R2.id.icv_tv_message)
     TextView icvTvMessage;
-    @BindView(R.id.icv_tv_time)
+    @BindView(R2.id.icv_tv_time)
     TextView icvTvTime;
-    @BindView(R.id.icv_tv_unread)
+    @BindView(R2.id.icv_tv_unread)
     TextView icvTvUnread;
 
     ImageLoader mImageLoader;

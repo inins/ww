@@ -1,4 +1,4 @@
-package com.wang.social.personal.mvp.ui.view.bundleimgview;
+package com.frame.component.view.bundleimgview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -9,20 +9,19 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.frame.component.common.DragItemTouchCallback;
+import com.frame.component.common.OnRecyclerItemClickListener;
+import com.frame.component.service.R;
+import com.frame.component.utils.VibratorUtil;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.StrUtil;
-import com.wang.social.personal.R;
-import com.wang.social.personal.common.DragItemTouchCallback;
 import com.frame.component.common.GridSpacingItemDecoration;
-import com.wang.social.personal.common.OnRecyclerItemClickListener;
-import com.wang.social.personal.utils.VibratorUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,16 +56,16 @@ public class BundleImgView extends FrameLayout {
         super(context, attrs, defStyleAttr);
         this.context = context;
         // 初始化各项组件
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.personal_BundleImgView);
-        editble = a.getBoolean(R.styleable.personal_BundleImgView_personal_editble, true);
-        dragble = a.getBoolean(R.styleable.personal_BundleImgView_personal_dragble, false);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BundleImgView);
+        editble = a.getBoolean(R.styleable.BundleImgView_editble, true);
+        dragble = a.getBoolean(R.styleable.BundleImgView_dragble, false);
         a.recycle();
     }
 
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        root = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.personal_lay_bundleview, this, true);
+        root = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.view_bundleview, this, true);
         initBase();
         initView();
         initCtrl();
@@ -91,7 +90,11 @@ public class BundleImgView extends FrameLayout {
         adapter.setEditble(editble);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setLayoutManager(new GridLayoutManager(context, colcount));
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(4, SizeUtils.dp2px(10), GridLayoutManager.VERTICAL, false));
+        if (!isInEditMode()) {
+            recyclerView.addItemDecoration(new GridSpacingItemDecoration(4, SizeUtils.dp2px(10), GridLayoutManager.VERTICAL, false));
+        }else {
+            recyclerView.addItemDecoration(new GridSpacingItemDecoration(4, 20, GridLayoutManager.VERTICAL, false));
+        }
         recyclerView.setAdapter(adapter);
 
         final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new DragItemTouchCallback(adapter).setOnDragListener(null));
