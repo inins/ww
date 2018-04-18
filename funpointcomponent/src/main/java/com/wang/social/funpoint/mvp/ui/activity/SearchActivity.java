@@ -18,6 +18,7 @@ import com.frame.base.BaseAdapter;
 import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.common.SimpleTextWatcher;
 import com.frame.component.entities.TestEntity;
+import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.component.view.LoadingLayout;
 import com.frame.di.component.AppComponent;
@@ -25,12 +26,15 @@ import com.frame.utils.FocusUtil;
 import com.liaoinstan.springview.widget.SpringView;
 import com.wang.social.funpoint.R;
 import com.wang.social.funpoint.R2;
+import com.wang.social.funpoint.di.component.DaggerSingleActivityComponent;
 import com.wang.social.funpoint.helper.SpringViewHelper;
 import com.wang.social.funpoint.mvp.ui.adapter.RecycleAdapterSearch;
 import com.wang.social.funpoint.mvp.ui.view.ConerEditText;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,6 +52,9 @@ public class SearchActivity extends BasicAppActivity implements BaseAdapter.OnIt
     @BindView(R2.id.edit_search)
     EditText editSearch;
 
+    @Inject
+    ImageLoaderHelper imageLoaderHelper;
+
     private RecycleAdapterSearch adapter;
 
     public static void start(Context context) {
@@ -64,7 +71,7 @@ public class SearchActivity extends BasicAppActivity implements BaseAdapter.OnIt
     public void initData(@NonNull Bundle savedInstanceState) {
         FocusUtil.focusToTop(toolbar);
 
-        adapter = new RecycleAdapterSearch();
+        adapter = new RecycleAdapterSearch(imageLoaderHelper);
         adapter.setOnItemClickListener(this);
         recycler.setNestedScrollingEnabled(false);
         recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -72,16 +79,6 @@ public class SearchActivity extends BasicAppActivity implements BaseAdapter.OnIt
         recycler.addItemDecoration(new ItemDecorationDivider(this).setLineMargin(15));
         SpringViewHelper.initSpringViewForTest(spring);
         loadingview.showLackView();
-//        editSearch.addTextChangedListener(new SimpleTextWatcher() {
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                if (TextUtils.isEmpty(charSequence)) {
-//                    loadingview.showLackView();
-//                } else {
-//                    loadingview.showOut();
-//                }
-//            }
-//        });
         editSearch.setOnKeyListener((view, keyCode, event) -> {
             if (keyCode == event.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
                 String key = editSearch.getText().toString();
@@ -122,6 +119,10 @@ public class SearchActivity extends BasicAppActivity implements BaseAdapter.OnIt
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
-
+        DaggerSingleActivityComponent
+                .builder()
+                .appComponent(appComponent)
+                .build()
+                .inject(this);
     }
 }

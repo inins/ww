@@ -1,3 +1,6 @@
 <resources>
     <string name="funshow_app_name">FunshowComponent</string>
+
+    <string name="funshow_home_bar_title">趣晒魔</string>
+    <string name="funshow_home_bar_note">发布趣晒20条以上</string>
 </resources>

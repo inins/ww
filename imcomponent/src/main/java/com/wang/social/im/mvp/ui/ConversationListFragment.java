@@ -27,6 +27,9 @@ import com.wang.social.im.mvp.ui.adapters.ConversationAdapter;
 import com.wang.social.im.ui.ConversationActivity;
 import com.wang.social.im.ui.ConversationListActivity;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -97,7 +100,17 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
 
     @Override
     public void setData(@Nullable Object data) {
+    }
 
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refresh();
     }
 
     @Override
@@ -156,6 +169,11 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
         uiConversation.setLastMessage(UIMessage.obtain(message));
         mConversations.add(uiConversation);
         refresh();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onNewMessage(TIMMessage message) {
+        updateMessage(message);
     }
 
     private void refresh() {

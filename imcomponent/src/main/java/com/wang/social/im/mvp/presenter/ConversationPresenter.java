@@ -24,6 +24,8 @@ import com.wang.social.im.mvp.model.entities.RevokeElem;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 import com.wang.social.im.mvp.ui.adapters.MessageListAdapter;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -154,17 +156,6 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
     }
 
     /**
-     * 执行删除消息
-     *
-     * @param uiMessage
-     * @return
-     */
-    private boolean doDeleteMessage(UIMessage uiMessage) {
-        TIMMessageExt messageExt = new TIMMessageExt(uiMessage.getTimMessage());
-        return messageExt.remove();
-    }
-
-    /**
      * 添加一条撤回通知
      */
     public void addRevokeNotifyMsg(UIMessage uiMessage, boolean isSelf) {
@@ -185,12 +176,10 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
     }
 
     /**
-     * 插入一条信息到本地库
-     *
-     * @param timMessage
+     * 将消息状态改为已读
      */
-    private int insertLocalMessage(TIMMessage timMessage) {
-        return mConversationExt.saveMessage(timMessage, TIMManager.getInstance().getLoginUser(), false);
+    public void readMessages(){
+        mConversationExt.setReadMessage(null, null);
     }
 
     /**
@@ -203,6 +192,15 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
         TIMTextElem textElem = new TIMTextElem();
         textElem.setText(content);
         message.addElement(textElem);
+
+        doSendMessage(message);
+    }
+
+    /**
+     * 执行发送
+     * @param message
+     */
+    private void doSendMessage(TIMMessage message){
         mConversation.sendMessage(message, new TIMValueCallBack<TIMMessage>() {
             @Override
             public void onError(int i, String s) {
@@ -215,5 +213,27 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
             }
         });
         mRootView.showMessage(UIMessage.obtain(message));
+
+        EventBus.getDefault().post(message);
+    }
+
+    /**
+     * 执行删除消息
+     *
+     * @param uiMessage
+     * @return
+     */
+    private boolean doDeleteMessage(UIMessage uiMessage) {
+        TIMMessageExt messageExt = new TIMMessageExt(uiMessage.getTimMessage());
+        return messageExt.remove();
+    }
+
+    /**
+     * 插入一条信息到本地库
+     *
+     * @param timMessage
+     */
+    private int insertLocalMessage(TIMMessage timMessage) {
+        return mConversationExt.saveMessage(timMessage, TIMManager.getInstance().getLoginUser(), false);
     }
 }
