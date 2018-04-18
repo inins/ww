@@ -50,8 +50,8 @@ public class CountDownView extends AppCompatTextView {
         if (!hasBackground) return;
 
         setBackground(getContext()
-                        .getResources()
-                        .getDrawable(resId));
+                .getResources()
+                .getDrawable(resId));
     }
 
     public void start() {
@@ -70,7 +70,8 @@ public class CountDownView extends AppCompatTextView {
 
                     @Override
                     public void onNext(Long aLong) {
-                        CountDownView.this.setText(Long.toString(count - aLong) + " S");
+                        CountDownView.this.setText(Long.toString(count - aLong) + "s" +
+                                getResources().getString(R.string.login_send_again));
                     }
 
                     @Override
@@ -85,7 +86,8 @@ public class CountDownView extends AppCompatTextView {
                         setEnabled(true);
                         CountDownView.this.setText(charSequence);
 
-                        setTextBackground(R.drawable.login_shape_rect_corner_stroke_blue_deep);}
+                        setTextBackground(R.drawable.login_shape_rect_corner_stroke_blue_deep);
+                    }
                 });
     }
 }
