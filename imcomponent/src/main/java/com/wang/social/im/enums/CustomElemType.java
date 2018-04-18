@@ -17,10 +17,6 @@ import java.io.UnsupportedEncodingException;
 public enum CustomElemType {
 
     /*
-     * 撤回消息
-     */
-    REVOKE("revoke"),
-    /*
      * 红包消息
      */
     RED_ENVELOP("redEnvelop"),

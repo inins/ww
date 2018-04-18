@@ -39,6 +39,8 @@ public class ConversationListActivity extends BasicActivity {
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
+        setSupportActionBar(toolbar);
+
         setListener();
 
         ConversationListFragment fragment = ConversationListFragment.newInstance();

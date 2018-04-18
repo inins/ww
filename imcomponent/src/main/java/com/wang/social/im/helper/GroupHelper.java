@@ -21,7 +21,7 @@ public class GroupHelper {
     private volatile static GroupHelper mInstance;
 
     private Map<String, List<GroupProfile>> groups;
-    private static final String PUBLIC_GROUP = "Public", PRIVATE_GROUP = "private", CHAT_ROOM = "ChatRoom";
+    private static final String PUBLIC_GROUP = "Public", PRIVATE_GROUP = "Private", CHAT_ROOM = "ChatRoom";
 
     private GroupHelper() {
         groups = new HashMap<>();

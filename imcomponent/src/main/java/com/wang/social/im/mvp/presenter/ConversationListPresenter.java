@@ -4,7 +4,9 @@ import com.frame.di.scope.FragmentScope;
 import com.frame.mvp.BasePresenter;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
+import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
+import com.tencent.imsdk.TIMMessageListener;
 import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.ext.message.TIMConversationExt;
 import com.tencent.imsdk.ext.message.TIMManagerExt;
@@ -24,11 +26,19 @@ import timber.log.Timber;
  * ============================================
  */
 @FragmentScope
-public class ConversationListPresenter extends BasePresenter<ConversationListContract.Model, ConversationListContract.View> {
+public class ConversationListPresenter extends BasePresenter<ConversationListContract.Model, ConversationListContract.View> implements TIMMessageListener {
 
     @Inject
     public ConversationListPresenter(ConversationListContract.Model model, ConversationListContract.View view) {
         super(model, view);
+
+        TIMManager.getInstance().addMessageListener(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        TIMManager.getInstance().removeMessageListener(this);
     }
 
     /**
@@ -58,5 +68,12 @@ public class ConversationListPresenter extends BasePresenter<ConversationListCon
                 }
             });
         }
+        mRootView.initList(result);
+    }
+
+    @Override
+    public boolean onNewMessages(List<TIMMessage> list) {
+        mRootView.updateMessages(list);
+        return false;
     }
 }

@@ -69,6 +69,11 @@ public class UIMessage {
         return uiMessages;
     }
 
+    public void refresh() {
+        setScope(timMessage);
+        setType(timMessage);
+    }
+
     private void setScope(TIMMessage timMessage) {
         int elementCount = (int) timMessage.getElementCount();
         for (int i = 0; i < elementCount; i++) {
@@ -96,6 +101,11 @@ public class UIMessage {
     }
 
     private void setType(TIMMessage timMessage) {
+        //如果消息以及被撤回，则此条消息显示为撤回通知
+        if (timMessage.status() == TIMMessageStatus.HasRevoked) {
+            messageType = MessageType.NOTIFY;
+            return;
+        }
         int elementCount = (int) timMessage.getElementCount();
         for (int i = 0; i < elementCount; i++) {
             TIMElem elem = timMessage.getElement(i);
@@ -122,8 +132,6 @@ public class UIMessage {
                 CustomElemType elemType = CustomElemType.getElemType(customElem);
                 if (elemType == CustomElemType.RED_ENVELOP) {
                     messageType = MessageType.RED_ENVELOP;
-                } else if (elemType == CustomElemType.REVOKE) {
-                    messageType = MessageType.NOTIFY;
                 }
             }
         }
@@ -171,11 +179,15 @@ public class UIMessage {
         return summary;
     }
 
-    private String getRevokeSummary() {
+    public String getRevokeSummary() {
         if (timMessage.status() == TIMMessageStatus.HasRevoked) {
-            String nickname = "";
-            if (messageScope == MessageScope.NORMAL) {
+            String nickname;
+            if (timMessage.isSelf()) {
+                nickname = UIUtil.getString(R.string.im_self);
+            } else if (messageScope == MessageScope.NORMAL) {
                 nickname = timMessage.getSenderProfile().getNickName();
+            } else { //分身消息或者匿名消息 展示消息携带昵称
+                nickname = carryUserInfo.getNickname();
             }
             return UIUtil.getString(R.string.im_cvs_revoke, nickname);
         }

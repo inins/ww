@@ -71,6 +71,7 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
     public void onDestroy() {
         super.onDestroy();
         mConversation = null;
+        mConversationExt = null;
         mAdapter = null;
         gson = null;
         TIMManager.getInstance().removeMessageListener(this);
@@ -145,34 +146,10 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
 
             @Override
             public void onSuccess() {
-                if (doDeleteMessage(uiMessage)) {
-                    int position = mAdapter.findPosition(uiMessage);
-                    mAdapter.removeItem(position);
-                    //插入一条通知消息
-                    addRevokeNotifyMsg(uiMessage, true);
-                }
+                uiMessage.refresh();
+                mRootView.refreshMessage(uiMessage);
             }
         });
-    }
-
-    /**
-     * 添加一条撤回通知
-     */
-    public void addRevokeNotifyMsg(UIMessage uiMessage, boolean isSelf) {
-        TIMMessage timMessage = new TIMMessage();
-        TIMCustomElem customElem = new TIMCustomElem();
-        RevokeElem revokeElem = new RevokeElem();
-        revokeElem.setType(CustomElemType.REVOKE);
-        if (isSelf){
-            revokeElem.setSender(TIMManager.getInstance().getLoginUser());
-        }else {
-            revokeElem.setSender(uiMessage.getTimMessage().getSender());
-        }
-        customElem.setData(gson.toJson(revokeElem).getBytes());
-        timMessage.addElement(customElem);
-
-        insertLocalMessage(timMessage);
-        mRootView.showMessage(UIMessage.obtain(timMessage));
     }
 
     /**
