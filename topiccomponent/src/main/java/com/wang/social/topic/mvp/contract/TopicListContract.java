@@ -10,6 +10,8 @@ import io.reactivex.Observable;
 
 public interface TopicListContract {
     interface View extends IView {
+        void onTopicLoaded();
+        void refreshTopicList();
     }
 
 

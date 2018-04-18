@@ -9,14 +9,15 @@ import java.util.Map;
 import io.reactivex.Observable;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.QueryMap;
 
 public interface TopicService {
 
     /**
      * 最新话题列表
      */
-    @FormUrlEncoded
-    @POST("app/topic/getNewsList")
-    Observable<BaseJson<TopicRspDTO>> getNewsList(@FieldMap Map<String, Object> param);
+    @GET("app/topic/getNewsList")
+    Observable<BaseJson<TopicRspDTO>> getNewsList(@QueryMap Map<String, Object> param);
 }

@@ -34,7 +34,7 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
                 .put("v", BuildConfig.VERSION_NAME)
                 .build();
         return mRepositoryManager
-                .obtainCacheService(TopicService.class)
+                .obtainRetrofitService(TopicService.class)
                 .getNewsList(param);
     }
 

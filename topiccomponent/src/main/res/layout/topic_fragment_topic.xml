@@ -142,18 +142,6 @@
                 android:layout_height="wrap_content"
                 app:tabSelectedTextColor="@color/common_text_blank"
                 app:tabTextColor="@color/common_text_blank_dark">
-                <android.support.design.widget.TabItem
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/topic_newest"/>
-                <android.support.design.widget.TabItem
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/topic_hottest"/>
-                <android.support.design.widget.TabItem
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/topic_no_interest"/>
             </android.support.design.widget.TabLayout>
         </LinearLayout>
 
