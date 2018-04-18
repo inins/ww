@@ -1,4 +1,4 @@
-package com.wang.social.personal.mvp.ui.view.bundleimgview;
+package com.frame.component.view.bundleimgview;
 
 /**
  * Created by Administrator on 2016/6/12 0012.

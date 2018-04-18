@@ -31,5 +31,5 @@
         android:layout_gravity="right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/personal_ic_lable_del"/>
+        android:src="@drawable/common_ic_lable_del"/>
 </FrameLayout>

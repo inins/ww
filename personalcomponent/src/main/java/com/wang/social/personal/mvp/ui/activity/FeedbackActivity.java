@@ -37,8 +37,8 @@ import com.frame.http.api.ApiHelperEx;
 import com.wang.social.personal.helper.PhotoHelper;
 import com.wang.social.personal.helper.PhotoHelperEx;
 import com.wang.social.personal.mvp.model.api.UserService;
-import com.wang.social.personal.mvp.ui.view.bundleimgview.BundleImgEntity;
-import com.wang.social.personal.mvp.ui.view.bundleimgview.BundleImgView;
+import com.frame.component.view.bundleimgview.BundleImgEntity;
+import com.frame.component.view.bundleimgview.BundleImgView;
 
 import java.util.ArrayList;
 import java.util.List;
