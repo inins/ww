@@ -22,6 +22,9 @@ import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
+import com.tencent.imsdk.TIMImage;
+import com.tencent.imsdk.TIMImageElem;
+import com.tencent.imsdk.TIMImageType;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMSoundElem;
@@ -35,6 +38,7 @@ import com.wang.social.im.di.component.DaggerConversationComponent;
 import com.wang.social.im.di.modules.ConversationModule;
 import com.wang.social.im.enums.ConnectionStatus;
 import com.wang.social.im.enums.ConversationType;
+import com.wang.social.im.enums.MessageType;
 import com.wang.social.im.helper.sound.AudioRecordManager;
 import com.wang.social.im.mvp.contract.ConversationContract;
 import com.wang.social.im.mvp.model.entities.UIMessage;
@@ -44,12 +48,14 @@ import com.wang.social.im.mvp.ui.adapters.holders.BaseMessageViewHolder;
 import com.wang.social.im.view.IMInputView;
 import com.wang.social.im.view.plugin.PluginModule;
 import com.wang.social.im.widget.MessageHandlePopup;
+import com.wang.social.pictureselector.ActivityPicturePreview;
 import com.wang.social.pictureselector.PictureSelector;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -356,7 +362,17 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
 
     @Override
     public void onContentClick(View view, UIMessage uiMessage, int position) {
-
+        if (uiMessage.getMessageType() == MessageType.IMAGE){
+            TIMImageElem imageElem = (TIMImageElem) uiMessage.getMessageElem(TIMImageElem.class);
+            if (imageElem != null){
+                for (TIMImage image : imageElem.getImageList()){
+                    if (image.getType() == TIMImageType.Original){
+                        ActivityPicturePreview.start(mActivity, image.getUrl());
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     @Override
