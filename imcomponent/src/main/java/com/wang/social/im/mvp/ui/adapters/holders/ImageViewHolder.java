@@ -1,6 +1,8 @@
 package com.wang.social.im.mvp.ui.adapters.holders;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
+import android.support.v4.widget.ContentLoadingProgressBar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -36,9 +38,16 @@ public class ImageViewHolder extends BaseMessageViewHolder<UIMessage> {
     @BindView(R2.id.msg_iv_portrait)
     ImageView msgIvPortrait;
     @BindView(R2.id.msg_tv_name)
+    @Nullable
     TextView msgTvName;
     @BindView(R2.id.msg_iv_image)
     ImageView msgIvImage;
+    @BindView(R2.id.msg_iv_error)
+    @Nullable
+    ImageView msgIvError;
+    @BindView(R2.id.msg_pb_progress)
+    @Nullable
+    ContentLoadingProgressBar msgPbProgress;
 
     public ImageViewHolder(Context context, ViewGroup root, int layoutRes) {
         super(context, root, layoutRes);
@@ -101,6 +110,14 @@ public class ImageViewHolder extends BaseMessageViewHolder<UIMessage> {
                 }
             }
         }
+
+        if (timMessage.isSelf()) {
+            showStatus(itemValue, msgIvError, msgPbProgress);
+            setErrorListener(msgIvError, itemValue, position);
+        } else {
+            setPortraitListener(msgIvPortrait, itemValue, position);
+        }
+        setContentListener(msgIvImage, itemValue, position, true, true);
     }
 
     @Override

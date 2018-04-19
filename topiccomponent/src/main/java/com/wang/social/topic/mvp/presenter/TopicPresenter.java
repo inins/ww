@@ -5,10 +5,13 @@ import com.frame.http.api.ApiHelper;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
+import com.frame.utils.ToastUtil;
 import com.wang.social.topic.mvp.contract.TopicContract;
 import com.wang.social.topic.mvp.model.entities.Tag;
 import com.wang.social.topic.mvp.model.entities.Tags;
 import com.wang.social.topic.mvp.model.entities.TopicRsp;
+import com.wang.social.topic.mvp.model.entities.TopicTopUser;
+import com.wang.social.topic.mvp.model.entities.TopicTopUsers;
 
 import java.util.ArrayList;
 
@@ -36,6 +39,17 @@ public class TopicPresenter extends
         super(model, view);
     }
 
+    public void getReleaseTopicTopUser() {
+        mApiHelper.execute(mRootView,
+                mModel.getReleaseTopicTopUser(3, 0, "square"),
+                new ErrorHandleSubscriber<TopicTopUsers>(mErrorHandler) {
+                    @Override
+                    public void onNext(TopicTopUsers topicTopUsers) {
+
+                    }
+                });
+    }
+
     /**
      * 已选推荐标签列表(兴趣标签)
      */
@@ -61,12 +75,12 @@ public class TopicPresenter extends
                 }, new Consumer<Disposable>() {
                     @Override
                     public void accept(Disposable disposable) throws Exception {
-                        mRootView.showLoading();
+//                        mRootView.showLoading();
                     }
                 }, new Action() {
                     @Override
                     public void run() throws Exception {
-                        mRootView.hideLoading();
+//                        mRootView.hideLoading();
                     }
                 });
     }
@@ -107,6 +121,13 @@ public class TopicPresenter extends
         }
 
         return "";
+    }
+
+    /**
+     * 搜索
+     */
+    public void search() {
+        mRootView.showToast("搜索");
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.wang.social.im.mvp.ui;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,25 +11,29 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 
 import com.frame.base.BaseFragment;
 import com.frame.di.component.AppComponent;
 import com.frame.utils.SizeUtils;
+import com.tbruyelle.rxpermissions2.Permission;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
+import com.tencent.imsdk.TIMSoundElem;
 import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.ext.message.TIMConversationExt;
 import com.tencent.imsdk.ext.message.TIMMessageExt;
 import com.tencent.imsdk.ext.message.TIMMessageLocator;
-import com.tencent.imsdk.ext.message.TIMUserConfigMsgExt;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.di.component.DaggerConversationComponent;
 import com.wang.social.im.di.modules.ConversationModule;
 import com.wang.social.im.enums.ConnectionStatus;
 import com.wang.social.im.enums.ConversationType;
+import com.wang.social.im.helper.sound.AudioRecordManager;
 import com.wang.social.im.mvp.contract.ConversationContract;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 import com.wang.social.im.mvp.presenter.ConversationPresenter;
@@ -44,6 +50,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.functions.Consumer;
 
 /**
  * ======================================
@@ -67,6 +74,9 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     private LinearLayoutManager mLayoutManager;
 
     private float mTouchDownY;
+    private float mVoiceLastTouchY;
+    private boolean mUpDirection;
+    private float mOffsetLimit;
 
     public static ConversationFragment newInstance(ConversationType conversationType, String targetId) {
         Bundle args = new Bundle();
@@ -75,6 +85,12 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
         ConversationFragment fragment = new ConversationFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mOffsetLimit = SizeUtils.dp2px(70);
     }
 
     @Override
@@ -242,9 +258,37 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
 
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void onVoiceInputTouch(View view, MotionEvent event) {
-
+        new RxPermissions(getActivity())
+                .requestEach(Manifest.permission.RECORD_AUDIO)
+                .subscribe(new Consumer<Permission>() {
+                    @Override
+                    public void accept(Permission permission) throws Exception {
+                        if (permission.granted) {
+                            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                                AudioRecordManager.getInstance().startRecord(view, mConversationType, mTargetId);
+                                mVoiceLastTouchY = event.getY();
+                                mUpDirection = false;
+                                ((Button) view).setText(R.string.im_voice_input_hover);
+                            } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                                if (mVoiceLastTouchY - event.getY() > mOffsetLimit && !mUpDirection) {
+                                    AudioRecordManager.getInstance().willCancelRecord();
+                                    mUpDirection = true;
+                                    ((Button) view).setText(R.string.im_voice_input);
+                                } else if (event.getY() - mVoiceLastTouchY > -mOffsetLimit && mUpDirection) {
+                                    AudioRecordManager.getInstance().continueRecord();
+                                    mUpDirection = false;
+                                    ((Button) view).setText(R.string.im_voice_input_hover);
+                                }
+                            } else if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
+                                AudioRecordManager.getInstance().stopRecord();
+                                ((Button) view).setText(R.string.im_voice_input);
+                            }
+                        }
+                    }
+                });
     }
 
     @Override
@@ -350,6 +394,7 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
 
     /**
      * 断线重连时，同步撤回消息
+     *
      * @param status
      */
     @Subscribe(threadMode = ThreadMode.POSTING)
@@ -358,5 +403,15 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
             TIMConversationExt ext = new TIMConversationExt(mConversation);
             ext.syncMsgRevokedNotification(null);
         }
+    }
+
+    /**
+     * 录音完毕
+     *
+     * @param soundElem
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSoundRecorded(TIMSoundElem soundElem) {
+        mPresenter.sendSoundMessage(soundElem);
     }
 }

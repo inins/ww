@@ -4,7 +4,10 @@ public class AppConstant {
 
     //常量
     public static class Constant {
-        //暂无
+        //录音缓存目录
+        public static final String SOUND_CACHE_DIR = "Sound";
+        //Glide缓存目录
+        public static final String GLIDE_CACHE_DIR = "Glide";
     }
 
     //key

@@ -2,6 +2,8 @@ package com.wang.social.topic.mvp.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateFormat;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +12,15 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.frame.http.imageloader.ImageConfig;
-import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.utils.FrameUtils;
+import com.frame.utils.TimeUtils;
 import com.wang.social.topic.R;
 import com.wang.social.topic.mvp.model.entities.Topic;
 
-import java.lang.ref.WeakReference;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import timber.log.Timber;
 
@@ -83,7 +86,17 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
             holder.payFlagIV.setVisibility(View.VISIBLE);
         }
         // 创建时间
-        holder.createDateTV.setText(topic.getCreateTime());
+        Date date = new Date();
+        long mills = TimeUtils.string2Millis(topic.getCreateTime());
+        date.setTime(mills);
+        String dateString;
+        if (TimeUtils.isToday(date)) {
+            dateString = mContext.getString(R.string.topic_today) +
+                    new SimpleDateFormat("HH:mm", Locale.getDefault()).format(date);
+        } else {
+            dateString = new SimpleDateFormat("MM-dd HH:mm", Locale.getDefault()).format(date);
+        }
+        holder.createDateTV.setText(dateString);
         // 话题标题
         holder.titleTV.setText(topic.getTitle());
         // 简要
@@ -103,7 +116,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
         // 评论次数
         holder.commentTV.setText(topic.getTopicCommentNum());
         // 阅读次数
-        holder.shareTV.setText(topic.getTopicReadNum());
+        holder.readTV.setText(topic.getTopicReadNum());
 
         // 点击
         holder.rootView.setOnClickListener(new View.OnClickListener() {
@@ -122,7 +135,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
 
     @Override
     public int getItemCount() {
-        Timber.i("getItemCount : " + getTopicCount());
+//        Timber.i("getItemCount : " + getTopicCount());
         return getTopicCount();
     }
 
@@ -139,8 +152,8 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
         TextView praiseTV;
         ImageView commentIV;
         TextView commentTV;
-        ImageView shareIV;
-        TextView shareTV;
+        ImageView readIV;
+        TextView readTV;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -157,8 +170,8 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
             praiseTV = itemView.findViewById(R.id.praise_text_view);
             commentIV = itemView.findViewById(R.id.comment_image_view);
             commentTV = itemView.findViewById(R.id.comment_text_view);
-            shareIV = itemView.findViewById(R.id.share_image_view);
-            shareTV = itemView.findViewById(R.id.comment_text_view);
+            readIV = itemView.findViewById(R.id.read_image_view);
+            readTV = itemView.findViewById(R.id.read_text_view);
         }
     }
 }

@@ -1,9 +1,9 @@
 package com.wang.social.pictureselector;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 
 import com.wang.social.pictureselector.model.SelectorSpec;
 

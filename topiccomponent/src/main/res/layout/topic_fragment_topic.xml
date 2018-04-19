@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -19,9 +20,9 @@
             android:layout_marginRight="14dp">
 
             <LinearLayout
+                android:id="@+id/search_layout"
                 android:layout_width="match_parent"
                 android:layout_height="37dp"
-                android:layout_marginBottom="20dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/topic_shape_rect_corner_stroke_gray"
                 android:elevation="5dp">
@@ -35,60 +36,21 @@
 
             </LinearLayout>
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
+
+            <com.frame.component.view.barview.BarView
+                android:id="@+id/barview"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp">
+                android:layout_marginTop="20dp"
+                android:foreground="?attr/selectableItemBackground"
+                app:note="@string/topic_hint_1"
+                app:title="@string/topic_zhi_shi_mo" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:background="@drawable/topic_blue_shadow" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="49dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="@drawable/topic_shape_rect_gradient_blue_corner">
-
-                    <TextView
-                        android:id="@+id/text1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="14dp"
-                        android:text="@string/topic_zhi_shi_mo"
-                        android:textColor="#ffffffff"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/text1"
-                        android:layout_marginStart="8dp"
-                        android:layout_toEndOf="@+id/text1"
-                        android:text="@string/topic_hint_1"
-                        android:textColor="#ffffffff"
-                        android:textSize="12sp" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="14dp"
-                        android:src="@drawable/topic_back_btn" />
-
-                </RelativeLayout>
-
-            </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
                 android:orientation="horizontal">
 
@@ -123,13 +85,14 @@
 
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_collapseMode="pin">
 
             <View
+                android:id="@+id/divider_view"
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
                 android:background="#fff2f2f2"
@@ -138,12 +101,24 @@
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/tab_layout"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/divider_view"
                 app:tabSelectedTextColor="@color/common_text_blank"
                 app:tabTextColor="@color/common_text_blank_dark">
             </android.support.design.widget.TabLayout>
-        </LinearLayout>
+
+            <com.wang.social.topic.mvp.ui.widget.GradualImageView
+                android:id="@+id/tab_layout_search_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/topic_search_icon_blue"
+                android:layout_alignTop="@+id/tab_layout"
+                android:layout_alignBottom="@+id/tab_layout"
+                android:layout_alignParentRight="true"
+                android:paddingRight="14dp"
+                android:paddingLeft="14dp"/>
+        </RelativeLayout>
 
 
     </android.support.design.widget.AppBarLayout>
