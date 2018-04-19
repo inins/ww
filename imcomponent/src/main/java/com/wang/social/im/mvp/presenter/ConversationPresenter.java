@@ -12,6 +12,7 @@ import com.tencent.imsdk.TIMCustomElem;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageListener;
+import com.tencent.imsdk.TIMSoundElem;
 import com.tencent.imsdk.TIMTextElem;
 import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.ext.message.TIMConversationExt;
@@ -169,6 +170,17 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
         TIMTextElem textElem = new TIMTextElem();
         textElem.setText(content);
         message.addElement(textElem);
+
+        doSendMessage(message);
+    }
+
+    /**
+     * 发送一条语音消息
+     * @param soundElem
+     */
+    public void sendSoundMessage(TIMSoundElem soundElem){
+        TIMMessage message = new TIMMessage();
+        message.addElement(soundElem);
 
         doSendMessage(message);
     }

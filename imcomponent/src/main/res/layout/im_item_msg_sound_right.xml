@@ -13,30 +13,48 @@
         android:layout_height="@dimen/im_msg_portrait_size"
         android:layout_marginEnd="@dimen/common_border_margin"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="@+id/msg_tv_text"
+        app:layout_constraintBottom_toBottomOf="@+id/msg_ll_sound"
         app:layout_constraintRight_toRightOf="parent"
         tools:src="@drawable/common_default_circle_placeholder" />
 
-    <TextView
-        android:id="@id/msg_tv_text"
+    <LinearLayout
+        android:id="@+id/msg_ll_sound"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="9dp"
-        app:layout_goneMarginEnd="@dimen/common_border_margin"
         android:layout_marginTop="10dp"
         android:background="@drawable/im_bg_message_right"
-        android:lineSpacingExtra="1dp"
-        android:maxWidth="196dp"
-        android:paddingBottom="10dp"
+        android:orientation="horizontal"
+        android:paddingBottom="8dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
-        android:paddingTop="10dp"
-        android:textColor="@color/common_white"
-        android:textSize="@dimen/im_msg_text_size"
+        android:paddingTop="8dp"
         app:layout_constraintRight_toLeftOf="@id/msg_iv_portrait"
         app:layout_constraintTop_toBottomOf="@id/msg_tv_time"
-        app:layout_goneMarginTop="0dp"
-        tools:text="你好吗?" />
+        app:layout_goneMarginEnd="@dimen/common_border_margin"
+        app:layout_goneMarginTop="0dp">
+
+        <ImageView
+            android:id="@+id/msg_iv_sound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitCenter"
+            tools:src="@drawable/im_voice_sent_play3" />
+
+        <TextView
+            android:id="@+id/msg_tv_sound_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:lineSpacingExtra="1dp"
+            android:maxWidth="196dp"
+            android:textColor="@color/common_white"
+            android:textSize="@dimen/im_msg_text_size"
+            app:layout_constraintRight_toLeftOf="@id/msg_iv_portrait"
+            app:layout_constraintTop_toBottomOf="@id/msg_tv_time"
+            tools:text="11''" />
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/msg_iv_error"
@@ -47,9 +65,9 @@
         android:scaleType="center"
         android:src="@drawable/im_ic_error"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/msg_tv_text"
-        app:layout_constraintRight_toLeftOf="@id/msg_tv_text"
-        app:layout_constraintTop_toTopOf="@id/msg_tv_text" />
+        app:layout_constraintBottom_toBottomOf="@id/msg_ll_sound"
+        app:layout_constraintRight_toLeftOf="@id/msg_ll_sound"
+        app:layout_constraintTop_toTopOf="@id/msg_ll_sound" />
 
     <android.support.v4.widget.ContentLoadingProgressBar
         android:id="@+id/msg_pb_progress"
@@ -58,7 +76,8 @@
         android:layout_height="17dp"
         android:layout_marginEnd="10dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/msg_tv_text"
-        app:layout_constraintRight_toLeftOf="@id/msg_tv_text"
-        app:layout_constraintTop_toTopOf="@id/msg_tv_text" />
+        app:layout_constraintBottom_toBottomOf="@id/msg_ll_sound"
+        app:layout_constraintRight_toLeftOf="@id/msg_ll_sound"
+        app:layout_constraintTop_toTopOf="@id/msg_ll_sound"
+        tools:visibility="visible" />
 </android.support.constraint.ConstraintLayout>
