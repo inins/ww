@@ -1,7 +1,9 @@
 package com.wang.social.im.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
 import com.frame.base.BasicActivity;
@@ -10,7 +12,7 @@ import com.wang.social.im.R;
 import com.wang.social.im.enums.ConversationType;
 import com.wang.social.im.mvp.ui.ConversationFragment;
 
-public class ConversationActivity extends BasicActivity{
+public class ConversationActivity extends BasicActivity {
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -36,5 +38,14 @@ public class ConversationActivity extends BasicActivity{
     @Override
     public boolean useEventBus() {
         return false;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag(ConversationFragment.class.getName());
+        if (fragment != null) {
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
     }
 }

@@ -11,13 +11,17 @@ import android.widget.TextView;
 import com.frame.base.BaseAdapter;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.http.imageloader.glide.RoundedCornersTransformation;
+import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMElem;
 import com.tencent.imsdk.TIMImage;
 import com.tencent.imsdk.TIMImageElem;
+import com.tencent.imsdk.TIMImageType;
 import com.tencent.imsdk.TIMMessage;
+import com.tencent.imsdk.TIMMessageStatus;
 import com.tencent.imsdk.TIMUserProfile;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
+import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 
 import java.util.ArrayList;
@@ -98,15 +102,35 @@ public class ImageViewHolder extends BaseMessageViewHolder<UIMessage> {
             TIMElem elem = timMessage.getElement(i);
             if (elem instanceof TIMImageElem) {
                 TIMImageElem imageElem = (TIMImageElem) elem;
-                ArrayList<TIMImage> images = imageElem.getImageList();
-                if (images.size() > 0) {
-                    mImageLoader.loadImage(getContext(), ImageConfigImpl.builder()
-                            .imageView(msgIvImage)
-                            .url(images.get(0).getUrl())
-                            .placeholder(R.drawable.common_default_circle_placeholder)
-                            .transformation(new RoundedCornersTransformation(getContext().getResources().getDimensionPixelOffset(R.dimen.im_msg_image_radius), 0))
-                            .build());
-                    break;
+
+                if (timMessage.status() == TIMMessageStatus.Sending || timMessage.status() == TIMMessageStatus.SendFail) {
+                    loadImage(imageElem.getPath());
+                } else if (timMessage.status() == TIMMessageStatus.SendSucc) {
+                    for (TIMImage image : imageElem.getImageList()){
+                        if (image.getType() == TIMImageType.Thumb){
+                            if (ImHelper.isCacheFileExit(image.getUuid())){
+                                loadImage(ImHelper.getImageCachePath(image.getUuid()));
+                            }else {
+                                image.getImage(ImHelper.getImageCachePath(image.getUuid()), new TIMCallBack() {
+                                    @Override
+                                    public void onError(int i, String s) {
+                                        loadImage("");
+                                    }
+
+                                    @Override
+                                    public void onSuccess() {
+                                        loadImage(ImHelper.getImageCachePath(image.getUuid()));
+                                    }
+                                });
+                            }
+                        }
+                    }
+                    ArrayList<TIMImage> images = imageElem.getImageList();
+                    if (images.size() > 0) {
+
+                        loadImage(images.get(0).getUrl());
+                        break;
+                    }
                 }
             }
         }
@@ -118,6 +142,15 @@ public class ImageViewHolder extends BaseMessageViewHolder<UIMessage> {
             setPortraitListener(msgIvPortrait, itemValue, position);
         }
         setContentListener(msgIvImage, itemValue, position, true, true);
+    }
+
+    private void loadImage(String path) {
+        mImageLoader.loadImage(getContext(), ImageConfigImpl.builder()
+                .imageView(msgIvImage)
+                .url(path)
+                .placeholder(R.drawable.im_image_message_placeholder)
+                .transformation(new RoundedCornersTransformation(getContext().getResources().getDimensionPixelOffset(R.dimen.im_msg_image_radius), 0, RoundedCornersTransformation.CornerType.ALL))
+                .build());
     }
 
     @Override

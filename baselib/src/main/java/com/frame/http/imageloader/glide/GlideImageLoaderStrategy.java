@@ -63,18 +63,18 @@ public class GlideImageLoaderStrategy implements BaseImageLoaderStrategy<ImageCo
                 break;
         }
         if (config.getTransformation() != null){
-            requestOptions.transform(config.getTransformation());
+            requestOptions = requestOptions.transform(config.getTransformation());
         }else if (config.isCircle()){
-            requestOptions.circleCrop();
+            requestOptions = requestOptions.circleCrop();
         }
         if (config.getPlaceholder() != 0){
-            requestOptions.placeholder(config.getPlaceholder());
+            requestOptions = requestOptions.placeholder(config.getPlaceholder());
         }
         if (config.getErrorPic() != 0){
-            requestOptions.error(config.getErrorPic());
+            requestOptions = requestOptions.error(config.getErrorPic());
         }
         if (config.getFallback() != 0){
-            requestOptions.fallback(config.getFallback());
+            requestOptions = requestOptions.fallback(config.getFallback());
         }
         glideRequest
                 .apply(requestOptions)
