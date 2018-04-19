@@ -1,8 +1,9 @@
 package com.wang.social.topic.mvp.model.api;
 
 import com.frame.http.api.BaseJson;
-import com.wang.social.topic.mvp.model.entities.dto.TagsDTO;
+import com.wang.social.topic.mvp.model.entities.dto.TopicDetailDTO;
 import com.wang.social.topic.mvp.model.entities.dto.TopicRspDTO;
+import com.wang.social.topic.mvp.model.entities.dto.TopicTopUsersDTO;
 
 import java.util.Map;
 
@@ -32,4 +33,18 @@ public interface TopicService {
      */
     @GET("app/topic/getLowList")
     Observable<BaseJson<TopicRspDTO>> getLowList(@QueryMap Map<String, Object> param);
+
+
+    /**
+     * 无人问津话题列表
+     */
+    @GET("app/topic/getReleaseTopicTopUser")
+    Observable<BaseJson<TopicTopUsersDTO>> getReleaseTopicTopUser(@QueryMap Map<String, Object> param);
+
+    /**
+     * 话题详情
+     */
+    @FormUrlEncoded
+    @POST("app/topic/getTopicDetails")
+    Observable<BaseJson<TopicDetailDTO>> getTopicDetails(@FieldMap Map<String, Object> param);
 }

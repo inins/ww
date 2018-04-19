@@ -13,28 +13,23 @@
         android:theme="@style/common_AppTheme">
 
         <!-- Meta Data -->
+
         <meta-data
             android:name="com.wang.social.topic.app.GlobalConfiguration"
             android:value="ConfigModule" />
 
-        <meta-data
-            android:name="com.wang.social.topic.app.TopicGlobalConfiguration"
-            android:value="ConfigModule" />
-
-        <activity android:name="com.wang.social.topic.ui.MainActivity"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity android:name=".ui.TopicListActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
-        <activity android:name=".mvp.ui.TopicDetailActivity"
+        <activity android:name=".app.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+
+        <activity android:name=".mvp.ui.TopicDetailActivity"
+            android:screenOrientation="portrait">
         </activity>
 
     </application>

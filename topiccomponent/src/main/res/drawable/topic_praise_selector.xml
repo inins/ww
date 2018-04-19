@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_checked="false" android:drawable="@drawable/topic_dianzan_ico"/>
-    <item android:state_checked="true" android:drawable="@drawable/topic_zandian_s_ico"/>
+    <item android:state_checked="false" android:drawable="@drawable/common_ic_zan"/>
+    <item android:state_checked="true" android:drawable="@drawable/common_ic_zan_hot"/>
 </selector>

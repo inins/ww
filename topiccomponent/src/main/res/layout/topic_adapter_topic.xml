@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:src="@drawable/topic_list_item_pay_icon"/>
+            android:src="@drawable/common_ic_tag_pay"/>
 
         <TextView
             android:id="@+id/create_date_text_view"
@@ -139,7 +139,7 @@
             android:id="@+id/comment_image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/topic_pinglun_ico"
+            android:src="@drawable/common_ic_comment"
             android:layout_marginLeft="25dp"
             />
 
@@ -154,14 +154,14 @@
             />
 
         <ImageView
-            android:id="@+id/share_image_view"
+            android:id="@+id/read_image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/topic_zhuanfa_ico"
+            android:src="@drawable/common_ic_read"
             android:layout_marginLeft="25dp"/>
 
         <TextView
-            android:id="@+id/share_text_view"
+            android:id="@+id/read_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="20"

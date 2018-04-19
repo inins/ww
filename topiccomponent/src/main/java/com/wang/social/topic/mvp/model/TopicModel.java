@@ -10,6 +10,7 @@ import com.wang.social.topic.mvp.contract.TopicContract;
 import com.wang.social.topic.mvp.model.api.TagService;
 import com.wang.social.topic.mvp.model.api.TopicService;
 import com.wang.social.topic.mvp.model.entities.dto.TagsDTO;
+import com.wang.social.topic.mvp.model.entities.dto.TopicTopUsersDTO;
 
 import java.util.Map;
 
@@ -23,6 +24,20 @@ public class TopicModel extends BaseModel implements TopicContract.Model {
     @Inject
     public TopicModel(IRepositoryManager repositoryManager) {
         super(repositoryManager);
+    }
+
+    @Override
+    public Observable<BaseJson<TopicTopUsersDTO>> getReleaseTopicTopUser(int size, int current, String from) {
+        Map<String, Object> param = new NetParam()
+                .put("size",size)
+                .put("current",current)
+                .put("from", from)
+                .put("v", BuildConfig.VERSION_NAME)
+                .build();
+
+        return mRepositoryManager
+                .obtainRetrofitService(TopicService.class)
+                .getReleaseTopicTopUser(param);
     }
 
     @Override

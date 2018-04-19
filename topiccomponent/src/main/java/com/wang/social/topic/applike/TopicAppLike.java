@@ -17,9 +17,9 @@ import com.wang.social.topic.app.TopicServiceImpl;
  * ========================================
  */
 
-public class FunpointAppLike implements IApplicationLike {
+public class TopicAppLike implements IApplicationLike {
 
-    private final String HOST = "funpoint";
+    private final String HOST = "topic";
 
     @Override
     public void onCreate() {
@@ -30,6 +30,6 @@ public class FunpointAppLike implements IApplicationLike {
     @Override
     public void onStop() {
         UIRouter.getInstance().unregisterUI(HOST);
-        Router.getInstance().removeService(FunpointService.class.getName());
+        Router.getInstance().removeService(TopicService.class.getName());
     }
 }
