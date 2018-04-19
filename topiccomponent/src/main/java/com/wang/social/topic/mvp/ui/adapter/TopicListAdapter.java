@@ -1,6 +1,7 @@
 package com.wang.social.topic.mvp.ui.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
 import android.text.format.DateUtils;
@@ -16,10 +17,13 @@ import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.TimeUtils;
 import com.wang.social.topic.R;
+import com.wang.social.topic.mvp.model.entities.Tag;
 import com.wang.social.topic.mvp.model.entities.Topic;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import timber.log.Timber;
@@ -39,10 +43,18 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
     DataProvider mDataProvider;
     ClickListener mClickListener;
 
+    List<Tag> list = new ArrayList<>();
+
     public TopicListAdapter(Context context, DataProvider dataprovider, ClickListener clickListener) {
         this.mContext = context.getApplicationContext();
         this.mDataProvider = dataprovider;
         this.mClickListener = clickListener;
+
+        for (int i = 0; i <5 ; i++) {
+            Tag tag = new Tag();
+            tag.setTagName("TAG" + i);
+            list.add(tag);
+        }
     }
 
     public void onDestroy() {
@@ -51,7 +63,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
     }
 
     private Topic getTopic(int position) {
-        Timber.i("getTopic : " + position);
+//        Timber.i("getTopic : " + position);
         if (null != mDataProvider) {
             return mDataProvider.getTopic(position);
         }
@@ -117,6 +129,13 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
         holder.commentTV.setText(topic.getTopicCommentNum());
         // 阅读次数
         holder.readTV.setText(topic.getTopicReadNum());
+        // 标签
+//        if (topic.getTags() != null && topic.getTags().size() > 0) {
+//            holder.recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+//            holder.recyclerView.setAdapter(new TagAdapter(mContext, topic.getTags()));
+//        }
+        holder.recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
+        holder.recyclerView.setAdapter(new TagAdapter(mContext, list));
 
         // 点击
         holder.rootView.setOnClickListener(new View.OnClickListener() {
@@ -154,6 +173,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
         TextView commentTV;
         ImageView readIV;
         TextView readTV;
+        RecyclerView recyclerView;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -172,6 +192,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
             commentTV = itemView.findViewById(R.id.comment_text_view);
             readIV = itemView.findViewById(R.id.read_image_view);
             readTV = itemView.findViewById(R.id.read_text_view);
+            recyclerView = itemView.findViewById(R.id.tag_recycler_view);
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.wang.social.topic.mvp.model.entities;
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -17,4 +19,5 @@ public class Topic {
     private String isFree;
     private String price;
     private String isShopping;
+    private List<Tag> tags;
 }

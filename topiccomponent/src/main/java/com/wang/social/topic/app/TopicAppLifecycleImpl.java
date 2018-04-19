@@ -24,7 +24,7 @@ public class TopicAppLifecycleImpl implements AppDelegate {
     public void onCreate(Application application) {
         Log.e("notice", "这里进行初始化工作");
 
-        AppDataHelper.saveToken("Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMzgyMzE1MDQyMCIsImNyZWF0ZWQiOjE1MjM5MzE5NTkxMDMsImlkIjoxMDAyNSwiZXhwIjoxNTI0NTM2NzU5fQ.bWW8YlE0u_1vBvnHw4AtO4QIZXkvrxTocPKZ1Z0-sS7sABvYqUVPbTULDOllkZxiVFH1Q9ge4GR6p6HBf6yeqg");
+        AppDataHelper.saveToken("Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMzgyMzE1MDQyMCIsImNyZWF0ZWQiOjE1MjQxMjIwOTM4MDAsImlkIjoxMDAyNywiZXhwIjoxNTI0NzI2ODkzfQ.c4i_CIdZNGEdLRRuJyWlXKf6JyOi03ZvMZMY7I-9ajGOPEf_AvXS__S_B63uXr93jDGc-NLFUFra3b2oVfNK-Q");
     }
 
     @Override

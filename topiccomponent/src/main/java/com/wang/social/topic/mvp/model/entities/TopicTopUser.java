@@ -1,14 +1,18 @@
 package com.wang.social.topic.mvp.model.entities;
 
 import java.util.List;
+
 import lombok.Data;
 
 @Data
 public class TopicTopUser {
-    private int birthday;
-    private String avatar;
+
+    private int userId;
+    private int publishNum;
+    private int participateNum;
     private String nickname;
-    private int topicPartakeCount;
+    private String avatar;
     private int sex;
-    private List<String> tags ;
+    private long birthday;
+    private List<Tags> tags;
 }
