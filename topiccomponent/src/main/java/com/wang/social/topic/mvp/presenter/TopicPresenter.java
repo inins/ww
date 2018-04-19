@@ -1,5 +1,6 @@
 package com.wang.social.topic.mvp.presenter;
 
+import com.frame.component.view.barview.BarUser;
 import com.frame.di.scope.FragmentScope;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.error.ErrorHandleSubscriber;
@@ -14,6 +15,7 @@ import com.wang.social.topic.mvp.model.entities.TopicTopUser;
 import com.wang.social.topic.mvp.model.entities.TopicTopUsers;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -45,7 +47,10 @@ public class TopicPresenter extends
                 new ErrorHandleSubscriber<TopicTopUsers>(mErrorHandler) {
                     @Override
                     public void onNext(TopicTopUsers topicTopUsers) {
-
+                        List<BarUser> list = new ArrayList<>();
+                        for (TopicTopUser user : topicTopUsers.getList()) {
+                            list.add(new BarUser(user.getAvatar()));
+                        }
                     }
                 });
     }

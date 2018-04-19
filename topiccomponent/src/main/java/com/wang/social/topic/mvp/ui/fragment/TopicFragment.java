@@ -32,6 +32,7 @@ import com.wang.social.topic.mvp.ui.widget.AppBarStateChangeListener;
 import com.wang.social.topic.mvp.ui.widget.GradualImageView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -99,16 +100,14 @@ public class TopicFragment extends BaseFragment<TopicPresenter> implements Topic
             }
         });
 
-
         initSelectedTagData();
         initTopicList();
 
+        // 加载知识魔
+        mPresenter.getReleaseTopicTopUser();
 
-        mBarView.refreshData(new ArrayList<BarUser>() {{
-            add(new BarUser("http://i-7.vcimg.com/trim/48b866104e7efc1ffd7367e7423296c11060910/trim.jpg"));
-            add(new BarUser("https://tse3-mm.cn.bing.net/th?id=OIP.XzZcrXAIrxTtUH97rMlNGQHaEo&p=0&o=5&pid=1.1"));
-            add(new BarUser("http://photos.tuchong.com/23552/f/624083.jpg"));
-        }});
+        // 加载标签数据
+        mPresenter.myRecommendTag();
     }
 
     @Override
@@ -159,11 +158,6 @@ public class TopicFragment extends BaseFragment<TopicPresenter> implements Topic
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mSelectedTagAdapter);
-
-        // 加载知识魔
-        mPresenter.getReleaseTopicTopUser();
-        // 加载标签数据
-        mPresenter.myRecommendTag();
     }
 
     /**
@@ -204,6 +198,17 @@ public class TopicFragment extends BaseFragment<TopicPresenter> implements Topic
         if (null != mSelectedTagAdapter) {
             mSelectedTagAdapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public void onTopicTopUserLoaded(List<BarUser> list) {
+
+//        mBarView.refreshData(new ArrayList<BarUser>() {{
+//            add(new BarUser("http://i-7.vcimg.com/trim/48b866104e7efc1ffd7367e7423296c11060910/trim.jpg"));
+//            add(new BarUser("https://tse3-mm.cn.bing.net/th?id=OIP.XzZcrXAIrxTtUH97rMlNGQHaEo&p=0&o=5&pid=1.1"));
+//            add(new BarUser("http://photos.tuchong.com/23552/f/624083.jpg"));
+//        }});
+        mBarView.refreshData(list);
     }
 
     @Override
