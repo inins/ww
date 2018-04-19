@@ -7,10 +7,14 @@ import android.widget.TextView;
 
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
+import com.frame.component.helper.SelectHelper;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
 import com.wang.social.personal.mvp.entities.ShowListCate;
 import com.frame.component.view.ListViewLinearLayout;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 
@@ -49,8 +53,14 @@ public class RecycleAdapterPrivacyShowList extends BaseAdapter<ShowListCate> {
             text_title.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    bean.setSelect(!bean.isSelect());
-                    notifyItemChanged(position);
+                    for (ShowListCate cate : getData()) {
+                        if (bean != cate) {
+                            cate.setSelect(false);
+                        } else {
+                            bean.setSelect(!bean.isSelect());
+                        }
+                    }
+                    notifyItemRangeChanged(0, getItemCount());
                 }
             });
             text_title.setText(bean.getTitle());
@@ -68,5 +78,21 @@ public class RecycleAdapterPrivacyShowList extends BaseAdapter<ShowListCate> {
         @Override
         public void onRelease() {
         }
+    }
+
+    ///////////////////////////////////
+
+    public String getSelectParamName() {
+        ShowListCate selectBean = SelectHelper.getSelectBean(getData());
+        if (selectBean == null) return "";
+        return selectBean.getParaName();
+    }
+
+    public Map<String, Object> getParamMap() {
+        Map<String, Object> map = new LinkedHashMap<>();
+        for (ShowListCate cate : getData()) {
+            map.put(cate.getParaName(), cate.isSelect());
+        }
+        return map;
     }
 }

@@ -11,26 +11,45 @@ import java.util.List;
  * Created by Administrator on 2018/3/30.
  */
 
-public class ShowListCate implements Serializable {
+public class ShowListCate extends BaseSelectBean implements Serializable {
 
     private String title;
+    private String paraName;
     private int count;
     private List<ShowListGroup> groupList;
     private boolean isShow;
 
-    //////////////////////////////////////////////////
 
-    public boolean isSelect() {
-        return SelectHelper.isSelectAll(groupList);
+    public ShowListCate() {
     }
 
+    public ShowListCate(String title, String paraName, List<ShowListGroup> groupList) {
+        this.title = title;
+        this.paraName = paraName;
+        this.groupList = groupList;
+    }
+
+    //////////////////////////////////////////////////
+
+    @Override
+    public boolean isSelect() {
+        return isSelect;
+    }
+
+    @Override
     public void setSelect(boolean select) {
+        isSelect = select;
         SelectHelper.selectAllSelectBeans(groupList, select);
     }
 
     //////////////////////////////////////////////////
 
-    public ShowListCate() {
+    public String getParaName() {
+        return paraName;
+    }
+
+    public void setParaName(String paraName) {
+        this.paraName = paraName;
     }
 
     public boolean isShow() {
@@ -41,10 +60,6 @@ public class ShowListCate implements Serializable {
         isShow = show;
     }
 
-    public ShowListCate(String title, List<ShowListGroup> groupList) {
-        this.title = title;
-        this.groupList = groupList;
-    }
 
     public String getTitle() {
         return title;

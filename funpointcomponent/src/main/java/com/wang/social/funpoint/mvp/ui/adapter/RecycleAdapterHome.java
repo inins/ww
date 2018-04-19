@@ -9,6 +9,7 @@ import com.frame.base.BaseViewHolder;
 import com.frame.component.entities.TestEntity;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.wang.social.funpoint.R;
+import com.wang.social.funpoint.R2;
 
 import butterknife.BindView;
 
@@ -26,7 +27,7 @@ public class RecycleAdapterHome extends BaseAdapter<TestEntity> {
     }
 
     public class Holder extends BaseViewHolder<TestEntity> {
-        @BindView(R.id.img_pic)
+        @BindView(R2.id.img_pic)
         ImageView imgPic;
 
         public Holder(Context context, ViewGroup root, int layoutRes) {

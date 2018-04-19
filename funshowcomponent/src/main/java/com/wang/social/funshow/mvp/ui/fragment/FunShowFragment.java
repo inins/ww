@@ -88,12 +88,12 @@ public class FunShowFragment extends BasicFragment implements BaseAdapter.OnItem
         FunshowDetailActivity.start(getContext());
     }
 
-    @OnClick({R.id.barview})
+    @OnClick({R2.id.barview})
     public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.barview:
-                HotUserListActivity.startBlankList(getContext());
-                break;
+        int i = view.getId();
+        if (i == R.id.barview) {
+            HotUserListActivity.startBlankList(getContext());
+
         }
     }
 

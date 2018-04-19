@@ -11,8 +11,10 @@ import com.wang.social.personal.mvp.entities.lable.LableWrap;
 import com.wang.social.personal.mvp.entities.photo.OffiPic;
 import com.wang.social.personal.mvp.entities.photo.Photo;
 import com.wang.social.personal.mvp.entities.photo.PhotoListWrap;
+import com.wang.social.personal.mvp.entities.privates.PrivateDetail;
 import com.wang.social.personal.mvp.entities.thirdlogin.BindHistory;
 import com.wang.social.personal.mvp.entities.user.QrcodeInfo;
+import com.wang.social.personal.mvp.entities.user.UserStatistic;
 
 import java.util.Map;
 
@@ -70,6 +72,10 @@ public interface UserService {
     //通过id 获取用户基本信息
     @GET("/user/getUserInfoByUserId?v=2.0.0")
     Observable<BaseJson<QrcodeInfo>> getUserInfoByUserId(@Query("userId") int userId);
+
+    //通过id 获取用户统计数据
+    @GET("/app/userInfo/getUserStatistics?v=2.0.0")
+    Observable<BaseJson<UserStatistic>> getUserStatistics(@Query("userId") int userId);
 
     //个性标签
     @GET("/app/tag/showtag?v=2.0.0")
@@ -134,5 +140,22 @@ public interface UserService {
     //获取绑定记录
     @GET("/app/userInfo/bindList?v=2.0.0")
     Observable<BaseJson<BaseListWrap<BindHistory>>> bindList();
+
+    //修改隐私设置
+    @FormUrlEncoded
+    @POST("/app/privacy/update?v=2.0.0")
+    Observable<BaseJson<Object>> updatePrivate(@FieldMap Map<String, Object> param);
+
+    //隐私设置列表
+    @GET("/app/privacy/list?v=2.0.0")
+    Observable<BaseJson<BaseListWrap<PrivateDetail>>> privateList();
+
+    //隐私设置详情
+    @GET("/app/privacy/info?v=2.0.0")
+    Observable<BaseJson<PrivateDetail>> privateDetail(@Query("type") int type);
+
+    //设置是否展示年龄
+    @GET("/app/privacy/showAge?v=2.0.0")
+    Observable<BaseJson<Object>> privateShowAge();
 
 }

@@ -9,8 +9,10 @@ import com.frame.integration.IRepositoryManager;
 import com.frame.component.common.NetParam;
 import com.frame.mvp.IView;
 import com.frame.http.api.ApiHelperEx;
+import com.frame.utils.ToastUtil;
 import com.wang.social.personal.mvp.entities.UserWrap;
 import com.wang.social.personal.mvp.entities.user.QrcodeInfo;
+import com.wang.social.personal.mvp.entities.user.UserStatistic;
 import com.wang.social.personal.mvp.model.api.UserService;
 
 import java.util.Map;
@@ -72,8 +74,29 @@ public class NetUserHelper {
                 });
     }
 
-    public interface OnUserApiCallBack{
+    public void getUserStatistic(IView view, int userId, OnUserStatisticApiCallBack callBack) {
+        ApiHelperEx.execute(view, true,
+                mRepositoryManager.obtainRetrofitService(UserService.class).getUserStatistics(userId),
+                new ErrorHandleSubscriber<BaseJson<UserStatistic>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseJson<UserStatistic> baseJson) {
+                        if (callBack != null) callBack.onSuccess(baseJson.getData());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        ToastUtil.showToastLong(e.getMessage());
+                    }
+                });
+    }
+
+    public interface OnUserApiCallBack {
         void onSuccess(QrcodeInfo qrcodeInfo);
+
         void onError(Throwable e);
+    }
+
+    public interface OnUserStatisticApiCallBack {
+        void onSuccess(UserStatistic userStatistic);
     }
 }

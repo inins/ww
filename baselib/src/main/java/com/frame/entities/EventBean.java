@@ -29,6 +29,8 @@ public class EventBean implements Serializable {
     public static final int EVENT_USERINFO_CHANGE = 0xffa202;
     //用户登出
     public static final int EVENT_LOGOUT = 0xffa203;
+    //用户修改个人隐私
+    public static final int EVENT_PRIVATE_UPDATE = 0xffa204;
 
     @IntDef({
             EVENTBUS_TAG_SELECTED,
@@ -38,6 +40,7 @@ public class EventBean implements Serializable {
             EVENT_MEPHOTO_CHANGE,
             EVENT_USERINFO_CHANGE,
             EVENT_LOGOUT,
+            EVENT_PRIVATE_UPDATE,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface EventBeanType {

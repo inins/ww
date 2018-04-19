@@ -65,7 +65,7 @@ public class ListAdapterPrivacyShowList extends BaseAdapter {
                 bean.setSelect(!bean.isSelect());
                 notifyDataSetChanged();
                 if (checkView != null) {
-                    checkView.setSelected(SelectHelper.isSelectAll(results));
+                    checkView.setSelected(!SelectHelper.isUnSelectAll(results));
                 }
             }
         });

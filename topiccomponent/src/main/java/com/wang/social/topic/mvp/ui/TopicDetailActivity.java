@@ -7,12 +7,13 @@ import com.frame.base.BasicActivity;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.wang.social.topic.R;
+import com.wang.social.topic.R2;
 
 import butterknife.BindView;
 
 public class TopicDetailActivity extends BasicActivity {
 
-    @BindView(R.id.toolbar)
+    @BindView(R2.id.toolbar)
     SocialToolbar mToolbar;
 
     @Override

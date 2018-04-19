@@ -50,7 +50,9 @@ public class AppDataHelper {
     }
 
     public static MsgConfig getMsgConfig() {
-        return (MsgConfig) SPUtils.getInstance(SHARENAME).get(KEY_MSGCONFIG);
+        MsgConfig msgConfig = (MsgConfig) SPUtils.getInstance(SHARENAME).get(KEY_MSGCONFIG);
+        if (msgConfig == null) return new MsgConfig();
+        else return msgConfig;
     }
 
     public static void removeMsgConfig() {
