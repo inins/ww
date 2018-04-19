@@ -118,6 +118,8 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
     TextView titleTV;
     @BindView(R2.id.title_hint_text_view)
     TextView titleHintTV;
+    @BindView(R2.id.selected_count_layout)
+            View selectedCountLayout;
 
     String mode = MODE_SELECTION;
     // 是否是从登录页面跳转过来的,为了个人中心调用，默认设置为不是从登录页面跳转过来
@@ -163,6 +165,16 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
         } else {
             selectedCountHintTV.setVisibility(View.GONE);
             selectedCountTV.setVisibility(View.GONE);
+        }
+
+        if (mPresenter.getSelectedTagCount() <= 0) {
+            selectedCountHintTV.setTextColor(getResources().getColor(R.color.common_text_dark));
+            selectedCountTV.setTextColor(getResources().getColor(R.color.common_text_dark));
+            selectedCountLayout.setEnabled(false);
+        } else {
+            selectedCountHintTV.setTextColor(getResources().getColor(R.color.common_text_blank_dark));
+            selectedCountTV.setTextColor(getResources().getColor(R.color.common_blue_deep));
+            selectedCountLayout.setEnabled(true);
         }
     }
 
