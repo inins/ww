@@ -382,20 +382,17 @@ public class SocializeUtil {
      * @param listener 回调
      */
     private static void thirdPartyLogin(@LoginPlatform int platform, Activity activity, LoginListener listener) {
-        boolean installed = false;
+        boolean installed = UMShareAPI.get(activity).isInstall(activity, toUMShareMedia(platform));
         String msg = "";
         // 先判断是否安装了客户端
         switch (platform) {
             case LOGIN_PLATFORM_WEIXIN:
-                installed = isWeixinAvilible(activity);
                 msg = activity.getString(R.string.socialize_wx_not_install);
                 break;
             case LOGIN_PLATFORM_QQ:
-                installed = isQQClientAvailable(activity);
                 msg = activity.getString(R.string.socialize_qq_not_install);
                 break;
             case LOGIN_PLATFORM_SINA_WEIBO:
-                installed = isWeiboInstalled(activity);
                 msg = activity.getString(R.string.socialize_wb_not_install);
                 break;
         }
@@ -485,22 +482,19 @@ public class SocializeUtil {
     public static void umShareWeb(Activity activity, @SharePlatform int platform,
                                   String url, String title, String content, String imageUrl) {
         // 先判断是否安装了对应的客户端
-        boolean installed = false;
+        boolean installed = UMShareAPI.get(activity).isInstall(activity, toUMShareMedia(platform));;
         String msg = "";
         // 先判断是否安装了客户端
         switch (platform) {
             case SHARE_PLATFORM_WX:
             case SHARE_PLATFORM_WX_CIRCLE:
-                installed = isWeixinAvilible(activity);
                 msg = activity.getString(R.string.socialize_share_wx_not_install);
                 break;
             case SHARE_PLATFORM_QQ:
             case SHARE_PLATFORM_QQ_ZONE:
-                installed = isQQClientAvailable(activity);
                 msg = activity.getString(R.string.socialize_share_qq_not_install);
                 break;
             case SHARE_PLATFORM_SINA_WEIBO:
-                installed = isWeiboInstalled(activity);
                 msg = activity.getString(R.string.socialize_share_wb_not_install);
                 break;
         }
