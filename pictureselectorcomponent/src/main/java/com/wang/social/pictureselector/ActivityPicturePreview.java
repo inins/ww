@@ -1,5 +1,7 @@
 package com.wang.social.pictureselector;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
@@ -11,6 +13,12 @@ import com.wang.social.pictureselector.ui.FragmentPicturePreview;
  */
 
 public class ActivityPicturePreview extends AppCompatActivity {
+    public static void start(Context context, String[] pics) {
+        Intent intent = new Intent(context, ActivityPicturePreview.class);
+        intent.putExtra(PictureSelector.NAME_FILE_PATH_LIST, pics);
+        context.startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

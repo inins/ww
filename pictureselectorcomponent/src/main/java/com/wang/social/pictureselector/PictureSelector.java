@@ -1,13 +1,20 @@
 package com.wang.social.pictureselector;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
+import com.frame.utils.ToastUtil;
+import com.tbruyelle.rxpermissions2.Permission;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.wang.social.pictureselector.model.SelectorSpec;
 
 import java.lang.ref.WeakReference;
+
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by King on 2018/3/29.
@@ -98,16 +105,40 @@ public class PictureSelector {
         return this;
     }
 
+    @SuppressLint("CheckResult")
     public void forResult(int requestCode) {
-        Intent intent = new Intent();
-        if (activity != null) {
-            intent.setClass(activity.get(), ActivityPictureSelector.class);
-            activity.get().startActivityForResult(intent, requestCode);
-        } else if (fragment != null) {
-            intent.setClass(fragment.get().getActivity(), ActivityPictureSelector.class);
-            fragment.get().startActivityForResult(intent, requestCode);
-        } else {
-            throw new IllegalArgumentException("you must call from() first");
+        Activity activity = null;
+        if (this.activity.get() != null) {
+            activity = this.activity.get();
+        } else if (null != this.fragment.get()) {
+            activity = this.fragment.get().getActivity();
         }
+
+        new RxPermissions(activity)
+                .requestEach(Manifest.permission.READ_EXTERNAL_STORAGE)
+                .subscribe(new Consumer<Permission>() {
+                    @Override
+                    public void accept(Permission permission) throws Exception {
+                        if (permission.granted) {
+
+                            Intent intent = new Intent();
+                            if (PictureSelector.this.activity != null) {
+                                intent.setClass(PictureSelector.this.activity.get(), ActivityPictureSelector.class);
+                                PictureSelector.this.activity.get().startActivityForResult(intent, requestCode);
+                            } else if (PictureSelector.this.fragment != null) {
+                                intent.setClass(fragment.get().getActivity(), ActivityPictureSelector.class);
+                                fragment.get().startActivityForResult(intent, requestCode);
+                            } else {
+                                throw new IllegalArgumentException("you must call from() first");
+                            }
+                        } else if (permission.shouldShowRequestPermissionRationale) {
+                            // 用户拒绝了该权限，没有选中『不再询问』（Never ask again）,那么下次再次启动时，还会提示请求权限的对话框
+                        } else {
+                            // 用户拒绝了该权限，并且选中『不再询问』
+                            ToastUtil.showToastLong("请打开文件读写权限");
+                        }
+                    }
+                });
+
     }
 }
