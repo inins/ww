@@ -2,6 +2,8 @@ package com.wang.social.im.mvp.ui;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -42,6 +44,7 @@ import com.wang.social.im.mvp.ui.adapters.holders.BaseMessageViewHolder;
 import com.wang.social.im.view.IMInputView;
 import com.wang.social.im.view.plugin.PluginModule;
 import com.wang.social.im.widget.MessageHandlePopup;
+import com.wang.social.pictureselector.PictureSelector;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -60,6 +63,9 @@ import io.reactivex.functions.Consumer;
  * ======================================
  */
 public class ConversationFragment extends BaseFragment<ConversationPresenter> implements ConversationContract.View, IMInputView.IInputViewListener, BaseMessageViewHolder.OnHandleListener {
+
+    //图片选择
+    private static final int REQUEST_SELECT_PICTURE = 1000;
 
     @BindView(R2.id.fc_message_list)
     RecyclerView fcMessageList;
@@ -149,6 +155,7 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
         setListener();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setListener() {
         fcMessageList.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -187,6 +194,19 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
         mAdapter = null;
         mLayoutManager = null;
         mTargetId = null;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK){
+            switch (requestCode){
+                case REQUEST_SELECT_PICTURE: //图片选择
+                    String[] list = data.getStringArrayExtra(PictureSelector.NAME_FILE_PATH_LIST);
+                    mPresenter.sendImageMessage(list, true);
+                    break;
+            }
+        }
     }
 
     @Override
@@ -255,7 +275,11 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
 
     @Override
     public void onPluginClick(PluginModule pluginModule) {
-
+        if (pluginModule.getPluginType() == PluginModule.PluginType.IMAGE) {//图片选择
+            PictureSelector.from(ConversationFragment.this)
+                    .maxSelection(9)
+                    .forResult(REQUEST_SELECT_PICTURE);
+        }
     }
 
     @SuppressLint("CheckResult")

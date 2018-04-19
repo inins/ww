@@ -69,6 +69,7 @@ dependencies {
     }
     implementation project(':component-service')
     annotationProcessor project(':router-anno-compiler')
+    implementation project(':pictureselectorcomponent')
 }
 
 combuild {

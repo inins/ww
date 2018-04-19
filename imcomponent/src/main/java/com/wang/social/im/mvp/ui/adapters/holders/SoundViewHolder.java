@@ -23,7 +23,7 @@ import com.tencent.imsdk.TIMSoundElem;
 import com.tencent.imsdk.TIMUserProfile;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
-import com.wang.social.im.helper.CommHelper;
+import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.helper.sound.AudioPlayManager;
 import com.wang.social.im.helper.sound.IAudioPlayListener;
 import com.wang.social.im.mvp.model.entities.UIMessage;
@@ -141,7 +141,7 @@ public class SoundViewHolder extends BaseMessageViewHolder<UIMessage> {
                     if (playUuid != null && playUuid.equals(finalSoundElem.getUuid())) {
                         AudioPlayManager.getInstance().stopPlay();
                     } else {
-                        final File tempAudio = CommHelper.getTempFile(AppConstant.Constant.SOUND_CACHE_DIR);
+                        final File tempAudio = ImHelper.getTempFile(AppConstant.Constant.SOUND_CACHE_DIR);
                         if (tempAudio == null) {
                             return;
                         }
