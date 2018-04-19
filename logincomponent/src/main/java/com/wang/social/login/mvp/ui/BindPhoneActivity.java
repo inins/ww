@@ -135,8 +135,8 @@ public class BindPhoneActivity extends BaseAppActivity<BindPhonePresenter> imple
     }
 
     private void watchEditText() {
-        resetBindTVBg(StringUtils.isMobileNO(phoneEditText.getText().toString()) &&
-                        StringUtils.isVerifyCode(verifyCodeET.getText().toString()));
+        resetBindTVBg(phoneEditText.getText().length() >= 11 &&
+                verifyCodeET.getText().length() >= 4);
     }
 
     /**

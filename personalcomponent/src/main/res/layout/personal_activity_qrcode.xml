@@ -50,7 +50,7 @@
             android:layout_height="45dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="20dp"
-            android:src="@drawable/default_header"
+            android:src="@drawable/default_circle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -78,8 +78,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/personal_shape_rect_bluegray_conerfull"
-                android:drawableLeft="@drawable/personal_ic_man"
+                android:background="@drawable/common_shape_rect_bluegray_conerfull"
+                android:drawableLeft="@drawable/common_ic_man"
                 android:drawablePadding="5dp"
                 android:gravity="center"
                 android:paddingLeft="7dp"
@@ -92,8 +92,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:background="@drawable/personal_shape_rect_redgray_conerfull"
-                android:drawableLeft="@drawable/personal_ic_women"
+                android:background="@drawable/common_shape_rect_redgray_conerfull"
+                android:drawableLeft="@drawable/common_ic_women"
                 android:drawablePadding="5dp"
                 android:gravity="center"
                 android:paddingLeft="7dp"

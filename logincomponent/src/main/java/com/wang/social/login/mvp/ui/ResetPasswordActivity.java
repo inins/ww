@@ -128,7 +128,7 @@ public class ResetPasswordActivity extends BaseAppActivity<ResetPasswordPresente
 
             @Override
             public void afterTextChanged(Editable s) {
-                resetConfirmTVBg(StringUtils.isPassword(s.toString()));
+                resetConfirmTVBg(s.toString().length() >= 6);
             }
         });
 

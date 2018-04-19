@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_bundle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardCornerRadius="0dp"
+    app:cardElevation="0dp"
+    tools:layout_height="70dp"
+    tools:layout_width="70dp">
+
+    <com.wang.social.personal.mvp.ui.view.SquareFramelayout
+        android:id="@+id/square_framelayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="0dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@drawable/shape_rect_light_coner"
+            android:scaleType="centerInside"
+            android:src="@drawable/common_ic_add" />
+
+    </com.wang.social.personal.mvp.ui.view.SquareFramelayout>
+
+</android.support.v7.widget.CardView>

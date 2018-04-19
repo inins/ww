@@ -2,7 +2,7 @@ package com.wang.social.funshow.di.component;
 
 import com.frame.di.component.AppComponent;
 import com.frame.di.scope.FragmentScope;
-import com.wang.social.funshow.ui.fragment.FunShowFragment;
+import com.wang.social.funshow.mvp.ui.fragment.FunShowFragment;
 
 import dagger.Component;
 

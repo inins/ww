@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="110dp"
     android:layout_height="wrap_content"
-    android:background="@drawable/personal_popup_bubble"
+    android:background="@drawable/common_popup_bubble_left"
     android:orientation="vertical">
 
     <TextView

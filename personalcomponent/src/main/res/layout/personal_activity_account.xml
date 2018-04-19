@@ -51,7 +51,7 @@
             android:paddingLeft="15dp"
             android:paddingRight="15dp">
 
-            <com.wang.social.personal.mvp.ui.view.TitleView
+            <com.frame.component.view.TitleView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:personal_textNote="@string/personal_account_note"
@@ -86,7 +86,7 @@
                         android:id="@+id/btn_exchange_stone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/personal_shape_rect_line_darklight_conerfull"
+                        android:background="@drawable/common_shape_rect_line_darklight_conerfull"
                         android:foreground="?attr/selectableItemBackground"
                         android:onClick="onClick"
                         android:paddingBottom="1.5dp"

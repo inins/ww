@@ -50,7 +50,7 @@
             android:paddingLeft="15dp"
             android:paddingRight="15dp">
 
-            <com.wang.social.personal.mvp.ui.view.TitleView
+            <com.frame.component.view.TitleView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:personal_textNote="@string/personal_feedback_notice_feedback"
@@ -60,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:background="@drawable/personal_shape_rect_light_coner">
+                android:background="@drawable/shape_rect_light_coner">
 
                 <EditText
                     android:id="@+id/edit_suggest"
@@ -119,12 +119,12 @@
                 android:textColor="@color/common_text_dark"
                 android:textSize="12sp" />
 
-            <com.wang.social.personal.mvp.ui.view.bundleimgview.BundleImgView
+            <com.frame.component.view.bundleimgview.BundleImgView
                 android:id="@+id/bundleview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                app:personal_dragble="true" />
+                app:dragble="true" />
 
             <TextView
                 android:layout_width="wrap_content"

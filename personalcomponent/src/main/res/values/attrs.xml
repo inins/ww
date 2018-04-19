@@ -1,15 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="personal_TitleView">
-        <attr name="personal_textTitle" format="string" />
-        <attr name="personal_textSubTitle" format="string" />
-        <attr name="personal_textNote" format="string" />
-    </declare-styleable>
 
-    <declare-styleable name="personal_BundleImgView">
-        <!-- 是否可编辑状态 -->
-        <attr name="personal_editble" format="boolean" />
-        <!-- 是否可拖拽手动排序 -->
-        <attr name="personal_dragble" format="boolean" />
-    </declare-styleable>
 </resources>

@@ -52,8 +52,8 @@ public class SearchActivity extends BasicAppActivity implements BaseAdapter.OnIt
     @BindView(R2.id.edit_search)
     EditText editSearch;
 
-    @Inject
-    ImageLoaderHelper imageLoaderHelper;
+//    @Inject
+//    ImageLoaderHelper imageLoaderHelper;
 
     private RecycleAdapterSearch adapter;
 
@@ -71,7 +71,7 @@ public class SearchActivity extends BasicAppActivity implements BaseAdapter.OnIt
     public void initData(@NonNull Bundle savedInstanceState) {
         FocusUtil.focusToTop(toolbar);
 
-        adapter = new RecycleAdapterSearch(imageLoaderHelper);
+        adapter = new RecycleAdapterSearch();
         adapter.setOnItemClickListener(this);
         recycler.setNestedScrollingEnabled(false);
         recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));

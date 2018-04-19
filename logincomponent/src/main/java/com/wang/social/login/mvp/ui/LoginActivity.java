@@ -219,13 +219,13 @@ public class LoginActivity extends BaseAppActivity<LoginPresenter> implements Lo
 
         if (launchMode.equals(LAUNCH_MODE_PASSWORD_LOGIN)) {
             // 密码登录
-            resetLoginTVBg(checkInputPhoneNO() && checkInputPassword());
+            resetLoginTVBg(phoneET.getText().length() >= 11 && passwordET.getText().length() >= 6);
         } else if (launchMode.equals(LAUNCH_MODE_MESSAGE_LOGIN)) {
             // 短信登录
-            resetLoginTVBg(checkInputPhoneNO() && checkInputVerifyCode());
+            resetLoginTVBg(phoneET.getText().length() >= 11 && verifyCodeET.getText().length() >= 4);
         } else {
             // 注册
-            resetLoginTVBg(checkInputPhoneNO() && checkInputVerifyCode() && checkInputPassword());
+            resetLoginTVBg(phoneET.getText().length() >= 11 && verifyCodeET.getText().length() >= 4 && passwordET.getText().length() >= 6);
         }
     }
 

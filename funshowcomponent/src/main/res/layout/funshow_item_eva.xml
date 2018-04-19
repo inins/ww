@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/common_white"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:orientation="vertical"
+    android:paddingBottom="10dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="15dp">
+
+    <ImageView
+        android:id="@+id/img_header"
+        android:layout_width="29dp"
+        android:layout_height="29dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/default_circle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="默默"
+        android:textColor="@color/common_text_blank_dark"
+        android:textSize="13sp"
+        app:layout_constraintStart_toEndOf="@+id/img_header"
+        app:layout_constraintTop_toTopOf="@+id/img_header" />
+
+    <TextView
+        android:id="@+id/text_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="03-12 15:40"
+        android:textColor="@color/common_text_dark"
+        android:textSize="9sp"
+        app:layout_constraintStart_toStartOf="@+id/text_name"
+        app:layout_constraintTop_toBottomOf="@+id/text_name" />
+
+
+    <TextView
+        android:id="@+id/text_share"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:drawableLeft="@drawable/common_select_zan"
+        android:drawablePadding="5dp"
+        android:gravity="center"
+        android:text="110"
+        android:textColor="@color/common_text_dark"
+        android:textSize="11sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_eva"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="你好看，你最美！宇宙无敌就是你！"
+        android:textColor="@color/common_text_blank_dark"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/text_time"
+        app:layout_constraintTop_toBottomOf="@+id/text_time" />
+
+    <!--<LinearLayout-->
+    <!--android:id="@+id/lay_sub_eva"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginEnd="8dp"-->
+    <!--android:layout_marginTop="8dp"-->
+    <!--android:background="#08189AFF"-->
+    <!--android:orientation="vertical"-->
+    <!--android:paddingBottom="5dp"-->
+    <!--android:paddingLeft="3dp"-->
+    <!--android:paddingRight="3dp"-->
+    <!--android:paddingTop="5dp"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintStart_toStartOf="@+id/text_eva"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/text_eva">-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/text_sub_eva1"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="楼主回复婕欧巴的锅：谢谢你的嗷！"-->
+    <!--android:textColor="@color/common_text_blank_dark"-->
+    <!--android:textSize="12sp" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/text_sub_eva2"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="8dp"-->
+    <!--android:text="婕欧巴的锅回复楼主：哇！楼主回复我了哦！快来哦来呀！"-->
+    <!--android:textColor="@color/common_text_blank_dark"-->
+    <!--android:textSize="12sp" />-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="8dp"-->
+    <!--android:text="@string/funshow_home_funshow_detail_eva_more"-->
+    <!--android:textColor="@color/common_blue_deep"-->
+    <!--android:textSize="13sp" />-->
+    <!--</LinearLayout>-->
+
+    <com.wang.social.funshow.mvp.ui.view.subevaview.SubEvaView
+        android:id="@+id/subeva"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/text_eva"
+        app:layout_constraintTop_toBottomOf="@+id/text_eva" />
+
+</android.support.constraint.ConstraintLayout>
