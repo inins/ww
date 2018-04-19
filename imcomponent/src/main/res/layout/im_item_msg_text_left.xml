@@ -13,10 +13,10 @@
         android:layout_height="@dimen/im_msg_portrait_size"
         android:layout_marginStart="@dimen/common_border_margin"
         android:layout_marginTop="10dp"
-        app:layout_goneMarginTop="0dp"
         android:scaleType="centerCrop"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/msg_tv_time"
+        app:layout_goneMarginTop="0dp"
         tools:src="@drawable/common_default_circle_placeholder" />
 
     <TextView
@@ -30,6 +30,7 @@
         android:visibility="gone"
         app:layout_constraintLeft_toRightOf="@id/msg_iv_portrait"
         app:layout_constraintTop_toTopOf="@id/msg_iv_portrait"
+        app:layout_goneMarginStart="@dimen/common_border_margin"
         tools:text="Michi Man"
         tools:visibility="visible" />
 
@@ -50,6 +51,7 @@
         android:textSize="@dimen/im_msg_text_size"
         app:layout_constraintLeft_toRightOf="@id/msg_iv_portrait"
         app:layout_constraintTop_toBottomOf="@id/msg_tv_name"
+        app:layout_goneMarginStart="@dimen/common_border_margin"
         app:layout_goneMarginTop="0dp"
         tools:text="你好吗?" />
 </android.support.constraint.ConstraintLayout>

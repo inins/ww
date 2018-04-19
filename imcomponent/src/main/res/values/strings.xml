@@ -9,6 +9,10 @@
     <string name="im_chat_input_plugin_redpacket">红包</string>
     <string name="im_chat_input_plugin_game">游戏</string>
     <string name="im_chat_input_plugin_shadow">使用分身</string>
+    <string name="im_input_voice_rec">手指上滑，取消发送</string>
+    <string name="im_input_voice_cancel">松开手指，取消发送</string>
+    <string name="im_input_voice_short">录音时间太短</string>
+    <string name="im_input_voice_failure">录音失败！</string>
 
     <string name="im_message_handle_delete">删除</string>
     <string name="im_message_handle_withdraw">撤回</string>
@@ -16,6 +20,7 @@
     <string name="im_message_tip_revoke">&#160;撤回了一条消息</string>
 
     <string name="im_self">你</string>
+    <string name="im_seconds">%d\&#034;</string>
 
     <string name="im_toast_revoke_timeout">发送时间超过2分钟，不能被撤回</string>
 </resources>

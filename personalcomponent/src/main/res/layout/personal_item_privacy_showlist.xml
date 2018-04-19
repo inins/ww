@@ -37,7 +37,7 @@
 
     </LinearLayout>
 
-    <com.wang.social.personal.mvp.ui.view.ListViewLinearLayout
+    <com.frame.component.view.ListViewLinearLayout
         android:id="@+id/listlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

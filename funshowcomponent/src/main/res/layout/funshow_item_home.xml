@@ -45,7 +45,7 @@
         app:layout_constraintTop_toBottomOf="@+id/text_name" />
 
     <TextView
-        android:id="@+id/funshow_textview"
+        android:id="@+id/text_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -61,8 +61,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         app:cardCornerRadius="8dp"
-        app:layout_constraintStart_toStartOf="@+id/funshow_textview"
-        app:layout_constraintTop_toBottomOf="@+id/funshow_textview">
+        app:layout_constraintStart_toStartOf="@+id/text_title"
+        app:layout_constraintTop_toBottomOf="@+id/text_title">
 
         <FrameLayout
             android:layout_width="match_parent"

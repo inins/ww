@@ -22,6 +22,7 @@ import com.frame.component.utils.VibratorUtil;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.StrUtil;
 import com.frame.component.common.GridSpacingItemDecoration;
+import com.frame.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,18 +32,26 @@ import java.util.List;
  */
 public class BundleImgView extends FrameLayout {
 
+    private ViewGroup root;
+    private Context context;
+
     private RecyclerView recyclerView;
     private RecycleAdapterBundleImg adapter;
     private List<BundleImgEntity> results = new ArrayList<>();
 
-    private ViewGroup root;
-
-    private Context context;
+    private GridLayoutManager layoutManager;
+    private GridSpacingItemDecoration itemDecoration;
 
     //一行多少个item数量
-    private int colcount = 4;
+    private int colcount;
     private boolean dragble;
     private boolean editble;
+    //图片间距
+    private int spaceWidth;
+    //图片圆角
+    private int corner;
+    //图片宽高比例
+    private float wihi;
 
     public BundleImgView(@NonNull Context context) {
         this(context, null);
@@ -57,7 +66,11 @@ public class BundleImgView extends FrameLayout {
         this.context = context;
         // 初始化各项组件
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.BundleImgView);
+        colcount = a.getInteger(R.styleable.BundleImgView_colcount, 4);
         editble = a.getBoolean(R.styleable.BundleImgView_editble, true);
+        spaceWidth = a.getDimensionPixelOffset(R.styleable.BundleImgView_space_width, dp2px(getContext(), 10));
+        corner = a.getDimensionPixelOffset(R.styleable.BundleImgView_corner, dp2px(getContext(), 4));
+        wihi = a.getFloat(R.styleable.BundleImgView_wihi, 1f);
         dragble = a.getBoolean(R.styleable.BundleImgView_dragble, false);
         a.recycle();
     }
@@ -79,22 +92,20 @@ public class BundleImgView extends FrameLayout {
     }
 
     private void initCtrl() {
-        //测试数据
-//        results.add(new BundleImgEntity("http://v1.qzone.cc/avatar/201503/30/13/53/5518e4e8d705e435.jpg%21200x200.jpg"));
-//        results.add(new BundleImgEntity("http://img1.touxiang.cn/uploads/20131103/03-030932_368.jpg"));
-//        results.add(new BundleImgEntity("http://pic.qqtn.com/up/2016-7/2016072614451372403.jpg"));
-//        results.add(new BundleImgEntity("http://b.hiphotos.baidu.com/zhidao/pic/item/d1a20cf431adcbefef0f982fabaf2edda3cc9fe4.jpg"));
-//        results.add(new BundleImgEntity("http://d.hiphotos.baidu.com/zhidao/pic/item/7a899e510fb30f24b12d36e7cd95d143ac4b039b.jpg"));
+        if (isInEditMode()) {
+            results.add(new BundleImgEntity());
+            results.add(new BundleImgEntity());
+        }
 
         adapter = new RecycleAdapterBundleImg(results);
         adapter.setEditble(editble);
+        adapter.setCorner(corner);
+        adapter.setWihi(wihi);
+        layoutManager = new GridLayoutManager(context, colcount);
+        itemDecoration = new GridSpacingItemDecoration(colcount, spaceWidth, GridLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.addItemDecoration(itemDecoration);
         recyclerView.setNestedScrollingEnabled(false);
-        recyclerView.setLayoutManager(new GridLayoutManager(context, colcount));
-        if (!isInEditMode()) {
-            recyclerView.addItemDecoration(new GridSpacingItemDecoration(4, SizeUtils.dp2px(10), GridLayoutManager.VERTICAL, false));
-        }else {
-            recyclerView.addItemDecoration(new GridSpacingItemDecoration(4, 20, GridLayoutManager.VERTICAL, false));
-        }
         recyclerView.setAdapter(adapter);
 
         final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new DragItemTouchCallback(adapter).setOnDragListener(null));
@@ -210,6 +221,13 @@ public class BundleImgView extends FrameLayout {
 
     ///////////////////////
 
+    public static int dp2px(Context context, float dpValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
+
+
+    //////////////////////
 
     public int getMaxcount() {
         return adapter.getMaxcount();
@@ -217,5 +235,25 @@ public class BundleImgView extends FrameLayout {
 
     public void setMaxcount(int maxcount) {
         adapter.setMaxcount(maxcount);
+    }
+
+    public int getColcount() {
+        return colcount;
+    }
+
+    public void setColcount(int colcount) {
+        this.colcount = colcount;
+        layoutManager.setSpanCount(colcount);
+        itemDecoration.setSpanCount(colcount);
+        adapter.notifyItemRangeChanged(0, adapter.getItemCount() - 1);
+    }
+
+    public void setColcountWihi(int colcount,float wihi) {
+        this.colcount = colcount;
+        layoutManager.setSpanCount(colcount);
+        itemDecoration.setSpanCount(colcount);
+        this.wihi = wihi;
+        adapter.setWihi(wihi);
+        adapter.notifyItemRangeChanged(0, adapter.getItemCount());
     }
 }

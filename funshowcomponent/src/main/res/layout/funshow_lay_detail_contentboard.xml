@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/common_white"
     android:clipChildren="false"
     android:clipToPadding="false"
     android:orientation="vertical"
     android:paddingBottom="3dp"
     android:paddingLeft="15dp"
     android:paddingRight="15dp"
-    android:paddingTop="15dp">
+    android:paddingTop="15dp"
+    tools:background="@color/common_white">
 
     <ImageView
         android:id="@+id/img_header"
@@ -29,7 +29,7 @@
         android:layout_marginStart="8dp"
         android:text="默默"
         android:textColor="@color/common_text_blank_dark"
-        android:textSize="11sp"
+        android:textSize="13sp"
         app:layout_constraintStart_toEndOf="@+id/img_header"
         app:layout_constraintTop_toTopOf="@+id/img_header" />
 
@@ -44,14 +44,22 @@
         app:layout_constraintStart_toStartOf="@+id/text_name"
         app:layout_constraintTop_toBottomOf="@+id/text_name" />
 
+    <include
+        android:id="@+id/include_music"
+        layout="@layout/funshow_lay_detail_music"
+        android:layout_width="110dp"
+        android:layout_height="35dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/text_name" />
+
     <TextView
-        android:id="@+id/funshow_textview"
+        android:id="@+id/text_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="暴跌90%，有一个巨头，坠落了"
         android:textColor="@color/common_text_blank"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/img_header"
         app:layout_constraintTop_toBottomOf="@+id/img_header" />
 
@@ -60,9 +68,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        app:corner="0dp"
         app:editble="false"
-        app:layout_constraintStart_toStartOf="@+id/funshow_textview"
-        app:layout_constraintTop_toBottomOf="@+id/funshow_textview" />
+        app:layout_constraintStart_toStartOf="@+id/text_title"
+        app:layout_constraintTop_toBottomOf="@+id/text_title"
+        app:space_width="5dp"
+        app:wihi="0.87" />
 
     <TextView
         android:id="@+id/text_position"
@@ -75,58 +86,6 @@
         android:textColor="@color/common_text_dark"
         android:textSize="11sp"
         app:layout_constraintLeft_toLeftOf="@id/bundleview"
-        app:layout_constraintTop_toBottomOf="@+id/bundleview" />
-
-    <ImageView
-        android:id="@+id/img_more"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:paddingRight="15dp"
-        android:scaleType="center"
-        android:src="@drawable/funshow_ic_more"
-        app:layout_constraintStart_toStartOf="@+id/text_position"
-        app:layout_constraintTop_toBottomOf="@+id/text_position" />
-
-    <TextView
-        android:id="@+id/text_zan"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_marginEnd="20dp"
-        android:drawableLeft="@drawable/common_select_zan"
-        android:drawablePadding="5dp"
-        android:gravity="center"
-        android:text="110"
-        android:textColor="@color/common_text_dark"
-        android:textSize="11sp"
-        app:layout_constraintEnd_toStartOf="@+id/text_comment"
-        app:layout_constraintTop_toTopOf="@+id/text_comment" />
-
-    <TextView
-        android:id="@+id/text_comment"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_marginEnd="20dp"
-        android:drawableLeft="@drawable/common_ic_comment"
-        android:drawablePadding="5dp"
-        android:gravity="center"
-        android:text="110"
-        android:textColor="@color/common_text_dark"
-        android:textSize="11sp"
-        app:layout_constraintEnd_toStartOf="@+id/text_share"
-        app:layout_constraintTop_toTopOf="@+id/text_share" />
-
-    <TextView
-        android:id="@+id/text_share"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_marginEnd="8dp"
-        android:drawableLeft="@drawable/common_ic_share"
-        android:drawablePadding="5dp"
-        android:gravity="center"
-        android:text="110"
-        android:textColor="@color/common_text_dark"
-        android:textSize="11sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_position" />
+        app:layout_constraintTop_toBottomOf="@id/bundleview" />
 
 </android.support.constraint.ConstraintLayout>

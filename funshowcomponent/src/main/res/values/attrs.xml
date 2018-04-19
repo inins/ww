@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--<declare-styleable name="BundleImgView">-->
+        <!--&lt;!&ndash; 是否可编辑状态 &ndash;&gt;-->
+        <!--<attr name="editble" format="boolean" />-->
+        <!--&lt;!&ndash; 是否可拖拽手动排序 &ndash;&gt;-->
+        <!--<attr name="dragble" format="boolean" />-->
+        <!--<attr name="space_width" format="dimension" />-->
+        <!--<attr name="wihi" format="float" />-->
+        <!--<attr name="corner" format="dimension" />-->
+        <!--<attr name="colcount" format="integer" />-->
+    <!--</declare-styleable>-->
+
+</resources>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="46dp"
+    android:orientation="horizontal"
+    tools:background="@color/common_white">
+
+    <View
+        android:id="@+id/line2"
+        style="@style/common_Line_H"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageView
+        android:id="@+id/img_emoji"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:scaleType="center"
+        android:src="@drawable/funshow_ic_emoji"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/edit_eva"
+        style="@style/common_EditNone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="7dp"
+        android:layout_weight="1"
+        android:background="@drawable/common_shape_rect_line_darklight_conerfull"
+        android:hint="@string/funshow_home_funshow_detail_eva_hint"
+        android:inputType="textMultiLine"
+        android:minHeight="32dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:lineSpacingExtra="3dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/img_emoji"
+        tools:text="评论很长很长很长，一行都放不下啦，一行都放不下啦，一行都放不下啦，一行都放不下啦，一行都放不下啦，一行都放不下啦"
+        app:layout_constraintTop_toTopOf="@+id/img_emoji" />
+
+</android.support.constraint.ConstraintLayout>

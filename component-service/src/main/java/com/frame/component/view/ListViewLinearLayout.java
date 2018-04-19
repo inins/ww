@@ -1,4 +1,4 @@
-package com.wang.social.personal.mvp.ui.view;
+package com.frame.component.view;
 
 import android.content.Context;
 import android.database.DataSetObserver;

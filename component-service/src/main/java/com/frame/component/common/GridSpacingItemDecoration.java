@@ -76,4 +76,14 @@ public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
             }
         }
     }
+
+    ///////////////////////////////////
+
+    public int getSpanCount() {
+        return spanCount;
+    }
+
+    public void setSpanCount(int spanCount) {
+        this.spanCount = spanCount;
+    }
 }
