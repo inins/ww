@@ -19,6 +19,8 @@ import com.wang.social.R;
 import com.wang.social.mvp.ui.adapter.PagerAdapterHome;
 import com.wang.social.mvp.ui.dialog.DialogHomeAdd;
 
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.BindView;
 
 @RouteNode(path = "/main", desc = "首页")
@@ -105,6 +107,7 @@ public class HomeActivity extends BasicAppActivity implements RadioGroup.OnCheck
                     break;
                 case R.id.tab_4:
                     StatusBarUtil.setStatusBarColor(HomeActivity.this, R.color.common_blue_deep);
+                    EventBus.getDefault().post(new EventBean(EventBean.EVENT_TAB_USER));
                     break;
             }
         }

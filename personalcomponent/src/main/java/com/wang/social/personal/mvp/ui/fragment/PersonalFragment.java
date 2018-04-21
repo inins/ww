@@ -16,6 +16,7 @@ import com.frame.component.common.AppConstant;
 import com.frame.component.entities.User;
 import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.CommonHelper;
+import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.service.personal.PersonalFragmentInterface;
 import com.frame.component.ui.acticity.WebActivity;
 import com.frame.di.component.AppComponent;
@@ -31,6 +32,8 @@ import com.wang.social.personal.di.component.DaggerFragmentComponent;
 import com.wang.social.personal.di.module.UserModule;
 import com.wang.social.personal.mvp.entities.City;
 import com.wang.social.personal.mvp.entities.Province;
+import com.wang.social.personal.mvp.entities.user.QrcodeInfo;
+import com.wang.social.personal.mvp.entities.user.UserStatistic;
 import com.wang.social.personal.mvp.ui.activity.AboutActivity;
 import com.wang.social.personal.mvp.ui.activity.AccountActivity;
 import com.wang.social.personal.mvp.ui.activity.FeedbackActivity;
@@ -98,6 +101,9 @@ public class PersonalFragment extends BasicFragment implements PersonalFragmentI
             case EventBean.EVENT_USERINFO_CHANGE:
                 setUserData();
                 break;
+            case EventBean.EVENT_TAB_USER:
+                netGetUserStatistics();
+                break;
         }
     }
 
@@ -110,18 +116,29 @@ public class PersonalFragment extends BasicFragment implements PersonalFragmentI
     public void initData(@Nullable Bundle savedInstanceState) {
         toolbar.bringToFront();
         setUserData();
+        netGetUserInfo();
+        netGetUserStatistics();
     }
 
     private void setUserData() {
         User user = AppDataHelper.getUser();
         if (user != null) {
-            mImageLoader.loadImage(getContext(), ImageConfigImpl.
-                    builder()
-                    .imageView(imgHeader)
-                    .isCircle(true)
-                    .url(user.getAvatar())
-                    .build());
+            ImageLoaderHelper.loadCircleImg(imgHeader, user.getAvatar());
             textName.setText(user.getNickname());
+        }
+    }
+
+    private void setUserData(QrcodeInfo qrcodeInfo) {
+        if (qrcodeInfo != null) {
+            ImageLoaderHelper.loadCircleImg(imgHeader, qrcodeInfo.getUserAvatar());
+            textName.setText(qrcodeInfo.getNickName());
+        }
+    }
+
+    private void setStatistic(UserStatistic userStatistic) {
+        if (userStatistic != null) {
+            textCountSq.setText(String.valueOf(userStatistic.getTalkCount()));
+            textCountHt.setText(String.valueOf(userStatistic.getTopicCount()));
         }
     }
 
@@ -159,7 +176,7 @@ public class PersonalFragment extends BasicFragment implements PersonalFragmentI
         } else if (v.getId() == R.id.btn_me_about) {
             AboutActivity.start(getContext(), AppConstant.Url.wwAbout);
         } else if (v.getId() == R.id.btn_me_eva) {
-//            netUserHelper.loginTest();
+            netUserHelper.loginTest();
             WebActivity.start(getContext(), AppConstant.Url.eva);
         }
     }
@@ -201,16 +218,34 @@ public class PersonalFragment extends BasicFragment implements PersonalFragmentI
                 .inject(this);
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
+    ////////////////////////////////
+
+    /////////////////////////////////
+
+    private void netGetUserInfo() {
+        User user = AppDataHelper.getUser();
+        if (user == null) return;
+        netUserHelper.getUserInfoByUserId(null, user.getUserId(), new NetUserHelper.OnUserApiCallBack() {
+            @Override
+            public void onSuccess(QrcodeInfo qrcodeInfo) {
+                setUserData(qrcodeInfo);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                ToastUtil.showToastLong(e.getMessage());
+            }
+        });
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
+    private void netGetUserStatistics() {
+        User user = AppDataHelper.getUser();
+        if (user == null) return;
+        netUserHelper.getUserStatistic(null, user.getUserId(), new NetUserHelper.OnUserStatisticApiCallBack() {
+            @Override
+            public void onSuccess(UserStatistic userStatistic) {
+                setStatistic(userStatistic);
+            }
+        });
     }
 }

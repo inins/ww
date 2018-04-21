@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 
 import com.frame.utils.StrUtil;
-import com.frame.utils.ToastUtil;
 import com.wang.social.personal.mvp.ui.activity.OfficialPhotoActivity;
 import com.wang.social.pictureselector.ActivityPictureClip;
 import com.wang.social.pictureselector.PictureSelector;
@@ -78,17 +77,19 @@ public class PhotoHelper {
 
     /////////////////////////////
 
+    private static final String CLIPC = "%,%";
+
     public static String[] format2Array(String pathListStr) {
-        return pathListStr.split(",");
+        return pathListStr.split(CLIPC);
     }
 
     public static String format2Str(String[] pathList) {
         if (StrUtil.isEmpty(pathList)) return "";
         String ret = "";
         for (String path : pathList) {
-            ret += path + ",";
+            ret += path + CLIPC;
         }
-        return StrUtil.subLastChart(ret, ",");
+        return StrUtil.subLastChart(ret, CLIPC);
     }
 
     public interface OnPhotoCallback {

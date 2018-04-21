@@ -48,11 +48,11 @@
                 android:layout_marginTop="15dp">
 
                 <TextView
+                    android:id="@+id/text_friend"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
                     android:layout_marginRight="30dp"
-                    android:text="@string/personal_privacy_default"
                     android:textSize="14sp" />
 
                 <TextView
@@ -75,11 +75,11 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/text_ql"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
                     android:layout_marginRight="30dp"
-                    android:text="@string/personal_privacy_default"
                     android:textSize="14sp" />
 
                 <TextView
@@ -102,11 +102,11 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/text_qs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
                     android:layout_marginRight="30dp"
-                    android:text="@string/personal_privacy_default"
                     android:textSize="14sp" />
 
                 <TextView
@@ -129,11 +129,11 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/text_topic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
                     android:layout_marginRight="30dp"
-                    android:text="@string/personal_privacy_default"
                     android:textSize="14sp" />
 
                 <TextView

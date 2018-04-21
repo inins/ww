@@ -8,4 +8,5 @@
     <string name="common_m">男</string>
     <string name="common_fm">女</string>
     <string name="common_edit">修改</string>
+    <string name="common_rect">重置</string>
 </resources>

@@ -13,7 +13,8 @@ import com.wang.social.pictureselector.ui.FragmentPicturePreview;
  */
 
 public class ActivityPicturePreview extends AppCompatActivity {
-    public static void start(Context context, String[] pics) {
+
+    public static void start(Context context, String... pics) {
         Intent intent = new Intent(context, ActivityPicturePreview.class);
         intent.putExtra(PictureSelector.NAME_FILE_PATH_LIST, pics);
         context.startActivity(intent);

@@ -11,6 +11,8 @@ import com.wang.social.personal.mvp.ui.activity.LableActivity;
 import com.wang.social.personal.mvp.ui.activity.MeDetailActivity;
 import com.wang.social.personal.mvp.ui.activity.MePhotoActivity;
 import com.wang.social.personal.mvp.ui.activity.OfficialPhotoActivity;
+import com.wang.social.personal.mvp.ui.activity.PrivacyActivity;
+import com.wang.social.personal.mvp.ui.activity.PrivacyShowListActivity;
 import com.wang.social.personal.mvp.ui.activity.QrcodeActivity;
 import com.wang.social.personal.mvp.ui.activity.SettingActivity;
 
@@ -32,4 +34,6 @@ public interface SingleActivityComponent {
     void inject(OfficialPhotoActivity activity);
     void inject(QrcodeActivity activity);
     void inject(SettingActivity activity);
+    void inject(PrivacyActivity activity);
+    void inject(PrivacyShowListActivity activity);
 }

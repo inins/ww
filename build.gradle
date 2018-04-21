@@ -2,11 +2,11 @@
 apply from: "config.gradle"
 
 buildscript {
-    
+
     repositories {
         google()
         jcenter()
-        maven{
+        maven {
             url uri('./repo')
         }
         maven {
@@ -28,9 +28,7 @@ allprojects {
     repositories {
         google()
         jcenter()
-//        maven {
-//            url 'https://maven.google.com'
-//        }
+        maven { url "https://jitpack.io" }
     }
 }
 
