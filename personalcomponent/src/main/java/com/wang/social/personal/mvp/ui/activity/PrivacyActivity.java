@@ -94,6 +94,10 @@ public class PrivacyActivity extends BasicAppActivity implements IView {
     }
 
     private void setPrivateData(List<PrivateDetail> privacyList) {
+        textFriend.setText(R.string.personal_privacy_default);
+        textQl.setText(R.string.personal_privacy_default);
+        textQs.setText(R.string.personal_privacy_default);
+        textTopic.setText(R.string.personal_privacy_default);
         if (!StrUtil.isEmpty(privacyList)) {
             for (PrivateDetail privacy : privacyList) {
                 switch (privacy.getType()) {

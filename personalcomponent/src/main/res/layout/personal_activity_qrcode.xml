@@ -20,7 +20,7 @@
             android:layout_height="76dp"
             android:background="@android:color/transparent"
             android:paddingTop="20dp"
-            app:navigationIcon="@drawable/personal_ic_close_light"
+            app:navigationIcon="@drawable/common_ic_close_light"
             app:popupTheme="@style/personal_AppTheme.PopupOverlay">
 
             <TextView

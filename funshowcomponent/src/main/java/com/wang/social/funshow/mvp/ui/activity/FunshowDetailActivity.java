@@ -16,6 +16,7 @@ import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.TestEntity;
 import com.frame.component.entities.User;
 import com.frame.component.helper.ImageLoaderHelper;
+import com.frame.component.ui.acticity.PhotoActivity;
 import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.component.utils.viewutils.FontUtils;
 import com.frame.component.view.bundleimgview.BundleImgEntity;
@@ -66,6 +67,7 @@ public class FunshowDetailActivity extends BasicAppActivity implements BaseAdapt
 
         adapterZan = new RecycleAdapterZan();
         adapterZan.setOnMoreClickListener(v -> {
+            ZanUserListActivity.start(this);
         });
         recyclerZan.setNestedScrollingEnabled(false);
         recyclerZan.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -79,6 +81,12 @@ public class FunshowDetailActivity extends BasicAppActivity implements BaseAdapt
         recyclerEva.setAdapter(adapterEva);
         recyclerEva.addItemDecoration(new ItemDecorationDivider(this).setLineMargin(15));
 
+        bundleview.setOnBundleClickListener(new BundleImgView.OnBundleSimpleClickListener() {
+            @Override
+            public void onPhotoShowClick(String path, int position) {
+                PhotoActivity.start(FunshowDetailActivity.this, bundleview.getResultsStrArray(), position);
+            }
+        });
         //测试数据
 
         adapterZan.refreshData(new ArrayList<User>() {{

@@ -77,7 +77,7 @@ public class RecycleAdapterBundleImg extends RecyclerView.Adapter<RecyclerView.V
         holder.card_bundle.setRadius(corner);
         holder.square_framelayout.setWihi(wihi);
         //如果超过最多数量，不在显示最后一个加
-        if (results != null && results.size() >= maxcount) {
+        if (results != null && results.size() >= maxcount && maxcount != 0) {
             holder.itemView.setVisibility(View.GONE);
         } else {
             holder.itemView.setVisibility(View.VISIBLE);
@@ -102,16 +102,16 @@ public class RecycleAdapterBundleImg extends RecyclerView.Adapter<RecyclerView.V
                 ImageLoaderHelper.loadImg(holder.img_bundle_show, bundle.getPath());
             }
         }
-
         holder.img_bundle_show.setOnClickListener((v) -> {
-            if (bundleClickListener != null) bundleClickListener.onPhotoShowClick(bundle.getPath());
+            if (bundleClickListener != null)
+                bundleClickListener.onPhotoShowClick(bundle.getPath(), position);
         });
         holder.img_bundle_delete.setOnClickListener((v) -> {
             results.remove(holder.getLayoutPosition());
             notifyItemRemoved(holder.getLayoutPosition());
             notifyItemChanged(getItemCount() - 1);
             if (bundleClickListener != null) {
-                bundleClickListener.onPhotoDelClick(v);
+                bundleClickListener.onPhotoDelClick(v, position);
             }
         });
     }

@@ -101,6 +101,9 @@ public class PersonalFragment extends BasicFragment implements PersonalFragmentI
             case EventBean.EVENT_USERINFO_CHANGE:
                 setUserData();
                 break;
+            case EventBean.EVENT_TAB_USER:
+                netGetUserStatistics();
+                break;
         }
     }
 
@@ -113,7 +116,8 @@ public class PersonalFragment extends BasicFragment implements PersonalFragmentI
     public void initData(@Nullable Bundle savedInstanceState) {
         toolbar.bringToFront();
         setUserData();
-
+        netGetUserInfo();
+        netGetUserStatistics();
     }
 
     private void setUserData() {
@@ -121,8 +125,6 @@ public class PersonalFragment extends BasicFragment implements PersonalFragmentI
         if (user != null) {
             ImageLoaderHelper.loadCircleImg(imgHeader, user.getAvatar());
             textName.setText(user.getNickname());
-            netGetUserInfo(user.getUserId());
-            netGetUserStatistics(user.getUserId());
         }
     }
 
@@ -220,8 +222,10 @@ public class PersonalFragment extends BasicFragment implements PersonalFragmentI
 
     /////////////////////////////////
 
-    private void netGetUserInfo(int userId) {
-        netUserHelper.getUserInfoByUserId(null, userId, new NetUserHelper.OnUserApiCallBack() {
+    private void netGetUserInfo() {
+        User user = AppDataHelper.getUser();
+        if (user == null) return;
+        netUserHelper.getUserInfoByUserId(null, user.getUserId(), new NetUserHelper.OnUserApiCallBack() {
             @Override
             public void onSuccess(QrcodeInfo qrcodeInfo) {
                 setUserData(qrcodeInfo);
@@ -234,8 +238,10 @@ public class PersonalFragment extends BasicFragment implements PersonalFragmentI
         });
     }
 
-    private void netGetUserStatistics(int userId) {
-        netUserHelper.getUserStatistic(null, userId, new NetUserHelper.OnUserStatisticApiCallBack() {
+    private void netGetUserStatistics() {
+        User user = AppDataHelper.getUser();
+        if (user == null) return;
+        netUserHelper.getUserStatistic(null, user.getUserId(), new NetUserHelper.OnUserStatisticApiCallBack() {
             @Override
             public void onSuccess(UserStatistic userStatistic) {
                 setStatistic(userStatistic);

@@ -9,8 +9,33 @@
     <string name="funshow_home_hotuserlist_title">趣晒魔</string>
     <string name="funshow_home_hotuserlist_note">发布趣晒20条以上，他们都是爱秀的达人</string>
 
+    <!--点赞列表页面-->
+    <string name="funshow_home_zanuserlist_title">点赞列表</string>
+    <string name="funshow_home_zanuserlist_note">有趣，才能让大家喜欢</string>
+
     <!--趣晒详情页面-->
     <string name="funshow_home_funshow_detail_btn_right">举报</string>
     <string name="funshow_home_funshow_detail_eva_hint">说说你的看法吧</string>
     <string name="funshow_home_funshow_detail_eva_more">查看更多></string>
+
+    <!--趣晒发布页面-->
+    <string name="funshow_addfunshow_btn_right">发布</string>
+    <string name="funshow_addfunshow_title">记录现在</string>
+    <string name="funshow_addfunshow_edit_hint">记录当下，晒出你的精彩...</string>
+    <string name="funshow_addfunshow_bundle_add">照片/视频</string>
+    <string name="funshow_addfunshow_pay">收费</string>
+    <string name="funshow_addfunshow_hidename">匿名</string>
+    <string name="funshow_addfunshow_music_name">我的录音</string>
+    <string name="funshow_addfunshow_pay_dialog">该条趣晒需要付费查看</string>
+    <string name="funshow_addfunshow_music_add">添加歌曲</string>
+    <string name="funshow_addfunshow_voice_add">录制声音</string>
+
+    <!--@好友页面-->
+    <string name="funshow_aiteuser_title">\@好友</string>
+
+    <!--趣晒锁页面-->
+    <string name="funshow_lock_title">趣晒锁</string>
+    <string name="funshow_lock_showall">全部可见</string>
+    <string name="funshow_lock_showfriend">好友可见</string>
+    <string name="funshow_lock_showself">自己可见</string>
 </resources>

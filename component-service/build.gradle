@@ -40,4 +40,6 @@ dependencies {
         exclude module: 'okio'
     }
     api project(':basicres')
+    //photoView
+    implementation 'com.github.chrisbanes:PhotoView:2.1.3'
 }

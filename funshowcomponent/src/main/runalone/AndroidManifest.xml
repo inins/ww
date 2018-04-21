@@ -31,7 +31,11 @@
         </activity>
 
         <activity android:name=".mvp.ui.activity.HotUserListActivity" />
+        <activity android:name=".mvp.ui.activity.ZanUserListActivity" />
+        <activity android:name=".mvp.ui.activity.AiteUserListActivity" />
         <activity android:name=".mvp.ui.activity.FunshowDetailActivity" />
+        <activity android:name=".mvp.ui.activity.FunshowAddActivity" />
+        <activity android:name=".mvp.ui.activity.LockActivity" />
 
     </application>
 
