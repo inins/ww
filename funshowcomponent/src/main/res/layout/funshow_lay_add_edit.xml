@@ -7,14 +7,14 @@
     tools:background="@color/common_white">
 
     <EditText
-        android:id="@+id/edit_suggest"
+        android:id="@+id/edit_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:gravity="left|top"
         android:hint="@string/funshow_addfunshow_edit_hint"
         android:inputType="textMultiLine"
-        android:maxLength="500"
+        android:maxLength="50"
         android:minLines="7"
         android:paddingBottom="10dp"
         android:paddingLeft="15dp"

@@ -38,23 +38,27 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <FrameLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <android.support.v4.widget.NestedScrollView
+        <com.wang.social.funshow.mvp.ui.view.DispatchTouchNestedScrollView
+            android:id="@+id/scroll"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="40dp"
+            android:layout_height="0dp"
             android:fillViewport="true"
-            android:scrollbars="vertical">
+            android:scrollbars="vertical"
+            app:layout_constraintBottom_toTopOf="@id/include_bottombar"
+            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                android:paddingBottom="30dp">
 
                 <com.frame.component.view.TitleView
                     android:id="@+id/titleview"
@@ -69,9 +73,12 @@
                     android:layout_marginTop="15dp"
                     android:background="@color/common_bk_light" />
 
-                <include layout="@layout/funshow_lay_add_edit" />
+                <include
+                    android:id="@+id/include_edit"
+                    layout="@layout/funshow_lay_add_edit" />
 
                 <include
+                    android:id="@+id/include_musicboard"
                     layout="@layout/funshow_lay_add_musicboard"
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
@@ -79,24 +86,30 @@
                     android:layout_marginRight="15dp"
                     android:layout_marginTop="10dp" />
 
-                <include layout="@layout/funshow_lay_add_bundle" />
+                <include
+                    android:id="@+id/include_bundle"
+                    layout="@layout/funshow_lay_add_bundle" />
 
             </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
+        </com.wang.social.funshow.mvp.ui.view.DispatchTouchNestedScrollView>
 
         <include
+            android:id="@+id/include_bottombar"
             layout="@layout/funshow_lay_add_bottombar"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_gravity="bottom" />
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:layout_height="40dp" />
 
         <include
+            android:id="@+id/include_tagbar"
             layout="@layout/funshow_lay_add_bottomtag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:layout_marginBottom="48dp"
-            android:layout_marginRight="15dp" />
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="15dp"
+            app:layout_constraintBottom_toTopOf="@id/include_bottombar"
+            app:layout_constraintRight_toRightOf="parent" />
 
-    </FrameLayout>
+    </android.support.constraint.ConstraintLayout>
 </android.support.design.widget.CoordinatorLayout>
