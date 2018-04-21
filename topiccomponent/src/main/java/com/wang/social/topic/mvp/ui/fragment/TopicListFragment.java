@@ -16,6 +16,7 @@ import com.wang.social.topic.di.module.TopicListModule;
 import com.wang.social.topic.mvp.contract.TopicListContract;
 import com.wang.social.topic.mvp.model.entities.Topic;
 import com.wang.social.topic.mvp.presenter.TopicListPresenter;
+import com.wang.social.topic.mvp.ui.TopicDetailActivity;
 import com.wang.social.topic.mvp.ui.adapter.TopicListAdapter;
 
 import butterknife.BindView;
@@ -91,8 +92,8 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
             },
                     new TopicListAdapter.ClickListener() {
                         @Override
-                        public void onTopicClick() {
-                            ToastUtil.showToastLong("ROOTVIEW");
+                        public void onTopicClick(Topic topic) {
+                            TopicDetailActivity.start(getActivity(), topic.getTopicId());
                         }
                     });
 

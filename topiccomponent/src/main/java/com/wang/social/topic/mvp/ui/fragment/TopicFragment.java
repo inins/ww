@@ -27,6 +27,7 @@ import com.wang.social.topic.di.component.DaggerTopicComponent;
 import com.wang.social.topic.di.module.TopicModule;
 import com.wang.social.topic.mvp.contract.TopicContract;
 import com.wang.social.topic.mvp.presenter.TopicPresenter;
+import com.wang.social.topic.mvp.ui.WrapContentLinearLayoutManager;
 import com.wang.social.topic.mvp.ui.adapter.SelectedTagAdapter;
 import com.wang.social.topic.mvp.ui.widget.AppBarStateChangeListener;
 import com.wang.social.topic.mvp.ui.widget.GradualImageView;
@@ -140,7 +141,7 @@ public class TopicFragment extends BaseFragment<TopicPresenter> implements Topic
      */
     private void initSelectedTagData() {
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mRecyclerView.setLayoutManager(layoutManager);
     }

@@ -73,14 +73,17 @@ public class TopicPresenter extends
      */
     public void myRecommendTag() {
         mApiHelper.execute(mRootView,
-                // 这里需要一次获取所有的标签，所以给一个很大的数字
-                mModel.myRecommendTag(Integer.MAX_VALUE, 0),
+                // 只加载3个
+                mModel.myRecommendTag(3, 0),
                 new ErrorHandleSubscriber<Tags>(mErrorHandler) {
 
                     @Override
                     public void onNext(Tags tags) {
-                        if (null != tags) {
-                            selectedList = (ArrayList<Tag>) tags.getList();
+                        if (null != tags && tags.getList() != null) {
+                            selectedList.clear();
+                            for (int i = 0; i < Math.min(3, tags.getList().size()); i++) {
+                                selectedList.add(tags.getList().get(i));
+                            }
 
                             // 更新已选标签列表UI
                             mRootView.onMyRecommendTagListLoad();

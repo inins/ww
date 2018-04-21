@@ -19,6 +19,7 @@ import com.frame.utils.TimeUtils;
 import com.wang.social.topic.R;
 import com.wang.social.topic.mvp.model.entities.Tag;
 import com.wang.social.topic.mvp.model.entities.Topic;
+import com.wang.social.topic.mvp.ui.WrapContentLinearLayoutManager;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
     }
 
     public interface ClickListener {
-        void onTopicClick();
+        void onTopicClick(Topic topic);
     }
 
     Context mContext;
@@ -50,9 +51,9 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
         this.mDataProvider = dataprovider;
         this.mClickListener = clickListener;
 
-        for (int i = 0; i <5 ; i++) {
+        for (int i = 0; i < 3 ; i++) {
             Tag tag = new Tag();
-            tag.setTagName("TAG" + i);
+            tag.setTagName("兴趣标签");
             list.add(tag);
         }
     }
@@ -92,15 +93,15 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
         if (null == topic) return;
 
         // 付费
-        if (topic.getIsFree().equals("0")) {
+        if (topic.getIsFree() == 0) {
             holder.payFlagIV.setVisibility(View.GONE);
         } else {
             holder.payFlagIV.setVisibility(View.VISIBLE);
         }
         // 创建时间
         Date date = new Date();
-        long mills = TimeUtils.string2Millis(topic.getCreateTime());
-        date.setTime(mills);
+//        long mills = TimeUtils.string2Millis(topic.getCreateTime());
+        date.setTime(topic.getCreateTime());
         String dateString;
         if (TimeUtils.isToday(date)) {
             dateString = mContext.getString(R.string.topic_today) +
@@ -120,28 +121,32 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
                         ImageConfigImpl.builder()
                                 .imageView(holder.avatarIV)
                                 .url(topic.getUserCover())
+                                .isCircle(true)
                                 .build());
         // 用户昵称
         holder.userNameTV.setText(topic.getUserName());
         // 点赞次数
-        holder.praiseTV.setText(topic.getTopicSupportNum());
+        holder.praiseTV.setText(String.format("%d", topic.getTopicSupportNum()));
         // 评论次数
-        holder.commentTV.setText(topic.getTopicCommentNum());
+        holder.commentTV.setText(String.format("%d", topic.getTopicCommentNum()));
         // 阅读次数
-        holder.readTV.setText(topic.getTopicReadNum());
+        holder.readTV.setText(String.format("%d", topic.getTopicReadNum()));
         // 标签
 //        if (topic.getTags() != null && topic.getTags().size() > 0) {
 //            holder.recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
 //            holder.recyclerView.setAdapter(new TagAdapter(mContext, topic.getTags()));
 //        }
-        holder.recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
+        holder.recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
         holder.recyclerView.setAdapter(new TagAdapter(mContext, list));
 
         // 点击
+        holder.rootView.setTag(topic);
         holder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (null != mClickListener && v.getTag() instanceof Topic) {
+                    mClickListener.onTopicClick((Topic) v.getTag());
+                }
             }
         });
         holder.praiseCB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

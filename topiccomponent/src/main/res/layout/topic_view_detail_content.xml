@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/avatar_image_view"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:color/holo_blue_bright" />
+
+    <TextView
+        android:id="@+id/nick_name_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="10dp"
+        android:text="埃米尔"
+        android:textColor="#ff313131"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/gender_age_layout"
+        app:layout_constraintStart_toEndOf="@+id/avatar_image_view" />
+
+    <LinearLayout
+        android:id="@+id/gender_age_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:gravity="center_vertical"
+        android:background="@drawable/topic_shape_rect_corner_solid_blue_gray"
+        app:layout_constraintBottom_toBottomOf="@+id/avatar_image_view"
+        app:layout_constraintStart_toStartOf="@+id/nick_name_text_view">
+
+        <ImageView
+            android:id="@+id/gender_image_view"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/common_ic_women" />
+
+        <TextView
+            android:id="@+id/age_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="22岁"
+            android:textSize="12sp"
+            android:layout_marginStart="6dp"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/constellation_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="白羊座"
+        android:textColor="#ffffffff"
+        android:textSize="12sp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:background="@drawable/topic_shape_rect_corner_solid_text_blank_dark"
+        app:layout_constraintBottom_toBottomOf="@+id/gender_age_layout"
+        app:layout_constraintStart_toEndOf="@+id/gender_age_layout" />
+
+    <WebView
+        android:id="@+id/content_web_view"
+        android:layout_width="0dp"
+        android:layout_height="412dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="14dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/avatar_image_view" />
+</android.support.constraint.ConstraintLayout>
