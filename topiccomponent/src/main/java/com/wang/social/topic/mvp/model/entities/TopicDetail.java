@@ -7,15 +7,25 @@ import lombok.Data;
 @Data
 public class TopicDetail {
     private String title;
-    private String content;
-    private int templateId;
-    private String backgroundImage;
-    private int creatorId;
-    private int birthday;
+    private List<String> tags;
+    private long createTime;
     private String avatar;
     private String nickname;
-    private int shareTotal;
-    private int commentTotal;
-    private int supportTotal;
-    private List<String> tags;
+    private Integer sex;
+    private String backgroundImage;
+    private String backgroundMusicId;
+    private String backgroundMusicName;
+    private String backgroundMusicUrl;
+    private long birthday;
+    private Integer supportTotal;
+    private Integer isSupport;
+    private Integer creatorId;
+    private Integer commentTotal;
+    private Integer readTotal;
+    private String templateId;
+    private String content;
+    private Integer relateState;
+    private Integer gemstone;
+    private Integer topicId;
+    private String shareTotal;
 }

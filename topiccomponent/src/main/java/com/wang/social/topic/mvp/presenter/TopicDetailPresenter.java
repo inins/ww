@@ -37,7 +37,7 @@ public class TopicDetailPresenter extends
                     new ErrorHandleSubscriber<TopicDetail>(mErrorHandler) {
                         @Override
                         public void onNext(TopicDetail topicDetail) {
-                            // 成功获取验证码
+                            // 获取详情成功
                             mRootView.onTopicDetailLoadSuccess(topicDetail);
                         }
 

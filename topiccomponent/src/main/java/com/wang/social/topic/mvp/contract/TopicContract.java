@@ -14,7 +14,7 @@ import io.reactivex.Observable;
 public interface TopicContract {
     interface View extends IView {
         void showToast(String msg);
-        void refreshSelectedTagLise();
+        void onMyRecommendTagListLoad();
         void onTopicTopUserLoaded(List<BarUser> list);
     }
 

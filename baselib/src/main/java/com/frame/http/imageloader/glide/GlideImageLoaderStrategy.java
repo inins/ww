@@ -6,7 +6,9 @@ import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.frame.http.imageloader.BaseImageLoaderStrategy;
@@ -63,7 +65,7 @@ public class GlideImageLoaderStrategy implements BaseImageLoaderStrategy<ImageCo
                 break;
         }
         if (config.getTransformation() != null){
-            requestOptions = requestOptions.transform(config.getTransformation());
+            requestOptions = requestOptions.transform(new MultiTransformation<>(new CenterCrop(), config.getTransformation()));
         }else if (config.isCircle()){
             requestOptions = requestOptions.circleCrop();
         }

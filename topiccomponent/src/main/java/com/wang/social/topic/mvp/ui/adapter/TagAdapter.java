@@ -8,50 +8,40 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.wang.social.topic.R;
+import com.wang.social.topic.mvp.model.entities.Tag;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 import timber.log.Timber;
 
-public class SelectedTagAdapter extends RecyclerView.Adapter<SelectedTagAdapter.ViewHolder> {
+public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
 
-    public interface DataProvider {
-        int getItemCount();
-        String getName(int position);
-    }
 
     private Context mContext;
-    private WeakReference<DataProvider> mDataProvider;
+    List<Tag> mTagList;
 
-    public SelectedTagAdapter(Context context, DataProvider dataProvider) {
+    public TagAdapter(Context context, List<Tag> list) {
         this.mContext = context.getApplicationContext();
-        this.mDataProvider = new WeakReference<>(dataProvider);
+        mTagList = list;
     }
 
     private int getTagCount() {
-        if (null == mDataProvider) return 0;
-        if (null == mDataProvider.get()) return 0;
-
-        int count = mDataProvider.get().getItemCount();
-
-        Timber.i("getTagCount : " + count);
-
-        return count;
+        return null == mTagList ? 0 : mTagList.size();
     }
 
     private String getTagName(int position) {
-        if (null == mDataProvider) return "";
-        if (null == mDataProvider.get()) return "";
+        if (null != mTagList && mTagList.size() > position) {
+            return mTagList.get(position).getTagName();
+        }
 
-        Timber.i("getTagName : " + position);
-
-        return mDataProvider.get().getName(position);
+        return "";
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext)
-                .inflate(R.layout.topic_adapter_selectd_tag, parent, false);
+                .inflate(R.layout.topic_adapter_topic_tag, parent, false);
 
         return new ViewHolder(view);
     }
