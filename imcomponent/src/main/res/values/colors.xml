@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- message input-->
+    <color name="im_message_hint">#999999</color>
     <color name="im_bg_chat_input">#f7f7f7</color>
     <color name="im_bg_chat_input_selected">#d9d9d9</color>
-    <color name="im_bg_message">#e5e5e5</color>
-
     <color name="im_emotion_toolbtn_select">#d9d9d9</color>
     <color name="im_emotion_toolbtn_normal">@color/common_white</color>
     <color name="im_emotion_toolbtn_spilt_line">#cfcfcf</color>
-
     <color name="im_emotion_indicator_normal">#c9c9c9</color>
     <color name="im_emotion_indicator_select">@color/common_colorAccent</color>
 
-    <color name="im_message_txt">#434343</color>
-    <color name="im_message_hint">#999999</color>
-    <color name="im_message_nickname">@color/im_message_txt</color>
+    <!-- message -->
+    <color name="im_bg_message_receive">#e5e5e5</color>
+    <color name="im_message_txt_receive">#434343</color>
+    <color name="im_message_nickname">@color/im_message_txt_receive</color>
 
+    <!-- mirror -->
+    <color name="im_bg_message_mirror_left">#717171</color>
+    <color name="im_message_mirror_left_text">#f0f0f0</color>
+    <color name="im_bg_input_mirror">#202020</color>
+
+    <!-- conversation -->
     <color name="im_cvs_unread_bg">#f24040</color>
 </resources>

@@ -2,6 +2,7 @@ package com.wang.social.im.mvp.ui.adapters.holders;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +19,9 @@ import com.tencent.imsdk.TIMImageElem;
 import com.tencent.imsdk.TIMImageType;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageStatus;
-import com.tencent.imsdk.TIMUserProfile;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
+import com.wang.social.im.enums.ConversationType;
 import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 
@@ -59,6 +60,8 @@ public class ImageViewHolder extends BaseMessageViewHolder<UIMessage> {
 
     @Override
     protected void bindData(UIMessage itemValue, int position, BaseAdapter.OnItemClickListener onItemClickListener) {
+        initStyle(itemValue);
+
         if (itemValue.isShowTime()) {
             msgTvTime.setVisibility(View.VISIBLE);
             msgTvTime.setText(getTimeStr(itemValue.getTimMessage().timestamp()));
@@ -66,36 +69,26 @@ public class ImageViewHolder extends BaseMessageViewHolder<UIMessage> {
             msgTvTime.setVisibility(View.GONE);
         }
 
-        TIMUserProfile profile = itemValue.getTimMessage().getSenderProfile();
-        String faceUrl;
-        if (itemValue.getTimMessage().isSelf()) {
-            faceUrl = getSelfFaceUrl();
-        } else {
-            if (showNickname) {
-                msgTvName.setVisibility(View.VISIBLE);
-                if (profile != null) {
-                    msgTvName.setText(profile.getRemark());
-                    faceUrl = profile.getFaceUrl();
-                } else {
-                    msgTvName.setText("");
-                    faceUrl = "";
-                }
-            } else {
-                msgTvName.setVisibility(View.GONE);
-                if (profile != null) {
-                    faceUrl = profile.getFaceUrl();
-                } else {
-                    faceUrl = "";
-                }
-            }
+        if (showNickname && msgTvName != null) {
+            msgTvName.setVisibility(View.VISIBLE);
+            msgTvName.setText(itemValue.getNickname(conversationType));
+        } else if (msgTvName != null) {
+            msgTvName.setVisibility(View.GONE);
         }
+
         //头像
-        mImageLoader.loadImage(getContext(), ImageConfigImpl.builder()
-                .placeholder(R.drawable.common_default_circle_placeholder)
-                .imageView(msgIvPortrait)
-                .isCircle(true)
-                .url(faceUrl)
-                .build());
+        if (showHeader) {
+            msgIvPortrait.setVisibility(View.VISIBLE);
+            mImageLoader.loadImage(getContext(), ImageConfigImpl.builder()
+                    .placeholder(R.drawable.common_default_circle_placeholder)
+                    .imageView(msgIvPortrait)
+                    .isCircle(true)
+                    .url(itemValue.getPortrait(conversationType))
+                    .build());
+        } else {
+            msgIvPortrait.setVisibility(View.GONE);
+        }
+
         //图片
         TIMMessage timMessage = itemValue.getTimMessage();
         for (int i = 0, max = (int) timMessage.getElementCount(); i < max; i++) {
@@ -106,11 +99,11 @@ public class ImageViewHolder extends BaseMessageViewHolder<UIMessage> {
                 if (timMessage.status() == TIMMessageStatus.Sending || timMessage.status() == TIMMessageStatus.SendFail) {
                     loadImage(imageElem.getPath());
                 } else if (timMessage.status() == TIMMessageStatus.SendSucc) {
-                    for (TIMImage image : imageElem.getImageList()){
-                        if (image.getType() == TIMImageType.Thumb){
-                            if (ImHelper.isCacheFileExit(image.getUuid())){
+                    for (TIMImage image : imageElem.getImageList()) {
+                        if (image.getType() == TIMImageType.Thumb) {
+                            if (ImHelper.isCacheFileExit(image.getUuid())) {
                                 loadImage(ImHelper.getImageCachePath(image.getUuid()));
-                            }else {
+                            } else {
                                 image.getImage(ImHelper.getImageCachePath(image.getUuid()), new TIMCallBack() {
                                     @Override
                                     public void onError(int i, String s) {
@@ -154,12 +147,29 @@ public class ImageViewHolder extends BaseMessageViewHolder<UIMessage> {
     }
 
     @Override
+    protected void initStyle(UIMessage uiMessage) {
+        if (conversationType == ConversationType.MIRROR) {
+            if (msgTvName != null) {
+                msgTvName.setTextColor(ContextCompat.getColor(getContext(), R.color.im_message_mirror_left_text));
+            }
+            msgTvTime.setTextColor(ContextCompat.getColor(getContext(), R.color.im_message_mirror_left_text));
+        } else {
+            if (msgTvName != null) {
+                msgTvName.setTextColor(ContextCompat.getColor(getContext(), R.color.im_message_txt_receive));
+            }
+            msgTvTime.setTextColor(ContextCompat.getColor(getContext(), R.color.common_text_dark_light));
+        }
+    }
+
+    @Override
     public void onRelease() {
         super.onRelease();
-        mImageLoader.clear(getContext(), ImageConfigImpl.builder()
-                .imageView(msgIvPortrait)
-                .isClearMemory(true)
-                .build());
+        if (showHeader) {
+            mImageLoader.clear(getContext(), ImageConfigImpl.builder()
+                    .imageView(msgIvPortrait)
+                    .isClearMemory(true)
+                    .build());
+        }
         mImageLoader.clear(getContext(), ImageConfigImpl.builder()
                 .imageView(msgIvImage)
                 .isClearMemory(true)

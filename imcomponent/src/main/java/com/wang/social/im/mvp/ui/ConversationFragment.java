@@ -39,6 +39,7 @@ import com.wang.social.im.di.modules.ConversationModule;
 import com.wang.social.im.enums.ConnectionStatus;
 import com.wang.social.im.enums.ConversationType;
 import com.wang.social.im.enums.MessageType;
+import com.wang.social.im.helper.sound.AudioPlayManager;
 import com.wang.social.im.helper.sound.AudioRecordManager;
 import com.wang.social.im.mvp.contract.ConversationContract;
 import com.wang.social.im.mvp.model.entities.UIMessage;
@@ -132,6 +133,9 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
         } else {
             throw new IllegalArgumentException("Unknown conversation type!");
         }
+
+        distinctInit();
+
         mConversation = TIMManager.getInstance().getConversation(timConversationType, mTargetId);
         mPresenter.setConversation(mConversation);
 
@@ -159,6 +163,20 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
         mPresenter.getHistoryMessage();
 
         setListener();
+    }
+
+    private void distinctInit() {
+        switch (mConversationType) {
+            case MIRROR:
+                fcInput.setBackgroundResource(R.drawable.im_bg_message_input_mirror);
+                break;
+            case TEAM:
+                fcInput.setBackgroundResource(R.drawable.im_bg_message_input_team);
+                break;
+            default:
+                fcInput.setBackgroundResource(R.drawable.im_bg_message_input);
+                break;
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -189,6 +207,9 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     @Override
     public void onPause() {
         super.onPause();
+
+        AudioPlayManager.getInstance().stopPlay();
+
         mPresenter.readMessages();
     }
 
@@ -205,8 +226,8 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK){
-            switch (requestCode){
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
                 case REQUEST_SELECT_PICTURE: //图片选择
                     String[] list = data.getStringArrayExtra(PictureSelector.NAME_FILE_PATH_LIST);
                     mPresenter.sendImageMessage(list, true);
@@ -285,6 +306,8 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
             PictureSelector.from(ConversationFragment.this)
                     .maxSelection(9)
                     .forResult(REQUEST_SELECT_PICTURE);
+        } else if (pluginModule.getPluginType() == PluginModule.PluginType.SHOOT) { //拍摄
+
         }
     }
 
@@ -362,11 +385,11 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
 
     @Override
     public void onContentClick(View view, UIMessage uiMessage, int position) {
-        if (uiMessage.getMessageType() == MessageType.IMAGE){
+        if (uiMessage.getMessageType() == MessageType.IMAGE) {
             TIMImageElem imageElem = (TIMImageElem) uiMessage.getMessageElem(TIMImageElem.class);
-            if (imageElem != null){
-                for (TIMImage image : imageElem.getImageList()){
-                    if (image.getType() == TIMImageType.Original){
+            if (imageElem != null) {
+                for (TIMImage image : imageElem.getImageList()) {
+                    if (image.getType() == TIMImageType.Original) {
                         ActivityPicturePreview.start(mActivity, image.getUrl());
                         break;
                     }

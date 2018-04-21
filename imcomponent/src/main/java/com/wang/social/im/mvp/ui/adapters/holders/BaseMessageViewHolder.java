@@ -178,6 +178,12 @@ public abstract class BaseMessageViewHolder<T> extends BaseViewHolder<T> {
         });
     }
 
+    /**
+     * 初始化页面样式
+     * @param uiMessage
+     */
+    protected abstract void initStyle(UIMessage uiMessage);
+
     public interface OnHandleListener {
 
         /**

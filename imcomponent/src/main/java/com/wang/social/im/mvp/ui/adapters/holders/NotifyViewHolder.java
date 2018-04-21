@@ -64,4 +64,9 @@ public class NotifyViewHolder extends BaseMessageViewHolder<UIMessage> {
         super.onRelease();
         gson = null;
     }
+
+    @Override
+    protected void initStyle(UIMessage uiMessage) {
+
+    }
 }
