@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMCustomElem;
+import com.tencent.imsdk.TIMImageElem;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageListener;
@@ -156,7 +157,7 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
     /**
      * 将消息状态改为已读
      */
-    public void readMessages(){
+    public void readMessages() {
         mConversationExt.setReadMessage(null, null);
     }
 
@@ -176,9 +177,10 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
 
     /**
      * 发送一条语音消息
+     *
      * @param soundElem
      */
-    public void sendSoundMessage(TIMSoundElem soundElem){
+    public void sendSoundMessage(TIMSoundElem soundElem) {
         TIMMessage message = new TIMMessage();
         message.addElement(soundElem);
 
@@ -186,10 +188,28 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
     }
 
     /**
+     * 发送图片消息
+     *
+     * @param images
+     */
+    public void sendImageMessage(String[] images, boolean isOri) {
+        for (String path : images) {
+            TIMMessage timMessage = new TIMMessage();
+            TIMImageElem imageElem = new TIMImageElem();
+            imageElem.setLevel(isOri ? 0 : 1);
+            imageElem.setPath(path);
+            timMessage.addElement(imageElem);
+
+            doSendMessage(timMessage);
+        }
+    }
+
+    /**
      * 执行发送
+     *
      * @param message
      */
-    private void doSendMessage(TIMMessage message){
+    private void doSendMessage(TIMMessage message) {
         mConversation.sendMessage(message, new TIMValueCallBack<TIMMessage>() {
             @Override
             public void onError(int i, String s) {

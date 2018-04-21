@@ -2,6 +2,8 @@ package com.wang.social.im.mvp.ui;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,6 +22,9 @@ import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
+import com.tencent.imsdk.TIMImage;
+import com.tencent.imsdk.TIMImageElem;
+import com.tencent.imsdk.TIMImageType;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMSoundElem;
@@ -33,6 +38,7 @@ import com.wang.social.im.di.component.DaggerConversationComponent;
 import com.wang.social.im.di.modules.ConversationModule;
 import com.wang.social.im.enums.ConnectionStatus;
 import com.wang.social.im.enums.ConversationType;
+import com.wang.social.im.enums.MessageType;
 import com.wang.social.im.helper.sound.AudioRecordManager;
 import com.wang.social.im.mvp.contract.ConversationContract;
 import com.wang.social.im.mvp.model.entities.UIMessage;
@@ -42,11 +48,14 @@ import com.wang.social.im.mvp.ui.adapters.holders.BaseMessageViewHolder;
 import com.wang.social.im.view.IMInputView;
 import com.wang.social.im.view.plugin.PluginModule;
 import com.wang.social.im.widget.MessageHandlePopup;
+import com.wang.social.pictureselector.ActivityPicturePreview;
+import com.wang.social.pictureselector.PictureSelector;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -60,6 +69,9 @@ import io.reactivex.functions.Consumer;
  * ======================================
  */
 public class ConversationFragment extends BaseFragment<ConversationPresenter> implements ConversationContract.View, IMInputView.IInputViewListener, BaseMessageViewHolder.OnHandleListener {
+
+    //图片选择
+    private static final int REQUEST_SELECT_PICTURE = 1000;
 
     @BindView(R2.id.fc_message_list)
     RecyclerView fcMessageList;
@@ -149,6 +161,7 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
         setListener();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setListener() {
         fcMessageList.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -187,6 +200,19 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
         mAdapter = null;
         mLayoutManager = null;
         mTargetId = null;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK){
+            switch (requestCode){
+                case REQUEST_SELECT_PICTURE: //图片选择
+                    String[] list = data.getStringArrayExtra(PictureSelector.NAME_FILE_PATH_LIST);
+                    mPresenter.sendImageMessage(list, true);
+                    break;
+            }
+        }
     }
 
     @Override
@@ -255,7 +281,11 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
 
     @Override
     public void onPluginClick(PluginModule pluginModule) {
-
+        if (pluginModule.getPluginType() == PluginModule.PluginType.IMAGE) {//图片选择
+            PictureSelector.from(ConversationFragment.this)
+                    .maxSelection(9)
+                    .forResult(REQUEST_SELECT_PICTURE);
+        }
     }
 
     @SuppressLint("CheckResult")
@@ -332,7 +362,17 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
 
     @Override
     public void onContentClick(View view, UIMessage uiMessage, int position) {
-
+        if (uiMessage.getMessageType() == MessageType.IMAGE){
+            TIMImageElem imageElem = (TIMImageElem) uiMessage.getMessageElem(TIMImageElem.class);
+            if (imageElem != null){
+                for (TIMImage image : imageElem.getImageList()){
+                    if (image.getType() == TIMImageType.Original){
+                        ActivityPicturePreview.start(mActivity, image.getUrl());
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     @Override

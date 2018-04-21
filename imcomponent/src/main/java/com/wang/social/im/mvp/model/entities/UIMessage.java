@@ -4,9 +4,7 @@ package com.wang.social.im.mvp.model.entities;
 import android.text.TextUtils;
 
 import com.frame.component.utils.UIUtil;
-import com.frame.utils.Utils;
 import com.google.gson.Gson;
-import com.qiniu.android.utils.StringUtils;
 import com.tencent.imsdk.TIMCustomElem;
 import com.tencent.imsdk.TIMElem;
 import com.tencent.imsdk.TIMElemType;
@@ -17,9 +15,6 @@ import com.wang.social.im.R;
 import com.wang.social.im.enums.CustomElemType;
 import com.wang.social.im.enums.MessageScope;
 import com.wang.social.im.enums.MessageType;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -190,6 +185,22 @@ public class UIMessage {
                 nickname = carryUserInfo.getNickname();
             }
             return UIUtil.getString(R.string.im_cvs_revoke, nickname);
+        }
+        return null;
+    }
+
+    /**
+     * 获取消息内容Elem
+     *
+     * @param cls 内容
+     * @return
+     */
+    public TIMElem getMessageElem(Class cls) {
+        for (int i = 0, max = (int) timMessage.getElementCount(); i < max; i++) {
+            TIMElem elem = timMessage.getElement(i);
+            if (cls.isInstance(elem)) {
+                return elem;
+            }
         }
         return null;
     }

@@ -8,6 +8,8 @@ public class AppConstant {
         public static final String SOUND_CACHE_DIR = "Sound";
         //Glide缓存目录
         public static final String GLIDE_CACHE_DIR = "Glide";
+        //图片缓存目录
+        public static final String IMAGE_CACHE_DIR = "Image";
     }
 
     //key
