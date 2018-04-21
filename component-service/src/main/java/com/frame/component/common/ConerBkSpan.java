@@ -1,4 +1,4 @@
-package com.wang.social.funpoint.common;
+package com.frame.component.common;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;

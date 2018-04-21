@@ -1,4 +1,4 @@
-package com.wang.social.funpoint.mvp.ui.view;
+package com.frame.component.view;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -9,7 +9,7 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.widget.EditText;
 
-import com.wang.social.funpoint.common.ConerBkSpan;
+import com.frame.component.common.ConerBkSpan;
 
 public class ConerEditText extends android.support.v7.widget.AppCompatEditText {
 

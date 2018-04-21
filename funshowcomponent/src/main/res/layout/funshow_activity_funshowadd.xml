@@ -69,158 +69,34 @@
                     android:layout_marginTop="15dp"
                     android:background="@color/common_bk_light" />
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:id="@+id/edit_suggest"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:gravity="left|top"
-                        android:hint="@string/funshow_addfunshow_edit_hint"
-                        android:inputType="textMultiLine"
-                        android:maxLength="500"
-                        android:minLines="7"
-                        android:paddingBottom="10dp"
-                        android:paddingLeft="15dp"
-                        android:paddingRight="15dp"
-                        android:paddingTop="10dp"
-                        android:textColor="@color/common_text_blank"
-                        android:textColorHint="@color/common_text_light"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/text_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right|bottom"
-                        android:layout_margin="10dp"
-                        android:text="0/50"
-                        android:textColor="@color/common_text_light"
-                        android:textSize="12sp" />
-
-                </FrameLayout>
+                <include layout="@layout/funshow_lay_add_edit" />
 
                 <include
                     layout="@layout/funshow_lay_add_musicboard"
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp" />
-
-                <com.frame.component.view.bundleimgview.BundleImgView
-                    android:id="@+id/bundleview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
-                    android:layout_marginTop="15dp"
-                    app:colcount="3"
-                    app:corner="0dp"
-                    app:space_width="4dp" />
+                    android:layout_marginTop="10dp" />
+
+                <include layout="@layout/funshow_lay_add_bundle" />
 
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
 
-        <LinearLayout
+        <include
+            layout="@layout/funshow_lay_add_bottombar"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_gravity="bottom"
-            android:background="#f9f9f9"
-            android:orientation="horizontal">
+            android:layout_gravity="bottom" />
 
-            <ImageView
-                android:id="@+id/btn_aite"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:foreground="?attr/selectableItemBackground"
-                android:onClick="onClick"
-                android:scaleType="center"
-                android:src="@drawable/funshow_ic_edit_aite" />
-
-            <ImageView
-                android:id="@+id/btn_position"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:foreground="?attr/selectableItemBackground"
-                android:onClick="onClick"
-                android:scaleType="center"
-                android:src="@drawable/funshow_ic_edit_position" />
-
-            <ImageView
-                android:id="@+id/btn_lock"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:foreground="?attr/selectableItemBackground"
-                android:onClick="onClick"
-                android:scaleType="center"
-                android:src="@drawable/funshow_ic_edit_lock" />
-
-            <ImageView
-                android:id="@+id/btn_music"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:foreground="?attr/selectableItemBackground"
-                android:onClick="onClick"
-                android:scaleType="center"
-                android:src="@drawable/funshow_ic_edit_music" />
-
-            <Space style="@style/common_Space_H" />
-
-            <ImageView
-                android:id="@+id/btn_keyboard"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:foreground="?attr/selectableItemBackground"
-                android:onClick="onClick"
-                android:scaleType="center"
-                android:src="@drawable/funshow_ic_edit_keyboard" />
-
-        </LinearLayout>
-
-        <LinearLayout
+        <include
+            layout="@layout/funshow_lay_add_bottomtag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
             android:layout_marginBottom="48dp"
-            android:layout_marginRight="15dp"
-            android:orientation="horizontal">
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/common_shape_rect_hint_conerfull"
-                android:button="@null"
-                android:drawableLeft="@drawable/common_selector_check"
-                android:drawablePadding="5dp"
-                android:paddingBottom="3dp"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:paddingTop="3dp"
-                android:text="@string/funshow_addfunshow_pay"
-                android:textColor="@color/common_text_dark"
-                android:textSize="14sp" />
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:background="@drawable/common_shape_rect_hint_conerfull"
-                android:button="@null"
-                android:drawableLeft="@drawable/common_selector_check"
-                android:drawablePadding="5dp"
-                android:paddingBottom="3dp"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:paddingTop="3dp"
-                android:text="@string/funshow_addfunshow_hidename"
-                android:textColor="@color/common_text_dark"
-                android:textSize="14sp" />
-
-        </LinearLayout>
+            android:layout_marginRight="15dp" />
 
     </FrameLayout>
 </android.support.design.widget.CoordinatorLayout>
