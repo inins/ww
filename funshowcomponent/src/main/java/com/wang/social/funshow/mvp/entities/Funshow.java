@@ -8,40 +8,42 @@ import lombok.Data;
 @Data
 public class Funshow implements Serializable{
 
+
     /**
-     * talkId : 趣晒ID
-     * content : 趣晒内容
-     * userId : 用户ID
-     * userName : 用户昵称
-     * userCover : 用户头像
-     * talkImage : ["http：//xxxx.jpg"]
-     * talkImageNum : 趣晒图片数量
-     * createTime : 创建时间
-     * province : 省份
-     * city : 城市
-     * talkSupportNum : 点赞次数
-     * talkCommentNum : 评论次数
-     * talkShareNum : 分享次数
-     * isFree : 是否收费（0免费 1收费）
-     * price : 收费价格
-     * isShopping : 是否需要购买（0 无需购买 1 购买）
+     * talkSupportNum : 2
+     * city : null
+     * talkCommentNum : 8
+     * isSupport : 0
+     * userName : 飘飘飘香
+     * talkImage : ["http://1.jpg","http://2.gif"]
+     * userId : 10000
+     * talkImageNum : 2
+     * content : 这是一个趣晒，很无趣
+     * talkShareNum : null
+     * province : null
+     * isFree : 1
+     * createTime : 1521787669000
+     * price : 1000
+     * talkId : 1
+     * userCover : http://resouce.dongdongwedding.com/wangwang_2017-10-01_aae4ffd4-fa63-4984-8519-8ee0500d8258.jpg
+     * isShopping : 1
      */
 
-    private String talkId;
-    private String content;
-    private String userId;
-    private String userName;
-    private String userCover;
-    private String talkImageNum;
-    private String createTime;
-    private String province;
+    private int talkSupportNum;
     private String city;
-    private String talkSupportNum;
-    private String talkCommentNum;
-    private String talkShareNum;
-    private String isFree;
-    private String price;
-    private String isShopping;
+    private int talkCommentNum;
+    private int isSupport;
+    private String userName;
+    private int userId;
+    private int talkImageNum;
+    private String content;
+    private int talkShareNum;
+    private String province;
+    private int isFree;
+    private long createTime;
+    private int price;
+    private int talkId;
+    private String userCover;
+    private int isShopping;
     private List<String> talkImage;
-
 }

@@ -12,5 +12,5 @@ import dagger.Component;
 @FragmentScope
 @Component(dependencies = AppComponent.class)
 public interface SingleFragmentComponent {
-    void inject(FunShowFragment fragment);
+//    void inject(FunShowFragment fragment);
 }

@@ -30,7 +30,7 @@ public interface FunshowService {
      * nonceStr
      * signature
      */
-    @GET("/app/talk/getTalkList")
+    @GET("/app/talk/getTalkList?v=2.0.0")
     Observable<BaseJson<BaseListWrap<Funshow>>> getFunshowList(@Query("type") int type, @Query("current") int current, @Query("size") int size);
 
 }
