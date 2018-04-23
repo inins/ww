@@ -7,14 +7,15 @@ import android.widget.TextView;
 import com.frame.component.common.SimpleTextWatcher;
 import com.frame.component.ui.base.BaseController;
 import com.wang.social.funshow.R;
+import com.wang.social.funshow.R2;
 
 import butterknife.BindView;
 
 public class FunshowAddEditController extends BaseController {
 
-    @BindView(R.id.edit_content)
+    @BindView(R2.id.edit_content)
     EditText editContent;
-    @BindView(R.id.text_count)
+    @BindView(R2.id.text_count)
     TextView textCount;
 
     public FunshowAddEditController(View root) {

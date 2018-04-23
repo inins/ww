@@ -21,8 +21,8 @@ import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
 import com.frame.component.common.GridSpacingItemDecoration;
 import com.wang.social.personal.di.component.DaggerSingleActivityComponent;
-import com.wang.social.personal.helper.PhotoHelper;
-import com.wang.social.personal.helper.PhotoHelperEx;
+import com.wang.social.pictureselector.helper.PhotoHelper;
+import com.wang.social.personal.helper.PicPhotoHelperEx;
 import com.wang.social.personal.mvp.entities.photo.Photo;
 import com.wang.social.personal.mvp.ui.adapter.RecycleAdapterMePhoto;
 import com.wang.social.personal.mvp.ui.dialog.DialogSure;
@@ -52,7 +52,7 @@ public class MePhotoActivity extends BasicAppActivity implements IView, PhotoHel
     @Inject
     ImageLoader mImageLoader;
 
-    private PhotoHelperEx photoHelperEx;
+    private PicPhotoHelperEx photoHelperEx;
     private RecycleAdapterMePhoto adapter;
     private Photo modifyPhoto;
 
@@ -72,7 +72,7 @@ public class MePhotoActivity extends BasicAppActivity implements IView, PhotoHel
     public void initData(@NonNull Bundle savedInstanceState) {
         FocusUtil.focusToTop(toolbar);
 
-        photoHelperEx = PhotoHelperEx.newInstance(this, this);
+        photoHelperEx = PicPhotoHelperEx.newInstance(this, this);
         adapter = new RecycleAdapterMePhoto(mImageLoader);
         adapter.setOnPhotoClickListener(onPhotoClickListener);
         recycler.setNestedScrollingEnabled(false);

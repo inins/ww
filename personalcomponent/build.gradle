@@ -1,8 +1,8 @@
-if (project.isRunAlone) {
+//if (project.isRunAlone) {
     apply plugin: 'com.android.application'
-} else {
-    apply plugin: 'com.component.build'
-}
+//} else {
+//    apply plugin: 'com.component.build'
+//}
 apply plugin: 'com.jakewharton.butterknife'
 
 android {

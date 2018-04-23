@@ -3,6 +3,8 @@ package com.wang.social.personal.utils;
 import android.content.Context;
 import android.os.Environment;
 
+import com.frame.component.utils.FileUtil;
+
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;

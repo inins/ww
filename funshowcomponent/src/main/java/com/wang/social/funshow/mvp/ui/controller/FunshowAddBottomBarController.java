@@ -28,9 +28,9 @@ public class FunshowAddBottomBarController extends BaseController {
     ImageView btnMusic;
     @BindView(R2.id.btn_keyboard)
     ImageView btnKeyboard;
-    @BindView(R.id.btn_voice_record)
+    @BindView(R2.id.btn_voice_record)
     ImageView btnVoiceRecord;
-    @BindView(R.id.lay_voice_record)
+    @BindView(R2.id.lay_voice_record)
     View layVoiceRecord;
 
     private MusicPopupWindow popupWindow;

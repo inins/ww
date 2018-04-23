@@ -21,12 +21,12 @@ import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.utils.RegexUtils;
 import com.frame.utils.ToastUtil;
 import com.wang.social.personal.R2;
-import com.wang.social.personal.helper.PhotoHelper;
+import com.wang.social.pictureselector.helper.PhotoHelper;
 import com.wang.social.personal.R;
 import com.wang.social.personal.data.db.AddressDataBaseManager;
 import com.wang.social.personal.di.component.DaggerActivityComponent;
 import com.wang.social.personal.di.module.MeDetailModule;
-import com.wang.social.personal.helper.PhotoHelperEx;
+import com.wang.social.personal.helper.PicPhotoHelperEx;
 import com.wang.social.personal.mvp.contract.MeDetailContract;
 import com.wang.social.personal.mvp.entities.City;
 import com.wang.social.personal.mvp.entities.Province;
@@ -63,7 +63,7 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
     private DialogDatePicker dialogDate;
     private DialogInput dialogInputName;
     private DialogInput dialogInputSign;
-    private PhotoHelperEx photoHelper;
+    private PicPhotoHelperEx photoHelper;
     @Inject
     ImageLoader mImageLoader;
 
@@ -98,7 +98,7 @@ public class MeDetailActivity extends BaseAppActivity<MeDetailPresonter> impleme
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
         setSupportActionBar(toolbar);
-        photoHelper = PhotoHelperEx.newInstance(this, this).needOfficialPhoto(true);
+        photoHelper = PicPhotoHelperEx.newInstance(this, this).needOfficialPhoto(true);
         dialogInputName = DialogInput.newDialogName(this);
         dialogInputSign = DialogInput.newDialogSign(this);
         dialogAddress = new DialogAddressPicker(this);
