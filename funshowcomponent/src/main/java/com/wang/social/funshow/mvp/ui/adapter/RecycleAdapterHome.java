@@ -10,11 +10,12 @@ import com.frame.component.entities.TestEntity;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.wang.social.funshow.R;
 import com.wang.social.funshow.R2;
+import com.wang.social.funshow.mvp.entities.Funshow;
 import com.wang.social.funshow.mvp.ui.dialog.MorePopupWindow;
 
 import butterknife.BindView;
 
-public class RecycleAdapterHome extends BaseAdapter<TestEntity> {
+public class RecycleAdapterHome extends BaseAdapter<Funshow> {
 
 
     @Override
@@ -22,7 +23,7 @@ public class RecycleAdapterHome extends BaseAdapter<TestEntity> {
         return new Holder(context, parent, R.layout.funshow_item_home);
     }
 
-    public class Holder extends BaseViewHolder<TestEntity> {
+    public class Holder extends BaseViewHolder<Funshow> {
         @BindView(R2.id.img_header)
         ImageView img_header;
         @BindView(R2.id.img_pic)
@@ -35,7 +36,7 @@ public class RecycleAdapterHome extends BaseAdapter<TestEntity> {
         }
 
         @Override
-        protected void bindData(TestEntity itemValue, int position, OnItemClickListener onItemClickListener) {
+        protected void bindData(Funshow itemValue, int position, OnItemClickListener onItemClickListener) {
             ImageLoaderHelper.loadCircleImgTest(img_header);
             ImageLoaderHelper.loadImgTest(imgPic);
             imgMore.setOnClickListener(view -> {

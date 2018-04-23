@@ -1,4 +1,4 @@
-package com.wang.social.personal.mvp.entities;
+package com.frame.component.entities;
 
 import com.frame.component.entities.User;
 

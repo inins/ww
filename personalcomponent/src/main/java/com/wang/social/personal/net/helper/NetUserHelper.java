@@ -10,7 +10,7 @@ import com.frame.component.common.NetParam;
 import com.frame.mvp.IView;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.utils.ToastUtil;
-import com.wang.social.personal.mvp.entities.UserWrap;
+import com.frame.component.entities.UserWrap;
 import com.wang.social.personal.mvp.entities.user.QrcodeInfo;
 import com.wang.social.personal.mvp.entities.user.UserStatistic;
 import com.wang.social.personal.mvp.model.api.UserService;

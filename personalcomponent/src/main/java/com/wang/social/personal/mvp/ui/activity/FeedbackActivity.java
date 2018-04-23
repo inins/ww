@@ -34,8 +34,8 @@ import com.frame.component.common.SimpleTextWatcher;
 import com.wang.social.personal.di.component.DaggerSingleActivityComponent;
 import com.wang.social.personal.helper.AppValiHelper;
 import com.frame.http.api.ApiHelperEx;
-import com.wang.social.personal.helper.PhotoHelper;
-import com.wang.social.personal.helper.PhotoHelperEx;
+import com.wang.social.pictureselector.helper.PhotoHelper;
+import com.wang.social.personal.helper.PicPhotoHelperEx;
 import com.wang.social.personal.mvp.model.api.UserService;
 import com.frame.component.view.bundleimgview.BundleImgEntity;
 import com.frame.component.view.bundleimgview.BundleImgView;
@@ -68,7 +68,7 @@ public class FeedbackActivity extends BasicAppActivity implements PhotoHelper.On
     RxErrorHandler mErrorHandler;
     @Inject
     QiNiuManager qiNiuManager;
-    PhotoHelperEx photoHelperEx;
+    PicPhotoHelperEx photoHelperEx;
 
     private int MaxPhotoCount = 3;
 
@@ -86,7 +86,7 @@ public class FeedbackActivity extends BasicAppActivity implements PhotoHelper.On
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
         bundleview.setMaxcount(MaxPhotoCount);
-        photoHelperEx = PhotoHelperEx.newInstance(this, this);
+        photoHelperEx = PicPhotoHelperEx.newInstance(this, this);
         photoHelperEx.setClip(false);
         bundleview.setOnBundleLoadImgListener(new BundleImgView.OnBundleLoadImgListener() {
             @Override

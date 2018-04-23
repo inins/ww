@@ -7,20 +7,20 @@ import com.wang.social.personal.mvp.ui.dialog.DialogBottomPhoto;
 
 import java.lang.ref.WeakReference;
 
-public class PhotoHelperEx extends PhotoHelper {
+public class PicPhotoHelperEx extends PicPhotoHelper {
 
     //使用弱引用持有dialog，以便及时回收
     private WeakReference<DialogBottomPhoto> dialogPhoto;
     //是否显示官方图库选项，默认不显示
     private boolean needOfficialPhoto;
 
-    private PhotoHelperEx(Activity activity, OnPhotoCallback callback) {
+    private PicPhotoHelperEx(Activity activity, OnPhotoCallback callback) {
         super(activity, callback);
         dialogPhoto = new WeakReference(newInstanceDialog());
     }
 
-    public static PhotoHelperEx newInstance(Activity activity, OnPhotoCallback callback) {
-        return new PhotoHelperEx(activity, callback);
+    public static PicPhotoHelperEx newInstance(Activity activity, OnPhotoCallback callback) {
+        return new PicPhotoHelperEx(activity, callback);
     }
 
     private DialogBottomPhoto newInstanceDialog() {
@@ -46,7 +46,7 @@ public class PhotoHelperEx extends PhotoHelper {
     }
 
     //是否显示官方图库选项，默认不显示
-    public PhotoHelperEx needOfficialPhoto(boolean needOfficialPhoto) {
+    public PicPhotoHelperEx needOfficialPhoto(boolean needOfficialPhoto) {
         this.needOfficialPhoto = needOfficialPhoto;
         if (dialogPhoto == null || dialogPhoto.get() == null) {
             dialogPhoto = new WeakReference(newInstanceDialog());

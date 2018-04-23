@@ -29,6 +29,8 @@
     <string name="funshow_addfunshow_pay_dialog">该条趣晒需要付费查看</string>
     <string name="funshow_addfunshow_music_add">添加歌曲</string>
     <string name="funshow_addfunshow_voice_add">录制声音</string>
+    <string name="funshow_addfunshow_dialog_camera">拍摄</string>
+    <string name="funshow_addfunshow_dialog_photo">相册</string>
 
     <!--@好友页面-->
     <string name="funshow_aiteuser_title">\@好友</string>

@@ -1,4 +1,4 @@
-package com.wang.social.personal.utils;
+package com.frame.component.utils;
 
 import android.annotation.SuppressLint;
 import android.content.ContentUris;

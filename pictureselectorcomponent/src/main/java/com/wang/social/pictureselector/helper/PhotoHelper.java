@@ -1,16 +1,14 @@
-package com.wang.social.personal.helper;
+package com.wang.social.pictureselector.helper;
 
 import android.app.Activity;
 import android.content.Intent;
 
 import com.frame.utils.StrUtil;
-import com.wang.social.personal.mvp.ui.activity.OfficialPhotoActivity;
 import com.wang.social.pictureselector.ActivityPictureClip;
 import com.wang.social.pictureselector.PictureSelector;
 
 public class PhotoHelper {
 
-    private static final int PHOTO_PIC = 0xf111;
     private static final int PHOTO_PHOTO = 0xf112;
     private static final int PHOTO_CROP = 0xf113;
 
@@ -43,9 +41,6 @@ public class PhotoHelper {
         });
     }
 
-    public void startPic() {
-        OfficialPhotoActivity.start(activity, PHOTO_PIC);
-    }
 
     public void startCamera() {
         cropHelper.startCamera();
@@ -68,9 +63,6 @@ public class PhotoHelper {
             } else if (PHOTO_CROP == requestCode) {
                 String path = data.getStringExtra(PictureSelector.NAME_FILE_PATH);
                 if (callback != null) callback.onResult(path);
-            } else if (PHOTO_PIC == requestCode) {
-                String url = data.getStringExtra(OfficialPhotoActivity.NAME_URL);
-                if (callback != null) callback.onResult(url);
             }
         }
     }

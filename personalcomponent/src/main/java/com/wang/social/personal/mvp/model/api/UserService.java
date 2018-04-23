@@ -1,12 +1,11 @@
 package com.wang.social.personal.mvp.model.api;
 
 import com.frame.http.api.BaseJson;
-import com.wang.social.personal.mvp.base.BaseListWrap;
+import com.frame.component.entities.BaseListWrap;
 import com.wang.social.personal.mvp.entities.AccountBalance;
 import com.wang.social.personal.mvp.entities.CommonEntity;
-import com.wang.social.personal.mvp.entities.lable.Lable;
 import com.wang.social.personal.mvp.entities.QiniuTokenWrap;
-import com.wang.social.personal.mvp.entities.UserWrap;
+import com.frame.component.entities.UserWrap;
 import com.wang.social.personal.mvp.entities.lable.LableWrap;
 import com.wang.social.personal.mvp.entities.photo.OffiPic;
 import com.wang.social.personal.mvp.entities.photo.Photo;

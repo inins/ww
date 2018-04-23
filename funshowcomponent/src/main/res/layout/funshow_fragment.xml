@@ -7,48 +7,63 @@
     android:background="@color/common_white"
     android:fitsSystemWindows="true">
 
-    <android.support.v4.widget.NestedScrollView
+    <com.liaoinstan.springview.widget.SpringView
+        android:id="@+id/spring"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:scrollbars="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:fillViewport="true"
+            android:scrollbars="vertical">
 
-            <com.frame.component.view.barview.BarView
-                android:id="@+id/barview"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="15dp"
-                android:foreground="?attr/selectableItemBackground"
-                app:note="@string/funshow_home_bar_note"
-                app:title="@string/funshow_home_bar_title" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:background="@color/common_bk_light"
-                android:clipToPadding="false"
-                android:paddingBottom="7dp"
-                android:paddingTop="7dp" />
+                <com.frame.component.view.barview.BarView
+                    android:id="@+id/barview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="15dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:note="@string/funshow_home_bar_note"
+                    app:title="@string/funshow_home_bar_title" />
 
-            <TextView
-                android:id="@+id/btn_funshow_add"
-                android:layout_gravity="right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="15dp"
-                android:text="发布趣晒(仅测试)"/>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/common_bk_light"
+                    android:clipToPadding="false"
+                    android:paddingBottom="7dp"
+                    android:paddingTop="7dp" />
 
-        </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+                <TextView
+                    android:id="@+id/btn_funshow_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:gravity="center"
+                    android:padding="15dp"
+                    android:text="发布趣晒(仅测试)" />
+
+                <TextView
+                    android:id="@+id/btn_funshow_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:gravity="center"
+                    android:padding="15dp"
+                    android:text="登录(仅测试)" />
+
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+    </com.liaoinstan.springview.widget.SpringView>
 </FrameLayout>

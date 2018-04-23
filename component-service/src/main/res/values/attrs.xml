@@ -10,6 +10,7 @@
         <attr name="wihi" format="float" />
         <attr name="corner" format="dimension" />
         <attr name="colcount" format="integer" />
+        <attr name="addbtnlayout" format="reference" />
     </declare-styleable>
 
     <declare-styleable name="TitleView">

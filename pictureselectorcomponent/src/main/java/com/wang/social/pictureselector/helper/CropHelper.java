@@ -1,4 +1,4 @@
-package com.wang.social.personal.helper;
+package com.wang.social.pictureselector.helper;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -8,10 +8,10 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 
+import com.frame.component.utils.BitmapUtil;
+import com.frame.component.utils.FileUtil;
+import com.frame.component.utils.UriUtil;
 import com.frame.utils.StrUtil;
-import com.wang.social.personal.utils.BitmapUtil;
-import com.wang.social.personal.utils.FileUtil;
-import com.wang.social.personal.utils.UriUtil;
 
 import java.io.File;
 import java.io.IOException;
