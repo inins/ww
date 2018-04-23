@@ -1,12 +1,19 @@
 package com.wang.social.funshow.mvp.ui.controller;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.frame.component.helper.sound.AudioRecordManager;
 import com.frame.component.ui.base.BaseController;
 import com.frame.utils.KeyboardUtils;
+import com.tbruyelle.rxpermissions2.Permission;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.wang.social.funshow.R;
 import com.wang.social.funshow.R2;
 import com.wang.social.funshow.mvp.ui.activity.AiteUserListActivity;
@@ -15,6 +22,8 @@ import com.wang.social.funshow.mvp.ui.dialog.MusicPopupWindow;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.functions.Consumer;
+import timber.log.Timber;
 
 public class FunshowAddBottomBarController extends BaseController {
 
@@ -40,6 +49,7 @@ public class FunshowAddBottomBarController extends BaseController {
         int layout = R.layout.funshow_lay_add_bottombar;
     }
 
+    @SuppressLint("all")
     @Override
     protected void onInitCtrl() {
         popupWindow = new MusicPopupWindow(getContext());
@@ -54,6 +64,69 @@ public class FunshowAddBottomBarController extends BaseController {
             public void onMusicClick(View v) {
                 popupWindow.dismiss();
             }
+        });
+
+        AudioRecordManager.getInstance().setRecordListener(new AudioRecordManager.OnRecordListener() {
+            @Override
+            public void initView(View root) {
+                Timber.e("initView");
+            }
+
+            @Override
+            public void onTimeOut(int counter) {
+                Timber.e("onTimeOut:" + counter);
+            }
+
+            @Override
+            public void onRecording() {
+                Timber.e("onRecording");
+            }
+
+            @Override
+            public void onCancel() {
+                Timber.e("onCancel");
+            }
+
+            @Override
+            public void onCompleted(int duration, String path) {
+                Timber.e("onCompleted:" + path);
+            }
+
+            @Override
+            public void onDBChanged(int db) {
+                Timber.e("onDBChanged:" + db);
+            }
+
+            @Override
+            public void tooShort() {
+                Timber.e("tooShort");
+            }
+
+            @Override
+            public void onDestroy() {
+                Timber.e("onDestroy");
+            }
+        });
+        btnVoiceRecord.setOnTouchListener((v, event) -> {
+            new RxPermissions((Activity) getContext()).requestEach(Manifest.permission.RECORD_AUDIO)
+                    .subscribe((permission) -> {
+                        if (permission.granted) {
+                            switch (event.getAction()) {
+                                case MotionEvent.ACTION_DOWN:
+                                    AudioRecordManager.getInstance().startRecord(v);
+                                    break;
+                                case MotionEvent.ACTION_MOVE:
+//                                    AudioRecordManager.getInstance().continueRecord();
+//                                    AudioRecordManager.getInstance().willCancelRecord();
+                                    break;
+                                case MotionEvent.ACTION_UP:
+                                case MotionEvent.ACTION_CANCEL:
+                                    AudioRecordManager.getInstance().stopRecord();
+                                    break;
+                            }
+                        }
+                    });
+            return true;
         });
     }
 

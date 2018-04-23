@@ -25,7 +25,7 @@ import com.wang.social.personal.R2;
 import com.frame.component.common.GridSpacingItemDecoration;
 import com.wang.social.personal.di.component.DaggerSingleActivityComponent;
 import com.frame.http.api.ApiHelperEx;
-import com.wang.social.personal.mvp.base.BaseListWrap;
+import com.frame.component.entities.BaseListWrap;
 import com.wang.social.personal.mvp.entities.photo.OffiPic;
 import com.wang.social.personal.mvp.entities.photo.Photo;
 import com.wang.social.personal.mvp.model.api.UserService;

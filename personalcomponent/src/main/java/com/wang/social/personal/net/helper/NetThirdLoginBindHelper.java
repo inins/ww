@@ -1,11 +1,7 @@
 package com.wang.social.personal.net.helper;
 
 import android.app.Activity;
-import android.content.Context;
 
-import com.frame.component.common.NetParam;
-import com.frame.component.entities.User;
-import com.frame.component.helper.AppDataHelper;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
@@ -13,8 +9,7 @@ import com.frame.http.api.error.RxErrorHandler;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.IView;
 import com.frame.utils.ToastUtil;
-import com.wang.social.personal.mvp.base.BaseListWrap;
-import com.wang.social.personal.mvp.entities.UserWrap;
+import com.frame.component.entities.BaseListWrap;
 import com.wang.social.personal.mvp.entities.thirdlogin.BindHistory;
 import com.wang.social.personal.mvp.entities.user.QrcodeInfo;
 import com.wang.social.personal.mvp.model.api.UserService;
@@ -24,9 +19,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2018/4/4.

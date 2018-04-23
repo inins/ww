@@ -22,7 +22,7 @@ import com.kyleduo.switchbutton.SwitchButton;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
 import com.wang.social.personal.di.component.DaggerSingleActivityComponent;
-import com.wang.social.personal.mvp.base.BaseListWrap;
+import com.frame.component.entities.BaseListWrap;
 import com.wang.social.personal.mvp.entities.privates.PrivateDetail;
 import com.wang.social.personal.mvp.model.api.UserService;
 
@@ -31,7 +31,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class PrivacyActivity extends BasicAppActivity implements IView {
 
