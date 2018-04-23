@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/topic_view"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@color/common_list_divider" />
+
+    <ImageView
+        android:id="@+id/pay_flag_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="14dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topic_view"
+        app:srcCompat="@drawable/common_ic_tag_pay" />
+    <View
+        android:id="@+id/blank_view"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/pay_flag_image_view"
+        app:layout_constraintStart_toEndOf="@+id/pay_flag_image_view"
+        app:layout_constraintTop_toTopOf="@+id/pay_flag_image_view"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/tag_1_text_view"
+        style="@style/TopicListTagStyle"
+        android:layout_marginTop="14dp"
+        app:layout_constraintStart_toEndOf="@+id/blank_view"
+        app:layout_constraintTop_toBottomOf="@+id/topic_view" />
+
+    <TextView
+        android:id="@+id/tag_2_text_view"
+        style="@style/TopicListTagStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="14dp"
+        app:layout_constraintStart_toEndOf="@+id/tag_1_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/topic_view" />
+
+    <TextView
+        android:id="@+id/tag_3_text_view"
+        style="@style/TopicListTagStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="14dp"
+        app:layout_constraintStart_toEndOf="@+id/tag_2_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/topic_view" />
+
+    <TextView
+        android:id="@+id/create_date_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="14dp"
+        android:layout_marginTop="18dp"
+        android:text="04-08"
+        android:textColor="#ff818181"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topic_view" />
+
+    <TextView
+        android:id="@+id/title_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="25dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="44dp"
+        android:text="这一刻，请允许我丧一些吧"
+        android:textColor="#ff313131"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toStartOf="@+id/image_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topic_view" />
+
+    <TextView
+        android:id="@+id/content_text_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="14dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:minLines="3"
+        android:text="考研这五个多月的时间，多么多么的漫长 和难捱，只有经历过的人才最清楚。清..."
+        android:textColor="#ff434343"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/image_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_text_view" />
+
+
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="68dp"
+        android:layout_height="88dp"
+        android:layout_marginBottom="14dp"
+        android:layout_marginEnd="14dp"
+        android:background="@color/common_blue"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/title_text_view" />
+
+</android.support.constraint.ConstraintLayout>

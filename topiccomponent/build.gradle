@@ -96,6 +96,7 @@ dependencies {
     implementation rootProject.ext.dependencies["constraint-layout"]
     implementation project(':component-service')
     annotationProcessor project(':router-anno-compiler')
+
 }
 
 //combuild {

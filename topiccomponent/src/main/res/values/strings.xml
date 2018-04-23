@@ -2,10 +2,21 @@
     <string name="topic_app_name">TopicComponent</string>
     <string name="topic_zhi_shi_mo">知识魔</string>
     <string name="topic_hint_1">发布话题50条以上</string>
+    <string name="topic_top_user_hint">评论话题20以上，他们都是优秀的学者</string>
     <string name="topic_tag_selected_colon">已选标签:</string>
     <string name="topic_newest">最新</string>
     <string name="topic_hottest">最热</string>
     <string name="topic_no_interest">无人问津</string>
     <string name="topic_report">举报</string>
     <string name="topic_today">今天</string>
+    <string name="topic_age">岁</string>
+    <string name="topic_year">年</string>
+    <string name="topic_month">月</string>
+    <string name="topic_day">日</string>
+    <string name="topic_your_comment">你的看法</string>
+    <string name="topic_your_comment_hint">热爱分享的你，展露你丰富的知识吧</string>
+    <string name="topic_comment_count_format">%1d条评论</string>
+    <string name="topic_comment_sort_hot">按热度</string>
+    <string name="topic_comment_sort_time">按时间</string>
+    <string name="topic_total_reply_count_format">共%1d条回复</string>
 </resources>

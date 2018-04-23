@@ -3,6 +3,7 @@ package com.wang.social.topic.mvp.ui.adapter;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
@@ -13,8 +14,10 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.utils.FrameUtils;
+import com.frame.utils.SizeUtils;
 import com.frame.utils.TimeUtils;
 import com.wang.social.topic.R;
 import com.wang.social.topic.mvp.model.entities.Tag;
@@ -33,6 +36,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
 
     public interface DataProvider {
         Topic getTopic(int position);
+
         int getTopicCount();
     }
 
@@ -44,18 +48,10 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
     DataProvider mDataProvider;
     ClickListener mClickListener;
 
-    List<Tag> list = new ArrayList<>();
-
     public TopicListAdapter(Context context, DataProvider dataprovider, ClickListener clickListener) {
         this.mContext = context.getApplicationContext();
         this.mDataProvider = dataprovider;
         this.mClickListener = clickListener;
-
-        for (int i = 0; i < 3 ; i++) {
-            Tag tag = new Tag();
-            tag.setTagName("兴趣标签");
-            list.add(tag);
-        }
     }
 
     public void onDestroy() {
@@ -95,8 +91,10 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
         // 付费
         if (topic.getIsFree() == 0) {
             holder.payFlagIV.setVisibility(View.GONE);
+            holder.blankView.setVisibility(View.GONE);
         } else {
             holder.payFlagIV.setVisibility(View.VISIBLE);
+            holder.blankView.setVisibility(View.INVISIBLE);
         }
         // 创建时间
         Date date = new Date();
@@ -114,6 +112,15 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
         holder.titleTV.setText(topic.getTitle());
         // 简要
         holder.contentTV.setText(topic.getFirstStrff());
+        // 图片
+        FrameUtils.obtainAppComponentFromContext(mContext)
+                .imageLoader()
+                .loadImage(mContext,
+                        ImageConfigImpl.builder()
+                                .imageView(holder.imageView)
+                                .url("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2989066367,164398660&fm=200&gp=0.jpg")
+                                .transformation(new RoundedCorners(SizeUtils.dp2px(8)))
+                                .build());
         // 用户头像
         FrameUtils.obtainAppComponentFromContext(mContext)
                 .imageLoader()
@@ -132,12 +139,28 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
         // 阅读次数
         holder.readTV.setText(String.format("%d", topic.getTopicReadNum()));
         // 标签
-//        if (topic.getTags() != null && topic.getTags().size() > 0) {
-//            holder.recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-//            holder.recyclerView.setAdapter(new TagAdapter(mContext, topic.getTags()));
-//        }
-        holder.recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
-        holder.recyclerView.setAdapter(new TagAdapter(mContext, list));
+        if (topic.getTags() != null) {
+            for (int i = 0; i < Math.min(topic.getTags().size(), 3); i++) {
+                Tag tag = topic.getTags().get(i);
+                if (null == tag) continue;
+                if (!TextUtils.isEmpty(tag.getTagName())) {
+                    switch (i) {
+                        case 0:
+                            holder.tag1TV.setVisibility(View.VISIBLE);
+                            holder.tag1TV.setText(tag.getTagName());
+                            break;
+                        case 1:
+                            holder.tag2TV.setVisibility(View.VISIBLE);
+                            holder.tag2TV.setText(tag.getTagName());
+                            break;
+                        case 2:
+                            holder.tag3TV.setVisibility(View.VISIBLE);
+                            holder.tag3TV.setText(tag.getTagName());
+                            break;
+                    }
+                }
+            }
+        }
 
         // 点击
         holder.rootView.setTag(topic);
@@ -166,6 +189,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
     class ViewHolder extends RecyclerView.ViewHolder {
         View rootView;
         ImageView payFlagIV;
+        View blankView;
         TextView createDateTV;
         TextView titleTV;
         TextView contentTV;
@@ -178,13 +202,16 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
         TextView commentTV;
         ImageView readIV;
         TextView readTV;
-        RecyclerView recyclerView;
+        TextView tag1TV;
+        TextView tag2TV;
+        TextView tag3TV;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             rootView = itemView.findViewById(R.id.root_view);
             payFlagIV = itemView.findViewById(R.id.pay_flag_image_view);
+            blankView = itemView.findViewById(R.id.blank_view);
             createDateTV = itemView.findViewById(R.id.create_date_text_view);
             titleTV = itemView.findViewById(R.id.title_text_view);
             contentTV = itemView.findViewById(R.id.content_text_view);
@@ -197,7 +224,9 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
             commentTV = itemView.findViewById(R.id.comment_text_view);
             readIV = itemView.findViewById(R.id.read_image_view);
             readTV = itemView.findViewById(R.id.read_text_view);
-            recyclerView = itemView.findViewById(R.id.tag_recycler_view);
+            tag1TV = itemView.findViewById(R.id.topic_tag_1_text_view);
+            tag2TV = itemView.findViewById(R.id.topic_tag_2_text_view);
+            tag3TV = itemView.findViewById(R.id.topic_tag_3_text_view);
         }
     }
 }

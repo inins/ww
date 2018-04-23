@@ -47,12 +47,13 @@
                 app:title="@string/topic_zhi_shi_mo" />
 
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
 
                 <TextView
                     android:id="@+id/selected_title_text_view"
@@ -61,17 +62,60 @@
                     android:layout_centerVertical="true"
                     android:text="@string/topic_tag_selected_colon"
                     android:textColor="@color/common_text_blank_dark"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:layout_marginEnd="10dp" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/selected_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_centerVertical="true"
-                    android:layout_toStartOf="@+id/select_tag_image_view"
-                    android:layout_toEndOf="@+id/selected_title_text_view"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"/>
+
+                <TextView
+                    android:id="@+id/selected_tag_1_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ffffffff"
+                    android:textSize="10sp"
+                    android:gravity="center"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/topic_shape_rect_corner_solid_blue_gray"
+                    android:visibility="gone"
+                    />
+
+
+                <TextView
+                    android:id="@+id/selected_tag_2_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ffffffff"
+                    android:textSize="10sp"
+                    android:gravity="center"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/topic_shape_rect_corner_solid_blue_gray"
+                    android:visibility="gone"
+                    />
+
+
+                <TextView
+                    android:id="@+id/selected_tag_3_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ffffffff"
+                    android:textSize="10sp"
+                    android:gravity="center"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/topic_shape_rect_corner_solid_blue_gray"
+                    android:visibility="gone"
+                    />
+
 
 
                 <ImageView
@@ -81,7 +125,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:src="@drawable/topic_biaoqian_more" />
-            </RelativeLayout>
+            </LinearLayout>
 
         </LinearLayout>
 
