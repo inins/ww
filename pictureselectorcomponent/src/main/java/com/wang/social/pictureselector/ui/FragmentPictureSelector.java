@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -32,9 +33,12 @@ import com.wang.social.pictureselector.model.SelectorSpec;
 import com.wang.social.pictureselector.ui.adapter.AlbumAdapter;
 import com.wang.social.pictureselector.ui.adapter.ThumbnailAdapter;
 import com.wang.social.pictureselector.ui.widget.ThumbnailDecoration;
+import com.wang.social.pictureselector.ui.widget.XSpinner;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import timber.log.Timber;
 
 /**
  * Created by King on 2018/3/29.
@@ -44,8 +48,10 @@ public class FragmentPictureSelector extends Fragment {
     // Fragment的View
     View rootView;
     // 显示文件夹的Spinner控件和Adapter
-    AppCompatSpinner appCompatSpinner;
+//    AppCompatSpinner appCompatSpinner;
+    XSpinner mXSpinner;
     AlbumAdapter albumAdapter;
+    TextView mSpinnerTV;
 
     // 相册和图片数据加载
     private final AlbumController albumController = new AlbumController();
@@ -84,19 +90,32 @@ public class FragmentPictureSelector extends Fragment {
         }
     };
 
-    // 文件夹选择监听
-    private AdapterView.OnItemSelectedListener spinnerItemSelectedListener = new AdapterView.OnItemSelectedListener() {
-        @Override
-        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-            Cursor cursor = (Cursor) adapterView.getItemAtPosition(i);
-            Album album = Album.valueOf(cursor);
+//    // 文件夹选择监听
+//    private AdapterView.OnItemSelectedListener spinnerItemSelectedListener = new AdapterView.OnItemSelectedListener() {
+//        @Override
+//        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//            Cursor cursor = (Cursor) adapterView.getItemAtPosition(i);
+//            Album album = Album.valueOf(cursor);
+//
+//            // 选中了文件夹，重新加载图片数据
+//            pictureController.resetLoad(album);
+//        }
+//
+//        @Override
+//        public void onNothingSelected(AdapterView<?> adapterView) {     }
+//    };
 
-            // 选中了文件夹，重新加载图片数据
-            pictureController.resetLoad(album);
+    private AlbumAdapter.SelectListener mAlbumSelectListener = new AlbumAdapter.SelectListener() {
+        @Override
+        public void onAlbumSelect(Album album) {
+            if (null != album) {
+                mSpinnerTV.setText(album.getDisplayName());
+                // 选中了文件夹，重新加载图片数据
+                pictureController.resetLoad(album);
+            }
+
+            mXSpinner.dismiss();
         }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> adapterView) {     }
     };
 
     // 选中图片路径列表
@@ -160,8 +179,10 @@ public class FragmentPictureSelector extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.ps_fragment_picture_selector, container, false);
 
-        appCompatSpinner = rootView.findViewById(R.id.spinner);
+//        appCompatSpinner = rootView.findViewById(R.id.spinner);
+        mXSpinner = rootView.findViewById(R.id.x_spinner);
         recyclerView = rootView.findViewById(R.id.recycler_view);
+        mSpinnerTV = rootView.findViewById(R.id.spinner_text_view);
 
         // toolbar 左边图标退出
         toolbar = rootView.findViewById(R.id.toolbar);
@@ -196,8 +217,10 @@ public class FragmentPictureSelector extends Fragment {
         thumbnailAdapter.setThumbnailSelectionChecker(thumbnailSelectionChecker);
 
         albumAdapter = new AlbumAdapter(getActivity(), null);
-        appCompatSpinner.setAdapter(albumAdapter);
-        appCompatSpinner.setOnItemSelectedListener(spinnerItemSelectedListener);
+        albumAdapter.setSelectListener(mAlbumSelectListener);
+//        appCompatSpinner.setAdapter(albumAdapter);
+//        appCompatSpinner.setOnItemSelectedListener(spinnerItemSelectedListener);
+        mXSpinner.init(albumAdapter);
 
         albumController.init(getActivity(), albumControllerListener);
         pictureController.init(getActivity(), pictureControllerListener);
@@ -209,8 +232,10 @@ public class FragmentPictureSelector extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        // 加载数据
+        // 加载文件夹数据
         albumController.loadAlbums();
+        // 加载所有图片
+        pictureController.loadAllPhoto(getContext());
     }
 
     @Override
