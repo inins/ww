@@ -11,20 +11,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.frame.utils.KeyboardUtils;
 import com.tencent.imsdk.TIMConversationType;
 import com.wang.social.im.R;
 import com.wang.social.im.enums.ConversationType;
-import com.wang.social.im.view.emotion.Constants;
-import com.wang.social.im.view.emotion.EmojiBean;
 import com.wang.social.im.view.emotion.EmotionAdapter;
 import com.wang.social.im.view.emotion.SimpleCommonUtils;
-import com.wang.social.im.view.emotion.data.EmoticonEntity;
-import com.wang.social.im.view.emotion.listener.EmoticonClickListener;
 import com.wang.social.im.view.emotion.widget.EmoticonsEditText;
-import com.wang.social.im.view.emotion.widget.EmoticonsFuncView;
 import com.wang.social.im.view.plugin.PluginAdapter;
 import com.wang.social.im.view.plugin.PluginModule;
 
@@ -88,6 +82,25 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
         initListener();
     }
 
+    private void initStyle() {
+        if (mConversationType != null) {
+            switch (mConversationType) {
+                case MIRROR:
+                    mVoiceToggle.setImageResource(R.drawable.im_voice_mirror_icon);
+                    mEmotionToggle.setImageResource(R.drawable.im_emoji_mirror_icon);
+                    mPluginToggle.setImageResource(R.drawable.im_plugin_mirror_icon);
+                    mSendToggle.setImageResource(R.drawable.im_send_icon);
+                    break;
+                default:
+                    mVoiceToggle.setImageResource(R.drawable.im_voice_icon);
+                    mEmotionToggle.setImageResource(R.drawable.im_emoji_icon);
+                    mPluginToggle.setImageResource(R.drawable.im_plugin_icon);
+                    mSendToggle.setImageResource(R.drawable.im_send_icon);
+                    break;
+            }
+        }
+    }
+
     private void initListener() {
         mVoiceToggle.setOnClickListener(new OnClickListener() {
             @Override
@@ -98,7 +111,7 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
                     mEmotionToggle.setVisibility(GONE);
                     hideInputKeyBoard();
 
-                    if (mInputViewListener != null){
+                    if (mInputViewListener != null) {
                         mInputViewListener.onInputViewCollapsed();
                     }
                 } else {
@@ -107,7 +120,7 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
                     mVoiceInput.setVisibility(GONE);
                     showInputKeyBoard();
 
-                    if (mInputViewListener != null){
+                    if (mInputViewListener != null) {
                         postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -128,7 +141,7 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
                         mPluginAdapter.setVisibility(GONE);
                         showInputKeyBoard();
 
-                        if (mInputViewListener != null){
+                        if (mInputViewListener != null) {
                             postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
@@ -142,14 +155,14 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
                                 @Override
                                 public void run() {
                                     mPluginAdapter.setVisibility(VISIBLE);
-                                    if (mInputViewListener != null){
+                                    if (mInputViewListener != null) {
                                         mInputViewListener.onInputViewExpanded();
                                     }
                                 }
                             }, 200L);
                         } else {
                             mPluginAdapter.setVisibility(VISIBLE);
-                            if (mInputViewListener != null){
+                            if (mInputViewListener != null) {
                                 mInputViewListener.onInputViewExpanded();
                             }
                         }
@@ -161,7 +174,7 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
                     mPluginAdapter.setVisibility(VISIBLE);
                     hideInputKeyBoard();
                     hideEmotionBoard();
-                    if (mInputViewListener != null){
+                    if (mInputViewListener != null) {
                         mInputViewListener.onInputViewExpanded();
                     }
                 }
@@ -179,7 +192,7 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
                     showInputKeyBoard();
                     isKeyBoardActive = true;
 
-                    if (mInputViewListener != null){
+                    if (mInputViewListener != null) {
                         postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -199,7 +212,7 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
                         mEmotionAdapter.setVisibility(GONE);
                         showInputKeyBoard();
 
-                        if (mInputViewListener != null){
+                        if (mInputViewListener != null) {
                             postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
@@ -214,7 +227,7 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
                                 public void run() {
                                     mEmotionAdapter.setVisibility(VISIBLE);
 
-                                    if (mInputViewListener != null){
+                                    if (mInputViewListener != null) {
                                         mInputViewListener.onInputViewExpanded();
                                     }
                                 }
@@ -222,7 +235,7 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
                         } else {
                             mEmotionAdapter.setVisibility(VISIBLE);
 
-                            if (mInputViewListener != null){
+                            if (mInputViewListener != null) {
                                 mInputViewListener.onInputViewExpanded();
                             }
                         }
@@ -235,7 +248,7 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
                     hideInputKeyBoard();
                     hidePluginBoard();
 
-                    if (mInputViewListener != null){
+                    if (mInputViewListener != null) {
                         mInputViewListener.onInputViewExpanded();
                     }
                 }
@@ -246,7 +259,7 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
         mVoiceInput.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (mInputViewListener != null){
+                if (mInputViewListener != null) {
                     mInputViewListener.onVoiceInputTouch(view, motionEvent);
                 }
                 return false;
@@ -257,7 +270,7 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
             @Override
             public void onClick(View view) {
                 String message = mEditText.getText().toString();
-                if (mInputViewListener != null){
+                if (mInputViewListener != null) {
                     mInputViewListener.onSendClick(message);
                 }
                 mEditText.setText("");
@@ -272,10 +285,10 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (TextUtils.isEmpty(mEditText.getText().toString())){
+                if (TextUtils.isEmpty(mEditText.getText().toString())) {
                     mSendToggle.setVisibility(GONE);
                     mPluginToggle.setVisibility(VISIBLE);
-                }else {
+                } else {
                     mSendToggle.setVisibility(VISIBLE);
                     mPluginToggle.setVisibility(GONE);
                 }
@@ -301,10 +314,19 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
     private void initPlugins() {
         mPluginAdapter.setPluginClickListener(this);
 
-        if (mConversationType == ConversationType.SOCIAL) {
-            mPluginAdapter.setPlugins(provideGroupPlugins());
-        } else {
-            mPluginAdapter.setPlugins(provideC2CPlugins());
+        switch (mConversationType) {
+            case PRIVATE:
+                mPluginAdapter.setPlugins(provideC2CPlugins());
+                break;
+            case SOCIAL:
+                mPluginAdapter.setPlugins(provideGroupPlugins());
+                break;
+            case TEAM:
+                mPluginAdapter.setPlugins(provideTeamPlugins());
+                break;
+            case MIRROR:
+                mPluginAdapter.setPlugins(provideMirrorPlugins());
+                break;
         }
     }
 
@@ -315,10 +337,12 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
      */
     public void setConversationType(ConversationType conversationType) {
         mConversationType = conversationType;
+
+        initStyle();
         initPlugins();
     }
 
-    public void collapse(){
+    public void collapse() {
         hideInputKeyBoard();
         hideEmotionBoard();
         hidePluginBoard();
@@ -346,27 +370,44 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
 
     private List<PluginModule> provideC2CPlugins() {
         List<PluginModule> plugins = new ArrayList<>();
-        plugins.add(new PluginModule(R.mipmap.ic_launcher, R.string.im_chat_input_plugin_image, PluginModule.PluginType.IMAGE));
-        plugins.add(new PluginModule(R.mipmap.ic_launcher, R.string.im_chat_input_plugin_shoot, PluginModule.PluginType.SHOOT));
-        plugins.add(new PluginModule(R.mipmap.ic_launcher, R.string.im_chat_input_plugin_location, PluginModule.PluginType.LOCATION));
-        plugins.add(new PluginModule(R.mipmap.ic_launcher, R.string.im_chat_input_plugin_redpacket, PluginModule.PluginType.REDPACKET));
+        plugins.add(new PluginModule(R.drawable.im_plugin_image, R.string.im_chat_input_plugin_image, PluginModule.PluginType.IMAGE));
+        plugins.add(new PluginModule(R.drawable.im_plugin_shoot, R.string.im_chat_input_plugin_shoot, PluginModule.PluginType.SHOOT));
+        plugins.add(new PluginModule(R.drawable.im_plugin_location, R.string.im_chat_input_plugin_location, PluginModule.PluginType.LOCATION));
+        plugins.add(new PluginModule(R.drawable.im_plugin_red_envelope, R.string.im_chat_input_plugin_redpacket, PluginModule.PluginType.REDPACKET));
         return plugins;
     }
 
     private List<PluginModule> provideGroupPlugins() {
         List<PluginModule> plugins = new ArrayList<>();
-        plugins.add(new PluginModule(R.mipmap.ic_launcher, R.string.im_chat_input_plugin_image, PluginModule.PluginType.IMAGE));
-        plugins.add(new PluginModule(R.mipmap.ic_launcher, R.string.im_chat_input_plugin_shoot, PluginModule.PluginType.SHOOT));
-        plugins.add(new PluginModule(R.mipmap.ic_launcher, R.string.im_chat_input_plugin_location, PluginModule.PluginType.LOCATION));
-        plugins.add(new PluginModule(R.mipmap.ic_launcher, R.string.im_chat_input_plugin_redpacket, PluginModule.PluginType.REDPACKET));
-        plugins.add(new PluginModule(R.mipmap.ic_launcher, R.string.im_chat_input_plugin_game, PluginModule.PluginType.GAME));
-        plugins.add(new PluginModule(R.mipmap.ic_launcher, R.string.im_chat_input_plugin_shadow, PluginModule.PluginType.SHADOW));
+        plugins.add(new PluginModule(R.drawable.im_plugin_image, R.string.im_chat_input_plugin_image, PluginModule.PluginType.IMAGE));
+        plugins.add(new PluginModule(R.drawable.im_plugin_shoot, R.string.im_chat_input_plugin_shoot, PluginModule.PluginType.SHOOT));
+        plugins.add(new PluginModule(R.drawable.im_plugin_location, R.string.im_chat_input_plugin_location, PluginModule.PluginType.LOCATION));
+        plugins.add(new PluginModule(R.drawable.im_plugin_red_envelope, R.string.im_chat_input_plugin_redpacket, PluginModule.PluginType.REDPACKET));
+        plugins.add(new PluginModule(R.drawable.im_plugin_image, R.string.im_chat_input_plugin_game, PluginModule.PluginType.GAME));
+        plugins.add(new PluginModule(R.drawable.im_plugin_shadow, R.string.im_chat_input_plugin_shadow, PluginModule.PluginType.SHADOW));
+        return plugins;
+    }
+
+    private List<PluginModule> provideTeamPlugins() {
+        List<PluginModule> plugins = new ArrayList<>();
+        plugins.add(new PluginModule(R.drawable.im_plugin_image, R.string.im_chat_input_plugin_image, PluginModule.PluginType.IMAGE));
+        plugins.add(new PluginModule(R.drawable.im_plugin_shoot, R.string.im_chat_input_plugin_shoot, PluginModule.PluginType.SHOOT));
+        plugins.add(new PluginModule(R.drawable.im_plugin_location, R.string.im_chat_input_plugin_location, PluginModule.PluginType.LOCATION));
+        plugins.add(new PluginModule(R.drawable.im_plugin_red_envelope, R.string.im_chat_input_plugin_redpacket, PluginModule.PluginType.REDPACKET));
+        return plugins;
+    }
+
+    private List<PluginModule> provideMirrorPlugins() {
+        List<PluginModule> plugins = new ArrayList<>();
+        plugins.add(new PluginModule(R.drawable.im_plugin_image_mirror, R.string.im_chat_input_plugin_image, PluginModule.PluginType.IMAGE));
+        plugins.add(new PluginModule(R.drawable.im_plugin_shoot_mirror, R.string.im_chat_input_plugin_shoot, PluginModule.PluginType.SHOOT));
+        plugins.add(new PluginModule(R.drawable.im_plugin_location_mirror, R.string.im_chat_input_plugin_location, PluginModule.PluginType.LOCATION));
         return plugins;
     }
 
     @Override
     public void onPluginClick(PluginModule pluginModule) {
-        if (mInputViewListener != null){
+        if (mInputViewListener != null) {
             mInputViewListener.onPluginClick(pluginModule);
         }
     }
@@ -375,12 +416,14 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
 
         /**
          * 扩展栏点击
+         *
          * @param pluginModule
          */
         void onPluginClick(PluginModule pluginModule);
 
         /**
          * 语言输入
+         *
          * @param view
          * @param event
          */
@@ -388,6 +431,7 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
 
         /**
          * 表情选择
+         *
          * @param codeName
          * @param showName
          */
@@ -395,6 +439,7 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
 
         /**
          * 点击发送按钮
+         *
          * @param content
          */
         void onSendClick(String content);

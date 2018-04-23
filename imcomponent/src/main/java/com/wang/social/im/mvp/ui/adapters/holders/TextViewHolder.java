@@ -1,7 +1,9 @@
 package com.wang.social.im.mvp.ui.adapters.holders;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.text.SpannableString;
 import android.view.View;
@@ -14,9 +16,9 @@ import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.tencent.imsdk.TIMElem;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMTextElem;
-import com.tencent.imsdk.TIMUserProfile;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
+import com.wang.social.im.enums.ConversationType;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 import com.wang.social.im.view.emotion.EmojiDisplay;
 
@@ -53,43 +55,34 @@ public class TextViewHolder extends BaseMessageViewHolder<UIMessage> {
 
     @Override
     protected void bindData(UIMessage itemValue, int position, BaseAdapter.OnItemClickListener onItemClickListener) {
-        if (itemValue.isShowTime()){
+        initStyle(itemValue);
+
+        if (itemValue.isShowTime()) {
             msgTvTime.setVisibility(View.VISIBLE);
             msgTvTime.setText(getTimeStr(itemValue.getTimMessage().timestamp()));
-        }else {
+        } else {
             msgTvTime.setVisibility(View.GONE);
         }
 
-        TIMUserProfile profile = itemValue.getTimMessage().getSenderProfile();
-        String faceUrl;
-        if (itemValue.getTimMessage().isSelf()) {
-            faceUrl = getSelfFaceUrl();
-        } else {
-            if (showNickname) {
-                msgTvName.setVisibility(View.VISIBLE);
-                if (profile != null) {
-                    msgTvName.setText(profile.getRemark());
-                    faceUrl = profile.getFaceUrl();
-                } else {
-                    msgTvName.setText("");
-                    faceUrl = "";
-                }
-            } else {
-                msgTvName.setVisibility(View.GONE);
-                if (profile != null) {
-                    faceUrl = profile.getFaceUrl();
-                } else {
-                    faceUrl = "";
-                }
-            }
+        if (showNickname && msgTvName != null) {
+            msgTvName.setVisibility(View.VISIBLE);
+            msgTvName.setText(itemValue.getNickname(conversationType));
+        } else if (msgTvName != null) {
+            msgTvName.setVisibility(View.GONE);
         }
 
-        mImageLoader.loadImage(getContext(), ImageConfigImpl.builder()
-                .placeholder(R.drawable.common_default_circle_placeholder)
-                .imageView(msgIvPortrait)
-                .isCircle(true)
-                .url(faceUrl)
-                .build());
+        //头像
+        if (showHeader) {
+            msgIvPortrait.setVisibility(View.VISIBLE);
+            mImageLoader.loadImage(getContext(), ImageConfigImpl.builder()
+                    .placeholder(R.drawable.common_default_circle_placeholder)
+                    .imageView(msgIvPortrait)
+                    .isCircle(true)
+                    .url(itemValue.getPortrait(conversationType))
+                    .build());
+        } else {
+            msgIvPortrait.setVisibility(View.GONE);
+        }
 
         TIMMessage timMessage = itemValue.getTimMessage();
         for (int i = 0, max = (int) timMessage.getElementCount(); i < max; i++) {
@@ -101,22 +94,61 @@ public class TextViewHolder extends BaseMessageViewHolder<UIMessage> {
             }
         }
 
-        if (timMessage.isSelf()){
+        if (timMessage.isSelf()) {
             showStatus(itemValue, msgIvError, msgPbProgress);
             setErrorListener(msgIvError, itemValue, position);
-        }else {
+        } else {
             setPortraitListener(msgIvPortrait, itemValue, position);
         }
         setContentListener(msgTvText, itemValue, position, false, true);
+    }
+
+    /**
+     * 若会话类型为镜子聊天则修改UI样式
+     *
+     * @param uiMessage
+     */
+    protected void initStyle(UIMessage uiMessage) {
+        if (conversationType == ConversationType.MIRROR) {
+            if (uiMessage.getTimMessage().isSelf()) {
+                msgTvText.setBackgroundResource(R.drawable.im_bg_message_right_mirror);
+                msgTvText.setTextColor(Color.WHITE);
+            } else {
+                msgTvText.setBackgroundResource(R.drawable.im_bg_message_left_mirror);
+                msgTvText.setTextColor(ContextCompat.getColor(getContext(), R.color.im_message_mirror_left_text));
+            }
+            if (msgTvName != null) {
+                msgTvName.setTextColor(ContextCompat.getColor(getContext(), R.color.im_bg_message_mirror_left));
+            }
+            msgTvTime.setTextColor(ContextCompat.getColor(getContext(), R.color.im_message_mirror_left_text));
+        } else {
+            if (uiMessage.getTimMessage().isSelf()) {
+                msgTvText.setBackgroundResource(R.drawable.im_bg_message_right);
+                msgTvText.setTextColor(Color.WHITE);
+            } else {
+                if (conversationType == ConversationType.TEAM) {
+                    msgTvText.setBackgroundResource(R.drawable.im_bg_message_left_team);
+                } else {
+                    msgTvText.setBackgroundResource(R.drawable.im_bg_message_left);
+                }
+                msgTvText.setTextColor(ContextCompat.getColor(getContext(), R.color.im_message_txt_receive));
+            }
+            if (msgTvName != null) {
+                msgTvName.setTextColor(ContextCompat.getColor(getContext(), R.color.im_message_txt_receive));
+            }
+            msgTvTime.setTextColor(ContextCompat.getColor(getContext(), R.color.common_text_dark_light));
+        }
     }
 
     @Override
     public void onRelease() {
         mUnbinder.unbind();
         mUnbinder = null;
-        mImageLoader.clear(getContext(), ImageConfigImpl.builder()
-                .imageView(msgIvPortrait)
-                .isClearMemory(true)
-                .build());
+        if (showHeader) {
+            mImageLoader.clear(getContext(), ImageConfigImpl.builder()
+                    .imageView(msgIvPortrait)
+                    .isClearMemory(true)
+                    .build());
+        }
     }
 }

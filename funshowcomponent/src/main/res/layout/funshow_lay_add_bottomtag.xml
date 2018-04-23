@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/common_shape_rect_hint_conerfull"
+        android:button="@null"
+        android:drawableLeft="@drawable/common_selector_check"
+        android:drawablePadding="5dp"
+        android:paddingBottom="3dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="3dp"
+        android:text="@string/funshow_addfunshow_pay"
+        android:textColor="@color/common_text_dark"
+        android:textSize="14sp" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/common_shape_rect_hint_conerfull"
+        android:button="@null"
+        android:drawableLeft="@drawable/common_selector_check"
+        android:drawablePadding="5dp"
+        android:paddingBottom="3dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="3dp"
+        android:text="@string/funshow_addfunshow_hidename"
+        android:textColor="@color/common_text_dark"
+        android:textSize="14sp" />
+
+</LinearLayout>

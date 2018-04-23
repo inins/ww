@@ -1,6 +1,7 @@
 package com.frame.component.ui.acticity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -33,21 +34,21 @@ public class PhotoActivity extends AppCompatActivity {
     private int position;
 
 
-    public static void start(Activity context, List<String> urlList) {
+    public static void start(Context context, List<String> urlList) {
         String[] urls = urlList.toArray(new String[]{});
         start(context, urls, 0);
     }
 
-    public static void start(Activity context, List<String> urlList, int position) {
+    public static void start(Context context, List<String> urlList, int position) {
         String[] urls = urlList.toArray(new String[]{});
         start(context, urls, position);
     }
 
-    public static void start(Activity context, String[] urls) {
+    public static void start(Context context, String[] urls) {
         start(context, urls, 0);
     }
 
-    public static void start(Activity context, String[] urls, int position) {
+    public static void start(Context context, String[] urls, int position) {
         if (StrUtil.isEmpty(urls)) {
             ToastUtil.showToastShort("错误：数据缺失");
             return;
@@ -56,7 +57,9 @@ public class PhotoActivity extends AppCompatActivity {
         intent.putExtra("urls", urls);
         intent.putExtra("position", position);
         context.startActivity(intent);
-        context.overridePendingTransition(R.anim.scale_in_scale, R.anim.scale_stay);
+        if (context instanceof Activity) {
+            ((Activity) context).overridePendingTransition(R.anim.scale_in_scale, R.anim.scale_stay);
+        }
     }
 
     @Override

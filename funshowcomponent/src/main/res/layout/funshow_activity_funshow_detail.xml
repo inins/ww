@@ -58,16 +58,24 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <include layout="@layout/funshow_lay_detail_contentboard" />
+                <include
+                    android:id="@+id/include_contentboard"
+                    layout="@layout/funshow_lay_detail_contentboard" />
 
-                <include layout="@layout/funshow_lay_detail_zan" />
+                <include
+                    android:id="@+id/include_zan"
+                    layout="@layout/funshow_lay_detail_zan" />
 
-                <include layout="@layout/funshow_lay_detail_eva" />
+                <include
+                    android:id="@+id/include_eva"
+                    layout="@layout/funshow_lay_detail_eva" />
 
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
 
-        <include layout="@layout/funshow_lay_detail_edit" />
+        <include
+            android:id="@+id/include_edit"
+            layout="@layout/funshow_lay_detail_edit" />
 
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

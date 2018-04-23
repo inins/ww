@@ -1,4 +1,4 @@
-package com.wang.social.im.helper.sound;
+package com.frame.component.helper.sound;
 
 import android.app.Activity;
 import android.content.Context;
@@ -15,21 +15,11 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.PopupWindow;
-import android.widget.TextView;
 
 import com.frame.utils.DataHelper;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.Utils;
-import com.tencent.imsdk.TIMSoundElem;
-import com.wang.social.im.R;
-import com.wang.social.im.enums.ConversationType;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 
@@ -41,23 +31,19 @@ public class AudioRecordManager implements Callback {
     private IAudioState mCurAudioState;
     private View mRootView;
     private Context mContext;
-    private ConversationType mConversationType;
-    private String mTargetId;
     private Handler mHandler;
     private AudioManager mAudioManager;
     private MediaRecorder mMediaRecorder;
     private Uri mAudioPath;
     private long smStartRecTime;
     private OnAudioFocusChangeListener mAfChangeListener;
-    private PopupWindow mRecordWindow;
-    private ImageView mStateIV;
-    private TextView mStateTV;
-    private TextView mTimerTV;
     IAudioState idleState;
     IAudioState recordState;
     IAudioState sendingState;
     IAudioState cancelState;
     IAudioState timerState;
+
+    private OnRecordListener recordListener;
 
     public static AudioRecordManager getInstance() {
         return AudioRecordManager.SingletonHolder.sInstance;
@@ -117,67 +103,44 @@ public class AudioRecordManager implements Callback {
         return false;
     }
 
+    public void setRecordListener(OnRecordListener recordListener) {
+        this.recordListener = recordListener;
+    }
+
     private void initView(View root) {
         this.mHandler = new Handler(root.getHandler().getLooper(), this);
-        LayoutInflater inflater = LayoutInflater.from(root.getContext());
-        View view = inflater.inflate(R.layout.im_input_voice_pop, (ViewGroup) null);
-        this.mStateIV = view.findViewById(R.id.im_audio_state_image);
-        this.mStateTV = view.findViewById(R.id.im_audio_state_text);
-        this.mTimerTV = view.findViewById(R.id.im_audio_timer);
-        this.mRecordWindow = new PopupWindow(view, -1, -1);
-        this.mRecordWindow.showAtLocation(root, 17, 0, 0);
-        this.mRecordWindow.setFocusable(true);
-        this.mRecordWindow.setOutsideTouchable(false);
-        this.mRecordWindow.setTouchable(false);
+        if (recordListener != null) {
+            recordListener.initView(root);
+        }
     }
 
     private void setTimeoutView(int counter) {
-        if (this.mRecordWindow != null) {
-            this.mStateIV.setVisibility(View.GONE);
-            this.mStateTV.setVisibility(View.VISIBLE);
-            this.mStateTV.setText(R.string.im_input_voice_rec);
-            this.mTimerTV.setText(String.format("%s", new Object[]{Integer.valueOf(counter)}));
-            this.mTimerTV.setVisibility(View.VISIBLE);
+        if (recordListener != null) {
+            recordListener.onTimeOut(counter);
         }
-
     }
 
     private void setRecordingView() {
         Timber.tag(TAG).d("setRecordingView");
-        if (this.mRecordWindow != null) {
-            this.mStateIV.setVisibility(View.VISIBLE);
-            this.mStateIV.setImageResource(R.drawable.im_volume_1);
-            this.mStateTV.setVisibility(View.VISIBLE);
-            this.mStateTV.setText(R.string.im_input_voice_rec);
-            this.mTimerTV.setVisibility(View.GONE);
+        if (recordListener != null) {
+            recordListener.onRecording();
         }
-
     }
 
     private void setCancelView() {
         Timber.tag(TAG).d("setCancelView");
-        if (this.mRecordWindow != null) {
-            this.mTimerTV.setVisibility(View.GONE);
-            this.mStateIV.setVisibility(View.VISIBLE);
-            this.mStateIV.setImageResource(R.drawable.im_volume_cancel);
-            this.mStateTV.setVisibility(View.VISIBLE);
-            this.mStateTV.setText(R.string.im_input_voice_cancel);
-            this.mStateTV.setBackgroundResource(R.drawable.im_corner_voice_style);
+        if (recordListener != null) {
+            recordListener.onCancel();
         }
-
     }
 
     private void destroyView() {
         Timber.tag(TAG).d("destroyView");
-        if (this.mRecordWindow != null) {
+        if (this.recordListener != null) {
             this.mHandler.removeMessages(7);
             this.mHandler.removeMessages(8);
             this.mHandler.removeMessages(2);
-            this.mRecordWindow.dismiss();
-            this.mRecordWindow = null;
-            this.mStateIV = null;
-            this.mStateTV = null;
-            this.mTimerTV = null;
+            recordListener.onDestroy();
             this.mHandler = null;
             this.mContext = null;
             this.mRootView = null;
@@ -193,11 +156,9 @@ public class AudioRecordManager implements Callback {
         return this.RECORD_INTERVAL;
     }
 
-    public void startRecord(View rootView, ConversationType conversationType, String targetId) {
+    public void startRecord(View rootView) {
         this.mRootView = rootView;
         this.mContext = rootView.getContext().getApplicationContext();
-        this.mConversationType = conversationType;
-        this.mTargetId = targetId;
         this.mAudioManager = (AudioManager) this.mContext.getSystemService(Activity.AUDIO_SERVICE);
         if (this.mAfChangeListener != null) {
             this.mAudioManager.abandonAudioFocus(this.mAfChangeListener);
@@ -280,7 +241,7 @@ public class AudioRecordManager implements Callback {
         }
     }
 
-    private File getCacheDir(){
+    private File getCacheDir() {
         File file = FrameUtils.obtainAppComponentFromContext(mContext).cacheFile();
         return DataHelper.makeDirs(new File(file, "Sound"));
     }
@@ -319,39 +280,16 @@ public class AudioRecordManager implements Callback {
 
     private void sendAudioFile() {
         int duration = (int) (SystemClock.elapsedRealtime() - this.smStartRecTime) / 1000;
-        TIMSoundElem soundElem = new TIMSoundElem();
-        soundElem.setDuration(duration);
-        soundElem.setPath(mAudioPath.getPath());
-        EventBus.getDefault().post(soundElem);
+        if (recordListener != null){
+            recordListener.onCompleted(duration, mAudioPath.getPath());
+        }
     }
 
     private void audioDBChanged() {
         if (this.mMediaRecorder != null) {
             int db = this.mMediaRecorder.getMaxAmplitude() / 600;
-            switch (db / 5) {
-                case 0:
-                    this.mStateIV.setImageResource(R.drawable.im_volume_1);
-                    break;
-                case 1:
-                    this.mStateIV.setImageResource(R.drawable.im_volume_2);
-                    break;
-                case 2:
-                    this.mStateIV.setImageResource(R.drawable.im_volume_3);
-                    break;
-                case 3:
-                    this.mStateIV.setImageResource(R.drawable.im_volume_4);
-                    break;
-                case 4:
-                    this.mStateIV.setImageResource(R.drawable.im_volume_5);
-                    break;
-                case 5:
-                    this.mStateIV.setImageResource(R.drawable.im_volume_6);
-                    break;
-                case 6:
-                    this.mStateIV.setImageResource(R.drawable.im_volume_7);
-                    break;
-                default:
-                    this.mStateIV.setImageResource(R.drawable.im_volume_8);
+            if (recordListener != null){
+                recordListener.onDBChanged(db);
             }
         }
 
@@ -518,8 +456,9 @@ public class AudioRecordManager implements Callback {
                     }
 
                     if (checked && !activityFinished) {
-                        AudioRecordManager.this.mStateIV.setImageResource(R.drawable.im_volume_wraning);
-                        AudioRecordManager.this.mStateTV.setText(R.string.im_input_voice_short);
+                        if (recordListener != null){
+                            recordListener.tooShort();
+                        }
                         AudioRecordManager.this.mHandler.removeMessages(2);
                     }
 
@@ -609,5 +548,52 @@ public class AudioRecordManager implements Callback {
 
         SingletonHolder() {
         }
+    }
+
+    public interface OnRecordListener {
+
+        /**
+         * 初始化
+         */
+        void initView(View root);
+
+        /**
+         * 录音时间即将结束
+         *
+         * @param counter
+         */
+        void onTimeOut(int counter);
+
+        /**
+         * 录音中
+         */
+        void onRecording();
+
+        /**
+         * 取消录音
+         */
+        void onCancel();
+
+        /**
+         * 录音完成
+         */
+        void onCompleted(int duration, String path);
+
+        /**
+         * 录音音量变化
+         *
+         * @param db
+         */
+        void onDBChanged(int db);
+
+        /**
+         * 录音时间太短
+         */
+        void tooShort();
+
+        /**
+         * 销毁
+         */
+        void onDestroy();
     }
 }

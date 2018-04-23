@@ -8,7 +8,7 @@ import com.frame.utils.SizeUtils;
 import com.frame.utils.ToastUtil;
 import com.wang.social.funshow.R;
 
-public class MusicPopupWindow extends BasePopupWindow {
+public class MusicPopupWindow extends BasePopupWindow implements View.OnClickListener {
 
     public MusicPopupWindow(Context context) {
         super(context);
@@ -22,7 +22,8 @@ public class MusicPopupWindow extends BasePopupWindow {
 
     @Override
     public void initBase() {
-
+        getContentView().findViewById(R.id.pop_voice).setOnClickListener(this);
+        getContentView().findViewById(R.id.pop_music).setOnClickListener(this);
     }
 
     @Override
@@ -38,5 +39,29 @@ public class MusicPopupWindow extends BasePopupWindow {
         } else {
             this.dismiss();
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        if (id == R.id.pop_voice) {
+            if (onMusicSelectListener != null) onMusicSelectListener.onVoiceClick(v);
+        } else if (id == R.id.pop_music) {
+            if (onMusicSelectListener != null) onMusicSelectListener.onMusicClick(v);
+        }
+    }
+
+    /////////////////////////////////////////////////
+
+    private OnMusicSelectListener onMusicSelectListener;
+
+    public void setOnMusicSelectListener(OnMusicSelectListener onMusicSelectListener) {
+        this.onMusicSelectListener = onMusicSelectListener;
+    }
+
+    public interface OnMusicSelectListener {
+        void onVoiceClick(View v);
+
+        void onMusicClick(View v);
     }
 }

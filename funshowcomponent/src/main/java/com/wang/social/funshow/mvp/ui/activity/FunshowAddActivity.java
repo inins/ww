@@ -4,36 +4,39 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.widget.NestedScrollView;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.LinearLayout;
 
-import com.frame.base.BaseAdapter;
-import com.frame.component.common.ItemDecorationDivider;
-import com.frame.component.entities.TestEntity;
-import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.component.view.TitleView;
-import com.frame.component.view.bundleimgview.BundleImgEntity;
-import com.frame.component.view.bundleimgview.BundleImgView;
 import com.frame.di.component.AppComponent;
 import com.frame.utils.FocusUtil;
 import com.wang.social.funshow.R;
 import com.wang.social.funshow.R2;
-import com.wang.social.funshow.mvp.ui.adapter.RecycleAdapterHotUserList;
-import com.wang.social.funshow.mvp.ui.dialog.MusicPopupWindow;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.wang.social.funshow.mvp.ui.controller.FunshowAddBottomBarController;
+import com.wang.social.funshow.mvp.ui.controller.FunshowAddBundleController;
+import com.wang.social.funshow.mvp.ui.controller.FunshowAddEditController;
+import com.wang.social.funshow.mvp.ui.controller.FunshowAddMusicBoardController;
+import com.wang.social.funshow.mvp.ui.controller.FunshowAddTagController;
+import com.wang.social.funshow.mvp.ui.view.DispatchTouchNestedScrollView;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
-public class FunshowAddActivity extends BasicAppActivity implements BaseAdapter.OnItemClickListener<TestEntity> {
+public class FunshowAddActivity extends BasicAppActivity {
 
     @BindView(R2.id.titleview)
     TitleView titleview;
-    @BindView(R2.id.bundleview)
-    BundleImgView bundleview;
+    @BindView(R2.id.scroll)
+    DispatchTouchNestedScrollView scroll;
+
+    private FunshowAddEditController editController;
+    private FunshowAddMusicBoardController musicBoardController;
+    private FunshowAddBundleController bundleController;
+    private FunshowAddBottomBarController bottomBarController;
+    private FunshowAddTagController tagController;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, FunshowAddActivity.class);
@@ -49,37 +52,23 @@ public class FunshowAddActivity extends BasicAppActivity implements BaseAdapter.
     public void initData(@NonNull Bundle savedInstanceState) {
         FocusUtil.focusToTop(toolbar);
 
-        bundleview.setMaxcount(9);
-        bundleview.setPhotos(new ArrayList<BundleImgEntity>() {{
-            add(new BundleImgEntity(ImageLoaderHelper.getRandomImg()));
-            add(new BundleImgEntity(ImageLoaderHelper.getRandomImg()));
-            add(new BundleImgEntity(ImageLoaderHelper.getRandomImg()));
-            add(new BundleImgEntity(ImageLoaderHelper.getRandomImg()));
-            add(new BundleImgEntity(ImageLoaderHelper.getRandomImg()));
-            add(new BundleImgEntity(ImageLoaderHelper.getRandomImg()));
-            add(new BundleImgEntity(ImageLoaderHelper.getRandomImg()));
-        }});
-    }
+        editController = new FunshowAddEditController(findViewById(R.id.include_edit));
+        musicBoardController = new FunshowAddMusicBoardController(findViewById(R.id.include_musicboard));
+        bundleController = new FunshowAddBundleController(findViewById(R.id.include_bundle));
+        bottomBarController = new FunshowAddBottomBarController(findViewById(R.id.include_bottombar));
+        tagController = new FunshowAddTagController(findViewById(R.id.include_tagbar));
 
-    public void onClick(View v) {
-        int i = v.getId();
-        if (i == R.id.btn_right) {
-        } else if (i == R.id.btn_aite) {
-            AiteUserListActivity.start(this);
-        } else if (i == R.id.btn_position) {
-
-        } else if (i == R.id.btn_lock) {
-            LockActivity.start(this);
-        } else if (i == R.id.btn_music) {
-            new MusicPopupWindow(this).showPopupWindow(v);
-        } else if (i == R.id.btn_keyboard) {
-
-        }
+        scroll.setOnDispatchTouchEventCallback(() -> bottomBarController.setVoiceRecordVisible(false));
     }
 
     @Override
-    public void onItemClick(TestEntity testEntity, int position) {
-
+    protected void onDestroy() {
+        super.onDestroy();
+        editController.onDestory();
+        musicBoardController.onDestory();
+        bundleController.onDestory();
+        bottomBarController.onDestory();
+        tagController.onDestory();
     }
 
     @Override

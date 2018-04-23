@@ -33,6 +33,18 @@ public class ConversationActivity extends BasicActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.conversation, conversationFragment, ConversationFragment.class.getName());
         transaction.commitAllowingStateLoss();
+
+        switch (conversationType) {
+            case TEAM:
+                findViewById(R.id.cl_root).setBackgroundColor(0xfff2fcff);
+                break;
+            case MIRROR:
+                findViewById(R.id.cl_root).setBackgroundColor(0xff333333);
+                break;
+            default:
+                findViewById(R.id.cl_root).setBackgroundColor(0xfff5f5f5);
+                break;
+        }
     }
 
     @Override

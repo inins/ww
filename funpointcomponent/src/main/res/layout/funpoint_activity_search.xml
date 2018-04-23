@@ -36,7 +36,7 @@
                     app:cardCornerRadius="18dp"
                     app:cardElevation="5dp">
 
-                    <com.wang.social.funpoint.mvp.ui.view.ConerEditText
+                    <com.frame.component.view.ConerEditText
                         android:id="@+id/edit_search"
                         style="@style/common_EditNone"
                         android:layout_height="match_parent"
