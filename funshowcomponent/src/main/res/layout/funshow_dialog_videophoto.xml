@@ -21,28 +21,6 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/lay_official"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone"
-                tools:visibility="visible">
-
-                <TextView
-                    android:id="@+id/btn_pic"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:text="@string/personal_medetail_dialog_pic"
-                    android:textColor="@color/common_text_blank_dark"
-                    android:textSize="16sp" />
-
-                <View style="@style/common_Line_H" />
-            </LinearLayout>
-
             <TextView
                 android:id="@+id/btn_camera"
                 android:layout_width="match_parent"
@@ -50,7 +28,7 @@
                 android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="@string/personal_medetail_dialog_camera"
+                android:text="@string/funshow_addfunshow_dialog_camera"
                 android:textColor="@color/common_text_blank_dark"
                 android:textSize="16sp" />
 
@@ -63,7 +41,7 @@
                 android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="@string/personal_medetail_dialog_photo"
+                android:text="@string/funshow_addfunshow_dialog_photo"
                 android:textColor="@color/common_text_blank_dark"
                 android:textSize="16sp" />
 
@@ -78,7 +56,7 @@
             android:foreground="?attr/selectableItemBackground"
             android:gravity="center"
             android:padding="10dp"
-            android:text="@string/personal_cancel"
+            android:text="@string/common_cancel"
             android:textColor="@color/common_text_blank_dark"
             android:textSize="16sp" />
 

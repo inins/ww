@@ -15,6 +15,7 @@ import com.frame.di.component.AppComponent;
 import com.frame.utils.FocusUtil;
 import com.wang.social.funshow.R;
 import com.wang.social.funshow.R2;
+import com.wang.social.funshow.helper.VideoPhotoHelperEx;
 import com.wang.social.funshow.mvp.ui.controller.FunshowAddBottomBarController;
 import com.wang.social.funshow.mvp.ui.controller.FunshowAddBundleController;
 import com.wang.social.funshow.mvp.ui.controller.FunshowAddEditController;
@@ -59,6 +60,12 @@ public class FunshowAddActivity extends BasicAppActivity {
         tagController = new FunshowAddTagController(findViewById(R.id.include_tagbar));
 
         scroll.setOnDispatchTouchEventCallback(() -> bottomBarController.setVoiceRecordVisible(false));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        bundleController.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

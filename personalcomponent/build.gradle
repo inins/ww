@@ -1,5 +1,8 @@
-apply plugin: 'com.component.build'
-//apply plugin: 'com.android.application'
+//if (project.isRunAlone) {
+    apply plugin: 'com.android.application'
+//} else {
+//    apply plugin: 'com.component.build'
+//}
 apply plugin: 'com.jakewharton.butterknife'
 
 android {
@@ -11,7 +14,7 @@ android {
     }
 
     defaultConfig {
-        if(project.isRunAlone){
+        if (project.isRunAlone) {
             applicationId "com.dongdongkeji.wangwangsocial"
         }
         minSdkVersion rootProject.ext.android["minSdkVersion"]
@@ -100,7 +103,9 @@ dependencies {
     implementation project(':socializecomponent')
 }
 
-combuild {
-    applicationName = 'com.frame.base.BaseApplication'
-    isRegisterCompoAuto = true
+if (!project.isRunAlone) {
+    combuild {
+        applicationName = 'com.frame.base.BaseApplication'
+        isRegisterCompoAuto = true
+    }
 }

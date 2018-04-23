@@ -30,7 +30,7 @@ public class RecycleAdapterBundleImg extends RecyclerView.Adapter<RecyclerView.V
     private int corner;
     //图片宽高比例
     private float wihi;
-
+    private int src_addbtn;
 
     public static final int TYPE_ITEM = 0xff01;
     public static final int TYPE_ADD = 0xff02;
@@ -162,6 +162,11 @@ public class RecycleAdapterBundleImg extends RecyclerView.Adapter<RecyclerView.V
             super(itemView);
             card_bundle = itemView.findViewById(R.id.card_bundle);
             square_framelayout = itemView.findViewById(R.id.square_framelayout);
+            //如果有自定义添加按钮的布局，则加载自定义布局
+            if (src_addbtn != 0) {
+                square_framelayout.removeAllViews();
+                LayoutInflater.from(itemView.getContext()).inflate(src_addbtn, square_framelayout, true);
+            }
         }
     }
 
@@ -234,5 +239,13 @@ public class RecycleAdapterBundleImg extends RecyclerView.Adapter<RecyclerView.V
 
     public void setWihi(float wihi) {
         this.wihi = wihi;
+    }
+
+    public int getSrcAddbtn() {
+        return src_addbtn;
+    }
+
+    public void setSrcAddbtn(int src_addbtn) {
+        this.src_addbtn = src_addbtn;
     }
 }

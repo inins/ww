@@ -1,16 +1,10 @@
 package com.wang.social.personal.mvp.model;
 
-import com.frame.di.scope.ActivityScope;
 import com.frame.di.scope.FragmentScope;
-import com.frame.http.api.BaseJson;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.BaseModel;
-import com.wang.social.personal.mvp.entities.UserWrap;
-import com.wang.social.personal.mvp.model.api.UserService;
 
 import javax.inject.Inject;
-
-import io.reactivex.Observable;
 
 /**
  * ========================================
