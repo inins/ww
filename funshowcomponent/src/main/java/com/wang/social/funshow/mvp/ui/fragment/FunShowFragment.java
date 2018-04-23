@@ -44,7 +44,7 @@ import butterknife.Unbinder;
 
 /**
  */
-public class FunShowFragment extends BaseFragment<FunshowListPresonter> implements FunshowListContract.View, BaseAdapter.OnItemClickListener<TestEntity> {
+public class FunShowFragment extends BaseFragment<FunshowListPresonter> implements FunshowListContract.View, BaseAdapter.OnItemClickListener<Funshow> {
 
     @BindView(R2.id.barview)
     BarView barview;
@@ -83,16 +83,16 @@ public class FunShowFragment extends BaseFragment<FunshowListPresonter> implemen
             add(new BarUser("http://photos.tuchong.com/23552/f/624083.jpg"));
         }});
 
-        adapter.refreshData(new ArrayList<TestEntity>() {{
-            add(new TestEntity());
-            add(new TestEntity());
-            add(new TestEntity());
-            add(new TestEntity());
-            add(new TestEntity());
-            add(new TestEntity());
-            add(new TestEntity());
-            add(new TestEntity());
-        }});
+        mPresenter.netGetFunshowList(0);
+//        adapter.refreshData(new ArrayList<Funshow>() {{
+//            add(new Funshow());
+//            add(new Funshow());
+//            add(new Funshow());
+//            add(new Funshow());
+//            add(new Funshow());
+//            add(new Funshow());
+//            add(new Funshow());
+//        }});
 
         //测试跳转代码
         getView().findViewById(R.id.btn_funshow_add).setOnClickListener(v -> FunshowAddActivity.start(getContext()));
@@ -100,7 +100,7 @@ public class FunShowFragment extends BaseFragment<FunshowListPresonter> implemen
     }
 
     @Override
-    public void onItemClick(TestEntity testEntity, int position) {
+    public void onItemClick(Funshow testEntity, int position) {
         FunshowDetailActivity.start(getContext());
     }
 
@@ -136,6 +136,6 @@ public class FunShowFragment extends BaseFragment<FunshowListPresonter> implemen
 
     @Override
     public void reFreshList(List<Funshow> datas) {
-
+        adapter.refreshData(datas);
     }
 }

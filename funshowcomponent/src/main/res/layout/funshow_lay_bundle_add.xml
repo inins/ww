@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:scaleType="centerInside"
-        android:src="@drawable/funshow_ic_bundle_add" />
+        android:src="@drawable/commom_ic_bundle_add" />
 
     <TextView
         android:layout_width="wrap_content"
