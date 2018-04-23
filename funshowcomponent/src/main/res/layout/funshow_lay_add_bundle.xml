@@ -12,6 +12,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="15dp"
+        app:addbtnlayout="@layout/funshow_lay_bundle_add"
         app:colcount="3"
         app:corner="0dp"
         app:space_width="4dp" />

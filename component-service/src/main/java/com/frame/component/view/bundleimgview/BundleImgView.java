@@ -52,6 +52,7 @@ public class BundleImgView extends FrameLayout {
     private int corner;
     //图片宽高比例
     private float wihi;
+    private int src_addbtn;
 
     public BundleImgView(@NonNull Context context) {
         this(context, null);
@@ -72,6 +73,7 @@ public class BundleImgView extends FrameLayout {
         corner = a.getDimensionPixelOffset(R.styleable.BundleImgView_corner, dp2px(getContext(), 4));
         wihi = a.getFloat(R.styleable.BundleImgView_wihi, 1f);
         dragble = a.getBoolean(R.styleable.BundleImgView_dragble, false);
+        src_addbtn = a.getResourceId(R.styleable.BundleImgView_addbtnlayout, 0);
         a.recycle();
     }
 
@@ -101,6 +103,7 @@ public class BundleImgView extends FrameLayout {
         adapter.setEditble(editble);
         adapter.setCorner(corner);
         adapter.setWihi(wihi);
+        adapter.setSrcAddbtn(src_addbtn);
         layoutManager = new GridLayoutManager(context, colcount);
         itemDecoration = new GridSpacingItemDecoration(colcount, spaceWidth, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
