@@ -1,9 +1,9 @@
 package com.wang.social.im.mvp.ui;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -44,8 +44,8 @@ public class TeamConversationActivity extends BasicConversationActivity {
     TextView tcTvTitle;
     @BindView(R2.id.tc_tv_online)
     TextView tcTvOnline;
-    @BindView(R2.id.tc_fl_toolbar)
-    FrameLayout tcFlToolbar;
+//    @BindView(R2.id.tc_fl_toolbar)
+//    FrameLayout tcFlToolbar;
 
     @Autowired
     String targetId;
@@ -53,7 +53,7 @@ public class TeamConversationActivity extends BasicConversationActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        BarUtils.setTranslucentForImageView(this, 0, tcFlToolbar);
+        BarUtils.setTranslucentForImageView(this, 0, toolbar);
 
         setListener();
     }
@@ -113,5 +113,14 @@ public class TeamConversationActivity extends BasicConversationActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.tc_fl_conversation, conversationFragment, ConversationFragment.class.getName() + "team");
         transaction.commitAllowingStateLoss();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag(ConversationFragment.class.getName() + "team");
+        if (fragment != null) {
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
     }
 }
