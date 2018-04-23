@@ -11,9 +11,14 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.frame.base.BaseFragment;
 import com.frame.di.component.AppComponent;
@@ -39,8 +44,8 @@ import com.wang.social.im.di.modules.ConversationModule;
 import com.wang.social.im.enums.ConnectionStatus;
 import com.wang.social.im.enums.ConversationType;
 import com.wang.social.im.enums.MessageType;
-import com.wang.social.im.helper.sound.AudioPlayManager;
-import com.wang.social.im.helper.sound.AudioRecordManager;
+import com.frame.component.helper.sound.AudioPlayManager;
+import com.frame.component.helper.sound.AudioRecordManager;
 import com.wang.social.im.mvp.contract.ConversationContract;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 import com.wang.social.im.mvp.presenter.ConversationPresenter;
@@ -56,7 +61,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -104,6 +108,8 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mOffsetLimit = SizeUtils.dp2px(70);
+
+        AudioRecordManager.getInstance().setRecordListener(new RecordListener());
     }
 
     @Override
@@ -221,6 +227,7 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
         mAdapter = null;
         mLayoutManager = null;
         mTargetId = null;
+        AudioRecordManager.getInstance().setRecordListener(null);
     }
 
     @Override
@@ -321,7 +328,7 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
                     public void accept(Permission permission) throws Exception {
                         if (permission.granted) {
                             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                                AudioRecordManager.getInstance().startRecord(view, mConversationType, mTargetId);
+                                AudioRecordManager.getInstance().startRecord(view);
                                 mVoiceLastTouchY = event.getY();
                                 mUpDirection = false;
                                 ((Button) view).setText(R.string.im_voice_input_hover);
@@ -468,13 +475,111 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
         }
     }
 
-    /**
-     * 录音完毕
-     *
-     * @param soundElem
-     */
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onSoundRecorded(TIMSoundElem soundElem) {
-        mPresenter.sendSoundMessage(soundElem);
+    private class RecordListener implements AudioRecordManager.OnRecordListener {
+
+        private PopupWindow mRecordWindow;
+        private ImageView mStateIV;
+        private TextView mStateTV;
+        private TextView mTimerTV;
+
+        @Override
+        public void initView(View root) {
+            LayoutInflater inflater = LayoutInflater.from(root.getContext());
+            View view = inflater.inflate(R.layout.im_input_voice_pop, (ViewGroup) null);
+            this.mStateIV = view.findViewById(R.id.im_audio_state_image);
+            this.mStateTV = view.findViewById(R.id.im_audio_state_text);
+            this.mTimerTV = view.findViewById(R.id.im_audio_timer);
+            this.mRecordWindow = new PopupWindow(view, -1, -1);
+            this.mRecordWindow.showAtLocation(root, 17, 0, 0);
+            this.mRecordWindow.setFocusable(true);
+            this.mRecordWindow.setOutsideTouchable(false);
+            this.mRecordWindow.setTouchable(false);
+        }
+
+        @Override
+        public void onTimeOut(int counter) {
+            if (this.mRecordWindow != null) {
+                this.mStateIV.setVisibility(View.GONE);
+                this.mStateTV.setVisibility(View.VISIBLE);
+                this.mStateTV.setText(R.string.im_input_voice_rec);
+                this.mTimerTV.setText(String.format("%s", new Object[]{Integer.valueOf(counter)}));
+                this.mTimerTV.setVisibility(View.VISIBLE);
+            }
+        }
+
+        @Override
+        public void onRecording() {
+            if (this.mRecordWindow != null) {
+                this.mStateIV.setVisibility(View.VISIBLE);
+                this.mStateIV.setImageResource(R.drawable.im_volume_1);
+                this.mStateTV.setVisibility(View.VISIBLE);
+                this.mStateTV.setText(R.string.im_input_voice_rec);
+                this.mTimerTV.setVisibility(View.GONE);
+            }
+        }
+
+        @Override
+        public void onCancel() {
+            if (this.mRecordWindow != null) {
+                this.mTimerTV.setVisibility(View.GONE);
+                this.mStateIV.setVisibility(View.VISIBLE);
+                this.mStateIV.setImageResource(R.drawable.im_volume_cancel);
+                this.mStateTV.setVisibility(View.VISIBLE);
+                this.mStateTV.setText(R.string.im_input_voice_cancel);
+                this.mStateTV.setBackgroundResource(R.drawable.im_corner_voice_style);
+            }
+        }
+
+        @Override
+        public void onCompleted(int duration, String path) {
+            TIMSoundElem soundElem = new TIMSoundElem();
+            soundElem.setDuration(duration);
+            soundElem.setPath(path);
+            mPresenter.sendSoundMessage(soundElem);
+        }
+
+        @Override
+        public void onDBChanged(int db) {
+            switch (db / 5) {
+                case 0:
+                    this.mStateIV.setImageResource(R.drawable.im_volume_1);
+                    break;
+                case 1:
+                    this.mStateIV.setImageResource(R.drawable.im_volume_2);
+                    break;
+                case 2:
+                    this.mStateIV.setImageResource(R.drawable.im_volume_3);
+                    break;
+                case 3:
+                    this.mStateIV.setImageResource(R.drawable.im_volume_4);
+                    break;
+                case 4:
+                    this.mStateIV.setImageResource(R.drawable.im_volume_5);
+                    break;
+                case 5:
+                    this.mStateIV.setImageResource(R.drawable.im_volume_6);
+                    break;
+                case 6:
+                    this.mStateIV.setImageResource(R.drawable.im_volume_7);
+                    break;
+                default:
+                    this.mStateIV.setImageResource(R.drawable.im_volume_8);
+            }
+        }
+
+        @Override
+        public void tooShort() {
+            mStateIV.setImageResource(R.drawable.im_volume_wraning);
+            mStateTV.setText(R.string.im_input_voice_short);
+        }
+
+        @Override
+        public void onDestroy() {
+            this.mRecordWindow.dismiss();
+            this.mRecordWindow = null;
+            this.mStateIV = null;
+            this.mStateTV = null;
+            this.mTimerTV = null;
+        }
     }
 }
