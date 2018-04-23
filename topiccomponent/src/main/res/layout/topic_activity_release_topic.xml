@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.frame.component.view.SocialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:actionBarSize"
+        app:toolbar_left_icon="@drawable/common_ic_back"
+        app:toolbar_right_text="@string/topic_release">
+
+    </com.frame.component.view.SocialToolbar>
+
+    <TextView
+        android:id="@+id/title_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="14dp"
+        android:text="@string/topic_release_topic"
+        android:textColor="@color/common_text_blank"
+        android:textSize="24sp"
+        android:layout_below="@+id/toolbar"
+        android:layout_marginBottom="20dp"/>
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title_text_view"
+        android:layout_above="@+id/bottom_layout">
+
+        <include layout="@layout/topic_view_release_topic"/>
+
+    </android.support.v4.widget.NestedScrollView>
+    
+    <LinearLayout
+        android:id="@+id/bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+    </LinearLayout>
+
+</RelativeLayout>

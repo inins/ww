@@ -19,4 +19,13 @@
     <string name="topic_comment_sort_hot">按热度</string>
     <string name="topic_comment_sort_time">按时间</string>
     <string name="topic_total_reply_count_format">共%1d条回复</string>
+    <string name="topic_release_topic">发布话题</string>
+    <string name="topic_release">发布</string>
+    <string name="topic_topic_title">话题名称</string>
+    <string name="topic_topic_title_hint">最多输入30个字...</string>
+    <string name="topic_topic_cover">话题封面</string>
+    <string name="topic_tag">标签</string>
+    <string name="topic_music">音乐</string>
+    <string name="topic_content">内容</string>
+    <string name="topic_title_length_format">%1d/30</string>
 </resources>
