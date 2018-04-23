@@ -6,5 +6,5 @@
         android:topLeftRadius="@dimen/im_msg_background_radius"
         android:topRightRadius="@dimen/im_msg_background_radius"/>
 
-    <solid android:color="@color/im_bg_message_receive"/>
+    <solid android:color="@color/im_bg_message_mirror_left"/>
 </shape>

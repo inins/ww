@@ -15,7 +15,7 @@
         android:layout_marginTop="10dp"
         android:scaleType="centerCrop"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/msg_tv_time"
+        app:layout_constraintTop_toBottomOf="@id/msg_tv_time"
         app:layout_goneMarginTop="0dp"
         tools:src="@drawable/common_default_circle_placeholder" />
 
@@ -24,13 +24,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="9dp"
+        android:layout_marginTop="10dp"
         android:lines="1"
         android:textColor="@color/im_message_nickname"
         android:textSize="@dimen/im_msg_nickname_size"
-        android:visibility="gone"
         app:layout_constraintLeft_toRightOf="@id/msg_iv_portrait"
-        app:layout_constraintTop_toTopOf="@id/msg_iv_portrait"
+        app:layout_constraintTop_toBottomOf="@id/msg_tv_time"
         app:layout_goneMarginStart="@dimen/common_border_margin"
+        app:layout_goneMarginTop="0dp"
         tools:text="Michi Man"
         tools:visibility="visible" />
 
@@ -44,10 +45,11 @@
         android:lineSpacingExtra="1dp"
         android:maxWidth="196dp"
         android:paddingBottom="10dp"
+        android:gravity="center"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:paddingTop="10dp"
-        android:textColor="@color/im_message_txt"
+        android:textColor="@color/im_message_txt_receive"
         android:textSize="@dimen/im_msg_text_size"
         app:layout_constraintLeft_toRightOf="@id/msg_iv_portrait"
         app:layout_constraintTop_toBottomOf="@id/msg_tv_name"

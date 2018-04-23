@@ -1,4 +1,4 @@
-package com.wang.social.im.helper.sound;
+package com.frame.component.helper.sound;
 
 public abstract class IAudioState {
     public IAudioState() {

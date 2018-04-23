@@ -24,4 +24,9 @@ public class UnknownViewHolder extends BaseMessageViewHolder<UIMessage> {
     protected void bindData(UIMessage itemValue, int position, BaseAdapter.OnItemClickListener onItemClickListener) {
 
     }
+
+    @Override
+    protected void initStyle(UIMessage uiMessage) {
+
+    }
 }

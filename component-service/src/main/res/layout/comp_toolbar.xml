@@ -12,9 +12,7 @@
         android:foreground="?attr/selectableItemBackground"
         android:paddingLeft="@dimen/common_border_margin"
         android:paddingRight="@dimen/common_border_margin"
-        android:visibility="gone"
-        tools:src="@drawable/common_ic_back"
-        tools:visibility="visible" />
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/toolbar_iv_right"
@@ -38,7 +36,5 @@
         android:paddingRight="@dimen/common_border_margin"
         android:textColor="@color/common_colorAccent"
         android:textSize="14dp"
-        android:visibility="gone"
-        tools:text="完成"
-        tools:visibility="visible" />
+        android:visibility="gone" />
 </FrameLayout>

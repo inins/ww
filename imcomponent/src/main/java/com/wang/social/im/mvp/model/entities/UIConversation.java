@@ -41,7 +41,7 @@ public class UIConversation implements Comparable {
         if (conversation.getType() == TIMConversationType.C2C) {
             conversationType = ConversationType.PRIVATE;
         } else if (conversation.getType() == TIMConversationType.Group) {
-            conversationType = ConversationType.SOCIAL;
+            conversationType = ConversationType.MIRROR;
         }
         identify = conversation.getPeer();
     }

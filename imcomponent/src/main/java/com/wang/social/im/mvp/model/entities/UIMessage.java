@@ -8,10 +8,13 @@ import com.google.gson.Gson;
 import com.tencent.imsdk.TIMCustomElem;
 import com.tencent.imsdk.TIMElem;
 import com.tencent.imsdk.TIMElemType;
+import com.tencent.imsdk.TIMGroupMemberInfo;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageStatus;
 import com.tencent.imsdk.TIMTextElem;
+import com.tencent.imsdk.TIMUserProfile;
 import com.wang.social.im.R;
+import com.wang.social.im.enums.ConversationType;
 import com.wang.social.im.enums.CustomElemType;
 import com.wang.social.im.enums.MessageScope;
 import com.wang.social.im.enums.MessageType;
@@ -203,5 +206,70 @@ public class UIMessage {
             }
         }
         return null;
+    }
+
+    /**
+     * 获取用户昵称
+     *
+     * @param conversationType
+     * @return
+     */
+    public String getNickname(ConversationType conversationType) {
+        String nickname = "";
+        switch (conversationType) {
+            case PRIVATE:
+                TIMUserProfile profile = timMessage.getSenderProfile();
+                if (profile != null) {
+                    if (!TextUtils.isEmpty(profile.getRemark())) {
+                        nickname = profile.getRemark();
+                    } else {
+                        nickname = profile.getNickName();
+                    }
+                }
+                break;
+            case SOCIAL:
+            case TEAM:
+                TIMGroupMemberInfo memberInfo = timMessage.getSenderGroupMemberProfile();
+                if (memberInfo != null && !TextUtils.isEmpty(memberInfo.getNameCard())) {
+                    nickname = memberInfo.getNameCard();
+                } else {
+                    nickname = getNickname(ConversationType.PRIVATE);
+                }
+                break;
+            case MIRROR:
+                if (carryUserInfo != null) {
+                    nickname = carryUserInfo.getNickname();
+                }
+                break;
+        }
+        return nickname;
+    }
+
+    /**
+     * 获取用户头像
+     *
+     * @param conversationType
+     * @return
+     */
+    public String getPortrait(ConversationType conversationType) {
+        String portrait = "";
+        switch (conversationType) {
+            case PRIVATE:
+                TIMUserProfile profile = timMessage.getSenderProfile();
+                if (profile != null) {
+                    portrait = profile.getFaceUrl();
+                }
+                break;
+            case SOCIAL:
+            case TEAM:
+                // TODO: 2018-04-21 获取用户群头像
+                break;
+            case MIRROR:
+                if (carryUserInfo != null) {
+                    portrait = carryUserInfo.getFaceUrl();
+                }
+                break;
+        }
+        return portrait;
     }
 }
