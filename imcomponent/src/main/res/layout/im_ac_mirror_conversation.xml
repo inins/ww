@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/im_background_mirror">
+
+    <ImageView
+        android:id="@+id/mc_iv_toolbar_background"
+        android:layout_width="0dp"
+        android:layout_height="115dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/im_bg_mirror_toolbar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/mc_iv_team"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="13dp"
+        android:paddingLeft="@dimen/common_border_margin"
+        android:paddingRight="@dimen/common_border_margin"
+        android:paddingTop="15dp"
+        android:src="@drawable/im_ic_team"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/mc_tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:layout_marginStart="@dimen/common_border_margin"
+        android:text="@string/im_mirror_title"
+        android:textColor="@color/common_white"
+        android:textSize="22dp"
+        app:layout_constraintBottom_toTopOf="@+id/mc_tv_description"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:id="@+id/mc_tv_online"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:textColor="@color/im_toolbar_desc"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="@id/mc_tv_title"
+        app:layout_constraintLeft_toRightOf="@id/mc_tv_title"
+        tools:text="(在线20人)" />
+
+    <TextView
+        android:id="@+id/mc_tv_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="23dp"
+        android:text="@string/im_mirror_description"
+        android:textColor="@color/im_toolbar_desc"
+        android:textSize="13dp"
+        app:layout_constraintBottom_toBottomOf="@id/mc_iv_toolbar_background"
+        app:layout_constraintLeft_toLeftOf="@id/mc_tv_title" />
+
+    <FrameLayout
+        android:id="@+id/mc_fl_conversation"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mc_iv_toolbar_background" />
+</android.support.constraint.ConstraintLayout>

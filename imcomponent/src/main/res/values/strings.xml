@@ -1,4 +1,5 @@
 <resources>
+
     <string name="im_chat_input_hint">输入消息...</string>
     <string name="im_voice_input">按住 说话</string>
     <string name="im_voice_input_hover">松开 发送</string>
@@ -21,6 +22,13 @@
 
     <string name="im_self">你</string>
     <string name="im_seconds">%d\&#034;</string>
+    <string name="im_online_number">%d人在线</string>
+    <string name="im_online_total_number">共%d人，%d人在线</string>
+
+    <!-- Mirror -->
+    <string name="im_mirror_title">镜像聊天</string>
+    <string name="im_mirror_description">往往，每个人都有一面镜子</string>
+    <string name="im_mirror_online_number">(在线%d人)</string>
 
     <string name="im_toast_revoke_timeout">发送时间超过2分钟，不能被撤回</string>
 </resources>

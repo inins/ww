@@ -1,8 +1,10 @@
 package com.frame.component.helper;
 
 import android.content.Context;
+import android.os.Bundle;
 
 import com.frame.component.path.HomePath;
+import com.frame.component.path.ImPath;
 import com.frame.component.path.LoginPath;
 import com.frame.component.router.ui.UIRouter;
 
@@ -37,6 +39,45 @@ public class CommonHelper {
     public static class HomeHelper {
         public static void startHomeActivity(Context context) {
             UIRouter.getInstance().openUri(context, HomePath.HOME_URL, null);
+        }
+    }
+
+    public static class ImHelper{
+
+        /**
+         * 个人聊天界面
+         *
+         * @param context
+         * @param targetId
+         */
+        public static void gotoPrivateConversation(Context context, String targetId) {
+            Bundle bundle = new Bundle();
+            bundle.putString("targetId", targetId);
+            UIRouter.getInstance().openUri(context, ImPath.PRIVATE_URL, bundle);
+        }
+
+        /**
+         * 趣聊会话界面
+         *
+         * @param context
+         * @param targetId
+         */
+        public static void gotoSocialConversation(Context context, String targetId) {
+            Bundle bundle = new Bundle();
+            bundle.putString("targetId", targetId);
+            UIRouter.getInstance().openUri(context, ImPath.SOCIAL_URL, bundle);
+        }
+
+        /**
+         * 觅聊会话界面
+         *
+         * @param context
+         * @param targetId
+         */
+        public static void gotoTeamConversation(Context context, String targetId) {
+            Bundle bundle = new Bundle();
+            bundle.putString("targetId", targetId);
+            UIRouter.getInstance().openUri(context, ImPath.TEAM_URL, bundle);
         }
     }
 }

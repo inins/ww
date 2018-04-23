@@ -24,7 +24,7 @@ public class FriendProfile implements ProfileSummary{
         if (!TextUtils.isEmpty(profile.getFaceUrl())){
             return profile.getFaceUrl();
         }
-        return null;
+        return "";
     }
 
     @Override

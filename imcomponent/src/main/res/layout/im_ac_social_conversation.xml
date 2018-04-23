@@ -12,7 +12,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <ImageView
             android:id="@+id/background"
@@ -24,42 +24,46 @@
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
+        android:background="@color/common_colorPrimary"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/common_colorPrimary"
-        app:toolbar_left_icon="@drawable/common_ic_back"
-        app:toolbar_right_icon="@drawable/im_ic_other_cv" />
+        app:toolbar_left_icon="@drawable/common_ic_back" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="@id/toolbar"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/pc_iv_portrait"
-            android:layout_width="27dp"
-            android:layout_height="27dp"
-            android:scaleType="centerCrop"
-            tools:src="@drawable/common_default_circle_placeholder" />
-
         <TextView
-            android:id="@+id/pc_tv_nickname"
+            android:id="@+id/sc_tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="6dp"
+            android:ellipsize="end"
+            android:lines="1"
+            android:maxWidth="230dp"
+            android:layout_gravity="center_horizontal"
             android:textColor="@color/common_text_blank"
-            android:textSize="18dp"
-            tools:text="路飞" />
+            android:textSize="17dp"
+            tools:text="海贼王" />
+
+        <TextView
+            android:id="@+id/sc_tv_online"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="3dp"
+            android:textColor="@color/common_text_blank"
+            android:textSize="9dp"
+            tools:text="23人在线" />
     </LinearLayout>
 
     <FrameLayout
-        android:id="@+id/pc_fl_conversation"
+        android:id="@+id/sc_fl_conversation"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -10,15 +10,16 @@
             android:name="com.wang.social.im.app.IMConfiguration"
             android:value="ConfigModule" />
 
+        <!--  ************** IM Start ************** -->
         <!-- 【必须】消息收发service -->
         <service
             android:name="com.tencent.qalsdk.service.QalService"
             android:exported="true"
-            android:process=":QALSERVICE"/>
+            android:process=":QALSERVICE" />
         <service
             android:name="com.tencent.qalsdk.service.QalAssistService"
             android:exported="false"
-            android:process=":QALSERVICE"/>
+            android:process=":QALSERVICE" />
 
         <!-- 【必须】 离线消息广播接收器 -->
         <receiver
@@ -49,5 +50,21 @@
                 <action android:name="com.tencent.qalsdk.service.TASK_REMOVED" />
             </intent-filter>
         </receiver>
+        <!--  ************** IM End ************** -->
+
+        <activity
+            android:name=".mvp.ui.PrivateConversationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <activity
+            android:name=".mvp.ui.SocialConversationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <activity
+            android:name=".mvp.ui.TeamConversationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
     </application>
 </manifest>
