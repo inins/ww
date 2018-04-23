@@ -52,7 +52,6 @@ public class SettingMsgActivity extends BasicAppActivity implements CompoundButt
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
         MsgConfig msgConfig = AppDataHelper.getMsgConfig();
-        if (msgConfig == null) msgConfig = new MsgConfig();
         int id = compoundButton.getId();
         if (id == R.id.switch_msg) {
             msgConfig.setEnableMsg(checked);
@@ -68,12 +67,10 @@ public class SettingMsgActivity extends BasicAppActivity implements CompoundButt
 
     private void setMsgData() {
         MsgConfig msgConfig = AppDataHelper.getMsgConfig();
-        if (msgConfig != null) {
-            switchMsg.setChecked(msgConfig.isEnableMsg());
-            switchShowdetail.setChecked(msgConfig.isShowDetail());
-            switchVoice.setChecked(msgConfig.isMsgVoice());
-            switchVibration.setChecked(msgConfig.isMsgVibration());
-        }
+        switchMsg.setChecked(msgConfig.isEnableMsg());
+        switchShowdetail.setChecked(msgConfig.isShowDetail());
+        switchVoice.setChecked(msgConfig.isMsgVoice());
+        switchVibration.setChecked(msgConfig.isMsgVibration());
     }
 
     @Override

@@ -11,6 +11,8 @@ import com.wang.social.topic.R;
 
 import java.lang.ref.WeakReference;
 
+import timber.log.Timber;
+
 public class SelectedTagAdapter extends RecyclerView.Adapter<SelectedTagAdapter.ViewHolder> {
 
     public interface DataProvider {
@@ -29,12 +31,19 @@ public class SelectedTagAdapter extends RecyclerView.Adapter<SelectedTagAdapter.
     private int getTagCount() {
         if (null == mDataProvider) return 0;
         if (null == mDataProvider.get()) return 0;
-        return mDataProvider.get().getItemCount();
+
+        int count = mDataProvider.get().getItemCount();
+
+        Timber.i("getTagCount : " + count);
+
+        return count;
     }
 
     private String getTagName(int position) {
         if (null == mDataProvider) return "";
         if (null == mDataProvider.get()) return "";
+
+        Timber.i("getTagName : " + position);
 
         return mDataProvider.get().getName(position);
     }

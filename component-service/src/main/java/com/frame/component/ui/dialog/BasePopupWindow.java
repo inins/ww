@@ -93,11 +93,11 @@ public abstract class BasePopupWindow extends PopupWindow {
     //////////////////////////
     ////////背景变暗
     //////////////////////////
-    private void turnBackgroundDark() {
+    protected void turnBackgroundDark() {
         turnDark();
     }
 
-    private void resetBackground() {
+    protected void resetBackground() {
         turnLight();
     }
 

@@ -20,6 +20,7 @@ import com.frame.utils.SizeUtils;
 import com.wang.social.funshow.R;
 import com.wang.social.funshow.R2;
 import com.wang.social.funshow.di.component.DaggerSingleFragmentComponent;
+import com.wang.social.funshow.mvp.ui.activity.FunshowAddActivity;
 import com.wang.social.funshow.mvp.ui.activity.FunshowDetailActivity;
 import com.wang.social.funshow.mvp.ui.activity.HotUserListActivity;
 import com.wang.social.funshow.mvp.ui.adapter.RecycleAdapterHome;
@@ -81,6 +82,9 @@ public class FunShowFragment extends BasicFragment implements BaseAdapter.OnItem
             add(new TestEntity());
             add(new TestEntity());
         }});
+
+        //测试跳转代码
+        getView().findViewById(R.id.btn_funshow_add).setOnClickListener(v -> FunshowAddActivity.start(getContext()));
     }
 
     @Override
@@ -88,12 +92,12 @@ public class FunShowFragment extends BasicFragment implements BaseAdapter.OnItem
         FunshowDetailActivity.start(getContext());
     }
 
-    @OnClick({R.id.barview})
+    @OnClick({R2.id.barview})
     public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.barview:
-                HotUserListActivity.startBlankList(getContext());
-                break;
+        int i = view.getId();
+        if (i == R.id.barview) {
+            HotUserListActivity.startBlankList(getContext());
+
         }
     }
 

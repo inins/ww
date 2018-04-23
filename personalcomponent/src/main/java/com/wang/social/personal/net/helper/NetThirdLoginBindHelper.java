@@ -43,22 +43,6 @@ public class NetThirdLoginBindHelper {
         this.mErrorHandler = mErrorHandler;
     }
 
-    public void getUserInfoByUserId(IView view, int userId, OnUserApiCallBack callBack) {
-        ApiHelperEx.execute(view, true,
-                mRepositoryManager.obtainRetrofitService(UserService.class).getUserInfoByUserId(userId),
-                new ErrorHandleSubscriber<BaseJson<QrcodeInfo>>(mErrorHandler) {
-                    @Override
-                    public void onNext(BaseJson<QrcodeInfo> baseJson) {
-                        if (callBack != null) callBack.onSuccess(baseJson.getData());
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        if (callBack != null) callBack.onError(e);
-                    }
-                });
-    }
-
     public void netBindWeiXin(Activity activity, IView view) {
         netThirdLogin(activity, view, 1);
     }

@@ -136,25 +136,26 @@ public class BundleImgView extends FrameLayout {
     }
 
     public interface OnBundleClickListener {
-        void onPhotoDelClick(View v);
+        void onPhotoDelClick(View v, int position);
 
-        void onPhotoShowClick(String path);
+        void onPhotoShowClick(String path, int position);
 
         void onPhotoAddClick(View v);
     }
 
-    public abstract static class OnBundleSimpleClickListener implements OnBundleClickListener {
+    public static class OnBundleSimpleClickListener implements OnBundleClickListener {
 
         @Override
-        public void onPhotoDelClick(View v) {
+        public void onPhotoDelClick(View v, int position) {
         }
 
         @Override
-        public void onPhotoShowClick(String path) {
+        public void onPhotoShowClick(String path, int position) {
         }
 
         @Override
-        public abstract void onPhotoAddClick(View v);
+        public void onPhotoAddClick(View v) {
+        }
     }
 
     //设置是否可拓展
@@ -248,7 +249,7 @@ public class BundleImgView extends FrameLayout {
         adapter.notifyItemRangeChanged(0, adapter.getItemCount() - 1);
     }
 
-    public void setColcountWihi(int colcount,float wihi) {
+    public void setColcountWihi(int colcount, float wihi) {
         this.colcount = colcount;
         layoutManager.setSpanCount(colcount);
         itemDecoration.setSpanCount(colcount);

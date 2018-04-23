@@ -27,6 +27,7 @@ import com.wang.social.topic.di.component.DaggerTopicComponent;
 import com.wang.social.topic.di.module.TopicModule;
 import com.wang.social.topic.mvp.contract.TopicContract;
 import com.wang.social.topic.mvp.presenter.TopicPresenter;
+import com.wang.social.topic.mvp.ui.WrapContentLinearLayoutManager;
 import com.wang.social.topic.mvp.ui.adapter.SelectedTagAdapter;
 import com.wang.social.topic.mvp.ui.widget.AppBarStateChangeListener;
 import com.wang.social.topic.mvp.ui.widget.GradualImageView;
@@ -105,9 +106,6 @@ public class TopicFragment extends BaseFragment<TopicPresenter> implements Topic
 
         // 加载知识魔
         mPresenter.getReleaseTopicTopUser();
-
-        // 加载标签数据
-        mPresenter.myRecommendTag();
     }
 
     @Override
@@ -142,22 +140,10 @@ public class TopicFragment extends BaseFragment<TopicPresenter> implements Topic
      * 初始化已选标签信息列表
      */
     private void initSelectedTagData() {
-        mSelectedTagAdapter = new SelectedTagAdapter(getContext(), new SelectedTagAdapter.DataProvider() {
-            @Override
-            public int getItemCount() {
-                return mPresenter.getSelectedTagCount();
-            }
 
-            @Override
-            public String getName(int position) {
-                return mPresenter.getSelectedTagName(position);
-            }
-        });
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setAdapter(mSelectedTagAdapter);
     }
 
     /**
@@ -194,8 +180,22 @@ public class TopicFragment extends BaseFragment<TopicPresenter> implements Topic
     }
 
     @Override
-    public void refreshSelectedTagLise() {
-        if (null != mSelectedTagAdapter) {
+    public void onMyRecommendTagListLoad() {
+        if (null == mSelectedTagAdapter) {
+            mSelectedTagAdapter = new SelectedTagAdapter(getContext(), new SelectedTagAdapter.DataProvider() {
+                @Override
+                public int getItemCount() {
+                    return mPresenter.getSelectedTagCount();
+                }
+
+                @Override
+                public String getName(int position) {
+                    return mPresenter.getSelectedTagName(position);
+                }
+            });
+
+            mRecyclerView.setAdapter(mSelectedTagAdapter);
+        } else {
             mSelectedTagAdapter.notifyDataSetChanged();
         }
     }

@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@android:color/transparent"
-            app:navigationIcon="@drawable/personal_ic_close"
+            app:navigationIcon="@drawable/common_ic_close"
             app:popupTheme="@style/personal_AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>

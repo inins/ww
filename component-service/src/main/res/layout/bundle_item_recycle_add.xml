@@ -12,7 +12,7 @@
     tools:layout_height="70dp"
     tools:layout_width="70dp">
 
-    <com.wang.social.personal.mvp.ui.view.SquareFramelayout
+    <com.frame.component.view.SquareFramelayout
         android:id="@+id/square_framelayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -26,6 +26,6 @@
             android:scaleType="centerInside"
             android:src="@drawable/common_ic_add" />
 
-    </com.wang.social.personal.mvp.ui.view.SquareFramelayout>
+    </com.frame.component.view.SquareFramelayout>
 
 </android.support.v7.widget.CardView>

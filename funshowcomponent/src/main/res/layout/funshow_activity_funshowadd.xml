@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_white"
+    android:fitsSystemWindows="true">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:theme="@style/common_AppTheme.AppBarOverlay"
+        app:elevation="0dp">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/transparent"
+            app:navigationIcon="@drawable/common_ic_back"
+            app:popupTheme="@style/common_AppTheme.PopupOverlay">
+
+            <TextView
+                android:id="@+id/btn_right"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:onClick="onClick"
+                android:text="@string/funshow_addfunshow_btn_right"
+                android:textColor="@color/common_blue_deep"
+                android:textSize="16sp" />
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <com.wang.social.funshow.mvp.ui.view.DispatchTouchNestedScrollView
+            android:id="@+id/scroll"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            android:scrollbars="vertical"
+            app:layout_constraintBottom_toTopOf="@id/include_bottombar"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                android:paddingBottom="30dp">
+
+                <com.frame.component.view.TitleView
+                    android:id="@+id/titleview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="15dp"
+                    app:personal_textTitle="@string/funshow_addfunshow_title" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/common_bk_light" />
+
+                <include
+                    android:id="@+id/include_edit"
+                    layout="@layout/funshow_lay_add_edit" />
+
+                <include
+                    android:id="@+id/include_musicboard"
+                    layout="@layout/funshow_lay_add_musicboard"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp" />
+
+                <include
+                    android:id="@+id/include_bundle"
+                    layout="@layout/funshow_lay_add_bundle" />
+
+            </LinearLayout>
+        </com.wang.social.funshow.mvp.ui.view.DispatchTouchNestedScrollView>
+
+        <include
+            android:id="@+id/include_bottombar"
+            layout="@layout/funshow_lay_add_bottombar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:layout_height="40dp" />
+
+        <include
+            android:id="@+id/include_tagbar"
+            layout="@layout/funshow_lay_add_bottomtag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="15dp"
+            app:layout_constraintBottom_toTopOf="@id/include_bottombar"
+            app:layout_constraintRight_toRightOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+</android.support.design.widget.CoordinatorLayout>

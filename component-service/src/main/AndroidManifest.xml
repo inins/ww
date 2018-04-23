@@ -7,7 +7,6 @@
         android:allowBackup="true"
         android:supportsRtl="true"
         android:theme="@style/common_AppTheme">
-        <activity android:name="com.frame.component.ui.acticity.WebActivity" />
 
         <!--解决7.0 file://URI 协议在应用间废弃的问题，通过FileProvider途径进行文件共享-->
         <provider
@@ -19,5 +18,9 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <activity android:name="com.frame.component.ui.acticity.WebActivity" />
+        <activity android:name="com.frame.component.ui.acticity.PhotoActivity" />
+
     </application>
 </manifest>
