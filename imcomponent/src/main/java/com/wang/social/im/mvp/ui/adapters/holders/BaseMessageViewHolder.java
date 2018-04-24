@@ -71,10 +71,6 @@ public abstract class BaseMessageViewHolder<T> extends BaseViewHolder<T> {
         }
     }
 
-    protected String getSelfFaceUrl() {
-        return "http://resouce.dongdongwedding.com/2017-08-08_rtUbDxhH.png";
-    }
-
     /**
      * 设置消息发送状态
      *

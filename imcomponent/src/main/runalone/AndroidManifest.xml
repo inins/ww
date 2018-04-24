@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.wang.social.im">
 
@@ -22,11 +23,9 @@
         android:roundIcon="@mipmap/im_ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/common_AppTheme">
-
         <meta-data
             android:name="com.wang.social.im.app.GlobalConfiguration"
             android:value="ConfigModule" />
-
         <meta-data
             android:name="com.wang.social.im.app.IMConfiguration"
             android:value="ConfigModule" />
@@ -81,14 +80,29 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.ConversationListActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".ui.ConversationActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".mvp.ui.PrivateConversationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".mvp.ui.SocialConversationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".mvp.ui.TeamConversationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".mvp.ui.MirrorConversationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
     </application>
+
 </manifest>

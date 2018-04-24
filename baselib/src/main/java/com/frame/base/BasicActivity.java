@@ -51,6 +51,9 @@ public abstract class BasicActivity extends AppCompatActivity implements IActivi
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //将页面自动装载到组件框架,以供其他组件调用
+        AutowiredService.Factory.getInstance().create().autowire(this);
+
         try {
             int layoutResId = initView(savedInstanceState);
             if (layoutResId != 0) {
@@ -63,9 +66,6 @@ public abstract class BasicActivity extends AppCompatActivity implements IActivi
         }
         beforeInitData();
         initData(savedInstanceState);
-
-        //将页面自动装载到组件框架,以供其他组件调用
-        AutowiredService.Factory.getInstance().create().autowire(this);
     }
 
     //这个方法在initData前执行，用于在设置数据前进行一些必要的初始化

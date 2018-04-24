@@ -32,8 +32,7 @@
         app:layout_constraintTop_toBottomOf="@id/msg_tv_time"
         app:layout_goneMarginStart="@dimen/common_border_margin"
         app:layout_goneMarginTop="0dp"
-        tools:text="Michi Man"
-        tools:visibility="visible" />
+        tools:text="Michi Man" />
 
     <TextView
         android:id="@+id/msg_tv_text"
@@ -42,10 +41,10 @@
         android:layout_marginStart="9dp"
         android:layout_marginTop="3dp"
         android:background="@drawable/im_bg_message_left"
+        android:gravity="center"
         android:lineSpacingExtra="1dp"
         android:maxWidth="196dp"
         android:paddingBottom="10dp"
-        android:gravity="center"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:paddingTop="10dp"
@@ -54,6 +53,6 @@
         app:layout_constraintLeft_toRightOf="@id/msg_iv_portrait"
         app:layout_constraintTop_toBottomOf="@id/msg_tv_name"
         app:layout_goneMarginStart="@dimen/common_border_margin"
-        app:layout_goneMarginTop="0dp"
+        app:layout_goneMarginTop="10dp"
         tools:text="你好吗?" />
 </android.support.constraint.ConstraintLayout>
