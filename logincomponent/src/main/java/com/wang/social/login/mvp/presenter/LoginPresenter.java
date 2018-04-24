@@ -45,6 +45,10 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
         super(model, view);
     }
 
+    public void clearToken() {
+        AppDataHelper.saveToken("");
+    }
+
     /**
      * 密码登录
      * @param mobile
@@ -199,7 +203,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
                 }, new Consumer<Disposable>() {
                     @Override
                     public void accept(Disposable disposable) throws Exception {
-//                        mRootView.showLoading();
+                        mRootView.showLoading();
                     }
                 }, new Action() {
                     @Override

@@ -212,6 +212,9 @@ public class LoginActivity extends BaseAppActivity<LoginPresenter> implements Lo
             }
         });
 
+        // 进入到登录页面则先清理缓存的Token
+        mPresenter.clearToken();
+
 //        ViewUtils.controlKeyboardLayout(rootView, loginTV);
     }
 
