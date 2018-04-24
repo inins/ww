@@ -39,6 +39,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dip"
                 android:text="Loading"/>
+            <Button
+                android:id="@+id/topic_tag_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:text="话题标签"/>
 
         </LinearLayout>
     </ScrollView>

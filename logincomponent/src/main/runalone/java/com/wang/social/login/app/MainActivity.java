@@ -6,9 +6,11 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.frame.base.BasicActivity;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
 import com.wang.social.login.R;
 import com.wang.social.login.mvp.ui.ForgotPasswordActivity;
 import com.wang.social.login.mvp.ui.ResetPasswordActivity;
+import com.wang.social.login.mvp.ui.TagSelectionActivity;
 import com.wang.social.login.mvp.ui.VerifyPhoneActivity;
 import com.wang.social.login.mvp.ui.widget.DialogFragmentLoading;
 
@@ -20,6 +22,7 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import timber.log.Timber;
 
 /**
  * Created by King on 2018/4/2.
@@ -45,12 +48,38 @@ public class MainActivity extends BasicActivity {
     }
 
     @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
+
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        // 只接收标签相关事件
+        if (event.getEvent() != EventBean.EVENTBUS_TAG_SELECTED_LIST) {
+            return;
+        }
+
+        String ids = (String)event.get("ids");
+        String names = (String)event.get("names");
+
+        Timber.i(ids);
+        Timber.i(names);
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
 
         if (null != compositeDisposable) {
             compositeDisposable.dispose();
         }
+    }
+
+    @OnClick(R.id.topic_tag_btn)
+    public void topicTag() {
+        TagSelectionActivity.startForTagList(this);
     }
 
     @OnClick(R.id.reset_password_btn)

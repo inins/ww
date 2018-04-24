@@ -22,6 +22,8 @@ public class EventBean implements Serializable {
     public static final int EVENTBUS_TAG_DELETE = 0xffa103;
     // 标签编辑成功
     public static final int EVENTBUS_TAG_UPDATED = 0xffa104;
+    // 返回选中的标签数据( "ids" "names")
+    public static final int EVENTBUS_TAG_SELECTED_LIST = 0xffa105;
 
     //相册数量已修改，通知个人详情页面重新刷新数量
     public static final int EVENT_MEPHOTO_CHANGE = 0xffa201;
@@ -39,6 +41,7 @@ public class EventBean implements Serializable {
             EVENTBUS_TAG_UNSELECT,
             EVENTBUS_TAG_DELETE,
             EVENTBUS_TAG_UPDATED,
+            EVENTBUS_TAG_SELECTED_LIST,
             EVENT_MEPHOTO_CHANGE,
             EVENT_USERINFO_CHANGE,
             EVENT_LOGOUT,

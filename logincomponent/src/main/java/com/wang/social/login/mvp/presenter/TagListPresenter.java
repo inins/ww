@@ -75,6 +75,7 @@ public class TagListPresenter extends
             for (Tag t2 : list) {
                 if (t1.getId() == t2.getId()) {
                     t1.setSelected();
+                    t2.setTagName(t1.getTagName());
                 }
             }
         }

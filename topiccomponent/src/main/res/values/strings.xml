@@ -28,4 +28,10 @@
     <string name="topic_music">音乐</string>
     <string name="topic_content">内容</string>
     <string name="topic_title_length_format">%1d/30</string>
+    <string name="topic_topic_cover_hint">照片/视频</string>
+    <string name="topic_selected">选定</string>
+    <string name="topic_template_select">模版选择</string>
+    <string name="topic_template_select_hint">往往，人和人之间需要与众不同</string>
+    <string name="topic_template_default">默认</string>
+    <string name="topic_template_default_white">白色默认背景</string>
 </resources>

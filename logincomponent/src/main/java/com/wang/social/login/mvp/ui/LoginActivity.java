@@ -23,6 +23,7 @@ import com.frame.component.path.HomePath;
 import com.frame.component.router.ui.UIRouter;
 import com.frame.component.ui.acticity.WebActivity;
 import com.frame.component.ui.base.BaseAppActivity;
+import com.frame.entities.EventBean;
 import com.frame.utils.BarUtils;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.StatusBarUtil;
@@ -538,4 +539,8 @@ public class LoginActivity extends BaseAppActivity<LoginPresenter> implements Lo
     protected void onDestroy() {
         super.onDestroy();
     }
+
+
+
+
 }

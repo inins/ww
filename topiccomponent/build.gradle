@@ -14,8 +14,11 @@ android {
     }
 
     defaultConfig {
-        if(isRunAlone.toBoolean()){
+        if (isRunAlone.toBoolean()) {
             applicationId "com.dongdongkeji.wangwangsocial"
+
+
+            manifestPlaceholders = [qqappid: "1106099147"]
         }
         minSdkVersion rootProject.ext.android["minSdkVersion"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
@@ -97,9 +100,12 @@ dependencies {
     implementation project(':component-service')
     annotationProcessor project(':router-anno-compiler')
 
+    implementation project(':logincomponent')
 }
 
-//combuild {
-//    applicationName = 'com.frame.base.BaseApplication'
-//    isRegisterCompoAuto = true
-//}
+if (!isRunAlone.toBoolean()) {
+    combuild {
+        applicationName = 'com.frame.base.BaseApplication'
+        isRegisterCompoAuto = true
+    }
+}
