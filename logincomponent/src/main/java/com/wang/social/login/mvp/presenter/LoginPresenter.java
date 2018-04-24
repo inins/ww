@@ -129,11 +129,8 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
         AppDataHelper.saveToken(loginInfo.getToken());
         AppDataHelper.saveUser(loginInfo.getUserInfo());
 
-
-        TagSelectionActivity.startForTagList(mRootView.getActivity());
-
         // 获取标签信息
-//        myRecommendTag();
+        myRecommendTag();
     }
 
     /**
