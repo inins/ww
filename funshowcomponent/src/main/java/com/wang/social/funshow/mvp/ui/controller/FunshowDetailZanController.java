@@ -1,55 +1,144 @@
 package com.wang.social.funshow.mvp.ui.controller;
 
+import android.app.Activity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.frame.component.common.GridSpacingItemDecoration;
+import com.frame.component.entities.BaseListWrap;
 import com.frame.component.entities.User;
 import com.frame.component.ui.base.BaseController;
+import com.frame.entities.EventBean;
+import com.frame.http.api.ApiHelperEx;
+import com.frame.http.api.BaseJson;
+import com.frame.http.api.error.ErrorHandleSubscriber;
+import com.frame.utils.KeyboardUtils;
 import com.frame.utils.SizeUtils;
+import com.frame.utils.StrUtil;
+import com.frame.utils.ToastUtil;
+import com.wang.social.funshow.R;
 import com.wang.social.funshow.R2;
+import com.wang.social.funshow.mvp.entities.funshow.FunshowDetail;
+import com.wang.social.funshow.mvp.entities.user.ZanUser;
+import com.wang.social.funshow.mvp.model.api.FunshowService;
 import com.wang.social.funshow.mvp.ui.activity.ZanUserListActivity;
 import com.wang.social.funshow.mvp.ui.adapter.RecycleAdapterZan;
+import com.wang.social.funshow.net.helper.NetZanHelper;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
-public class FunshowDetailZanController extends BaseController {
+public class FunshowDetailZanController extends BaseController implements View.OnClickListener {
 
     @BindView(R2.id.recycler_zan)
     RecyclerView recyclerZan;
+    @BindView(R2.id.img_more)
+    ImageView imgMore;
+    @BindView(R2.id.text_zan)
+    TextView textZan;
+    @BindView(R2.id.text_comment)
+    TextView textComment;
+    @BindView(R2.id.text_share)
+    TextView textShare;
+    @BindView(R2.id.text_zan_count)
+    TextView textZanCount;
 
     private RecycleAdapterZan adapterZan;
 
-    public FunshowDetailZanController(View root) {
+    private int talkId;
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        switch (event.getEvent()) {
+            case EventBean.EVENT_CTRL_FUNSHOW_DETAIL_COUNT:
+                int zanCount = (int) event.get("zanCount");
+                int commonCount = (int) event.get("commonCount");
+                int shareCount = (int) event.get("shareCount");
+                boolean isSupport = (boolean) event.get("isSupport");
+                textZan.setSelected(isSupport);
+                textZan.setText(String.valueOf(zanCount));
+                textComment.setText(String.valueOf(commonCount));
+                textShare.setText(String.valueOf(shareCount));
+                textZanCount.setText(zanCount + "个赞");
+                break;
+        }
+    }
+
+    public FunshowDetailZanController(View root, int talkId) {
         super(root);
-//        int layout = R.layout.funshow_lay_detail_zan;
+        this.talkId = talkId;
+        int layout = R.layout.funshow_lay_detail_zan;
+        registEventBus();
+        onInitCtrl();
+        onInitData();
     }
 
     @Override
     protected void onInitCtrl() {
         adapterZan = new RecycleAdapterZan();
         adapterZan.setOnMoreClickListener(v -> {
-            ZanUserListActivity.start(getContext());
+            ZanUserListActivity.start(getContext(), talkId);
         });
         recyclerZan.setNestedScrollingEnabled(false);
         recyclerZan.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         recyclerZan.setAdapter(adapterZan);
         recyclerZan.addItemDecoration(new GridSpacingItemDecoration(1, SizeUtils.dp2px(5), GridLayoutManager.HORIZONTAL, false));
+
+        textZan.setOnClickListener(this);
+        textComment.setOnClickListener(this);
+        textShare.setOnClickListener(this);
     }
 
     @Override
     protected void onInitData() {
-        adapterZan.refreshData(new ArrayList<User>() {{
-            add(new User());
-            add(new User());
-            add(new User());
-            add(new User());
-            add(new User());
-            add(new User());
-        }});
+        netGetFunshowZanList();
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        if (id == R.id.text_zan) {
+            NetZanHelper.newInstance().funshowZan(getIView(), textZan, talkId, !textZan.isSelected(), (isZan, zanCount) -> {
+                EventBean eventBean = new EventBean(EventBean.EVENT_FUNSHOW_UPDATE_ZAN);
+                eventBean.put("talkId", talkId);
+                eventBean.put("isZan", isZan);
+                eventBean.put("zanCount", zanCount);
+                EventBus.getDefault().post(eventBean);
+            });
+        } else if (id == R.id.text_comment) {
+            KeyboardUtils.showSoftInput((Activity) getContext());
+        } else if (id == R.id.text_share) {
+
+        }
+    }
+
+    ////////////////////////////////////////////
+
+    private void netGetFunshowZanList() {
+        ApiHelperEx.execute(getIView(), false,
+                ApiHelperEx.getService(FunshowService.class).funshowZanList(talkId, 1, 10),
+                new ErrorHandleSubscriber<BaseJson<BaseListWrap<ZanUser>>>() {
+                    @Override
+                    public void onNext(BaseJson<BaseListWrap<ZanUser>> basejson) {
+                        BaseListWrap<ZanUser> wrap = basejson.getData();
+                        List<ZanUser> zanUsers = wrap.getList();
+                        if (!StrUtil.isEmpty(zanUsers)) {
+                            adapterZan.refreshData(zanUsers);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        ToastUtil.showToastLong(e.getMessage());
+                    }
+                });
     }
 }

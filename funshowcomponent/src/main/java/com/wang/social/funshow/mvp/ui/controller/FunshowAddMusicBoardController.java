@@ -9,6 +9,8 @@ public class FunshowAddMusicBoardController extends BaseController {
     public FunshowAddMusicBoardController(View root) {
         super(root);
         //int layout = R.layout.funshow_lay_add_musicboard;
+        onInitCtrl();
+        onInitData();
     }
 
     @Override

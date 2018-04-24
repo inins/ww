@@ -29,6 +29,8 @@ public class FunshowAddBundleController extends BaseController implements PhotoH
     public FunshowAddBundleController(View root) {
         super(root);
         //int layout = R.layout.funshow_lay_add_bundle;
+        onInitCtrl();
+        onInitData();
     }
 
     @Override

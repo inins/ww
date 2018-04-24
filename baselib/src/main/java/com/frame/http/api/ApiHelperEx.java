@@ -1,7 +1,10 @@
 package com.frame.http.api;
 
+import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.IView;
+import com.frame.utils.FrameUtils;
 import com.frame.utils.RxLifecycleUtils;
+import com.frame.utils.Utils;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -13,7 +16,7 @@ import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by liaointan
- *
+ * <p>
  * 对{@link ApiHelper}的拓展
  * 提供自动的loading接口调用
  * 允许IView为null，允许不进行lifecycle绑定
@@ -65,5 +68,10 @@ public class ApiHelperEx {
     //上面方法的重载，默认Runnable doStart, Runnable doFinally为Null
     public static <T> void execute(IView bindView, boolean needLoading, Observable<T> observable, Observer<T> observer) {
         execute(bindView, needLoading, observable, observer, null, null);
+    }
+
+
+    public static <T> T getService(Class<T> service) {
+        return FrameUtils.obtainAppComponentFromContext(Utils.getContext()).repoitoryManager().obtainRetrofitService(service);
     }
 }

@@ -21,6 +21,8 @@ public class FunshowAddEditController extends BaseController {
     public FunshowAddEditController(View root) {
         super(root);
 //        int layout = R.layout.funshow_lay_add_edit;
+        onInitCtrl();
+        onInitData();
     }
 
     @Override

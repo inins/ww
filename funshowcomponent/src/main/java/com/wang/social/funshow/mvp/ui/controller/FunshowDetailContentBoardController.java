@@ -10,7 +10,18 @@ import com.frame.component.ui.base.BaseController;
 import com.frame.component.utils.viewutils.FontUtils;
 import com.frame.component.view.bundleimgview.BundleImgEntity;
 import com.frame.component.view.bundleimgview.BundleImgView;
+import com.frame.entities.EventBean;
+import com.frame.http.api.ApiHelperEx;
+import com.frame.http.api.BaseJson;
+import com.frame.http.api.error.ErrorHandleSubscriber;
+import com.frame.utils.ToastUtil;
+import com.wang.social.funshow.R;
 import com.wang.social.funshow.R2;
+import com.wang.social.funshow.mvp.entities.funshow.FunshowDetail;
+import com.wang.social.funshow.mvp.model.api.FunshowService;
+import com.wang.social.funshow.utils.FunShowUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -26,10 +37,20 @@ public class FunshowDetailContentBoardController extends BaseController {
     ImageView imgHeader;
     @BindView(R2.id.bundleview)
     BundleImgView bundleview;
+    @BindView(R2.id.text_position)
+    TextView textPosition;
+    @BindView(R2.id.text_time)
+    TextView textTime;
 
-    public FunshowDetailContentBoardController(View root) {
+    private int talkId;
+    private FunshowDetail funshowDetail;
+
+    public FunshowDetailContentBoardController(View root, int talkId) {
         super(root);
-//        int layout = R.layout.funshow_lay_detail_contentboard;
+        this.talkId = talkId;
+        int layout = R.layout.funshow_lay_detail_contentboard;
+        onInitCtrl();
+        onInitData();
     }
 
     @Override
@@ -46,24 +67,71 @@ public class FunshowDetailContentBoardController extends BaseController {
 
     @Override
     protected void onInitData() {
-        bundleview.setPhotos(new ArrayList<BundleImgEntity>() {{
-            add(new BundleImgEntity(ImageLoaderHelper.getRandomImg()));
-            add(new BundleImgEntity(ImageLoaderHelper.getRandomImg()));
-            add(new BundleImgEntity(ImageLoaderHelper.getRandomImg()));
-            add(new BundleImgEntity(ImageLoaderHelper.getRandomImg()));
-            add(new BundleImgEntity(ImageLoaderHelper.getRandomImg()));
-            add(new BundleImgEntity(ImageLoaderHelper.getRandomImg()));
-            add(new BundleImgEntity(ImageLoaderHelper.getRandomImg()));
-        }});
+//        bundleview.setPhotos(new ArrayList<BundleImgEntity>() {{
+//            add(new BundleImgEntity(ImageLoaderHelper.getRandomImg()));
+//            add(new BundleImgEntity(ImageLoaderHelper.getRandomImg()));
+//            add(new BundleImgEntity(ImageLoaderHelper.getRandomImg()));
+//            add(new BundleImgEntity(ImageLoaderHelper.getRandomImg()));
+//            add(new BundleImgEntity(ImageLoaderHelper.getRandomImg()));
+//            add(new BundleImgEntity(ImageLoaderHelper.getRandomImg()));
+//            add(new BundleImgEntity(ImageLoaderHelper.getRandomImg()));
+//        }});
+        netGetFunshowDetail();
+    }
+
+    private void setData(FunshowDetail funshowDetail) {
+        if (funshowDetail != null) {
+            ImageLoaderHelper.loadCircleImg(imgHeader, funshowDetail.getAvatar());
+            textName.setText(funshowDetail.getUserNickname());
+            textTitle.setText(funshowDetail.getTalkContent());
+            textTime.setText(FunShowUtil.getFunshowTimeStr(funshowDetail.getCreateTime()));
+            textPosition.setText(funshowDetail.getProvince() + funshowDetail.getCity());
+            if (funshowDetail.getPicCount() == 1) {
+                bundleview.setColcountWihi(1, 1.76f);
+            } else if (funshowDetail.getPicCount() == 2) {
+                bundleview.setColcountWihi(2, 0.87f);
+            } else if (funshowDetail.getPicCount() >= 3 && funshowDetail.getPicCount() <= 9) {
+                bundleview.setColcountWihi(3, 0.87f);
+            }
+            bundleview.setPhotos(funshowDetail.getBundleImgEntities());
+        }
     }
 
     /////////////////////////////////////////
 
-    public void changeBundleView(int colcount, float wihi){
+    public void changeBundleView(int colcount, float wihi) {
         bundleview.setColcountWihi(colcount, wihi);
     }
 
-    public int getBundleViewColCount(){
+    public int getBundleViewColCount() {
         return bundleview.getColcount();
+    }
+
+    /////////////////////////////////////////
+
+    private void netGetFunshowDetail() {
+        ApiHelperEx.execute(getIView(), true,
+                ApiHelperEx.getService(FunshowService.class).getFunshowDetail(talkId),
+                new ErrorHandleSubscriber<BaseJson<FunshowDetail>>() {
+                    @Override
+                    public void onNext(BaseJson<FunshowDetail> basejson) {
+                        funshowDetail = basejson.getData();
+                        setData(funshowDetail);
+                        if (funshowDetail != null) {
+                            //通知其他控制器，接受数据
+                            EventBean eventBean = new EventBean(EventBean.EVENT_CTRL_FUNSHOW_DETAIL_COUNT);
+                            eventBean.put("zanCount", funshowDetail.getSupportNum());
+                            eventBean.put("commonCount", funshowDetail.getCommentNum());
+                            eventBean.put("shareCount", funshowDetail.getShareNum());
+                            eventBean.put("isSupport", funshowDetail.isSupport());
+                            EventBus.getDefault().post(eventBean);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        ToastUtil.showToastLong(e.getMessage());
+                    }
+                });
     }
 }

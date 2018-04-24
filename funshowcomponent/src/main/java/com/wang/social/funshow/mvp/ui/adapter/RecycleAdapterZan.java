@@ -13,11 +13,12 @@ import com.frame.component.entities.User;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.wang.social.funshow.R;
 import com.wang.social.funshow.R2;
+import com.wang.social.funshow.mvp.entities.user.ZanUser;
 
 import butterknife.BindView;
 
 
-public class RecycleAdapterZan extends BaseAdapter<User> {
+public class RecycleAdapterZan extends BaseAdapter<ZanUser> {
 
     private final static int TYPE_SRC_ITEM = R.layout.funshow_item_zan;
     private final static int TYPE_SRC_MORE = R.layout.funshow_item_zan_more;
@@ -57,7 +58,7 @@ public class RecycleAdapterZan extends BaseAdapter<User> {
     }
 
 
-    public class HolderItem extends BaseViewHolder<User> {
+    public class HolderItem extends BaseViewHolder<ZanUser> {
         @BindView(R2.id.img_header)
         ImageView img_header;
 
@@ -66,8 +67,8 @@ public class RecycleAdapterZan extends BaseAdapter<User> {
         }
 
         @Override
-        protected void bindData(User lable, int position, OnItemClickListener onItemClickListener) {
-            ImageLoaderHelper.loadCircleImgTest(img_header);
+        protected void bindData(ZanUser bean, int position, OnItemClickListener onItemClickListener) {
+            ImageLoaderHelper.loadCircleImg(img_header, bean.getAvatar());
         }
 
         @Override
@@ -75,14 +76,14 @@ public class RecycleAdapterZan extends BaseAdapter<User> {
         }
     }
 
-    public class HolderMore extends BaseViewHolder<User> {
+    public class HolderMore extends BaseViewHolder<ZanUser> {
 
         public HolderMore(Context context, ViewGroup root, int layoutRes) {
             super(context, root, layoutRes);
         }
 
         @Override
-        protected void bindData(User lable, int position, OnItemClickListener onItemClickListener) {
+        protected void bindData(ZanUser lable, int position, OnItemClickListener onItemClickListener) {
             itemView.setOnClickListener((view) -> {
                 if (onMoreClickListener != null) onMoreClickListener.onMoreClick(view);
             });

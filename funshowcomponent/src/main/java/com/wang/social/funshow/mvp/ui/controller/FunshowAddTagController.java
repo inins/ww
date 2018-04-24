@@ -9,6 +9,8 @@ public class FunshowAddTagController extends BaseController {
     public FunshowAddTagController(View root) {
         super(root);
         //int layout = R.layout.include_tagbar;
+        onInitCtrl();
+        onInitData();
     }
 
     @Override

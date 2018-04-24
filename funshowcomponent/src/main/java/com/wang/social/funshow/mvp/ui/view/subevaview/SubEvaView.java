@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.frame.component.view.ListViewLinearLayout;
 import com.wang.social.funshow.R;
+import com.wang.social.funshow.mvp.entities.eva.CommentReply;
 
 import java.util.List;
 
@@ -66,10 +67,22 @@ public class SubEvaView extends FrameLayout {
 
     //////////////////////////////////////////
 
-    public void refreshData(List<SubEva> subEvaList) {
+    public void refreshData(List<CommentReply> subEvaList) {
         if (subEvaList == null) return;
         adapter.getResults().clear();
         adapter.getResults().addAll(subEvaList);
         adapter.notifyDataSetChanged();
+    }
+
+    public boolean isShowAll() {
+        return adapter.isShowAll();
+    }
+
+    public void setShowAll(boolean showAll) {
+        adapter.setShowAll(showAll);
+    }
+
+    public int getMaxSize() {
+        return adapter.getMaxSize();
     }
 }

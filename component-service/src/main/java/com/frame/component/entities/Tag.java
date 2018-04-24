@@ -1,4 +1,4 @@
-package com.wang.social.personal.mvp.entities.user;
+package com.frame.component.entities;
 
 import lombok.Data;
 

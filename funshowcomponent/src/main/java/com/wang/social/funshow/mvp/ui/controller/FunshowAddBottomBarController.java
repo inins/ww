@@ -47,6 +47,8 @@ public class FunshowAddBottomBarController extends BaseController {
     public FunshowAddBottomBarController(View root) {
         super(root);
         int layout = R.layout.funshow_lay_add_bottombar;
+        onInitCtrl();
+        onInitData();
     }
 
     @SuppressLint("all")
