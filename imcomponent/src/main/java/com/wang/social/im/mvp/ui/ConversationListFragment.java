@@ -1,6 +1,5 @@
 package com.wang.social.im.mvp.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +10,7 @@ import android.support.v7.widget.SimpleItemAnimator;
 
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseFragment;
+import com.frame.component.helper.CommonHelper;
 import com.frame.di.component.AppComponent;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
@@ -18,7 +18,7 @@ import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.ext.message.TIMMessageExt;
 import com.tencent.imsdk.ext.message.TIMMessageLocator;
 import com.wang.social.im.R;
-import com.wang.social.im.app.IMConstants;
+import com.wang.social.im.R2;
 import com.wang.social.im.di.component.DaggerConversationListComponent;
 import com.wang.social.im.di.modules.ConversationListModule;
 import com.wang.social.im.mvp.contract.ConversationListContract;
@@ -26,13 +26,10 @@ import com.wang.social.im.mvp.model.entities.UIConversation;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 import com.wang.social.im.mvp.presenter.ConversationListPresenter;
 import com.wang.social.im.mvp.ui.adapters.ConversationAdapter;
-import com.wang.social.im.ui.ConversationActivity;
-import com.wang.social.im.ui.ConversationListActivity;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -49,7 +46,7 @@ import butterknife.BindView;
  */
 public class ConversationListFragment extends BaseFragment<ConversationListPresenter> implements ConversationListContract.View, BaseAdapter.OnItemClickListener<UIConversation> {
 
-    @BindView(R.id.cvl_conversation_list)
+    @BindView(R2.id.cvl_conversation_list)
     RecyclerView cvlConversationList;
 
     private LinearLayoutManager mLayoutManager;
@@ -161,11 +158,11 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
 
     @Override
     public void updateMessages(List<TIMMessage> messages) {
-        if (messages == null || messages.size() == 0){
+        if (messages == null || messages.size() == 0) {
             mAdapter.notifyDataSetChanged();
             return;
         }
-        for (TIMMessage message : messages){
+        for (TIMMessage message : messages) {
             doUpdate(message);
         }
         refresh();
@@ -183,10 +180,20 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
 
     @Override
     public void onItemClick(UIConversation conversation, int position) {
-        Intent intent = new Intent(getActivity(), ConversationActivity.class);
-        intent.putExtra("target", conversation.getIdentify());
-        intent.putExtra("conversationType", conversation.getConversationType().ordinal());
-        startActivity(intent);
+        switch (conversation.getConversationType()) {
+            case PRIVATE:
+                CommonHelper.ImHelper.gotoPrivateConversation(getContext(), conversation.getIdentify());
+                break;
+            case SOCIAL:
+                CommonHelper.ImHelper.gotoSocialConversation(getContext(), conversation.getIdentify());
+                break;
+            case TEAM:
+                CommonHelper.ImHelper.gotoTeamConversation(getContext(), conversation.getIdentify());
+                break;
+            case MIRROR:
+                MirrorConversationActivity.start(getContext(), conversation.getIdentify());
+                break;
+        }
     }
 
     private void doUpdate(TIMMessage message) {
@@ -214,7 +221,7 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
         }
         for (UIConversation conversation : mAdapter.getData()) {
             UIMessage lastMessage = conversation.getLastMessage();
-            if (lastMessage != null){
+            if (lastMessage != null) {
                 TIMMessageExt messageExt = new TIMMessageExt(lastMessage.getTimMessage());
                 if (messageExt.checkEquals(messageLocator)) {
                     lastMessage.refresh();

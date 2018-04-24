@@ -5,6 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="parent">
+
+        <ImageView
+            android:id="@+id/background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </ScrollView>
+
     <com.frame.component.view.SocialToolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
@@ -12,6 +27,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/common_colorPrimary"
         app:toolbar_left_icon="@drawable/common_ic_back"
         app:toolbar_right_icon="@drawable/im_ic_other_cv" />
 
@@ -22,7 +38,7 @@
         app:layout_constraintBottom_toBottomOf="@id/toolbar"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/toolbar">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/pc_iv_portrait"
@@ -41,16 +57,6 @@
             android:textSize="18dp"
             tools:text="路飞" />
     </LinearLayout>
-
-    <ScrollView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar">
-
-    </ScrollView>
 
     <FrameLayout
         android:id="@+id/pc_fl_conversation"

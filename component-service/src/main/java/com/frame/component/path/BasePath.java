@@ -10,4 +10,5 @@ package com.frame.component.path;
 public interface BasePath {
 
     String SCHEME = "WW://";
+    String SLASH = "/";
 }

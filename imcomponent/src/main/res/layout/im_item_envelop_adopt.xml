@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="58dp">
+
+    <ImageView
+        android:id="@+id/iea_iv_portrait"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="@dimen/common_border_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/common_default_circle_placeholder" />
+
+    <TextView
+        android:id="@+id/iea_tv_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:textColor="@color/common_text_blank"
+        android:textSize="15dp"
+        app:layout_constraintLeft_toRightOf="@id/iea_iv_portrait"
+        app:layout_constraintTop_toTopOf="@id/iea_iv_portrait"
+        tools:text="药酱" />
+
+    <TextView
+        android:id="@+id/iea_tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/common_text_dark"
+        android:textSize="11dp"
+        app:layout_constraintBottom_toBottomOf="@id/iea_iv_portrait"
+        app:layout_constraintLeft_toLeftOf="@id/iea_tv_nickname"
+        tools:text="10:23" />
+
+    <TextView
+        android:id="@+id/iea_tv_diamond"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/common_border_margin"
+        android:drawablePadding="7dp"
+        android:drawableRight="@drawable/common_ic_diamond_small"
+        android:textColor="@color/im_envelop_amount_text"
+        android:textSize="17dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iea_tv_nickname"
+        tools:text="600" />
+
+    <TextView
+        android:id="@+id/iea_tv_lucky"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/im_ic_lucky"
+        android:drawablePadding="3dp"
+        android:gravity="center"
+        android:text="@string/im_envelop_lucky"
+        android:textColor="#ffdb5c"
+        android:textSize="11dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/iea_iv_portrait"
+        app:layout_constraintRight_toRightOf="@id/iea_tv_diamond" />
+</android.support.constraint.ConstraintLayout>

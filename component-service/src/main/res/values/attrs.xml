@@ -36,6 +36,8 @@
         <attr name="toolbar_right_icon" format="reference" />
         <attr name="toolbar_right_text" format="string" />
         <attr name="toolbar_right_text_color" format="color" />
+        <attr name="toolbar_title_text" format="string"/>
+        <attr name="toolbar_title_text_color" format="color" />
     </declare-styleable>
 
     <declare-styleable name="AutoFitGridLayout">

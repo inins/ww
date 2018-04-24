@@ -25,11 +25,11 @@ import com.frame.component.service.R;
 public class SocialToolbar extends Toolbar {
 
     private ImageView ivLeft, ivRight;
-    private TextView tvRight;
+    private TextView tvRight, tvTitle;
 
     private Drawable mLeftIcon, mRightIcon;
-    private String mRightText;
-    private int mRightTextColor;
+    private String mRightText, mTitleText;
+    private int mRightTextColor, mTitleTextColor;
 
     private OnButtonClickListener buttonClickListener;
 
@@ -46,12 +46,15 @@ public class SocialToolbar extends Toolbar {
         super(context, attrs, defStyleAttr);
 
         int defColor = ContextCompat.getColor(context, R.color.common_colorAccent);
+        int titleDefColor = ContextCompat.getColor(context, R.color.common_text_blank);
 
         TintTypedArray typedArray = TintTypedArray.obtainStyledAttributes(context, attrs, R.styleable.SocialToolbar, defStyleAttr, 0);
         mLeftIcon = typedArray.getDrawable(R.styleable.SocialToolbar_toolbar_left_icon);
         mRightIcon = typedArray.getDrawable(R.styleable.SocialToolbar_toolbar_right_icon);
         mRightText = typedArray.getString(R.styleable.SocialToolbar_toolbar_right_text);
         mRightTextColor = typedArray.getColor(R.styleable.SocialToolbar_toolbar_right_text_color, defColor);
+        mTitleText = typedArray.getString(R.styleable.SocialToolbar_toolbar_title_text);
+        mTitleTextColor = typedArray.getColor(R.styleable.SocialToolbar_toolbar_title_text_color, titleDefColor);
         typedArray.recycle();
 
         inflate(context, R.layout.comp_toolbar, this);
@@ -63,24 +66,30 @@ public class SocialToolbar extends Toolbar {
         ivLeft = findViewById(R.id.toolbar_iv_left);
         ivRight = findViewById(R.id.toolbar_iv_right);
         tvRight = findViewById(R.id.toolbar_tv_right);
+        tvTitle = findViewById(R.id.toolbar_tv_title);
 
         if (mLeftIcon != null) {
             ivLeft.setVisibility(VISIBLE);
             ivLeft.setImageDrawable(mLeftIcon);
         }
-        if (mRightIcon != null){
+        if (mRightIcon != null) {
             ivRight.setVisibility(VISIBLE);
             ivRight.setImageDrawable(mRightIcon);
-        }else if (!TextUtils.isEmpty(mRightText)){
+        } else if (!TextUtils.isEmpty(mRightText)) {
             tvRight.setVisibility(VISIBLE);
             tvRight.setText(mRightText);
             tvRight.setTextColor(mRightTextColor);
+        }
+        if (!TextUtils.isEmpty(mTitleText)){
+            tvTitle.setVisibility(VISIBLE);
+            tvTitle.setText(mTitleText);
+            tvTitle.setTextColor(mTitleTextColor);
         }
 
         ivLeft.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (buttonClickListener != null){
+                if (buttonClickListener != null) {
                     buttonClickListener.onButtonClick(ClickType.LEFT_ICON);
                 }
             }
@@ -89,7 +98,7 @@ public class SocialToolbar extends Toolbar {
         ivRight.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (buttonClickListener != null){
+                if (buttonClickListener != null) {
                     buttonClickListener.onButtonClick(ClickType.RIGHT_ICON);
                 }
             }
@@ -98,39 +107,39 @@ public class SocialToolbar extends Toolbar {
         tvRight.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (buttonClickListener != null){
+                if (buttonClickListener != null) {
                     buttonClickListener.onButtonClick(ClickType.RIGHT_TEXT);
                 }
             }
         });
     }
 
-    public void setLeftIcon(@DrawableRes int resId){
+    public void setLeftIcon(@DrawableRes int resId) {
         ivLeft.setVisibility(VISIBLE);
         ivLeft.setImageResource(resId);
     }
 
-    public void setRightIcon(@DrawableRes int resId){
+    public void setRightIcon(@DrawableRes int resId) {
         ivRight.setVisibility(VISIBLE);
         tvRight.setVisibility(GONE);
         ivRight.setImageResource(resId);
     }
 
-    public void setRightText(@StringRes int resId){
+    public void setRightText(@StringRes int resId) {
         tvRight.setVisibility(VISIBLE);
         ivRight.setVisibility(GONE);
         tvRight.setText(resId);
         tvRight.setTextColor(mRightTextColor);
     }
 
-    public void setRightText(SpannableString span){
+    public void setRightText(SpannableString span) {
         tvRight.setVisibility(VISIBLE);
         ivRight.setVisibility(GONE);
         tvRight.setText(span);
         tvRight.setTextColor(mRightTextColor);
     }
 
-    public void setRightText(String str){
+    public void setRightText(String str) {
         tvRight.setVisibility(VISIBLE);
         ivRight.setVisibility(GONE);
         tvRight.setText(str);
@@ -141,13 +150,13 @@ public class SocialToolbar extends Toolbar {
         this.buttonClickListener = buttonClickListener;
     }
 
-    public enum ClickType{
+    public enum ClickType {
         LEFT_ICON,
         RIGHT_ICON,
         RIGHT_TEXT
     }
 
-    public interface OnButtonClickListener{
+    public interface OnButtonClickListener {
 
         void onButtonClick(ClickType clickType);
     }

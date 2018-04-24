@@ -9,10 +9,12 @@ import com.tencent.imsdk.TIMCustomElem;
 import com.tencent.imsdk.TIMElem;
 import com.tencent.imsdk.TIMElemType;
 import com.tencent.imsdk.TIMGroupMemberInfo;
+import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageStatus;
 import com.tencent.imsdk.TIMTextElem;
 import com.tencent.imsdk.TIMUserProfile;
+import com.tencent.imsdk.ext.group.TIMUserConfigGroupExt;
 import com.wang.social.im.R;
 import com.wang.social.im.enums.ConversationType;
 import com.wang.social.im.enums.CustomElemType;
@@ -252,6 +254,10 @@ public class UIMessage {
      * @return
      */
     public String getPortrait(ConversationType conversationType) {
+        if (timMessage.isSelf()){
+            // TODO: 2018-04-23 根据会话类型获取自己的头像信息
+            return "http://resouce.dongdongwedding.com/2017-08-08_rtUbDxhH.png";
+        }
         String portrait = "";
         switch (conversationType) {
             case PRIVATE:

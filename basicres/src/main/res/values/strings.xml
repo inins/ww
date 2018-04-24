@@ -9,4 +9,7 @@
     <string name="common_fm">女</string>
     <string name="common_edit">修改</string>
     <string name="common_rect">重置</string>
+    <string name="common_diamond">钻</string>
+    <string name="common_diamond_format">%d钻</string>
+    <string name="common_diamond_format_space">%d&#160;钻</string>
 </resources>

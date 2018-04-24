@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="im_envelop_create_title">发红包</string>
+    <string name="im_envelop_detail_title">往往红包</string>
+    <string name="im_envelop_total_money">总金额</string>
+    <string name="im_envelop_message_default">恭喜发财，大吉大利</string>
+    <string name="im_envelop_timeout_tip">未领取的红包，将于24小时后退回账户</string>
+    <string name="im_envelop_plug">塞钻进红包</string>
+    <string name="im_envelop_single_money">单个金额</string>
+    <string name="im_envelop_now_mode">当前为%s,&#160;</string>
+    <string name="im_envelop_click_change">点击修改为%s</string>
+    <string name="im_envelop_spell">拼手气红包</string>
+    <string name="im_envelop_equal">等额红包</string>
+    <string name="im_envelop_size">红包个数</string>
+    <string name="im_envelop_size_input_hint">填写个数</string>
+    <string name="im_envelop_piece">个</string>
+    <string name="im_group_member">本群共%d人</string>
+    <string name="im_envelop_record">红包记录</string>
+    <string name="im_envelop_out_of_date">该红包已过期，未领取部分已退回用户账户</string>
+    <string name="im_envelop_from">%s的红包</string>
+    <string name="im_envelop_adopt_tip">钻石已存入账户，可用于内部消费或提现</string>
+    <string name="im_envelop_lucky">手气最佳</string>
+    <string name="im_envelop_apart">点击拆开</string>
+    <string name="im_envelop_look_detail">查看领取详情 ></string>
+    <string name="im_envelop_tip">这是个普通红包\n只有领取红包的人才能查看领取详情</string>
+    <string name="im_envelop_overdue">抱歉，红包已过期</string>
+    <string name="im_envelop_overdue_self">抱歉，红包已过期。如已经领取，可在"我的红包"中查看</string>
+    <string name="im_envelop_empty">抱歉，红包已被抢光</string>
+    <string name="im_envelop_give_you">给你发了一个红包</string>
+    <string name="im_envelop_give_spell">给你发了一个拼手气红包</string>
+</resources>

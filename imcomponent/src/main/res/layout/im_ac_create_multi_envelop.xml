@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/im_bg_envelop_main">
+
+    <com.frame.component.view.SocialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/common_colorPrimary"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:toolbar_left_icon="@drawable/common_ic_close"
+        app:toolbar_title_text="@string/im_envelop_create_title" />
+
+    <LinearLayout
+        android:id="@+id/cmr_ll_diamond"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:layout_marginLeft="@dimen/common_border_margin"
+        android:layout_marginRight="@dimen/common_border_margin"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/im_bg_radius_white"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <TextView
+            android:id="@+id/cmr_tv_diamond"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="14dp"
+            android:text="@string/im_envelop_single_money"
+            android:textColor="@color/common_text_blank"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/cmr_et_diamond"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="right|center_vertical"
+            android:hint="0"
+            android:inputType="number"
+            android:paddingRight="10dp"
+            android:textColor="@color/common_text_dark_light"
+            android:textColorHint="#b5b5b5"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="14dp"
+            android:text="@string/common_diamond"
+            android:textColor="@color/common_text_blank"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/cmr_tv_now_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/common_text_dark_light"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cmr_ll_diamond"
+        tools:text="@string/im_envelop_now_mode" />
+
+    <TextView
+        android:id="@+id/cmr_tv_click_change"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#ffaa56"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toRightOf="@id/cmr_tv_now_mode"
+        app:layout_constraintTop_toTopOf="@id/cmr_tv_now_mode"
+        tools:text="@string/im_envelop_click_change" />
+
+    <LinearLayout
+        android:id="@+id/cmr_ll_count"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:layout_marginLeft="@dimen/common_border_margin"
+        android:layout_marginRight="@dimen/common_border_margin"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/im_bg_radius_white"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/cmr_tv_now_mode">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="14dp"
+            android:text="@string/im_envelop_size"
+            android:textColor="@color/common_text_blank"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/cmr_et_count"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="right|center_vertical"
+            android:hint="@string/im_envelop_size_input_hint"
+            android:inputType="number"
+            android:paddingRight="10dp"
+            android:textColor="@color/common_text_dark_light"
+            android:textColorHint="@color/common_text_hint"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="14dp"
+            android:text="@string/im_envelop_piece"
+            android:textColor="@color/common_text_blank"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/cmr_tv_group_member"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/common_text_dark_light"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cmr_ll_count"
+        tools:text="@string/im_group_member" />
+
+    <EditText
+        android:id="@+id/cmr_et_message"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/common_border_margin"
+        android:layout_marginRight="@dimen/common_border_margin"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/im_bg_radius_white"
+        android:gravity="left|top"
+        android:hint="@string/im_envelop_message_default"
+        android:lines="4"
+        android:maxLength="30"
+        android:padding="15dp"
+        android:textColor="#b5b5b5"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cmr_tv_group_member" />
+
+    <TextView
+        android:id="@+id/cmr_tv_post_diamond"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:textColor="@color/common_text_blank"
+        android:textSize="29sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cmr_et_message"
+        tools:text="@string/common_diamond_format_space" />
+
+    <TextView
+        android:id="@+id/cmr_tvb_plug"
+        android:layout_width="230dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/im_bg_btn_envelop_plug"
+        android:enabled="false"
+        android:gravity="center"
+        android:text="@string/im_envelop_plug"
+        android:textColor="@color/common_white"
+        android:textSize="17sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cmr_tv_post_diamond" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="28dp"
+        android:text="@string/im_envelop_timeout_tip"
+        android:textColor="@color/common_text_dark_light"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+</android.support.constraint.ConstraintLayout>

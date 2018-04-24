@@ -11,9 +11,6 @@ android {
     }
 
     defaultConfig {
-//        if(project.isRunAlone){
-//            applicationId "com.dongdongkeji.wangwangsocial"
-//        }
         minSdkVersion rootProject.ext.android["minSdkVersion"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
         versionCode rootProject.ext.android["versionCode"]
@@ -74,5 +71,5 @@ dependencies {
 
 combuild {
     applicationName = 'com.frame.base.BaseApplication'
-    isRegisterCompoAuto = false
+    isRegisterCompoAuto = true
 }
