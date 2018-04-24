@@ -56,15 +56,16 @@
             android:name=".mvp.ui.PrivateConversationActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-
         <activity
             android:name=".mvp.ui.SocialConversationActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-
         <activity
             android:name=".mvp.ui.TeamConversationActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".mvp.ui.CreateSingleEnvelopActivity"
+            android:screenOrientation="portrait" />
     </application>
 </manifest>
