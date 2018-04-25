@@ -1,4 +1,4 @@
-package com.wang.social.topic.mvp.ui.widget;
+package com.frame.component.view;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -8,7 +8,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 
-import com.wang.social.topic.R;
+import com.frame.component.service.R;
 
 public class GradualImageView extends AppCompatImageView {
 

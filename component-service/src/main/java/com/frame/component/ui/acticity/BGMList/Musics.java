@@ -1,4 +1,4 @@
-package com.wang.social.topic.mvp.model.entities;
+package com.frame.component.ui.acticity.BGMList;
 
 import java.util.List;
 

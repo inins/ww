@@ -1,8 +1,6 @@
-package com.wang.social.topic.mvp.model.entities.dto;
+package com.frame.component.ui.acticity.BGMList;
 
 import com.frame.http.api.Mapper;
-import com.wang.social.topic.mvp.model.entities.Music;
-import com.wang.social.topic.mvp.model.entities.Musics;
 
 import java.util.ArrayList;
 import java.util.List;

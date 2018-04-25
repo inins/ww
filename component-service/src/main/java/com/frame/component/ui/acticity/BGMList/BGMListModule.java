@@ -1,8 +1,8 @@
-package com.wang.social.topic.di.module;
+package com.frame.component.ui.acticity.BGMList;
 
 import com.frame.di.scope.ActivityScope;
-import com.wang.social.topic.mvp.contract.BGMListContract;
-import com.wang.social.topic.mvp.model.BGMListModel;
+import com.frame.component.ui.acticity.BGMList.BGMListContract;
+import com.frame.component.ui.acticity.BGMList.BGMListModel;
 
 import dagger.Module;
 import dagger.Provides;

@@ -1,4 +1,4 @@
-package com.wang.social.topic.mvp.ui.adapter;
+package com.frame.component.ui.acticity.BGMList;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,10 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.frame.http.imageloader.glide.ImageConfigImpl;
-import com.frame.utils.FrameUtils;
-import com.wang.social.topic.R;
-import com.wang.social.topic.mvp.model.entities.Music;
+import com.frame.component.service.R;
 
 import java.util.List;
 
@@ -53,7 +50,7 @@ public class BGMListAdapter extends RecyclerView.Adapter<BGMListAdapter.ViewHold
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext)
-                .inflate(R.layout.topic_adapter_bgm_list, parent, false);
+                .inflate(R.layout.adapter_bgm_list, parent, false);
         return new ViewHolder(view);
     }
 

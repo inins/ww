@@ -1,15 +1,11 @@
-package com.wang.social.topic.mvp.model;
+package com.frame.component.ui.acticity.BGMList;
 
 import com.frame.component.common.NetParam;
+import com.frame.component.service.BuildConfig;
 import com.frame.di.scope.ActivityScope;
 import com.frame.http.api.BaseJson;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.BaseModel;
-import com.wang.social.topic.BuildConfig;
-import com.wang.social.topic.mvp.contract.BGMListContract;
-import com.wang.social.topic.mvp.model.api.TopicService;
-import com.wang.social.topic.mvp.model.entities.dto.MusicsDTO;
-import com.wang.social.topic.mvp.model.entities.dto.TemplatesDTO;
 
 import java.util.Map;
 
@@ -39,7 +35,7 @@ public class BGMListModel extends BaseModel implements BGMListContract.Model {
                 .put("v", BuildConfig.VERSION_NAME)
                 .build();
         return mRepositoryManager
-                .obtainRetrofitService(TopicService.class)
+                .obtainRetrofitService(MusicService.class)
                 .musicList(param);
     }
 }

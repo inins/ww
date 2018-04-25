@@ -1,29 +1,38 @@
-package com.wang.social.topic.mvp.ui;
+package com.frame.component.ui.acticity.BGMList;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.TextView;
 
+import com.frame.component.service.R;
+import com.frame.component.service.R2;
 import com.frame.component.ui.base.BaseAppActivity;
+import com.frame.component.view.GradualImageView;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
-import com.wang.social.topic.R;
-import com.wang.social.topic.R2;
-import com.wang.social.topic.di.component.DaggerBGMListComponent;
-import com.wang.social.topic.di.module.BGMListModule;
-import com.wang.social.topic.mvp.contract.BGMListContract;
-import com.wang.social.topic.mvp.model.entities.Music;
-import com.wang.social.topic.mvp.presenter.BGMListPresenter;
-import com.wang.social.topic.mvp.ui.adapter.BGMListAdapter;
-import com.wang.social.topic.mvp.ui.widget.GradualImageView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import timber.log.Timber;
 
 public class BGMListActivity extends BaseAppActivity<BGMListPresenter> implements BGMListContract.View {
+
+    public static void start(Activity activity, Music music, int requestCode) {
+        Intent intent;
+        if (null != music) {
+            intent = Music.newIntent(music);
+        } else {
+            intent = new Intent();
+        }
+
+        intent.setClass(activity, BGMListActivity.class);
+        activity.startActivityForResult(intent, requestCode);
+    }
 
     @BindView(R2.id.toolbar)
     SocialToolbar mToolbar;
@@ -34,6 +43,9 @@ public class BGMListActivity extends BaseAppActivity<BGMListPresenter> implement
     // 顶部播放状态图标
     @BindView(R2.id.play_state_image_view)
     GradualImageView mPlayStateIV;
+    // 右上角选定文字
+    @BindView(R2.id.selected_text_view)
+    TextView mSelectedTV;
 
 
     @Override
@@ -47,7 +59,7 @@ public class BGMListActivity extends BaseAppActivity<BGMListPresenter> implement
 
     @Override
     public int initView(@NonNull Bundle savedInstanceState) {
-        return R.layout.topic_activity_bgm_list;
+        return R.layout.activity_bgm_list;
     }
 
     @Override
@@ -62,7 +74,7 @@ public class BGMListActivity extends BaseAppActivity<BGMListPresenter> implement
         });
 
         // 顶部播放状态显示
-        mPlayStateIV.setDrawable(R.drawable.topic_icon_playing2, R.drawable.topic_icon_playing2);
+        mPlayStateIV.setDrawable(R.drawable.icon_playing2, R.drawable.icon_playing2);
 
         // 音乐列表
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -88,6 +100,14 @@ public class BGMListActivity extends BaseAppActivity<BGMListPresenter> implement
             @Override
             public void onSelect(Music music) {
                 if (mPresenter.selectMusic(music)) {
+                    // 选择变化，判断是否和原来传入的音乐相同，如果不同则右上角可点击
+                    if (null != mPresenter.getOrigialMusic() &&
+                            mPresenter.getOrigialMusic().getMusicId() != music.getMusicId()) {
+                        resetSelectedTextView(true);
+                    } else {
+                        resetSelectedTextView(false);
+                    }
+
                     onNotifyDataSetChanged();
                 }
             }
@@ -105,8 +125,13 @@ public class BGMListActivity extends BaseAppActivity<BGMListPresenter> implement
             }
         });
 
+        // 右上角不可点击
+        resetSelectedTextView(false);
+
         // 已选中的音乐
-        mPresenter.setSelectMusic(Music.newInstance(getIntent()));
+        Music music = Music.newInstance(getIntent());
+        mPresenter.setSelectMusic(music);
+        mPresenter.setOrigialMusic(music);
 
         // 初始化播放器
         mPresenter.initMediaPlayer();
@@ -125,21 +150,34 @@ public class BGMListActivity extends BaseAppActivity<BGMListPresenter> implement
         }
     }
 
+    public void resetSelectedTextView(boolean clickable) {
+        mSelectedTV.setEnabled(clickable);
+
+        if (clickable) {
+            mSelectedTV.setTextColor(getResources().getColor(R.color.common_blue_deep));
+        } else {
+            mSelectedTV.setTextColor(getResources().getColor(R.color.common_text_dark));
+        }
+    }
+
     /**
      * 选定
      */
     @OnClick(R2.id.selected_text_view)
     public void selectMusic() {
+        Intent intent = Music.newIntent(mPresenter.getSelectMusic());
+        setResult(Activity.RESULT_OK, intent);
+        finish();
     }
 
     @Override
     public void showLoading() {
-
+        showLoadingDialog();
     }
 
     @Override
     public void hideLoading() {
-
+        dismissLoadingDialog();
     }
 
     @Override
@@ -156,7 +194,7 @@ public class BGMListActivity extends BaseAppActivity<BGMListPresenter> implement
 
     @Override
     public String getDefaultMusicName() {
-        return getString(R.string.topic_no_bgm);
+        return getString(R.string.no_bgm);
     }
 
     @Override
