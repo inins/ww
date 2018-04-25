@@ -10,6 +10,7 @@ import com.wang.social.im.R;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 import com.wang.social.im.enums.ConversationType;
 import com.wang.social.im.mvp.ui.adapters.holders.BaseMessageViewHolder;
+import com.wang.social.im.mvp.ui.adapters.holders.EnvelopViewHolder;
 import com.wang.social.im.mvp.ui.adapters.holders.ImageViewHolder;
 import com.wang.social.im.mvp.ui.adapters.holders.NotifyViewHolder;
 import com.wang.social.im.mvp.ui.adapters.holders.SoundViewHolder;
@@ -59,7 +60,7 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
 
     @Override
     protected BaseViewHolder createViewHolder(Context context, ViewGroup parent, int viewType) {
-        BaseMessageViewHolder viewHolder = null;
+        BaseMessageViewHolder viewHolder;
         switch (viewType) {
             case TYPE_RECEIVE_TEXT:
                 viewHolder = new TextViewHolder(context, parent, R.layout.im_item_msg_text_left);
@@ -79,15 +80,18 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
             case TYPE_SEND_VOICE:
                 viewHolder = new SoundViewHolder(context, parent, R.layout.im_item_msg_sound_right);
                 break;
+            case TYPE_RECEIVE_RED_ENVELOP:
+                viewHolder = new EnvelopViewHolder(context, parent, R.layout.im_item_msg_envelop_left);
+                break;
+            case TYPE_SEND_RED_ENVELOP:
+                viewHolder = new EnvelopViewHolder(context, parent, R.layout.im_item_msg_envelop_right);
+                break;
             case TYPE_NOTIFY:
                 viewHolder = new NotifyViewHolder(context, parent);
                 break;
             default:
                 viewHolder = new UnknownViewHolder(context, parent);
                 break;
-        }
-        if (viewHolder == null) {
-            return null;
         }
         //配置全局参数
         if (mConversationType == ConversationType.PRIVATE) {

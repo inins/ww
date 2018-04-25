@@ -23,4 +23,6 @@
     <dimen name="im_cvs_portrait_size">38dp</dimen>
     <dimen name="im_cvs_message_txt_size">11dp</dimen>
     <dimen name="im_cvs_unread_background_size">18dp</dimen>
+    <!-- 红包 -->
+    <dimen name="im_envelop_background_radius">19dp</dimen>
 </resources>

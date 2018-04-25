@@ -1,5 +1,8 @@
 package com.wang.social.im.mvp.ui;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.Editable;
@@ -28,7 +31,7 @@ import butterknife.OnClick;
 /**
  * 发送个人红包
  */
-public class CreateSingleEnvelopActivity extends BaseAppActivity<CreateEnvelopPresenter> implements CreateEnvelopContract.View{
+public class CreateSingleEnvelopActivity extends BaseAppActivity<CreateEnvelopPresenter> implements CreateEnvelopContract.View {
 
     @BindView(R2.id.toolbar)
     SocialToolbar toolbar;
@@ -40,6 +43,11 @@ public class CreateSingleEnvelopActivity extends BaseAppActivity<CreateEnvelopPr
     TextView crpTvDiamond;
     @BindView(R2.id.crp_tvb_plug)
     TextView crpTvbPlug;
+
+    public static void start(Activity activity, int requestCode) {
+        Intent intent = new Intent(activity, CreateSingleEnvelopActivity.class);
+        activity.startActivityForResult(intent, requestCode);
+    }
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -93,6 +101,11 @@ public class CreateSingleEnvelopActivity extends BaseAppActivity<CreateEnvelopPr
             return;
         }
 
+        Intent intent = new Intent();
+        intent.putExtra("envelopId", 0L);
+        intent.putExtra("message", crpEtMessage.getText().toString());
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     @Override

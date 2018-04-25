@@ -20,9 +20,8 @@ import com.tencent.imsdk.ext.message.TIMConversationExt;
 import com.tencent.imsdk.ext.message.TIMMessageExt;
 import com.wang.social.im.R;
 import com.wang.social.im.app.IMConstants;
-import com.wang.social.im.enums.CustomElemType;
 import com.wang.social.im.mvp.contract.ConversationContract;
-import com.wang.social.im.mvp.model.entities.RevokeElem;
+import com.wang.social.im.mvp.model.entities.EnvelopElemData;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 import com.wang.social.im.mvp.ui.adapters.MessageListAdapter;
 
@@ -205,11 +204,29 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
     }
 
     /**
+     * 发送红包消息
+     * @param envelopId
+     * @param message
+     */
+    public void sendEnvelopMessage(long envelopId, String message) {
+        TIMMessage timMessage = new TIMMessage();
+        TIMCustomElem envelopElem = new TIMCustomElem();
+        EnvelopElemData elemData = new EnvelopElemData();
+        elemData.setEnvelopId(envelopId);
+        elemData.setMessage(message);
+        envelopElem.setData(gson.toJson(elemData).getBytes());
+        timMessage.addElement(envelopElem);
+
+        doSendMessage(timMessage);
+    }
+
+    /**
      * 执行发送
      *
      * @param message
      */
     private void doSendMessage(TIMMessage message) {
+        // TODO: 2018-04-25 判断是否需要添加匿名/分身消息标识
         mConversation.sendMessage(message, new TIMValueCallBack<TIMMessage>() {
             @Override
             public void onError(int i, String s) {

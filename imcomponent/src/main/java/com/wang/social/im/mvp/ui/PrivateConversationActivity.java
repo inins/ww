@@ -1,26 +1,21 @@
 package com.wang.social.im.mvp.ui;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.RecyclerView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.frame.component.path.ImPath;
-import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.router.facade.annotation.Autowired;
 import com.frame.router.facade.annotation.RouteNode;
-import com.frame.utils.ScreenUtils;
-import com.frame.utils.SizeUtils;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.di.component.DaggerActivityComponent;
@@ -84,7 +79,8 @@ public class PrivateConversationActivity extends BasicConversationActivity {
         DaggerActivityComponent
                 .builder()
                 .appComponent(appComponent)
-                .build().inject(this);
+                .build()
+                .inject(this);
     }
 
     @Override

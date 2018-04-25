@@ -15,6 +15,7 @@ import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.utils.BarUtils;
 import com.wang.social.im.R;
+import com.wang.social.im.R2;
 import com.wang.social.im.mvp.contract.EnvelopDetailContract;
 import com.wang.social.im.mvp.presenter.EnvelopDetailPrensenter;
 import com.wang.social.im.mvp.ui.adapters.EnvelopAdoptInfoAdapter;
@@ -26,11 +27,11 @@ import butterknife.BindView;
  */
 public class EnvelopDetailActivity extends BaseAppActivity<EnvelopDetailPrensenter> implements EnvelopDetailContract.View {
 
-    @BindView(R.id.ed_rlv_records)
+    @BindView(R2.id.ed_rlv_records)
     RecyclerView edRlvRecords;
-    @BindView(R.id.ed_tv_out_of_date)
+    @BindView(R2.id.ed_tv_out_of_date)
     TextView edTvOutOfDate;
-    @BindView(R.id.s_toolbar)
+    @BindView(R2.id.s_toolbar)
     SocialToolbar sToolbar;
 
     private EnvelopAdoptInfoAdapter mAdapter;

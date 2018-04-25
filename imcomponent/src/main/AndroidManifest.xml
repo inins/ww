@@ -67,5 +67,11 @@
         <activity
             android:name=".mvp.ui.CreateSingleEnvelopActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.ui.CreateMultiEnvelopActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.ui.EnvelopDetailActivity"
+            android:screenOrientation="portrait" />
     </application>
 </manifest>
