@@ -37,7 +37,7 @@ public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.ViewHo
     }
 
     public TemplateAdapter(RecyclerView recyclerView) {
-        this.mContext = recyclerView.getContext();
+        this.mContext = recyclerView.getContext().getApplicationContext();
     }
 
     @Override

@@ -13,7 +13,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     Context mContext;
 
     public SearchResultAdapter(RecyclerView recyclerView) {
-        mContext = recyclerView.getContext();
+        mContext = recyclerView.getContext().getApplicationContext();
     }
 
     @Override

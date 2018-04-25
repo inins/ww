@@ -15,7 +15,7 @@ public class TopUserAdapter extends RecyclerView.Adapter<TopUserAdapter.ViewHold
     private Context mContext;
 
     public TopUserAdapter(RecyclerView recyclerView) {
-        mContext = recyclerView.getContext();
+        mContext = recyclerView.getContext().getApplicationContext();
     }
 
     @Override

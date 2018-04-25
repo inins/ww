@@ -13,7 +13,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     Context mContext;
 
     public CommentAdapter(RecyclerView recyclerView) {
-        mContext = recyclerView.getContext();
+        mContext = recyclerView.getContext().getApplicationContext();
     }
 
     @Override
