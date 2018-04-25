@@ -1,7 +1,7 @@
 //if (project.isRunAlone) {
-    apply plugin: 'com.android.application'
+//    apply plugin: 'com.android.application'
 //} else {
-//    apply plugin: 'com.component.build'
+    apply plugin: 'com.component.build'
 //}
 apply plugin: 'com.jakewharton.butterknife'
 
@@ -93,8 +93,9 @@ dependencies {
     implementation project(':component-service')
     annotationProcessor project(':router-anno-compiler')
     //SpringView
-    compile 'com.liaoinstan.springview:library:1.3.1'
+    //compile 'com.liaoinstan.springview:library:1.3.2'
     implementation project(':pictureselectorcomponent')
+    implementation project(':springlibrary')
 }
 
 if (!project.isRunAlone) {

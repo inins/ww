@@ -21,6 +21,8 @@ import io.reactivex.Observable;
 import timber.log.Timber;
 
 import com.wang.social.login.BuildConfig;
+import com.wang.social.login.utils.StringUtils;
+
 @ActivityScope
 public class TagSelectionModel extends BaseModel implements TagSelectionContract.Model {
     @Inject
@@ -40,15 +42,7 @@ public class TagSelectionModel extends BaseModel implements TagSelectionContract
 
     @Override
     public Observable<BaseJson> updateRecommendTag(List<Tag> list) {
-        String tagIds = "";
-        for (int i = 0; i < list.size(); i++) {
-            Tag tag = list.get(i);
-            Timber.i(tag.getId() + " " + tag.getTagName());
-            tagIds = tagIds + tag.getId();
-            if (i < list.size() - 1) {
-                tagIds = tagIds + ",";
-            }
-        }
+        String tagIds = StringUtils.formatTagIds(list);
         Map<String, Object> param = new NetParam()
                 .put("tagIds", tagIds)
                 .put("v", BuildConfig.VERSION_NAME)
@@ -72,15 +66,7 @@ public class TagSelectionModel extends BaseModel implements TagSelectionContract
 
     @Override
     public Observable<BaseJson> addPersonalTag(List<Tag> list) {
-        String tagIds = "";
-        for (int i = 0; i < list.size(); i++) {
-            Tag tag = list.get(i);
-            Timber.i(tag.getId() + " " + tag.getTagName());
-            tagIds = tagIds + tag.getId();
-            if (i < list.size() - 1) {
-                tagIds = tagIds + ",";
-            }
-        }
+        String tagIds = StringUtils.formatTagIds(list);
         Map<String, Object> param = new NetParam()
                 .put("tagIds", tagIds)
                 .put("v", BuildConfig.VERSION_NAME)

@@ -33,6 +33,7 @@ import com.wang.social.login.mvp.model.entities.Tags;
 import com.wang.social.login.mvp.presenter.TagSelectionPresenter;
 import com.wang.social.login.mvp.ui.widget.TagListFragment;
 import com.wang.social.login.utils.Keys;
+import com.wang.social.login.utils.StringUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -52,6 +53,7 @@ import static com.wang.social.login.utils.Keys.NAME_SELECTED_LIST;
 import static com.wang.social.login.utils.Keys.NAME_TAG_TYPE;
 import static com.wang.social.login.utils.Keys.TAG_TYPE_INTEREST;
 import static com.wang.social.login.utils.Keys.TAG_TYPE_PERSONAL;
+import static com.wang.social.login.utils.Keys.TAG_TYPE_TAG_LIST;
 
 @RouteNode(path = "/login_tag_selection", desc = "标签选择")
 public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter> implements
@@ -78,6 +80,9 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
         context.startActivity(intent);
     }
 
+    public static void startForTagList(Context context) {
+        start(context, MODE_SELECTION, null, false, TAG_TYPE_TAG_LIST);
+    }
 
     /**
      * 从登录页面启动标签选择页面
@@ -274,9 +279,16 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
             // 个人标签模式下，需要现价在已经选了多少个了
 //            mPresenter.getParentTagList();
             mPresenter.findMyTagCount();
-        } else {
+        } else if (mTagType == TAG_TYPE_INTEREST) {
             // 兴趣标签模式下，需要现价在已经的兴趣标签
             mPresenter.myRecommendTag();
+        } else if (mTagType == TAG_TYPE_TAG_LIST) {
+            // 获取选择标签模式下，需要从bundle中获取数据
+            String idsStr = getIntent().getStringExtra("ids");
+            mPresenter.setSelectedListFromBundle(idsStr);
+
+            // 加载父标签列表
+            mPresenter.getParentTagList();
         }
     }
 
@@ -345,12 +357,22 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
                 break;
             case MODE_CONFIRM:
                 // 确认模式，提交选择
-                if (TAG_TYPE_INTEREST == mTagType) {
+                if (TAG_TYPE_INTEREST == mTagType) { // 兴趣标签
                     // 提交兴趣标签
                     mPresenter.updateRecommendTag();
-                } else {
+                } else if (TAG_TYPE_PERSONAL == mTagType){ // 个人标签
                     // 提交个人标签
                     mPresenter.addPersonalTag();
+                } else if (TAG_TYPE_TAG_LIST == mTagType) { // 话题发布选择标签，直接返回标签列表文字
+                    String ids = StringUtils.formatTagIds(mPresenter.getSelectedList());
+                    String names = StringUtils.formatTagNames(mPresenter.getSelectedList());
+
+                    EventBean bean = new EventBean(EventBean.EVENTBUS_TAG_SELECTED_LIST);
+                    bean.put("ids", ids);
+                    bean.put("names", names);
+                    EventBus.getDefault().post(bean);
+
+                    quitFinish();
                 }
                 break;
         }
@@ -418,6 +440,12 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
         } else {
             finish();
         }
+    }
+
+    private void quitFinish() {
+        finish();
+
+        appManager.killActivity(TagSelectionActivity.class);
     }
 
     /**

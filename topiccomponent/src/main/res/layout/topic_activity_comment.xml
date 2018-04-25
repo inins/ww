@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/comment_count_text_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.frame.component.view.SocialToolbar
+        android:id="@+id/topic_socialtoolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:actionBarSize"
+        app:toolbar_left_icon="@drawable/common_ic_back" />
+
+    <TextView
+        android:id="@+id/topic_textview3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/topic_your_comment"
+        android:textColor="@color/common_text_blank"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topic_socialtoolbar" />
+
+    <TextView
+        android:id="@+id/topic_textview4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/topic_your_comment_hint"
+        android:textColor="@color/common_text_blank"
+        android:textSize="13sp"
+        app:layout_constraintStart_toStartOf="@+id/topic_textview3"
+        app:layout_constraintTop_toBottomOf="@+id/topic_textview3" />
+
+    <TextView
+        android:id="@+id/topic_textview5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/topic_comment_count_format"
+        android:textColor="@color/common_text_blank"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topic_textview4" />
+
+    <TextView
+        android:id="@+id/sort_type_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="14dp"
+        android:layout_marginTop="24dp"
+        android:text="按热度"
+        android:textColor="@color/common_blue_deep"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topic_textview4" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="14dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topic_textview5" />
+
+</android.support.constraint.ConstraintLayout>

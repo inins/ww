@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.frame.base.BaseAdapter;
 import com.frame.component.common.GridSpacingItemDecoration;
 import com.frame.component.common.ItemDecorationDivider;
+import com.frame.component.entities.BaseListWrap;
 import com.frame.component.entities.TestEntity;
 import com.frame.component.entities.User;
 import com.frame.component.helper.ImageLoaderHelper;
@@ -23,11 +24,22 @@ import com.frame.component.utils.viewutils.FontUtils;
 import com.frame.component.view.bundleimgview.BundleImgEntity;
 import com.frame.component.view.bundleimgview.BundleImgView;
 import com.frame.di.component.AppComponent;
+import com.frame.http.api.ApiHelperEx;
+import com.frame.http.api.BaseJson;
+import com.frame.http.api.error.ErrorHandleSubscriber;
+import com.frame.mvp.IView;
 import com.frame.utils.FocusUtil;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.ToastUtil;
+import com.liaoinstan.springview.container.AliFooter;
+import com.liaoinstan.springview.container.AliHeader;
+import com.liaoinstan.springview.widget.SpringView;
 import com.wang.social.funshow.R;
 import com.wang.social.funshow.R2;
+import com.wang.social.funshow.di.component.DaggerSingleActivityComponent;
+import com.wang.social.funshow.mvp.entities.funshow.FunshowDetail;
+import com.wang.social.funshow.mvp.entities.user.TopUser;
+import com.wang.social.funshow.mvp.model.api.FunshowService;
 import com.wang.social.funshow.mvp.ui.adapter.RecycleAdapterEva;
 import com.wang.social.funshow.mvp.ui.adapter.RecycleAdapterZan;
 import com.wang.social.funshow.mvp.ui.controller.FunshowDetailContentBoardController;
@@ -36,19 +48,26 @@ import com.wang.social.funshow.mvp.ui.controller.FunshowDetailEvaController;
 import com.wang.social.funshow.mvp.ui.controller.FunshowDetailZanController;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class FunshowDetailActivity extends BasicAppActivity {
+public class FunshowDetailActivity extends BasicAppActivity implements IView {
+
+    @BindView(R2.id.spring)
+    SpringView springView;
 
     private FunshowDetailContentBoardController contentBoardController;
     private FunshowDetailZanController zanController;
     private FunshowDetailEvaController evaController;
     private FunshowDetailEditController editController;
 
-    public static void start(Context context) {
+    private int talkId;
+
+    public static void start(Context context, int talkId) {
         Intent intent = new Intent(context, FunshowDetailActivity.class);
+        intent.putExtra("talkId", talkId);
         context.startActivity(intent);
     }
 
@@ -60,12 +79,15 @@ public class FunshowDetailActivity extends BasicAppActivity {
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
         FocusUtil.focusToTop(toolbar);
+        talkId = getIntent().getIntExtra("talkId", 0);
 
         //初始化各部分控制器
-        contentBoardController = new FunshowDetailContentBoardController(findViewById(R.id.include_contentboard));
-        zanController = new FunshowDetailZanController(findViewById(R.id.include_zan));
-        evaController = new FunshowDetailEvaController(findViewById(R.id.include_eva));
+        contentBoardController = new FunshowDetailContentBoardController(findViewById(R.id.include_contentboard), talkId);
+        zanController = new FunshowDetailZanController(findViewById(R.id.include_zan), talkId);
+        evaController = new FunshowDetailEvaController(findViewById(R.id.include_eva), springView, talkId);
         editController = new FunshowDetailEditController(findViewById(R.id.include_edit));
+
+
     }
 
     public void onClick(View v) {
@@ -100,6 +122,20 @@ public class FunshowDetailActivity extends BasicAppActivity {
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
+        DaggerSingleActivityComponent
+                .builder()
+                .appComponent(appComponent)
+                .build()
+                .inject(this);
+    }
 
+    @Override
+    public void showLoading() {
+        showLoadingDialog();
+    }
+
+    @Override
+    public void hideLoading() {
+        dismissLoadingDialog();
     }
 }

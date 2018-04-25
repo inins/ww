@@ -1,4 +1,4 @@
-package com.wang.social.funshow.mvp.entities;
+package com.wang.social.funshow.mvp.entities.funshow;
 
 import java.io.Serializable;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class Funshow implements Serializable{
+public class Funshow implements Serializable {
 
 
     /**
@@ -46,4 +46,22 @@ public class Funshow implements Serializable{
     private String userCover;
     private int isShopping;
     private List<String> talkImage;
+
+    //////////////////////////////
+
+    public boolean isSupport() {
+        return isSupport == 1;
+    }
+
+    public void setIsSupport(boolean isSupport) {
+        this.isSupport = isSupport ? 1 : 0;
+    }
+
+    public boolean isShopping() {
+        return isShopping == 1;
+    }
+
+    public void setIsShopping(boolean isShopping) {
+        this.isShopping = isShopping ? 1 : 0;
+    }
 }

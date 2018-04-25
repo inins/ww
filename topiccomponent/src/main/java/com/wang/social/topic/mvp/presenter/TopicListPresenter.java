@@ -37,9 +37,35 @@ public class TopicListPresenter extends
         super(model, view);
     }
 
-    public Topic getTopic(int posistion) {
-        if (posistion >= 0 && posistion < mTopicList.size()) {
-            return mTopicList.get(posistion);
+    private static int count = 0;
+    private Topic getTestTopic() {
+        Topic topic = new Topic();
+
+        topic.setCreateTime(System.currentTimeMillis());
+        topic.setIsFree((count++) % 2);
+        List<Tag> tags = new ArrayList<>();
+        Tag tag = new Tag();
+        tag.setTagName("社交软件");
+        tags.add(tag);
+        tags.add(tag);
+        tags.add(tag);
+        topic.setTags(tags);
+        topic.setTitle("大家对往往社交怎么看？");
+        topic.setFirstStrff("往往一款专注兴趣交友的APP，独特的群部落文化，帮助用户寻找“知音”！");
+        topic.setUserCover("https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1373411777,3992091759&fm=27&gp=0.jpg");
+        topic.setUserName("往往官方");
+        topic.setTopicReadNum(11);
+        topic.setTopicSupportNum(22);
+        topic.setTopicCommentNum(33);
+
+        return topic;
+    }
+
+    public Topic getTopic(int position) {
+//        return getTestTopic();
+
+        if (position >= 0 && position < mTopicList.size()) {
+            return mTopicList.get(position);
         }
 
         return null;
@@ -47,6 +73,7 @@ public class TopicListPresenter extends
 
     public int getTopicCount() {
         return mTopicList.size();
+//        return 10;
     }
 
     /**
@@ -68,6 +95,8 @@ public class TopicListPresenter extends
 
                     @Override
                     public void onError(Throwable e) {
+                        mRootView.showToast(e.getMessage());
+//                        mRootView.onTopicLoaded();
                     }
                 }, new Consumer<Disposable>() {
                     @Override

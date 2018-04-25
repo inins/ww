@@ -12,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.frame.base.BaseFragment;
 import com.frame.component.path.LoginPath;
@@ -26,7 +27,10 @@ import com.wang.social.topic.R2;
 import com.wang.social.topic.di.component.DaggerTopicComponent;
 import com.wang.social.topic.di.module.TopicModule;
 import com.wang.social.topic.mvp.contract.TopicContract;
+import com.wang.social.topic.mvp.model.entities.Tag;
 import com.wang.social.topic.mvp.presenter.TopicPresenter;
+import com.wang.social.topic.mvp.ui.SearchActivity;
+import com.wang.social.topic.mvp.ui.TopUserActivity;
 import com.wang.social.topic.mvp.ui.WrapContentLinearLayoutManager;
 import com.wang.social.topic.mvp.ui.adapter.SelectedTagAdapter;
 import com.wang.social.topic.mvp.ui.widget.AppBarStateChangeListener;
@@ -44,9 +48,12 @@ public class TopicFragment extends BaseFragment<TopicPresenter> implements Topic
     @BindView(R2.id.app_bar_layout)
     AppBarLayout mAppBarLayout;
     // 选中标签列表
-    @BindView(R2.id.selected_recycler_view)
-    RecyclerView mRecyclerView;
-    SelectedTagAdapter mSelectedTagAdapter;
+    @BindView(R2.id.selected_tag_1_text_view)
+    TextView mSelectedTag1TV;
+    @BindView(R2.id.selected_tag_2_text_view)
+    TextView mSelectedTag2TV;
+    @BindView(R2.id.selected_tag_3_text_view)
+    TextView mSelectedTag3TV;
     // 最新 最热 无人问津 话题列表类型 Tab
     @BindView(R2.id.tab_layout)
     TabLayout mTabLayout;
@@ -101,11 +108,21 @@ public class TopicFragment extends BaseFragment<TopicPresenter> implements Topic
             }
         });
 
-        initSelectedTagData();
+        // 跳转到知识魔页面
+        mBarView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TopUserActivity.start(getActivity());
+            }
+        });
+
         initTopicList();
 
         // 加载知识魔
         mPresenter.getReleaseTopicTopUser();
+
+        // 加载标签数据
+        mPresenter.myRecommendTag();
     }
 
     @Override
@@ -132,18 +149,9 @@ public class TopicFragment extends BaseFragment<TopicPresenter> implements Topic
      */
     @OnClick({R2.id.search_layout, R2.id.tab_layout_search_image_view})
     public void search() {
-        mPresenter.search();
-    }
-
-
-    /**
-     * 初始化已选标签信息列表
-     */
-    private void initSelectedTagData() {
-
-        WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(getContext());
-        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        mRecyclerView.setLayoutManager(layoutManager);
+//        mPresenter.search();
+        // 跳转到搜索页面
+        SearchActivity.start(getActivity());
     }
 
     /**
@@ -180,23 +188,23 @@ public class TopicFragment extends BaseFragment<TopicPresenter> implements Topic
     }
 
     @Override
-    public void onMyRecommendTagListLoad() {
-        if (null == mSelectedTagAdapter) {
-            mSelectedTagAdapter = new SelectedTagAdapter(getContext(), new SelectedTagAdapter.DataProvider() {
-                @Override
-                public int getItemCount() {
-                    return mPresenter.getSelectedTagCount();
-                }
-
-                @Override
-                public String getName(int position) {
-                    return mPresenter.getSelectedTagName(position);
-                }
-            });
-
-            mRecyclerView.setAdapter(mSelectedTagAdapter);
-        } else {
-            mSelectedTagAdapter.notifyDataSetChanged();
+    public void onMyRecommendTagListLoad(List<Tag> list) {
+        for (int i = 0; i < Math.min(3, list.size()); i++) {
+            Tag tag = list.get(i);
+            switch (i) {
+                case 0:
+                    mSelectedTag1TV.setVisibility(View.VISIBLE);
+                    mSelectedTag1TV.setText(tag.getTagName());
+                    break;
+                case 1:
+                    mSelectedTag2TV.setVisibility(View.VISIBLE);
+                    mSelectedTag2TV.setText(tag.getTagName());
+                    break;
+                case 3:
+                    mSelectedTag3TV.setVisibility(View.VISIBLE);
+                    mSelectedTag3TV.setText(tag.getTagName());
+                    break;
+            }
         }
     }
 

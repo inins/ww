@@ -28,11 +28,11 @@
         android:drawableLeft="@drawable/common_select_zan"
         android:drawablePadding="5dp"
         android:gravity="center"
-        android:text="110"
         android:textColor="@color/common_text_dark"
         android:textSize="11sp"
         app:layout_constraintEnd_toStartOf="@+id/text_comment"
-        app:layout_constraintTop_toTopOf="@+id/text_comment" />
+        app:layout_constraintTop_toTopOf="@+id/text_comment"
+        tools:text="110" />
 
     <TextView
         android:id="@+id/text_comment"
@@ -42,11 +42,11 @@
         android:drawableLeft="@drawable/common_ic_comment"
         android:drawablePadding="5dp"
         android:gravity="center"
-        android:text="110"
         android:textColor="@color/common_text_dark"
         android:textSize="11sp"
         app:layout_constraintEnd_toStartOf="@+id/text_share"
-        app:layout_constraintTop_toTopOf="@+id/text_share" />
+        app:layout_constraintTop_toTopOf="@+id/text_share"
+        tools:text="110" />
 
     <TextView
         android:id="@+id/text_share"
@@ -57,11 +57,11 @@
         android:drawableLeft="@drawable/common_ic_share"
         android:drawablePadding="5dp"
         android:gravity="center"
-        android:text="110"
         android:textColor="@color/common_text_dark"
         android:textSize="11sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="110" />
 
     <View
         android:id="@+id/line1"
@@ -77,11 +77,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:layout_marginTop="8dp"
-        android:text="88个赞"
         android:textColor="@color/common_text_blank"
         android:textSize="13sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/line1" />
+        app:layout_constraintTop_toBottomOf="@+id/line1"
+        tools:text="88个赞" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_zan"

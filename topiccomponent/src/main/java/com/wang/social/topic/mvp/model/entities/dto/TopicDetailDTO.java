@@ -12,7 +12,7 @@ import java.util.List;
 
 
 public class TopicDetailDTO implements Mapper<TopicDetail> {
-    private long birthday;
+    private Long birthday;
     private String backgroundMusicId;
     private String backgroundMusicName;
     private String backgroundMusicUrl;
@@ -31,7 +31,7 @@ public class TopicDetailDTO implements Mapper<TopicDetail> {
     private Integer gemstone;
     private List<String> tags ;
     private Integer topicId;
-    private long createTime;
+    private Long createTime;
     private String shareTotal;
     private String nickname;
 

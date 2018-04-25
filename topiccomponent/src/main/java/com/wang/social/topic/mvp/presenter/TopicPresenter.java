@@ -31,9 +31,6 @@ public class TopicPresenter extends
     @Inject
     ApiHelper mApiHelper;
 
-    // 已选列表
-    ArrayList<Tag> selectedList = new ArrayList<>();
-
     @Inject
     public TopicPresenter(TopicContract.Model model, TopicContract.View view) {
         super(model, view);
@@ -55,15 +52,10 @@ public class TopicPresenter extends
                         }
 
                         mRootView.onTopicTopUserLoaded(list);
-
-                        // 加载标签数据
-                        myRecommendTag();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        // 加载标签数据
-                        myRecommendTag();
                     }
                 });
     }
@@ -80,13 +72,9 @@ public class TopicPresenter extends
                     @Override
                     public void onNext(Tags tags) {
                         if (null != tags && tags.getList() != null) {
-                            selectedList.clear();
-                            for (int i = 0; i < Math.min(3, tags.getList().size()); i++) {
-                                selectedList.add(tags.getList().get(i));
-                            }
 
                             // 更新已选标签列表UI
-                            mRootView.onMyRecommendTagListLoad();
+                            mRootView.onMyRecommendTagListLoad(tags.getList());
                         }
                     }
 
@@ -106,44 +94,6 @@ public class TopicPresenter extends
 //                        mRootView.hideLoading();
                     }
                 });
-    }
-
-    /**
-     * 选中数量
-     *
-     * @return 选中数量
-     */
-    public int getSelectedTagCount() {
-        return selectedList.size();
-    }
-
-    /**
-     * 设置选中列表
-     *
-     * @param list
-     */
-    public void setSelectedTagList(ArrayList<Tag> list) {
-        selectedList = list;
-    }
-
-    /**
-     * 返回选中列表
-     *
-     * @return
-     */
-    public ArrayList<Tag> getSelectedList() {
-        return selectedList;
-    }
-
-    public String getSelectedTagName(int position) {
-        if (null != selectedList && selectedList.size() > position) {
-            Tag tag = selectedList.get(position);
-            if (null != tag) {
-                return tag.getTagName();
-            }
-        }
-
-        return "";
     }
 
     /**

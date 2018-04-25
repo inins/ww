@@ -37,6 +37,7 @@ public class BarView extends FrameLayout {
 
     private String title;
     private String note;
+    private int maxCount;
 
     private static final String TAG = "BarView";
 
@@ -52,6 +53,7 @@ public class BarView extends FrameLayout {
         super(context, attrs, defStyleAttr);
         TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.BarView);
         title = ta.getString(R.styleable.BarView_title);
+        maxCount = ta.getInteger(R.styleable.BarView_max_count, 5);
         note = ta.getString(R.styleable.BarView_note);
         ta.recycle();
     }
@@ -84,6 +86,7 @@ public class BarView extends FrameLayout {
 
     private void initCtrl() {
         adapter = new RecycleAdapterBarView();
+        adapter.setMaxCount(maxCount);
         recycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         if (!isInEditMode()) {
             recycler.addItemDecoration(new HDHeadItemDecoration(SizeUtils.dp2px(-20)));
@@ -112,5 +115,15 @@ public class BarView extends FrameLayout {
     public void setNote(String note) {
         this.note = note;
         text_note.setText(note);
+    }
+
+    public int getMaxCount() {
+        return maxCount;
+    }
+
+    public void setMaxCount(int maxCount) {
+        this.maxCount = maxCount;
+        adapter.setMaxCount(maxCount);
+        adapter.notifyDataSetChanged();
     }
 }

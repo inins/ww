@@ -1,26 +1,42 @@
 package com.wang.social.funshow.mvp.ui.adapter;
 
 import android.content.Context;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
-import com.frame.component.entities.TestEntity;
 import com.frame.component.helper.ImageLoaderHelper;
+import com.frame.mvp.IView;
+import com.frame.utils.StrUtil;
 import com.wang.social.funshow.R;
 import com.wang.social.funshow.R2;
-import com.wang.social.funshow.mvp.entities.Funshow;
+import com.wang.social.funshow.mvp.entities.funshow.Funshow;
 import com.wang.social.funshow.mvp.ui.dialog.MorePopupWindow;
+import com.wang.social.funshow.net.helper.NetZanHelper;
+import com.wang.social.funshow.utils.FunShowUtil;
 
 import butterknife.BindView;
 
 public class RecycleAdapterHome extends BaseAdapter<Funshow> {
 
-
     @Override
     protected BaseViewHolder createViewHolder(Context context, ViewGroup parent, int viewType) {
         return new Holder(context, parent, R.layout.funshow_item_home);
+    }
+
+    public void refreshZanById(int talkId, boolean isZan, int zanCount) {
+        if (StrUtil.isEmpty(getData())) return;
+        for (int i = 0; i < getData().size(); i++) {
+            Funshow funshow = getData().get(i);
+            if (funshow.getTalkId() == talkId) {
+                funshow.setTalkSupportNum(zanCount);
+                funshow.setIsSupport(isZan);
+                notifyItemChanged(i);
+            }
+        }
     }
 
     public class Holder extends BaseViewHolder<Funshow> {
@@ -30,17 +46,66 @@ public class RecycleAdapterHome extends BaseAdapter<Funshow> {
         ImageView imgPic;
         @BindView(R2.id.img_more)
         ImageView imgMore;
+        @BindView(R2.id.text_name)
+        TextView textName;
+        @BindView(R2.id.text_time)
+        TextView textTime;
+        @BindView(R2.id.text_title)
+        TextView textTitle;
+        @BindView(R2.id.img_player)
+        ImageView imgPlayer;
+        @BindView(R2.id.img_tag_pay)
+        ImageView imgTagPay;
+        @BindView(R2.id.text_pic_count)
+        TextView textPicCount;
+        @BindView(R2.id.text_position)
+        TextView textPosition;
+        @BindView(R2.id.text_zan)
+        TextView textZan;
+        @BindView(R2.id.text_comment)
+        TextView textComment;
+        @BindView(R2.id.text_share)
+        TextView textShare;
 
         public Holder(Context context, ViewGroup root, int layoutRes) {
             super(context, root, layoutRes);
         }
 
         @Override
-        protected void bindData(Funshow itemValue, int position, OnItemClickListener onItemClickListener) {
-            ImageLoaderHelper.loadCircleImgTest(img_header);
-            ImageLoaderHelper.loadImgTest(imgPic);
+        protected void bindData(Funshow bean, int position, OnItemClickListener onItemClickListener) {
+            ImageLoaderHelper.loadCircleImg(img_header, bean.getUserCover());
+            if (!StrUtil.isEmpty(bean.getTalkImage()))
+                ImageLoaderHelper.loadImg(imgPic, bean.getTalkImage().get(0));
+            else imgPic.setImageResource(R.drawable.default_rect);
+            textName.setText(bean.getUserName());
+            textTitle.setText(bean.getContent());
+            textPosition.setText(bean.getProvince() + bean.getCity());
+            textZan.setText(bean.getTalkSupportNum() + "");
+            textComment.setText(bean.getTalkCommentNum() + "");
+            textShare.setText(bean.getTalkShareNum() + "");
+            textPicCount.setText("1/" + bean.getTalkImageNum());
+            textTime.setText(FunShowUtil.getFunshowTimeStr(bean.getCreateTime()));
+            imgTagPay.setVisibility(bean.isShopping() ? View.VISIBLE : View.GONE);
+            textZan.setSelected(bean.isSupport());
+
             imgMore.setOnClickListener(view -> {
                 new MorePopupWindow(getContext()).showPopupWindow(view);
+            });
+
+            textZan.setOnClickListener(v -> {
+                IView iView = (getContext() instanceof IView) ? (IView) getContext() : null;
+                NetZanHelper.newInstance().funshowZan(iView, textZan, bean.getTalkId(), !textZan.isSelected(), (isZan, zanCount) -> {
+                    bean.setIsSupport(isZan);
+                    bean.setTalkSupportNum(zanCount);
+                });
+            });
+            textShare.setOnClickListener(v -> {
+//                SocializeUtil.shareWeb(getChildFragmentManager(),
+//                        shareListener,
+//                        "http://www.wangsocial.com/",
+//                        "往往",
+//                        "有点2的社交软件",
+//                        "http://resouce.dongdongwedding.com/activity_cashcow_moneyTree.png");
             });
         }
 

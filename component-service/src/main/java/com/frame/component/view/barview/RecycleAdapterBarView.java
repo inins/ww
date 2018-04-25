@@ -14,9 +14,23 @@ import com.frame.utils.FrameUtils;
 
 public class RecycleAdapterBarView extends BaseAdapter<BarUser> {
 
+    private int maxCount;
+
     @Override
     protected BaseViewHolder createViewHolder(Context context, ViewGroup parent, int viewType) {
         return new Holder(context, parent, R.layout.item_view_bar);
+    }
+
+    @Override
+    public int getItemCount() {
+        if (valueList == null) return 0;
+        else {
+            if (valueList.size() <= maxCount) {
+                return valueList.size();
+            } else {
+                return maxCount;
+            }
+        }
     }
 
     public class Holder extends BaseViewHolder<BarUser> {
@@ -40,5 +54,16 @@ public class RecycleAdapterBarView extends BaseAdapter<BarUser> {
         protected boolean useItemClickListener() {
             return true;
         }
+    }
+
+    ////////////////
+
+
+    public int getMaxCount() {
+        return maxCount;
+    }
+
+    public void setMaxCount(int maxCount) {
+        this.maxCount = maxCount;
     }
 }

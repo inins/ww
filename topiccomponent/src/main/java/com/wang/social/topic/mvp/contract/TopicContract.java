@@ -4,6 +4,7 @@ import com.frame.component.view.barview.BarUser;
 import com.frame.http.api.BaseJson;
 import com.frame.mvp.IModel;
 import com.frame.mvp.IView;
+import com.wang.social.topic.mvp.model.entities.Tag;
 import com.wang.social.topic.mvp.model.entities.dto.TagsDTO;
 import com.wang.social.topic.mvp.model.entities.dto.TopicTopUsersDTO;
 
@@ -14,7 +15,7 @@ import io.reactivex.Observable;
 public interface TopicContract {
     interface View extends IView {
         void showToast(String msg);
-        void onMyRecommendTagListLoad();
+        void onMyRecommendTagListLoad(List<Tag> list);
         void onTopicTopUserLoaded(List<BarUser> list);
     }
 

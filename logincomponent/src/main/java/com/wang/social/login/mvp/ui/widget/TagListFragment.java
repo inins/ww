@@ -40,6 +40,7 @@ import static com.wang.social.login.utils.Keys.NAME_SELECTED_LIST;
 import static com.wang.social.login.utils.Keys.NAME_TAG_TYPE;
 import static com.wang.social.login.utils.Keys.TAG_TYPE_INTEREST;
 import static com.wang.social.login.utils.Keys.TAG_TYPE_PERSONAL;
+import static com.wang.social.login.utils.Keys.TAG_TYPE_TAG_LIST;
 
 public class TagListFragment extends BaseFragment<TagListPresenter> implements
         TagListContract.View {
@@ -142,6 +143,7 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
                 case TAG_TYPE_PERSONAL:
                     return tag.isPersonalTag() || tag.isPersonalSelectedTag();
                 case TAG_TYPE_INTEREST:
+                case TAG_TYPE_TAG_LIST:
                     return tag.isInterest();
             }
 

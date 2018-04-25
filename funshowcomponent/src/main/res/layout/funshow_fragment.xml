@@ -9,6 +9,7 @@
 
     <com.liaoinstan.springview.widget.SpringView
         android:id="@+id/spring"
+        app:type="follow"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -31,6 +32,7 @@
                     android:layout_marginRight="15dp"
                     android:layout_marginTop="15dp"
                     android:foreground="?attr/selectableItemBackground"
+                    app:max_count="5"
                     app:note="@string/funshow_home_bar_note"
                     app:title="@string/funshow_home_bar_title" />
 
