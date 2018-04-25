@@ -23,18 +23,18 @@ import com.wang.social.topic.mvp.ui.adapter.TemplateAdapter;
 import com.wang.social.topic.mvp.ui.widget.SpacingItemDecoration;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class TemplateActivity extends BaseAppActivity<TemplatePresenter> implements TemplateContract.View {
-    public final static String NAME_ID = "NAME_ID";
 
     /**
      * 启动模板选择
      * @param activity activity
-     * @param currentId 当前模板id
+     * @param template 当前模板id
      */
-    public static void start(Activity activity, int currentId, int requestCode) {
+    public static void start(Activity activity, Template template, int requestCode) {
         Intent intent = new Intent(activity, TemplateActivity.class);
-        intent.putExtra(NAME_ID, currentId);
+        intent.putExtra("template", template);
         activity.startActivityForResult(intent, requestCode);
     }
 
@@ -71,10 +71,7 @@ public class TemplateActivity extends BaseAppActivity<TemplatePresenter> impleme
                     // 返回数据
                     Intent intent = new Intent();
 
-                    intent.putExtra("id", mPresenter.getCurrentTemplateId());
-                    if (null != mPresenter.getCurrentTemplate()) {
-                        intent.putExtra("url", mPresenter.getCurrentTemplate().getUrl());
-                    }
+                    intent.putExtra("template", mPresenter.getCurrentTemplate());
 
                     setResult(Activity.RESULT_OK, intent);
 
@@ -86,7 +83,12 @@ public class TemplateActivity extends BaseAppActivity<TemplatePresenter> impleme
         refreshSelectedTextView(false);
 
         // 当前模板
-        mPresenter.setCurrentTemplateId(getIntent().getIntExtra(NAME_ID, -1));
+        Template template = null;
+        if (getIntent().hasExtra("template")) {
+            template = getIntent().getParcelableExtra("template");
+        }
+        mPresenter.setCurrentTemplate(this, template);
+        mPresenter.setOriginalTemplate(template == null ? Template.newDefault(this) : template);
         // 加载模板列表
         mPresenter.loadTemplateList();
     }
@@ -100,6 +102,17 @@ public class TemplateActivity extends BaseAppActivity<TemplatePresenter> impleme
         }
     }
 
+    /**
+     * 选定
+     */
+    @OnClick(R2.id.selected_text_view)
+    public void selected() {
+        Intent intent = new Intent();
+        intent.putExtra("template", mPresenter.getCurrentTemplate());
+        setResult(Activity.RESULT_OK, intent);
+        finish();
+    }
+
     @Override
     public void showLoading() {
         showLoadingDialog();
@@ -108,6 +121,11 @@ public class TemplateActivity extends BaseAppActivity<TemplatePresenter> impleme
     @Override
     public void hideLoading() {
         dismissLoadingDialog();
+    }
+
+    @Override
+    public Context getViewContext() {
+        return this;
     }
 
     @Override
@@ -139,14 +157,28 @@ public class TemplateActivity extends BaseAppActivity<TemplatePresenter> impleme
                     return mPresenter.isCurrentTemplate(id);
                 }
             });
-            mAdapter.setSelectListener(new TemplateAdapter.SelectListener() {
+
+            // 模板点击监听
+            mAdapter.setClickListener(new TemplateAdapter.ClickListener() {
                 @Override
-                public void onTemplateSelected(Template template) {
-                    if (mPresenter.setCurrentTemplateId(template.getId())) {
-                        refreshSelectedTextView(true);
+                public void onTemplateClick(Template template) {
+                    if (null == template) return;
+
+                    if (mPresenter.getCurrentTemplate() != null) {
+                        // 点击已选项目，取消选择
+                        if (mPresenter.getCurrentTemplate().getId() == template.getId()) {
+                            // 取消已选，选择默认
+                            mPresenter.setCurrentTemplate(TemplateActivity.this, null);
+                        } else {
+                            mPresenter.setCurrentTemplate(TemplateActivity.this, template);
+                        }
+                    } else {
+                        mPresenter.setCurrentTemplate(TemplateActivity.this, template);
                     }
 
-                    mPresenter.setCurrentTemplate(template);
+                    refreshSelectedTextView(mPresenter.isTemplateChanged());
+
+                    onNotifyTemplatesChanged();
                 }
             });
         }

@@ -18,13 +18,11 @@ import com.frame.utils.SizeUtils;
 import com.wang.social.topic.R;
 import com.wang.social.topic.mvp.model.entities.Template;
 
-import timber.log.Timber;
-
 public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.ViewHolder> {
 
     Context mContext;
     DataProvider mDataProvider;
-    SelectListener mSelectListener;
+    ClickListener mClickListener;
 
     public interface DataProvider {
         Template getTemplate(int position);
@@ -32,8 +30,8 @@ public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.ViewHo
         boolean isSelected(int id);
     }
 
-    public interface SelectListener {
-        void onTemplateSelected(Template template);
+    public interface ClickListener {
+        void onTemplateClick(Template template);
     }
 
     public TemplateAdapter(RecyclerView recyclerView) {
@@ -51,8 +49,8 @@ public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.ViewHo
         this.mDataProvider = dataProvider;
     }
 
-    public void setSelectListener(SelectListener listener) {
-        this.mSelectListener = listener;
+    public void setClickListener(ClickListener listener) {
+        this.mClickListener = listener;
     }
 
     private int getTemplateCount() {
@@ -108,8 +106,8 @@ public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.ViewHo
             @Override
             public void onClick(View v) {
 
-                if (null != mSelectListener && v.getTag() instanceof Template) {
-                    mSelectListener.onTemplateSelected((Template) v.getTag());
+                if (null != mClickListener && v.getTag() instanceof Template) {
+                    mClickListener.onTemplateClick((Template) v.getTag());
                 }
             }
         });

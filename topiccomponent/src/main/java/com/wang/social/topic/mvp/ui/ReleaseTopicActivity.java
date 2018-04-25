@@ -25,10 +25,10 @@ import com.frame.entities.EventBean;
 import com.wang.social.login.mvp.ui.TagSelectionActivity;
 import com.wang.social.topic.R;
 import com.wang.social.topic.R2;
-import com.wang.social.topic.StringUtil;
 import com.wang.social.topic.di.component.DaggerReleaseTopicComponent;
 import com.wang.social.topic.di.module.ReleaseTopicModule;
 import com.wang.social.topic.mvp.contract.ReleaseTopicContract;
+import com.wang.social.topic.mvp.model.entities.Template;
 import com.wang.social.topic.mvp.presenter.ReleaseTopicPresenter;
 
 import butterknife.BindView;
@@ -53,7 +53,6 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     // 背景音乐
     @BindView(R2.id.music_board_layout)
     MusicBoard mMusicBoard;
-    Music mBGMusic;
 
     // 底部栏
     @BindView(R2.id.bottom_layout)
@@ -151,14 +150,17 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         public void onClick(View v) {
             if (v.getTag() instanceof Integer) {
                 int i = (int) v.getTag();
-
+                Timber.i("底部点击 : " + i);
                 switch (i) {
                     case 0: // 模板
                         TemplateActivity.start(ReleaseTopicActivity.this,
-                                mPresenter.getCurrentTemplateId(),
+                                mPresenter.getTemplate(),
                                 REQUEST_CODE_TEMPLATE);
                         break;
                     case 1: // 音乐
+                        BGMListActivity.start(ReleaseTopicActivity.this,
+                                mPresenter.getBGMusic(),
+                                REQUEST_CODE_BGM);
                         break;
                     case 2: // 语音
                         break;
@@ -180,20 +182,18 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_CODE_TEMPLATE: // 模板选择
-                    int id = data.getIntExtra("id", -1);
-                    String url = data.getStringExtra("url");
+                    Template template = data.getParcelableExtra("template");
+                    Timber.i("onActivityResult : " + template.getId() + " " + template.getName());
 
-                    Timber.i("" + id + " " + url);
-
-                    mPresenter.setCurrentTemplateId(id);
-                    mPresenter.setCurrentTemplateUrl(StringUtil.assertNotNull(url));
+                    mPresenter.setTemplate(template);
 
                     break;
                 case REQUEST_CODE_BGM: // 背景音乐
-                    mBGMusic = Music.newInstance(data);
-                    Timber.i("onActivityResult " + mBGMusic.getMusicId() + " " + mBGMusic.getMusicName());
+                    Music music = Music.newInstance(data);
+                    Timber.i("onActivityResult " + music.getMusicId() + " " + music.getMusicName());
 
-                    mMusicBoard.resetMusic(mBGMusic);
+                    mMusicBoard.resetMusic(music);
+                    mPresenter.setBGMusic(music);
 
                     break;
             }
@@ -208,11 +208,6 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     @OnClick(R2.id.cover_layout)
     public void selectCoverImage() {
 
-    }
-
-    @OnClick(R2.id.music_board_layout)
-    public void selectBGM() {
-        BGMListActivity.start(this, mBGMusic, REQUEST_CODE_BGM);
     }
 
     private String mTagIds;
