@@ -103,6 +103,9 @@
             android:name=".mvp.ui.MirrorConversationActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity android:name=".mvp.ui.CreateSingleEnvelopActivity" />
+        <activity android:name=".mvp.ui.CreateMultiEnvelopActivity" />
+        <activity android:name=".mvp.ui.EnvelopDetailActivity"></activity>
     </application>
 
 </manifest>

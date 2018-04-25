@@ -6,6 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.frame.utils.RegexConstants.REGEX_INTEGER;
+import static com.frame.utils.RegexConstants.REGEX_NOT_NEGATIVE_INTEGER;
 import static com.frame.utils.RegexConstants.REGEX_NUMBER_HORIZONTAL;
 
 
@@ -213,6 +214,11 @@ public final class RegexUtils {
      */
     public static boolean isInteger(CharSequence input) {
         return isMatch(REGEX_INTEGER, input);
+    }
+
+    //非负整数
+    public static boolean isIntegerWhithZero(CharSequence input) {
+        return isMatch(REGEX_NOT_NEGATIVE_INTEGER, input);
     }
 
     public static boolean isNumberAndHorizontal(CharSequence input) {

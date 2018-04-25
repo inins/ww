@@ -87,7 +87,7 @@ public class SocialConversationActivity extends BasicConversationActivity {
                 @Override
                 public void onSuccess(List<TIMGroupDetailInfo> timGroupDetailInfos) {
                     for (TIMGroupDetailInfo info : timGroupDetailInfos) {
-                        if (info.getGroupId().equals(targetId)) {
+                        if (info.getGroupId().equals(targetId) && scTvOnline != null) {
                             scTvOnline.setText(UIUtil.getString(R.string.im_online_number, info.getOnlineMemberNum()));
                         }
                     }

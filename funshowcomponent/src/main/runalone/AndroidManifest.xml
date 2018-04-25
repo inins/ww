@@ -38,6 +38,7 @@
         <activity android:name=".mvp.ui.activity.FunshowAddActivity" />
         <activity android:name=".mvp.ui.activity.LockActivity" />
 
+        <activity android:name=".mvp.ui.activity.TestActivity" />
     </application>
 
 </manifest>

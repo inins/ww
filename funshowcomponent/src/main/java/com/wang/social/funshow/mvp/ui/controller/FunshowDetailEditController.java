@@ -20,6 +20,8 @@ public class FunshowDetailEditController extends BaseController {
     public FunshowDetailEditController(View root) {
         super(root);
         int layout = R.layout.funshow_lay_detail_edit;
+        onInitCtrl();
+        onInitData();
     }
 
     @Override

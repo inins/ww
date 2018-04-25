@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,7 +17,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
     /**
      * 装载每个Item的数据的列表
      */
-    protected List<T> valueList;
+    protected List<T> valueList = new ArrayList<T>();
 
     protected OnItemClickListener onItemClickListener;
 

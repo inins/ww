@@ -1,5 +1,8 @@
 package com.frame.http.api.error;
 
+import com.frame.utils.FrameUtils;
+import com.frame.utils.Utils;
+
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
@@ -13,6 +16,10 @@ import io.reactivex.disposables.Disposable;
 public abstract class ErrorHandleSubscriber<T> implements Observer<T> {
 
     private ErrorHandleFactory mErrorHandleFactory;
+
+    public ErrorHandleSubscriber() {
+        this.mErrorHandleFactory = FrameUtils.obtainAppComponentFromContext(Utils.getContext()).rxErrorHandler().getHandleFactory();
+    }
 
     public ErrorHandleSubscriber(RxErrorHandler rxErrorHandler) {
         this.mErrorHandleFactory = rxErrorHandler.getHandleFactory();

@@ -101,7 +101,7 @@ public class TeamConversationActivity extends BasicConversationActivity {
                 @Override
                 public void onSuccess(List<TIMGroupDetailInfo> timGroupDetailInfos) {
                     for (TIMGroupDetailInfo info : timGroupDetailInfos) {
-                        if (info.getGroupId().equals(targetId)) {
+                        if (info.getGroupId().equals(targetId) && tcTvOnline != null) {
                             tcTvOnline.setText(UIUtil.getString(R.string.im_online_total_number, info.getMemberNum(), info.getOnlineMemberNum()));
                         }
                     }
@@ -109,7 +109,7 @@ public class TeamConversationActivity extends BasicConversationActivity {
             });
         }
 
-        ConversationFragment conversationFragment = ConversationFragment.newInstance(ConversationType.SOCIAL, targetId);
+        ConversationFragment conversationFragment = ConversationFragment.newInstance(ConversationType.TEAM, targetId);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.tc_fl_conversation, conversationFragment, ConversationFragment.class.getName() + "team");
         transaction.commitAllowingStateLoss();

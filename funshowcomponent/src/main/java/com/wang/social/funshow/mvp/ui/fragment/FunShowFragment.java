@@ -1,33 +1,32 @@
 package com.wang.social.funshow.mvp.ui.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseFragment;
-import com.frame.base.BasicFragment;
 import com.frame.component.common.ItemDecorationDivider;
-import com.frame.component.entities.TestEntity;
 import com.frame.component.helper.NetLoginTestHelper;
 import com.frame.component.view.barview.BarUser;
 import com.frame.component.view.barview.BarView;
 import com.frame.di.component.AppComponent;
-import com.frame.di.scope.FragmentScope;
+import com.frame.entities.EventBean;
 import com.frame.utils.SizeUtils;
+import com.liaoinstan.springview.container.AliFooter;
+import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
 import com.wang.social.funshow.R;
 import com.wang.social.funshow.R2;
 import com.wang.social.funshow.di.component.DaggerFunShowListFragmentComponent;
 import com.wang.social.funshow.di.module.FunshowListModule;
-import com.wang.social.funshow.helper.SpringViewHelper;
 import com.wang.social.funshow.mvp.contract.FunshowListContract;
-import com.wang.social.funshow.mvp.entities.Funshow;
+import com.wang.social.funshow.mvp.entities.funshow.Funshow;
+import com.wang.social.funshow.mvp.entities.user.TopUser;
 import com.wang.social.funshow.mvp.presonter.FunshowListPresonter;
 import com.wang.social.funshow.mvp.ui.activity.FunshowAddActivity;
 import com.wang.social.funshow.mvp.ui.activity.FunshowDetailActivity;
@@ -38,9 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 /**
  */
@@ -49,17 +46,36 @@ public class FunShowFragment extends BaseFragment<FunshowListPresonter> implemen
     @BindView(R2.id.barview)
     BarView barview;
     @BindView(R2.id.spring)
-    SpringView spring;
+    SpringView springView;
     @BindView(R2.id.recycler_content)
     RecyclerView recycler;
 
     private RecycleAdapterHome adapter;
+
+    private int type = 0;
 
     public static FunShowFragment newInstance() {
         Bundle args = new Bundle();
         FunShowFragment fragment = new FunShowFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        switch (event.getEvent()) {
+            case EventBean.EVENT_FUNSHOW_UPDATE_ZAN:
+                int talkId = (int) event.get("talkId");
+                boolean isZan = (boolean) event.get("isZan");
+                int zanCount = (int) event.get("zanCount");
+                adapter.refreshZanById(talkId, isZan, zanCount);
+                break;
+        }
     }
 
     @Override
@@ -75,24 +91,22 @@ public class FunShowFragment extends BaseFragment<FunshowListPresonter> implemen
         recycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recycler.setAdapter(adapter);
         recycler.addItemDecoration(new ItemDecorationDivider(getContext()).setLineMargin(SizeUtils.dp2px(15)));
-        SpringViewHelper.initSpringViewForTest(spring);
+        springView.setHeader(new AliHeader(springView.getContext(), false));
+        springView.setFooter(new AliFooter(springView.getContext(), false));
+        springView.setListener(new SpringView.OnFreshListener() {
+            @Override
+            public void onRefresh() {
+                mPresenter.netGetFunshowList(type, false);
+            }
 
-        barview.refreshData(new ArrayList<BarUser>() {{
-            add(new BarUser("http://i-7.vcimg.com/trim/48b866104e7efc1ffd7367e7423296c11060910/trim.jpg"));
-            add(new BarUser("https://tse3-mm.cn.bing.net/th?id=OIP.XzZcrXAIrxTtUH97rMlNGQHaEo&p=0&o=5&pid=1.1"));
-            add(new BarUser("http://photos.tuchong.com/23552/f/624083.jpg"));
-        }});
+            @Override
+            public void onLoadmore() {
+                mPresenter.netLoadmore(type);
+            }
+        });
 
-        mPresenter.netGetFunshowList(0);
-//        adapter.refreshData(new ArrayList<Funshow>() {{
-//            add(new Funshow());
-//            add(new Funshow());
-//            add(new Funshow());
-//            add(new Funshow());
-//            add(new Funshow());
-//            add(new Funshow());
-//            add(new Funshow());
-//        }});
+        mPresenter.netGetFunshowList(type, false);
+        mPresenter.netGetFunshowTopUserList();
 
         //测试跳转代码
         getView().findViewById(R.id.btn_funshow_add).setOnClickListener(v -> FunshowAddActivity.start(getContext()));
@@ -100,15 +114,15 @@ public class FunShowFragment extends BaseFragment<FunshowListPresonter> implemen
     }
 
     @Override
-    public void onItemClick(Funshow testEntity, int position) {
-        FunshowDetailActivity.start(getContext());
+    public void onItemClick(Funshow funshow, int position) {
+        FunshowDetailActivity.start(getContext(), funshow.getTalkId());
     }
 
     @OnClick({R2.id.barview})
     public void onViewClicked(View view) {
         int i = view.getId();
         if (i == R.id.barview) {
-            HotUserListActivity.startBlankList(getContext());
+            HotUserListActivity.start(getContext());
         }
     }
 
@@ -137,5 +151,21 @@ public class FunShowFragment extends BaseFragment<FunshowListPresonter> implemen
     @Override
     public void reFreshList(List<Funshow> datas) {
         adapter.refreshData(datas);
+    }
+
+    @Override
+    public void appendList(List<Funshow> datas) {
+        adapter.addItem(datas);
+
+    }
+
+    @Override
+    public void finishSpringView() {
+        springView.onFinishFreshAndLoadDelay();
+    }
+
+    @Override
+    public void reFreshTopUsers(List<TopUser> topUsers) {
+        barview.refreshData(TopUser.topUsers2BarUsers(topUsers));
     }
 }

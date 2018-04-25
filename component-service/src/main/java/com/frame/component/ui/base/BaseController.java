@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 
 import com.frame.entities.EventBean;
+import com.frame.mvp.IView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -21,8 +22,8 @@ public abstract class BaseController {
         this.root = root;
         mUnbinder = ButterKnife.bind(this, root);
 
-        onInitCtrl();
-        onInitData();
+//        onInitCtrl();
+//        onInitData();
     }
 
     public void registEventBus() {
@@ -52,6 +53,10 @@ public abstract class BaseController {
 
     public Context getContext() {
         return root.getContext();
+    }
+
+    public IView getIView() {
+        return (getContext() instanceof IView) ? (IView) getContext() : null;
     }
 
     ////////////////////////////////////////

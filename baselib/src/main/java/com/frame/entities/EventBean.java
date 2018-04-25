@@ -36,6 +36,11 @@ public class EventBean implements Serializable {
     //用户进入个人中心tab分页
     public static final int EVENT_TAB_USER = 0xffa205;
 
+    //趣晒控制器通知点赞数量，评论数量，分享数量
+    public static final int EVENT_CTRL_FUNSHOW_DETAIL_COUNT = 0xffa206;
+    //趣晒详情点赞通知列表更新数量
+    public static final int EVENT_FUNSHOW_UPDATE_ZAN = 0xffa207;
+
     @IntDef({
             EVENTBUS_TAG_SELECTED,
             EVENTBUS_TAG_UNSELECT,
@@ -47,12 +52,15 @@ public class EventBean implements Serializable {
             EVENT_LOGOUT,
             EVENT_PRIVATE_UPDATE,
             EVENT_TAB_USER,
+            EVENT_CTRL_FUNSHOW_DETAIL_COUNT,
+            EVENT_FUNSHOW_UPDATE_ZAN,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface EventBeanType {
     }
 
-    private @EventBeanType int event;
+    private @EventBeanType
+    int event;
     private Map<String, Object> map = new HashMap<>();
 
     public EventBean() {

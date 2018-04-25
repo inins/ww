@@ -1,6 +1,7 @@
 package com.wang.social.personal.mvp.entities.user;
 
 import com.frame.component.api.Api;
+import com.frame.component.entities.Tag;
 
 import java.util.List;
 

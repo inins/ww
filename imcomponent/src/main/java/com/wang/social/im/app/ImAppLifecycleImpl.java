@@ -8,6 +8,7 @@ import com.frame.component.app.Constant;
 import com.frame.utils.FrameUtils;
 import com.tencent.imsdk.TIMConnListener;
 import com.tencent.imsdk.TIMGroupMemberInfo;
+import com.tencent.imsdk.TIMGroupSettings;
 import com.tencent.imsdk.TIMLogLevel;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMSNSChangeInfo;
@@ -82,7 +83,8 @@ public class ImAppLifecycleImpl implements AppDelegate {
     private void imUserInit() {
         TIMUserConfig userConfig = new TIMUserConfig()
                 .setUserStatusListener(new ImUserStatusListener())
-                .setConnectionListener(new ImConnectionListener());
+                .setConnectionListener(new ImConnectionListener())
+                .setGroupSettings(getGroupSettings());
         //消息扩展配置
         userConfig = new TIMUserConfigMsgExt(userConfig)
                 .enableStorage(true)//设置消息存储
@@ -98,6 +100,16 @@ public class ImAppLifecycleImpl implements AppDelegate {
                 .setGroupAssistantListener(new ImGroupAssistantListener());
         //将用户信息与通讯管理器进行绑定
         TIMManager.getInstance().setUserConfig(userConfig);
+    }
+
+    /**
+     * 配置群信息拉取字段
+     * @return
+     */
+    private TIMGroupSettings getGroupSettings(){
+        TIMGroupSettings settings = new TIMGroupSettings();
+        TIMGroupSettings.Options options = new TIMGroupSettings.Options();
+        return settings;
     }
 
     /**
