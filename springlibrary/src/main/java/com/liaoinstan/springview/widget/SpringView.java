@@ -231,9 +231,10 @@ public class SpringView extends ViewGroup {
                 hasCallFull = false;
                 hasCallRefresh = false;
                 mfirstY = event.getY();
-                boolean isTop = isChildScrollToTop();
-                boolean isBottom = isChildScrollToBottom();
-                if (isTop || isBottom) isNeedMyMove = false;
+//                boolean isTop = isChildScrollToTop();
+//                boolean isBottom = isChildScrollToBottom();
+//                if (isTop || isBottom) isNeedMyMove = false;
+                isNeedMyMove = false;
                 break;
             }
             case MotionEvent.ACTION_MOVE:
