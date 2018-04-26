@@ -78,11 +78,10 @@ public class RecycleAdapterHome extends BaseAdapter<Funshow> {
             if (resource != null) {
                 //TODO:暂未考虑视频的情况，如果是视频需要去获取第一帧图片
                 ImageLoaderHelper.loadImg(imgPic, resource.getUrl());
-                imgPlayer.setVisibility(resource.isVideo() ? View.VISIBLE : View.GONE);
             } else {
                 imgPic.setImageResource(R.drawable.default_rect);
-                imgPlayer.setVisibility(View.GONE);
             }
+            imgPlayer.setVisibility(bean.hasVideo() ? View.VISIBLE : View.GONE);
 
             imgMore.setOnClickListener(view -> {
                 new MorePopupWindow(getContext()).showPopupWindow(view);

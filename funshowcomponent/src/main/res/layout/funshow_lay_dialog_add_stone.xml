@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/text_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="@string/funshow_addfunshow_dialog_stone_title"
+        android:textColor="@color/common_text_blank_dark"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_reset"
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:layout_marginTop="12dp"
+        android:text="@string/common_rect"
+        android:textColor="@color/common_blue_gray"
+        android:textSize="11sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line" />
+
+    <TextView
+        android:id="@+id/text_unit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/common_diamond"
+        android:textColor="@color/common_text_blank_dark"
+        android:textSize="14sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/edit_input"
+        app:layout_constraintEnd_toEndOf="@+id/edit_input" />
+
+    <EditText
+        android:id="@+id/edit_input"
+        style="@style/common_EditNone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="bottom|center_horizontal"
+        android:hint="请输入"
+        android:inputType="numberSigned"
+        android:maxLength="8"
+        android:paddingBottom="5dp"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="@+id/text_title"
+        app:layout_constraintStart_toStartOf="@+id/text_title"
+        app:layout_constraintTop_toBottomOf="@+id/text_title"
+        tools:text="550" />
+
+    <View
+        android:id="@+id/line"
+        style="@style/common_Line_H"
+        android:layout_width="150dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_input" />
+
+</android.support.constraint.ConstraintLayout>

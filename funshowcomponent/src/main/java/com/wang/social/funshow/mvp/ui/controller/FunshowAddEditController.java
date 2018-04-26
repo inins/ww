@@ -14,18 +14,21 @@ import android.widget.TextView;
 import com.frame.component.common.SimpleTextWatcher;
 import com.frame.component.ui.base.BaseController;
 import com.frame.entities.EventBean;
+import com.frame.utils.StrUtil;
 import com.wang.social.funshow.R;
 import com.wang.social.funshow.R2;
 import com.wang.social.funshow.common.StringColorSpan;
+import com.wang.social.funshow.mvp.entities.post.UserPost;
 import com.wang.social.funshow.mvp.entities.user.Friend;
 import com.wang.social.funshow.mvp.ui.view.AiteEditText;
 import com.wang.social.funshow.utils.FunShowUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
-public class FunshowAddEditController extends BaseController {
+public class FunshowAddEditController extends FunshowAddBaseController {
 
     @BindView(R2.id.edit_content)
     AiteEditText editContent;
@@ -36,7 +39,7 @@ public class FunshowAddEditController extends BaseController {
     public void onCommonEvent(EventBean event) {
         switch (event.getEvent()) {
             case EventBean.EVENT_CTRL_FUNSHOW_ADD_USER:
-                ArrayList<Friend> friends = (ArrayList<Friend>) event.get("users");
+                List<Friend> friends = (ArrayList<Friend>) event.get("users");
                 editContent.appendAiteStr(friends);
                 break;
         }
@@ -70,5 +73,19 @@ public class FunshowAddEditController extends BaseController {
 
     public String getContent() {
         return editContent.getText().toString();
+    }
+
+    public List<Friend> getFriends() {
+        return editContent.getFriends();
+    }
+
+    public List<UserPost> getAiteUsers() {
+        List<UserPost> userPosts = new ArrayList<>();
+        if (!StrUtil.isEmpty(getFriends())) {
+            for (Friend friend : getFriends()) {
+                userPosts.add(new UserPost(friend.getFriendId()));
+            }
+        }
+        return userPosts;
     }
 }

@@ -4,12 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.widget.NestedScrollView;
-import android.view.MotionEvent;
+import android.text.TextUtils;
 import android.view.View;
-import android.widget.LinearLayout;
 
-import com.frame.component.entities.BaseListWrap;
 import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.QiNiuManager;
 import com.frame.component.ui.base.BasicAppActivity;
@@ -19,19 +16,16 @@ import com.frame.di.component.AppComponent;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
-import com.frame.http.api.error.RxErrorHandler;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.IView;
 import com.frame.utils.FocusUtil;
-import com.frame.utils.StrUtil;
 import com.frame.utils.ToastUtil;
 import com.wang.social.funshow.R;
 import com.wang.social.funshow.R2;
 import com.wang.social.funshow.di.component.DaggerSingleActivityComponent;
-import com.wang.social.funshow.helper.VideoPhotoHelperEx;
+import com.wang.social.funshow.helper.BundleUploadhelper;
 import com.wang.social.funshow.mvp.entities.post.FunshowAddPost;
 import com.wang.social.funshow.mvp.entities.post.ResourcePost;
-import com.wang.social.funshow.mvp.entities.user.Friend;
 import com.wang.social.funshow.mvp.model.api.FunshowService;
 import com.wang.social.funshow.mvp.ui.controller.FunshowAddBottomBarController;
 import com.wang.social.funshow.mvp.ui.controller.FunshowAddBundleController;
@@ -46,7 +40,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class FunshowAddActivity extends BasicAppActivity implements IView {
 
@@ -58,8 +51,7 @@ public class FunshowAddActivity extends BasicAppActivity implements IView {
     @Inject
     IRepositoryManager mRepositoryManager;
     @Inject
-    QiNiuManager qiNiuManager;
-
+    BundleUploadhelper uploadhelper;
 
     private FunshowAddEditController editController;
     private FunshowAddMusicBoardController musicBoardController;
@@ -93,44 +85,59 @@ public class FunshowAddActivity extends BasicAppActivity implements IView {
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.btn_right) {
-            String content = editController.getContent();
-            List<String> bundleRsc = bundleController.getBundleRsc();
+            List<String> photoPaths = bundleController.getImgPaths();
+            String videoPath = bundleController.getVideoPath();
+            String musicPath = musicBoardController.getMusicPath();
 
-            qiNiuManager.uploadFiles(this, ListUtil.transArrayList(bundleRsc), new QiNiuManager.OnBatchUploadListener() {
-                @Override
-                public void onSuccess(ArrayList<String> urls) {
-                    FunshowAddPost postBean = new FunshowAddPost();
-                    postBean.setContent(content);
-                    postBean.setAdCode("610100");
-                    postBean.setProvince("四川省");
-                    postBean.setProvince("绵阳市");
-                    postBean.setCreatorId(AppDataHelper.getUser().getUserId());
-                    postBean.setLatitude("30.566729");
-                    postBean.setLongitude("104.063642");
-                    postBean.setIsAnonymous("0");   //是否匿名
-                    postBean.setAuthority(0);       //公开权限
-                    postBean.setRelateState(0);     //是否收费
-
-                    ArrayList<ResourcePost> resources = new ArrayList<>();
-                    for (int i = 0; i < urls.size(); i++) {
-                        String url = urls.get(i);
-                        ResourcePost resourcePost = new ResourcePost();
-                        resourcePost.setMediaType(3);   //3：图片
-                        resourcePost.setUrl(url);
-                        resourcePost.setPicOrder(i);
-                        resources.add(resourcePost);
-                    }
-                    postBean.setResources(resources);
-
-                    netCommit(postBean);
-                }
-
-                @Override
-                public void onFail() {
-                    ToastUtil.showToastLong("上传失败");
-                }
-            });
+            uploadhelper.startUpload(this, musicPath, videoPath, photoPaths, (voiceUrl, videoUrl, photoUrls) -> postCommit(voiceUrl, videoUrl, photoUrls));
         }
+    }
+
+    private void postCommit(String voiceUrl, String videoUrl, List<String> photoUrls) {
+        FunshowAddPost postBean = new FunshowAddPost();
+        postBean.setAdCode("610100");
+        postBean.setProvince("四川省");
+        postBean.setCity("绵阳市");
+        postBean.setLatitude("30.566729");
+        postBean.setLongitude("104.063642");
+        postBean.setContent(editController.getContent());
+        postBean.setCreatorId(AppDataHelper.getUser().getUserId());
+        postBean.setIsAnonymous(tagController.isHideName() ? "1" : "0");   //是否匿名
+        postBean.setAuthority(bottomBarController.getLock());       //公开权限
+        postBean.setRelateState(tagController.isPay() ? 1 : 0);     //是否收费
+        postBean.setGemstone(tagController.getDiamond());           //付费钻石数
+
+        //@用户列表
+        postBean.setUsers(editController.getAiteUsers());
+
+        //图片资源
+        ArrayList<ResourcePost> resources = new ArrayList<>();
+        for (int i = 0; i < photoUrls.size(); i++) {
+            String url = photoUrls.get(i);
+            ResourcePost resourcePost = new ResourcePost();
+            resourcePost.setMediaType(3);   //3：图片
+            resourcePost.setUrl(url);
+            resourcePost.setPicOrder(i);
+            resources.add(resourcePost);
+        }
+        //音频资源
+        if (!TextUtils.isEmpty(voiceUrl)) {
+            ResourcePost resourcePostVoice = new ResourcePost();
+            resourcePostVoice.setMediaType(1);
+            resourcePostVoice.setUrl(voiceUrl);
+            resources.add(resourcePostVoice);
+        }
+        //视频资源
+        if (!TextUtils.isEmpty(videoUrl)) {
+            ResourcePost resourcePostVideo = new ResourcePost();
+            resourcePostVideo.setMediaType(2);
+            resourcePostVideo.setUrl(videoUrl);
+            resources.add(resourcePostVideo);
+        }
+
+        postBean.setResources(resources);
+
+        netCommit(postBean);
     }
 
     @Override
@@ -166,6 +173,28 @@ public class FunshowAddActivity extends BasicAppActivity implements IView {
                 .appComponent(appComponent)
                 .build()
                 .inject(this);
+    }
+
+    //////////////////////////////////////////
+
+    public FunshowAddEditController getEditController() {
+        return editController;
+    }
+
+    public FunshowAddMusicBoardController getMusicBoardController() {
+        return musicBoardController;
+    }
+
+    public FunshowAddBundleController getBundleController() {
+        return bundleController;
+    }
+
+    public FunshowAddBottomBarController getBottomBarController() {
+        return bottomBarController;
+    }
+
+    public FunshowAddTagController getTagController() {
+        return tagController;
     }
 
     //////////////////////////////////////////

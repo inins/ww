@@ -35,7 +35,7 @@ import com.wang.social.personal.mvp.entities.lable.Lable;
 import com.wang.social.personal.mvp.presonter.LablePresonter;
 import com.wang.social.personal.mvp.ui.adapter.RecycleAdapterLable;
 import com.wang.social.personal.mvp.ui.dialog.DialogFragmentLable;
-import com.wang.social.personal.mvp.ui.dialog.DialogSure;
+import com.frame.component.ui.dialog.DialogSure;
 
 import java.util.List;
 

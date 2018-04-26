@@ -1,9 +1,12 @@
 package com.frame.component.view;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -195,7 +198,7 @@ public class MusicBoard extends FrameLayout implements XMediaPlayer.StateListene
                                 @Override
                                 public void accept(Long aLong) throws Exception {
                                     if (null != mXMediaPlayer && mXMediaPlayer.isPlaying()) {
-                                        mSeekBar.setProgress(mXMediaPlayer.getCurrentPosition());
+                                        mSeekBar.setProgress(mXMediaPlayer.getCurrentPosition(), true);
                                         mTime1TV.setText(mTimeFormat.format(mXMediaPlayer.getCurrentPosition()));
                                     }
                                 }

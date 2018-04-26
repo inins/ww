@@ -5,6 +5,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.frame.component.helper.ImageLoaderHelper;
+import com.frame.component.ui.acticity.BGMList.Music;
 import com.frame.component.ui.acticity.PhotoActivity;
 import com.frame.component.ui.base.BaseController;
 import com.frame.component.utils.viewutils.FontUtils;
@@ -17,7 +18,9 @@ import com.frame.utils.ToastUtil;
 import com.wang.social.funshow.R;
 import com.wang.social.funshow.R2;
 import com.wang.social.funshow.mvp.entities.funshow.FunshowDetail;
+import com.wang.social.funshow.mvp.entities.funshow.FunshowDetailVideoRsc;
 import com.wang.social.funshow.mvp.model.api.FunshowService;
+import com.wang.social.funshow.mvp.ui.view.MusicBubbleView;
 import com.wang.social.funshow.utils.FunShowUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -38,6 +41,8 @@ public class FunshowDetailContentBoardController extends BaseController {
     TextView textPosition;
     @BindView(R2.id.text_time)
     TextView textTime;
+    @BindView(R2.id.musicbubble)
+    MusicBubbleView musicbubble;
 
     private int talkId;
     private FunshowDetail funshowDetail;
@@ -75,6 +80,7 @@ public class FunshowDetailContentBoardController extends BaseController {
             textTitle.setText(funshowDetail.getTalkContent());
             textTime.setText(FunShowUtil.getFunshowTimeStr(funshowDetail.getCreateTime()));
             textPosition.setText(funshowDetail.getProvince() + funshowDetail.getCity());
+            //设置图片集
             if (funshowDetail.getPicCount() == 1) {
                 bundleview.setColcountWihi(1, 1.76f);
             } else if (funshowDetail.getPicCount() == 2) {
@@ -83,6 +89,14 @@ public class FunshowDetailContentBoardController extends BaseController {
                 bundleview.setColcountWihi(3, 0.87f);
             }
             bundleview.setPhotos(funshowDetail.getBundleImgEntities());
+            //设置音乐
+            FunshowDetailVideoRsc musicRsc = funshowDetail.getMusicRsc();
+            if (musicRsc != null) {
+                musicbubble.resetMusic(musicRsc.trans2Music());
+                musicbubble.setVisibility(View.VISIBLE);
+            }else {
+                musicbubble.setVisibility(View.GONE);
+            }
         }
     }
 

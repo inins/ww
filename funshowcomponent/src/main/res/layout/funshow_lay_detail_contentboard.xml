@@ -44,13 +44,22 @@
         app:layout_constraintTop_toBottomOf="@+id/text_name"
         tools:text="03-12 15:40" />
 
-    <include
-        android:id="@+id/include_music"
-        layout="@layout/funshow_lay_detail_music"
-        android:layout_width="110dp"
-        android:layout_height="35dp"
+    <!--<include-->
+    <!--android:id="@+id/include_music"-->
+    <!--layout="@layout/funshow_lay_detail_music"-->
+    <!--android:layout_width="110dp"-->
+    <!--android:layout_height="35dp"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintTop_toTopOf="@+id/text_name" />-->
+
+    <com.wang.social.funshow.mvp.ui.view.MusicBubbleView
+        android:id="@+id/musicbubble"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/text_name" />
+        app:layout_constraintTop_toTopOf="@+id/text_name"
+        tools:visibility="visible" />
 
     <TextView
         android:id="@+id/text_title"

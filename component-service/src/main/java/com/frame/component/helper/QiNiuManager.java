@@ -124,11 +124,8 @@ public class QiNiuManager {
      * @param onSingleUploadListener
      */
     public void uploadFile(final IView view, final String path, final OnSingleUploadListener onSingleUploadListener) {
+        //如果资源是空，那么直接返回
         if (TextUtils.isEmpty(path)) {
-            return;
-        }
-        //特殊处理：如果传入的path本身就是网络图片地址，则直接回调成功
-        if (StrUtil.isUrl(path)) {
             if (onSingleUploadListener != null) onSingleUploadListener.onSuccess(path);
             return;
         }

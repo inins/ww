@@ -15,9 +15,13 @@ import com.wang.social.funshow.R;
 import com.wang.social.funshow.common.StringColorSpan;
 import com.wang.social.funshow.mvp.entities.user.Friend;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class AiteEditText extends android.support.v7.widget.AppCompatEditText {
+
+    private List<Friend> friends = new ArrayList<>();
 
     public AiteEditText(Context context) {
         super(context);
@@ -55,16 +59,28 @@ public class AiteEditText extends android.support.v7.widget.AppCompatEditText {
                     int start = s.getSpanStart(spans[i]);
                     int end = s.getSpanEnd(spans[i]);
                     String spanStr = s.toString().substring(start, end);
-                    if (!spanStr.equals(spans[i].keyWords().trim())) {
+                    String spanKey = spans[i].keyWords().trim();
+                    if (!spanStr.equals(spanKey)) {
                         s.removeSpan(spans[i]);
                         s.replace(start, end, "");
+                        removeFriendByName(spanKey);
                     }
                 }
             }
         });
     }
 
-    public void appendAiteStr(String name, int id) {
+    private void removeFriendByName(String name) {
+        Iterator<Friend> iterator = friends.iterator();
+        while (iterator.hasNext()) {
+            Friend next = iterator.next();
+            if (name.endsWith(next.getNickName())) {
+                iterator.remove();
+            }
+        }
+    }
+
+    private void appendAiteStr(String name, int id) {
         String aiteStr = "@" + name;
         int color = ContextCompat.getColor(getContext(), R.color.common_blue_deep);
         SpannableString aiteSpannable = new SpannableString(aiteStr);
@@ -74,11 +90,19 @@ public class AiteEditText extends android.support.v7.widget.AppCompatEditText {
 
     public void appendAiteStr(Friend friend) {
         appendAiteStr(friend.getNickName(), friend.getFriendId());
+        friends.add(friend);
     }
 
     public void appendAiteStr(List<Friend> friends) {
         for (Friend friend : friends) {
-            appendAiteStr(friend.getNickName(), friend.getFriendId());
+            appendAiteStr(friend);
         }
+    }
+
+    /////////////////////////////
+
+
+    public List<Friend> getFriends() {
+        return friends;
     }
 }

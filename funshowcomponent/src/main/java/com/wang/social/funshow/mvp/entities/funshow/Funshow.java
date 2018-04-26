@@ -48,8 +48,13 @@ public class Funshow implements Serializable {
     private String userCover;
     private int isShopping;
     private List<FunshowListRsc> talkImage;
+    private FunshowVideoRsc resourceUrl;
 
     //////////////////////////////
+
+    public boolean hasVideo() {
+        return (resourceUrl != null && resourceUrl.isVidoe());
+    }
 
     public FunshowListRsc getFirstVideoOrImg() {
         if (StrUtil.isEmpty(talkImage)) return null;
