@@ -1,193 +1,223 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/root_view"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_view"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
+
+    <ImageView
+        android:id="@+id/pay_flag_image_view"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp">
-
-        <ImageView
-            android:id="@+id/pay_flag_image_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="10dp"
-            android:src="@drawable/common_ic_tag_pay"/>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/tag_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/pay_flag_image_view"
-            android:layout_toStartOf="@+id/create_date_text_view"
-            android:layout_marginEnd="10dp"
-            android:layout_centerVertical="true">
-
-        </android.support.v7.widget.RecyclerView>
-
-        <TextView
-            android:id="@+id/create_date_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#ff818181"
-            android:textSize="12sp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
-
-        <TextView
-            android:id="@+id/title_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="这一刻，请允许我丧一些吧"
-            android:textColor="#ff313131"
-            android:textSize="15sp"
-            android:layout_alignParentStart="true"
-            android:layout_toStartOf="@+id/image_view"
-            android:layout_marginEnd="15dp"
-            />
-
-        <TextView
-            android:id="@+id/content_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="考研这五个多月的时间，多么多么的漫长 和难捱，只有经历过的人才最清楚。清..."
-            android:textColor="#ff434343"
-            android:textSize="13sp"
-            android:minLines="2"
-            android:maxLines="2"
-            android:ellipsize="end"
-            android:layout_below="@+id/title_text_view"
-            android:layout_marginTop="10dp"
-            android:layout_alignParentStart="true"
-            android:layout_toStartOf="@+id/image_view"
-            android:layout_marginEnd="15dp"
-            />
-
-        <LinearLayout
-            android:id="@+id/user_info_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/content_text_view"
-            android:layout_marginTop="13dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_alignParentStart="true"
-            android:layout_toStartOf="@+id/image_view"
-            android:layout_marginEnd="15dp">
-
-
-            <ImageView
-                android:id="@+id/avatar_image_view"
-                android:layout_width="19dp"
-                android:layout_height="19dp"/>
-
-            <TextView
-                android:id="@+id/user_name_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="白无常白总的事迹"
-                android:textColor="#ff434343"
-                android:textSize="12sp"
-                android:layout_marginStart="5dp"
-                />
-
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/image_view"
-            android:layout_width="67dp"
-            android:layout_height="86dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/title_text_view"
-            android:layout_alignBottom="@+id/user_info_layout"
-            android:scaleType="fitXY"
-            android:background="@color/common_blue_deep"/>
-
-
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:gravity="center_vertical|end">
-
-        <CheckBox
-            android:id="@+id/praise_checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:checked="false"
-            android:button="@drawable/topic_praise_selector"/>
-
-        <TextView
-            android:id="@+id/praise_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="110"
-            android:textColor="#ff818181"
-            android:textSize="12sp"
-            android:layout_marginLeft="6dp"
-            />
-
-        <ImageView
-            android:id="@+id/comment_image_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/common_ic_comment"
-            android:layout_marginLeft="25dp"
-            />
-
-        <TextView
-            android:id="@+id/comment_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="20"
-            android:textColor="#ff818181"
-            android:textSize="12sp"
-            android:layout_marginLeft="6dp"
-            />
-
-        <ImageView
-            android:id="@+id/read_image_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/common_ic_read"
-            android:layout_marginLeft="25dp"/>
-
-        <TextView
-            android:id="@+id/read_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="20"
-            android:textColor="#ff818181"
-            android:textSize="12sp"
-            android:gravity="left|center_vertical"
-            android:layout_marginLeft="6dp"
-            />
-
-    </LinearLayout>
+        android:layout_marginTop="14dp"
+        android:src="@drawable/common_ic_tag_pay"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
+        android:id="@+id/blank_view"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/pay_flag_image_view"
+        app:layout_constraintStart_toEndOf="@+id/pay_flag_image_view"
+        app:layout_constraintTop_toTopOf="@+id/pay_flag_image_view"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/topic_tag_1_text_view"
+        style="@style/TopicListTagStyle"
+        android:layout_marginTop="14dp"
+        app:layout_constraintStart_toEndOf="@+id/blank_view"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/topic_tag_3_text_view"
+        style="@style/TopicListTagStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="14dp"
+        app:layout_constraintStart_toEndOf="@+id/topic_tag_2_text_view"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/topic_tag_2_text_view"
+        style="@style/TopicListTagStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="14dp"
+        app:layout_constraintStart_toEndOf="@+id/topic_tag_1_text_view"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/create_date_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="04-08"
+        android:textColor="#ff818181"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/title_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="25dp"
+        android:layout_marginTop="44dp"
+        android:text="这一刻，请允许我丧一些吧"
+        android:textColor="#ff313131"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toStartOf="@+id/image_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/content_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="25dp"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:minLines="2"
+        android:text="考研这五个多月的时间，多么多么的漫长 和难捱，只有经历过的人才最清楚。清..."
+        android:textColor="#ff434343"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toStartOf="@+id/image_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_text_view" />
+
+
+    <ImageView
+        android:id="@+id/avatar_image_view"
+        android:layout_width="19dp"
+        android:layout_height="19dp"
+        android:layout_marginTop="14dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/content_text_view" />
+
+    <TextView
+        android:id="@+id/user_name_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="8dp"
+        android:text="白无常白总的事迹"
+        android:textColor="#ff434343"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/avatar_image_view"
+        app:layout_constraintStart_toEndOf="@+id/avatar_image_view"
+        app:layout_constraintTop_toTopOf="@+id/avatar_image_view" />
+
+
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="68dp"
+        android:layout_height="88dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="@+id/user_name_text_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/title_text_view" />
+
+
+    <CheckBox
+        android:id="@+id/praise_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="6dp"
+        android:button="@drawable/topic_praise_selector"
+        android:checked="false"
+        app:layout_constraintBottom_toBottomOf="@+id/topic_linearlayout"
+        app:layout_constraintEnd_toStartOf="@+id/praise_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/topic_linearlayout" />
+
+    <TextView
+        android:id="@+id/praise_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:text="110"
+        android:textColor="#ff818181"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/topic_linearlayout"
+        app:layout_constraintEnd_toStartOf="@+id/comment_image_view"
+        app:layout_constraintTop_toBottomOf="@+id/topic_linearlayout" />
+
+    <ImageView
+        android:id="@+id/comment_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:src="@drawable/common_ic_comment"
+        app:layout_constraintBottom_toBottomOf="@+id/topic_linearlayout"
+        app:layout_constraintEnd_toStartOf="@+id/comment_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/topic_linearlayout" />
+
+    <TextView
+        android:id="@+id/comment_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="24dp"
+        android:text="20"
+        android:textColor="#ff818181"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/topic_linearlayout"
+        app:layout_constraintEnd_toStartOf="@+id/read_image_view"
+        app:layout_constraintTop_toBottomOf="@+id/topic_linearlayout" />
+
+    <ImageView
+        android:id="@+id/read_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="6dp"
+        android:src="@drawable/common_ic_read"
+        app:layout_constraintBottom_toBottomOf="@+id/topic_linearlayout"
+        app:layout_constraintEnd_toStartOf="@+id/read_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/topic_linearlayout" />
+
+    <TextView
+        android:id="@+id/read_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="left|center_vertical"
+        android:text="20"
+        android:textColor="#ff818181"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/topic_linearlayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topic_linearlayout" />
+
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_marginTop="180dp"
+        android:background="#ffe5e5e5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/topic_linearlayout"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#ffe5e5e5"
-        />
+        android:layout_marginBottom="24dp"
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_name_text_view"></LinearLayout>
 
-</LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

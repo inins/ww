@@ -1,5 +1,7 @@
 package com.wang.social.login.mvp.presenter;
 
+import com.frame.component.entities.User;
+import com.frame.component.helper.AppDataHelper;
 import com.frame.di.scope.ActivityScope;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.error.ErrorHandleSubscriber;
@@ -80,6 +82,10 @@ public class BindPhonePresenter extends
                 new ErrorHandleSubscriber(mErrorHandler) {
                     @Override
                     public void onNext(Object o) {
+                        // 将绑定 到手机号码写入UserInfo
+                        User user  = AppDataHelper.getUser();
+                        user.setPhone(mobile);
+                        AppDataHelper.saveUser(user);
                         mRootView.onReplaceMobileSuccess();
                     }
 

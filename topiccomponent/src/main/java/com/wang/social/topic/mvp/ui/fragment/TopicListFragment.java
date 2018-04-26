@@ -77,6 +77,11 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
     }
 
     @Override
+    public void showToast(String msg) {
+        ToastUtil.showToastLong(msg);
+    }
+
+    @Override
     public void onTopicLoaded() {
         if (null == mAdapter) {
             mAdapter = new TopicListAdapter(getContext(), new TopicListAdapter.DataProvider() {

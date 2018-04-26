@@ -137,8 +137,12 @@ public class PersonalFragment extends BasicFragment implements PersonalFragmentI
 
     private void setStatistic(UserStatistic userStatistic) {
         if (userStatistic != null) {
-            textCountSq.setText(String.valueOf(userStatistic.getTalkCount()));
-            textCountHt.setText(String.valueOf(userStatistic.getTopicCount()));
+            if (null != textCountSq) {
+                textCountSq.setText(String.valueOf(userStatistic.getTalkCount()));
+            }
+            if (null != textCountHt) {
+                textCountHt.setText(String.valueOf(userStatistic.getTopicCount()));
+            }
         }
     }
 

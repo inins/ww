@@ -37,7 +37,7 @@ public class GlobalConfiguration implements ConfigModule{
                 .globalHttpHandler(new GlobalHttpHandlerImp(context))
                 .responseErrorListener(new ResponseErrorListenerImp());
 
-//        AppDataHelper.saveToken("Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMzgyMzE1MDQyMCIsImNyZWF0ZWQiOjE1MjMyMzY2ODI1MDQsImlkIjoxMDAxNiwiZXhwIjoxNTIzODQxNDgyfQ.UxUXiemH6uk9APp5gg6Ye7HEbGKOyRVqTD6Rm3tkbn5STl6i6SUp_RH81f6__L6i35Mvuvd0JJaJJCpNh0WbNQ");
+//        AppDataHelper.saveToken("Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMzgyMzE1MDQyMCIsImNyZWF0ZWQiOjE1MjQ1NDIzMTc0MTksImlkIjoxMDAyNywiZXhwIjoxNTI1MTQ3MTE3fQ.ZrcLDZTaKekPvcZE_pfxFcAtLTAx6eCULrqoFGXezDZB7sQiFAISZQ2j_zX-DS2vZfnl4MNsU2cDEQvk0Wllmw");
 
     }
 

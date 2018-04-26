@@ -10,6 +10,7 @@ import io.reactivex.Observable;
 
 public interface TopicListContract {
     interface View extends IView {
+        void showToast(String msg);
         void onTopicLoaded();
         void refreshTopicList();
     }

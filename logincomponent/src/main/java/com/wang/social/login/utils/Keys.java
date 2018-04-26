@@ -29,10 +29,12 @@ public class Keys {
     public final static int TAG_TYPE_UNKNOWN = -1;  // 标签类型未知
     public final static int TAG_TYPE_INTEREST = 0;  // 兴趣标签
     public final static int TAG_TYPE_PERSONAL = 1;  // 个人标签
+    public final static int TAG_TYPE_TAG_LIST = 3;  // 直接返回选中的标签列表
     @IntDef({
             TAG_TYPE_UNKNOWN,
             TAG_TYPE_INTEREST,
-            TAG_TYPE_PERSONAL
+            TAG_TYPE_PERSONAL,
+            TAG_TYPE_TAG_LIST
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface TagType {}

@@ -8,7 +8,7 @@ import lombok.Data;
 public class TopicDetail {
     private String title;
     private List<String> tags;
-    private long createTime;
+    private Long createTime;
     private String avatar;
     private String nickname;
     private Integer sex;
@@ -16,7 +16,7 @@ public class TopicDetail {
     private String backgroundMusicId;
     private String backgroundMusicName;
     private String backgroundMusicUrl;
-    private long birthday;
+    private Long birthday;
     private Integer supportTotal;
     private Integer isSupport;
     private Integer creatorId;

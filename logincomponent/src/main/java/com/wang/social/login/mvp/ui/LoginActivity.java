@@ -23,6 +23,7 @@ import com.frame.component.path.HomePath;
 import com.frame.component.router.ui.UIRouter;
 import com.frame.component.ui.acticity.WebActivity;
 import com.frame.component.ui.base.BaseAppActivity;
+import com.frame.entities.EventBean;
 import com.frame.utils.BarUtils;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.StatusBarUtil;
@@ -211,6 +212,9 @@ public class LoginActivity extends BaseAppActivity<LoginPresenter> implements Lo
                 watchEditText();
             }
         });
+
+        // 进入到登录页面则先清理缓存的Token
+        mPresenter.clearToken();
 
 //        ViewUtils.controlKeyboardLayout(rootView, loginTV);
     }
@@ -535,4 +539,8 @@ public class LoginActivity extends BaseAppActivity<LoginPresenter> implements Lo
     protected void onDestroy() {
         super.onDestroy();
     }
+
+
+
+
 }

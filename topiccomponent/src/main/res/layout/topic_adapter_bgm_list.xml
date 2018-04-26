@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_view"
+    android:layout_width="match_parent"
+    android:layout_height="58dp">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/common_list_divider"/>
+
+    <ImageView
+        android:id="@+id/control_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/common_ic_music_start_big"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="14dp"/>
+
+    <TextView
+        android:id="@+id/name_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Old money"
+        android:textColor="@color/common_text_blank"
+        android:textSize="15sp"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/control_image_view"
+        android:layout_marginStart="14dp"
+        android:layout_toStartOf="@+id/selected_image_view"
+        android:layout_marginEnd="14dp"
+        android:ellipsize="marquee"
+        />
+
+    <ImageView
+        android:id="@+id/selected_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="14dp"
+        android:src="@drawable/topic_template_icon_choose"
+        android:visibility="invisible"/>
+
+</RelativeLayout>

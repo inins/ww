@@ -139,6 +139,19 @@ public class TagSelectionPresenter extends
                 });
     }
 
+    public void setSelectedListFromBundle(String idsStr) {
+        if (null != idsStr) {
+            selectedList.clear();
+
+            String[] ids = idsStr.split(",");
+            for (String id : ids) {
+                Tag tag = new Tag();
+                tag.setId(Integer.parseInt(id));
+                selectedList.add(tag);
+            }
+        }
+    }
+
 
     /**
      * 编辑推荐标签
