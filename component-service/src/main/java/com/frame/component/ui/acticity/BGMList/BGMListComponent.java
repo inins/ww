@@ -1,9 +1,7 @@
-package com.wang.social.topic.di.component;
+package com.frame.component.ui.acticity.BGMList;
 
 import com.frame.di.component.AppComponent;
 import com.frame.di.scope.ActivityScope;
-import com.wang.social.topic.di.module.BGMListModule;
-import com.wang.social.topic.mvp.ui.BGMListActivity;
 
 import dagger.Component;
 

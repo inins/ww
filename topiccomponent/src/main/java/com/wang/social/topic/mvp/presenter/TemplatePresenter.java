@@ -1,5 +1,7 @@
 package com.wang.social.topic.mvp.presenter;
 
+import android.content.Context;
+
 import com.frame.di.scope.ActivityScope;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.error.ErrorHandleSubscriber;
@@ -28,9 +30,10 @@ public class TemplatePresenter extends
     ApiHelper mApiHelper;
 
     List<Template> mTemplates = new ArrayList<>();
-    // 当前选中的模板,默认模板id -1
-    private int mCurrentTemplateId = -1;
+    // 当前选中的模板
     private Template mCurrentTemplate;
+    // 原始的，上个页面传过来的
+    private Template mOriginalTemplate;
 
     @Inject
     public TemplatePresenter(TemplateContract.Model model, TemplateContract.View view) {
@@ -41,41 +44,51 @@ public class TemplatePresenter extends
         mTemplates.clear();
 
         // 添加默认
-        Template t = new Template();
-        t.setId(-1);
-        t.setName(mRootView.getDefaultName());
-        mTemplates.add(t);
+        mTemplates.add(Template.newDefault(mRootView.getViewContext()));
     }
 
-    public boolean isCurrentTemplate(int id) {
-        return id == mCurrentTemplateId;
-    }
-
-    public List<Template> getTemplates() {
-        return mTemplates;
-    }
-
-    public void setCurrentTemplate(Template template) {
-        this.mCurrentTemplate = template;
-    }
-
-    public Template getCurrentTemplate() {
-        return mCurrentTemplate;
-    }
-
-    public boolean setCurrentTemplateId(int id) {
-        if (id != mCurrentTemplateId) {
-            mCurrentTemplateId = id;
-            mRootView.onNotifyTemplatesChanged();
-
+    /**
+     * 是否改变了模板选择
+     * @return 是否改变
+     */
+    public boolean isTemplateChanged() {
+        if (null != mOriginalTemplate && null != mCurrentTemplate) {
+            return mOriginalTemplate.getId() != mCurrentTemplate.getId();
+        } else if (mOriginalTemplate == null) {
+            return true;
+        } else if (mCurrentTemplate == null) {
             return true;
         }
 
         return false;
     }
 
-    public int getCurrentTemplateId() {
-        return mCurrentTemplateId;
+    public Template getOriginalTemplate() {
+        return mOriginalTemplate;
+    }
+
+    public void setOriginalTemplate(Template originalTemplate) {
+        mOriginalTemplate = originalTemplate;
+    }
+
+    public boolean isCurrentTemplate(int id) {
+        if (mCurrentTemplate != null) {
+            return mCurrentTemplate.getId() == id;
+        }
+
+        return false;
+    }
+
+    public List<Template> getTemplates() {
+        return mTemplates;
+    }
+
+    public void setCurrentTemplate(Context context, Template template) {
+        this.mCurrentTemplate = template == null ? Template.newDefault(context) : template;
+    }
+
+    public Template getCurrentTemplate() {
+        return mCurrentTemplate;
     }
 
     public void loadTemplateList() {

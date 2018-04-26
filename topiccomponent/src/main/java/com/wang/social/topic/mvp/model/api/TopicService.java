@@ -1,7 +1,7 @@
 package com.wang.social.topic.mvp.model.api;
 
 import com.frame.http.api.BaseJson;
-import com.wang.social.topic.mvp.model.entities.dto.MusicsDTO;
+import com.frame.component.ui.acticity.BGMList.MusicsDTO;
 import com.wang.social.topic.mvp.model.entities.dto.TemplatesDTO;
 import com.wang.social.topic.mvp.model.entities.dto.TopicDetailDTO;
 import com.wang.social.topic.mvp.model.entities.dto.TopicRspDTO;

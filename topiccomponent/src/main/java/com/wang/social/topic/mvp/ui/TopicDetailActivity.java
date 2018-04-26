@@ -26,14 +26,12 @@ import com.wang.social.topic.StringUtil;
 import com.wang.social.topic.di.component.DaggerTopicDetailComponent;
 import com.wang.social.topic.di.module.TopicDetailModule;
 import com.wang.social.topic.mvp.contract.TopicDetailContract;
-import com.wang.social.topic.mvp.model.entities.Tag;
 import com.wang.social.topic.mvp.model.entities.TopicDetail;
 import com.wang.social.topic.mvp.presenter.TopicDetailPresenter;
 import com.wang.social.topic.mvp.ui.widget.AppBarStateChangeListener;
 import com.wang.social.topic.mvp.ui.widget.GradualColorTextView;
 import com.wang.social.topic.mvp.ui.widget.GradualImageView;
 
-import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
@@ -122,7 +120,7 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
         mReportTV.setGradualColor(Color.WHITE, Color.parseColor("#ff333333"));
         mTitleTV.setGradualColor(Color.WHITE, Color.TRANSPARENT);
         mToolbarTitleTV.setGradualColor(Color.TRANSPARENT, Color.parseColor("#ff434343"));
-        mGradualImageView.setDrawable(R.drawable.topic_icon_playing1, R.drawable.topic_icon_playing2);
+        mGradualImageView.setDrawable(R.drawable.common_ic_playing1, R.drawable.common_ic_playing2);
 
         mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             // CollapsingToolbarLayout收起的进度

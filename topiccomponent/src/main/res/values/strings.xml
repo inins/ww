@@ -34,7 +34,4 @@
     <string name="topic_template_select_hint">往往，人和人之间需要与众不同</string>
     <string name="topic_template_default">默认</string>
     <string name="topic_template_default_white">白色默认背景</string>
-    <string name="topic_add_bgm">添加BGM</string>
-    <string name="topic_add_bgm_hint">添加背景音乐，你的话题更有趣</string>
-    <string name="topic_no_bgm">无音乐</string>
 </resources>

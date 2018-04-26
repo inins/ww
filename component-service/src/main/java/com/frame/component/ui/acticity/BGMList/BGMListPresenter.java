@@ -1,6 +1,5 @@
-package com.wang.social.topic.mvp.presenter;
+package com.frame.component.ui.acticity.BGMList;
 
-import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 
 import com.frame.di.scope.ActivityScope;
@@ -8,9 +7,6 @@ import com.frame.http.api.ApiHelper;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
-import com.wang.social.topic.mvp.contract.BGMListContract;
-import com.wang.social.topic.mvp.model.entities.Music;
-import com.wang.social.topic.mvp.model.entities.Musics;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,8 +36,11 @@ public class BGMListPresenter extends
     Music mPlayingMusic;
     // 当前选中的音乐
     Music mSelectMusic;
+    // 上层传过来的Music
+    Music mOrigialMusic;
     // 正在准备
     boolean mPreparing;
+    int mPage = 1;
 
     @Inject
     public BGMListPresenter(BGMListContract.Model model, BGMListContract.View view) {
@@ -61,15 +60,25 @@ public class BGMListPresenter extends
     /**
      * 从服务器加载音乐列表
      */
-    public void loadBGMList() {
+    public void loadBGMList(boolean refresh) {
+        if (refresh) {
+            mPage = 1;
+        }
+
         mApiHelper.execute(mRootView,
-                mModel.musicList(10, 0),
+                mModel.musicList(10, mPage++),
                 new ErrorHandleSubscriber<Musics>(mErrorHandler) {
                     @Override
                     public void onNext(Musics musics) {
+                        if (musics.getList().size() <= 0) {
+                            mPage--;
+                        }
+
                         mMusicList.addAll(musics.getList());
 
                         mRootView.onNotifyDataSetChanged();
+
+                        mRootView.onLoadBGMListCompleted();
                     }
 
                     @Override
@@ -97,27 +106,32 @@ public class BGMListPresenter extends
                 mPreparing = false;
                 // 准备好了，直接开始播放
                 playMusic();
+
+                mRootView.hideLoading();
             }
         });
     }
 
     private void preparePlayer(Music music) {
         try {
-//            AssetFileDescriptor fileDescriptor = mRootView.getViewContext().getAssets().openFd("test_cbr.mp3");
-//
-//            mMediaPlayer.setDataSource(
-//                    fileDescriptor.getFileDescriptor(),
-//                    fileDescriptor.getStartOffset(),
-//                    fileDescriptor.getLength());
-
             mMediaPlayer.setDataSource(music.getUrl());
             mMediaPlayer.setLooping(true);
             mMediaPlayer.prepareAsync();
 
             mPreparing = true;
+
+            mRootView.showLoading();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public Music getOrigialMusic() {
+        return mOrigialMusic;
+    }
+
+    public void setOrigialMusic(Music origialMusic) {
+        mOrigialMusic = origialMusic;
     }
 
     /**
@@ -182,6 +196,10 @@ public class BGMListPresenter extends
      */
     public void setSelectMusic(Music selectMusic) {
         mSelectMusic = selectMusic;
+    }
+
+    public Music getSelectMusic() {
+        return mSelectMusic;
     }
 
     /**

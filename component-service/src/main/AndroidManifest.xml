@@ -21,6 +21,8 @@
 
         <activity android:name="com.frame.component.ui.acticity.WebActivity" />
         <activity android:name="com.frame.component.ui.acticity.PhotoActivity" />
+        <activity android:name="com.frame.component.ui.acticity.BGMList.BGMListActivity"
+            android:screenOrientation="portrait"/>
 
     </application>
 </manifest>

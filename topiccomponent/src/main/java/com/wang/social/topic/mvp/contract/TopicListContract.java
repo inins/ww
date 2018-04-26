@@ -11,7 +11,16 @@ import io.reactivex.Observable;
 public interface TopicListContract {
     interface View extends IView {
         void showToast(String msg);
-        void onTopicLoaded();
+
+        /**
+         * 话题列表加载成功
+         */
+        void onTopicLoadSuccess();
+
+        /**
+         * 话题列表下载完成（成功或失败）
+         */
+        void onTopicLoadCompleted();
         void refreshTopicList();
     }
 

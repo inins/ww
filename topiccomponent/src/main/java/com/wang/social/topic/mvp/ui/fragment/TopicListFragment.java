@@ -9,6 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import com.frame.base.BaseFragment;
 import com.frame.di.component.AppComponent;
 import com.frame.utils.ToastUtil;
+import com.liaoinstan.springview.container.AliFooter;
+import com.liaoinstan.springview.container.AliHeader;
+import com.liaoinstan.springview.widget.SpringView;
 import com.wang.social.topic.R;
 import com.wang.social.topic.R2;
 import com.wang.social.topic.di.component.DaggerTopicListComponent;
@@ -27,10 +30,14 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
         return new TopicListFragment();
     }
 
+    @BindView(R2.id.spring_view)
+    SpringView mSpringView;
     @BindView(R2.id.recycler_view)
     RecyclerView mRecyclerView;
 
     TopicListAdapter mAdapter;
+
+    boolean mIsLoaded = false;
 
     @Override
     public void setupFragmentComponent(@NonNull AppComponent appComponent) {
@@ -48,7 +55,51 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        mPresenter.getNewsList();
+        mAdapter = new TopicListAdapter(getContext(), new TopicListAdapter.DataProvider() {
+            @Override
+            public Topic getTopic(int position) {
+                return mPresenter.getTopic(position);
+            }
+
+            @Override
+            public int getTopicCount() {
+                return mPresenter.getTopicCount();
+            }
+        },
+                new TopicListAdapter.ClickListener() {
+                    @Override
+                    public void onTopicClick(Topic topic) {
+                        TopicDetailActivity.start(getActivity(), topic.getTopicId());
+                    }
+                });
+
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.setAdapter(mAdapter);
+
+        mSpringView.setHeader(new AliHeader(mSpringView.getContext(), false));
+        mSpringView.setFooter(new AliFooter(mSpringView.getContext(), false));
+        mSpringView.setListener(new SpringView.OnFreshListener() {
+            @Override
+            public void onRefresh() {
+                mPresenter.clearTopicList();
+                mPresenter.getNewsList();
+            }
+
+            @Override
+            public void onLoadmore() {
+                mPresenter.getNewsList();
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (!mIsLoaded) {
+            mSpringView.callFreshDelay();
+            mIsLoaded = true;
+        }
     }
 
     @Override
@@ -68,7 +119,6 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
 
     @Override
     public void showLoading() {
-
     }
 
     @Override
@@ -82,31 +132,12 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
     }
 
     @Override
-    public void onTopicLoaded() {
-        if (null == mAdapter) {
-            mAdapter = new TopicListAdapter(getContext(), new TopicListAdapter.DataProvider() {
-                @Override
-                public Topic getTopic(int position) {
-                    return mPresenter.getTopic(position);
-                }
+    public void onTopicLoadSuccess() {
+    }
 
-                @Override
-                public int getTopicCount() {
-                    return mPresenter.getTopicCount();
-                }
-            },
-                    new TopicListAdapter.ClickListener() {
-                        @Override
-                        public void onTopicClick(Topic topic) {
-                            TopicDetailActivity.start(getActivity(), topic.getTopicId());
-                        }
-                    });
-
-            mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            mRecyclerView.setAdapter(mAdapter);
-        } else {
-            mAdapter.notifyDataSetChanged();
-        }
+    @Override
+    public void onTopicLoadCompleted() {
+        mSpringView.onFinishFreshAndLoadDelay();
     }
 
     @Override
