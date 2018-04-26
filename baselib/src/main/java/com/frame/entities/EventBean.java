@@ -35,9 +35,17 @@ public class EventBean implements Serializable {
     public static final int EVENT_TAB_USER = 0xffa205;
 
     //趣晒控制器通知点赞数量，评论数量，分享数量
-    public static final int EVENT_CTRL_FUNSHOW_DETAIL_COUNT = 0xffa206;
+    public static final int EVENT_CTRL_FUNSHOW_DETAIL_DATA = 0xffa206;
+    //趣晒控制器通知刷新评论
+    public static final int EVENT_FUNSHOW_DETAIL_ADD_EVA = 0xffa207;
     //趣晒详情点赞通知列表更新数量
-    public static final int EVENT_FUNSHOW_UPDATE_ZAN = 0xffa207;
+    public static final int EVENT_FUNSHOW_UPDATE_ZAN = 0xffa208;
+    //趣晒详情评论点击通知编辑框
+    public static final int EVENT_CTRL_FUNSHOW_DETAIL_EVAID = 0xffa209;
+    //发布趣晒选择@好友
+    public static final int EVENT_CTRL_FUNSHOW_ADD_USER = 0xffa210;
+    //发布趣晒选择趣晒锁
+    public static final int EVENT_CTRL_FUNSHOW_ADD_LOCK = 0xffa211;
 
     @IntDef({
             EVENTBUS_TAG_SELECTED,
@@ -49,8 +57,12 @@ public class EventBean implements Serializable {
             EVENT_LOGOUT,
             EVENT_PRIVATE_UPDATE,
             EVENT_TAB_USER,
-            EVENT_CTRL_FUNSHOW_DETAIL_COUNT,
+            EVENT_CTRL_FUNSHOW_DETAIL_DATA,
+            EVENT_FUNSHOW_DETAIL_ADD_EVA,
             EVENT_FUNSHOW_UPDATE_ZAN,
+            EVENT_CTRL_FUNSHOW_DETAIL_EVAID,
+            EVENT_CTRL_FUNSHOW_ADD_USER,
+            EVENT_CTRL_FUNSHOW_ADD_LOCK,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface EventBeanType {

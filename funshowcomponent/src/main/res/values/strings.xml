@@ -18,6 +18,8 @@
     <string name="funshow_home_funshow_detail_eva_hint">说说你的看法吧</string>
     <string name="funshow_home_funshow_detail_eva_more">查看更多></string>
     <string name="funshow_home_funshow_detail_eva_less">收起</string>
+    <string name="funshow_home_funshow_detail_zan">个赞</string>
+    <string name="funshow_home_funshow_detail_eva">条评论</string>
 
     <!--趣晒发布页面-->
     <string name="funshow_addfunshow_btn_right">发布</string>

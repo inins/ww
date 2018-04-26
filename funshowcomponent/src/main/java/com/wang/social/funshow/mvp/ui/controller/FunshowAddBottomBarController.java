@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import com.frame.component.helper.sound.AudioRecordManager;
 import com.frame.component.ui.base.BaseController;
+import com.frame.entities.EventBean;
 import com.frame.utils.KeyboardUtils;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -43,10 +44,21 @@ public class FunshowAddBottomBarController extends BaseController {
     View layVoiceRecord;
 
     private MusicPopupWindow popupWindow;
+    private int lock;
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        switch (event.getEvent()){
+            case EventBean.EVENT_CTRL_FUNSHOW_ADD_LOCK:
+                lock = (int) event.get("lock");
+                break;
+        }
+    }
 
     public FunshowAddBottomBarController(View root) {
         super(root);
         int layout = R.layout.funshow_lay_add_bottombar;
+        registEventBus();
         onInitCtrl();
         onInitData();
     }
@@ -145,7 +157,7 @@ public class FunshowAddBottomBarController extends BaseController {
         } else if (i == R.id.btn_position) {
 
         } else if (i == R.id.btn_lock) {
-            LockActivity.start(getContext());
+            LockActivity.start(getContext(),lock);
         } else if (i == R.id.btn_music) {
             popupWindow.showPopupWindow(v);
         } else if (i == R.id.btn_keyboard) {

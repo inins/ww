@@ -32,6 +32,7 @@ import com.wang.social.funshow.mvp.ui.activity.FunshowAddActivity;
 import com.wang.social.funshow.mvp.ui.activity.FunshowDetailActivity;
 import com.wang.social.funshow.mvp.ui.activity.HotUserListActivity;
 import com.wang.social.funshow.mvp.ui.adapter.RecycleAdapterHome;
+import com.wang.social.funshow.utils.FunShowUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,12 +70,18 @@ public class FunShowFragment extends BaseFragment<FunshowListPresonter> implemen
     @Override
     public void onCommonEvent(EventBean event) {
         switch (event.getEvent()) {
-            case EventBean.EVENT_FUNSHOW_UPDATE_ZAN:
+            case EventBean.EVENT_FUNSHOW_UPDATE_ZAN: {
                 int talkId = (int) event.get("talkId");
                 boolean isZan = (boolean) event.get("isZan");
                 int zanCount = (int) event.get("zanCount");
                 adapter.refreshZanById(talkId, isZan, zanCount);
                 break;
+            }
+            case EventBean.EVENT_FUNSHOW_DETAIL_ADD_EVA: {
+                int talkId = (int) event.get("talkId");
+                adapter.refreshCommentById(talkId);
+                break;
+            }
         }
     }
 

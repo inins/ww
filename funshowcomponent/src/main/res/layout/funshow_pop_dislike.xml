@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/btn_dislike"
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:foreground="?attr/selectableItemBackground"

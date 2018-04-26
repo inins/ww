@@ -1,5 +1,7 @@
 package com.wang.social.funshow.mvp.entities.funshow;
 
+import com.frame.utils.StrUtil;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -45,9 +47,19 @@ public class Funshow implements Serializable {
     private int talkId;
     private String userCover;
     private int isShopping;
-    private List<String> talkImage;
+    private List<FunshowListRsc> talkImage;
 
     //////////////////////////////
+
+    public FunshowListRsc getFirstVideoOrImg() {
+        if (StrUtil.isEmpty(talkImage)) return null;
+        for (FunshowListRsc resource : talkImage) {
+            if (!resource.isVoice()) {
+                return resource;
+            }
+        }
+        return null;
+    }
 
     public boolean isSupport() {
         return isSupport == 1;

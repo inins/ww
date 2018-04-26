@@ -37,7 +37,7 @@ public class FunshowAddBundleController extends BaseController implements PhotoH
     protected void onInitCtrl() {
         photoHelperEx = VideoPhotoHelperEx.newInstance((Activity) getContext(), this);
         bundleview.setMaxcount(9);
-        bundleview.setOnBundleClickListener(new BundleImgView.OnBundleSimpleClickListener(){
+        bundleview.setOnBundleClickListener(new BundleImgView.OnBundleSimpleClickListener() {
             @Override
             public void onPhotoAddClick(View v) {
                 int count = MaxPhotoCount - bundleview.getResultCount();
@@ -73,5 +73,11 @@ public class FunshowAddBundleController extends BaseController implements PhotoH
             pathList.add(new BundleImgEntity(str));
         }
         bundleview.addPhotos(pathList);
+    }
+
+    ////////////////////////
+
+    public List<String> getBundleRsc() {
+        return bundleview.getResultsStrArray();
     }
 }

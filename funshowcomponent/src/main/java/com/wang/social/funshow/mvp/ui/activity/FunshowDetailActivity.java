@@ -4,51 +4,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.design.widget.AppBarLayout;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.EditText;
 
-import com.frame.base.BaseAdapter;
-import com.frame.component.common.GridSpacingItemDecoration;
-import com.frame.component.common.ItemDecorationDivider;
-import com.frame.component.entities.BaseListWrap;
-import com.frame.component.entities.TestEntity;
-import com.frame.component.entities.User;
-import com.frame.component.helper.ImageLoaderHelper;
-import com.frame.component.ui.acticity.PhotoActivity;
 import com.frame.component.ui.base.BasicAppActivity;
-import com.frame.component.utils.viewutils.FontUtils;
-import com.frame.component.view.bundleimgview.BundleImgEntity;
-import com.frame.component.view.bundleimgview.BundleImgView;
 import com.frame.di.component.AppComponent;
-import com.frame.http.api.ApiHelperEx;
-import com.frame.http.api.BaseJson;
-import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.mvp.IView;
 import com.frame.utils.FocusUtil;
-import com.frame.utils.SizeUtils;
-import com.frame.utils.ToastUtil;
-import com.liaoinstan.springview.container.AliFooter;
-import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
 import com.wang.social.funshow.R;
 import com.wang.social.funshow.R2;
 import com.wang.social.funshow.di.component.DaggerSingleActivityComponent;
-import com.wang.social.funshow.mvp.entities.funshow.FunshowDetail;
-import com.wang.social.funshow.mvp.entities.user.TopUser;
-import com.wang.social.funshow.mvp.model.api.FunshowService;
-import com.wang.social.funshow.mvp.ui.adapter.RecycleAdapterEva;
-import com.wang.social.funshow.mvp.ui.adapter.RecycleAdapterZan;
 import com.wang.social.funshow.mvp.ui.controller.FunshowDetailContentBoardController;
 import com.wang.social.funshow.mvp.ui.controller.FunshowDetailEditController;
 import com.wang.social.funshow.mvp.ui.controller.FunshowDetailEvaController;
 import com.wang.social.funshow.mvp.ui.controller.FunshowDetailZanController;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,6 +28,11 @@ public class FunshowDetailActivity extends BasicAppActivity implements IView {
 
     @BindView(R2.id.spring)
     SpringView springView;
+    @BindView(R2.id.appbarlayout)
+    AppBarLayout appbarlayout;
+    @BindView(R2.id.edit_eva)
+    EditText editEva;
+
 
     private FunshowDetailContentBoardController contentBoardController;
     private FunshowDetailZanController zanController;
@@ -83,9 +59,9 @@ public class FunshowDetailActivity extends BasicAppActivity implements IView {
 
         //初始化各部分控制器
         contentBoardController = new FunshowDetailContentBoardController(findViewById(R.id.include_contentboard), talkId);
-        zanController = new FunshowDetailZanController(findViewById(R.id.include_zan), talkId);
-        evaController = new FunshowDetailEvaController(findViewById(R.id.include_eva), springView, talkId);
-        editController = new FunshowDetailEditController(findViewById(R.id.include_edit));
+        zanController = new FunshowDetailZanController(findViewById(R.id.include_zan), appbarlayout, editEva, talkId);
+        evaController = new FunshowDetailEvaController(findViewById(R.id.include_eva), springView, editEva, talkId);
+        editController = new FunshowDetailEditController(findViewById(R.id.include_edit), talkId);
 
 
     }
@@ -137,5 +113,12 @@ public class FunshowDetailActivity extends BasicAppActivity implements IView {
     @Override
     public void hideLoading() {
         dismissLoadingDialog();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

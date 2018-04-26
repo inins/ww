@@ -60,6 +60,16 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
     }
 
     /**
+     * 刷新数据
+     * 使用这种方式可以刷新整个列表的情况下带动画
+     */
+    public void refreshItem(List<T> items) {
+        this.valueList.clear();
+        this.valueList.addAll(items);
+        notifyItemRangeChanged(0, this.valueList.size());
+    }
+
+    /**
      * 移除一项数据
      *
      * @param position 索引

@@ -12,4 +12,7 @@ public class CommentReply {
     private int targetUserId;
     private String targetNickname;
     private long createTime;
+
+    /////////////////本地字段
+    private int parentId;
 }

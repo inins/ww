@@ -21,6 +21,7 @@ import com.frame.utils.ToastUtil;
 import com.frame.utils.Utils;
 import com.wang.social.funshow.mvp.entities.user.TopUser;
 import com.wang.social.funshow.mvp.model.api.FunshowService;
+import com.wang.social.funshow.utils.FunShowUtil;
 
 import java.util.List;
 import java.util.Map;
@@ -96,14 +97,15 @@ public class NetZanHelper {
                     @Override
                     public void onNext(BaseJson<Object> basejson) {
                         btn.setSelected(isZan);
-                        int num = 0;
-                        if (btn instanceof TextView) {
-                            String numStr = ((TextView) btn).getText().toString();
-                            if (RegexUtils.isIntegerWhithZero(numStr)) {
-                                num = Integer.parseInt(numStr);
-                                ((TextView) btn).setText(String.valueOf(isZan ? ++num : --num));
-                            }
-                        }
+//                        int num = 0;
+//                        if (btn instanceof TextView) {
+//                            String numStr = ((TextView) btn).getText().toString();
+//                            if (RegexUtils.isIntegerWhithZero(numStr)) {
+//                                num = Integer.parseInt(numStr);
+//                                ((TextView) btn).setText(String.valueOf(isZan ? ++num : --num));
+//                            }
+//                        }
+                        int num = FunShowUtil.addSubTextViewCount(btn, isZan);
                         if (callback != null) callback.onSuccess(isZan, num);
                     }
 

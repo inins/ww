@@ -237,6 +237,11 @@ public class QiNiuManager {
      * @return
      */
     private String upload(String token, String path) {
+        //特殊处理：如果传入的path本身就是网络图片地址，则直接返回
+        if (StrUtil.isUrl(path)) {
+            return path;
+        }
+
         final File file = new File(path);
         if (!file.exists()) {
             return "";

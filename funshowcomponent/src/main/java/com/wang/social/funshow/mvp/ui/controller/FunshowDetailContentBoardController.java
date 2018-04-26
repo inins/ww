@@ -8,7 +8,6 @@ import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.ui.acticity.PhotoActivity;
 import com.frame.component.ui.base.BaseController;
 import com.frame.component.utils.viewutils.FontUtils;
-import com.frame.component.view.bundleimgview.BundleImgEntity;
 import com.frame.component.view.bundleimgview.BundleImgView;
 import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelperEx;
@@ -22,8 +21,6 @@ import com.wang.social.funshow.mvp.model.api.FunshowService;
 import com.wang.social.funshow.utils.FunShowUtil;
 
 import org.greenrobot.eventbus.EventBus;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 
@@ -44,6 +41,7 @@ public class FunshowDetailContentBoardController extends BaseController {
 
     private int talkId;
     private FunshowDetail funshowDetail;
+
 
     public FunshowDetailContentBoardController(View root, int talkId) {
         super(root);
@@ -67,15 +65,6 @@ public class FunshowDetailContentBoardController extends BaseController {
 
     @Override
     protected void onInitData() {
-//        bundleview.setPhotos(new ArrayList<BundleImgEntity>() {{
-//            add(new BundleImgEntity(ImageLoaderHelper.getRandomImg()));
-//            add(new BundleImgEntity(ImageLoaderHelper.getRandomImg()));
-//            add(new BundleImgEntity(ImageLoaderHelper.getRandomImg()));
-//            add(new BundleImgEntity(ImageLoaderHelper.getRandomImg()));
-//            add(new BundleImgEntity(ImageLoaderHelper.getRandomImg()));
-//            add(new BundleImgEntity(ImageLoaderHelper.getRandomImg()));
-//            add(new BundleImgEntity(ImageLoaderHelper.getRandomImg()));
-//        }});
         netGetFunshowDetail();
     }
 
@@ -118,12 +107,13 @@ public class FunshowDetailContentBoardController extends BaseController {
                         funshowDetail = basejson.getData();
                         setData(funshowDetail);
                         if (funshowDetail != null) {
-                            //通知其他控制器，接受数据
-                            EventBean eventBean = new EventBean(EventBean.EVENT_CTRL_FUNSHOW_DETAIL_COUNT);
+                            //通知其他控制器，接收数据
+                            EventBean eventBean = new EventBean(EventBean.EVENT_CTRL_FUNSHOW_DETAIL_DATA);
                             eventBean.put("zanCount", funshowDetail.getSupportNum());
                             eventBean.put("commonCount", funshowDetail.getCommentNum());
                             eventBean.put("shareCount", funshowDetail.getShareNum());
                             eventBean.put("isSupport", funshowDetail.isSupport());
+                            eventBean.put("userId", funshowDetail.getUserId());
                             EventBus.getDefault().post(eventBean);
                         }
                     }
