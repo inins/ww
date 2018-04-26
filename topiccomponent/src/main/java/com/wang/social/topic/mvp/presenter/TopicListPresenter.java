@@ -6,8 +6,6 @@ import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
 import com.wang.social.topic.mvp.contract.TopicListContract;
-import com.wang.social.topic.mvp.model.entities.Tag;
-import com.wang.social.topic.mvp.model.entities.Tags;
 import com.wang.social.topic.mvp.model.entities.Topic;
 import com.wang.social.topic.mvp.model.entities.TopicRsp;
 
@@ -32,37 +30,17 @@ public class TopicListPresenter extends
 
     List<Topic> mTopicList = new ArrayList<>();
 
+    // 每页条数
+    int mSize = 10;
+    // 当前页码
+    int mCurrent = 0;
+
     @Inject
     public TopicListPresenter(TopicListContract.Model model, TopicListContract.View view) {
         super(model, view);
     }
 
-    private static int count = 0;
-    private Topic getTestTopic() {
-        Topic topic = new Topic();
-
-        topic.setCreateTime(System.currentTimeMillis());
-        topic.setIsFree((count++) % 2);
-        List<Tag> tags = new ArrayList<>();
-        Tag tag = new Tag();
-        tag.setTagName("社交软件");
-        tags.add(tag);
-        tags.add(tag);
-        tags.add(tag);
-        topic.setTags(tags);
-        topic.setTitle("大家对往往社交怎么看？");
-        topic.setFirstStrff("往往一款专注兴趣交友的APP，独特的群部落文化，帮助用户寻找“知音”！");
-        topic.setUserCover("https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1373411777,3992091759&fm=27&gp=0.jpg");
-        topic.setUserName("往往官方");
-        topic.setTopicReadNum(11);
-        topic.setTopicSupportNum(22);
-        topic.setTopicCommentNum(33);
-
-        return topic;
-    }
-
     public Topic getTopic(int position) {
-//        return getTestTopic();
 
         if (position >= 0 && position < mTopicList.size()) {
             return mTopicList.get(position);
@@ -73,7 +51,10 @@ public class TopicListPresenter extends
 
     public int getTopicCount() {
         return mTopicList.size();
-//        return 10;
+    }
+
+    public void clearTopicList() {
+        mTopicList.clear();
     }
 
     /**
@@ -81,22 +62,23 @@ public class TopicListPresenter extends
      */
     public void getNewsList() {
         mApiHelper.execute(mRootView,
-                mModel.getNewsList("1", 20, 1),
+                mModel.getNewsList("1", mSize, mCurrent + 1),
                 new ErrorHandleSubscriber<TopicRsp>(mErrorHandler) {
 
                     @Override
                     public void onNext(TopicRsp rsp) {
                         if (null != rsp) {
+                            mCurrent = rsp.getCurrent();
+
                             mTopicList.addAll(rsp.getList());
 
-                            mRootView.onTopicLoaded();
+                            mRootView.onTopicLoadSuccess();
                         }
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         mRootView.showToast(e.getMessage());
-//                        mRootView.onTopicLoaded();
                     }
                 }, new Consumer<Disposable>() {
                     @Override
@@ -106,6 +88,7 @@ public class TopicListPresenter extends
                 }, new Action() {
                     @Override
                     public void run() throws Exception {
+                        mRootView.onTopicLoadCompleted();
                         mRootView.hideLoading();
                     }
                 });

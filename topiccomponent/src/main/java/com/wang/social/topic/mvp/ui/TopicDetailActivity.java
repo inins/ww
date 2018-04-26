@@ -120,7 +120,7 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
         mReportTV.setGradualColor(Color.WHITE, Color.parseColor("#ff333333"));
         mTitleTV.setGradualColor(Color.WHITE, Color.TRANSPARENT);
         mToolbarTitleTV.setGradualColor(Color.TRANSPARENT, Color.parseColor("#ff434343"));
-        mGradualImageView.setDrawable(R.drawable.icon_playing1, R.drawable.icon_playing2);
+        mGradualImageView.setDrawable(R.drawable.common_ic_playing1, R.drawable.common_ic_playing2);
 
         mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             // CollapsingToolbarLayout收起的进度

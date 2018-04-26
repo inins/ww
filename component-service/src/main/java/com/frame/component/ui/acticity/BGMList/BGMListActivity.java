@@ -15,6 +15,9 @@ import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.view.GradualImageView;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
+import com.liaoinstan.springview.container.AliFooter;
+import com.liaoinstan.springview.container.AliHeader;
+import com.liaoinstan.springview.widget.SpringView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -36,6 +39,8 @@ public class BGMListActivity extends BaseAppActivity<BGMListPresenter> implement
 
     @BindView(R2.id.toolbar)
     SocialToolbar mToolbar;
+    @BindView(R2.id.spring_view)
+    SpringView mSpringView;
     // 音乐列表
     @BindView(R2.id.recycler_view)
     RecyclerView mRecyclerView;
@@ -74,7 +79,7 @@ public class BGMListActivity extends BaseAppActivity<BGMListPresenter> implement
         });
 
         // 顶部播放状态显示
-        mPlayStateIV.setDrawable(R.drawable.icon_playing2, R.drawable.icon_playing2);
+        mPlayStateIV.setDrawable(R.drawable.common_ic_playing2, R.drawable.common_ic_playing2);
 
         // 音乐列表
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -125,6 +130,7 @@ public class BGMListActivity extends BaseAppActivity<BGMListPresenter> implement
             }
         });
 
+
         // 右上角不可点击
         resetSelectedTextView(false);
 
@@ -136,9 +142,23 @@ public class BGMListActivity extends BaseAppActivity<BGMListPresenter> implement
         // 初始化播放器
         mPresenter.initMediaPlayer();
 
-        // 开始加载音乐列表
-        mPresenter.resetMusicList();
-        mPresenter.loadBGMList();
+
+        mSpringView.setHeader(new AliHeader(mSpringView.getContext(), false));
+        mSpringView.setFooter(new AliFooter(mSpringView.getContext(), false));
+        mSpringView.setListener(new SpringView.OnFreshListener() {
+            @Override
+            public void onRefresh() {
+                // 开始加载音乐列表
+                mPresenter.resetMusicList();
+                mPresenter.loadBGMList(true);
+            }
+
+            @Override
+            public void onLoadmore() {
+                mPresenter.loadBGMList(false);
+            }
+        });
+        mSpringView.callFreshDelay();
     }
 
     @Override
@@ -190,6 +210,11 @@ public class BGMListActivity extends BaseAppActivity<BGMListPresenter> implement
         if (null != mAdapter) {
             mAdapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public void onLoadBGMListCompleted() {
+        mSpringView.onFinishFreshAndLoadDelay();
     }
 
     @Override

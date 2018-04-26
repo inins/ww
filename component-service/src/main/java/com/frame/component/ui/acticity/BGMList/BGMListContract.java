@@ -13,6 +13,7 @@ public interface BGMListContract {
     interface View extends IView {
         Context getViewContext();
         void onNotifyDataSetChanged();
+        void onLoadBGMListCompleted();
         String getDefaultMusicName();
         void resetStateAnim(boolean playing);
     }

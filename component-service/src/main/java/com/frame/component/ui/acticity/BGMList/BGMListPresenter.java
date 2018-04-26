@@ -40,6 +40,7 @@ public class BGMListPresenter extends
     Music mOrigialMusic;
     // 正在准备
     boolean mPreparing;
+    int mPage = 1;
 
     @Inject
     public BGMListPresenter(BGMListContract.Model model, BGMListContract.View view) {
@@ -59,15 +60,25 @@ public class BGMListPresenter extends
     /**
      * 从服务器加载音乐列表
      */
-    public void loadBGMList() {
+    public void loadBGMList(boolean refresh) {
+        if (refresh) {
+            mPage = 1;
+        }
+
         mApiHelper.execute(mRootView,
-                mModel.musicList(10, 0),
+                mModel.musicList(10, mPage++),
                 new ErrorHandleSubscriber<Musics>(mErrorHandler) {
                     @Override
                     public void onNext(Musics musics) {
+                        if (musics.getList().size() <= 0) {
+                            mPage--;
+                        }
+
                         mMusicList.addAll(musics.getList());
 
                         mRootView.onNotifyDataSetChanged();
+
+                        mRootView.onLoadBGMListCompleted();
                     }
 
                     @Override

@@ -6,5 +6,9 @@ import lombok.Data;
 
 @Data
 public class Musics {
+    int current;
+    int total;
+    int pages;
+    int size;
     List<Music> list;
 }
