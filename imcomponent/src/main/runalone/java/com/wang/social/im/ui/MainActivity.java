@@ -34,32 +34,19 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.login1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new RxPermissions(MainActivity.this)
-                        .requestEach(Manifest.permission.ACCESS_FINE_LOCATION)
-                        .subscribe(new Consumer<Permission>() {
-                            @Override
-                            public void accept(Permission permission) throws Exception {
-                                if (permission.granted) {
-                                    Intent intent = new Intent(MainActivity.this, LocationActivity.class);
-                                    startActivityForResult(intent, 111);
-                                } else if (permission.shouldShowRequestPermissionRationale) {
-                                    ToastUtil.showToastShort(UIUtil.getString(com.wang.social.location.R.string.loc_toast_open_location_permission));
-                                }
-                            }
-                        });
-//                TIMManager.getInstance().login(IMConstants.USRE_IDENTIFIER_1, IMConstants.USER_SIGN_1, new TIMCallBack() {
-//                    @Override
-//                    public void onError(int i, String s) {
-//                        ToastUtil.showToastShort("Login Error.");
-//                    }
-//
-//                    @Override
-//                    public void onSuccess() {
-//                        Intent intent = new Intent(MainActivity.this, ConversationListActivity.class);
-//                        startActivity(intent);
-//                        finish();
-//                    }
-//                });
+                TIMManager.getInstance().login(IMConstants.USRE_IDENTIFIER_1, IMConstants.USER_SIGN_1, new TIMCallBack() {
+                    @Override
+                    public void onError(int i, String s) {
+                        ToastUtil.showToastShort("Login Error.");
+                    }
+
+                    @Override
+                    public void onSuccess() {
+                        Intent intent = new Intent(MainActivity.this, ConversationListActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
             }
         });
 

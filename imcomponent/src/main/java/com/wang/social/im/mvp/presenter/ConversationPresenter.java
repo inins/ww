@@ -10,6 +10,7 @@ import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMCustomElem;
 import com.tencent.imsdk.TIMImageElem;
+import com.tencent.imsdk.TIMLocationElem;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageListener;
@@ -22,8 +23,10 @@ import com.wang.social.im.R;
 import com.wang.social.im.app.IMConstants;
 import com.wang.social.im.mvp.contract.ConversationContract;
 import com.wang.social.im.mvp.model.entities.EnvelopElemData;
+import com.wang.social.im.mvp.model.entities.LocationAddressInfo;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 import com.wang.social.im.mvp.ui.adapters.MessageListAdapter;
+import com.wang.social.location.mvp.model.entities.LocationInfo;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -205,6 +208,7 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
 
     /**
      * 发送红包消息
+     *
      * @param envelopId
      * @param message
      */
@@ -216,6 +220,25 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
         elemData.setMessage(message);
         envelopElem.setData(gson.toJson(elemData).getBytes());
         timMessage.addElement(envelopElem);
+
+        doSendMessage(timMessage);
+    }
+
+    /**
+     * 发送位置消息
+     *
+     * @param locationInfo
+     */
+    public void sendLocationMessage(LocationInfo locationInfo) {
+        TIMMessage timMessage = new TIMMessage();
+        TIMLocationElem locationElem = new TIMLocationElem();
+        locationElem.setLatitude(locationInfo.getLatitude());
+        locationElem.setLongitude(locationInfo.getLongitude());
+        LocationAddressInfo addressInfo = new LocationAddressInfo();
+        addressInfo.setPlace(locationInfo.getPlace());
+        addressInfo.setAddress(locationInfo.getAddress());
+        locationElem.setDesc(gson.toJson(addressInfo));
+        timMessage.addElement(locationElem);
 
         doSendMessage(timMessage);
     }

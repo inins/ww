@@ -28,50 +28,63 @@
         android:lines="1"
         android:textColor="@color/im_message_nickname"
         android:textSize="@dimen/im_msg_nickname_size"
-        android:visibility="gone"
         app:layout_constraintLeft_toRightOf="@id/msg_iv_portrait"
         app:layout_constraintTop_toBottomOf="@id/msg_tv_time"
         app:layout_goneMarginStart="@dimen/common_border_margin"
         app:layout_goneMarginTop="0dp"
-        tools:text="Michi Man"
-        tools:visibility="visible" />
+        tools:text="Michi Man" />
 
-    <LinearLayout
-        android:id="@+id/msg_ll_sound"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <FrameLayout
+        android:id="@+id/msg_cl_location"
+        android:layout_width="200dp"
+        android:layout_height="130dp"
         android:layout_marginStart="9dp"
         android:layout_marginTop="3dp"
-        android:background="@drawable/im_bg_message_left"
-        android:orientation="horizontal"
-        android:paddingBottom="8dp"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:paddingTop="8dp"
         app:layout_constraintLeft_toRightOf="@id/msg_iv_portrait"
         app:layout_constraintTop_toBottomOf="@id/msg_tv_name"
         app:layout_goneMarginStart="@dimen/common_border_margin"
         app:layout_goneMarginTop="10dp">
 
         <ImageView
-            android:id="@+id/msg_iv_sound"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleType="fitCenter"
-            tools:src="@drawable/im_voice_sent_play3" />
+            android:id="@+id/msg_iv_location"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"/>
 
-        <TextView
-            android:id="@+id/msg_tv_sound_duration"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
-            android:lineSpacingExtra="1dp"
-            android:maxWidth="196dp"
-            android:textColor="@color/im_message_txt_receive"
-            android:textSize="@dimen/im_msg_text_size"
-            app:layout_constraintRight_toLeftOf="@id/msg_iv_portrait"
-            app:layout_constraintTop_toBottomOf="@id/msg_tv_time"
-            tools:text="11''" />
-    </LinearLayout>
+            android:background="@drawable/im_bg_location_address_left"
+            android:orientation="vertical"
+            android:paddingBottom="8dp"
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"
+            android:paddingTop="8dp">
+
+            <TextView
+                android:id="@+id/msg_tv_place"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:textColor="@color/common_text_blank"
+                android:textSize="13dp"
+                tools:text="武侯区新世纪环球购物中心" />
+
+            <TextView
+                android:id="@+id/msg_tv_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="3dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:textColor="@color/common_text_dark"
+                android:textSize="11dp"
+                tools:text="武侯区新世纪环球购物中心" />
+        </LinearLayout>
+    </FrameLayout>
 </android.support.constraint.ConstraintLayout>

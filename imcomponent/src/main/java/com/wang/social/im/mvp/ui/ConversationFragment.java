@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -32,6 +33,7 @@ import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMImage;
 import com.tencent.imsdk.TIMImageElem;
 import com.tencent.imsdk.TIMImageType;
+import com.tencent.imsdk.TIMLocationElem;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMSoundElem;
@@ -56,7 +58,9 @@ import com.wang.social.im.mvp.ui.adapters.holders.BaseMessageViewHolder;
 import com.wang.social.im.view.IMInputView;
 import com.wang.social.im.view.plugin.PluginModule;
 import com.wang.social.im.widget.MessageHandlePopup;
+import com.wang.social.location.mvp.model.entities.LocationInfo;
 import com.wang.social.location.mvp.ui.LocationActivity;
+import com.wang.social.location.mvp.ui.LocationShowActivity;
 import com.wang.social.pictureselector.ActivityPicturePreview;
 import com.wang.social.pictureselector.PictureSelector;
 
@@ -251,6 +255,10 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
                     String message = data.getStringExtra("message");
                     mPresenter.sendEnvelopMessage(envelopId, message);
                     break;
+                case REQUEST_CREATE_LOCATION://位置
+                    LocationInfo locationInfo = (LocationInfo) data.getSerializableExtra(LocationActivity.RESULT_EXTRA_KEY);
+                    mPresenter.sendLocationMessage(locationInfo);
+                    break;
             }
         }
     }
@@ -269,10 +277,10 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     public void showMessages(List<UIMessage> uiMessages) {
         boolean needScroll = true;
         int lastVisiblePosition = mLayoutManager.findLastVisibleItemPosition();
-        if (mAdapter.getItemCount() - lastVisiblePosition > 3) {
+        if (mAdapter.getData() != null && mAdapter.getItemCount() - lastVisiblePosition > 3) {
             needScroll = false;
         }
-        if (mAdapter.getData() == null) {
+        if (mAdapter.getData() == null || mAdapter.getData().size() == 0) {
             mAdapter.refreshData(uiMessages);
         } else {
             mAdapter.addItem(uiMessages);
@@ -298,7 +306,7 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
 
     @Override
     public void insertMessages(List<UIMessage> uiMessages) {
-        if (mAdapter.getData() == null) {
+        if (mAdapter.getData() == null || mAdapter.getData().size() == 0) {
             mAdapter.refreshData(uiMessages);
 
             fcMessageList.scrollToPosition(mAdapter.getData().size() - 1);
@@ -433,16 +441,22 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
 
     @Override
     public void onContentClick(View view, UIMessage uiMessage, int position) {
-        if (uiMessage.getMessageType() == MessageType.IMAGE) {
-            TIMImageElem imageElem = (TIMImageElem) uiMessage.getMessageElem(TIMImageElem.class);
-            if (imageElem != null) {
-                for (TIMImage image : imageElem.getImageList()) {
-                    if (image.getType() == TIMImageType.Original) {
-                        ActivityPicturePreview.start(mActivity, image.getUrl());
-                        break;
+        switch (uiMessage.getMessageType()) {
+            case IMAGE:
+                TIMImageElem imageElem = (TIMImageElem) uiMessage.getMessageElem(TIMImageElem.class);
+                if (imageElem != null) {
+                    for (TIMImage image : imageElem.getImageList()) {
+                        if (image.getType() == TIMImageType.Original) {
+                            ActivityPicturePreview.start(mActivity, image.getUrl());
+                            break;
+                        }
                     }
                 }
-            }
+                break;
+            case LOCATION:
+                TIMLocationElem locationElem = (TIMLocationElem) uiMessage.getMessageElem(TIMLocationElem.class);
+                LocationShowActivity.start(getActivity(), locationElem.getLatitude(), locationElem.getLongitude());
+                break;
         }
     }
 
