@@ -40,8 +40,6 @@ public class MusicBoard extends FrameLayout implements XMediaPlayer.StateListene
     }
 
     private XMediaPlayer mXMediaPlayer;
-    // 播放是否循环
-    private boolean looping;
 
     ImageView mControlIV;
     TextView mNameTV;
@@ -217,12 +215,14 @@ public class MusicBoard extends FrameLayout implements XMediaPlayer.StateListene
         }
     }
 
-    public boolean isLooping() {
-        return looping;
+    public void setLooping(boolean looping) {
+        setCircle(looping);
     }
 
-    public void setLooping(boolean looping) {
-        this.looping = looping;
+    public void setCircle(boolean circle) {
+        if (null != mXMediaPlayer) {
+            mXMediaPlayer.setCircle(circle);
+        }
     }
 
     @Override

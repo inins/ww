@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.frame.component.ui.base.BaseAppActivity;
+import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.utils.BarUtils;
@@ -52,6 +53,10 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
         context.startActivity(intent);
     }
 
+    // 加载详情成功前只显示左上返回按钮，所以添加了一个cover层
+    @BindView(R2.id.social_tool_bar)
+    SocialToolbar mSocialToolbar;
+
     @BindView(R2.id.app_bar_layout)
     AppBarLayout mAppBarLayout;
     @BindView(R2.id.report_text_view)
@@ -65,6 +70,7 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
     // 标题栏小的标题，合拢时显示
     @BindView(R2.id.toolbar_title_text_view)
     GradualColorTextView mToolbarTitleTV;
+
     @BindView(R2.id.nested_scroll_view)
     NestedScrollView mNestedScrollView;
     @BindView(R2.id.avatar_image_view)
@@ -83,17 +89,14 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
     @BindView(R2.id.background_image_view)
     ImageView mBackgroundIV;
     // 标签
-    @BindView(R2.id.by_text_view)
-    TextView mByTextView;
-    @BindView(R2.id.tag_1_text_view)
-    TextView mTag1TV;
-    @BindView(R2.id.tag_2_text_view)
-    TextView mTag2TV;
-    @BindView(R2.id.tag_3_text_view)
-    TextView mTag3TV;
+    @BindView(R2.id.tag_text_view)
+    GradualColorTextView mTagTV;
     // 创建时间
     @BindView(R2.id.create_date_text_view)
-    TextView mCreateDateTV;
+    GradualColorTextView mCreateDateTV;
+    // 底部栏
+    @BindView(R2.id.bottom_layout)
+    View mBottomLayout;
 
 
     // 话题ID
@@ -118,11 +121,7 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
         BarUtils.setTranslucent(this);
 
         mTopicId = getIntent().getIntExtra(NAME_TOPIC_ID, -1);
-
-        mReportTV.setGradualColor(Color.WHITE, Color.parseColor("#ff333333"));
-        mTitleTV.setGradualColor(Color.WHITE, Color.TRANSPARENT);
-        mToolbarTitleTV.setGradualColor(Color.TRANSPARENT, Color.parseColor("#ff434343"));
-        mGradualImageView.setDrawable(R.drawable.common_ic_playing1, R.drawable.common_ic_playing2);
+//        mTopicId = 21;
 
         mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             // CollapsingToolbarLayout收起的进度
@@ -131,6 +130,8 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
                 mReportTV.setRate(rate);
                 mTitleTV.setRate(rate);
                 mToolbarTitleTV.setRate(rate);
+                mTagTV.setRate(rate);
+                mCreateDateTV.setRate(rate);
                 mGradualImageView.setRate(rate);
             }
 
@@ -138,19 +139,48 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
                 if (state == State.EXPANDED) {
                     //展开状态
-                    mGradualImageView.startAnimation();
+//                    mGradualImageView.startAnimation();
                 } else if (state == AppBarStateChangeListener.State.COLLAPSED) {
                     //折叠状态
-                    mGradualImageView.stopAnimation();
+//                    mGradualImageView.stopAnimation();
                 } else {
                     //中间状态
                 }
             }
         });
 
+        mSocialToolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
+            @Override
+            public void onButtonClick(SocialToolbar.ClickType clickType) {
+                if (clickType == SocialToolbar.ClickType.LEFT_ICON) {
+                    finish();
+                }
+            }
+        });
+
+        // 隐藏UI
+        resetView(false);
+
         // 加载详情
         mPresenter.getTopicDetails(mTopicId);
 //        mPresenter.test();
+    }
+
+    private void resetView(boolean loaded) {
+        if (loaded) {
+            mSocialToolbar.setVisibility(View.GONE);
+
+            mAppBarLayout.setVisibility(View.VISIBLE);
+            mNestedScrollView.setVisibility(View.VISIBLE);
+            mBottomLayout.setVisibility(View.VISIBLE);
+        } else {
+            // 隐藏UI
+            mAppBarLayout.setVisibility(View.GONE);
+            mNestedScrollView.setVisibility(View.GONE);
+            mBottomLayout.setVisibility(View.GONE);
+
+            mSocialToolbar.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -169,19 +199,52 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
 
         // 背景图
         if (TextUtils.isEmpty(detail.getBackgroundImage())) {
-            mByTextView.setTextColor(getResources().getColor(R.color.common_text_blank));
-            mTag1TV.setTextColor(getResources().getColor(R.color.common_text_blank));
-            mTag2TV.setTextColor(getResources().getColor(R.color.common_text_blank));
-            mTag3TV.setTextColor(getResources().getColor(R.color.common_text_blank));
-            mCreateDateTV.setTextColor(getResources().getColor(R.color.common_text_blank));
-            mTitleTV.setGradualColor(getResources().getColor(R.color.common_text_blank), Color.TRANSPARENT);
+            // 没有背景图时候的配色方案
+            // 标签
+            mTagTV.setGradual(true);
+            mTagTV.setGradualColor(getResources().getColor(R.color.common_text_blank),
+                    Color.TRANSPARENT);
+            // 日期
+            mCreateDateTV.setGradual(true);
+            mCreateDateTV.setGradualColor(getResources().getColor(R.color.common_text_blank),
+                    Color.TRANSPARENT);
+            // 大标题颜色变化
+            mTitleTV.setGradual(true);
+            mTitleTV.setGradualColor(getResources().getColor(R.color.common_text_blank),
+                    Color.TRANSPARENT);
+            // 小标题颜色变化
+            mToolbarTitleTV.setGradual(true);
+            mToolbarTitleTV.setGradualColor(Color.TRANSPARENT,
+                    Color.parseColor("#ff434343"));
+            // 右上角举报文字颜色不变化
+            mReportTV.setTextColor(getResources().getColor(R.color.common_text_blank));
+            mReportTV.setGradual(false);
+            // 音乐播放的状态图标不变化
+            mGradualImageView.setDrawable(R.drawable.common_ic_playing2, R.drawable.common_ic_playing2);
+            mGradualImageView.setGradual(false);
         } else {
-            mByTextView.setTextColor(Color.parseColor("#FFFFFF"));
-            mTag1TV.setTextColor(Color.parseColor("#FFFFFF"));
-            mTag2TV.setTextColor(Color.parseColor("#FFFFFF"));
-            mTag3TV.setTextColor(Color.parseColor("#FFFFFF"));
-            mCreateDateTV.setTextColor(Color.parseColor("#FFFFFF"));
-            mTitleTV.setGradualColor(Color.parseColor("#FFFFFF"), Color.TRANSPARENT);
+            mTagTV.setGradual(true);
+            mTagTV.setGradualColor(Color.parseColor("#FFFFFF"),
+                    Color.TRANSPARENT);
+            // 日期
+            mCreateDateTV.setGradual(true);
+            mCreateDateTV.setGradualColor(Color.parseColor("#FFFFFF"),
+                    Color.TRANSPARENT);
+
+            mReportTV.setGradual(true);
+            mReportTV.setGradualColor(Color.WHITE, getResources().getColor(R.color.common_text_blank));
+            // 大标题颜色变化
+            mTitleTV.setGradual(true);
+            mTitleTV.setGradualColor(Color.parseColor("#FFFFFF"),
+                    Color.TRANSPARENT);
+            // 小标题颜色变化
+            mToolbarTitleTV.setGradual(true);
+            mToolbarTitleTV.setGradualColor(Color.TRANSPARENT,
+                    Color.parseColor("#ff434343"));
+            mToolbarTitleTV.setGradualColor(Color.TRANSPARENT, Color.parseColor("#ff434343"));
+            // 音乐播放的状态图标变化
+            mGradualImageView.setGradual(true);
+            mGradualImageView.setDrawable(R.drawable.common_ic_playing1, R.drawable.common_ic_playing2);
 
             FrameUtils.obtainAppComponentFromContext(this)
                     .imageLoader()
@@ -197,25 +260,14 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
         mToolbarTitleTV.setText(detail.getTitle());
 
         // 标签
+        String tag = "by";
         for (int i = 0; i < Math.min(detail.getTags().size(), 3); i++) {
-            String tagName = "#" + detail.getTags().get(i);
+            String tagName = detail.getTags().get(i);
             if (TextUtils.isEmpty(tagName)) continue;
 
-            switch (i) {
-                case 0:
-                    mTag1TV.setVisibility(View.VISIBLE);
-                    mTag1TV.setText(tagName);
-                    break;
-                case 1:
-                    mTag2TV.setVisibility(View.VISIBLE);
-                    mTag2TV.setText(tagName);
-                    break;
-                case 2:
-                    mTag3TV.setVisibility(View.VISIBLE);
-                    mTag3TV.setText(tagName);
-                    break;
-            }
+            tag = tag + " #" + tagName;
         }
+        mTagTV.setText(tag);
 
         // 创建时间
         String year = getString(R.string.topic_year);
@@ -250,10 +302,13 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
 
         // 页面内容
         mContentWV.loadData(detail.getContent(), "text/html; charset=UTF-8", null);
+
+        // 显示UI
+        resetView(true);
     }
 
     @OnClick(R2.id.back_image_view)
-    public void back() {
+    public void quit() {
         finish();
     }
 
