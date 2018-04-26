@@ -49,6 +49,13 @@ public abstract class BaseMessageViewHolder<T> extends BaseViewHolder<T> {
         mImageLoader = FrameUtils.obtainAppComponentFromContext(context).imageLoader();
     }
 
+    @Override
+    public void onRelease() {
+        super.onRelease();
+        conversationType = null;
+        mHandleListener = null;
+    }
+
     protected String getTimeStr(long timestamp) {
         timestamp = timestamp * 1000;
         Calendar cal = Calendar.getInstance();
