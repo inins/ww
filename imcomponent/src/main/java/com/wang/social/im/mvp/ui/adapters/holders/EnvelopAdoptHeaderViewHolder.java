@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
 import com.wang.social.im.R;
+import com.wang.social.im.R2;
 import com.wang.social.im.mvp.model.entities.EnvelopInfo;
 
 import butterknife.BindView;
@@ -22,23 +23,23 @@ import butterknife.BindView;
  */
 public class EnvelopAdoptHeaderViewHolder extends BaseViewHolder<EnvelopInfo> {
 
-    @BindView(R.id.edh_iv_header)
+    @BindView(R2.id.edh_iv_header)
     ImageView edhIvHeader;
-    @BindView(R.id.edh_civ_head)
+    @BindView(R2.id.edh_civ_head)
     ImageView edhCivHead;
-    @BindView(R.id.edh_fl_head)
+    @BindView(R2.id.edh_fl_head)
     FrameLayout edhFlHead;
-    @BindView(R.id.edh_tv_name)
+    @BindView(R2.id.edh_tv_name)
     TextView edhTvName;
-    @BindView(R.id.edh_tv_message)
+    @BindView(R2.id.edh_tv_message)
     TextView edhTvMessage;
-    @BindView(R.id.edh_tv_diamond)
+    @BindView(R2.id.edh_tv_diamond)
     TextView edhTvDiamond;
-    @BindView(R.id.edh_iv_diamond)
+    @BindView(R2.id.edh_iv_diamond)
     ImageView edhIvDiamond;
-    @BindView(R.id.edh_tv_diamond_tip)
+    @BindView(R2.id.edh_tv_diamond_tip)
     TextView edhTvDiamondTip;
-    @BindView(R.id.edh_tv_adopt_info)
+    @BindView(R2.id.edh_tv_adopt_info)
     TextView edhTvAdoptInfo;
 
     public EnvelopAdoptHeaderViewHolder(Context context, ViewGroup root) {

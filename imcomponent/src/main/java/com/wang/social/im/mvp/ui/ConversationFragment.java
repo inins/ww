@@ -21,8 +21,10 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.frame.base.BaseFragment;
+import com.frame.component.utils.UIUtil;
 import com.frame.di.component.AppComponent;
 import com.frame.utils.SizeUtils;
+import com.frame.utils.ToastUtil;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.imsdk.TIMConversation;
@@ -54,6 +56,7 @@ import com.wang.social.im.mvp.ui.adapters.holders.BaseMessageViewHolder;
 import com.wang.social.im.view.IMInputView;
 import com.wang.social.im.view.plugin.PluginModule;
 import com.wang.social.im.widget.MessageHandlePopup;
+import com.wang.social.location.mvp.ui.LocationActivity;
 import com.wang.social.pictureselector.ActivityPicturePreview;
 import com.wang.social.pictureselector.PictureSelector;
 
@@ -79,6 +82,8 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     private static final int REQUEST_SELECT_PICTURE = 1000;
     //发红包
     private static final int REQUEST_CREATE_ENVELOP = 1001;
+    //位置选择
+    private static final int REQUEST_CREATE_LOCATION = 1002;
 
     @BindView(R2.id.fc_message_list)
     RecyclerView fcMessageList;
@@ -335,6 +340,21 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
                         CreateMultiEnvelopActivity.start(getActivity(), REQUEST_CREATE_ENVELOP);
                         break;
                 }
+                break;
+            case LOCATION:
+                new RxPermissions(getActivity())
+                        .requestEach(Manifest.permission.ACCESS_FINE_LOCATION)
+                        .subscribe(new Consumer<Permission>() {
+                            @Override
+                            public void accept(Permission permission) throws Exception {
+                                if (permission.granted) {
+                                    Intent intent = new Intent(getActivity(), LocationActivity.class);
+                                    startActivityForResult(intent, REQUEST_CREATE_LOCATION);
+                                } else if (permission.shouldShowRequestPermissionRationale) {
+                                    ToastUtil.showToastShort(UIUtil.getString(com.wang.social.location.R.string.loc_toast_open_location_permission));
+                                }
+                            }
+                        });
                 break;
         }
     }

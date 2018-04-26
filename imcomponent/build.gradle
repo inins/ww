@@ -25,6 +25,7 @@ android {
         }
     }
     if (project.isRunAlone) {
+
         buildTypes {
             debug {
                 buildConfigField "boolean", "LOG_DEBUG", "true"
@@ -44,10 +45,9 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     //test
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     testImplementation 'junit:junit:4.12'
     debugImplementation rootProject.ext.dependencies["canary-debug"]
     releaseImplementation rootProject.ext.dependencies["canary-release"]
@@ -67,6 +67,7 @@ dependencies {
     implementation project(':component-service')
     annotationProcessor project(':router-anno-compiler')
     implementation project(':pictureselectorcomponent')
+    implementation project(':locationlib')
 }
 
 combuild {

@@ -1,0 +1,4 @@
+<resources>
+    <string name="loc_where">你在哪儿</string>
+    <string name="loc_toast_open_location_permission">请打开定位权限</string>
+</resources>
