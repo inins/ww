@@ -11,10 +11,10 @@
         android:id="@+id/pay_flag_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
         android:src="@drawable/common_ic_tag_pay"
+        app:layout_constraintBottom_toBottomOf="@+id/topic_tag_1_text_view"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/topic_tag_1_text_view" />
 
     <View
         android:id="@+id/blank_view"
@@ -38,9 +38,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="14dp"
+        app:layout_constraintBottom_toBottomOf="@+id/topic_tag_2_text_view"
         app:layout_constraintStart_toEndOf="@+id/topic_tag_2_text_view"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/topic_tag_2_text_view" />
 
     <TextView
         android:id="@+id/topic_tag_2_text_view"
@@ -48,20 +48,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="14dp"
+        app:layout_constraintBottom_toBottomOf="@+id/topic_tag_1_text_view"
         app:layout_constraintStart_toEndOf="@+id/topic_tag_1_text_view"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/topic_tag_1_text_view" />
 
     <TextView
         android:id="@+id/create_date_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
         android:text="04-08"
         android:textColor="#ff818181"
         android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/topic_tag_3_text_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/topic_tag_3_text_view" />
 
 
     <TextView

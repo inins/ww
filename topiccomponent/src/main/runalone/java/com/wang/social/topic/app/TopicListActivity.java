@@ -16,7 +16,7 @@ public class TopicListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.topic_activity_main);
 
-        Fragment topicFragment = TopicListFragment.newInstance();
+        Fragment topicFragment = TopicListFragment.newInstance(0);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         if (!topicFragment.isAdded()) {
             fragmentTransaction.add(R.id.fragment_container, topicFragment, "topicFragment");

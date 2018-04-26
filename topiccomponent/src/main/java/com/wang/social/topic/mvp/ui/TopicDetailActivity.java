@@ -74,8 +74,10 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
     // 年龄
     @BindView(R2.id.age_text_view)
     TextView mAgeTV;
+    // 星座
     @BindView(R2.id.constellation_text_view)
     TextView mConstellationTV;
+    // 内容 WebView
     @BindView(R2.id.content_web_view)
     WebView mContentWV;
     @BindView(R2.id.background_image_view)

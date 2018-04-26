@@ -22,6 +22,7 @@ import com.frame.utils.TimeUtils;
 import com.wang.social.topic.R;
 import com.wang.social.topic.mvp.model.entities.Tag;
 import com.wang.social.topic.mvp.model.entities.Topic;
+import com.wang.social.topic.mvp.model.entities.TopicTag;
 import com.wang.social.topic.mvp.ui.WrapContentLinearLayoutManager;
 
 import java.text.SimpleDateFormat;
@@ -113,23 +114,27 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
         // 简要
         holder.contentTV.setText(topic.getFirstStrff());
         // 图片
-        FrameUtils.obtainAppComponentFromContext(mContext)
-                .imageLoader()
-                .loadImage(mContext,
-                        ImageConfigImpl.builder()
-                                .imageView(holder.imageView)
-                                .url("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2989066367,164398660&fm=200&gp=0.jpg")
-                                .transformation(new RoundedCorners(SizeUtils.dp2px(8)))
-                                .build());
+        if (!TextUtils.isEmpty(topic.getTopicImage())) {
+            FrameUtils.obtainAppComponentFromContext(mContext)
+                    .imageLoader()
+                    .loadImage(mContext,
+                            ImageConfigImpl.builder()
+                                    .imageView(holder.imageView)
+                                    .url(topic.getTopicImage())
+                                    .transformation(new RoundedCorners(SizeUtils.dp2px(8)))
+                                    .build());
+        }
         // 用户头像
-        FrameUtils.obtainAppComponentFromContext(mContext)
-                .imageLoader()
-                .loadImage(mContext,
-                        ImageConfigImpl.builder()
-                                .imageView(holder.avatarIV)
-                                .url(topic.getUserCover())
-                                .isCircle(true)
-                                .build());
+        if (!TextUtils.isEmpty(topic.getUserCover())) {
+            FrameUtils.obtainAppComponentFromContext(mContext)
+                    .imageLoader()
+                    .loadImage(mContext,
+                            ImageConfigImpl.builder()
+                                    .imageView(holder.avatarIV)
+                                    .url(topic.getUserCover())
+                                    .isCircle(true)
+                                    .build());
+        }
         // 用户昵称
         holder.userNameTV.setText(topic.getUserName());
         // 点赞次数
@@ -139,23 +144,23 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
         // 阅读次数
         holder.readTV.setText(String.format("%d", topic.getTopicReadNum()));
         // 标签
-        if (topic.getTags() != null) {
-            for (int i = 0; i < Math.min(topic.getTags().size(), 3); i++) {
-                Tag tag = topic.getTags().get(i);
+        if (topic.getTopicTag() != null) {
+            for (int i = 0; i < Math.min(topic.getTopicTag().size(), 3); i++) {
+                TopicTag tag = topic.getTopicTag().get(i);
                 if (null == tag) continue;
-                if (!TextUtils.isEmpty(tag.getTagName())) {
+                if (!TextUtils.isEmpty(tag.getName())) {
                     switch (i) {
                         case 0:
                             holder.tag1TV.setVisibility(View.VISIBLE);
-                            holder.tag1TV.setText(tag.getTagName());
+                            holder.tag1TV.setText(tag.getName());
                             break;
                         case 1:
                             holder.tag2TV.setVisibility(View.VISIBLE);
-                            holder.tag2TV.setText(tag.getTagName());
+                            holder.tag2TV.setText(tag.getName());
                             break;
                         case 2:
                             holder.tag3TV.setVisibility(View.VISIBLE);
-                            holder.tag3TV.setText(tag.getTagName());
+                            holder.tag3TV.setText(tag.getName());
                             break;
                     }
                 }
