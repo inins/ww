@@ -106,8 +106,8 @@ public class BGMListActivity extends BaseAppActivity<BGMListPresenter> implement
             public void onSelect(Music music) {
                 if (mPresenter.selectMusic(music)) {
                     // 选择变化，判断是否和原来传入的音乐相同，如果不同则右上角可点击
-                    if (null != mPresenter.getOrigialMusic() &&
-                            mPresenter.getOrigialMusic().getMusicId() != music.getMusicId()) {
+                    if (null != mPresenter.getOriginalMusic() &&
+                            mPresenter.getOriginalMusic().getMusicId() != music.getMusicId()) {
                         resetSelectedTextView(true);
                     } else {
                         resetSelectedTextView(false);
@@ -137,7 +137,7 @@ public class BGMListActivity extends BaseAppActivity<BGMListPresenter> implement
         // 已选中的音乐
         Music music = Music.newInstance(getIntent());
         mPresenter.setSelectMusic(music);
-        mPresenter.setOrigialMusic(music);
+        mPresenter.setOriginalMusic(music);
 
         // 初始化播放器
         mPresenter.initMediaPlayer();
@@ -227,13 +227,6 @@ public class BGMListActivity extends BaseAppActivity<BGMListPresenter> implement
         super.onPause();
 
         mPresenter.pauseMusic();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        mPresenter.stopMusic();
     }
 
     @Override

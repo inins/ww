@@ -6,7 +6,9 @@ import lombok.Data;
 
 @Data
 public class Topic {
+
     private String firstStrff;
+    private String topicImage;
     private String title;
     private String userName;
     private int topicReadNum;
@@ -17,7 +19,8 @@ public class Topic {
     private int topicCommentNum;
     private int price;
     private int topicSupportNum;
+    private List<TopicTag> topicTag;
     private String userCover;
     private int isShopping;
-    private List<Tag> tags;
+
 }

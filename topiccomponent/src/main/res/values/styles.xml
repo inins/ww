@@ -6,13 +6,12 @@
         <item name="android:layout_marginEnd">10dp</item>
         <item name="android:background">@drawable/topic_shape_rect_corner_solid_gray</item>
         <item name="android:gravity">center</item>
-        <item name="android:paddingBottom">4dp</item>
+        <item name="android:paddingBottom">2dp</item>
         <item name="android:paddingLeft">8dp</item>
         <item name="android:paddingRight">8dp</item>
-        <item name="android:paddingTop">4dp</item>
-        <item name="android:text">一起考研</item>
+        <item name="android:paddingTop">2dp</item>
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:textSize">10sp</item>
-        <item name="android:visibility">visible</item>
+        <item name="android:visibility">invisible</item>
     </style>
 </resources>

@@ -1,14 +1,12 @@
 package com.frame.component.ui.acticity.BGMList;
 
-import android.media.MediaPlayer;
-
+import com.frame.component.utils.XMediaPlayer;
 import com.frame.di.scope.ActivityScope;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +15,7 @@ import javax.inject.Inject;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
+import timber.log.Timber;
 
 @ActivityScope
 public class BGMListPresenter extends
@@ -28,19 +27,18 @@ public class BGMListPresenter extends
     ApiHelper mApiHelper;
 
     // 音乐列表
-    List<Music> mMusicList = new ArrayList<>();
+    private List<Music> mMusicList = new ArrayList<>();
 
     // 音乐播放器
-    MediaPlayer mMediaPlayer;
+    private XMediaPlayer mXMediaPlayer;
     // 正在播放的音乐
-    Music mPlayingMusic;
+    private Music mPlayingMusic;
     // 当前选中的音乐
-    Music mSelectMusic;
+    private Music mSelectMusic;
     // 上层传过来的Music
-    Music mOrigialMusic;
+    private Music mOriginalMusic;
     // 正在准备
-    boolean mPreparing;
-    int mPage = 1;
+    private int mCurrent = 0;
 
     @Inject
     public BGMListPresenter(BGMListContract.Model model, BGMListContract.View view) {
@@ -62,17 +60,15 @@ public class BGMListPresenter extends
      */
     public void loadBGMList(boolean refresh) {
         if (refresh) {
-            mPage = 1;
+            mCurrent = 0;
         }
 
         mApiHelper.execute(mRootView,
-                mModel.musicList(10, mPage++),
+                mModel.musicList(10, mCurrent++),
                 new ErrorHandleSubscriber<Musics>(mErrorHandler) {
                     @Override
                     public void onNext(Musics musics) {
-                        if (musics.getList().size() <= 0) {
-                            mPage--;
-                        }
+                        mCurrent = musics.current;
 
                         mMusicList.addAll(musics.getList());
 
@@ -99,39 +95,54 @@ public class BGMListPresenter extends
      * 初始化音乐播放器 MediaPlayer
      */
     public void initMediaPlayer() {
-        mMediaPlayer = new MediaPlayer();
-        mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+        mXMediaPlayer = new XMediaPlayer();
+        mXMediaPlayer.setStateListener(new XMediaPlayer.StateListener() {
             @Override
-            public void onPrepared(MediaPlayer mp) {
-                mPreparing = false;
-                // 准备好了，直接开始播放
-                playMusic();
+            public void onStateChange(int state) {
 
-                mRootView.hideLoading();
+                Timber.i("onStateChange : " + state);
+                switch (state) {
+                    case XMediaPlayer.STATE_IDLE:
+                    case XMediaPlayer.STATE_STOP:
+                    case XMediaPlayer.STATE_COMPLETION:
+                        // 顶部播放状态动画开始
+                        mRootView.resetStateAnim(false);
+
+                        mRootView.onNotifyDataSetChanged();
+                        break;
+                    case XMediaPlayer.STATE_PREPARING: // 开始准备，UI回到初始状态，并且通知状态变化
+                        mRootView.showLoading();
+                        break;
+                    case XMediaPlayer.STATE_PREPARED: // 准备好了，更新UI
+                        mRootView.hideLoading();
+                        break;
+                    case XMediaPlayer.STATE_PLAYING: // 开始播放
+                        // 顶部播放状态动画开始
+                        mRootView.resetStateAnim(true);
+
+                        mRootView.onNotifyDataSetChanged();
+                        break;
+                    case XMediaPlayer.STATE_PAUSE:
+                        // 顶部播放状态动画开始
+                        mRootView.resetStateAnim(false);
+
+                        mRootView.onNotifyDataSetChanged();
+                        break;
+                }
             }
         });
     }
 
     private void preparePlayer(Music music) {
-        try {
-            mMediaPlayer.setDataSource(music.getUrl());
-            mMediaPlayer.setLooping(true);
-            mMediaPlayer.prepareAsync();
-
-            mPreparing = true;
-
-            mRootView.showLoading();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        mXMediaPlayer.reset(music.getUrl(), true);
     }
 
-    public Music getOrigialMusic() {
-        return mOrigialMusic;
+    public Music getOriginalMusic() {
+        return mOriginalMusic;
     }
 
-    public void setOrigialMusic(Music origialMusic) {
-        mOrigialMusic = origialMusic;
+    public void setOriginalMusic(Music originalMusic) {
+        mOriginalMusic = originalMusic;
     }
 
     /**
@@ -160,7 +171,7 @@ public class BGMListPresenter extends
      */
     public boolean isPlaying(Music music) {
         if (null != mPlayingMusic && mPlayingMusic.getMusicId() == music.getMusicId()) {
-            return mMediaPlayer.isPlaying();
+            return mXMediaPlayer.isPlaying();
         }
 
         return false;
@@ -208,77 +219,31 @@ public class BGMListPresenter extends
      * @param music music
      */
     public void controlPlayer(Music music) {
-        if (null == mMediaPlayer) return;
+        if (null == mXMediaPlayer) return;
 
         // 如果当前没有正在播放的音乐
         // 或者当前播放的音乐不是选择的音乐
         // 那么都是开始新的播放
         if (null == mPlayingMusic ||
                 (null != mPlayingMusic && mPlayingMusic.getMusicId() != music.getMusicId())) {
-            if (null != mPlayingMusic) {
-                stopMusic();
-            }
-
             setPlayingMusic(music);
 
             preparePlayer(music);
         } else {
-            if (mMediaPlayer.isPlaying()) {
-                pauseMusic();
-            } else {
-                playMusic();
-            }
+            mXMediaPlayer.play();
         }
     }
 
-    /**
-     * 播放音乐
-     */
-    public void playMusic() {
-        if (null == mMediaPlayer) return;
-        if (mPreparing) return;
-
-        if (!mMediaPlayer.isPlaying()) {
-            mMediaPlayer.start();
-
-            // 顶部播放状态动画开始
-            mRootView.resetStateAnim(true);
-
-            mRootView.onNotifyDataSetChanged();
-        }
-    }
-
-    /**
-     * 暂停播放
-     */
     public void pauseMusic() {
-        if (null == mMediaPlayer) return;
-        if (mPreparing) return;
-
-        if (mMediaPlayer.isPlaying()) {
-            mMediaPlayer.pause();
-
-            // 顶部播放状态动画开始
-            mRootView.resetStateAnim(false);
-
-            mRootView.onNotifyDataSetChanged();
+        if (null != mXMediaPlayer) {
+            mXMediaPlayer.pause();
         }
     }
 
-    /**
-     * 停止播放
-     */
     public void stopMusic() {
-        if (null == mMediaPlayer) return;
-        if (mPreparing) return;
-
-        mMediaPlayer.stop();
-        mMediaPlayer.reset();
-
-        // 顶部播放状态动画开始
-        mRootView.resetStateAnim(false);
-
-        mRootView.onNotifyDataSetChanged();
+        if (null != mXMediaPlayer) {
+            mXMediaPlayer.stop();
+        }
     }
 
     @Override
@@ -287,9 +252,8 @@ public class BGMListPresenter extends
         mErrorHandler = null;
         mApiHelper = null;
 
-        if (null != mMediaPlayer) {
-            mMediaPlayer.stop();
-            mMediaPlayer.release();
+        if (null != mXMediaPlayer) {
+            mXMediaPlayer.onDestroy();
         }
     }
 }

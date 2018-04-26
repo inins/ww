@@ -55,6 +55,7 @@ public class TopicListPresenter extends
 
     public void clearTopicList() {
         mTopicList.clear();
+        mCurrent = 0;
     }
 
     /**

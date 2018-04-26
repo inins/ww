@@ -1,12 +1,9 @@
 package com.frame.component.view;
 
 import android.content.Context;
-import android.media.MediaPlayer;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -17,8 +14,8 @@ import com.frame.component.ui.acticity.BGMList.Music;
 import com.frame.component.utils.XMediaPlayer;
 import com.frame.utils.TimeUtils;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -52,11 +49,13 @@ public class MusicBoard extends FrameLayout implements XMediaPlayer.StateListene
     TextView mTime2TV;
     SeekBar mSeekBar;
 
+    Music mMusic;
+
     StateListener mStateListener;
 
     Disposable mDisposable;
 
-    SimpleDateFormat mTimeFormat = new SimpleDateFormat("mm:ss");
+    SimpleDateFormat mTimeFormat = new SimpleDateFormat("mm:ss", Locale.CHINA);
 
     public MusicBoard(Context context) {
         this(context, null);
@@ -85,18 +84,13 @@ public class MusicBoard extends FrameLayout implements XMediaPlayer.StateListene
 
         resetView(false);
 
-        mControlIV.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                playMusic();
-            }
-        });
+        mControlIV.setOnClickListener(view -> playMusic());
 
         mSeekBar.setEnabled(false);
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
+                mTime1TV.setText(mTimeFormat.format(progress));
             }
 
             @Override
@@ -111,6 +105,7 @@ public class MusicBoard extends FrameLayout implements XMediaPlayer.StateListene
                         (mXMediaPlayer.getState() == XMediaPlayer.STATE_PLAYING ||
                                 mXMediaPlayer.getState() == XMediaPlayer.STATE_PAUSE)) {
                     mXMediaPlayer.seekTo(seekBar.getProgress());
+                    mTime1TV.setText(mTimeFormat.format(seekBar.getProgress()));
                 }
             }
         });
@@ -125,12 +120,13 @@ public class MusicBoard extends FrameLayout implements XMediaPlayer.StateListene
 
     /**
      * 根据播放器状态刷新UI
-     * @param prepared
+     *
+     * @param prepared 是否准备好了
      */
     private void resetView(boolean prepared) {
         if (prepared) {
-            if (null != mXMediaPlayer && null != mXMediaPlayer.getMusic()) {
-                mNameTV.setText(mXMediaPlayer.getMusic().getMusicName());
+            if (null != mXMediaPlayer) {
+                mNameTV.setText(null == mMusic ? "" : mMusic.getMusicName());
 
 
                 mTime1TV.setText(mTimeFormat.format(0L));
@@ -149,8 +145,18 @@ public class MusicBoard extends FrameLayout implements XMediaPlayer.StateListene
     }
 
     public void resetMusic(Music music) {
+        if (null != mXMediaPlayer && null != music) {
+            if (mXMediaPlayer.reset(music.getUrl())) {
+                mMusic = music;
+            } else {
+                resetView(false);
+            }
+        }
+    }
+
+    public void resetMusic(String path) {
         if (null != mXMediaPlayer) {
-            mXMediaPlayer.resetMusic(music);
+            mXMediaPlayer.reset(path);
         }
     }
 
@@ -204,6 +210,10 @@ public class MusicBoard extends FrameLayout implements XMediaPlayer.StateListene
                 // 播放图标变化
                 mControlIV.setImageResource(R.drawable.common_ic_music_start_big);
                 break;
+            case XMediaPlayer.STATE_COMPLETION:
+                // 播放完成
+                mControlIV.setImageResource(R.drawable.common_ic_music_start_big);
+                break;
         }
     }
 
@@ -224,8 +234,7 @@ public class MusicBoard extends FrameLayout implements XMediaPlayer.StateListene
         }
 
         if (null != mXMediaPlayer) {
-            mXMediaPlayer.stop();
-            mXMediaPlayer.release();
+            mXMediaPlayer.onDestroy();
         }
     }
 

@@ -133,6 +133,7 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
 
     @Override
     public void onTopicLoadSuccess() {
+        refreshTopicList();
     }
 
     @Override

@@ -1,21 +1,25 @@
 package com.frame.component.utils;
 
+import android.content.Context;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.support.annotation.IntDef;
+import android.text.TextUtils;
 
-import com.frame.component.ui.acticity.BGMList.Music;
-
+import java.io.FileDescriptor;
 import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-public class XMediaPlayer extends MediaPlayer implements MediaPlayer.OnPreparedListener {
+public class XMediaPlayer extends MediaPlayer
+        implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
     public static final int STATE_IDLE = 0;
     public static final int STATE_PREPARING = 1;
     public static final int STATE_PREPARED = 2;
     public static final int STATE_PLAYING = 3;
     public static final int STATE_PAUSE = 4;
-    public static final int STATE_STOP = 5;
+    public static final int STATE_COMPLETION = 5;
+    public static final int STATE_STOP = 6;
 
     @IntDef({
             STATE_IDLE,
@@ -23,6 +27,7 @@ public class XMediaPlayer extends MediaPlayer implements MediaPlayer.OnPreparedL
             STATE_PREPARED,
             STATE_PLAYING,
             STATE_PAUSE,
+            STATE_COMPLETION,
             STATE_STOP
 
     })
@@ -37,7 +42,10 @@ public class XMediaPlayer extends MediaPlayer implements MediaPlayer.OnPreparedL
     // 是否准备好了
     boolean mIsPrepared = false;
     // 当前播放的音乐
-    Music mMusic;
+    String mPath;
+    Uri mUri;
+    FileDescriptor mFileDescriptor;
+
     // 是否在准备好后开始播放
     boolean mPlayWhenPrepared;
 
@@ -54,43 +62,134 @@ public class XMediaPlayer extends MediaPlayer implements MediaPlayer.OnPreparedL
         }
     }
 
+    @Override
+    public void onCompletion(MediaPlayer mp) {
+        setState(STATE_COMPLETION);
+    }
+
     public XMediaPlayer() {
         super();
 
         setOnPreparedListener(this);
+        setOnCompletionListener(this);
     }
 
     /**
-     * 重设音乐
-     * @param music 音乐
+     * 重置资源
+     * @param path 资源路径
+     * @param playWhenPrepared 准备完成后是否开始播放
+     *
+     * @return 调用是否成功
      */
-    public void resetMusic(Music music) {
-        resetMusic(music, false);
-    }
-
-    /**
-     * 重设音乐
-     * @param music 音乐
-     * @param playWhenPrepared 是否在准备好后开始播放
-     */
-    public void resetMusic(Music music, boolean playWhenPrepared) {
-        if (null == music) return;
-        // 音乐没变化
-        if (null != mMusic &&
-                mMusic.getMusicId() == music.getMusicId()) {
-            return;
+    public boolean reset(String path, boolean playWhenPrepared) {
+        if (TextUtils.isEmpty(path)) {
+            return false;
         }
 
-        mMusic = music;
-        mPlayWhenPrepared = playWhenPrepared;
+        if (path.equals(mPath)) {
+            return false;
+        }
 
+        preResetDataSource(playWhenPrepared);
+
+        resetDataSource(path);
+
+        return true;
+    }
+
+    public boolean reset(String path) {
+        return reset(path, false);
+    }
+
+    public boolean reset(Context context, Uri uri, boolean playWhenPrepared) {
+        if (null == context) return false;
+        if (null == uri) return false;
+
+        if (null != mUri && mUri.equals(uri)) {
+            return false;
+        }
+
+        preResetDataSource(playWhenPrepared);
+
+        resetDataSource(context, uri);
+
+        return true;
+    }
+
+    public boolean reset(Context context, Uri uri) {
+        return reset(context, uri, false);
+    }
+
+    public boolean reset(FileDescriptor fileDescriptor, boolean playWhenPrepared) {
+        if (null == fileDescriptor) return false;
+        if (null != mFileDescriptor && mFileDescriptor == fileDescriptor) return false;
+
+        preResetDataSource(playWhenPrepared);
+
+        resetDataSource(fileDescriptor);
+
+        return true;
+    }
+
+    public boolean reset(FileDescriptor fileDescriptor) {
+        return reset(fileDescriptor, false);
+    }
+
+    /**
+     * 重置前的操作
+     * @param playWhenPrepared 准备完成后是否开始播放
+     */
+    private void preResetDataSource(boolean playWhenPrepared) {
+        mPlayWhenPrepared = playWhenPrepared;
         mIsPrepared = false;
 
         stop();
         reset();
+    }
 
+    /**
+     * 通过资源路径重置播放资源
+     * @param path 资源路径
+     */
+    private void resetDataSource(String path) {
         try {
-            setDataSource(mMusic.getUrl());
+            mPath = path;
+            setDataSource(path);
+            setLooping(isLooping());
+            prepareAsync();
+
+            setState(STATE_PREPARING);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 通过FileDescriptor重置播放资源
+     * @param fileDescriptor FileDescriptor
+     */
+    private void resetDataSource(FileDescriptor fileDescriptor) {
+        try {
+            mFileDescriptor = fileDescriptor;
+            setDataSource(fileDescriptor);
+            setLooping(isLooping());
+            prepareAsync();
+
+            setState(STATE_PREPARING);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 通过Content URI重置播放资源
+     * @param context context
+     * @param uri 资源路劲Uri
+     */
+    private void resetDataSource(Context context, Uri uri) {
+        try {
+            mUri = uri;
+            setDataSource(context, uri);
             setLooping(isLooping());
             prepareAsync();
 
@@ -135,7 +234,6 @@ public class XMediaPlayer extends MediaPlayer implements MediaPlayer.OnPreparedL
         }
     }
 
-
     /**
      * 停止
      */
@@ -161,8 +259,9 @@ public class XMediaPlayer extends MediaPlayer implements MediaPlayer.OnPreparedL
         return mState;
     }
 
-    public Music getMusic() {
-        return mMusic;
+    public void onDestroy() {
+        super.stop();
+        super.release();
     }
 
     /**
