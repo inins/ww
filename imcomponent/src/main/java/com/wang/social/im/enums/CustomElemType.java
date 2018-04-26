@@ -7,6 +7,10 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 
+import static com.wang.social.im.app.IMConstants.CUSTOM_ELEM_ANONYMITY;
+import static com.wang.social.im.app.IMConstants.CUSTOM_ELEM_ENVELOP;
+import static com.wang.social.im.app.IMConstants.CUSTOM_ELEM_SHADOW;
+
 /**
  * ============================================
  * 自定义消息类型
@@ -19,15 +23,15 @@ public enum CustomElemType {
     /*
      * 红包消息
      */
-    RED_ENVELOP("redEnvelop"),
+    RED_ENVELOP(CUSTOM_ELEM_ENVELOP),
     /*
      * 匿名消息
      */
-    ANONYMITY("anonymous"),
+    ANONYMITY(CUSTOM_ELEM_ANONYMITY),
     /*
      * 分身消息
      */
-    SHADOW("doppelganger");
+    SHADOW(CUSTOM_ELEM_SHADOW);
 
     String value;
 

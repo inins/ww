@@ -126,7 +126,7 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
                             public void run() {
                                 mInputViewListener.onInputViewExpanded();
                             }
-                        }, 200L);
+                        }, 350L);
                     }
                 }
                 hideEmotionBoard();
@@ -147,7 +147,7 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
                                 public void run() {
                                     mInputViewListener.onInputViewExpanded();
                                 }
-                            }, 200L);
+                            }, 350L);
                         }
                     } else {
                         if (isKeyBoardActive) {
@@ -198,7 +198,7 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
                             public void run() {
                                 mInputViewListener.onInputViewExpanded();
                             }
-                        }, 200L);
+                        }, 350L);
                     }
                 }
                 return false;
@@ -218,7 +218,7 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
                                 public void run() {
                                     mInputViewListener.onInputViewExpanded();
                                 }
-                            }, 200L);
+                            }, 350L);
                         }
                     } else {
                         if (isKeyBoardActive) {

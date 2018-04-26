@@ -1,5 +1,6 @@
 package com.wang.social.im.mvp.model.entities;
 
+import com.google.gson.annotations.SerializedName;
 import com.tencent.imsdk.TIMElem;
 
 import lombok.Getter;
@@ -15,7 +16,9 @@ import lombok.Getter;
  */
 public class CarryUserInfo {
 
+    private String type;
     @Getter
+    @SerializedName("name")
     private String nickname;
     @Getter
     private String faceUrl;

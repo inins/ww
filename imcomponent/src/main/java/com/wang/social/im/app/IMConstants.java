@@ -16,6 +16,24 @@ public interface IMConstants {
             "2j1TjYJDSKJneVKJ9tXkcce9pOwY15VLhazSg2NuGwiGHNOXXdGj0IN0MpJIAhTTGz0E8v4NL4AJetdhQ__";
 
     /**
+     * 自定义消息Elem类型：红包
+     * {@link com.wang.social.im.enums.CustomElemType}
+     */
+    String CUSTOM_ELEM_ENVELOP = "envelop";
+
+    /**
+     * 自定义消息Elem类型：匿名消息
+     * {@link com.wang.social.im.enums.CustomElemType}
+     */
+    String CUSTOM_ELEM_ANONYMITY = "anonymous";
+
+    /**
+     * 自定义消息Elem类型：分身消息
+     * {@link com.wang.social.im.enums.CustomElemType}
+     */
+    String CUSTOM_ELEM_SHADOW = "doppelganger";
+
+    /**
      * 撤回消息发送时间超过两分钟
      */
     int TIM_ERROR_CODE_REVOKE_TIMEOUT = 6223;

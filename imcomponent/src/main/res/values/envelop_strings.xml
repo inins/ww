@@ -28,4 +28,7 @@
     <string name="im_envelop_empty">抱歉，红包已被抢光</string>
     <string name="im_envelop_give_you">给你发了一个红包</string>
     <string name="im_envelop_give_spell">给你发了一个拼手气红包</string>
+    <string name="im_envelop_status_adopt">领取红包</string>
+    <string name="im_envelop_status_adopted">红包已领取</string>
+    <string name="im_envelop_status_overdue">红包已领取</string>
 </resources>

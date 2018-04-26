@@ -4,7 +4,7 @@
     <corners
         android:bottomLeftRadius="@dimen/im_msg_background_radius"
         android:topLeftRadius="@dimen/im_msg_background_radius"
-        android:topRightRadius="@dimen/im_msg_background_radius" />
+        android:bottomRightRadius="@dimen/im_msg_background_radius" />
 
     <gradient
         android:angle="0"

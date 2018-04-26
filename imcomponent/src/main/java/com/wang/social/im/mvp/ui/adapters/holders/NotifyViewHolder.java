@@ -9,13 +9,11 @@ import com.frame.utils.FrameUtils;
 import com.google.gson.Gson;
 import com.tencent.imsdk.TIMCustomElem;
 import com.tencent.imsdk.TIMElem;
-import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageStatus;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.enums.CustomElemType;
-import com.wang.social.im.mvp.model.entities.RevokeElem;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 
 import butterknife.BindView;

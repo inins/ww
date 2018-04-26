@@ -77,6 +77,8 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
 
     //图片选择
     private static final int REQUEST_SELECT_PICTURE = 1000;
+    //发红包
+    private static final int REQUEST_CREATE_ENVELOP = 1001;
 
     @BindView(R2.id.fc_message_list)
     RecyclerView fcMessageList;
@@ -239,6 +241,11 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
                     String[] list = data.getStringArrayExtra(PictureSelector.NAME_FILE_PATH_LIST);
                     mPresenter.sendImageMessage(list, true);
                     break;
+                case REQUEST_CREATE_ENVELOP://红包
+                    long envelopId = data.getLongExtra("envelopId", 0L);
+                    String message = data.getStringExtra("message");
+                    mPresenter.sendEnvelopMessage(envelopId, message);
+                    break;
             }
         }
     }
@@ -309,12 +316,26 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
 
     @Override
     public void onPluginClick(PluginModule pluginModule) {
-        if (pluginModule.getPluginType() == PluginModule.PluginType.IMAGE) {//图片选择
-            PictureSelector.from(ConversationFragment.this)
-                    .maxSelection(9)
-                    .forResult(REQUEST_SELECT_PICTURE);
-        } else if (pluginModule.getPluginType() == PluginModule.PluginType.SHOOT) { //拍摄
+        switch (pluginModule.getPluginType()) {
+            case IMAGE: //图片选择
+                PictureSelector.from(ConversationFragment.this)
+                        .maxSelection(9)
+                        .forResult(REQUEST_SELECT_PICTURE);
+                break;
+            case SHOOT: //拍摄
 
+                break;
+            case REDPACKET: //红包
+                switch (mConversationType) {
+                    case PRIVATE:
+                        CreateSingleEnvelopActivity.start(getActivity(), REQUEST_CREATE_ENVELOP);
+                        break;
+                    case TEAM:
+                    case SOCIAL:
+                        CreateMultiEnvelopActivity.start(getActivity(), REQUEST_CREATE_ENVELOP);
+                        break;
+                }
+                break;
         }
     }
 

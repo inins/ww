@@ -9,12 +9,11 @@ import com.tencent.imsdk.TIMCustomElem;
 import com.tencent.imsdk.TIMElem;
 import com.tencent.imsdk.TIMElemType;
 import com.tencent.imsdk.TIMGroupMemberInfo;
-import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageStatus;
 import com.tencent.imsdk.TIMTextElem;
 import com.tencent.imsdk.TIMUserProfile;
-import com.tencent.imsdk.ext.group.TIMUserConfigGroupExt;
+import com.tencent.imsdk.ext.message.TIMMessageExt;
 import com.wang.social.im.R;
 import com.wang.social.im.enums.ConversationType;
 import com.wang.social.im.enums.CustomElemType;
@@ -211,6 +210,32 @@ public class UIMessage {
     }
 
     /**
+     * 获取自定义消息内容Elem
+     *
+     * @param elemType
+     * @return
+     */
+    public Object getCustomMessageElem(CustomElemType elemType, Gson gson) {
+        try {
+            for (int i = 0, max = (int) timMessage.getElementCount(); i < max; i++) {
+                TIMElem elem = timMessage.getElement(i);
+                if (elem instanceof TIMCustomElem) {
+                    TIMCustomElem customElem = (TIMCustomElem) elem;
+                    if (CustomElemType.getElemType(customElem) == elemType) {
+                        switch (elemType) {
+                            case RED_ENVELOP:
+                                return gson.fromJson(new String(customElem.getData(), "UTF-8"), EnvelopElemData.class);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
      * 获取用户昵称
      *
      * @param conversationType
@@ -231,11 +256,15 @@ public class UIMessage {
                 break;
             case SOCIAL:
             case TEAM:
-                TIMGroupMemberInfo memberInfo = timMessage.getSenderGroupMemberProfile();
-                if (memberInfo != null && !TextUtils.isEmpty(memberInfo.getNameCard())) {
-                    nickname = memberInfo.getNameCard();
-                } else {
-                    nickname = getNickname(ConversationType.PRIVATE);
+                if (messageScope == MessageScope.NORMAL) {
+                    TIMGroupMemberInfo memberInfo = timMessage.getSenderGroupMemberProfile();
+                    if (memberInfo != null && !TextUtils.isEmpty(memberInfo.getNameCard())) {
+                        nickname = memberInfo.getNameCard();
+                    } else {
+                        nickname = getNickname(ConversationType.PRIVATE);
+                    }
+                } else if (carryUserInfo != null) {
+                    nickname = carryUserInfo.getNickname();
                 }
                 break;
             case MIRROR:
@@ -254,7 +283,7 @@ public class UIMessage {
      * @return
      */
     public String getPortrait(ConversationType conversationType) {
-        if (timMessage.isSelf()){
+        if (timMessage.isSelf()) {
             // TODO: 2018-04-23 根据会话类型获取自己的头像信息
             return "http://resouce.dongdongwedding.com/2017-08-08_rtUbDxhH.png";
         }
@@ -277,5 +306,24 @@ public class UIMessage {
                 break;
         }
         return portrait;
+    }
+
+    /**
+     * 获取红包在本地缓存的信息
+     *
+     * @return
+     */
+    public EnvelopMessageCacheInfo getEnvelopCacheInfo(Gson gson) {
+        //获取红包状态
+        TIMMessageExt messageExt = new TIMMessageExt(timMessage);
+        if (!TextUtils.isEmpty(messageExt.getCustomStr())) {
+            try {
+                return gson.fromJson(messageExt.getCustomStr(), EnvelopMessageCacheInfo.class);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        return null;
     }
 }

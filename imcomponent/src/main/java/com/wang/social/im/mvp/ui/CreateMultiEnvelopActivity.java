@@ -1,5 +1,7 @@
 package com.wang.social.im.mvp.ui;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -51,6 +53,11 @@ public class CreateMultiEnvelopActivity extends BaseAppActivity<CreateEnvelopPre
 
     //标识当前是否为拼手气模式
     private boolean isSpell = true;
+
+    public static void start(Activity activity, int requestCode) {
+        Intent intent = new Intent(activity, CreateMultiEnvelopActivity.class);
+        activity.startActivityForResult(intent, requestCode);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,7 +157,12 @@ public class CreateMultiEnvelopActivity extends BaseAppActivity<CreateEnvelopPre
             isSpell = !isSpell;
             toggleMode();
         }else if (view.getId() == R.id.cmr_tvb_plug){
+            Intent intent = new Intent();
 
+            intent.putExtra("envelopId", 0L);
+            intent.putExtra("message", cmrEtMessage.getText().toString());
+            setResult(RESULT_OK, intent);
+            finish();
         }
     }
 
