@@ -48,6 +48,8 @@ public class XMediaPlayer extends MediaPlayer
 
     // 是否在准备好后开始播放
     boolean mPlayWhenPrepared;
+    // 是否循环播放
+    boolean mCircle;
 
     @MP_State int mState;
     StateListener mStateListener;
@@ -155,9 +157,7 @@ public class XMediaPlayer extends MediaPlayer
         try {
             mPath = path;
             setDataSource(path);
-            setLooping(isLooping());
             prepareAsync();
-
             setState(STATE_PREPARING);
         } catch (IOException e) {
             e.printStackTrace();
@@ -172,9 +172,7 @@ public class XMediaPlayer extends MediaPlayer
         try {
             mFileDescriptor = fileDescriptor;
             setDataSource(fileDescriptor);
-            setLooping(isLooping());
             prepareAsync();
-
             setState(STATE_PREPARING);
         } catch (IOException e) {
             e.printStackTrace();
@@ -190,7 +188,6 @@ public class XMediaPlayer extends MediaPlayer
         try {
             mUri = uri;
             setDataSource(context, uri);
-            setLooping(isLooping());
             prepareAsync();
 
             setState(STATE_PREPARING);
@@ -219,6 +216,8 @@ public class XMediaPlayer extends MediaPlayer
         if (mIsPrepared) {
             super.start();
 
+            setLooping(isCircle());
+
             setState(STATE_PLAYING);
         }
     }
@@ -243,6 +242,14 @@ public class XMediaPlayer extends MediaPlayer
 
             setState(STATE_STOP);
         }
+    }
+
+    public boolean isCircle() {
+        return mCircle;
+    }
+
+    public void setCircle(boolean circle) {
+        mCircle = circle;
     }
 
     private void setState(@MP_State int state) {

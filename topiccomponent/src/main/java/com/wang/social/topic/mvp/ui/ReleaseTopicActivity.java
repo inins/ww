@@ -146,6 +146,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
                 dismissLoadingDialog();
             }
         });
+        mMusicBoard.setLooping(true);
     }
 
     private View.OnClickListener mBottomBarListener = new View.OnClickListener() {

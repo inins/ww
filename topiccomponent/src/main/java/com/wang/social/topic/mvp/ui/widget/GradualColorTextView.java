@@ -16,6 +16,8 @@ public class GradualColorTextView extends AppCompatTextView {
     private int mColorEnd;
     // 渐变百分比 0.0 - 0.1
     private float mRate;
+    // 是否可渐变
+    private boolean mGradual = true;
 
     ArgbEvaluator mArgbEvaluator;
 
@@ -46,11 +48,21 @@ public class GradualColorTextView extends AppCompatTextView {
         setRate(mRate);
     }
 
+    public boolean isGradual() {
+        return mGradual;
+    }
+
+    public void setGradual(boolean gradual) {
+        mGradual = gradual;
+    }
+
     /**
      * 改变颜色进度
      * @param rate 变化百分比
      */
     public void setRate(float rate) {
+        if (!isGradual()) return;
+
         // 变化范围是 0.0 ~ 1.0
         this.mRate = Math.max(0, Math.min(rate, 1));
 

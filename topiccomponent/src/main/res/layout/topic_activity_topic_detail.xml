@@ -60,43 +60,15 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/by_text_view"
+                    <com.wang.social.topic.mvp.ui.widget.GradualColorTextView
+                        android:id="@+id/tag_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="4dp"
-                        android:text="by"
+                        android:layout_marginEnd="14dp"
                         android:textColor="@color/common_text_blank"
                         android:textSize="14sp" />
 
-                    <TextView
-                        android:id="@+id/tag_1_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="7dp"
-                        android:textColor="@color/common_text_blank"
-                        android:textSize="14sp"
-                        android:visibility="gone" />
-
-                    <TextView
-                        android:id="@+id/tag_2_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="7dp"
-                        android:textColor="@color/common_text_blank"
-                        android:textSize="14sp"
-                        android:visibility="gone" />
-
-                    <TextView
-                        android:id="@+id/tag_3_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="13dp"
-                        android:textColor="@color/common_text_blank"
-                        android:textSize="14sp"
-                        android:visibility="gone" />
-
-                    <TextView
+                    <com.wang.social.topic.mvp.ui.widget.GradualColorTextView
                         android:id="@+id/create_date_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -110,7 +82,7 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="?android:actionBarSize"
                 app:contentInsetStart="0dp"
                 app:layout_collapseMode="pin">
 
@@ -177,10 +149,12 @@
 
 
     <LinearLayout
+        android:id="@+id/bottom_layout"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:orientation="horizontal"
         android:layout_gravity="bottom"
+        android:clickable="true"
         android:background="#FFFFFF">
 
         <LinearLayout
@@ -256,5 +230,15 @@
         </LinearLayout>
 
     </LinearLayout>
+
+
+
+        <com.frame.component.view.SocialToolbar
+            android:id="@+id/social_tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="?android:actionBarSize"
+            app:toolbar_left_icon="@drawable/common_ic_back">
+
+        </com.frame.component.view.SocialToolbar>
 
 </android.support.design.widget.CoordinatorLayout>
