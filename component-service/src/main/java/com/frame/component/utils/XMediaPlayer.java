@@ -54,6 +54,12 @@ public class XMediaPlayer extends MediaPlayer implements MediaPlayer.OnPreparedL
         }
     }
 
+    public XMediaPlayer() {
+        super();
+
+        setOnPreparedListener(this);
+    }
+
     /**
      * 重设音乐
      * @param music 音乐
@@ -80,6 +86,9 @@ public class XMediaPlayer extends MediaPlayer implements MediaPlayer.OnPreparedL
 
         mIsPrepared = false;
 
+        stop();
+        reset();
+
         try {
             setDataSource(mMusic.getUrl());
             setLooping(isLooping());
@@ -88,6 +97,19 @@ public class XMediaPlayer extends MediaPlayer implements MediaPlayer.OnPreparedL
             setState(STATE_PREPARING);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * 播放按钮控制，播放或者暂停
+     */
+    public void play() {
+        if (mIsPrepared) {
+            if (isPlaying()) {
+                pause();
+            } else {
+                start();
+            }
         }
     }
 
@@ -133,6 +155,14 @@ public class XMediaPlayer extends MediaPlayer implements MediaPlayer.OnPreparedL
                 mStateListener.onStateChange(state);
             }
         }
+    }
+
+    public int getState() {
+        return mState;
+    }
+
+    public Music getMusic() {
+        return mMusic;
     }
 
     /**

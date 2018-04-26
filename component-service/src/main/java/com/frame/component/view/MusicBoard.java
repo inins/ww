@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.frame.component.service.R;
 import com.frame.component.ui.acticity.BGMList.Music;
+import com.frame.component.utils.XMediaPlayer;
 import com.frame.utils.TimeUtils;
 
 import java.io.IOException;
@@ -26,7 +27,8 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
-public class MusicBoard extends FrameLayout implements MediaPlayer.OnPreparedListener {
+public class MusicBoard extends FrameLayout implements XMediaPlayer.StateListener {
+
 
     public interface StateListener {
         /**
@@ -40,15 +42,9 @@ public class MusicBoard extends FrameLayout implements MediaPlayer.OnPreparedLis
         void onPrepared();
     }
 
-    private MediaPlayer mMediaPlayer;
-    // MediaPlayer是否在准备中，调用 prepareAsync 后改变状态
-    private boolean isPreparing;
-    // 是否准备好了
-    private boolean isPrepared;
+    private XMediaPlayer mXMediaPlayer;
     // 播放是否循环
     private boolean looping;
-    // 上一次播放的音乐
-    private Music mMusic;
 
     ImageView mControlIV;
     TextView mNameTV;
@@ -85,8 +81,10 @@ public class MusicBoard extends FrameLayout implements MediaPlayer.OnPreparedLis
         mTime1TV = findViewById(R.id.text_musicboard_time);
         mTime2TV = findViewById(R.id.text_musicboard_time_all);
         mSeekBar = findViewById(R.id.seek_musicboard);
-
         mControlIV = findViewById(R.id.btn_musicboard_play);
+
+        resetView(false);
+
         mControlIV.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,108 +106,104 @@ public class MusicBoard extends FrameLayout implements MediaPlayer.OnPreparedLis
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                if (null != mMediaPlayer && isPrepared) {
-                    mMediaPlayer.seekTo(seekBar.getProgress());
+                // 播放和暂停的时候才可以拖动
+                if (null != mXMediaPlayer &&
+                        (mXMediaPlayer.getState() == XMediaPlayer.STATE_PLAYING ||
+                                mXMediaPlayer.getState() == XMediaPlayer.STATE_PAUSE)) {
+                    mXMediaPlayer.seekTo(seekBar.getProgress());
                 }
             }
         });
 
-        mMediaPlayer = new MediaPlayer();
-        mMediaPlayer.setOnPreparedListener(this);
+        mXMediaPlayer = new XMediaPlayer();
+        mXMediaPlayer.setStateListener(this);
     }
 
     public void setStateListener(StateListener stateListener) {
         mStateListener = stateListener;
     }
 
-    private void resetView() {
-        mSeekBar.setProgress(0);
-        mSeekBar.setEnabled(false);
-        mNameTV.setText("");
-        mTime1TV.setText(mTimeFormat.format(0L));
-        mTime2TV.setText(mTimeFormat.format(0L));
+    /**
+     * 根据播放器状态刷新UI
+     * @param prepared
+     */
+    private void resetView(boolean prepared) {
+        if (prepared) {
+            if (null != mXMediaPlayer && null != mXMediaPlayer.getMusic()) {
+                mNameTV.setText(mXMediaPlayer.getMusic().getMusicName());
+
+
+                mTime1TV.setText(mTimeFormat.format(0L));
+                mTime2TV.setText(mTimeFormat.format(TimeUtils.millis2Date(mXMediaPlayer.getDuration())));
+                mSeekBar.setMax(mXMediaPlayer.getDuration());
+
+                mSeekBar.setEnabled(true);
+            }
+        } else {
+            mSeekBar.setProgress(0);
+            mSeekBar.setEnabled(false);
+            mNameTV.setText("");
+            mTime1TV.setText("");
+            mTime2TV.setText("");
+        }
     }
 
     public void resetMusic(Music music) {
-        if (null == mMediaPlayer) return;
-        if (null == music) return;
-        if (null != mMusic) {
-            if (mMusic.getMusicId() == music.getMusicId()) return;
-        }
-
-        mMusic = music;
-        isPrepared = false;
-
-        mMediaPlayer.stop();
-        mMediaPlayer.reset();
-
-        resetView();
-
-        // 可能是无音乐
-        if (TextUtils.isEmpty(music.getUrl())) return;
-
-        try {
-            mMediaPlayer.setDataSource(mMusic.getUrl());
-            mMediaPlayer.setLooping(isLooping());
-            mMediaPlayer.prepareAsync();
-
-            isPreparing = true;
-
-            if (null != mStateListener) {
-                mStateListener.onStartPrepare();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (null != mXMediaPlayer) {
+            mXMediaPlayer.resetMusic(music);
         }
     }
 
     private void playMusic() {
-        if (null == mMediaPlayer) return;
-        if (isPreparing) return;
-        if (!isPrepared) return;
-
-        if (mMediaPlayer.isPlaying()) {
-            pause();
-        } else {
-            start();
+        if (null != mXMediaPlayer) {
+            mXMediaPlayer.play();
         }
     }
 
-    private void start() {
-        if (null != mMediaPlayer) {
-            mMediaPlayer.start();
+    @Override
+    public void onStateChange(int state) {
+        Timber.i("onStateChange : " + state);
+        switch (state) {
+            case XMediaPlayer.STATE_IDLE:
+            case XMediaPlayer.STATE_STOP: // 未准备好的情况下不能点击，UI回到初始状态
+                resetView(false);
+                break;
+            case XMediaPlayer.STATE_PREPARING: // 开始准备，UI回到初始状态，并且通知状态变化
+                if (null != mStateListener) {
+                    mStateListener.onStartPrepare();
+                }
 
-            mControlIV.setImageResource(R.drawable.common_ic_music_stop_big);
+                resetView(false);
+                break;
+            case XMediaPlayer.STATE_PREPARED: // 准备好了，更新UI
+                resetView(true);
 
-            if (null == mDisposable) {
-                mDisposable = Observable.interval(100, TimeUnit.MILLISECONDS)
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Consumer<Long>() {
-                            @Override
-                            public void accept(Long aLong) throws Exception {
-                                if (null != mMediaPlayer && mMediaPlayer.isPlaying()) {
-                                    mSeekBar.setProgress(mMediaPlayer.getCurrentPosition());
-                                    mTime1TV.setText(mTimeFormat.format(mMediaPlayer.getCurrentPosition()));
+                if (null != mStateListener) {
+                    mStateListener.onPrepared();
+                }
+                break;
+            case XMediaPlayer.STATE_PLAYING: // 开始播放
+                // 开始一个计时器，每隔一个时间刷新一下进度
+                if (null == mDisposable) {
+                    mDisposable = Observable.interval(100, TimeUnit.MILLISECONDS)
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Consumer<Long>() {
+                                @Override
+                                public void accept(Long aLong) throws Exception {
+                                    if (null != mXMediaPlayer && mXMediaPlayer.isPlaying()) {
+                                        mSeekBar.setProgress(mXMediaPlayer.getCurrentPosition());
+                                        mTime1TV.setText(mTimeFormat.format(mXMediaPlayer.getCurrentPosition()));
+                                    }
                                 }
-                            }
-                        });
-            }
-        }
-    }
-
-    private void pause() {
-        if (null != mMediaPlayer) {
-            mMediaPlayer.pause();
-
-            mControlIV.setImageResource(R.drawable.common_ic_music_start_big);
-        }
-    }
-
-    private void stop() {
-        if (null != mMediaPlayer) {
-            mMediaPlayer.stop();
-
-            mControlIV.setImageResource(R.drawable.common_ic_music_start_big);
+                            });
+                }
+                // 播放图标变化
+                mControlIV.setImageResource(R.drawable.common_ic_music_stop_big);
+                break;
+            case XMediaPlayer.STATE_PAUSE:
+                // 播放图标变化
+                mControlIV.setImageResource(R.drawable.common_ic_music_start_big);
+                break;
         }
     }
 
@@ -229,52 +223,25 @@ public class MusicBoard extends FrameLayout implements MediaPlayer.OnPreparedLis
             mDisposable.dispose();
         }
 
-        if (null != mMediaPlayer) {
-            mMediaPlayer.stop();
-            mMediaPlayer.release();
-        }
-    }
-
-    @Override
-    public void onPrepared(MediaPlayer mp) {
-        Timber.i("onPrepared");
-
-        isPreparing = false;
-        isPrepared = true;
-
-        if (null != mMusic) {
-            mNameTV.setText(mMusic.getMusicName());
-
-
-            mTime1TV.setText(mTimeFormat.format(0L));
-            mTime2TV.setText(mTimeFormat.format(TimeUtils.millis2Date(mp.getDuration())));
-            mSeekBar.setMax(mp.getDuration());
-
-            mSeekBar.setEnabled(true);
-        }
-
-        if (null != mStateListener) {
-            mStateListener.onPrepared();
+        if (null != mXMediaPlayer) {
+            mXMediaPlayer.stop();
+            mXMediaPlayer.release();
         }
     }
 
     public void onPause() {
         Timber.i("onPause");
 
-        pause();
+        if (null != mXMediaPlayer) {
+            mXMediaPlayer.pause();
+        }
     }
 
     public void onStop() {
         Timber.i("onStop");
 
-        stop();
-    }
-
-    class ProgressThread implements Runnable {
-
-        @Override
-        public void run() {
-
+        if (null != mXMediaPlayer) {
+            mXMediaPlayer.stop();
         }
     }
 }
