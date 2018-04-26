@@ -34,4 +34,9 @@
     <string name="topic_template_select_hint">往往，人和人之间需要与众不同</string>
     <string name="topic_template_default">默认</string>
     <string name="topic_template_default_white">白色默认背景</string>
+    <string name="topic_dialog_shopping_title_1">查看该话题需支付</string>
+    <string name="topic_diamond">钻</string>
+    <string name="topic_balance_format">您当前余额为%1d钻</string>
+    <string name="topic_dialog_shopping_cancel">再逛逛</string>
+    <string name="topic_dialog_shopping_ok">去支付</string>
 </resources>
