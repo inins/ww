@@ -216,8 +216,12 @@ public class MusicBoard extends FrameLayout implements XMediaPlayer.StateListene
     }
 
     public void setLooping(boolean looping) {
+        setCircle(looping);
+    }
+
+    public void setCircle(boolean circle) {
         if (null != mXMediaPlayer) {
-            mXMediaPlayer.setCircle(looping);
+            mXMediaPlayer.setCircle(circle);
         }
     }
 
