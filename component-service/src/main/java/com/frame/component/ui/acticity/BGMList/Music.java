@@ -1,4 +1,4 @@
-package com.wang.social.topic.mvp.model.entities;
+package com.frame.component.ui.acticity.BGMList;
 
 import android.content.Intent;
 
@@ -23,7 +23,7 @@ public class Music {
     }
 
     public static Music newInstance(Intent intent) {
-        if (null == intent) return null;
+        if (null == intent) return defaultMusic();
 
         return new Music(
                 intent.getIntExtra("id", -1),

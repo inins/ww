@@ -40,6 +40,7 @@ dependencies {
         exclude module: 'okio'
     }
     api project(':basicres')
+    implementation project(':springlibrary')
     //photoView
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.github.chrisbanes:PhotoView:2.1.3'

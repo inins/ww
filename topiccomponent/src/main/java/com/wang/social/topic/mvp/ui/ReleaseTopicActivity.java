@@ -15,16 +15,20 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.frame.component.ui.acticity.BGMList.BGMListActivity;
+import com.frame.component.ui.acticity.BGMList.Music;
 import com.frame.component.ui.base.BaseAppActivity;
+import com.frame.component.view.MusicBoard;
+import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.wang.social.login.mvp.ui.TagSelectionActivity;
 import com.wang.social.topic.R;
 import com.wang.social.topic.R2;
-import com.wang.social.topic.StringUtil;
 import com.wang.social.topic.di.component.DaggerReleaseTopicComponent;
 import com.wang.social.topic.di.module.ReleaseTopicModule;
 import com.wang.social.topic.mvp.contract.ReleaseTopicContract;
+import com.wang.social.topic.mvp.model.entities.Template;
 import com.wang.social.topic.mvp.presenter.ReleaseTopicPresenter;
 
 import butterknife.BindView;
@@ -35,7 +39,10 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         implements ReleaseTopicContract.View {
 
     public final static int REQUEST_CODE_TEMPLATE = 1001;
+    public final static int REQUEST_CODE_BGM = 1002;
 
+    @BindView(R2.id.toolbar)
+    SocialToolbar mToolbar;
     @BindView(R2.id.title_edit_text)
     EditText mTitleET;
     @BindView(R2.id.title_count_text_view)
@@ -43,6 +50,9 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     // 标签
     @BindView(R2.id.topic_tags_text_view)
     TextView mTagsTV;
+    // 背景音乐
+    @BindView(R2.id.music_board_layout)
+    MusicBoard mMusicBoard;
 
     // 底部栏
     @BindView(R2.id.bottom_layout)
@@ -73,6 +83,14 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
+        mToolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
+            @Override
+            public void onButtonClick(SocialToolbar.ClickType clickType) {
+                if (clickType == SocialToolbar.ClickType.LEFT_ICON) {
+                    finish();
+                }
+            }
+        });
         mTitleET.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -113,6 +131,18 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
             mTabLayout.addTab(tab);
         }
+
+        mMusicBoard.setStateListener(new MusicBoard.StateListener() {
+            @Override
+            public void onStartPrepare() {
+                showLoadingDialog();
+            }
+
+            @Override
+            public void onPrepared() {
+                dismissLoadingDialog();
+            }
+        });
     }
 
     private View.OnClickListener mBottomBarListener = new View.OnClickListener() {
@@ -120,14 +150,17 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         public void onClick(View v) {
             if (v.getTag() instanceof Integer) {
                 int i = (int) v.getTag();
-
+                Timber.i("底部点击 : " + i);
                 switch (i) {
                     case 0: // 模板
                         TemplateActivity.start(ReleaseTopicActivity.this,
-                                mPresenter.getCurrentTemplateId(),
+                                mPresenter.getTemplate(),
                                 REQUEST_CODE_TEMPLATE);
                         break;
                     case 1: // 音乐
+                        BGMListActivity.start(ReleaseTopicActivity.this,
+                                mPresenter.getBGMusic(),
+                                REQUEST_CODE_BGM);
                         break;
                     case 2: // 语音
                         break;
@@ -148,14 +181,19 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
-                case REQUEST_CODE_TEMPLATE:
-                    int id = data.getIntExtra("id", -1);
-                    String url = data.getStringExtra("url");
+                case REQUEST_CODE_TEMPLATE: // 模板选择
+                    Template template = data.getParcelableExtra("template");
+                    Timber.i("onActivityResult : " + template.getId() + " " + template.getName());
 
-                    Timber.i("" + id + " " + url);
+                    mPresenter.setTemplate(template);
 
-                    mPresenter.setCurrentTemplateId(id);
-                    mPresenter.setCurrentTemplateUrl(StringUtil.assertNotNull(url));
+                    break;
+                case REQUEST_CODE_BGM: // 背景音乐
+                    Music music = Music.newInstance(data);
+                    Timber.i("onActivityResult " + music.getMusicId() + " " + music.getMusicName());
+
+                    mMusicBoard.resetMusic(music);
+                    mPresenter.setBGMusic(music);
 
                     break;
             }
@@ -223,5 +261,12 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     @Override
     public void hideLoading() {
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        mMusicBoard.onPause();
     }
 }

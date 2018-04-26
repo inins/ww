@@ -1,12 +1,11 @@
-package com.wang.social.topic.mvp.contract;
+package com.frame.component.ui.acticity.BGMList;
 
 import android.content.Context;
 
 import com.frame.http.api.BaseJson;
 import com.frame.mvp.IModel;
 import com.frame.mvp.IView;
-import com.wang.social.topic.mvp.model.entities.dto.MusicsDTO;
-import com.wang.social.topic.mvp.model.entities.dto.TemplatesDTO;
+import com.frame.component.ui.acticity.BGMList.MusicsDTO;
 
 import io.reactivex.Observable;
 
@@ -14,6 +13,7 @@ public interface BGMListContract {
     interface View extends IView {
         Context getViewContext();
         void onNotifyDataSetChanged();
+        void onLoadBGMListCompleted();
         String getDefaultMusicName();
         void resetStateAnim(boolean playing);
     }
