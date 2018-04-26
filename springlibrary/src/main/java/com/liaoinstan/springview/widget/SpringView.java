@@ -343,7 +343,7 @@ public class SpringView extends ViewGroup {
             case MotionEvent.ACTION_CANCEL:
                 break;
         }
-        return true;
+        return false;
     }
 
     /**
