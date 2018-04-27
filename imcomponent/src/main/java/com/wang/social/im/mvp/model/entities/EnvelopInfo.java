@@ -45,14 +45,18 @@ public class EnvelopInfo {
         SPELL
     }
 
-    private long envelopId;
-    private Status status;
-    private EnvelopType type;
-    private String fromUid;
-    private String fromPortrait;
-    private String fromNickname;
-    private String message;
-    private int gotDiamond;
+    private long envelopId; //红包ID
+    private Status status; //红包状态
+    private EnvelopType type; //红包类型
+    private String fromUid; //发送人用户ID
+    private String fromPortrait; //发送人头像
+    private String fromNickname; //发送人昵称
+    private String message; //消息
+    private int diamond; //红包总钻石数
+    private int gotDiamond; //获得钻石数
+    private int lastDiamond; //剩余钻石数
+    private int count; //总个数
+    private int lastCount; //剩余个数
 
     /**
      * 检测是否是自己发的红包

@@ -210,12 +210,12 @@ public class UIMessage {
     }
 
     /**
-     * 获取自定义消息内容Elem
+     * 获取自定义消息内容Elem数据
      *
      * @param elemType
      * @return
      */
-    public Object getCustomMessageElem(CustomElemType elemType, Gson gson) {
+    public Object getCustomMessageElemData(CustomElemType elemType, Gson gson) {
         try {
             for (int i = 0, max = (int) timMessage.getElementCount(); i < max; i++) {
                 TIMElem elem = timMessage.getElement(i);

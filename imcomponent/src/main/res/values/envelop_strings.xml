@@ -31,4 +31,6 @@
     <string name="im_envelop_status_adopt">领取红包</string>
     <string name="im_envelop_status_adopted">红包已领取</string>
     <string name="im_envelop_status_overdue">红包已领取</string>
+
+    <string name="im_envelop_toast_limit">每个红包钻石数不能大于%d</string>
 </resources>

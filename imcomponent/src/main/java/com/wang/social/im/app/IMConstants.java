@@ -34,6 +34,16 @@ public interface IMConstants {
     String CUSTOM_ELEM_SHADOW = "doppelganger";
 
     /**
+     * 个人红包上限
+     */
+    int PRIVATE_ENVELOP_DIAMOND_LIMIT = 2000;
+
+    /**
+     * 群红包每人上限
+     */
+    int MULTI_ENVELOP_DIAMOND_LIMIT = 20000;
+
+    /**
      * 撤回消息发送时间超过两分钟
      */
     int TIM_ERROR_CODE_REVOKE_TIMEOUT = 6223;

@@ -93,7 +93,7 @@ public class EnvelopViewHolder extends BaseMessageViewHolder<UIMessage> {
         }
 
         //显示红包信息
-        EnvelopElemData elem = (EnvelopElemData) itemValue.getCustomMessageElem(CustomElemType.RED_ENVELOP, gson);
+        EnvelopElemData elem = (EnvelopElemData) itemValue.getCustomMessageElemData(CustomElemType.RED_ENVELOP, gson);
         if (elem != null){
             msgTvMessage.setText(elem.getMessage() == null ? "" : elem.getMessage());
             EnvelopMessageCacheInfo cacheInfo = itemValue.getEnvelopCacheInfo(gson);

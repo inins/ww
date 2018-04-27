@@ -22,6 +22,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.frame.base.BaseFragment;
+import com.frame.component.ui.dialog.DialogLoading;
 import com.frame.component.utils.UIUtil;
 import com.frame.di.component.AppComponent;
 import com.frame.utils.SizeUtils;
@@ -51,12 +52,14 @@ import com.wang.social.im.enums.MessageType;
 import com.frame.component.helper.sound.AudioPlayManager;
 import com.frame.component.helper.sound.AudioRecordManager;
 import com.wang.social.im.mvp.contract.ConversationContract;
+import com.wang.social.im.mvp.model.entities.EnvelopInfo;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 import com.wang.social.im.mvp.presenter.ConversationPresenter;
 import com.wang.social.im.mvp.ui.adapters.MessageListAdapter;
 import com.wang.social.im.mvp.ui.adapters.holders.BaseMessageViewHolder;
 import com.wang.social.im.view.IMInputView;
 import com.wang.social.im.view.plugin.PluginModule;
+import com.wang.social.im.widget.EnvelopDialog;
 import com.wang.social.im.widget.MessageHandlePopup;
 import com.wang.social.location.mvp.model.entities.LocationInfo;
 import com.wang.social.location.mvp.ui.LocationActivity;
@@ -67,6 +70,7 @@ import com.wang.social.pictureselector.PictureSelector;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,6 +98,8 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     @BindView(R2.id.fc_input)
     IMInputView fcInput;
 
+    private WeakReference<DialogLoading> mLoading;
+
     private ConversationType mConversationType;
     private String mTargetId;
 
@@ -119,6 +125,8 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mOffsetLimit = SizeUtils.dp2px(70);
+
+        mLoading = new WeakReference<>(new DialogLoading(getActivity()));
 
         AudioRecordManager.getInstance().setRecordListener(new RecordListener());
     }
@@ -265,12 +273,17 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
 
     @Override
     public void showLoading() {
-
+        if (mLoading.get() == null) {
+            mLoading = new WeakReference<>(new DialogLoading(getActivity()));
+        }
+        mLoading.get().show();
     }
 
     @Override
     public void hideLoading() {
-
+        if (mLoading.get() != null) {
+            mLoading.get().dismiss();
+        }
     }
 
     @Override
@@ -328,6 +341,12 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     }
 
     @Override
+    public void showEnvelopDialog(UIMessage uiMessage, EnvelopInfo envelopInfo) {
+        EnvelopDialog envelopDialog = new EnvelopDialog(getActivity(), uiMessage, envelopInfo);
+        envelopDialog.show();
+    }
+
+    @Override
     public void onPluginClick(PluginModule pluginModule) {
         switch (pluginModule.getPluginType()) {
             case IMAGE: //图片选择
@@ -345,7 +364,7 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
                         break;
                     case TEAM:
                     case SOCIAL:
-                        CreateMultiEnvelopActivity.start(getActivity(), REQUEST_CREATE_ENVELOP);
+                        CreateMultiEnvelopActivity.start(getActivity(), mTargetId, REQUEST_CREATE_ENVELOP);
                         break;
                 }
                 break;
@@ -457,6 +476,9 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
                 TIMLocationElem locationElem = (TIMLocationElem) uiMessage.getMessageElem(TIMLocationElem.class);
                 LocationShowActivity.start(getActivity(), locationElem.getLatitude(), locationElem.getLongitude());
                 break;
+            case RED_ENVELOP:
+                mPresenter.getEnvelopInfo(uiMessage);
+                break;
         }
     }
 
@@ -528,6 +550,15 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
             TIMConversationExt ext = new TIMConversationExt(mConversation);
             ext.syncMsgRevokedNotification(null);
         }
+    }
+
+    /**
+     * 消息发生改变
+     * @param uiMessage
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageChanged(UIMessage uiMessage){
+        refreshMessage(uiMessage);
     }
 
     private class RecordListener implements AudioRecordManager.OnRecordListener {

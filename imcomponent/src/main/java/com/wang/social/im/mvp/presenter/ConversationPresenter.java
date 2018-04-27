@@ -3,6 +3,9 @@ package com.wang.social.im.mvp.presenter;
 import android.support.annotation.NonNull;
 
 import com.frame.di.scope.FragmentScope;
+import com.frame.http.api.ApiHelper;
+import com.frame.http.api.error.ErrorHandleSubscriber;
+import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
 import com.frame.utils.ToastUtil;
 import com.google.gson.Gson;
@@ -21,8 +24,10 @@ import com.tencent.imsdk.ext.message.TIMConversationExt;
 import com.tencent.imsdk.ext.message.TIMMessageExt;
 import com.wang.social.im.R;
 import com.wang.social.im.app.IMConstants;
+import com.wang.social.im.enums.CustomElemType;
 import com.wang.social.im.mvp.contract.ConversationContract;
 import com.wang.social.im.mvp.model.entities.EnvelopElemData;
+import com.wang.social.im.mvp.model.entities.EnvelopInfo;
 import com.wang.social.im.mvp.model.entities.LocationAddressInfo;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 import com.wang.social.im.mvp.ui.adapters.MessageListAdapter;
@@ -33,6 +38,10 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 
 /**
  * ======================================
@@ -49,6 +58,10 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
 
     @Inject
     Gson gson;
+    @Inject
+    ApiHelper mApiHelper;
+    @Inject
+    RxErrorHandler mErrorHandler;
 
     @Inject
     public ConversationPresenter(ConversationContract.Model model, ConversationContract.View view) {
@@ -241,6 +254,32 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
         timMessage.addElement(locationElem);
 
         doSendMessage(timMessage);
+    }
+
+    /**
+     * 获取红包详情
+     * @param uiMessage
+     */
+    public void getEnvelopInfo(UIMessage uiMessage) {
+        EnvelopElemData envelopElemData = (EnvelopElemData) uiMessage.getCustomMessageElemData(CustomElemType.RED_ENVELOP, gson);
+        if (envelopElemData != null){
+            mApiHelper.execute(mRootView, mModel.getEnvelopInfo(envelopElemData.getEnvelopId()), new ErrorHandleSubscriber<EnvelopInfo>(mErrorHandler) {
+                @Override
+                public void onNext(EnvelopInfo envelopInfo) {
+                    mRootView.showEnvelopDialog(uiMessage, envelopInfo);
+                }
+            }, new Consumer<Disposable>() {
+                @Override
+                public void accept(Disposable disposable) throws Exception {
+                    mRootView.showLoading();
+                }
+            }, new Action() {
+                @Override
+                public void run() throws Exception {
+                    mRootView.hideLoading();
+                }
+            });
+        }
     }
 
     /**
