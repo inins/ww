@@ -39,4 +39,10 @@
     <string name="topic_balance_format">您当前余额为%1d钻</string>
     <string name="topic_dialog_shopping_cancel">再逛逛</string>
     <string name="topic_dialog_shopping_ok">去支付</string>
+    <string name="topic_et_al">等人</string>
+    <string name="topic_comment_edit_hint">说说你的看法吧</string>
+    <string name="topic_send">发送</string>
+    <string name="topic_reply">回复</string>
+    <string name="topic_reply_comment">回复评论</string>
+    <string name="topic_top_user_comment_count_format">参与%1d话题</string>
 </resources>

@@ -1,13 +1,11 @@
 package com.wang.social.topic.mvp.presenter;
 
-import com.frame.component.view.barview.BarUser;
 import com.frame.di.scope.FragmentScope;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
 import com.wang.social.topic.mvp.contract.TopicContract;
-import com.wang.social.topic.mvp.model.entities.Tag;
 import com.wang.social.topic.mvp.model.entities.Tags;
 import com.wang.social.topic.mvp.model.entities.TopicTopUser;
 import com.wang.social.topic.mvp.model.entities.TopicTopUsers;
@@ -31,31 +29,56 @@ public class TopicPresenter extends
     @Inject
     ApiHelper mApiHelper;
 
+    List<TopicTopUser> mTopicTopUserList = new ArrayList<>();
+
+    private int mSize = 10;
+    private int mCurrent = 0;
+
     @Inject
     public TopicPresenter(TopicContract.Model model, TopicContract.View view) {
         super(model, view);
     }
 
+    public List<TopicTopUser> getTopicTopUserList() {
+        return mTopicTopUserList;
+    }
+
     /**
      * 加载知识魔列表
      */
-    public void getReleaseTopicTopUser() {
+    public void getReleaseTopicTopUser(boolean refresh) {
+        if (refresh) {
+            mCurrent = 0;
+            mTopicTopUserList.clear();
+        }
         mApiHelper.execute(mRootView,
-                mModel.getReleaseTopicTopUser(3, 0, "square"),
+                mModel.getReleaseTopicTopUser(mSize, mCurrent + 1, "square"),
                 new ErrorHandleSubscriber<TopicTopUsers>(mErrorHandler) {
                     @Override
                     public void onNext(TopicTopUsers topicTopUsers) {
-                        List<BarUser> list = new ArrayList<>();
-                        for (int i = 0; i < Math.min(5, topicTopUsers.getList().size()); i++) {
-                            TopicTopUser user = topicTopUsers.getList().get(i);
-                            list.add(new BarUser(user.getAvatar()));
+                        if (topicTopUsers.getList() != null &&
+                                topicTopUsers.getList().size() > 0) {
+                            mCurrent++;
                         }
 
-                        mRootView.onTopicTopUserLoaded(list);
+                        mTopicTopUserList.addAll(topicTopUsers.getList());
+
+                        mRootView.onTopicTopUserLoadSuccess();
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                    }
+                }, new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+//                        mRootView.showLoading();
+                    }
+                }, new Action() {
+                    @Override
+                    public void run() throws Exception {
+//                        mRootView.hideLoading();
+                        mRootView.onTopicTopUserLoadCompleted();
                     }
                 });
     }

@@ -1,7 +1,13 @@
 package com.wang.social.topic;
 
+import android.content.Context;
+
+import com.frame.utils.TimeUtils;
+
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class StringUtil {
     public static String assertNotNull(String str) {
@@ -53,5 +59,30 @@ public class StringUtil {
             }
         }
         return age;
+    }
+
+    public static String formatCreateDate(Context context, long mills) {
+        String dateString;
+        Date date = new Date();
+//        long mills = TimeUtils.string2Millis(topic.getCreateTime());
+        date.setTime(mills);
+        if (TimeUtils.isToday(date)) {
+            dateString = context.getString(R.string.topic_today) +
+                    new SimpleDateFormat("HH:mm", Locale.getDefault()).format(date);
+        } else {
+            dateString = new SimpleDateFormat("MM-dd HH:mm", Locale.getDefault()).format(date);
+        }
+
+        return dateString;
+    }
+
+    public static String getBirthYears(long mills) {
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(mills);
+        int year = c.get(Calendar.YEAR);
+        year = year - (year % 10);
+        year = year % 100;
+        if (year == 0) return "00";
+        return Integer.toString(year);
     }
 }

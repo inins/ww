@@ -316,4 +316,30 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
     public void showToast(String msg) {
         ToastUtil.showToastLong(msg);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        mContentWV.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        mContentWV.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        mContentWV.destroy();
+    }
 }

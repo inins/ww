@@ -1,51 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/root_view">
 
-    <com.frame.component.view.SocialToolbar
-        android:id="@+id/topic_socialtoolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?android:actionBarSize"
-        app:toolbar_left_icon="@drawable/common_ic_back">
 
-    </com.frame.component.view.SocialToolbar>
-
-    <TextView
-        android:id="@+id/topic_textview3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="10dp"
-        android:text="@string/topic_zhi_shi_mo"
-        android:textColor="@color/common_text_blank"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topic_socialtoolbar" />
-
-    <TextView
-        android:id="@+id/topic_textview4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="7dp"
-        android:text="@string/topic_top_user_hint"
-        android:textColor="@color/common_text_blank"
-        android:textSize="13sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topic_textview3" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topic_textview4" />
-
-</android.support.constraint.ConstraintLayout>
+</FrameLayout>

@@ -8,10 +8,23 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.frame.base.BasicActivity;
+import com.frame.component.ui.base.BaseAppActivity;
+import com.frame.component.view.barview.BarUser;
 import com.frame.di.component.AppComponent;
+import com.liaoinstan.springview.container.AliFooter;
+import com.liaoinstan.springview.container.AliHeader;
+import com.liaoinstan.springview.widget.SpringView;
 import com.wang.social.topic.R;
 import com.wang.social.topic.R2;
+import com.wang.social.topic.di.component.DaggerTopicComponent;
+import com.wang.social.topic.di.module.TopicModule;
+import com.wang.social.topic.mvp.contract.TopicContract;
+import com.wang.social.topic.mvp.model.entities.Tag;
+import com.wang.social.topic.mvp.presenter.TopicPresenter;
 import com.wang.social.topic.mvp.ui.adapter.TopUserAdapter;
+import com.wang.social.topic.mvp.ui.fragment.TopUserFragment;
+
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -21,9 +34,6 @@ public class TopUserActivity extends BasicActivity {
         Intent intent = new Intent(context, TopUserActivity.class);
         context.startActivity(intent);
     }
-
-    @BindView(R2.id.recycler_view)
-    RecyclerView mRecyclerView;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -37,7 +47,8 @@ public class TopUserActivity extends BasicActivity {
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
-        mRecyclerView.setAdapter(new TopUserAdapter(mRecyclerView));
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.root_view, new TopUserFragment())
+                .commit();
     }
 }

@@ -31,12 +31,15 @@
         </activity>
         <activity android:name=".mvp.ui.TopUserActivity"
             android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity android:name=".mvp.ui.CommentActivity"
             android:screenOrientation="portrait">
-
         </activity>
 
         <activity android:name=".mvp.ui.SearchActivity"
@@ -45,11 +48,6 @@
 
         <activity android:name=".mvp.ui.ReleaseTopicActivity"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity android:name=".mvp.ui.TemplateActivity"

@@ -28,6 +28,7 @@ import com.wang.social.topic.di.component.DaggerTopicComponent;
 import com.wang.social.topic.di.module.TopicModule;
 import com.wang.social.topic.mvp.contract.TopicContract;
 import com.wang.social.topic.mvp.model.entities.Tag;
+import com.wang.social.topic.mvp.model.entities.TopicTopUser;
 import com.wang.social.topic.mvp.presenter.TopicPresenter;
 import com.wang.social.topic.mvp.ui.SearchActivity;
 import com.wang.social.topic.mvp.ui.TopUserActivity;
@@ -119,7 +120,7 @@ public class TopicFragment extends BaseFragment<TopicPresenter> implements Topic
         initTopicList();
 
         // 加载知识魔
-        mPresenter.getReleaseTopicTopUser();
+        mPresenter.getReleaseTopicTopUser(true);
 
         // 加载标签数据
         mPresenter.myRecommendTag();
@@ -209,14 +210,26 @@ public class TopicFragment extends BaseFragment<TopicPresenter> implements Topic
     }
 
     @Override
-    public void onTopicTopUserLoaded(List<BarUser> list) {
+    public void onTopicTopUserLoadSuccess() {
 
 //        mBarView.refreshData(new ArrayList<BarUser>() {{
 //            add(new BarUser("http://i-7.vcimg.com/trim/48b866104e7efc1ffd7367e7423296c11060910/trim.jpg"));
 //            add(new BarUser("https://tse3-mm.cn.bing.net/th?id=OIP.XzZcrXAIrxTtUH97rMlNGQHaEo&p=0&o=5&pid=1.1"));
 //            add(new BarUser("http://photos.tuchong.com/23552/f/624083.jpg"));
 //        }});
+
+
+        List<BarUser> list = new ArrayList<>();
+        for (int i = 0; i < Math.min(5, mPresenter.getTopicTopUserList().size()); i++) {
+            TopicTopUser user = mPresenter.getTopicTopUserList().get(i);
+            list.add(new BarUser(user.getAvatar()));
+        }
         mBarView.refreshData(list);
+    }
+
+    @Override
+    public void onTopicTopUserLoadCompleted() {
+
     }
 
     @Override

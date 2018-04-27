@@ -1,6 +1,7 @@
 package com.wang.social.topic.mvp.model;
 
 import com.frame.component.common.NetParam;
+import com.frame.di.scope.ActivityScope;
 import com.frame.di.scope.FragmentScope;
 import com.frame.http.api.BaseJson;
 import com.frame.integration.IRepositoryManager;

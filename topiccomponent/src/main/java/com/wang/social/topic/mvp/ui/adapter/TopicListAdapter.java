@@ -20,6 +20,7 @@ import com.frame.utils.FrameUtils;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.TimeUtils;
 import com.wang.social.topic.R;
+import com.wang.social.topic.StringUtil;
 import com.wang.social.topic.mvp.model.entities.Tag;
 import com.wang.social.topic.mvp.model.entities.Topic;
 import com.wang.social.topic.mvp.model.entities.TopicTag;
@@ -98,17 +99,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
             holder.blankView.setVisibility(View.INVISIBLE);
         }
         // 创建时间
-        Date date = new Date();
-//        long mills = TimeUtils.string2Millis(topic.getCreateTime());
-        date.setTime(topic.getCreateTime());
-        String dateString;
-        if (TimeUtils.isToday(date)) {
-            dateString = mContext.getString(R.string.topic_today) +
-                    new SimpleDateFormat("HH:mm", Locale.getDefault()).format(date);
-        } else {
-            dateString = new SimpleDateFormat("MM-dd HH:mm", Locale.getDefault()).format(date);
-        }
-        holder.createDateTV.setText(dateString);
+        holder.createDateTV.setText(StringUtil.formatCreateDate(mContext, topic.getCreateTime()));
         // 话题标题
         holder.titleTV.setText(topic.getTitle());
         // 简要
