@@ -5,11 +5,16 @@ import android.graphics.Color;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.widget.EditText;
 
 import com.frame.component.common.ConerBkSpan;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class ConerEditText extends android.support.v7.widget.AppCompatEditText {
 
@@ -61,7 +66,7 @@ public class ConerEditText extends android.support.v7.widget.AppCompatEditText {
     }
 
     private SpannableString getConerSpanString(String text) {
-        String[] strs = text.trim().split(" ");
+        String[] strs = text.split(" ");
         int colorBk = Color.parseColor("#cccccc");
         int colorText = Color.parseColor("#ffffff");
 
@@ -69,6 +74,10 @@ public class ConerEditText extends android.support.v7.widget.AppCompatEditText {
 
         int end = 0;
         for (int i = 0; i < strs.length; i++) {
+            if (!text.endsWith(" ") && i == strs.length - 1) {
+                //当最后一个字符不是空格时，最后一段视为内容，不显示为标签
+                continue;
+            }
             int start = end + 1;
             if (i == 0) start = 0;
             end = start + strs[i].length();
@@ -80,5 +89,29 @@ public class ConerEditText extends android.support.v7.widget.AppCompatEditText {
 
     private static void setTextWithSelectionAtLast(EditText editText) {
         editText.setSelection(editText.getText().length());
+    }
+
+    public List<String> getTags() {
+        List<String> tags = new ArrayList<>();
+        Editable s = getText();
+        ConerBkSpan[] spans = s.getSpans(0, s.length(), ConerBkSpan.class);
+        for (int i = 0; i < spans.length; i++) {
+            int start = s.getSpanStart(spans[i]);
+            int end = s.getSpanEnd(spans[i]);
+            String spanStr = s.toString().substring(start, end);
+            tags.add(spanStr);
+        }
+        return tags;
+    }
+
+    public String getKey() {
+        String content = getText().toString();
+        if (TextUtils.isEmpty(content.trim())) return "";
+        String[] strs = content.split(" ");
+        if (content.endsWith(" ")) {
+            return "";
+        } else {
+            return strs[strs.length - 1];
+        }
     }
 }

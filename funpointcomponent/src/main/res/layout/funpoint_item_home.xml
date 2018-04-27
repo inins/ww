@@ -11,6 +11,7 @@
     android:padding="15dp">
 
     <TextView
+        android:id="@+id/text_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="暴跌90%，有一个巨头，坠落了"
@@ -18,6 +19,7 @@
         android:textSize="16sp" />
 
     <TextView
+        android:id="@+id/text_note"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
@@ -26,6 +28,7 @@
         android:textSize="10sp" />
 
     <android.support.v7.widget.CardView
+        android:id="@+id/card_pic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"

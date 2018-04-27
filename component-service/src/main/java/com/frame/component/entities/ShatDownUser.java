@@ -1,10 +1,7 @@
 package com.frame.component.entities;
 
-import android.text.TextUtils;
-
 import com.frame.component.api.Api;
 import com.frame.utils.StrUtil;
-import com.frame.utils.TimeUtils;
 
 import java.io.Serializable;
 import java.util.List;
@@ -16,7 +13,7 @@ import lombok.Data;
  * 用户实体
  */
 @Data
-public class User implements Serializable {
+public class ShatDownUser implements Serializable {
 
     /**
      * id : 1
@@ -35,12 +32,7 @@ public class User implements Serializable {
     private String nickname;
     private String avatar;
     private int sex;
-    private long createTime;
-    private String phone;
-    private String birthday;
-    private String province;
-    private String city;
-    private String constellation;
+    private long birthday;
     private String autograph;
     private List<Tag> tags;
 
@@ -68,17 +60,5 @@ public class User implements Serializable {
         } else {
             return "";
         }
-    }
-
-    public int getProvinceInt() {
-        return StrUtil.str2int(province);
-    }
-
-    public int getCityInt() {
-        return StrUtil.str2int(city);
-    }
-
-    public String getQrcodeImg() {
-        return Api.DOMAIN + Api.USER_QRCODE + "?v=2.0.0&userId=" + userId;
     }
 }

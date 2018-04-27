@@ -56,10 +56,10 @@ public class Funshow implements Serializable {
         return (resourceUrl != null && resourceUrl.isVidoe());
     }
 
-    public FunshowListRsc getFirstVideoOrImg() {
+    public FunshowListRsc getFirstImg() {
         if (StrUtil.isEmpty(talkImage)) return null;
         for (FunshowListRsc resource : talkImage) {
-            if (!resource.isVoice()) {
+            if (resource.isImg()) {
                 return resource;
             }
         }

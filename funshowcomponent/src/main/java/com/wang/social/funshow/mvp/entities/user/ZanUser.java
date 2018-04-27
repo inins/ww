@@ -1,5 +1,10 @@
 package com.wang.social.funshow.mvp.entities.user;
 
+import com.frame.component.entities.Tag;
+import com.frame.utils.StrUtil;
+
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -22,7 +27,7 @@ public class ZanUser {
     private int userId;
     private String nickname;
     private String avatar;
-    private String tags;
+    private List<Tag> tags;
     private int sex;
     private long birthday;
     private String constellation;
@@ -32,4 +37,14 @@ public class ZanUser {
     public boolean isMale() {
         return sex == 0;
     }
+
+    public String getTagText() {
+        if (StrUtil.isEmpty(tags)) return "";
+        String tagText = "";
+        for (Tag tag : tags) {
+            tagText += "#" + tag.getTagName() + " ";
+        }
+        return tagText.trim();
+    }
+
 }

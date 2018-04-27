@@ -68,6 +68,14 @@ public class FunshowDetail {
         }
     }
 
+    public FunshowDetailVideoRsc getVideoRsc() {
+        if (resourceUrl != null && resourceUrl.isVidoe()) {
+            return resourceUrl;
+        } else {
+            return null;
+        }
+    }
+
     public int getPicCount() {
         return pics != null ? pics.size() : 0;
     }

@@ -29,31 +29,32 @@
         app:layout_constraintTop_toBottomOf="@+id/text_name">
 
         <TextView
+            android:id="@+id/text_lable_gender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/common_white"
-            android:gravity="center"
-            android:textSize="11sp"
-            android:drawableLeft="@drawable/common_ic_man"
-            android:paddingLeft="7dp"
+            android:background="@drawable/common_select_gender_bk"
+            android:drawableLeft="@drawable/common_select_gender"
             android:drawablePadding="5dp"
+            android:gravity="center"
+            android:paddingLeft="7dp"
             android:paddingRight="8dp"
-            android:background="@drawable/common_shape_rect_bluegray_conerfull"
-            android:text="00后" />
+            android:text="00后"
+            android:textColor="@color/common_white"
+            android:textSize="11sp" />
 
         <TextView
+            android:id="@+id/text_lable_astro"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/common_white"
             android:layout_marginLeft="10dp"
+            android:background="@drawable/common_shape_rect_dark_conerfull"
+            android:checked="true"
             android:gravity="center"
-            android:textSize="11sp"
-            android:drawableLeft="@drawable/common_ic_women"
             android:paddingLeft="7dp"
-            android:drawablePadding="5dp"
             android:paddingRight="8dp"
-            android:background="@drawable/common_shape_rect_redgray_conerfull"
-            android:text="00后" />
+            android:text="白羊座"
+            android:textColor="@color/common_white"
+            android:textSize="11sp" />
 
     </LinearLayout>
 
@@ -70,7 +71,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/text_detail"
+        android:id="@+id/text_tags"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"

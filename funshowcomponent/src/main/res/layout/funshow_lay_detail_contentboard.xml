@@ -72,18 +72,33 @@
         app:layout_constraintTop_toBottomOf="@+id/img_header"
         tools:text="暴跌90%，有一个巨头，坠落了" />
 
-    <com.frame.component.view.bundleimgview.BundleImgView
-        android:id="@+id/bundleview"
+    <FrameLayout
+        android:id="@+id/lay_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        app:colcount="3"
-        app:corner="0dp"
-        app:editble="false"
         app:layout_constraintStart_toStartOf="@+id/text_title"
-        app:layout_constraintTop_toBottomOf="@+id/text_title"
-        app:space_width="5dp"
-        app:wihi="0.87" />
+        app:layout_constraintTop_toBottomOf="@+id/text_title">
+
+        <com.wang.social.funshow.mvp.ui.view.CtrlVideoView
+            android:id="@+id/videoview"
+            android:layout_width="match_parent"
+            android:layout_height="360dp"
+            android:visibility="gone" />
+
+        <com.frame.component.view.bundleimgview.BundleImgView
+            android:id="@+id/bundleview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:colcount="3"
+            app:corner="0dp"
+            app:editble="false"
+            app:space_width="5dp"
+            app:wihi="0.87"
+            tools:visibility="visible" />
+
+    </FrameLayout>
 
     <TextView
         android:id="@+id/text_position"
@@ -94,8 +109,8 @@
         android:drawablePadding="2dp"
         android:textColor="@color/common_text_dark"
         android:textSize="11sp"
-        app:layout_constraintLeft_toLeftOf="@id/bundleview"
-        app:layout_constraintTop_toBottomOf="@id/bundleview"
+        app:layout_constraintLeft_toLeftOf="@id/lay_content"
+        app:layout_constraintTop_toBottomOf="@id/lay_content"
         tools:text="四川省成都市" />
 
 </android.support.constraint.ConstraintLayout>

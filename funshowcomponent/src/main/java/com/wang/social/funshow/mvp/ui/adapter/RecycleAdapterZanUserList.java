@@ -46,7 +46,7 @@ public class RecycleAdapterZanUserList extends BaseAdapter<ZanUser> {
             textLableGender.setSelected(!bean.isMale());
             textLableGender.setText(TimeUtils.getBirthdaySpan(bean.getBirthday()));
             textLableAstro.setText(TimeUtils.getAstro(bean.getBirthday()));
-            textTag.setText(bean.getTags());
+            textTag.setText(bean.getTagText());
         }
 
         @Override

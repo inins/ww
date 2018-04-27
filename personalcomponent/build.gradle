@@ -1,7 +1,7 @@
 //if (project.isRunAlone) {
-//    apply plugin: 'com.android.application'
+    apply plugin: 'com.android.application'
 //} else {
-    apply plugin: 'com.component.build'
+//    apply plugin: 'com.component.build'
 //}
 apply plugin: 'com.jakewharton.butterknife'
 
@@ -97,10 +97,9 @@ dependencies {
     implementation 'com.kyleduo.switchbutton:library:1.4.6'
     //支持flow布局的RecyclerView布局管理器
     compile 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'
-    //SpringView
-    compile 'com.liaoinstan.springview:library:1.3.1'
     implementation project(':pictureselectorcomponent')
     implementation project(':socializecomponent')
+    implementation project(':springlibrary')
 }
 
 if (!project.isRunAlone) {

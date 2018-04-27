@@ -1,8 +1,11 @@
 package com.wang.social.funshow.mvp.ui.controller;
 
+import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.ui.acticity.BGMList.Music;
@@ -20,6 +23,7 @@ import com.wang.social.funshow.R2;
 import com.wang.social.funshow.mvp.entities.funshow.FunshowDetail;
 import com.wang.social.funshow.mvp.entities.funshow.FunshowDetailVideoRsc;
 import com.wang.social.funshow.mvp.model.api.FunshowService;
+import com.wang.social.funshow.mvp.ui.view.CtrlVideoView;
 import com.wang.social.funshow.mvp.ui.view.MusicBubbleView;
 import com.wang.social.funshow.utils.FunShowUtil;
 
@@ -37,6 +41,8 @@ public class FunshowDetailContentBoardController extends BaseController {
     ImageView imgHeader;
     @BindView(R2.id.bundleview)
     BundleImgView bundleview;
+    @BindView(R2.id.videoview)
+    CtrlVideoView videoview;
     @BindView(R2.id.text_position)
     TextView textPosition;
     @BindView(R2.id.text_time)
@@ -80,21 +86,38 @@ public class FunshowDetailContentBoardController extends BaseController {
             textTitle.setText(funshowDetail.getTalkContent());
             textTime.setText(FunShowUtil.getFunshowTimeStr(funshowDetail.getCreateTime()));
             textPosition.setText(funshowDetail.getProvince() + funshowDetail.getCity());
-            //设置图片集
-            if (funshowDetail.getPicCount() == 1) {
-                bundleview.setColcountWihi(1, 1.76f);
-            } else if (funshowDetail.getPicCount() == 2) {
-                bundleview.setColcountWihi(2, 0.87f);
-            } else if (funshowDetail.getPicCount() >= 3 && funshowDetail.getPicCount() <= 9) {
-                bundleview.setColcountWihi(3, 0.87f);
+
+
+            //设置视频
+            FunshowDetailVideoRsc videoRsc = funshowDetail.getVideoRsc();
+            if (videoRsc != null) {
+                videoview.setVisibility(View.VISIBLE);
+                videoview.setVideoURL(videoRsc.getUrl());
+            } else {
+                videoview.setVisibility(View.GONE);
+
+                //设置图片集
+                if (funshowDetail.getPicCount() != 0) {
+                    if (funshowDetail.getPicCount() == 1) {
+                        bundleview.setColcountWihi(1, 1.76f);
+                    } else if (funshowDetail.getPicCount() == 2) {
+                        bundleview.setColcountWihi(2, 0.87f);
+                    } else if (funshowDetail.getPicCount() >= 3 && funshowDetail.getPicCount() <= 9) {
+                        bundleview.setColcountWihi(3, 0.87f);
+                    }
+                    bundleview.setPhotos(funshowDetail.getBundleImgEntities());
+                    bundleview.setVisibility(View.VISIBLE);
+                } else {
+                    bundleview.setVisibility(View.GONE);
+                }
             }
-            bundleview.setPhotos(funshowDetail.getBundleImgEntities());
+
             //设置音乐
             FunshowDetailVideoRsc musicRsc = funshowDetail.getMusicRsc();
             if (musicRsc != null) {
                 musicbubble.resetMusic(musicRsc.trans2Music());
                 musicbubble.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 musicbubble.setVisibility(View.GONE);
             }
         }

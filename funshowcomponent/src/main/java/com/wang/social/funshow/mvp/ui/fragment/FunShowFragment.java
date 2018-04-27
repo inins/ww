@@ -11,12 +11,14 @@ import android.view.View;
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseFragment;
 import com.frame.component.common.ItemDecorationDivider;
+import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.NetLoginTestHelper;
 import com.frame.component.view.barview.BarUser;
 import com.frame.component.view.barview.BarView;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.utils.SizeUtils;
+import com.frame.utils.ToastUtil;
 import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
@@ -94,6 +96,13 @@ public class FunShowFragment extends BaseFragment<FunshowListPresonter> implemen
     public void initData(@Nullable Bundle savedInstanceState) {
         adapter = new RecycleAdapterHome();
         adapter.setOnItemClickListener(this);
+        adapter.setOnDislikeClickListener((v, funshow) -> {
+            if (funshow.getUserId() == AppDataHelper.getUser().getUserId()) {
+                ToastUtil.showToastShort("不能屏蔽自己");
+            } else {
+                mPresenter.shatDownUser(funshow.getUserId());
+            }
+        });
         recycler.setNestedScrollingEnabled(false);
         recycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recycler.setAdapter(adapter);
@@ -153,6 +162,11 @@ public class FunShowFragment extends BaseFragment<FunshowListPresonter> implemen
 
     @Override
     public void hideLoading() {
+    }
+
+    @Override
+    public void callRefresh() {
+        springView.callFresh();
     }
 
     @Override

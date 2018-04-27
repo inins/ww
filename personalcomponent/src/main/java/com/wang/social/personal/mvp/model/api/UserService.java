@@ -1,5 +1,7 @@
 package com.wang.social.personal.mvp.model.api;
 
+import com.frame.component.entities.ShatDownUser;
+import com.frame.component.entities.User;
 import com.frame.http.api.BaseJson;
 import com.frame.component.entities.BaseListWrap;
 import com.wang.social.personal.mvp.entities.AccountBalance;
@@ -156,5 +158,9 @@ public interface UserService {
     //设置是否展示年龄
     @GET("/app/privacy/showAge?v=2.0.0")
     Observable<BaseJson<Object>> privateShowAge();
+
+    //屏蔽用户列表
+    @GET("/app/userInfo/getMyShieldList?v=2.0.0")
+    Observable<BaseJson<BaseListWrap<ShatDownUser>>> shatDownList();
 
 }

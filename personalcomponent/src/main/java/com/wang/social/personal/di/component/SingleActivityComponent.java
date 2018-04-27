@@ -6,6 +6,7 @@ import com.wang.social.personal.di.module.MeDetailModule;
 import com.wang.social.personal.di.module.UserModule;
 import com.wang.social.personal.mvp.ui.activity.AccountActivity;
 import com.wang.social.personal.mvp.ui.activity.AccountExchangeActivity;
+import com.wang.social.personal.mvp.ui.activity.BlackListActivity;
 import com.wang.social.personal.mvp.ui.activity.FeedbackActivity;
 import com.wang.social.personal.mvp.ui.activity.LableActivity;
 import com.wang.social.personal.mvp.ui.activity.MeDetailActivity;
@@ -36,4 +37,5 @@ public interface SingleActivityComponent {
     void inject(SettingActivity activity);
     void inject(PrivacyActivity activity);
     void inject(PrivacyShowListActivity activity);
+    void inject(BlackListActivity activity);
 }
