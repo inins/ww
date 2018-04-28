@@ -1,5 +1,7 @@
 package com.wang.social.funshow.mvp.entities.eva;
 
+import com.frame.utils.StrUtil;
+
 import java.util.List;
 
 import lombok.Data;
@@ -25,12 +27,35 @@ public class Comment {
     private String content;
     private int supportTotal;
     private long createTime;
+    private int isSupport;
     private List<CommentReply> commentReply;
 
     //本地字段
     private boolean isShowAll;
 
     ////////////////////
+
+    public static void convertList(List<Comment> comments) {
+        if (StrUtil.isEmpty(comments)) return;
+        for (Comment comment : comments) {
+            comment.convert();
+        }
+    }
+
+    public void convert() {
+        if (StrUtil.isEmpty(commentReply)) return;
+        for (CommentReply reply : commentReply) {
+            reply.setParentId(commentId);
+        }
+    }
+
+    public boolean isSupport() {
+        return isSupport == 1;
+    }
+
+    public void setIsSupport(boolean isSupport) {
+        this.isSupport = isSupport ? 1 : 0;
+    }
 
     public int getCommentReplySize() {
         return commentReply != null ? commentReply.size() : 0;

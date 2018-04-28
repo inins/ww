@@ -24,9 +24,9 @@
 
     <style name="common_AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="common_ltxfont" parent="@android:style/TextAppearance.Small">
-        <item name="android:fontFamily">@font/common_ltx</item>
-    </style>
+    <!--<style name="common_ltxfont" parent="@android:style/TextAppearance.Small">-->
+        <!--<item name="android:fontFamily">@font/common_appfont</item>-->
+    <!--</style>-->
 
     <!--底部弹窗出场入场动画-->
     <style name="common_AnimBottom" parent="@android:style/Animation">

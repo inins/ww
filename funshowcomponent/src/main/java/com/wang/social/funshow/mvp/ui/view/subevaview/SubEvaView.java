@@ -7,10 +7,13 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.frame.component.view.ListViewLinearLayout;
+import com.frame.utils.ToastUtil;
 import com.wang.social.funshow.R;
 import com.wang.social.funshow.mvp.entities.eva.CommentReply;
 
@@ -63,6 +66,10 @@ public class SubEvaView extends FrameLayout {
     private void initCtrl() {
         adapter = new ListAdapterSubEva(getContext());
         listline.setAdapter(adapter);
+        listline.setOnItemClickListener((parent, view, position, id) -> {
+            if (onCommentReplyClickListener != null)
+                onCommentReplyClickListener.onReplyClick(adapter.getResults().get(position), position);
+        });
     }
 
     //////////////////////////////////////////
@@ -84,5 +91,17 @@ public class SubEvaView extends FrameLayout {
 
     public int getMaxSize() {
         return adapter.getMaxSize();
+    }
+
+    /////////////////////////////////////////
+
+    OnCommentReplyClickListener onCommentReplyClickListener;
+
+    public void setOnCommentReplyClickListener(OnCommentReplyClickListener onCommentReplyClickListener) {
+        this.onCommentReplyClickListener = onCommentReplyClickListener;
+    }
+
+    public interface OnCommentReplyClickListener {
+        void onReplyClick(CommentReply commentReply, int position);
     }
 }

@@ -14,10 +14,12 @@
             layout="@layout/personal_lay_blacklist" />
 
         <TextView
+            android:id="@+id/btn_free"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/personal_blue_gray"
+            android:foreground="?attr/selectableItemBackground"
             android:gravity="center"
             android:text="取消\n黑名单"
             android:textColor="@color/common_white"

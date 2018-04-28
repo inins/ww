@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.frame.component.ui.dialog.BaseDialogOkCancel;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
 import com.frame.component.utils.viewutils.EditTextUtil;

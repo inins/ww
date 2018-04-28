@@ -20,7 +20,7 @@ import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
 import com.wang.social.personal.di.component.DaggerSingleActivityComponent;
 import com.wang.social.personal.mvp.ui.dialog.DialogBottomThirdLoginBind;
-import com.wang.social.personal.mvp.ui.dialog.DialogSure;
+import com.frame.component.ui.dialog.DialogSure;
 import com.wang.social.personal.net.helper.NetThirdLoginBindHelper;
 import com.wang.social.personal.utils.ClearCacheUtil;
 
@@ -29,8 +29,6 @@ import org.greenrobot.eventbus.EventBus;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class SettingActivity extends BasicAppActivity implements IView {
 

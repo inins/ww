@@ -11,6 +11,7 @@ import com.frame.component.view.bundleimgview.BundleImgView;
 import com.frame.utils.StrUtil;
 import com.wang.social.funshow.R2;
 import com.wang.social.funshow.helper.VideoPhotoHelperEx;
+import com.wang.social.funshow.mvp.entities.funshow.Pic;
 import com.wang.social.pictureselector.helper.PhotoHelper;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class FunshowAddBundleController extends BaseController implements PhotoHelper.OnPhotoCallback {
+public class FunshowAddBundleController extends FunshowAddBaseController implements PhotoHelper.OnPhotoCallback {
 
     @BindView(R2.id.bundleview)
     BundleImgView bundleview;
@@ -37,7 +38,7 @@ public class FunshowAddBundleController extends BaseController implements PhotoH
     protected void onInitCtrl() {
         photoHelperEx = VideoPhotoHelperEx.newInstance((Activity) getContext(), this);
         bundleview.setMaxcount(9);
-        bundleview.setOnBundleClickListener(new BundleImgView.OnBundleSimpleClickListener(){
+        bundleview.setOnBundleClickListener(new BundleImgView.OnBundleSimpleClickListener() {
             @Override
             public void onPhotoAddClick(View v) {
                 int count = MaxPhotoCount - bundleview.getResultCount();
@@ -73,5 +74,29 @@ public class FunshowAddBundleController extends BaseController implements PhotoH
             pathList.add(new BundleImgEntity(str));
         }
         bundleview.addPhotos(pathList);
+    }
+
+    ////////////////////////
+
+    public boolean isVideoRsc() {
+        return false;
+    }
+
+    public List<String> getImgPaths() {
+        if (!isVideoRsc()) {
+            return bundleview.getResultsStrArray();
+        } else {
+            return null;
+        }
+    }
+
+    public String getVideoPath() {
+        if (isVideoRsc()) {
+            List<String> rsc = bundleview.getResultsStrArray();
+            if (!StrUtil.isEmpty(rsc)) return rsc.get(0);
+            else return null;
+        } else {
+            return "";
+        }
     }
 }

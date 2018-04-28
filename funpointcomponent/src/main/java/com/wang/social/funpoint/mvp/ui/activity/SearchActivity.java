@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -16,6 +17,7 @@ import com.frame.base.BaseAdapter;
 import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.TestEntity;
 import com.frame.component.ui.base.BasicAppActivity;
+import com.frame.component.view.ConerEditText;
 import com.frame.component.view.LoadingLayout;
 import com.frame.di.component.AppComponent;
 import com.frame.utils.FocusUtil;
@@ -42,7 +44,7 @@ public class SearchActivity extends BasicAppActivity implements BaseAdapter.OnIt
     @BindView(R2.id.loadingview)
     LoadingLayout loadingview;
     @BindView(R2.id.edit_search)
-    EditText editSearch;
+    ConerEditText editSearch;
 
 //    @Inject
 //    ImageLoaderHelper imageLoaderHelper;

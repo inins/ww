@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     tools:background="@color/common_white">
 
-    <EditText
+    <com.wang.social.funshow.mvp.ui.view.AiteEditText
         android:id="@+id/edit_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

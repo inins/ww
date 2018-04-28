@@ -31,9 +31,9 @@ public abstract class BaseController {
     }
 
     private void unRegistEventBus() {
-        if (EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().unregister(this);
-        }
+//        if (EventBus.getDefault().isRegistered(this)) {
+        EventBus.getDefault().unregister(this);
+//        }
     }
 
     //默认的eventbus事件处理方法

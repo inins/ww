@@ -13,5 +13,5 @@ import dagger.Component;
 @Component(dependencies = AppComponent.class)
 public interface SingleFragmentComponent {
 
-    void inject(FunPointFragment personalFragment);
+//    void inject(FunPointFragment personalFragment);
 }

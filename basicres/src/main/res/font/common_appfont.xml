@@ -2,11 +2,11 @@
 <font-family xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <font
-        app:font="@font/common_ltx"
+        app:font="@font/common_pingfang_sc_regular"
         app:fontStyle="normal"
         app:fontWeight="400" />
     <font
-        app:font="@font/common_ltx"
+        app:font="@font/common_pingfang_sc_regular"
         app:fontStyle="italic"
         app:fontWeight="400" />
 </font-family>

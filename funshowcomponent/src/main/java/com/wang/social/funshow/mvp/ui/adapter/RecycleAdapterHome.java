@@ -1,6 +1,7 @@
 package com.wang.social.funshow.mvp.ui.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -14,9 +15,11 @@ import com.frame.utils.StrUtil;
 import com.wang.social.funshow.R;
 import com.wang.social.funshow.R2;
 import com.wang.social.funshow.mvp.entities.funshow.Funshow;
+import com.wang.social.funshow.mvp.entities.funshow.FunshowListRsc;
 import com.wang.social.funshow.mvp.ui.dialog.MorePopupWindow;
 import com.wang.social.funshow.net.helper.NetZanHelper;
 import com.wang.social.funshow.utils.FunShowUtil;
+import com.wang.social.funshow.utils.VideoCoverUtil;
 
 import butterknife.BindView;
 
@@ -25,18 +28,6 @@ public class RecycleAdapterHome extends BaseAdapter<Funshow> {
     @Override
     protected BaseViewHolder createViewHolder(Context context, ViewGroup parent, int viewType) {
         return new Holder(context, parent, R.layout.funshow_item_home);
-    }
-
-    public void refreshZanById(int talkId, boolean isZan, int zanCount) {
-        if (StrUtil.isEmpty(getData())) return;
-        for (int i = 0; i < getData().size(); i++) {
-            Funshow funshow = getData().get(i);
-            if (funshow.getTalkId() == talkId) {
-                funshow.setTalkSupportNum(zanCount);
-                funshow.setIsSupport(isZan);
-                notifyItemChanged(i);
-            }
-        }
     }
 
     public class Holder extends BaseViewHolder<Funshow> {
@@ -66,17 +57,16 @@ public class RecycleAdapterHome extends BaseAdapter<Funshow> {
         TextView textComment;
         @BindView(R2.id.text_share)
         TextView textShare;
+        MorePopupWindow popupWindow;
 
         public Holder(Context context, ViewGroup root, int layoutRes) {
             super(context, root, layoutRes);
+            popupWindow = new MorePopupWindow(getContext());
         }
 
         @Override
         protected void bindData(Funshow bean, int position, OnItemClickListener onItemClickListener) {
             ImageLoaderHelper.loadCircleImg(img_header, bean.getUserCover());
-            if (!StrUtil.isEmpty(bean.getTalkImage()))
-                ImageLoaderHelper.loadImg(imgPic, bean.getTalkImage().get(0));
-            else imgPic.setImageResource(R.drawable.default_rect);
             textName.setText(bean.getUserName());
             textTitle.setText(bean.getContent());
             textPosition.setText(bean.getProvince() + bean.getCity());
@@ -88,8 +78,26 @@ public class RecycleAdapterHome extends BaseAdapter<Funshow> {
             imgTagPay.setVisibility(bean.isShopping() ? View.VISIBLE : View.GONE);
             textZan.setSelected(bean.isSupport());
 
+
+            imgPlayer.setVisibility(bean.hasVideo() ? View.VISIBLE : View.GONE);
+            if (bean.hasVideo()) {
+                Bitmap coverbitmap = VideoCoverUtil.createVideoThumbnail(bean.getResourceUrl().getUrl());
+                imgPic.setImageBitmap(coverbitmap);
+            } else {
+                FunshowListRsc imgRsc = bean.getFirstImg();
+                if (imgRsc != null) {
+                    ImageLoaderHelper.loadImg(imgPic, imgRsc.getUrl());
+                } else {
+                    imgPic.setImageResource(R.drawable.default_rect);
+                }
+            }
+
             imgMore.setOnClickListener(view -> {
-                new MorePopupWindow(getContext()).showPopupWindow(view);
+                popupWindow.setOnDislikeClickListener(v -> {
+                    if (onDislikeClickListener != null)
+                        onDislikeClickListener.onDislikeClick(v, bean);
+                });
+                popupWindow.showPopupWindow(view);
             });
 
             textZan.setOnClickListener(v -> {
@@ -117,5 +125,53 @@ public class RecycleAdapterHome extends BaseAdapter<Funshow> {
         protected boolean useItemClickListener() {
             return true;
         }
+    }
+
+    //////////////////////////////
+
+
+    public Funshow getItemById(int talkId) {
+        if (getData() == null) return null;
+        for (Funshow funshow : getData()) {
+            if (funshow.getTalkId() == talkId) {
+                return funshow;
+            }
+        }
+        return null;
+    }
+
+    public void refreshZanById(int talkId, boolean isZan, int zanCount) {
+        if (StrUtil.isEmpty(getData())) return;
+        for (int i = 0; i < getData().size(); i++) {
+            Funshow funshow = getData().get(i);
+            if (funshow.getTalkId() == talkId) {
+                funshow.setTalkSupportNum(zanCount);
+                funshow.setIsSupport(isZan);
+                notifyItemChanged(i);
+            }
+        }
+    }
+
+    public void refreshCommentById(int talkId) {
+        if (StrUtil.isEmpty(getData())) return;
+        for (int i = 0; i < getData().size(); i++) {
+            Funshow funshow = getData().get(i);
+            if (funshow.getTalkId() == talkId) {
+                funshow.setTalkCommentNum(funshow.getTalkCommentNum() + 1);
+                notifyItemChanged(i);
+            }
+        }
+    }
+
+    /////////////////////////////
+
+    public interface OnDislikeClickListener {
+        void onDislikeClick(View v, Funshow funshow);
+    }
+
+    private OnDislikeClickListener onDislikeClickListener;
+
+    public void setOnDislikeClickListener(OnDislikeClickListener onDislikeClickListener) {
+        this.onDislikeClickListener = onDislikeClickListener;
     }
 }

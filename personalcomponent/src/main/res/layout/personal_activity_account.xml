@@ -189,7 +189,7 @@
                     android:id="@+id/btn_recharge"
                     android:layout_width="134dp"
                     android:layout_height="36dp"
-                    android:background="@drawable/personal_shape_rect_blue_conerfull"
+                    android:background="@drawable/common_shape_rect_blue_conerfull"
                     android:foreground="?attr/selectableItemBackground"
                     android:gravity="center"
                     android:onClick="onClick"
