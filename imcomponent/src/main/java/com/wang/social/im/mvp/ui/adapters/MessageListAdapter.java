@@ -12,6 +12,7 @@ import com.wang.social.im.enums.ConversationType;
 import com.wang.social.im.mvp.ui.adapters.holders.BaseMessageViewHolder;
 import com.wang.social.im.mvp.ui.adapters.holders.EnvelopViewHolder;
 import com.wang.social.im.mvp.ui.adapters.holders.ImageViewHolder;
+import com.wang.social.im.mvp.ui.adapters.holders.LocationViewHolder;
 import com.wang.social.im.mvp.ui.adapters.holders.NotifyViewHolder;
 import com.wang.social.im.mvp.ui.adapters.holders.SoundViewHolder;
 import com.wang.social.im.mvp.ui.adapters.holders.TextViewHolder;
@@ -85,6 +86,12 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
                 break;
             case TYPE_SEND_RED_ENVELOP:
                 viewHolder = new EnvelopViewHolder(context, parent, R.layout.im_item_msg_envelop_right);
+                break;
+            case TYPE_RECEIVE_LOCATION:
+                viewHolder = new LocationViewHolder(context, parent, R.layout.im_item_msg_location_left);
+                break;
+            case TYPE_SEND_LOCATION:
+                viewHolder = new LocationViewHolder(context, parent, R.layout.im_item_msg_location_right);
                 break;
             case TYPE_NOTIFY:
                 viewHolder = new NotifyViewHolder(context, parent);

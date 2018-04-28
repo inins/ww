@@ -210,12 +210,12 @@ public class UIMessage {
     }
 
     /**
-     * 获取自定义消息内容Elem
+     * 获取自定义消息内容Elem数据
      *
      * @param elemType
      * @return
      */
-    public Object getCustomMessageElem(CustomElemType elemType, Gson gson) {
+    public Object getCustomMessageElemData(CustomElemType elemType, Gson gson) {
         try {
             for (int i = 0, max = (int) timMessage.getElementCount(); i < max; i++) {
                 TIMElem elem = timMessage.getElement(i);
@@ -308,22 +308,22 @@ public class UIMessage {
         return portrait;
     }
 
-    /**
-     * 获取红包在本地缓存的信息
-     *
-     * @return
-     */
-    public EnvelopMessageCacheInfo getEnvelopCacheInfo(Gson gson) {
-        //获取红包状态
-        TIMMessageExt messageExt = new TIMMessageExt(timMessage);
-        if (!TextUtils.isEmpty(messageExt.getCustomStr())) {
-            try {
-                return gson.fromJson(messageExt.getCustomStr(), EnvelopMessageCacheInfo.class);
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-        return null;
-    }
+//    /**
+//     * 获取红包在本地缓存的信息
+//     *
+//     * @return
+//     */
+//    public EnvelopMessageCacheInfo getEnvelopCacheInfo(Gson gson) {
+//        //获取红包状态
+//        TIMMessageExt messageExt = new TIMMessageExt(timMessage);
+//        if (!TextUtils.isEmpty(messageExt.getCustomStr())) {
+//            try {
+//                return gson.fromJson(messageExt.getCustomStr(), EnvelopMessageCacheInfo.class);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                return null;
+//            }
+//        }
+//        return null;
+//    }
 }

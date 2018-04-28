@@ -8,7 +8,7 @@
 
     <ImageView
         android:id="@+id/edh_iv_header"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleType="fitXY"
         android:src="@drawable/im_envelop_detail_header"
@@ -117,4 +117,13 @@
         app:layout_constraintTop_toBottomOf="@id/edh_tv_diamond_tip"
         app:layout_goneMarginTop="14dp"
         tools:text="已领取3/4个" />
+
+    <View
+        android:id="@+id/edh_view_line"
+        android:layout_width="0dp"
+        android:layout_height="0.5dp"
+        android:background="?attr/dividerVertical"
+        app:layout_constraintTop_toBottomOf="@id/edh_tv_adopt_info"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
 </android.support.constraint.ConstraintLayout>

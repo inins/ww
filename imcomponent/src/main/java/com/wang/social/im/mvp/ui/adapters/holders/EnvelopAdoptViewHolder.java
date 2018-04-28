@@ -13,6 +13,7 @@ import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.TimeUtils;
 import com.wang.social.im.R;
+import com.wang.social.im.R2;
 import com.wang.social.im.mvp.model.entities.EnvelopAdoptInfo;
 
 import java.text.SimpleDateFormat;
@@ -31,15 +32,15 @@ import butterknife.BindView;
  */
 public class EnvelopAdoptViewHolder extends BaseViewHolder<EnvelopAdoptInfo> {
 
-    @BindView(R.id.iea_iv_portrait)
+    @BindView(R2.id.iea_iv_portrait)
     ImageView ieaIvPortrait;
-    @BindView(R.id.iea_tv_nickname)
+    @BindView(R2.id.iea_tv_nickname)
     TextView ieaTvNickname;
-    @BindView(R.id.iea_tv_time)
+    @BindView(R2.id.iea_tv_time)
     TextView ieaTvTime;
-    @BindView(R.id.iea_tv_diamond)
+    @BindView(R2.id.iea_tv_diamond)
     TextView ieaTvDiamond;
-    @BindView(R.id.iea_tv_lucky)
+    @BindView(R2.id.iea_tv_lucky)
     TextView ieaTvLucky;
 
     ImageLoader mImageLoader;

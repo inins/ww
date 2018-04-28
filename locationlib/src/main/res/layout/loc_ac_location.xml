@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.constraint.Guideline
+        android:id="@+id/loc_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="14dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.60" />
+
+    <com.amap.api.maps2d.MapView
+        android:id="@+id/loc_map"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/loc_guideline"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/loc_marker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="35dp"
+        android:src="@drawable/loc_ic_location"
+        app:layout_constraintBottom_toBottomOf="@id/loc_map"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/loc_map" />
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.frame.component.view.SocialToolbar
+            android:id="@+id/loc_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/common_colorPrimary"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:toolbar_left_icon="@drawable/common_ic_back"
+            app:toolbar_right_text="@string/common_ok"
+            app:toolbar_title_text="@string/loc_where" />
+
+        <com.liaoinstan.springview.widget.SpringView
+            android:id="@+id/loc_load"
+            android:layout_width="match_parent"
+            android:layout_height="450dp"
+            android:background="@drawable/loc_bg_locations"
+            android:paddingTop="8dp"
+            app:behavior_hideable="false"
+            app:behavior_peekHeight="330dp"
+            app:layout_behavior="@string/bottom_sheet_behavior">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/loc_locations"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.liaoinstan.springview.widget.SpringView>
+    </android.support.design.widget.CoordinatorLayout>
+</android.support.constraint.ConstraintLayout>

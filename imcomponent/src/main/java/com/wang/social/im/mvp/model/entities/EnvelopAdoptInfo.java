@@ -11,6 +11,7 @@ import lombok.Data;
 @Data
 public class EnvelopAdoptInfo {
 
+    private String userId;
     private String portrait;
     private String nickname;
     private long time;

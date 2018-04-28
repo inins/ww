@@ -5,21 +5,32 @@
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/login1"
+        android:id="@+id/login0"
         android:layout_width="178dp"
         android:layout_height="wrap_content"
-        android:text="Login XiaoJun"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="App Login1"
+        app:layout_constraintBottom_toTopOf="@+id/login1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/login1"
+        android:layout_width="178dp"
+        android:layout_height="wrap_content"
+        android:text="App Login2"
+        app:layout_constraintBottom_toTopOf="@+id/login2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login0" />
 
     <Button
         android:id="@+id/login2"
         android:layout_width="178dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Login XiaoJun2"
+        android:text="Im Login"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/login1" />

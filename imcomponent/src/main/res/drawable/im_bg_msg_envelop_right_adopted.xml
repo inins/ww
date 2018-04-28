@@ -6,5 +6,5 @@
         android:bottomRightRadius="@dimen/im_envelop_background_radius"
         android:topLeftRadius="@dimen/im_envelop_background_radius" />
 
-    <solid android:color="#F84E4F" />
+    <solid android:color="#F76060" />
 </shape>
