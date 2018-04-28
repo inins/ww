@@ -286,10 +286,12 @@ public class EnvelopDialog extends Dialog {
                                     envelopInfo.setStatus(EnvelopInfo.Status.EMPTY);
                                     break;
                                 default:
+                                    drpTvbOpen.setEnabled(true);
                                     super.onError(e);
                                     break;
                             }
                         } else {
+                            drpTvbOpen.setEnabled(true);
                             super.onError(e);
                         }
                     }
