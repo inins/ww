@@ -26,6 +26,7 @@ public class TopicDetailPresenter extends
     @Inject
     ApiHelper mApiHelper;
 
+    private TopicDetail mTopicDetail;
 
     @Inject
     public TopicDetailPresenter(TopicDetailContract.Model model, TopicDetailContract.View view) {
@@ -66,6 +67,10 @@ public class TopicDetailPresenter extends
         mRootView.onTopicDetailLoadSuccess(getTestTopicDetail());
     }
 
+    /**
+     * 获取话题详情
+     * @param topicId 话题ID
+     */
     public void getTopicDetails(int topicId) {
 
             mApiHelper.execute(mRootView,
@@ -93,6 +98,43 @@ public class TopicDetailPresenter extends
                             mRootView.hideLoading();
                         }
                     });
+    }
+
+    public void topicSupport() {
+        mApiHelper.executeForData(mRootView,
+                mModel.topicSupport(mTopicDetail.getTopicId(),
+                        mTopicDetail.getIsSupport() == 0 ? "1" : "2"),
+                new ErrorHandleSubscriber(mErrorHandler) {
+                    @Override
+                    public void onNext(Object o) {
+                        if (mTopicDetail.getIsSupport() == 0) {
+                            // 点赞成功
+                            mTopicDetail.setIsSupport(1);
+                            mTopicDetail.setSupportTotal(mTopicDetail.getSupportTotal() + 1);
+                        } else {
+                            // 取消点赞
+                            mTopicDetail.setIsSupport(0);
+                            mTopicDetail.setSupportTotal(mTopicDetail.getSupportTotal() - 1);
+                        }
+
+                        mRootView.resetSupportLayout(mTopicDetail.getIsSupport(), mTopicDetail.getSupportTotal());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+                }, new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                        mRootView.showLoading();
+                    }
+                }, new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mRootView.hideLoading();
+                    }
+                });
     }
 
     @Override

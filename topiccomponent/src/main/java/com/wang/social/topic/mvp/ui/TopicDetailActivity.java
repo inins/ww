@@ -10,6 +10,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.text.TextUtils;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -42,14 +43,16 @@ import butterknife.OnClick;
 public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> implements TopicDetailContract.View {
 
     public final static String NAME_TOPIC_ID = "NAME_TOPIC_ID";
+    public final static String NAME_CREATOR_ID = "NAME_CREATOR_ID";
 
-    public static void start(Context context, int topicId) {
+    public static void start(Context context, int topicId, int creatorId) {
         if (null == context) {
             return;
         }
 
         Intent intent = new Intent(context, TopicDetailActivity.class);
         intent.putExtra(NAME_TOPIC_ID, topicId);
+        intent.putExtra(NAME_CREATOR_ID, creatorId);
         context.startActivity(intent);
     }
 
@@ -84,7 +87,8 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
     @BindView(R2.id.constellation_text_view)
     TextView mConstellationTV;
     // 内容 WebView
-    @BindView(R2.id.content_web_view)
+    @BindView(R2.id.content_layout)
+    FrameLayout mContentLayout;
     WebView mContentWV;
     @BindView(R2.id.background_image_view)
     ImageView mBackgroundIV;
@@ -97,10 +101,51 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
     // 底部栏
     @BindView(R2.id.bottom_layout)
     View mBottomLayout;
+    // 底部点赞
+    @BindView(R2.id.support_image_view)
+    ImageView mSupportIV;
+    @BindView(R2.id.support_text_view)
+    TextView mSupportTV;
+    // 底部评论
+    @BindView(R2.id.comment_image_view)
+    ImageView mCommentIV;
+    @BindView(R2.id.comment_text_view)
+    TextView mCommentTV;
+    // 底部分享
+    @BindView(R2.id.share_image_view)
+    ImageView mShareIV;
+    @BindView(R2.id.share_text_view)
+    TextView mShareTV;
 
+    private void resetShareLayout(int count) {
+        mShareTV.setText(String.format(getString(R.string.topic_share_format), count));
+    }
+
+    private void resetCommentLayout(int count) {
+        mCommentTV.setText(String.format(getString(R.string.topic_comment_format), count));
+    }
+
+    /**
+     * 重置底部点赞UI
+     * @param isSupport 是否已点赞
+     * @param count 赞的数量
+     */
+    @Override
+    public void resetSupportLayout(int isSupport, int count) {
+        if (isSupport == 0) {
+            mSupportIV.setImageResource(R.drawable.common_ic_zan);
+            mSupportTV.setText(String.format(getString(R.string.topic_support_format), count));
+            mSupportTV.setTextColor(Color.parseColor("#818181"));
+        } else {
+            mSupportIV.setImageResource(R.drawable.common_ic_zan_hot);
+            mSupportTV.setText(String.format(getString(R.string.topic_supported_format), count));
+            mSupportTV.setTextColor(getResources().getColor(R.color.common_blue_deep));
+        }
+    }
 
     // 话题ID
     private int mTopicId;
+    private int mCreatorId;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -121,7 +166,7 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
         BarUtils.setTranslucent(this);
 
         mTopicId = getIntent().getIntExtra(NAME_TOPIC_ID, -1);
-//        mTopicId = 21;
+        mCreatorId = getIntent().getIntExtra(NAME_CREATOR_ID, -1);
 
         mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             // CollapsingToolbarLayout收起的进度
@@ -196,6 +241,8 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
     @Override
     public void onTopicDetailLoadSuccess(TopicDetail detail) {
         if (null == detail) return;
+        mTopicId = detail.getTopicId();
+        mCreatorId = detail.getCreatorId();
 
         // 背景图
         if (TextUtils.isEmpty(detail.getBackgroundImage())) {
@@ -301,10 +348,34 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
         mConstellationTV.setText(TimeUtils.getZodiac(detail.getBirthday()));
 
         // 页面内容
+        if (null == mContentWV) {
+            mContentWV = new WebView(getApplicationContext());
+            mContentLayout.addView(mContentWV);
+        }
         mContentWV.loadData(detail.getContent(), "text/html; charset=UTF-8", null);
+
+        // 底部
+        resetSupportLayout(detail.getIsSupport(), detail.getSupportTotal());
+        resetCommentLayout(detail.getCommentTotal());
+        resetShareLayout(detail.getShareTotal());
 
         // 显示UI
         resetView(true);
+    }
+
+    @OnClick(R2.id.support_layout)
+    public void support() {
+
+    }
+
+    @OnClick(R2.id.comment_layout)
+    public void comment() {
+        CommentActivity.start(this, mTopicId, mCreatorId);
+    }
+
+    @OnClick(R2.id.share_layout)
+    public void share() {
+
     }
 
     @OnClick(R2.id.back_image_view)
@@ -321,14 +392,18 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
     protected void onResume() {
         super.onResume();
 
-        mContentWV.onResume();
+        if (null != mContentWV) {
+            mContentWV.onResume();
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
 
-        mContentWV.onPause();
+        if (null != mContentWV) {
+            mContentWV.onPause();
+        }
     }
 
     @Override
@@ -337,9 +412,19 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+    }
 
-        mContentWV.destroy();
+    @Override
+    protected void onDestroy() {
+        if (null != mContentWV) {
+            mContentWV.setVisibility(View.GONE);
+            mContentLayout.removeAllViews();
+            mContentWV.destroy();
+            mContentWV = null;
+        }
+
+        super.onDestroy();
     }
 }

@@ -31,7 +31,7 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
                 .put("isCondition", isCondition)
                 .put("size",size)
                 .put("current",current)
-                .put("v", BuildConfig.VERSION_NAME)
+                .put("v", "2.0.0")
                 .build();
         return mRepositoryManager
                 .obtainRetrofitService(TopicService.class)
@@ -43,7 +43,7 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
         Map<String, Object> param = new NetParam()
                 .put("size",size)
                 .put("current",current)
-                .put("v", BuildConfig.VERSION_NAME)
+                .put("v", "2.0.0")
                 .build();
         return mRepositoryManager
                 .obtainRetrofitService(TopicService.class)
@@ -55,7 +55,7 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
         Map<String, Object> param = new NetParam()
                 .put("size",size)
                 .put("current",current)
-                .put("v", BuildConfig.VERSION_NAME)
+                .put("v", "2.0.0")
                 .build();
         return mRepositoryManager
                 .obtainRetrofitService(TopicService.class)

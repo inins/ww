@@ -43,7 +43,7 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
         Map<String, Object> param = new NetParam()
                 .put("mobile", mobile)
                 .put("password", password)
-                .put("v", BuildConfig.VERSION_NAME)
+                .put("v", "2.0.0")
                 .putSignature()
                 .build();
         return mRepositoryManager
@@ -65,7 +65,7 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
                 .put("mobile", mobile)
                 .put("code", code)
                 .put("adCode", adCode)
-                .put("v", BuildConfig.VERSION_NAME)
+                .put("v", "2.0.0")
                 .putSignature()
                 .build();
         return mRepositoryManager
@@ -89,7 +89,7 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
                 .put("code", code)
                 .put("password", password)
                 .put("adCode", adCode)
-                .put("v", BuildConfig.VERSION_NAME)
+                .put("v", "2.0.0")
                 .putSignature()
                 .build();
         return mRepositoryManager
@@ -118,7 +118,7 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
         Map<String, Object> param = new NetParam()
                 .put("mobile", mobile)
                 .put("type", type)
-                .put("v", BuildConfig.VERSION_NAME)
+                .put("v", "2.0.0")
                 .putSignature()
                 .build();
         return mRepositoryManager
@@ -147,7 +147,7 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
                 .put("headUrl", headUrl)
                 .put("sex", sex)
                 .put("adCode", adCode)
-                .put("v", BuildConfig.VERSION_NAME)
+                .put("v", "2.0.0")
                 .build();
         return mRepositoryManager
                 .obtainRetrofitService(LoginService.class)
@@ -160,7 +160,7 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
         Map<String, Object> param = new NetParam()
                 .put("size",size)
                 .put("current",current)
-                .put("v", BuildConfig.VERSION_NAME)
+                .put("v", "2.0.0")
                 .build();
         return mRepositoryManager
                 .obtainRetrofitService(TagService.class)

@@ -33,7 +33,7 @@ public class TagSelectionModel extends BaseModel implements TagSelectionContract
     @Override
     public Observable<BaseJson<TagsDTO>> parentTagList() {
         Map<String, Object> param = new NetParam()
-                .put("v", BuildConfig.VERSION_NAME)
+                .put("v", "2.0.0")
                 .build();
         return mRepositoryManager
                 .obtainRetrofitService(TagService.class)
@@ -45,7 +45,7 @@ public class TagSelectionModel extends BaseModel implements TagSelectionContract
         String tagIds = StringUtils.formatTagIds(list);
         Map<String, Object> param = new NetParam()
                 .put("tagIds", tagIds)
-                .put("v", BuildConfig.VERSION_NAME)
+                .put("v", "2.0.0")
                 .build();
         return mRepositoryManager
                 .obtainRetrofitService(TagService.class)
@@ -57,7 +57,7 @@ public class TagSelectionModel extends BaseModel implements TagSelectionContract
         Map<String, Object> param = new NetParam()
                 .put("size",size)
                 .put("current",current)
-                .put("v", BuildConfig.VERSION_NAME)
+                .put("v", "2.0.0")
                 .build();
         return mRepositoryManager
                 .obtainRetrofitService(TagService.class)
@@ -69,7 +69,7 @@ public class TagSelectionModel extends BaseModel implements TagSelectionContract
         String tagIds = StringUtils.formatTagIds(list);
         Map<String, Object> param = new NetParam()
                 .put("tagIds", tagIds)
-                .put("v", BuildConfig.VERSION_NAME)
+                .put("v", "2.0.0")
                 .build();
         return mRepositoryManager
                 .obtainRetrofitService(TagService.class)
@@ -79,7 +79,7 @@ public class TagSelectionModel extends BaseModel implements TagSelectionContract
     @Override
     public Observable<BaseJson<PersonalTagCountDTO>> findMyTagCount() {
         Map<String, Object> param = new NetParam()
-                .put("v", BuildConfig.VERSION_NAME)
+                .put("v", "2.0.0")
                 .build();
         return mRepositoryManager
                 .obtainRetrofitService(TagService.class)

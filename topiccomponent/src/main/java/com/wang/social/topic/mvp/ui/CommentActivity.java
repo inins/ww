@@ -41,17 +41,19 @@ import butterknife.OnClick;
 
 public class CommentActivity extends BaseAppActivity<CommentPresenter> implements CommentContract.View {
     public final static String KEY_TOPIC_ID = "TOPIC_ID";
+    public final static String KEY_CREATOR_ID = "CREATOR_ID";
     public final static String KEY_COMMENT_ID = "COMMENT_ID";
 
-    public static void start(Context context, int topicId) {
-        start(context, topicId, -1);
+    public static void start(Context context, int topicId, int creatorId) {
+        start(context, topicId, creatorId, -1);
     }
 
-    public static void start(Context context, int topicId, int commentId) {
+    public static void start(Context context, int topicId, int creatorId, int commentId) {
         if (null == context) return;
 
         Intent intent = new Intent(context, CommentActivity.class);
         intent.putExtra(KEY_TOPIC_ID, topicId);
+        intent.putExtra(KEY_CREATOR_ID, creatorId);
         intent.putExtra(KEY_COMMENT_ID, commentId);
         context.startActivity(intent);
     }
@@ -89,6 +91,8 @@ public class CommentActivity extends BaseAppActivity<CommentPresenter> implement
 
     // 话题id
     private int mTopicId;
+    // 发布人ID
+    private int mCreatorId;
     // 评论id
     private int mCommentId;
 
@@ -110,6 +114,8 @@ public class CommentActivity extends BaseAppActivity<CommentPresenter> implement
     public void initData(@NonNull Bundle savedInstanceState) {
         // 话题ID
         mTopicId = getIntent().getIntExtra(KEY_TOPIC_ID, 20);
+        // 发帖人ID
+        mCreatorId = getIntent().getIntExtra(KEY_CREATOR_ID, -1);
         // 评论ID
         mCommentId = getIntent().getIntExtra(KEY_COMMENT_ID, -1);
 
@@ -269,7 +275,7 @@ public class CommentActivity extends BaseAppActivity<CommentPresenter> implement
             // 评论
             mPresenter.commitComment(mTopicId,
                     mCommentId,
-                    -1,
+                    mCreatorId,
                     mCommentET.getText().toString());
         }
     }

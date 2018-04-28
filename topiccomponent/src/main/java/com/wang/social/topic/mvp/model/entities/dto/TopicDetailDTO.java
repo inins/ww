@@ -12,28 +12,28 @@ import java.util.List;
 
 
 public class TopicDetailDTO implements Mapper<TopicDetail> {
-    private Long birthday;
+    private String title;
+    private List<String> tags;
+    private Long createTime;
+    private String avatar;
+    private String nickname;
+    private Integer sex;
+    private String backgroundImage;
     private String backgroundMusicId;
     private String backgroundMusicName;
     private String backgroundMusicUrl;
-    private String backgroundImage;
+    private Long birthday;
     private Integer supportTotal;
     private Integer isSupport;
-    private Integer sex;
     private Integer creatorId;
     private Integer commentTotal;
-    private String avatar;
     private Integer readTotal;
-    private String title;
-    private String templateId;
+    private Integer templateId;
     private String content;
     private Integer relateState;
     private Integer gemstone;
-    private List<String> tags ;
     private Integer topicId;
-    private Long createTime;
-    private String shareTotal;
-    private String nickname;
+    private Integer shareTotal;
 
     private int assertNotNull(Integer i) {
         return i == null ? 0 : i;
@@ -60,14 +60,14 @@ public class TopicDetailDTO implements Mapper<TopicDetail> {
         object.setAvatar(StringUtil.assertNotNull(avatar));
         object.setReadTotal(assertNotNull(readTotal));
         object.setTitle(StringUtil.assertNotNull(title));
-        object.setTemplateId(StringUtil.assertNotNull(templateId));
+        object.setTemplateId(assertNotNull(templateId));
         object.setContent(StringUtil.assertNotNull(content));
         object.setRelateState(assertNotNull(relateState));
         object.setGemstone(assertNotNull(gemstone));
         object.setTags(tags == null ? new ArrayList<>() : tags);
         object.setTopicId(assertNotNull(topicId));
         object.setCreateTime(assertNotNull(createTime));
-        object.setShareTotal(StringUtil.assertNotNull(shareTotal));
+        object.setShareTotal(assertNotNull(shareTotal));
         object.setNickname(StringUtil.assertNotNull(nickname));
 
         return object;

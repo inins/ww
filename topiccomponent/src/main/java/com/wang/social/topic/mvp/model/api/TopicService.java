@@ -83,4 +83,19 @@ public interface TopicService {
     @FormUrlEncoded
     @POST("app/topic/topicCommentSupport")
     Observable<BaseJson> topicCommentSupport(@FieldMap Map<String, Object> param);
+
+    /**
+     * 话题点赞/取消点赞
+     */
+    @FormUrlEncoded
+    @POST("app/topic/topicSupport")
+    Observable<BaseJson> topicSupport(@FieldMap Map<String, Object> param);
+
+    /**
+     * 搜索话题
+     */
+    @Headers(HEADER_CONTENT_TYPE)
+    @FormUrlEncoded
+    @POST("app/topic/searchTopic")
+    Observable<BaseJson> searchTopic(@FieldMap Map<String, Object> param);
 }

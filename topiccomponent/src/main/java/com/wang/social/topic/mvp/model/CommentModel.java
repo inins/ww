@@ -43,7 +43,7 @@ public class CommentModel extends BaseModel implements CommentContract.Model {
         }
         netParam.put("size",size);
         netParam.put("current",current);
-        netParam.put("v", BuildConfig.VERSION_NAME);
+        netParam.put("v", "2.0.0");
         Map<String, Object> param = netParam.build();
 
         return mRepositoryManager
@@ -66,7 +66,7 @@ public class CommentModel extends BaseModel implements CommentContract.Model {
 //                .put("topicCommentId", topicCommentId)
 //                .put("answeredUserId",answeredUserId)
 //                .put("content",content)
-//                .put("v", BuildConfig.VERSION_NAME)
+//                .put("v", "2.0.0")
 //                .build();
 
         NetParam netParam = new NetParam();
@@ -83,7 +83,7 @@ public class CommentModel extends BaseModel implements CommentContract.Model {
             netParam.put("answeredUserId", "");
         }
         netParam.put("content",content);
-        netParam.put("v", BuildConfig.VERSION_NAME);
+        netParam.put("v", "2.0.0");
         Map<String, Object> param = netParam.build();
 
         return mRepositoryManager
@@ -92,7 +92,7 @@ public class CommentModel extends BaseModel implements CommentContract.Model {
     }
 
     /**
-     * 评论话题/回复话题评论
+     * 话题评论点赞/取消评论点赞
      * @param topicId 话题ID
      * @param topicCommentId 话题评论ID
      * @param type 类型1点赞 2取消点赞
@@ -104,7 +104,7 @@ public class CommentModel extends BaseModel implements CommentContract.Model {
 //            .put("topicId", topicId)
 //            .put("topicCommentId", topicCommentId)
 //            .put("type",type)
-//            .put("v", BuildConfig.VERSION_NAME)
+//            .put("v", "2.0.0")
 //            .build();
 
         NetParam netParam = new NetParam();
@@ -116,7 +116,7 @@ public class CommentModel extends BaseModel implements CommentContract.Model {
             netParam.put("topicCommentId", "");
         }
         netParam.put("type",type);
-        netParam.put("v", BuildConfig.VERSION_NAME);
+        netParam.put("v", "2.0.0");
         Map<String, Object> param = netParam.build();
 
         return mRepositoryManager

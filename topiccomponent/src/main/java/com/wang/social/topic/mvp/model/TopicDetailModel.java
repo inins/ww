@@ -29,10 +29,31 @@ public class TopicDetailModel extends BaseModel implements TopicDetailContract.M
     public Observable<BaseJson<TopicDetailDTO>> getTopicDetails(int topicId) {
         Map<String, Object> param = new NetParam()
                 .put("topicId",topicId)
-                .put("v", BuildConfig.VERSION_NAME)
+                .put("v", "2.0.0")
                 .build();
         return mRepositoryManager
                 .obtainRetrofitService(TopicService.class)
                 .getTopicDetails(param);
+    }
+
+
+    /**
+     * 话题点赞/取消点赞
+     * @param topicId 话题ID
+     * @param type 类型1点赞 2取消点赞
+     * @return
+     */
+    @Override
+    public Observable<BaseJson> topicSupport(int topicId, String type) {
+        NetParam netParam = new NetParam();
+
+        netParam.put("topicId", topicId);
+        netParam.put("type",type);
+        netParam.put("v", "2.0.0");
+        Map<String, Object> param = netParam.build();
+
+        return mRepositoryManager
+                .obtainRetrofitService(TopicService.class)
+                .topicSupport(param);
     }
 }

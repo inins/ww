@@ -40,7 +40,7 @@ public class TagListModel extends BaseModel implements TagListContract.Model {
                 .put("size", size)
                 .put("current", current)
                 .put("parentId", parentId)
-                .put("v", BuildConfig.VERSION_NAME)
+                .put("v", "2.0.0")
                 .build();
         return mRepositoryManager
                 .obtainRetrofitService(TagService.class)

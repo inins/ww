@@ -27,7 +27,7 @@ public class BindPhoneModel extends BaseModel implements BindPhoneContract.Model
         Map<String, Object> param = new NetParam()
                 .put("mobile", mobile)
                 .put("type", type)
-                .put("v", BuildConfig.VERSION_NAME)
+                .put("v", "2.0.0")
                 .putSignature()
                 .build();
         return mRepositoryManager
@@ -40,7 +40,7 @@ public class BindPhoneModel extends BaseModel implements BindPhoneContract.Model
         Map<String, Object> param = new NetParam()
                 .put("mobile", mobile)
                 .put("code", code)
-                .put("v", BuildConfig.VERSION_NAME)
+                .put("v", "2.0.0")
                 .putSignature()
                 .build();
         return mRepositoryManager
