@@ -7,6 +7,7 @@ import com.frame.utils.StrUtil;
 import com.frame.utils.TimeUtils;
 
 import java.io.Serializable;
+import java.util.List;
 
 import lombok.Data;
 
@@ -41,8 +42,23 @@ public class User implements Serializable {
     private String city;
     private String constellation;
     private String autograph;
+    private List<Tag> tags;
 
     /////////////////////////////////
+
+    //是不是男性
+    public boolean isMale() {
+        return sex == 0;
+    }
+
+    public String getTagText() {
+        if (StrUtil.isEmpty(tags)) return "";
+        String tagText = "";
+        for (Tag tag : tags) {
+            tagText += "#" + tag.getTagName() + " ";
+        }
+        return tagText.trim();
+    }
 
     public String getSexText() {
         if (sex == 0) {

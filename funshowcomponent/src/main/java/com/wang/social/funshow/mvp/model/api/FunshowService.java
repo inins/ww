@@ -6,13 +6,20 @@ import com.wang.social.funshow.mvp.entities.eva.Comment;
 import com.wang.social.funshow.mvp.entities.eva.CommentReply;
 import com.wang.social.funshow.mvp.entities.funshow.Funshow;
 import com.wang.social.funshow.mvp.entities.funshow.FunshowDetail;
+import com.wang.social.funshow.mvp.entities.post.FunshowAddPost;
+import com.wang.social.funshow.mvp.entities.user.Friend;
 import com.wang.social.funshow.mvp.entities.user.TopUser;
 import com.wang.social.funshow.mvp.entities.user.ZanUser;
 
+import java.util.Map;
+
 import io.reactivex.Observable;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
@@ -71,4 +78,26 @@ public interface FunshowService {
      */
     @GET("/app/talk/commentList?v=2.0.0")
     Observable<BaseJson<BaseListWrap<Comment>>> funshowEvaList(@Query("talkId") int talkId, @Query("current") int current, @Query("size") int size);
+
+    /**
+     * 发布趣晒评论，或者对评论进行回复
+     */
+    @Headers(HEADER_CONTENT_TYPE)
+    @FormUrlEncoded
+    @POST("/app/talk/talkComment?v=2.0.0")
+    Observable<BaseJson<Object>> commentReply(@FieldMap Map<String, Object> param);
+
+    /**
+     * 好友列表
+     */
+    @GET("/app/userFriend/friendList?v=2.0.0")
+    Observable<BaseJson<BaseListWrap<Friend>>> friendList();
+
+    /**
+     * 发布趣晒
+     */
+    @POST("/app/talk/saveTalk?v=2.0.0")
+    Observable<BaseJson<Object>> addFunshow(@Body FunshowAddPost postBean);
+
+
 }

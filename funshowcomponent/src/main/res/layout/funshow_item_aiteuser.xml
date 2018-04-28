@@ -22,9 +22,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:text="埃米尔"
         android:textColor="@color/common_text_blank"
-        android:textSize="17sp" />
+        android:textSize="17sp"
+        tools:text="埃米尔" />
 
     <Space style="@style/common_Space_H" />
 

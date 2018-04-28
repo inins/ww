@@ -1,5 +1,6 @@
 package com.wang.social.funshow.mvp.model;
 
+import com.frame.component.api.CommonService;
 import com.frame.component.entities.BaseListWrap;
 import com.frame.di.scope.FragmentScope;
 import com.frame.http.api.BaseJson;
@@ -40,6 +41,13 @@ public class FunshowListModel extends BaseModel implements FunshowListContract.M
         return mRepositoryManager
                 .obtainRetrofitService(FunshowService.class)
                 .getFunshowTopUserList(from, current, size);
+    }
+
+    @Override
+    public Observable<BaseJson<Object>> shatDownUser(String shieldUserId, int type) {
+        return mRepositoryManager
+                .obtainRetrofitService(CommonService.class)
+                .shatDownUser(shieldUserId, type);
     }
 
 }

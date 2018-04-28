@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.frame.component.ui.acticity.BGMList.BGMListActivity;
 import com.frame.component.ui.acticity.BGMList.Music;
 import com.frame.component.ui.base.BaseAppActivity;
+import com.frame.component.utils.MapUtil;
 import com.frame.component.view.MusicBoard;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
@@ -30,6 +31,8 @@ import com.wang.social.topic.di.module.ReleaseTopicModule;
 import com.wang.social.topic.mvp.contract.ReleaseTopicContract;
 import com.wang.social.topic.mvp.model.entities.Template;
 import com.wang.social.topic.mvp.presenter.ReleaseTopicPresenter;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -143,6 +146,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
                 dismissLoadingDialog();
             }
         });
+        mMusicBoard.setLooping(true);
     }
 
     private View.OnClickListener mBottomBarListener = new View.OnClickListener() {
@@ -236,21 +240,25 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
     @Override
     public void onCommonEvent(EventBean event) {
-        // 只接收标签相关事件
-        if (event.getEvent() != EventBean.EVENTBUS_TAG_SELECTED_LIST) {
-            return;
+        if (event.getEvent() == EventBean.EVENTBUS_TAG_SELECTED_LIST) {
+
+            String ids = (String) event.get("ids");
+            String names = (String) event.get("names");
+
+            Timber.i(ids);
+            Timber.i(names);
+
+            mTagIds = ids;
+            mTagNames = names;
+
+            mTagsTV.setText(mTagNames);
         }
-
-        String ids = (String) event.get("ids");
-        String names = (String) event.get("names");
-
-        Timber.i(ids);
-        Timber.i(names);
-
-        mTagIds = ids;
-        mTagNames = names;
-
-        mTagsTV.setText(mTagNames);
+//        else if (event.getEvent() == EventBean.EVENTBUS_BGM_SELECTED) {
+//            if (null != event.get("BGM") && event.get("BGM") instanceof Music) {
+//                Music music = (Music) event.get("BGM");
+//                Timber.i("onCommonEvent : " + music.getMusicId() + " " + music.getMusicName());
+//            }
+//        }
     }
 
     @Override

@@ -1,0 +1,22 @@
+auto generated, do not change !!!! 
+
+HOST : login
+
+手机绑定
+/login_bind_phone
+
+忘记密码
+/forgotPassword
+
+登陆页
+/login
+
+修改/重置密码
+/login_reset_password
+
+标签选择
+/login_tag_selection
+
+验证手机
+/login_verify_phone
+

@@ -16,6 +16,7 @@ public class GradualImageView extends AppCompatImageView {
     private Drawable mDrawableEnd;
     private float mRate;
     boolean isDrawStart;
+    boolean mGradual = true;
 
     private Animation mAnimation;
 
@@ -52,6 +53,14 @@ public class GradualImageView extends AppCompatImageView {
         startAnimation(mAnimation);
     }
 
+    public boolean isGradual() {
+        return mGradual;
+    }
+
+    public void setGradual(boolean gradual) {
+        mGradual = gradual;
+    }
+
     public void stopAnimation() {
         clearAnimation();
     }
@@ -64,6 +73,8 @@ public class GradualImageView extends AppCompatImageView {
     }
 
     public void setRate(float rate) {
+        if (!isGradual()) return;
+
         this.mRate = Math.max(0, Math.min(rate, 1.0f));
 
         if (null == mDrawableStart && null == mDrawableEnd) {

@@ -6,22 +6,42 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <CheckBox
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/common_shape_rect_hint_conerfull"
-        android:button="@null"
-        android:drawableLeft="@drawable/common_selector_check"
-        android:drawablePadding="5dp"
-        android:paddingBottom="3dp"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:paddingTop="3dp"
-        android:text="@string/funshow_addfunshow_pay"
-        android:textColor="@color/common_text_dark"
-        android:textSize="14sp" />
+        android:orientation="horizontal"
+        android:paddingRight="8dp">
+
+        <CheckedTextView
+            android:id="@+id/check_pay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableLeft="@drawable/common_selector_check"
+            android:drawablePadding="5dp"
+            android:paddingBottom="3dp"
+            android:paddingLeft="8dp"
+            android:paddingTop="3dp"
+            android:text="@string/funshow_addfunshow_pay"
+            android:textColor="@color/common_text_dark"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/text_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:paddingBottom="3dp"
+            android:paddingTop="3dp"
+            android:textColor="@color/common_text_dark"
+            android:textSize="14sp"
+            tools:text=":500钻石" />
+
+    </LinearLayout>
 
     <CheckBox
+        android:id="@+id/check_hidename"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"

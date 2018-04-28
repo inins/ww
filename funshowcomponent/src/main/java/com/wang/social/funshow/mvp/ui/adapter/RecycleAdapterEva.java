@@ -3,6 +3,7 @@ package com.wang.social.funshow.mvp.ui.adapter;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,18 +12,24 @@ import com.frame.base.BaseViewHolder;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.utils.viewutils.FontUtils;
 import com.frame.mvp.IView;
+import com.frame.utils.KeyboardUtils;
 import com.wang.social.funshow.R;
 import com.wang.social.funshow.R2;
 import com.wang.social.funshow.mvp.entities.eva.Comment;
+import com.wang.social.funshow.mvp.entities.event.CommentEvent;
 import com.wang.social.funshow.mvp.ui.view.subevaview.SubEvaView;
 import com.wang.social.funshow.net.helper.NetZanHelper;
 import com.wang.social.funshow.utils.FunShowUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 
 public class RecycleAdapterEva extends BaseAdapter<Comment> {
+
+    private EditText editEva;
 
     @Override
     protected BaseViewHolder createViewHolder(Context context, ViewGroup parent, int viewType) {
@@ -56,13 +63,19 @@ public class RecycleAdapterEva extends BaseAdapter<Comment> {
             textEva.setText(bean.getContent());
             textTime.setText(FunShowUtil.getFunshowTimeStr(bean.getCreateTime()));
             textZan.setText(String.valueOf(bean.getSupportTotal()));
+            textZan.setSelected(bean.isSupport());
             FontUtils.boldText(text_name);
             textReplyMore.setVisibility(bean.getCommentReplySize() > subeva.getMaxSize() ? View.VISIBLE : View.GONE);
+            textReplyMore.setText(bean.isShowAll() ? R.string.funshow_home_funshow_detail_eva_less : R.string.funshow_home_funshow_detail_eva_more);
+            subeva.setShowAll(bean.isShowAll());
             subeva.refreshData(bean.getCommentReply());
-            textReplyMore.setText(subeva.isShowAll() ? R.string.funshow_home_funshow_detail_eva_more : R.string.funshow_home_funshow_detail_eva_less);
+            subeva.setOnCommentReplyClickListener((commentReply, pos) -> {
+                EventBus.getDefault().post(new CommentEvent(commentReply));
+                if (editEva != null) KeyboardUtils.showSoftInput(editEva);
+            });
 
             textReplyMore.setOnClickListener(v -> {
-                subeva.setShowAll(!subeva.isShowAll());
+                bean.setShowAll(!bean.isShowAll());
                 notifyItemChanged(position);
             });
             textZan.setOnClickListener(v -> {
@@ -74,7 +87,16 @@ public class RecycleAdapterEva extends BaseAdapter<Comment> {
         }
 
         @Override
+        protected boolean useItemClickListener() {
+            return true;
+        }
+
+        @Override
         public void onRelease() {
         }
+    }
+
+    public void setEditEva(EditText editEva) {
+        this.editEva = editEva;
     }
 }

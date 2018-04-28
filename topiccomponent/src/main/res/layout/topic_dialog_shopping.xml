@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="288dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="@drawable/topic_shape_rect_corner_solid_white">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="33dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/topic_dialog_shopping_title_1"
+            android:textColor="#ff434343"
+            android:textSize="17sp"
+            />
+
+        <TextView
+            android:id="@+id/price_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/common_blue_deep"
+            android:textSize="17sp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/topic_diamond"
+            android:textColor="#ff434343"
+            android:textSize="17sp"
+            />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/topic_balance_format"
+        android:textColor="@color/common_text_dark"
+        android:textSize="13sp"
+        android:layout_marginTop="8dp"
+        />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="28dp">
+
+        <TextView
+            android:id="@+id/cancel_text_view"
+            android:layout_width="78dp"
+            android:layout_height="27dp"
+            android:text="@string/topic_dialog_shopping_cancel"
+            android:textColor="@color/common_white"
+            android:textSize="13sp"
+            android:gravity="center"
+            android:background="@drawable/topic_shape_rect_corner_solid_divider"
+            />
+
+        <TextView
+            android:id="@+id/ok_text_view"
+            android:layout_width="78dp"
+            android:layout_height="27dp"
+            android:text="@string/topic_dialog_shopping_ok"
+            android:textColor="@color/common_white"
+            android:textSize="13sp"
+            android:gravity="center"
+            android:layout_gravity="end"
+            android:background="@drawable/topic_shape_rect_gradient_blue_corner"
+            />
+
+    </FrameLayout>
+
+
+</LinearLayout>

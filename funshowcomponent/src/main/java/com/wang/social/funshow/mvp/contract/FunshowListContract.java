@@ -10,6 +10,7 @@ import com.wang.social.funshow.mvp.entities.user.TopUser;
 import java.util.List;
 
 import io.reactivex.Observable;
+import retrofit2.http.Field;
 import retrofit2.http.Query;
 
 /**
@@ -29,11 +30,15 @@ public interface FunshowListContract {
         void finishSpringView();
 
         void reFreshTopUsers(List<TopUser> topUsers);
+
+        void callRefresh();
     }
 
     interface Model extends IModel {
         Observable<BaseJson<BaseListWrap<Funshow>>> getFunshowList(int type, int current, int size);
 
         Observable<BaseJson<BaseListWrap<TopUser>>> getFunshowTopUserList(String from, int current, int size);
+
+        Observable<BaseJson<Object>> shatDownUser(String shieldUserId, int type);
     }
 }

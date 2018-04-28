@@ -28,12 +28,12 @@ public class TopicListPresenter extends
     @Inject
     ApiHelper mApiHelper;
 
-    List<Topic> mTopicList = new ArrayList<>();
+    private List<Topic> mTopicList = new ArrayList<>();
 
     // 每页条数
-    int mSize = 10;
+    private int mSize = 10;
     // 当前页码
-    int mCurrent = 0;
+    private int mCurrent = 0;
 
     @Inject
     public TopicListPresenter(TopicListContract.Model model, TopicListContract.View view) {
@@ -55,43 +55,85 @@ public class TopicListPresenter extends
 
     public void clearTopicList() {
         mTopicList.clear();
+        mCurrent = 0;
     }
+
+    private void initHandler() {
+        if (null == mErrorHandleSubscriber) {
+            mErrorHandleSubscriber = new ErrorHandleSubscriber<TopicRsp>(mErrorHandler) {
+                @Override
+                public void onNext(TopicRsp rsp) {
+                    if (null != rsp) {
+                        mCurrent = rsp.getCurrent();
+
+                        mTopicList.addAll(rsp.getList());
+
+                        mRootView.onTopicLoadSuccess();
+                    }
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    mRootView.showToast(e.getMessage());
+                }
+            };
+        }
+
+        if (null == mConsumer) {
+            mConsumer = new Consumer<Disposable>() {
+                @Override
+                public void accept(Disposable disposable) throws Exception {
+                    mRootView.showLoading();
+                }
+            };
+        }
+
+        if (null == mAction) {
+            mAction = new Action() {
+                @Override
+                public void run() throws Exception {
+                    mRootView.onTopicLoadCompleted();
+                    mRootView.hideLoading();
+                }
+            };
+        }
+    }
+
+    private ErrorHandleSubscriber<TopicRsp> mErrorHandleSubscriber;
+    private Consumer<Disposable> mConsumer;
+    private Action mAction;
 
     /**
      * 或者最新话题列表
      */
     public void getNewsList() {
+        initHandler();
+
         mApiHelper.execute(mRootView,
                 mModel.getNewsList("1", mSize, mCurrent + 1),
-                new ErrorHandleSubscriber<TopicRsp>(mErrorHandler) {
+                mErrorHandleSubscriber,
+                mConsumer,
+                mAction);
+    }
 
-                    @Override
-                    public void onNext(TopicRsp rsp) {
-                        if (null != rsp) {
-                            mCurrent = rsp.getCurrent();
+    public void getHotList() {
+        initHandler();
 
-                            mTopicList.addAll(rsp.getList());
+        mApiHelper.execute(mRootView,
+                mModel.getHotList(mSize, mCurrent + 1),
+                mErrorHandleSubscriber,
+                mConsumer,
+                mAction);
+    }
 
-                            mRootView.onTopicLoadSuccess();
-                        }
-                    }
+    public void getLowList() {
+        initHandler();
 
-                    @Override
-                    public void onError(Throwable e) {
-                        mRootView.showToast(e.getMessage());
-                    }
-                }, new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        mRootView.showLoading();
-                    }
-                }, new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mRootView.onTopicLoadCompleted();
-                        mRootView.hideLoading();
-                    }
-                });
+        mApiHelper.execute(mRootView,
+                mModel.getLowList(mSize, mCurrent + 1),
+                mErrorHandleSubscriber,
+                mConsumer,
+                mAction);
     }
 
     @Override

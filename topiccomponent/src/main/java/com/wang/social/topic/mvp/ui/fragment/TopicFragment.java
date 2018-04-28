@@ -167,7 +167,7 @@ public class TopicFragment extends BaseFragment<TopicPresenter> implements Topic
         mViewPager.setAdapter(new FragmentPagerAdapter(getFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
-                return TopicListFragment.newInstance();
+                return TopicListFragment.newInstance(position);
             }
 
             @Override

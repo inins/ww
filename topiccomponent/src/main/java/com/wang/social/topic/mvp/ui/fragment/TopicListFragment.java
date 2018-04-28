@@ -1,6 +1,7 @@
 package com.wang.social.topic.mvp.ui.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,14 +22,31 @@ import com.wang.social.topic.mvp.model.entities.Topic;
 import com.wang.social.topic.mvp.presenter.TopicListPresenter;
 import com.wang.social.topic.mvp.ui.TopicDetailActivity;
 import com.wang.social.topic.mvp.ui.adapter.TopicListAdapter;
+import com.wang.social.topic.mvp.ui.widget.DFShopping;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 import butterknife.BindView;
+import timber.log.Timber;
 
 public class TopicListFragment extends BaseFragment<TopicListPresenter> implements TopicListContract.View {
+    public final static String KEY_TYPE = "TYPE";
 
-    public static TopicListFragment newInstance() {
-        return new TopicListFragment();
+    public static TopicListFragment newInstance(@FragmentType int type) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(KEY_TYPE, type);
+        TopicListFragment fragment = new TopicListFragment();
+        fragment.setArguments(bundle);
+        return fragment;
     }
+
+    public static final int FRAGMENT_NEW = 0;
+    public static final int FRAGMENT_HOT = 1;
+    public static final int FRAGMENT_LOW = 2;
+    @IntDef({ FRAGMENT_NEW, FRAGMENT_HOT, FRAGMENT_LOW })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface FragmentType {}
 
     @BindView(R2.id.spring_view)
     SpringView mSpringView;
@@ -37,7 +55,10 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
 
     TopicListAdapter mAdapter;
 
+    // onResume 调用后才开始加载
     boolean mIsLoaded = false;
+    // 类型
+    @FragmentType int mFragmentType = FRAGMENT_NEW;
 
     @Override
     public void setupFragmentComponent(@NonNull AppComponent appComponent) {
@@ -55,6 +76,10 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
+        if (null != getArguments()) {
+            mFragmentType = getArguments().getInt(KEY_TYPE, FRAGMENT_NEW);
+        }
+
         mAdapter = new TopicListAdapter(getContext(), new TopicListAdapter.DataProvider() {
             @Override
             public Topic getTopic(int position) {
@@ -69,32 +94,57 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
                 new TopicListAdapter.ClickListener() {
                     @Override
                     public void onTopicClick(Topic topic) {
-                        TopicDetailActivity.start(getActivity(), topic.getTopicId());
+                        if (topic.getIsShopping() == 1) {
+                            // 需要支付
+                            DFShopping.showDialog(getActivity().getSupportFragmentManager(), topic);
+                        } else {
+                            TopicDetailActivity.start(getActivity(), topic.getTopicId());
+                        }
                     }
                 });
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mAdapter);
 
+        // 刷新和加载更多
         mSpringView.setHeader(new AliHeader(mSpringView.getContext(), false));
         mSpringView.setFooter(new AliFooter(mSpringView.getContext(), false));
         mSpringView.setListener(new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
-                mPresenter.clearTopicList();
-                mPresenter.getNewsList();
+                loadTopic(true);
             }
 
             @Override
             public void onLoadmore() {
-                mPresenter.getNewsList();
+                loadTopic(false);
             }
         });
+    }
+
+    private void loadTopic(boolean refresh) {
+        if (refresh) {
+            mPresenter.clearTopicList();
+        }
+
+        switch (mFragmentType) {
+            case FRAGMENT_NEW:
+                mPresenter.getNewsList();
+                break;
+            case FRAGMENT_HOT:
+                mPresenter.getHotList();
+                break;
+            case FRAGMENT_LOW:
+                mPresenter.getLowList();
+                break;
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
+
+        Timber.i("onResume");
 
         if (!mIsLoaded) {
             mSpringView.callFreshDelay();
@@ -133,6 +183,7 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
 
     @Override
     public void onTopicLoadSuccess() {
+        refreshTopicList();
     }
 
     @Override

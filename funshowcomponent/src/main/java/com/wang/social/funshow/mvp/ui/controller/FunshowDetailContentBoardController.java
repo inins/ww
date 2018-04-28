@@ -1,14 +1,17 @@
 package com.wang.social.funshow.mvp.ui.controller;
 
+import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.frame.component.helper.ImageLoaderHelper;
+import com.frame.component.ui.acticity.BGMList.Music;
 import com.frame.component.ui.acticity.PhotoActivity;
 import com.frame.component.ui.base.BaseController;
 import com.frame.component.utils.viewutils.FontUtils;
-import com.frame.component.view.bundleimgview.BundleImgEntity;
 import com.frame.component.view.bundleimgview.BundleImgView;
 import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelperEx;
@@ -18,12 +21,13 @@ import com.frame.utils.ToastUtil;
 import com.wang.social.funshow.R;
 import com.wang.social.funshow.R2;
 import com.wang.social.funshow.mvp.entities.funshow.FunshowDetail;
+import com.wang.social.funshow.mvp.entities.funshow.FunshowDetailVideoRsc;
 import com.wang.social.funshow.mvp.model.api.FunshowService;
+import com.wang.social.funshow.mvp.ui.view.CtrlVideoView;
+import com.wang.social.funshow.mvp.ui.view.MusicBubbleView;
 import com.wang.social.funshow.utils.FunShowUtil;
 
 import org.greenrobot.eventbus.EventBus;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 
@@ -37,13 +41,18 @@ public class FunshowDetailContentBoardController extends BaseController {
     ImageView imgHeader;
     @BindView(R2.id.bundleview)
     BundleImgView bundleview;
+    @BindView(R2.id.videoview)
+    CtrlVideoView videoview;
     @BindView(R2.id.text_position)
     TextView textPosition;
     @BindView(R2.id.text_time)
     TextView textTime;
+    @BindView(R2.id.musicbubble)
+    MusicBubbleView musicbubble;
 
     private int talkId;
     private FunshowDetail funshowDetail;
+
 
     public FunshowDetailContentBoardController(View root, int talkId) {
         super(root);
@@ -67,15 +76,6 @@ public class FunshowDetailContentBoardController extends BaseController {
 
     @Override
     protected void onInitData() {
-//        bundleview.setPhotos(new ArrayList<BundleImgEntity>() {{
-//            add(new BundleImgEntity(ImageLoaderHelper.getRandomImg()));
-//            add(new BundleImgEntity(ImageLoaderHelper.getRandomImg()));
-//            add(new BundleImgEntity(ImageLoaderHelper.getRandomImg()));
-//            add(new BundleImgEntity(ImageLoaderHelper.getRandomImg()));
-//            add(new BundleImgEntity(ImageLoaderHelper.getRandomImg()));
-//            add(new BundleImgEntity(ImageLoaderHelper.getRandomImg()));
-//            add(new BundleImgEntity(ImageLoaderHelper.getRandomImg()));
-//        }});
         netGetFunshowDetail();
     }
 
@@ -86,14 +86,40 @@ public class FunshowDetailContentBoardController extends BaseController {
             textTitle.setText(funshowDetail.getTalkContent());
             textTime.setText(FunShowUtil.getFunshowTimeStr(funshowDetail.getCreateTime()));
             textPosition.setText(funshowDetail.getProvince() + funshowDetail.getCity());
-            if (funshowDetail.getPicCount() == 1) {
-                bundleview.setColcountWihi(1, 1.76f);
-            } else if (funshowDetail.getPicCount() == 2) {
-                bundleview.setColcountWihi(2, 0.87f);
-            } else if (funshowDetail.getPicCount() >= 3 && funshowDetail.getPicCount() <= 9) {
-                bundleview.setColcountWihi(3, 0.87f);
+
+
+            //设置视频
+            FunshowDetailVideoRsc videoRsc = funshowDetail.getVideoRsc();
+            if (videoRsc != null) {
+                videoview.setVisibility(View.VISIBLE);
+                videoview.setVideoURL(videoRsc.getUrl());
+            } else {
+                videoview.setVisibility(View.GONE);
+
+                //设置图片集
+                if (funshowDetail.getPicCount() != 0) {
+                    if (funshowDetail.getPicCount() == 1) {
+                        bundleview.setColcountWihi(1, 1.76f);
+                    } else if (funshowDetail.getPicCount() == 2) {
+                        bundleview.setColcountWihi(2, 0.87f);
+                    } else if (funshowDetail.getPicCount() >= 3 && funshowDetail.getPicCount() <= 9) {
+                        bundleview.setColcountWihi(3, 0.87f);
+                    }
+                    bundleview.setPhotos(funshowDetail.getBundleImgEntities());
+                    bundleview.setVisibility(View.VISIBLE);
+                } else {
+                    bundleview.setVisibility(View.GONE);
+                }
             }
-            bundleview.setPhotos(funshowDetail.getBundleImgEntities());
+
+            //设置音乐
+            FunshowDetailVideoRsc musicRsc = funshowDetail.getMusicRsc();
+            if (musicRsc != null) {
+                musicbubble.resetMusic(musicRsc.trans2Music());
+                musicbubble.setVisibility(View.VISIBLE);
+            } else {
+                musicbubble.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -118,12 +144,13 @@ public class FunshowDetailContentBoardController extends BaseController {
                         funshowDetail = basejson.getData();
                         setData(funshowDetail);
                         if (funshowDetail != null) {
-                            //通知其他控制器，接受数据
-                            EventBean eventBean = new EventBean(EventBean.EVENT_CTRL_FUNSHOW_DETAIL_COUNT);
+                            //通知其他控制器，接收数据
+                            EventBean eventBean = new EventBean(EventBean.EVENT_CTRL_FUNSHOW_DETAIL_DATA);
                             eventBean.put("zanCount", funshowDetail.getSupportNum());
                             eventBean.put("commonCount", funshowDetail.getCommentNum());
                             eventBean.put("shareCount", funshowDetail.getShareNum());
                             eventBean.put("isSupport", funshowDetail.isSupport());
+                            eventBean.put("userId", funshowDetail.getUserId());
                             EventBus.getDefault().post(eventBean);
                         }
                     }

@@ -10,22 +10,28 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.frame.component.helper.sound.AudioRecordManager;
+import com.frame.component.ui.acticity.BGMList.BGMListActivity;
+import com.frame.component.ui.acticity.BGMList.Music;
 import com.frame.component.ui.base.BaseController;
+import com.frame.entities.EventBean;
 import com.frame.utils.KeyboardUtils;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.wang.social.funshow.R;
 import com.wang.social.funshow.R2;
 import com.wang.social.funshow.mvp.ui.activity.AiteUserListActivity;
+import com.wang.social.funshow.mvp.ui.activity.FunshowAddActivity;
 import com.wang.social.funshow.mvp.ui.activity.LockActivity;
 import com.wang.social.funshow.mvp.ui.dialog.MusicPopupWindow;
+
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
-public class FunshowAddBottomBarController extends BaseController {
+public class FunshowAddBottomBarController extends FunshowAddBaseController {
 
     @BindView(R2.id.btn_aite)
     ImageView btnAite;
@@ -44,9 +50,26 @@ public class FunshowAddBottomBarController extends BaseController {
 
     private MusicPopupWindow popupWindow;
 
+    //趣晒可见权限
+    private int lock;
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        switch (event.getEvent()) {
+            case EventBean.EVENT_CTRL_FUNSHOW_ADD_LOCK:
+                lock = (int) event.get("lock");
+                break;
+            case EventBean.EVENTBUS_BGM_SELECTED:
+                Music music = (Music) event.get("BGM");
+                getMusicBoardController().setMusicPath(music);
+                break;
+        }
+    }
+
     public FunshowAddBottomBarController(View root) {
         super(root);
         int layout = R.layout.funshow_lay_add_bottombar;
+        registEventBus();
         onInitCtrl();
         onInitData();
     }
@@ -64,6 +87,7 @@ public class FunshowAddBottomBarController extends BaseController {
 
             @Override
             public void onMusicClick(View v) {
+                BGMListActivity.start((Activity) getContext(), null, 0xf123);
                 popupWindow.dismiss();
             }
         });
@@ -92,6 +116,11 @@ public class FunshowAddBottomBarController extends BaseController {
             @Override
             public void onCompleted(int duration, String path) {
                 Timber.e("onCompleted:" + path);
+                Music music = new Music();
+                music.setMusicId(new Random().nextInt());
+                music.setMusicName("我的录音");
+                music.setUrl(path);
+                getMusicBoardController().setMusicPath(music);
             }
 
             @Override
@@ -145,7 +174,7 @@ public class FunshowAddBottomBarController extends BaseController {
         } else if (i == R.id.btn_position) {
 
         } else if (i == R.id.btn_lock) {
-            LockActivity.start(getContext());
+            LockActivity.start(getContext(), lock);
         } else if (i == R.id.btn_music) {
             popupWindow.showPopupWindow(v);
         } else if (i == R.id.btn_keyboard) {
@@ -166,5 +195,11 @@ public class FunshowAddBottomBarController extends BaseController {
         } else if (layVoiceRecord.getVisibility() != View.GONE && !visible) {
             layVoiceRecord.setVisibility(View.GONE);
         }
+    }
+
+    /////////////////////////////////////////////////////////
+
+    public int getLock() {
+        return lock;
     }
 }

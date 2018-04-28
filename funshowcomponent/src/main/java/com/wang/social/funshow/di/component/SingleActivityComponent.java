@@ -2,6 +2,7 @@ package com.wang.social.funshow.di.component;
 
 import com.frame.di.component.AppComponent;
 import com.frame.di.scope.ActivityScope;
+import com.wang.social.funshow.mvp.ui.activity.FunshowAddActivity;
 import com.wang.social.funshow.mvp.ui.activity.FunshowDetailActivity;
 import com.wang.social.funshow.mvp.ui.activity.HotUserListActivity;
 
@@ -18,4 +19,5 @@ import dagger.Component;
 public interface SingleActivityComponent {
     void inject(HotUserListActivity activity);
     void inject(FunshowDetailActivity activity);
+    void inject(FunshowAddActivity activity);
 }

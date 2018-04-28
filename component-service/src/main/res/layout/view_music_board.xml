@@ -27,7 +27,8 @@
         android:textSize="13sp"
         app:layout_constraintBottom_toTopOf="@+id/seek_musicboard"
         app:layout_constraintEnd_toEndOf="@+id/seek_musicboard"
-        app:layout_constraintStart_toStartOf="@+id/seek_musicboard" />
+        app:layout_constraintStart_toStartOf="@+id/seek_musicboard"
+        tools:text="All of Me-John Legend" />
 
     <SeekBar
         android:id="@+id/seek_musicboard"
@@ -47,7 +48,8 @@
         android:textColor="@color/common_text_dark"
         android:textSize="10sp"
         app:layout_constraintStart_toStartOf="@+id/seek_musicboard"
-        app:layout_constraintTop_toBottomOf="@+id/seek_musicboard" />
+        app:layout_constraintTop_toBottomOf="@+id/seek_musicboard"
+        tools:text="02:22" />
 
     <TextView
         android:id="@+id/text_musicboard_time_all"
@@ -57,5 +59,6 @@
         android:textColor="@color/common_text_dark"
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="@+id/seek_musicboard"
-        app:layout_constraintTop_toTopOf="@+id/text_musicboard_time" />
+        app:layout_constraintTop_toTopOf="@+id/text_musicboard_time"
+        tools:text="04:29" />
 </android.support.constraint.ConstraintLayout>

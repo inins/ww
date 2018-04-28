@@ -15,9 +15,12 @@ import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.view.GradualImageView;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
 import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -34,7 +37,17 @@ public class BGMListActivity extends BaseAppActivity<BGMListPresenter> implement
         }
 
         intent.setClass(activity, BGMListActivity.class);
-        activity.startActivityForResult(intent, requestCode);
+        intent.putExtra("code", requestCode);
+
+        if (requestCode == -1) {
+            activity.startActivity(intent);
+        } else {
+            activity.startActivityForResult(intent, requestCode);
+        }
+    }
+
+    public static void start(Activity activity, Music music) {
+        start(activity, music, -1);
     }
 
     @BindView(R2.id.toolbar)
@@ -51,6 +64,8 @@ public class BGMListActivity extends BaseAppActivity<BGMListPresenter> implement
     // 右上角选定文字
     @BindView(R2.id.selected_text_view)
     TextView mSelectedTV;
+
+    int mRequestCode;
 
 
     @Override
@@ -69,6 +84,8 @@ public class BGMListActivity extends BaseAppActivity<BGMListPresenter> implement
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
+        mRequestCode = getIntent().getIntExtra("code", -1);
+
         mToolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
             @Override
             public void onButtonClick(SocialToolbar.ClickType clickType) {
@@ -106,8 +123,8 @@ public class BGMListActivity extends BaseAppActivity<BGMListPresenter> implement
             public void onSelect(Music music) {
                 if (mPresenter.selectMusic(music)) {
                     // 选择变化，判断是否和原来传入的音乐相同，如果不同则右上角可点击
-                    if (null != mPresenter.getOrigialMusic() &&
-                            mPresenter.getOrigialMusic().getMusicId() != music.getMusicId()) {
+                    if (null != mPresenter.getOriginalMusic() &&
+                            mPresenter.getOriginalMusic().getMusicId() != music.getMusicId()) {
                         resetSelectedTextView(true);
                     } else {
                         resetSelectedTextView(false);
@@ -137,7 +154,7 @@ public class BGMListActivity extends BaseAppActivity<BGMListPresenter> implement
         // 已选中的音乐
         Music music = Music.newInstance(getIntent());
         mPresenter.setSelectMusic(music);
-        mPresenter.setOrigialMusic(music);
+        mPresenter.setOriginalMusic(music);
 
         // 初始化播放器
         mPresenter.initMediaPlayer();
@@ -185,8 +202,16 @@ public class BGMListActivity extends BaseAppActivity<BGMListPresenter> implement
      */
     @OnClick(R2.id.selected_text_view)
     public void selectMusic() {
-        Intent intent = Music.newIntent(mPresenter.getSelectMusic());
-        setResult(Activity.RESULT_OK, intent);
+        if (mRequestCode != -1) {
+            Intent intent = Music.newIntent(mPresenter.getSelectMusic());
+            setResult(Activity.RESULT_OK, intent);
+        }
+
+        // 通知
+        EventBean bean = new EventBean(EventBean.EVENTBUS_BGM_SELECTED);
+        bean.put("BGM", mPresenter.getSelectMusic());
+        EventBus.getDefault().post(bean);
+
         finish();
     }
 
@@ -227,13 +252,6 @@ public class BGMListActivity extends BaseAppActivity<BGMListPresenter> implement
         super.onPause();
 
         mPresenter.pauseMusic();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        mPresenter.stopMusic();
     }
 
     @Override

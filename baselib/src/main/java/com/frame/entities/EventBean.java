@@ -24,6 +24,8 @@ public class EventBean implements Serializable {
     public static final int EVENTBUS_TAG_UPDATED = 0xffa104;
     // 返回选中的标签数据( "ids" "names")
     public static final int EVENTBUS_TAG_SELECTED_LIST = 0xffa105;
+    // 背景音乐选中
+    public static final int EVENTBUS_BGM_SELECTED = 0xffa106;
 
     //相册数量已修改，通知个人详情页面重新刷新数量
     public static final int EVENT_MEPHOTO_CHANGE = 0xffa201;
@@ -37,9 +39,17 @@ public class EventBean implements Serializable {
     public static final int EVENT_TAB_USER = 0xffa205;
 
     //趣晒控制器通知点赞数量，评论数量，分享数量
-    public static final int EVENT_CTRL_FUNSHOW_DETAIL_COUNT = 0xffa206;
+    public static final int EVENT_CTRL_FUNSHOW_DETAIL_DATA = 0xffa206;
+    //趣晒控制器通知刷新评论
+    public static final int EVENT_FUNSHOW_DETAIL_ADD_EVA = 0xffa207;
     //趣晒详情点赞通知列表更新数量
-    public static final int EVENT_FUNSHOW_UPDATE_ZAN = 0xffa207;
+    public static final int EVENT_FUNSHOW_UPDATE_ZAN = 0xffa208;
+    //趣晒详情评论点击通知编辑框
+    public static final int EVENT_CTRL_FUNSHOW_DETAIL_EVAID = 0xffa209;
+    //发布趣晒选择@好友
+    public static final int EVENT_CTRL_FUNSHOW_ADD_USER = 0xffa210;
+    //发布趣晒选择趣晒锁
+    public static final int EVENT_CTRL_FUNSHOW_ADD_LOCK = 0xffa211;
 
     @IntDef({
             EVENTBUS_TAG_SELECTED,
@@ -47,13 +57,18 @@ public class EventBean implements Serializable {
             EVENTBUS_TAG_DELETE,
             EVENTBUS_TAG_UPDATED,
             EVENTBUS_TAG_SELECTED_LIST,
+            EVENTBUS_BGM_SELECTED,
             EVENT_MEPHOTO_CHANGE,
             EVENT_USERINFO_CHANGE,
             EVENT_LOGOUT,
             EVENT_PRIVATE_UPDATE,
             EVENT_TAB_USER,
-            EVENT_CTRL_FUNSHOW_DETAIL_COUNT,
+            EVENT_CTRL_FUNSHOW_DETAIL_DATA,
+            EVENT_FUNSHOW_DETAIL_ADD_EVA,
             EVENT_FUNSHOW_UPDATE_ZAN,
+            EVENT_CTRL_FUNSHOW_DETAIL_EVAID,
+            EVENT_CTRL_FUNSHOW_ADD_USER,
+            EVENT_CTRL_FUNSHOW_ADD_LOCK,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface EventBeanType {

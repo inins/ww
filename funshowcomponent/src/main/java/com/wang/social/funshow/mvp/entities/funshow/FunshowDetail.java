@@ -39,7 +39,6 @@ public class FunshowDetail {
     private long birthday;
     private String city;
     private int isSupport;
-    private String musicUrl;
     private int sex;
     private String userNickname;
     private String avatar;
@@ -51,15 +50,31 @@ public class FunshowDetail {
     private int isFree;
     private String constellation;
     private String province;
-    private String videoUrl;
     private long createTime;
     private float price;
     private int isShopping;
     private int age;
     private int supportNum;
     private List<Pic> pics;
+    private FunshowDetailVideoRsc resourceUrl;
 
     ////////////////////////////////////
+
+    public FunshowDetailVideoRsc getMusicRsc() {
+        if (resourceUrl != null && resourceUrl.isVoice()) {
+            return resourceUrl;
+        } else {
+            return null;
+        }
+    }
+
+    public FunshowDetailVideoRsc getVideoRsc() {
+        if (resourceUrl != null && resourceUrl.isVidoe()) {
+            return resourceUrl;
+        } else {
+            return null;
+        }
+    }
 
     public int getPicCount() {
         return pics != null ? pics.size() : 0;

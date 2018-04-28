@@ -104,6 +104,22 @@ public class FunshowListPresonter extends BasePresenter<FunshowListContract.Mode
                 });
     }
 
+    public void shatDownUser(int userId) {
+        ApiHelperEx.execute(mRootView, true,
+                mModel.shatDownUser(userId + "", 1),
+                new ErrorHandleSubscriber<BaseJson<Object>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseJson<Object> basejson) {
+                        mRootView.callRefresh();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        ToastUtil.showToastLong(e.getMessage());
+                    }
+                });
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();

@@ -25,7 +25,7 @@ import com.wang.social.pictureselector.helper.PhotoHelper;
 import com.wang.social.personal.helper.PicPhotoHelperEx;
 import com.wang.social.personal.mvp.entities.photo.Photo;
 import com.wang.social.personal.mvp.ui.adapter.RecycleAdapterMePhoto;
-import com.wang.social.personal.mvp.ui.dialog.DialogSure;
+import com.frame.component.ui.dialog.DialogSure;
 import com.frame.component.view.TitleView;
 import com.wang.social.personal.net.helper.NetPhotoHelper;
 

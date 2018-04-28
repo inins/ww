@@ -2,6 +2,7 @@ package com.wang.social.personal.mvp.entities.user;
 
 import com.frame.component.api.Api;
 import com.frame.component.entities.Tag;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
@@ -20,10 +21,12 @@ public class QrcodeInfo {
      */
 
     private String constellation;
+    @SerializedName("nickname")
     private String nickName;
     private String userAvatar;
     private int userId;
     private String userAgeGroup;
+    @SerializedName("tags")
     private List<Tag> userTag;
 
     public String getQrcodeImg() {
