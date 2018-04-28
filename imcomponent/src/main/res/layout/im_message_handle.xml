@@ -18,8 +18,15 @@
         android:textSize="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/mh_line"
+        app:layout_constraintRight_toLeftOf="@+id/mh_guideline"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/mh_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5"/>
 
     <View
         android:id="@+id/mh_line"
@@ -42,7 +49,7 @@
         android:textColor="@color/common_white"
         android:textSize="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/mh_line"
+        app:layout_constraintLeft_toRightOf="@id/mh_guideline"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

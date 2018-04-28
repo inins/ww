@@ -28,6 +28,7 @@ import com.wang.social.im.enums.CustomElemType;
 import com.wang.social.im.mvp.contract.ConversationContract;
 import com.wang.social.im.mvp.model.entities.EnvelopElemData;
 import com.wang.social.im.mvp.model.entities.EnvelopInfo;
+import com.wang.social.im.mvp.model.entities.EnvelopMessageCacheInfo;
 import com.wang.social.im.mvp.model.entities.LocationAddressInfo;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 import com.wang.social.im.mvp.ui.adapters.MessageListAdapter;
@@ -258,15 +259,34 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
 
     /**
      * 获取红包详情
+     *
      * @param uiMessage
      */
     public void getEnvelopInfo(UIMessage uiMessage) {
         EnvelopElemData envelopElemData = (EnvelopElemData) uiMessage.getCustomMessageElemData(CustomElemType.RED_ENVELOP, gson);
-        if (envelopElemData != null){
+        if (envelopElemData != null) {
             mApiHelper.execute(mRootView, mModel.getEnvelopInfo(envelopElemData.getEnvelopId()), new ErrorHandleSubscriber<EnvelopInfo>(mErrorHandler) {
                 @Override
                 public void onNext(EnvelopInfo envelopInfo) {
                     mRootView.showEnvelopDialog(uiMessage, envelopInfo);
+                    TIMMessageExt messageExt = new TIMMessageExt(uiMessage.getTimMessage());
+                    //检查红包状态
+                    if (envelopInfo.getGotDiamond() > 0){
+                        messageExt.setCustomInt(EnvelopMessageCacheInfo.STATUS_ADOPTED);
+                    }else {
+                        switch (envelopInfo.getStatus()) {
+                            case LIVING:
+                                messageExt.setCustomInt(EnvelopMessageCacheInfo.STATUS_INITIAL);
+                                break;
+                            case EMPTY:
+                                messageExt.setCustomInt(EnvelopMessageCacheInfo.STATUS_EMPTY);
+                                break;
+                            case OVERDUE:
+                                messageExt.setCustomInt(EnvelopMessageCacheInfo.STATUS_OVERDUE);
+                                break;
+                        }
+                    }
+                    mRootView.refreshMessage(uiMessage);
                 }
             }, new Consumer<Disposable>() {
                 @Override

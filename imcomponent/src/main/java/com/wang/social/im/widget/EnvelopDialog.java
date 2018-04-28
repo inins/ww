@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.frame.component.utils.UIUtil;
 import com.frame.di.component.AppComponent;
 import com.frame.http.api.ApiException;
 import com.frame.http.api.BaseJson;
@@ -140,6 +141,7 @@ public class EnvelopDialog extends Dialog {
                 .placeholder(R.drawable.common_default_circle_placeholder)
                 .errorPic(R.drawable.common_default_circle_placeholder)
                 .url(envelopInfo.getFromPortrait())
+                .isCircle(true)
                 .imageView(drpCivHead)
                 .build());
         drpTvFrom.setText(envelopInfo.getFromNickname());
@@ -162,8 +164,6 @@ public class EnvelopDialog extends Dialog {
             disposables.clear();
             disposables = null;
         }
-        context = null;
-        envelopInfo = null;
         drpIvbClose = null;
         drpCivHead = null;
         drpTvFrom = null;
@@ -178,8 +178,12 @@ public class EnvelopDialog extends Dialog {
     }
 
     private void showInfo() {
-        if (envelopInfo.getStatus() == EnvelopInfo.Status.LIVING) {
+        if (envelopInfo.getStatus() == EnvelopInfo.Status.LIVING && envelopInfo.getGotDiamond() == 0) {
             drpTvMessage.setText(envelopInfo.getMessage());
+            if (envelopInfo.isSelf()) {
+                drpTvbOpen.setVisibility(View.GONE);
+                drpTvbLookDetail.setVisibility(View.VISIBLE);
+            }
         } else {
             drpTvbOpen.setVisibility(View.GONE);
             if (envelopInfo.getGotDiamond() > 0) {
@@ -188,9 +192,9 @@ public class EnvelopDialog extends Dialog {
                 drpTvDiamond.setText(String.valueOf(envelopInfo.getGotDiamond()));
             } else {
                 if (envelopInfo.getStatus() == EnvelopInfo.Status.OVERDUE) {
-                    drpTvMessage.setText(envelopInfo.isSelf() ? R.string.im_envelop_overdue_self : R.string.im_envelop_overdue);
+                    drpTvMessage.setText(envelopInfo.getType() == EnvelopInfo.EnvelopType.PRIVATE ? R.string.im_envelop_overdue : R.string.im_envelop_overdue_self);
                 } else if (envelopInfo.getStatus() == EnvelopInfo.Status.EMPTY) {
-                    drpTvMessage.setText(R.string.im_envelop_empty);
+                    drpTvMessage.setText(envelopInfo.isSelf() ? envelopInfo.getMessage() : UIUtil.getString(R.string.im_envelop_empty));
                 }
             }
 
@@ -225,7 +229,7 @@ public class EnvelopDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 dismiss();
-                EnvelopDetailActivity.start(context, envelopInfo.getEnvelopId());
+                EnvelopDetailActivity.start(context, envelopInfo);
             }
         });
     }
@@ -263,6 +267,7 @@ public class EnvelopDialog extends Dialog {
                     @Override
                     public void onNext(EnvelopAdoptInfo envelopAdoptInfo) {
                         envelopInfo.setGotDiamond(envelopAdoptInfo.getGotDiamondNumber());
+                        showInfo();
 
                         updateEnvelopMessageCache(envelopAdoptInfo.getGotDiamondNumber(), EnvelopMessageCacheInfo.STATUS_ADOPTED);
                     }
@@ -274,13 +279,14 @@ public class EnvelopDialog extends Dialog {
                                 case ApiCode.ENVELOP_OVERDUE:
                                     envelopInfo.setStatus(EnvelopInfo.Status.OVERDUE);
                                     showInfo();
-
                                     updateEnvelopMessageCache(0, EnvelopMessageCacheInfo.STATUS_OVERDUE);
                                     break;
                                 case ApiCode.ENVELOP_EMPTY:
                                     showInfo();
-
                                     envelopInfo.setStatus(EnvelopInfo.Status.EMPTY);
+                                    break;
+                                default:
+                                    super.onError(e);
                                     break;
                             }
                         } else {
@@ -302,6 +308,7 @@ public class EnvelopDialog extends Dialog {
         cacheInfo.setGotDiamond(godDiamond);
         cacheInfo.setStatus(status);
         messageExt.setCustomStr(gson.toJson(messageExt));
+        messageExt.setCustomInt(status);
 
         EventBus.getDefault().post(uiMessage);
     }

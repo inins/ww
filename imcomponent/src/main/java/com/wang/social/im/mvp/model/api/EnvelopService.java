@@ -1,6 +1,8 @@
 package com.wang.social.im.mvp.model.api;
 
 import com.frame.http.api.BaseJson;
+import com.frame.http.api.PageListDTO;
+import com.wang.social.im.mvp.model.entities.EnvelopAdoptInfo;
 import com.wang.social.im.mvp.model.entities.dto.CreateEnvelopResultDTO;
 import com.wang.social.im.mvp.model.entities.dto.EnvelopAdoptInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.EnvelopInfoDTO;
@@ -11,6 +13,7 @@ import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -29,7 +32,7 @@ public interface EnvelopService {
 
     /**
      * 发送红包
-     *
+     * <p>
      * version
      * versionCode
      * channelCode
@@ -40,6 +43,7 @@ public interface EnvelopService {
      * groupId
      * nonceStr
      * signature
+     *
      * @return
      */
     @Headers(HEADER_CONTENT_TYPE)
@@ -59,10 +63,23 @@ public interface EnvelopService {
 
     /**
      * 红包详情
+     *
      * @param version
      * @param envelopId
      * @return
      */
-    @POST("app/red/details")
+    @GET("app/red/details")
     Observable<BaseJson<EnvelopInfoDTO>> getEnvelopInfo(@Query("v") String version, @Query("packId") long envelopId);
+
+    /**
+     * 红包领取记录
+     * @param version
+     * @param envelopId
+     * @param currentPage
+     * @param pageSize
+     * @return
+     */
+    @GET("app/red/receive_record")
+    Observable<BaseJson<PageListDTO<EnvelopAdoptInfoDTO, EnvelopAdoptInfo>>> getEnvelopAdoptList(@Query("v") String version, @Query("packId") long envelopId,
+                                                                                                 @Query("current") int currentPage, @Query("size") int pageSize);
 }

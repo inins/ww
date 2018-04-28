@@ -36,6 +36,8 @@ public class EnvelopInfoDTO implements Mapper<EnvelopInfo> {
     private int receiveDiamond;
     //红包状态 1 可以领取; 2 已经领完; 3 已经过期
     private int status;
+    //花费时间
+    private long spendTime;
 
     @Override
     public EnvelopInfo transform() {
@@ -72,6 +74,7 @@ public class EnvelopInfoDTO implements Mapper<EnvelopInfo> {
                 envelopInfo.setStatus(EnvelopInfo.Status.OVERDUE);
                 break;
         }
+        envelopInfo.setSpendTime(spendTime);
         return envelopInfo;
     }
 }

@@ -30,7 +30,12 @@
     <string name="im_envelop_give_spell">给你发了一个拼手气红包</string>
     <string name="im_envelop_status_adopt">领取红包</string>
     <string name="im_envelop_status_adopted">红包已领取</string>
-    <string name="im_envelop_status_overdue">红包已领取</string>
+    <string name="im_envelop_status_overdue">红包已过期</string>
+    <string name="im_envelop_status_empty">红包已领完</string>
+    <string name="im_envelop_over_format">%d个红包共%d钻，%s被抢光</string>
+    <string name="im_envelop_adopt_format">已领取%d/%d个，共%d/%d钻</string>
+    <string name="im_envelop_adopt_overdue_format">红包已过期，已领取%d/%d个，共%d/%d钻</string>
+    <string name="im_envelop_equal_info">%d个红包共%d钻</string>
 
     <string name="im_envelop_toast_limit">每个红包钻石数不能大于%d</string>
 </resources>

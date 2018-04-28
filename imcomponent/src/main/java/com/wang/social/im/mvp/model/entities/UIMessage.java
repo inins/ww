@@ -308,22 +308,22 @@ public class UIMessage {
         return portrait;
     }
 
-    /**
-     * 获取红包在本地缓存的信息
-     *
-     * @return
-     */
-    public EnvelopMessageCacheInfo getEnvelopCacheInfo(Gson gson) {
-        //获取红包状态
-        TIMMessageExt messageExt = new TIMMessageExt(timMessage);
-        if (!TextUtils.isEmpty(messageExt.getCustomStr())) {
-            try {
-                return gson.fromJson(messageExt.getCustomStr(), EnvelopMessageCacheInfo.class);
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-        return null;
-    }
+//    /**
+//     * 获取红包在本地缓存的信息
+//     *
+//     * @return
+//     */
+//    public EnvelopMessageCacheInfo getEnvelopCacheInfo(Gson gson) {
+//        //获取红包状态
+//        TIMMessageExt messageExt = new TIMMessageExt(timMessage);
+//        if (!TextUtils.isEmpty(messageExt.getCustomStr())) {
+//            try {
+//                return gson.fromJson(messageExt.getCustomStr(), EnvelopMessageCacheInfo.class);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                return null;
+//            }
+//        }
+//        return null;
+//    }
 }

@@ -1,8 +1,14 @@
 package com.wang.social.im.mvp.model.entities;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.tencent.imsdk.TIMManager;
 
+import java.io.Serializable;
+
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * ============================================
@@ -12,7 +18,8 @@ import lombok.Data;
  * ============================================
  */
 @Data
-public class EnvelopInfo {
+@NoArgsConstructor
+public class EnvelopInfo implements Parcelable {
 
     public enum Status{
         /*
@@ -57,6 +64,7 @@ public class EnvelopInfo {
     private int lastDiamond; //剩余钻石数
     private int count; //总个数
     private int lastCount; //剩余个数
+    private long spendTime; //花费时间
 
     /**
      * 检测是否是自己发的红包
@@ -65,4 +73,56 @@ public class EnvelopInfo {
     public boolean isSelf(){
         return TIMManager.getInstance().getLoginUser().equals(fromUid);
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.envelopId);
+        dest.writeInt(this.status == null ? -1 : this.status.ordinal());
+        dest.writeInt(this.type == null ? -1 : this.type.ordinal());
+        dest.writeString(this.fromUid);
+        dest.writeString(this.fromPortrait);
+        dest.writeString(this.fromNickname);
+        dest.writeString(this.message);
+        dest.writeInt(this.diamond);
+        dest.writeInt(this.gotDiamond);
+        dest.writeInt(this.lastDiamond);
+        dest.writeInt(this.count);
+        dest.writeInt(this.lastCount);
+        dest.writeLong(this.spendTime);
+    }
+
+    protected EnvelopInfo(Parcel in) {
+        this.envelopId = in.readLong();
+        int tmpStatus = in.readInt();
+        this.status = tmpStatus == -1 ? null : Status.values()[tmpStatus];
+        int tmpType = in.readInt();
+        this.type = tmpType == -1 ? null : EnvelopType.values()[tmpType];
+        this.fromUid = in.readString();
+        this.fromPortrait = in.readString();
+        this.fromNickname = in.readString();
+        this.message = in.readString();
+        this.diamond = in.readInt();
+        this.gotDiamond = in.readInt();
+        this.lastDiamond = in.readInt();
+        this.count = in.readInt();
+        this.lastCount = in.readInt();
+        this.spendTime = in.readLong();
+    }
+
+    public static final Parcelable.Creator<EnvelopInfo> CREATOR = new Parcelable.Creator<EnvelopInfo>() {
+        @Override
+        public EnvelopInfo createFromParcel(Parcel source) {
+            return new EnvelopInfo(source);
+        }
+
+        @Override
+        public EnvelopInfo[] newArray(int size) {
+            return new EnvelopInfo[size];
+        }
+    };
 }

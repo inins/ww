@@ -68,6 +68,7 @@ dependencies {
     annotationProcessor project(':router-anno-compiler')
     implementation project(':pictureselectorcomponent')
     implementation project(':locationlib')
+    implementation project(':springlibrary')
 }
 
 combuild {

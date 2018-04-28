@@ -13,6 +13,7 @@ public class AppDataHelper {
     private static final String SHARENAME = "app_config";
     private static final String KEY_USER = "user";
     private static final String KEY_TOKEN = "token";
+    private static final String KEY_IM_SIGN = "sign";
     private static final String KEY_MSGCONFIG = "msg_config";
 
     /////////////////// 用户对象持久化 ///////////////////
@@ -29,18 +30,27 @@ public class AppDataHelper {
         SPUtils.getInstance(SHARENAME).remove(KEY_USER);
     }
 
-    /////////////////// token持久化 ///////////////////
+    /////////////////// token/sign持久化 ///////////////////
 
     public static void saveToken(String token) {
         SPUtils.getInstance(SHARENAME).put(KEY_TOKEN, token);
+    }
+
+    public static void saveImSign(String sign){
+        SPUtils.getInstance(SHARENAME).put(KEY_IM_SIGN, sign);
     }
 
     public static String getToken() {
         return SPUtils.getInstance(SHARENAME).getString(KEY_TOKEN);
     }
 
+    public static String getSign() {
+        return SPUtils.getInstance(SHARENAME).getString(KEY_IM_SIGN);
+    }
+
     public static void removeToken() {
         SPUtils.getInstance(SHARENAME).remove(KEY_TOKEN);
+        SPUtils.getInstance(SHARENAME).remove(KEY_IM_SIGN);
     }
 
     /////////////////// msgSetting持久化 ///////////////////

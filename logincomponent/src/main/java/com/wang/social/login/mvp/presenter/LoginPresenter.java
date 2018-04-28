@@ -47,6 +47,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
 
     public void clearToken() {
         AppDataHelper.saveToken("");
+        AppDataHelper.saveImSign("");
     }
 
     /**
@@ -127,6 +128,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
         Timber.i("登录成功");
         // 保存数据
         AppDataHelper.saveToken(loginInfo.getToken());
+        AppDataHelper.saveImSign(loginInfo.getImSign());
         AppDataHelper.saveUser(loginInfo.getUserInfo());
 
         // 获取标签信息
@@ -228,6 +230,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
                     public void onNext(LoginInfo loginInfo) {
                         // 保存数据
                         AppDataHelper.saveToken(loginInfo.getToken());
+                        AppDataHelper.saveToken(loginInfo.getImSign());
                         AppDataHelper.saveUser(loginInfo.getUserInfo());
                         // 提示注册成功
                         // 跳转到标签选择页面

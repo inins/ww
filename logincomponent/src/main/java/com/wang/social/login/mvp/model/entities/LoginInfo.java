@@ -15,6 +15,7 @@ import lombok.Data;
 @Data
 public class LoginInfo {
     String token;
+    String imSign;
     User userInfo;
     Tags userTags;
 }
