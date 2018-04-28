@@ -102,8 +102,12 @@
     <string name="personal_account_exchange_title">兑换宝石</string>
     <string name="personal_account_exchange_note">宝石可用于非收益付费功能的支付</string>
     <string name="personal_account_exchange_card_left">拥有宝石</string>
-    <string name="personal_account_exchange_exchange">兑换</string>
+    <string name="personal_account_exchange_card_right">拥有钻石</string>
+    <string name="personal_account_exchange_exchange">兑换比例</string>
+    <string name="personal_account_exchange_exchange_lv">1 钻石: 20宝石</string>
     <string name="personal_account_exchange_exchange_sub">宝石：</string>
+    <string name="personal_account_exchange_exchange_note">兑换宝石的钻石数量</string>
+    <string name="personal_account_exchange_exchange_hint">请输入...</string>
     <string name="personal_account_exchange_btn_go">确认兑换</string>
 
     <!--我的账户提现页面-->
@@ -140,12 +144,12 @@
     <!--好友黑名单页面-->
     <string name="personal_blacklist_title">好友黑名单</string>
     <string name="personal_blacklist_title_note">他/她们都是你曾经厌恶的人</string>
-    <string name="personal_blacklist_btn_right">全部取消(6)</string>
+    <string name="personal_blacklist_btn_right">全部取消</string>
 
     <!--好友黑名单页面-->
     <string name="personal_shutdown_title">趣晒屏蔽列表</string>
     <string name="personal_shutdown_title_note">此功能，仅影响趣晒是否显示</string>
-    <string name="personal_shutdown_btn_right">全部取消(6)</string>
+    <string name="personal_shutdown_btn_right">全部取消</string>
 
     <!--关于往往页面-->
     <string name="personal_about_btn_right">常见问题</string>

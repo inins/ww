@@ -11,6 +11,7 @@ import com.frame.base.BaseViewHolder;
 import com.frame.component.entities.ShatDownUser;
 import com.frame.component.entities.User;
 import com.frame.component.helper.ImageLoaderHelper;
+import com.frame.utils.StrUtil;
 import com.frame.utils.TimeUtils;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
@@ -70,6 +71,17 @@ public class RecycleAdapterBlacklist extends BaseAdapter<ShatDownUser> {
         @Override
         public void onRelease() {
         }
+    }
+
+    ////////////////////////////////
+
+    public String getAllItemIds() {
+        if (StrUtil.isEmpty(getData())) return "";
+        String ids = "";
+        for (ShatDownUser user : getData()) {
+            ids += user.getShieldUserId() + ",";
+        }
+        return StrUtil.subLastChart(ids, ",");
     }
 
     ////////////////////////////////

@@ -4,10 +4,12 @@ import com.frame.component.entities.ShatDownUser;
 import com.frame.component.entities.User;
 import com.frame.http.api.BaseJson;
 import com.frame.component.entities.BaseListWrap;
+import com.frame.http.api.BaseListJson;
 import com.wang.social.personal.mvp.entities.AccountBalance;
 import com.wang.social.personal.mvp.entities.CommonEntity;
 import com.wang.social.personal.mvp.entities.QiniuTokenWrap;
 import com.frame.component.entities.UserWrap;
+import com.wang.social.personal.mvp.entities.income.DiamondStoneIncome;
 import com.wang.social.personal.mvp.entities.lable.LableWrap;
 import com.wang.social.personal.mvp.entities.photo.OffiPic;
 import com.wang.social.personal.mvp.entities.photo.Photo;
@@ -162,5 +164,14 @@ public interface UserService {
     //屏蔽用户列表
     @GET("/app/userInfo/getMyShieldList?v=2.0.0")
     Observable<BaseJson<BaseListWrap<ShatDownUser>>> shatDownList();
+
+    //钻石收支明细
+    @GET("/app/userWallet/diamondIncomeList?v=2.0.0")
+    Observable<BaseJson<BaseListWrap<DiamondStoneIncome>>> diamondIncomeList(@Query("type") int type, @Query("current") int current, @Query("size") int size);
+
+    //宝石收支明细
+    @GET("/app/userWallet/gemstoneIncomeList?v=2.0.0")
+    Observable<BaseJson<BaseListWrap<DiamondStoneIncome>>> toneIncomeList(@Query("type") int type, @Query("current") int current, @Query("size") int size);
+
 
 }

@@ -29,6 +29,8 @@ public class ShatDownUser implements Serializable {
 
     private int id;
     private int userId;
+    private int shieldId;
+    private int shieldUserId;
     private String nickname;
     private String avatar;
     private int sex;

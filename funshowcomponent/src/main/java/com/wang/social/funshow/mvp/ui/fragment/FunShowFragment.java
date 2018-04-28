@@ -13,6 +13,7 @@ import com.frame.base.BaseFragment;
 import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.NetLoginTestHelper;
+import com.frame.component.helper.NetPayStoneHelper;
 import com.frame.component.view.barview.BarUser;
 import com.frame.component.view.barview.BarView;
 import com.frame.di.component.AppComponent;
@@ -34,6 +35,7 @@ import com.wang.social.funshow.mvp.ui.activity.FunshowAddActivity;
 import com.wang.social.funshow.mvp.ui.activity.FunshowDetailActivity;
 import com.wang.social.funshow.mvp.ui.activity.HotUserListActivity;
 import com.wang.social.funshow.mvp.ui.adapter.RecycleAdapterHome;
+import com.wang.social.funshow.mvp.ui.dialog.DialogSureFunshowPay;
 import com.wang.social.funshow.utils.FunShowUtil;
 
 import java.util.ArrayList;
@@ -131,7 +133,16 @@ public class FunShowFragment extends BaseFragment<FunshowListPresonter> implemen
 
     @Override
     public void onItemClick(Funshow funshow, int position) {
-        FunshowDetailActivity.start(getContext(), funshow.getTalkId());
+        if (funshow.isShopping()) {
+            DialogSureFunshowPay.showDialog(getContext(), funshow.getPrice(), () -> {
+                NetPayStoneHelper.newInstance().netPayFunshow(FunShowFragment.this, funshow.getTalkId(), funshow.getPrice(), () -> {
+                    FunshowDetailActivity.start(getContext(), funshow.getTalkId());
+                    adapter.refreshNeedPayById(funshow.getTalkId());
+                });
+            });
+        } else {
+            FunshowDetailActivity.start(getContext(), funshow.getTalkId());
+        }
     }
 
     @OnClick({R2.id.barview})

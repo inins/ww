@@ -3,6 +3,7 @@ package com.wang.social.personal.di.component;
 import com.frame.di.component.AppComponent;
 import com.frame.di.scope.FragmentScope;
 import com.wang.social.personal.di.module.UserModule;
+import com.wang.social.personal.mvp.ui.fragment.AccountDepositDetailFragment;
 import com.wang.social.personal.mvp.ui.fragment.PersonalFragment;
 
 import dagger.Component;
@@ -15,4 +16,5 @@ import dagger.Component;
 public interface FragmentComponent {
 
     void inject(PersonalFragment personalFragment);
+    void inject(AccountDepositDetailFragment personalFragment);
 }

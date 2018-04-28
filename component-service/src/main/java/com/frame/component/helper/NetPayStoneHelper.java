@@ -1,0 +1,104 @@
+package com.frame.component.helper;
+
+import com.frame.component.api.CommonService;
+import com.frame.component.common.NetParam;
+import com.frame.component.entities.User;
+import com.frame.component.entities.UserWrap;
+import com.frame.component.helper.AppDataHelper;
+import com.frame.http.api.ApiHelperEx;
+import com.frame.http.api.BaseJson;
+import com.frame.http.api.error.ErrorHandleSubscriber;
+import com.frame.http.api.error.RxErrorHandler;
+import com.frame.integration.IRepositoryManager;
+import com.frame.mvp.IView;
+import com.frame.utils.FrameUtils;
+import com.frame.utils.ToastUtil;
+import com.frame.utils.Utils;
+
+import java.util.Map;
+
+import javax.inject.Inject;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+
+/**
+ * Created by Administrator on 2018/4/4.
+ */
+
+public class NetPayStoneHelper {
+
+    IRepositoryManager mRepositoryManager;
+    RxErrorHandler mErrorHandler;
+
+    private NetPayStoneHelper() {
+        this.mRepositoryManager = FrameUtils.obtainAppComponentFromContext(Utils.getContext()).repoitoryManager();
+        this.mErrorHandler = FrameUtils.obtainAppComponentFromContext(Utils.getContext()).rxErrorHandler();
+    }
+
+    public static NetPayStoneHelper newInstance() {
+        return new NetPayStoneHelper();
+    }
+
+//    public void netExchange(IView view, int stoneCount, OnStonePayCallback callback) {
+//        Map<String, Object> param = NetParam.newInstance()
+//                .put("price", stoneCount)
+//                .put("objectType", "exchange")
+//                .put("payChannels", "aliPay")
+//                .put("versionCode", "2.0.0")
+//                .put("channelCode", "1")
+//    .put("v", "2.0.0")
+//                .putSignature()
+//                .build();
+//        ApiHelperEx.execute(view, true,
+//                ApiHelperEx.getService(CommonService.class).exchangeStone(param),
+//                new ErrorHandleSubscriber<BaseJson<Object>>() {
+//                    @Override
+//                    public void onNext(BaseJson<Object> basejson) {
+//                        if (callback != null) callback.success();
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        if (callback != null) callback.error(e.getMessage());
+//                    }
+//                });
+//    }
+
+    public void netPayFunshow(IView view, int talkId, int stoneCount, OnStonePayCallback callback) {
+        Map<String, Object> param = NetParam.newInstance()
+                .put("price", stoneCount)
+                .put("objectId", talkId + "")
+                .put("objectType", "talk")
+                .put("payChannels", "gemstone")
+                .put("versionCode", "17")
+                .put("channelCode", "1")
+                .put("v", "2.0.0")
+                .putSignature()
+                .build();
+        netPayStone(view, param, callback);
+    }
+
+    private void netPayStone(IView view, Map<String, Object> param, OnStonePayCallback callback) {
+        ApiHelperEx.execute(view, true,
+                ApiHelperEx.getService(CommonService.class).payStone(param),
+                new ErrorHandleSubscriber<BaseJson<Object>>() {
+                    @Override
+                    public void onNext(BaseJson<Object> basejson) {
+                        if (callback != null) callback.success();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        ToastUtil.showToastShort(e.getMessage());
+//                        if (callback != null) callback.error(e.getMessage());
+                    }
+                });
+    }
+
+    ////////////////////////////////////
+
+    public interface OnStonePayCallback {
+        void success();
+    }
+}

@@ -5,9 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,16 +20,12 @@ import com.frame.component.ui.acticity.WebActivity;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.http.imageloader.ImageLoader;
-import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.utils.ToastUtil;
 import com.umeng.socialize.UMShareAPI;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
-import com.wang.social.personal.data.db.AddressDataBaseManager;
 import com.wang.social.personal.di.component.DaggerFragmentComponent;
 import com.wang.social.personal.di.module.UserModule;
-import com.wang.social.personal.mvp.entities.City;
-import com.wang.social.personal.mvp.entities.Province;
 import com.wang.social.personal.mvp.entities.user.QrcodeInfo;
 import com.wang.social.personal.mvp.entities.user.UserStatistic;
 import com.wang.social.personal.mvp.ui.activity.AboutActivity;
@@ -47,7 +41,6 @@ import com.wang.social.socialize.SocializeUtil;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
@@ -109,7 +102,7 @@ public class PersonalFragment extends BasicFragment implements PersonalFragmentI
 
     @Override
     public int initView(@Nullable Bundle savedInstanceState) {
-        return R.layout.personal_personal_fragment;
+        return R.layout.personal_fragment_home;
     }
 
     @Override

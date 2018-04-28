@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.frame.component.service.R;
+import com.frame.component.utils.viewutils.FontUtils;
 
 /**
  * Created by Administrator on 2018/3/29.
@@ -61,6 +62,8 @@ public class TitleView extends FrameLayout {
         text_title = findViewById(R.id.text_title);
         text_subtitle = findViewById(R.id.text_subtitle);
         text_note = findViewById(R.id.text_note);
+
+        FontUtils.boldText(text_title);
 
         setTitle(title);
         setSubTitle(subTitle);

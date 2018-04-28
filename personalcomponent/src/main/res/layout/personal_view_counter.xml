@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:layout_height="35dp"
+    tools:layout_width="wrap_content">
+
+    <ImageView
+        android:id="@+id/btn_counter_sub"
+        android:layout_width="45dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/personal_shape_rect_light_coner_left"
+        android:scaleType="center"
+        android:src="@drawable/personal_ic_sub" />
+
+    <EditText
+        android:id="@+id/edit_counter"
+        style="@style/personal_EditNone"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:background="#fdfdfd"
+        android:gravity="center"
+        android:hint="数量"
+        android:inputType="numberSigned" />
+
+    <ImageView
+        android:id="@+id/btn_counter_add"
+        android:layout_width="45dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/personal_shape_rect_light_coner_right"
+        android:scaleType="center"
+        android:src="@drawable/common_ic_add" />
+
+</LinearLayout>

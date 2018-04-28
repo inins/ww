@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:background="@color/common_white"
-        app:tabTextAppearance="@style/TabLayoutTextSizeStyleBig"
+        app:tabTextAppearance="@style/common_TabLayoutTextSizeStyleBig"
         app:tabGravity="center"
         app:tabIndicatorColor="@color/common_blue"
         app:tabIndicatorHeight="1dp"
