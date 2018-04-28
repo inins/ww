@@ -50,4 +50,7 @@
     <string name="topic_comment_format">评论 %1d</string>
     <string name="topic_share_format">转发 %1d</string>
     <string name="topic_cancel">取消</string>
+    <string name="topic_set_price_title">该条话题需要付费查看</string>
+    <string name="topic_reset">重置</string>
+    <string name="topic_confirm">确定</string>
 </resources>

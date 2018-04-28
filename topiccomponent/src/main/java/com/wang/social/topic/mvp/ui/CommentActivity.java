@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -36,6 +37,9 @@ import com.wang.social.topic.mvp.ui.adapter.CommentAdapter;
 import com.wang.social.topic.mvp.ui.adapter.CommentReplyAdapter;
 import com.wang.social.topic.mvp.ui.widget.CommentSortPopWindow;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -43,18 +47,32 @@ public class CommentActivity extends BaseAppActivity<CommentPresenter> implement
     public final static String KEY_TOPIC_ID = "TOPIC_ID";
     public final static String KEY_CREATOR_ID = "CREATOR_ID";
     public final static String KEY_COMMENT_ID = "COMMENT_ID";
+    public final static String KEY_UI_LEVEL = "UI_LEVEL";
 
-    public static void start(Context context, int topicId, int creatorId) {
-        start(context, topicId, creatorId, -1);
+    public final static int FIRST_LEVEL = 1;
+    public final static int SECOND_LEVEL = 2;
+
+    @IntDef({FIRST_LEVEL, SECOND_LEVEL})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface CommentUiLevel {
     }
 
-    public static void start(Context context, int topicId, int creatorId, int commentId) {
+    public static void startFirstLevel(Context context, int topicId, int creatorId) {
+        start(context, topicId, creatorId, -1, FIRST_LEVEL);
+    }
+
+    public static void startSecondLevel(Context context, int topicId, int creatorId, int commentId) {
+        start(context, topicId, creatorId, commentId, SECOND_LEVEL);
+    }
+
+    public static void start(Context context, int topicId, int creatorId, int commentId, @CommentUiLevel int level) {
         if (null == context) return;
 
         Intent intent = new Intent(context, CommentActivity.class);
         intent.putExtra(KEY_TOPIC_ID, topicId);
         intent.putExtra(KEY_CREATOR_ID, creatorId);
         intent.putExtra(KEY_COMMENT_ID, commentId);
+        intent.putExtra(KEY_UI_LEVEL, level);
         context.startActivity(intent);
     }
 
@@ -95,6 +113,9 @@ public class CommentActivity extends BaseAppActivity<CommentPresenter> implement
     private int mCreatorId;
     // 评论id
     private int mCommentId;
+    // 几级页面
+    private @CommentUiLevel
+    int mLevel;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -118,9 +139,11 @@ public class CommentActivity extends BaseAppActivity<CommentPresenter> implement
         mCreatorId = getIntent().getIntExtra(KEY_CREATOR_ID, -1);
         // 评论ID
         mCommentId = getIntent().getIntExtra(KEY_COMMENT_ID, -1);
+        // 页面登记
+        mLevel = getIntent().getIntExtra(KEY_UI_LEVEL, FIRST_LEVEL);
 
         // 二级页面
-        if (mCommentId != -1) {
+        if (mLevel == SECOND_LEVEL) {
             mTitleTV.setVisibility(View.GONE);
             mTitleHintTV.setVisibility(View.GONE);
             mReplyCountTV.setVisibility(View.GONE);
@@ -161,10 +184,10 @@ public class CommentActivity extends BaseAppActivity<CommentPresenter> implement
         });
 
         // 评论id有效，则说明是二级页面
-        if (mCommentId != -1) {
+        if (mLevel == SECOND_LEVEL) {
             // 评论回复
             mAdapter = new CommentReplyAdapter(mRecyclerView, mPresenter.getCommentList());
-            ((CommentReplyAdapter)mAdapter).setClickListener(new CommentReplyAdapter.ClickListener() {
+            ((CommentReplyAdapter) mAdapter).setClickListener(new CommentReplyAdapter.ClickListener() {
                 @Override
                 public void onReply(Comment comment) {
                     // 回复某人，修改输入框的提示语
@@ -187,10 +210,17 @@ public class CommentActivity extends BaseAppActivity<CommentPresenter> implement
             // 话题评论
             mAdapter = new CommentAdapter(mRecyclerView, mPresenter.getCommentList());
             ((CommentAdapter) mAdapter).setClickListener(new CommentAdapter.ClickListener() {
+                /**
+                 * 打开评论二级页面
+                 * @param comment
+                 */
                 @Override
                 public void onOpenReplyList(Comment comment) {
-                    CommentActivity.start(CommentActivity.this,
-                            mTopicId, comment.getCommentId());
+                    CommentActivity.startSecondLevel(
+                            CommentActivity.this,
+                            mTopicId,
+                            comment.getUserId(),
+                            comment.getCommentId());
                 }
 
                 @Override
@@ -325,7 +355,7 @@ public class CommentActivity extends BaseAppActivity<CommentPresenter> implement
     @Override
     public void setReplyCount(int count) {
         // 一级页面
-        if (mCommentId == -1) {
+        if (mLevel == FIRST_LEVEL) {
             mReplyCountTV.setVisibility(View.VISIBLE);
             mReplyCountTV.setText(String.format(getString(R.string.topic_comment_count_format), count));
         } else {
@@ -345,7 +375,7 @@ public class CommentActivity extends BaseAppActivity<CommentPresenter> implement
     private void resetCommentETHint() {
         mCommentET.setText("");
         mCommentET.setTag(null);
-        if (mCommentId == -1) {
+        if (mLevel == FIRST_LEVEL) {
             mCommentET.setHint(R.string.topic_comment_edit_hint);
         } else {
             mCommentET.setHint(R.string.topic_reply_comment);
@@ -366,7 +396,7 @@ public class CommentActivity extends BaseAppActivity<CommentPresenter> implement
         mCommentET.setFocusableInTouchMode(true);
         mCommentET.requestFocus();
 
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE );
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(mCommentET, 0);
     }
 }

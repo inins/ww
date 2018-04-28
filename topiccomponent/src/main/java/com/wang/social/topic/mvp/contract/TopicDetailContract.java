@@ -28,5 +28,6 @@ public interface TopicDetailContract {
          */
         Observable<BaseJson<TopicDetailDTO>> getTopicDetails(int topicId);
         Observable<BaseJson> topicSupport(int topicId, String type);
+        Observable<BaseJson> report(int objectId, String type, String comment, String picUrl);
     }
 }

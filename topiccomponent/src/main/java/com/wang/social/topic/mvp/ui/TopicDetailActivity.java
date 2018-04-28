@@ -76,8 +76,13 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
 
     @BindView(R2.id.nested_scroll_view)
     NestedScrollView mNestedScrollView;
+    // 头像
     @BindView(R2.id.avatar_image_view)
     ImageView mAvatarIV;
+    // 昵称
+    @BindView(R2.id.nick_name_text_view)
+    TextView mNickNameTV;
+    // 性别
     @BindView(R2.id.gender_image_view)
     ImageView mGenderIV;
     // 年龄
@@ -309,7 +314,7 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
         // 标签
         String tag = "by";
         for (int i = 0; i < Math.min(detail.getTags().size(), 3); i++) {
-            String tagName = detail.getTags().get(i);
+            String tagName = detail.getTags().get(i).getTagName();
             if (TextUtils.isEmpty(tagName)) continue;
 
             tag = tag + " #" + tagName;
@@ -332,7 +337,8 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
                                 .url(detail.getAvatar())
                                 .isCircle(true)
                                 .build());
-
+        // 昵称
+        mNickNameTV.setText(detail.getNickname());
         // 性别
         if (detail.getSex() == 0) {
             mGenderIV.setImageResource(R.drawable.common_ic_man);
@@ -363,14 +369,19 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
         resetView(true);
     }
 
+    @OnClick(R2.id.report_text_view)
+    public void report() {
+        mPresenter.report();
+    }
+
     @OnClick(R2.id.support_layout)
     public void support() {
-
+        mPresenter.topicSupport();
     }
 
     @OnClick(R2.id.comment_layout)
     public void comment() {
-        CommentActivity.start(this, mTopicId, mCreatorId);
+        CommentActivity.startFirstLevel(this, mTopicId, mCreatorId);
     }
 
     @OnClick(R2.id.share_layout)

@@ -56,4 +56,25 @@ public class TopicDetailModel extends BaseModel implements TopicDetailContract.M
                 .obtainRetrofitService(TopicService.class)
                 .topicSupport(param);
     }
+
+    /**
+     * 举报（用户/话题/趣聊/趣晒）
+     * @param objectId 举报对象id
+     * @param type 举报类型（0人 1趣聊 2趣晒 3主播 4 话题）
+     * @param comment 举报内容
+     * @param picUrl 举报图片（用逗号分隔）当type=0或1时必传
+     */
+    @Override
+    public Observable<BaseJson> report(int objectId, String type, String comment, String picUrl) {
+        Map<String, Object> param = new NetParam()
+                .put("objectId",objectId)
+                .put("type",type)
+                .put("comment",comment)
+                .put("picUrl",picUrl)
+                .put("v", "2.0.0")
+                .build();
+        return mRepositoryManager
+                .obtainRetrofitService(TopicService.class)
+                .report(param);
+    }
 }

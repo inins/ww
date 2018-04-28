@@ -31,6 +31,7 @@ import com.wang.social.topic.di.module.ReleaseTopicModule;
 import com.wang.social.topic.mvp.contract.ReleaseTopicContract;
 import com.wang.social.topic.mvp.model.entities.Template;
 import com.wang.social.topic.mvp.presenter.ReleaseTopicPresenter;
+import com.wang.social.topic.mvp.ui.widget.DFSetPrice;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -172,6 +173,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
                     case 4: // 图片
                         break;
                     case 5: // 收费
+                        DFSetPrice.showDialog(getSupportFragmentManager());
                         break;
                 }
             }

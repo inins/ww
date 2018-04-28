@@ -56,7 +56,7 @@
         android:id="@+id/create_date_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="04-08"
+        tools:text="04-08"
         android:textColor="#ff818181"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/topic_tag_3_text_view"
@@ -70,9 +70,10 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="25dp"
         android:layout_marginTop="44dp"
-        android:text="这一刻，请允许我丧一些吧"
+        tools:text="这一刻，请允许我丧一些吧"
         android:textColor="#ff313131"
-        android:textSize="15sp"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/image_view"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -86,9 +87,9 @@
         android:ellipsize="end"
         android:maxLines="2"
         android:minLines="2"
-        android:text="考研这五个多月的时间，多么多么的漫长 和难捱，只有经历过的人才最清楚。清..."
+        tools:text="考研这五个多月的时间，多么多么的漫长 和难捱，只有经历过的人才最清楚。清..."
         android:textColor="#ff434343"
-        android:textSize="13sp"
+        android:textSize="14sp"
         app:layout_constraintEnd_toStartOf="@+id/image_view"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_text_view" />
@@ -96,33 +97,30 @@
 
     <ImageView
         android:id="@+id/avatar_image_view"
-        android:layout_width="19dp"
-        android:layout_height="19dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_marginTop="14dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/content_text_view" />
+        app:layout_constraintTop_toBottomOf="@+id/content_text_view"
+        tools:src="@color/common_blue_deep" />
 
     <TextView
         android:id="@+id/user_name_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="8dp"
-        android:text="白无常白总的事迹"
         android:textColor="#ff434343"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/avatar_image_view"
         app:layout_constraintStart_toEndOf="@+id/avatar_image_view"
-        app:layout_constraintTop_toTopOf="@+id/avatar_image_view" />
+        app:layout_constraintTop_toTopOf="@+id/avatar_image_view"
+        tools:text="白无常白总的事迹" />
 
 
     <ImageView
         android:id="@+id/image_view"
         android:layout_width="68dp"
         android:layout_height="88dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="@+id/user_name_text_view"
         app:layout_constraintEnd_toEndOf="parent"
@@ -145,7 +143,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
-        android:text="110"
+        tools:text="110"
         android:textColor="#ff818181"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/topic_linearlayout"
@@ -168,7 +166,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="24dp"
-        android:text="20"
+        tools:text="20"
         android:textColor="#ff818181"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/topic_linearlayout"
@@ -190,7 +188,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="left|center_vertical"
-        android:text="20"
+        tools:text="20"
         android:textColor="#ff818181"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/topic_linearlayout"
@@ -203,7 +201,7 @@
         android:layout_width="wrap_content"
         android:layout_height="1dp"
         android:layout_marginTop="180dp"
-        android:background="#ffe5e5e5"
+        android:background="@color/common_list_divider"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

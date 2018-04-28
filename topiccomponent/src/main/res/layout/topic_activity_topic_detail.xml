@@ -115,15 +115,17 @@
                         android:layout_height="40dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginEnd="50dp" />
+                        android:layout_marginEnd="50dp"
+                        tools:src="@drawable/common_ic_playing2"/>
 
                     <com.wang.social.topic.mvp.ui.widget.GradualColorTextView
                         android:id="@+id/report_text_view"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:padding="14dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginEnd="14dp"
                         android:text="@string/topic_report"
                         android:textColor="#FF6666" />
                 </RelativeLayout>
@@ -155,8 +157,9 @@
         android:layout_height="48dp"
         android:orientation="horizontal"
         android:layout_gravity="bottom"
+        android:focusable="true"
         android:clickable="true"
-        android:background="#FFFFFF">
+        android:background="@drawable/topic_shape_stoke_top">
 
         <LinearLayout
             android:id="@+id/support_layout"

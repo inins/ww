@@ -31,7 +31,7 @@ public class TopicDetail {
      */
 
     private String title;
-    private List<String> tags;
+    private List<Tag> tags;
     private Long createTime;
     private String avatar;
     private String nickname;

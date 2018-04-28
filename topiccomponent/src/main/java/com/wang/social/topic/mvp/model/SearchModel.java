@@ -9,6 +9,7 @@ import com.frame.mvp.BaseModel;
 import com.wang.social.topic.BuildConfig;
 import com.wang.social.topic.mvp.contract.SearchContract;
 import com.wang.social.topic.mvp.model.api.TopicService;
+import com.wang.social.topic.mvp.model.entities.dto.SearchResultsDTO;
 import com.wang.social.topic.mvp.model.entities.dto.TopicRspDTO;
 
 import java.util.Map;
@@ -26,7 +27,7 @@ public class SearchModel extends BaseModel implements SearchContract.Model {
     }
 
     @Override
-    public Observable<BaseJson> searchTopic(String keyword, String tagNames, int size, int current) {
+    public Observable<BaseJson<SearchResultsDTO>> searchTopic(String keyword, String tagNames, int size, int current) {
         Map<String, Object> param = new NetParam()
                 .put("keyword",keyword)
                 .put("tagNames",tagNames)

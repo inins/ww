@@ -3,6 +3,7 @@ package com.wang.social.topic.mvp.model.api;
 import com.frame.http.api.BaseJson;
 import com.frame.component.ui.acticity.BGMList.MusicsDTO;
 import com.wang.social.topic.mvp.model.entities.dto.CommentsDTO;
+import com.wang.social.topic.mvp.model.entities.dto.SearchResultsDTO;
 import com.wang.social.topic.mvp.model.entities.dto.TemplatesDTO;
 import com.wang.social.topic.mvp.model.entities.dto.TopicDetailDTO;
 import com.wang.social.topic.mvp.model.entities.dto.TopicRspDTO;
@@ -97,5 +98,12 @@ public interface TopicService {
     @Headers(HEADER_CONTENT_TYPE)
     @FormUrlEncoded
     @POST("app/topic/searchTopic")
-    Observable<BaseJson> searchTopic(@FieldMap Map<String, Object> param);
+    Observable<BaseJson<SearchResultsDTO>> searchTopic(@FieldMap Map<String, Object> param);
+
+    /**
+     * 举报（用户/话题/趣聊/趣晒）
+     */
+    @FormUrlEncoded
+    @POST("app/common/report")
+    Observable<BaseJson> report(@FieldMap Map<String, Object> param);
 }

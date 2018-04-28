@@ -189,7 +189,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/topic_textview12"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/topic_textview12"
+        app:layout_constraintTop_toBottomOf="@+id/music_board_layout"
         app:srcCompat="@drawable/topic_ic_star" />
 
     <TextView
@@ -208,7 +208,7 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="48dp"
         android:background="@drawable/topic_shape_rect_corner_solid_bk_light"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"

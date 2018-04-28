@@ -33,57 +33,24 @@ public class TopicDetailPresenter extends
         super(model, view);
     }
 
-    private TopicDetail getTestTopicDetail() {
-        TopicDetail object = new TopicDetail();
-
-        object.setTitle("纪录片意外走红B站：冷门纪录片要“征服”资本？");
-        object.setTags(new ArrayList<String>() {
-            {
-                add("哔哩哔哩");
-                add("哔哩哔哩");
-                add("哔哩哔哩");
-            }
-        });
-        object.setBackgroundImage("http://pic.baike.soso.com/p/20131204/20131204144511-2141128146.jpg");
-        object.setCreateTime(System.currentTimeMillis());
-        object.setAvatar("https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1373411777,3992091759&fm=27&gp=0.jpg");
-        object.setNickname("埃米尔");
-        object.setBirthday(0L);
-        object.setContent("<!DOCTYPE html><html lang=\\\"zh\\\"><head><meta charset=\\\"utf-8\\\" \\/><title>wwrichtextTittle<\n" +
-                " \\/title><meta name=\\\"HandheldFriendly\\\" content=\\\"True\\\" \\/><meta name=\\\"MobileOptimized\\\" content=\\\"320\\\" \\/>\n" +
-                " <meta name=\\\"viewport\\\" content=\\\"width=device-width, initial-scale=1\\\" \\/><script>function playAudio(url){var\n" +
-                "  musicPlay=document.getElementById('musicPlay');musicPlay.setAttribute('src',url);musicPlay.play();}<\\/script>\n" +
-                " <style>img{max-width: 100%;-webkit-border-radius: 20px;border-radius: 20px;border: 0px solid black; p{line-hei\n" +
-                " ght: 1.6rem !important;}}<\\/style><\\/head><body><audio src=\\\"\\\" id=\\\"musicPlay\\\"> <\\/audio>uuu 的回电话。跑步时要学会自己照顾\n" +
-                " 自己。我的心已经飞到点开始。 &nbsp; &nbsp; &nbsp;你要去去看<\\/body><\\/html>");
-
-        object.setSex(0);
-
-
-        return object;
-    }
-
-    public void test() {
-        mRootView.onTopicDetailLoadSuccess(getTestTopicDetail());
-    }
-
     /**
      * 获取话题详情
      * @param topicId 话题ID
      */
     public void getTopicDetails(int topicId) {
-
             mApiHelper.execute(mRootView,
                     mModel.getTopicDetails(topicId),
                     new ErrorHandleSubscriber<TopicDetail>(mErrorHandler) {
                         @Override
                         public void onNext(TopicDetail topicDetail) {
+                            mTopicDetail = topicDetail;
                             // 获取详情成功
                             mRootView.onTopicDetailLoadSuccess(topicDetail);
                         }
 
                         @Override
                         public void onError(Throwable e) {
+                            e.printStackTrace();
                             mRootView.showToast(e.getMessage());
                         }
                     }
@@ -98,6 +65,38 @@ public class TopicDetailPresenter extends
                             mRootView.hideLoading();
                         }
                     });
+    }
+
+    /**
+     * 举报（用户/话题/趣聊/趣晒）
+     * 举报类型（0人 1趣聊 2趣晒 3主播 4 话题）
+     */
+    public void report() {
+        mApiHelper.executeForData(mRootView,
+                mModel.report(mTopicDetail.getTopicId(),
+                        "4","", ""),
+                new ErrorHandleSubscriber(mErrorHandler) {
+                    @Override
+                    public void onNext(Object o) {
+                        mRootView.showToast("举报成功");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        mRootView.showToast(e.getMessage());
+                    }
+                }, new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                        mRootView.showLoading();
+                    }
+                }, new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mRootView.hideLoading();
+                    }
+                });
     }
 
     public void topicSupport() {

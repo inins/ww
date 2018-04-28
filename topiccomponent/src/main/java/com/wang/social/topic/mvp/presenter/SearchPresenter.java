@@ -8,6 +8,8 @@ import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
 import com.wang.social.topic.mvp.contract.SearchContract;
 import com.wang.social.topic.mvp.model.entities.Comments;
+import com.wang.social.topic.mvp.model.entities.SearchResult;
+import com.wang.social.topic.mvp.model.entities.SearchResults;
 import com.wang.social.topic.mvp.model.entities.Topic;
 import com.wang.social.topic.mvp.model.entities.TopicRsp;
 
@@ -30,7 +32,7 @@ public class SearchPresenter extends
     @Inject
     ApiHelper mApiHelper;
 
-    private List<Topic> mResultList = new ArrayList<>();
+    private List<SearchResult> mResultList = new ArrayList<>();
 
     // 每页条数
     private int mSize = 10;
@@ -42,6 +44,10 @@ public class SearchPresenter extends
         super(model, view);
     }
 
+    public List<SearchResult> getResultList() {
+        return mResultList;
+    }
+
     public void searchTopic(String keyword, String tagNames, boolean refresh) {
         if (refresh) {
             mCurrent = 0;
@@ -50,13 +56,21 @@ public class SearchPresenter extends
 
         mApiHelper.execute(mRootView,
                 mModel.searchTopic(keyword, tagNames, mSize, mCurrent + 1),
-                new ErrorHandleSubscriber<Comments>(mErrorHandler) {
+                new ErrorHandleSubscriber<SearchResults>(mErrorHandler) {
                     @Override
-                    public void onNext(Comments comments) {
+                    public void onNext(SearchResults results) {
+                        if (results.getList().size() > 0) {
+                            mCurrent = results.getCurrent();
+                        }
+
+                        mResultList.addAll(results.getList());
+
+                        mRootView.onSearchSuccess();
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        mRootView.showToast(e.getMessage());
                     }
                 }, new Consumer<Disposable>() {
                     @Override
@@ -66,6 +80,7 @@ public class SearchPresenter extends
                 }, new Action() {
                     @Override
                     public void run() throws Exception {
+                        mRootView.onSearchCompleted();
                     }
                 });
     }
