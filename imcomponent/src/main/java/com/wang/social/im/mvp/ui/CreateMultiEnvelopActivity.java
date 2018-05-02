@@ -18,7 +18,6 @@ import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.utils.UIUtil;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
-import com.frame.router.facade.annotation.Autowired;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.ToastUtil;
 import com.wang.social.im.R;

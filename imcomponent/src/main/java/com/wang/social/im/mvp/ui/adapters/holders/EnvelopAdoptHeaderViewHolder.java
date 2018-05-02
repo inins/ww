@@ -120,7 +120,6 @@ public class EnvelopAdoptHeaderViewHolder extends BaseViewHolder<EnvelopInfo> {
         super.onRelease();
         mImageLoader.clear(getContext(), ImageConfigImpl.builder()
                 .imageView(edhIvHeader)
-                .isClearMemory(true)
                 .build());
     }
 }

@@ -167,12 +167,10 @@ public class ImageViewHolder extends BaseMessageViewHolder<UIMessage> {
         if (showHeader) {
             mImageLoader.clear(getContext(), ImageConfigImpl.builder()
                     .imageView(msgIvPortrait)
-                    .isClearMemory(true)
                     .build());
         }
         mImageLoader.clear(getContext(), ImageConfigImpl.builder()
                 .imageView(msgIvImage)
-                .isClearMemory(true)
                 .build());
     }
 }

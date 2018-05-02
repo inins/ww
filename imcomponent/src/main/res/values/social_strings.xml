@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="im_setting">设置</string>
+    <string name="im_team">觅聊</string>
+    <string name="im_tag">标签</string>
+    <string name="im_social_intro">群简介</string>
+    <string name="im_team_size_format">(%d个)</string>
+    <string name="im_member">成员</string>
+    <string name="im_member_dynamic">成员动态</string>
+    <string name="im_name_card">我的名片</string>
+    <string name="im_my_social_head">我的趣聊头像</string>
+    <string name="im_my_social_nickname">我的趣聊昵称</string>
+    <string name="im_my_shadow">我的分身</string>
+    <string name="im_social_name">趣聊名称</string>
+    <string name="im_message_receive">消息接收</string>
+    <string name="im_now_background_chat">当前聊天背景</string>
+    <string name="im_charge_setting">设置趣聊收费</string>
+    <string name="im_clear_message">清除聊天内容</string>
+    <string name="im_social_public">趣聊公开</string>
+    <string name="im_join_limit">入群限制</string>
+    <string name="im_allow_member_create_team">允许成员在趣聊中创建觅聊</string>
+    <string name="im_dissolve_social">解散趣聊</string>
+    <string name="im_exit_social">退出趣聊</string>
+    <string name="im_group_master">群主</string>
+</resources>
