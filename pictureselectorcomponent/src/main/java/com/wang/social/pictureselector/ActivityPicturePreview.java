@@ -20,6 +20,12 @@ public class ActivityPicturePreview extends AppCompatActivity {
         context.startActivity(intent);
     }
 
+    public static void start(Context context, int current, String... pics) {
+        Intent intent = new Intent(context, ActivityPicturePreview.class);
+        intent.putExtra(PictureSelector.NAME_FILE_PATH_LIST, pics);
+        context.startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
