@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="im_round_image_radius">12dp</dimen>
     <!-- 聊天输入组件 -->
     <dimen name="im_chat_input_horizontal_space">8.5dp</dimen>
     <dimen name="im_chat_input_bg_radius">18dp</dimen>
@@ -25,4 +26,6 @@
     <dimen name="im_cvs_unread_background_size">18dp</dimen>
     <!-- 红包 -->
     <dimen name="im_envelop_background_radius">19dp</dimen>
+    <!-- 趣聊/觅聊 -->
+    <dimen name="im_group_home_member_size">46dp</dimen>
 </resources>

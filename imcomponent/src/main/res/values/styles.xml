@@ -1,3 +1,20 @@
 <resources>
+    <!-- 趣聊/趣晒Title样式 -->
+    <style name="im_title_style">
+        <item name="android:textColor">@color/common_text_blank</item>
+        <item name="android:textSize">23dp</item>
+        <item name="android:layout_marginStart">@dimen/common_border_margin</item>
+    </style>
 
+    <style name="im_secondary_title_style">
+        <item name="android:textColor">@color/common_text_blank</item>
+        <item name="android:textSize">18dp</item>
+        <item name="android:layout_marginStart">@dimen/common_border_margin</item>
+        <item name="android:layout_marginTop">27dp</item>
+    </style>
+
+    <style name="im_social_content_text">
+        <item name="android:textColor">#434343</item>
+        <item name="android:textSize">15dp</item>
+    </style>
 </resources>

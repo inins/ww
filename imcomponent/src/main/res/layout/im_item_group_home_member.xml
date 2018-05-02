@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/im_group_home_member_size"
+    android:layout_height="@dimen/im_group_home_member_size">
+
+    <ImageView
+        android:id="@+id/ghm_iv_portrait"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:src="@drawable/common_default_circle_placeholder" />
+
+    <TextView
+        android:id="@+id/ghm_tv_master"
+        android:layout_width="35dp"
+        android:layout_height="12dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:background="@drawable/common_shape_rect_gradient_blue_conerfull"
+        android:gravity="center"
+        android:text="@string/im_group_master"
+        android:textColor="@color/common_white"
+        android:textSize="8dp"
+        android:visibility="gone" />
+</FrameLayout>
