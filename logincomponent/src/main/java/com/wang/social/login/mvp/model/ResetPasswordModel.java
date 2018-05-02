@@ -30,7 +30,7 @@ public class ResetPasswordModel extends BaseModel implements ResetPasswordContra
                 .put("mobile", mobile)
                 .put("code", code)
                 .put("password", password)
-                .put("v", BuildConfig.VERSION_NAME)
+                .put("v", "2.0.0")
                 .build();
         return mRepositoryManager
                 .obtainRetrofitService(LoginService.class)
@@ -41,7 +41,7 @@ public class ResetPasswordModel extends BaseModel implements ResetPasswordContra
     public Observable<BaseJson> userSetPassword(String password) {
         Map<String, Object> param = new NetParam()
                 .put("password", password)
-                .put("v", BuildConfig.VERSION_NAME)
+                .put("v", "2.0.0")
                 .build();
         return mRepositoryManager
                 .obtainRetrofitService(LoginService.class)

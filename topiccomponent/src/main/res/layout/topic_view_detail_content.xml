@@ -13,7 +13,7 @@
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:color/holo_blue_bright" />
+        tools:src="@android:color/holo_blue_bright" />
 
     <TextView
         android:id="@+id/nick_name_text_view"
@@ -21,11 +21,11 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="10dp"
-        android:text="埃米尔"
         android:textColor="#ff313131"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/gender_age_layout"
-        app:layout_constraintStart_toEndOf="@+id/avatar_image_view" />
+        app:layout_constraintStart_toEndOf="@+id/avatar_image_view"
+        tools:text="埃米尔" />
 
     <LinearLayout
         android:id="@+id/gender_age_layout"
@@ -46,16 +46,16 @@
             android:layout_width="12dp"
             android:layout_height="12dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/common_ic_women" />
+            tools:src="@drawable/common_ic_women" />
 
         <TextView
             android:id="@+id/age_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="22岁"
             android:textSize="12sp"
-            android:layout_marginStart="6dp"/>
+            android:layout_marginStart="6dp"
+            tools:text="22岁"/>
     </LinearLayout>
 
     <TextView
@@ -63,7 +63,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="白羊座"
         android:textColor="#ffffffff"
         android:textSize="12sp"
         android:paddingLeft="6dp"
@@ -72,10 +71,11 @@
         android:paddingBottom="3dp"
         android:background="@drawable/topic_shape_rect_corner_solid_text_blank_dark"
         app:layout_constraintBottom_toBottomOf="@+id/gender_age_layout"
-        app:layout_constraintStart_toEndOf="@+id/gender_age_layout" />
+        app:layout_constraintStart_toEndOf="@+id/gender_age_layout"
+        tools:text="白羊座" />
 
-    <WebView
-        android:id="@+id/content_web_view"
+    <FrameLayout
+        android:id="@+id/content_layout"
         android:layout_width="0dp"
         android:layout_height="412dp"
         android:layout_marginEnd="14dp"

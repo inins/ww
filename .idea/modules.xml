@@ -12,6 +12,7 @@
       <module fileurl="file://$PROJECT_DIR$/funpointcomponent/funpointcomponent.iml" filepath="$PROJECT_DIR$/funpointcomponent/funpointcomponent.iml" />
       <module fileurl="file://$PROJECT_DIR$/funshowcomponent/funshowcomponent.iml" filepath="$PROJECT_DIR$/funshowcomponent/funshowcomponent.iml" />
       <module fileurl="file://$PROJECT_DIR$/imcomponent/imcomponent.iml" filepath="$PROJECT_DIR$/imcomponent/imcomponent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/locationlib/locationlib.iml" filepath="$PROJECT_DIR$/locationlib/locationlib.iml" />
       <module fileurl="file://$PROJECT_DIR$/logincomponent/logincomponent.iml" filepath="$PROJECT_DIR$/logincomponent/logincomponent.iml" />
       <module fileurl="file://$PROJECT_DIR$/personalcomponent/personalcomponent.iml" filepath="$PROJECT_DIR$/personalcomponent/personalcomponent.iml" />
       <module fileurl="file://$PROJECT_DIR$/pictureselectorcomponent/pictureselectorcomponent.iml" filepath="$PROJECT_DIR$/pictureselectorcomponent/pictureselectorcomponent.iml" />

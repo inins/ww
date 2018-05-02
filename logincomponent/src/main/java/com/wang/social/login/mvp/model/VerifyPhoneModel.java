@@ -36,7 +36,7 @@ public class VerifyPhoneModel extends BaseModel implements VerifyPhoneContract.M
         Map<String, Object> param = new NetParam()
                 .put("mobile", mobile)
                 .put("code", code)
-                .put("v", BuildConfig.VERSION_NAME)
+                .put("v", "2.0.0")
                 .putSignature()
                 .build();
         return mRepositoryManager
@@ -49,7 +49,7 @@ public class VerifyPhoneModel extends BaseModel implements VerifyPhoneContract.M
             Map<String, Object> param = new NetParam()
                     .put("mobile", mobile)
                     .put("type", type)
-                    .put("v", BuildConfig.VERSION_NAME)
+                    .put("v", "2.0.0")
                     .putSignature()
                     .build();
             return mRepositoryManager

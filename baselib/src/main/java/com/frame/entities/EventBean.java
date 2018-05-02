@@ -37,19 +37,21 @@ public class EventBean implements Serializable {
     public static final int EVENT_PRIVATE_UPDATE = 0xffa204;
     //用户进入个人中心tab分页
     public static final int EVENT_TAB_USER = 0xffa205;
+    //个人中心兑换宝石
+    public static final int EVENT_ACCOUNT_EXCHANGE_STONE = 0xffa206;
 
     //趣晒控制器通知点赞数量，评论数量，分享数量
-    public static final int EVENT_CTRL_FUNSHOW_DETAIL_DATA = 0xffa206;
+    public static final int EVENT_CTRL_FUNSHOW_DETAIL_DATA = 0xffa301;
     //趣晒控制器通知刷新评论
-    public static final int EVENT_FUNSHOW_DETAIL_ADD_EVA = 0xffa207;
+    public static final int EVENT_FUNSHOW_DETAIL_ADD_EVA = 0xffa302;
     //趣晒详情点赞通知列表更新数量
-    public static final int EVENT_FUNSHOW_UPDATE_ZAN = 0xffa208;
+    public static final int EVENT_FUNSHOW_UPDATE_ZAN = 0xffa303;
     //趣晒详情评论点击通知编辑框
-    public static final int EVENT_CTRL_FUNSHOW_DETAIL_EVAID = 0xffa209;
+    public static final int EVENT_CTRL_FUNSHOW_DETAIL_EVAID = 0xffa304;
     //发布趣晒选择@好友
-    public static final int EVENT_CTRL_FUNSHOW_ADD_USER = 0xffa210;
+    public static final int EVENT_CTRL_FUNSHOW_ADD_USER = 0xffa305;
     //发布趣晒选择趣晒锁
-    public static final int EVENT_CTRL_FUNSHOW_ADD_LOCK = 0xffa211;
+    public static final int EVENT_CTRL_FUNSHOW_ADD_LOCK = 0xffa306;
 
     @IntDef({
             EVENTBUS_TAG_SELECTED,
@@ -63,6 +65,7 @@ public class EventBean implements Serializable {
             EVENT_LOGOUT,
             EVENT_PRIVATE_UPDATE,
             EVENT_TAB_USER,
+            EVENT_ACCOUNT_EXCHANGE_STONE,
             EVENT_CTRL_FUNSHOW_DETAIL_DATA,
             EVENT_FUNSHOW_DETAIL_ADD_EVA,
             EVENT_FUNSHOW_UPDATE_ZAN,

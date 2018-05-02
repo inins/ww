@@ -30,9 +30,9 @@
                 android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
                 android:onClick="onClick"
-                android:text="@string/personal_blacklist_btn_right"
                 android:textColor="@color/common_blue_deep"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                tools:text="@string/personal_blacklist_btn_right" />
 
         </android.support.v7.widget.Toolbar>
 

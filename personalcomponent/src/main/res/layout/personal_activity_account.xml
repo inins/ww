@@ -101,7 +101,7 @@
                 <Space style="@style/common_Space_V" />
 
                 <TextView
-                    android:id="@+id/text_all"
+                    android:id="@+id/text_diamond_all"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -148,6 +148,7 @@
                 <Space style="@style/common_Space_V" />
 
                 <TextView
+                    android:id="@+id/text_stone_all"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"

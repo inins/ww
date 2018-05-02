@@ -1,5 +1,6 @@
 package com.wang.social.topic.di.module;
 
+import com.frame.di.scope.ActivityScope;
 import com.frame.di.scope.FragmentScope;
 import com.wang.social.topic.mvp.contract.TopicContract;
 import com.wang.social.topic.mvp.model.TopicModel;

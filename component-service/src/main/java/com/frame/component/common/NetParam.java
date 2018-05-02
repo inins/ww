@@ -3,8 +3,8 @@ package com.frame.component.common;
 import android.util.Log;
 
 import com.frame.component.utils.MapUtil;
+import com.frame.component.utils.SignUtil;
 import com.frame.component.utils.UrlUtil;
-import com.frame.utils.PayUtil;
 import com.frame.utils.StrUtil;
 import com.google.gson.Gson;
 
@@ -45,7 +45,7 @@ public class NetParam {
         if (StrUtil.isEmpty(paramMap)) return this;
         String randomInt = String.valueOf(new Random().nextInt());
         paramMap.put("nonceStr", randomInt);
-        paramMap.put("signature", PayUtil.signStr(MapUtil.transLinkedHashMap(paramMap), randomInt));
+        paramMap.put("signature", SignUtil.signStr(MapUtil.transLinkedHashMap(paramMap), randomInt));
         return this;
     }
 

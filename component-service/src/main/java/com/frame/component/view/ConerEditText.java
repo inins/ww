@@ -16,9 +16,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import timber.log.Timber;
+
 public class ConerEditText extends android.support.v7.widget.AppCompatEditText {
 
     boolean byUser = false;
+    private String mCopy;
 
     public ConerEditText(Context context) {
         super(context);
@@ -47,22 +50,42 @@ public class ConerEditText extends android.support.v7.widget.AppCompatEditText {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (!byUser) {
-                    String s = charSequence.toString();
-                    SpannableString conerSpanString = getConerSpanString(s);
-                    byUser = true;
-                    setText(conerSpanString);
-                    setTextWithSelectionAtLast(ConerEditText.this);
-                } else {
-                    byUser = false;
-                }
+//                if (!byUser) {
+//                    String s = charSequence.toString();
+//                    SpannableString conerSpanString = getConerSpanString(s);
+//                    byUser = true;
+//                    setText(conerSpanString);
+//                    setTextWithSelectionAtLast(ConerEditText.this);
+//                } else {
+//                    byUser = false;
+//                }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
+                String str = editable.toString();
+                if (!TextUtils.isEmpty(str) &&
+                        (str.substring(str.length() - 1, str.length()).equals(" ") ||
+                        str.length() < getCopyLen())) {
+                    if (!byUser) {
+                        String s = str;
+                        SpannableString conerSpanString = getConerSpanString(s);
+                        byUser = true;
+                        setText(conerSpanString);
+                        setTextWithSelectionAtLast(ConerEditText.this);
+                    } else {
+                        byUser = false;
+                    }
 
+                }
+
+                mCopy = editable.toString();
             }
         });
+    }
+
+    private int getCopyLen() {
+        return null == mCopy ? 0 : mCopy.length();
     }
 
     private SpannableString getConerSpanString(String text) {

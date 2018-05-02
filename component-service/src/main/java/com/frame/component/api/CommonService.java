@@ -46,4 +46,22 @@ public interface CommonService {
     @FormUrlEncoded
     @POST("/login/password")
     Observable<BaseJson<UserWrap>> login(@FieldMap Map<String, Object> param);
+
+    /**
+     * 宝石兑换
+     * price	Integer	宝石数量
+     * objectType	String	exchange
+     * payChannels	String	支付渠道:支付渠道-----支付宝(aliPay),微信(weixinPay)
+     * nonceStr	String	随机数
+     * versionCode	String	版本号
+     * channelCode	String	渠道号
+     * signature	String	参数签名
+     */
+    @FormUrlEncoded
+    @POST("/app/userWallet/exchange")
+    Observable<BaseJson<Object>> exchangeStone(@FieldMap Map<String, Object> param);
+
+    @FormUrlEncoded
+    @POST("/app/order/createOrder")
+    Observable<BaseJson<Object>> payStone(@FieldMap Map<String, Object> param);
 }

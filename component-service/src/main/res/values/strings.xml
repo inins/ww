@@ -7,4 +7,11 @@
     <string name="add_bgm">添加BGM</string>
     <string name="add_bgm_hint">添加背景音乐，你的话题更有趣</string>
     <string name="selected">选定</string>
+    <string name="tags_what_are_you_interested_in">你对什么感兴趣？</string>
+    <string name="tags_selection_title_hint">选择喜欢的标签，让往往更懂你</string>
+    <string name="tags_confirm_title">兴趣大杂烩</string>
+    <string name="tags_confirm_title_hint">你的兴趣全在这里，返回可以重新选择哦</string>
+    <string name="tags_selected_count">已选</string>
+    <string name="tags_selected">选定</string>
+    <string name="tags_confirm">确定</string>
 </resources>

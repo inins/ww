@@ -6,7 +6,7 @@ import com.wang.social.login.mvp.model.entities.dto.LoginInfoDTO;
 import com.frame.http.api.BaseJson;
 import com.frame.mvp.IModel;
 import com.frame.mvp.IView;
-import com.wang.social.login.mvp.model.entities.dto.TagsDTO;
+import com.frame.component.ui.acticity.tags.TagsDTO;
 
 import io.reactivex.Observable;
 

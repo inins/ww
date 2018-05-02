@@ -1,6 +1,7 @@
 package com.wang.social.topic.mvp.model;
 
 import com.frame.component.common.NetParam;
+import com.frame.di.scope.ActivityScope;
 import com.frame.di.scope.FragmentScope;
 import com.frame.http.api.BaseJson;
 import com.frame.integration.IRepositoryManager;
@@ -32,7 +33,7 @@ public class TopicModel extends BaseModel implements TopicContract.Model {
                 .put("size",size)
                 .put("current",current)
                 .put("from", from)
-                .put("v", BuildConfig.VERSION_NAME)
+                .put("v", "2.0.0")
                 .build();
 
         return mRepositoryManager
@@ -45,7 +46,7 @@ public class TopicModel extends BaseModel implements TopicContract.Model {
         Map<String, Object> param = new NetParam()
                 .put("size",size)
                 .put("current",current)
-                .put("v", BuildConfig.VERSION_NAME)
+                .put("v", "2.0.0")
                 .build();
         return mRepositoryManager
                 .obtainRetrofitService(TagService.class)

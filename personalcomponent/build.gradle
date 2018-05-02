@@ -100,6 +100,9 @@ dependencies {
     implementation project(':pictureselectorcomponent')
     implementation project(':socializecomponent')
     implementation project(':springlibrary')
+//    implementation files('libs/alipaySdk-20180403.jar'){
+//        exclude
+//    }
 }
 
 if (!project.isRunAlone) {

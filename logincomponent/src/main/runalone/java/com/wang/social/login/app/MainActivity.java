@@ -5,13 +5,11 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 
 import com.frame.base.BasicActivity;
+import com.frame.component.ui.acticity.tags.TagSelectionActivity;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.wang.social.login.R;
 import com.wang.social.login.mvp.ui.ForgotPasswordActivity;
-import com.wang.social.login.mvp.ui.ResetPasswordActivity;
-import com.wang.social.login.mvp.ui.TagSelectionActivity;
-import com.wang.social.login.mvp.ui.VerifyPhoneActivity;
 import com.wang.social.login.mvp.ui.widget.DialogFragmentLoading;
 
 import java.util.concurrent.TimeUnit;
@@ -79,7 +77,7 @@ public class MainActivity extends BasicActivity {
 
     @OnClick(R.id.topic_tag_btn)
     public void topicTag() {
-        TagSelectionActivity.startForTagList(this);
+        TagSelectionActivity.startForTagList(this, null);
     }
 
     @OnClick(R.id.reset_password_btn)

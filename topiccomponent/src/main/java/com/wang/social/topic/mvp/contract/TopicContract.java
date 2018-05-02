@@ -16,7 +16,8 @@ public interface TopicContract {
     interface View extends IView {
         void showToast(String msg);
         void onMyRecommendTagListLoad(List<Tag> list);
-        void onTopicTopUserLoaded(List<BarUser> list);
+        void onTopicTopUserLoadSuccess();
+        void onTopicTopUserLoadCompleted();
     }
 
 

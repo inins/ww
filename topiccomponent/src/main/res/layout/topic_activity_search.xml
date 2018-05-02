@@ -35,10 +35,10 @@
             android:id="@+id/cancel_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="取消"
+            android:text="@string/topic_cancel"
             android:textColor="@color/common_text_blank_dark"
             android:textSize="17sp"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:paddingLeft="14dp"
             android:paddingRight="14dp"/>
@@ -46,13 +46,18 @@
     </RelativeLayout>
 
 
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <com.liaoinstan.springview.widget.SpringView
+        android:id="@+id/spring_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </com.liaoinstan.springview.widget.SpringView>
+
 
 
 </LinearLayout>

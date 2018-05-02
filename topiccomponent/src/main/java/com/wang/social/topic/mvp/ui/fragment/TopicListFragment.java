@@ -98,7 +98,7 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
                             // 需要支付
                             DFShopping.showDialog(getActivity().getSupportFragmentManager(), topic);
                         } else {
-                            TopicDetailActivity.start(getActivity(), topic.getTopicId());
+                            TopicDetailActivity.start(getActivity(), topic.getTopicId(), topic.getUserId());
                         }
                     }
                 });

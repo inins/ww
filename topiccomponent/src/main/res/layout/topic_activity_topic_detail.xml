@@ -2,7 +2,8 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"
@@ -114,15 +115,17 @@
                         android:layout_height="40dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginEnd="50dp" />
+                        android:layout_marginEnd="50dp"
+                        tools:src="@drawable/common_ic_playing2"/>
 
                     <com.wang.social.topic.mvp.ui.widget.GradualColorTextView
                         android:id="@+id/report_text_view"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:padding="14dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginEnd="14dp"
                         android:text="@string/topic_report"
                         android:textColor="#FF6666" />
                 </RelativeLayout>
@@ -154,10 +157,12 @@
         android:layout_height="48dp"
         android:orientation="horizontal"
         android:layout_gravity="bottom"
+        android:focusable="true"
         android:clickable="true"
-        android:background="#FFFFFF">
+        android:background="@drawable/topic_shape_stoke_top">
 
         <LinearLayout
+            android:id="@+id/support_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -166,22 +171,25 @@
             android:layout_gravity="center_vertical">
 
             <ImageView
+                android:id="@+id/support_image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/common_ic_zan_hot"/>
 
             <TextView
+                android:id="@+id/support_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="已赞同 110"
                 android:textColor="#ff18cdff"
                 android:textSize="12sp"
                 android:layout_marginTop="2dp"
+                tools:text="已赞同 110"
                 />
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/comment_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -190,22 +198,25 @@
             android:layout_gravity="center_vertical">
 
             <ImageView
+                android:id="@+id/comment_image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/common_ic_comment_hot"/>
 
             <TextView
+                android:id="@+id/comment_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="评论 20"
                 android:textColor="#ff818181"
                 android:textSize="12sp"
                 android:layout_marginTop="2dp"
+                tools:text="评论 20"
                 />
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/share_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -214,17 +225,19 @@
             android:layout_gravity="center_vertical">
 
             <ImageView
+                android:id="@+id/share_image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/common_ic_share_hot"/>
 
             <TextView
+                android:id="@+id/share_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="转发 16"
                 android:textColor="#ff818181"
                 android:textSize="12sp"
                 android:layout_marginTop="2dp"
+                tools:text="转发 16"
                 />
 
         </LinearLayout>

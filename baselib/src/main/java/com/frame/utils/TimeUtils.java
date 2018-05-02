@@ -272,6 +272,10 @@ public final class TimeUtils {
         return date2String(date, DEFAULT_FORMAT);
     }
 
+    public static String date2String(long time, String format) {
+        return date2String(new Date(time), new SimpleDateFormat(format));
+    }
+
     /**
      * 将Date类型转为时间字符串
      * <p>格式为format</p>

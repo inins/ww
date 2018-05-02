@@ -10,6 +10,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.text.TextUtils;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -42,14 +43,16 @@ import butterknife.OnClick;
 public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> implements TopicDetailContract.View {
 
     public final static String NAME_TOPIC_ID = "NAME_TOPIC_ID";
+    public final static String NAME_CREATOR_ID = "NAME_CREATOR_ID";
 
-    public static void start(Context context, int topicId) {
+    public static void start(Context context, int topicId, int creatorId) {
         if (null == context) {
             return;
         }
 
         Intent intent = new Intent(context, TopicDetailActivity.class);
         intent.putExtra(NAME_TOPIC_ID, topicId);
+        intent.putExtra(NAME_CREATOR_ID, creatorId);
         context.startActivity(intent);
     }
 
@@ -73,8 +76,13 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
 
     @BindView(R2.id.nested_scroll_view)
     NestedScrollView mNestedScrollView;
+    // 头像
     @BindView(R2.id.avatar_image_view)
     ImageView mAvatarIV;
+    // 昵称
+    @BindView(R2.id.nick_name_text_view)
+    TextView mNickNameTV;
+    // 性别
     @BindView(R2.id.gender_image_view)
     ImageView mGenderIV;
     // 年龄
@@ -84,7 +92,8 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
     @BindView(R2.id.constellation_text_view)
     TextView mConstellationTV;
     // 内容 WebView
-    @BindView(R2.id.content_web_view)
+    @BindView(R2.id.content_layout)
+    FrameLayout mContentLayout;
     WebView mContentWV;
     @BindView(R2.id.background_image_view)
     ImageView mBackgroundIV;
@@ -97,10 +106,51 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
     // 底部栏
     @BindView(R2.id.bottom_layout)
     View mBottomLayout;
+    // 底部点赞
+    @BindView(R2.id.support_image_view)
+    ImageView mSupportIV;
+    @BindView(R2.id.support_text_view)
+    TextView mSupportTV;
+    // 底部评论
+    @BindView(R2.id.comment_image_view)
+    ImageView mCommentIV;
+    @BindView(R2.id.comment_text_view)
+    TextView mCommentTV;
+    // 底部分享
+    @BindView(R2.id.share_image_view)
+    ImageView mShareIV;
+    @BindView(R2.id.share_text_view)
+    TextView mShareTV;
 
+    private void resetShareLayout(int count) {
+        mShareTV.setText(String.format(getString(R.string.topic_share_format), count));
+    }
+
+    private void resetCommentLayout(int count) {
+        mCommentTV.setText(String.format(getString(R.string.topic_comment_format), count));
+    }
+
+    /**
+     * 重置底部点赞UI
+     * @param isSupport 是否已点赞
+     * @param count 赞的数量
+     */
+    @Override
+    public void resetSupportLayout(int isSupport, int count) {
+        if (isSupport == 0) {
+            mSupportIV.setImageResource(R.drawable.common_ic_zan);
+            mSupportTV.setText(String.format(getString(R.string.topic_support_format), count));
+            mSupportTV.setTextColor(Color.parseColor("#818181"));
+        } else {
+            mSupportIV.setImageResource(R.drawable.common_ic_zan_hot);
+            mSupportTV.setText(String.format(getString(R.string.topic_supported_format), count));
+            mSupportTV.setTextColor(getResources().getColor(R.color.common_blue_deep));
+        }
+    }
 
     // 话题ID
     private int mTopicId;
+    private int mCreatorId;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -121,7 +171,7 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
         BarUtils.setTranslucent(this);
 
         mTopicId = getIntent().getIntExtra(NAME_TOPIC_ID, -1);
-//        mTopicId = 21;
+        mCreatorId = getIntent().getIntExtra(NAME_CREATOR_ID, -1);
 
         mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             // CollapsingToolbarLayout收起的进度
@@ -196,6 +246,8 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
     @Override
     public void onTopicDetailLoadSuccess(TopicDetail detail) {
         if (null == detail) return;
+        mTopicId = detail.getTopicId();
+        mCreatorId = detail.getCreatorId();
 
         // 背景图
         if (TextUtils.isEmpty(detail.getBackgroundImage())) {
@@ -262,7 +314,7 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
         // 标签
         String tag = "by";
         for (int i = 0; i < Math.min(detail.getTags().size(), 3); i++) {
-            String tagName = detail.getTags().get(i);
+            String tagName = detail.getTags().get(i).getTagName();
             if (TextUtils.isEmpty(tagName)) continue;
 
             tag = tag + " #" + tagName;
@@ -285,7 +337,8 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
                                 .url(detail.getAvatar())
                                 .isCircle(true)
                                 .build());
-
+        // 昵称
+        mNickNameTV.setText(detail.getNickname());
         // 性别
         if (detail.getSex() == 0) {
             mGenderIV.setImageResource(R.drawable.common_ic_man);
@@ -301,10 +354,39 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
         mConstellationTV.setText(TimeUtils.getZodiac(detail.getBirthday()));
 
         // 页面内容
+        if (null == mContentWV) {
+            mContentWV = new WebView(getApplicationContext());
+            mContentLayout.addView(mContentWV);
+        }
         mContentWV.loadData(detail.getContent(), "text/html; charset=UTF-8", null);
+
+        // 底部
+        resetSupportLayout(detail.getIsSupport(), detail.getSupportTotal());
+        resetCommentLayout(detail.getCommentTotal());
+        resetShareLayout(detail.getShareTotal());
 
         // 显示UI
         resetView(true);
+    }
+
+    @OnClick(R2.id.report_text_view)
+    public void report() {
+        mPresenter.report();
+    }
+
+    @OnClick(R2.id.support_layout)
+    public void support() {
+        mPresenter.topicSupport();
+    }
+
+    @OnClick(R2.id.comment_layout)
+    public void comment() {
+        CommentActivity.startFirstLevel(this, mTopicId, mCreatorId);
+    }
+
+    @OnClick(R2.id.share_layout)
+    public void share() {
+
     }
 
     @OnClick(R2.id.back_image_view)
@@ -315,5 +397,45 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
     @Override
     public void showToast(String msg) {
         ToastUtil.showToastLong(msg);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (null != mContentWV) {
+            mContentWV.onResume();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (null != mContentWV) {
+            mContentWV.onPause();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (null != mContentWV) {
+            mContentWV.setVisibility(View.GONE);
+            mContentLayout.removeAllViews();
+            mContentWV.destroy();
+            mContentWV = null;
+        }
+
+        super.onDestroy();
     }
 }

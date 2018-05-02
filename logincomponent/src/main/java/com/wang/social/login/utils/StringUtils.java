@@ -2,7 +2,7 @@ package com.wang.social.login.utils;
 
 import android.text.TextUtils;
 
-import com.wang.social.login.mvp.model.entities.Tag;
+import com.frame.component.ui.acticity.tags.Tag;
 
 import java.util.List;
 

@@ -18,12 +18,12 @@ import android.widget.TextView;
 import com.frame.component.ui.acticity.BGMList.BGMListActivity;
 import com.frame.component.ui.acticity.BGMList.Music;
 import com.frame.component.ui.base.BaseAppActivity;
-import com.frame.component.utils.MapUtil;
 import com.frame.component.view.MusicBoard;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
-import com.wang.social.login.mvp.ui.TagSelectionActivity;
+import com.frame.utils.ToastUtil;
+import com.frame.component.ui.acticity.tags.TagSelectionActivity;
 import com.wang.social.topic.R;
 import com.wang.social.topic.R2;
 import com.wang.social.topic.di.component.DaggerReleaseTopicComponent;
@@ -31,8 +31,7 @@ import com.wang.social.topic.di.module.ReleaseTopicModule;
 import com.wang.social.topic.mvp.contract.ReleaseTopicContract;
 import com.wang.social.topic.mvp.model.entities.Template;
 import com.wang.social.topic.mvp.presenter.ReleaseTopicPresenter;
-
-import org.greenrobot.eventbus.EventBus;
+import com.wang.social.topic.mvp.ui.widget.DFSetPrice;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -91,6 +90,8 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
             public void onButtonClick(SocialToolbar.ClickType clickType) {
                 if (clickType == SocialToolbar.ClickType.LEFT_ICON) {
                     finish();
+                } else if (clickType == SocialToolbar.ClickType.RIGHT_TEXT) {
+                    addTopic();
                 }
             }
         });
@@ -146,7 +147,6 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
                 dismissLoadingDialog();
             }
         });
-        mMusicBoard.setLooping(true);
     }
 
     private View.OnClickListener mBottomBarListener = new View.OnClickListener() {
@@ -173,6 +173,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
                     case 4: // 图片
                         break;
                     case 5: // 收费
+                        DFSetPrice.showDialog(getSupportFragmentManager());
                         break;
                 }
             }
@@ -204,6 +205,18 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         }
     }
 
+    private void addTopic() {
+        mPresenter.resetNetParam()
+                .setTitle(mTitleET.getText().toString())
+                .setBackgroundImage("")
+                .setTagIds(mTagIds)
+                .setBackgroundMusicId(mPresenter.getBGMusic().getMusicId())
+                .setContent("")
+                .setTemplateId(mPresenter.getTemplate().getId());
+
+        mPresenter.addTopic();
+    }
+
     private void refreshTitleCount(int length) {
         mTitleCountTV.setText(String.format(getString(R.string.topic_title_length_format), length));
     }
@@ -217,20 +230,21 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     private String mTagIds;
     private String mTagNames;
 
+    // 标签
     @OnClick(R2.id.topic_tags_text_view)
     public void topicTags() {
-        Bundle bundle = new Bundle();
-        if (!TextUtils.isEmpty(mTagIds)) {
-            bundle.putString("ids", mTagIds);
-        }
-        bundle.putString("NAME_MODE", "MODE_SELECTION");
-        bundle.putInt("NAME_TAG_TYPE", 3);
-
-        Intent intent = new Intent(this, TagSelectionActivity.class);
-        intent.putExtras(bundle);
-
-        startActivity(intent);
-
+//        Bundle bundle = new Bundle();
+//        if (!TextUtils.isEmpty(mTagIds)) {
+//            bundle.putString("ids", mTagIds);
+//        }
+//        bundle.putString("NAME_MODE", "MODE_SELECTION");
+//        bundle.putInt("NAME_TAG_TYPE", 3);
+//
+//        Intent intent = new Intent(this, TagSelectionActivity.class);
+//        intent.putExtras(bundle);
+//
+//        startActivity(intent);
+        TagSelectionActivity.startForTagList(this, mTagIds);
     }
 
     @Override
@@ -263,12 +277,12 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
     @Override
     public void showLoading() {
-
+        showLoadingDialog();
     }
 
     @Override
     public void hideLoading() {
-
+        dismissLoadingDialog();
     }
 
     @Override
@@ -276,5 +290,10 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         super.onPause();
 
         mMusicBoard.onPause();
+    }
+
+    @Override
+    public void toastLong(String msg) {
+        ToastUtil.showToastLong(msg);
     }
 }

@@ -75,7 +75,7 @@ public class RecycleAdapterHome extends BaseAdapter<Funshow> {
             textShare.setText(bean.getTalkShareNum() + "");
             textPicCount.setText("1/" + bean.getTalkImageNum());
             textTime.setText(FunShowUtil.getFunshowTimeStr(bean.getCreateTime()));
-            imgTagPay.setVisibility(bean.isShopping() ? View.VISIBLE : View.GONE);
+            imgTagPay.setVisibility(bean.isFree() ? View.VISIBLE : View.GONE);
             textZan.setSelected(bean.isSupport());
 
 
@@ -158,6 +158,17 @@ public class RecycleAdapterHome extends BaseAdapter<Funshow> {
             Funshow funshow = getData().get(i);
             if (funshow.getTalkId() == talkId) {
                 funshow.setTalkCommentNum(funshow.getTalkCommentNum() + 1);
+                notifyItemChanged(i);
+            }
+        }
+    }
+
+    public void refreshNeedPayById(int talkId) {
+        if (StrUtil.isEmpty(getData())) return;
+        for (int i = 0; i < getData().size(); i++) {
+            Funshow funshow = getData().get(i);
+            if (funshow.getTalkId() == talkId) {
+                funshow.setIsShopping(false);
                 notifyItemChanged(i);
             }
         }

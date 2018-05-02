@@ -1,5 +1,6 @@
 package com.wang.social.topic.mvp.model.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
@@ -11,16 +12,33 @@ public class Topic {
     private String topicImage;
     private String title;
     private String userName;
-    private int topicReadNum;
-    private int userId;
-    private int topicId;
-    private int isFree;
+    private Integer topicReadNum;
+    private Integer userId;
+    private Integer topicId;
+    private Integer isFree;
     private long createTime;
-    private int topicCommentNum;
-    private int price;
-    private int topicSupportNum;
+    private Integer topicCommentNum;
+    private Integer price;
+    private Integer topicSupportNum;
     private List<TopicTag> topicTag;
     private String userCover;
-    private int isShopping;
+    private Integer isShopping;
 
+    public Topic() {
+        firstStrff = "";
+        topicImage = "";
+        title = "";
+        userName = "";
+        topicReadNum = 0;
+        userId = 0;
+        topicId = 0;
+        isFree = 0;
+        createTime = 0;
+        topicCommentNum = 0;
+        price = 0;
+        topicSupportNum = 0;
+        topicTag = new ArrayList<>();
+        userCover = "";
+        isShopping = 0;
+    }
 }

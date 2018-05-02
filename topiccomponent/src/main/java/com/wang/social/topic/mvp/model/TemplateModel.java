@@ -39,7 +39,7 @@ public class TemplateModel extends BaseModel implements TemplateContract.Model {
                 .put("type", type)
                 .put("size",size)
                 .put("current",current)
-                .put("v", BuildConfig.VERSION_NAME)
+                .put("v", "2.0.0")
                 .build();
         return mRepositoryManager
                 .obtainRetrofitService(TopicService.class)

@@ -15,20 +15,13 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.frame.base.BaseActivity;
 import com.frame.component.common.AppConstant;
-import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.CommonHelper;
-import com.frame.component.path.HomePath;
-import com.frame.component.router.ui.UIRouter;
 import com.frame.component.ui.acticity.WebActivity;
+import com.frame.component.ui.acticity.tags.TagSelectionActivity;
 import com.frame.component.ui.base.BaseAppActivity;
-import com.frame.entities.EventBean;
-import com.frame.utils.BarUtils;
-import com.frame.utils.FrameUtils;
 import com.frame.utils.StatusBarUtil;
 import com.frame.utils.ToastUtil;
-import com.squareup.leakcanary.RefWatcher;
 import com.umeng.socialize.UMShareAPI;
 import com.wang.social.login.R;
 import com.frame.di.component.AppComponent;
@@ -39,14 +32,12 @@ import com.wang.social.login.di.module.LoginModule;
 import com.wang.social.login.mvp.contract.LoginContract;
 import com.wang.social.login.mvp.presenter.LoginPresenter;
 import com.wang.social.login.mvp.ui.widget.CountDownView;
-import com.wang.social.login.mvp.ui.widget.DialogFragmentLoading;
 import com.wang.social.login.utils.StringUtils;
 import com.wang.social.login.utils.ViewUtils;
 
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
-import timber.log.Timber;
 
 @RouteNode(path = "/login", desc = "登陆页")
 public class LoginActivity extends BaseAppActivity<LoginPresenter> implements LoginContract.View {

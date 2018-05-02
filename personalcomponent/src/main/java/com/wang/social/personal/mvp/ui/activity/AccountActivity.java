@@ -9,16 +9,16 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.frame.component.common.AppConstant;
-import com.frame.component.helper.CommonHelper;
 import com.frame.component.ui.acticity.WebActivity;
 import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
+import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.IView;
-import com.frame.utils.RxLifecycleUtils;
 import com.frame.utils.ToastUtil;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
@@ -30,12 +30,6 @@ import com.wang.social.personal.mvp.ui.dialog.DialogNoticeStone;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 
 public class AccountActivity extends BasicAppActivity implements IView {
 
@@ -46,18 +40,30 @@ public class AccountActivity extends BasicAppActivity implements IView {
 
     @BindView(R2.id.toolbar)
     Toolbar toolbar;
-    @BindView(R2.id.text_all)
-    TextView textAll;
+    @BindView(R2.id.text_stone_all)
+    TextView textStoneAll;
+    @BindView(R2.id.text_diamond_all)
+    TextView textDiamondAll;
     @BindView(R2.id.text_coulduse)
     TextView textCoulduse;
 
     public static void start(Context context) {
-//        if (CommonHelper.LoginHelper.isLogin()) {
-            Intent intent = new Intent(context, AccountActivity.class);
-            context.startActivity(intent);
-//        } else {
-//            CommonHelper.LoginHelper.startLoginActivity(context);
-//        }
+        Intent intent = new Intent(context, AccountActivity.class);
+        context.startActivity(intent);
+    }
+
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        switch (event.getEvent()){
+            case EventBean.EVENT_ACCOUNT_EXCHANGE_STONE:
+                netGetAccountData();
+                break;
+        }
     }
 
     @Override
@@ -94,6 +100,15 @@ public class AccountActivity extends BasicAppActivity implements IView {
         }
     }
 
+    private void setAccountData(AccountBalance accountBalance) {
+        if (accountBalance != null) {
+            textDiamondAll.setText(accountBalance.getAmountDiamond() + "");
+            textCoulduse.setText("可提现钻石：" + accountBalance.getAmount());
+            textStoneAll.setText(accountBalance.getAmountGemstone() + "");
+        }
+    }
+
+
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
         DaggerSingleActivityComponent
@@ -103,38 +118,7 @@ public class AccountActivity extends BasicAppActivity implements IView {
                 .inject(this);
     }
 
-    private void netGetAccountData() {
-        mRepositoryManager.obtainRetrofitService(UserService.class).accountBalance()
-                .subscribeOn(Schedulers.newThread())
-                .doOnSubscribe(new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        showLoading();
-                    }
-                })
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doFinally(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        hideLoading();
-                    }
-                })
-                .compose(RxLifecycleUtils.bindToLifecycle((IView) AccountActivity.this))
-                .subscribe(new ErrorHandleSubscriber<BaseJson<AccountBalance>>(mErrorHandler) {
-                    @Override
-                    public void onNext(BaseJson<AccountBalance> baseJson) {
-                        AccountBalance accountBalance = baseJson.getData();
-                        textAll.setText(accountBalance.getAmountDiamond() + "");
-                        textCoulduse.setText("可提现钻石：" + accountBalance.getAmount());
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        ToastUtil.showToastShort(e.getMessage());
-                    }
-                });
-    }
+    //////////////////////////////////////////
 
     @Override
     public void showLoading() {
@@ -146,10 +130,20 @@ public class AccountActivity extends BasicAppActivity implements IView {
         dismissLoadingDialog();
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+    private void netGetAccountData() {
+        ApiHelperEx.execute(this, true,
+                ApiHelperEx.getService(UserService.class).accountBalance(),
+                new ErrorHandleSubscriber<BaseJson<AccountBalance>>() {
+                    @Override
+                    public void onNext(BaseJson<AccountBalance> basejson) {
+                        AccountBalance accountBalance = basejson.getData();
+                        setAccountData(accountBalance);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        ToastUtil.showToastLong(e.getMessage());
+                    }
+                });
     }
 }

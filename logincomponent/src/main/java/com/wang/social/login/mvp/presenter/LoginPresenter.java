@@ -1,8 +1,6 @@
 package com.wang.social.login.mvp.presenter;
 
 import com.frame.component.helper.AppDataHelper;
-import com.frame.component.path.HomePath;
-import com.frame.component.router.ui.UIRouter;
 import com.wang.social.login.R;
 import com.wang.social.login.mvp.contract.LoginContract;
 import com.wang.social.login.mvp.model.entities.LoginInfo;
@@ -11,12 +9,10 @@ import com.frame.http.api.ApiHelper;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
-import com.wang.social.login.mvp.model.entities.Tag;
-import com.wang.social.login.mvp.model.entities.Tags;
-import com.wang.social.login.mvp.ui.TagSelectionActivity;
+import com.frame.component.ui.acticity.tags.Tags;
+import com.frame.component.ui.acticity.tags.TagSelectionActivity;
 import com.wang.social.socialize.SocializeUtil;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 import javax.inject.Inject;

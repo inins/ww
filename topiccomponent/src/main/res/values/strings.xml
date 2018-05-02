@@ -39,4 +39,18 @@
     <string name="topic_balance_format">您当前余额为%1d钻</string>
     <string name="topic_dialog_shopping_cancel">再逛逛</string>
     <string name="topic_dialog_shopping_ok">去支付</string>
+    <string name="topic_et_al">等人</string>
+    <string name="topic_comment_edit_hint">说说你的看法吧</string>
+    <string name="topic_send">发送</string>
+    <string name="topic_reply">回复</string>
+    <string name="topic_reply_comment">回复评论</string>
+    <string name="topic_top_user_comment_count_format">参与%1d话题</string>
+    <string name="topic_support_format">赞同 %1d</string>
+    <string name="topic_supported_format">已赞同 %1d</string>
+    <string name="topic_comment_format">评论 %1d</string>
+    <string name="topic_share_format">转发 %1d</string>
+    <string name="topic_cancel">取消</string>
+    <string name="topic_set_price_title">该条话题需要付费查看</string>
+    <string name="topic_reset">重置</string>
+    <string name="topic_confirm">确定</string>
 </resources>

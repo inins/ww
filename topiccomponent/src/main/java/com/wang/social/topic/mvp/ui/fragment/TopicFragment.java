@@ -7,20 +7,16 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
 import com.frame.base.BaseFragment;
-import com.frame.component.path.LoginPath;
-import com.frame.component.router.Router;
-import com.frame.component.router.ui.UIRouter;
+import com.frame.component.ui.acticity.tags.TagSelectionActivity;
 import com.frame.component.view.barview.BarUser;
 import com.frame.component.view.barview.BarView;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
 import com.frame.utils.ToastUtil;
 import com.wang.social.topic.R;
 import com.wang.social.topic.R2;
@@ -28,11 +24,10 @@ import com.wang.social.topic.di.component.DaggerTopicComponent;
 import com.wang.social.topic.di.module.TopicModule;
 import com.wang.social.topic.mvp.contract.TopicContract;
 import com.wang.social.topic.mvp.model.entities.Tag;
+import com.wang.social.topic.mvp.model.entities.TopicTopUser;
 import com.wang.social.topic.mvp.presenter.TopicPresenter;
 import com.wang.social.topic.mvp.ui.SearchActivity;
 import com.wang.social.topic.mvp.ui.TopUserActivity;
-import com.wang.social.topic.mvp.ui.WrapContentLinearLayoutManager;
-import com.wang.social.topic.mvp.ui.adapter.SelectedTagAdapter;
 import com.wang.social.topic.mvp.ui.widget.AppBarStateChangeListener;
 import com.wang.social.topic.mvp.ui.widget.GradualImageView;
 
@@ -119,7 +114,7 @@ public class TopicFragment extends BaseFragment<TopicPresenter> implements Topic
         initTopicList();
 
         // 加载知识魔
-        mPresenter.getReleaseTopicTopUser();
+        mPresenter.getReleaseTopicTopUser(true);
 
         // 加载标签数据
         mPresenter.myRecommendTag();
@@ -139,9 +134,13 @@ public class TopicFragment extends BaseFragment<TopicPresenter> implements Topic
                 .inject(this);
     }
 
+    /**
+     * 标签选择
+     */
     @OnClick(R2.id.select_tag_image_view)
     public void selectTag() {
-        UIRouter.getInstance().openUri(getActivity(), LoginPath.LOGIN_TAG_SELECTION_URL, null);
+//        UIRouter.getInstance().openUri(getActivity(), LoginPath.LOGIN_TAG_SELECTION_URL, null);
+        TagSelectionActivity.startSelection(getActivity(), TagSelectionActivity.TAG_TYPE_INTEREST);
     }
 
     /**
@@ -209,14 +208,26 @@ public class TopicFragment extends BaseFragment<TopicPresenter> implements Topic
     }
 
     @Override
-    public void onTopicTopUserLoaded(List<BarUser> list) {
+    public void onTopicTopUserLoadSuccess() {
 
 //        mBarView.refreshData(new ArrayList<BarUser>() {{
 //            add(new BarUser("http://i-7.vcimg.com/trim/48b866104e7efc1ffd7367e7423296c11060910/trim.jpg"));
 //            add(new BarUser("https://tse3-mm.cn.bing.net/th?id=OIP.XzZcrXAIrxTtUH97rMlNGQHaEo&p=0&o=5&pid=1.1"));
 //            add(new BarUser("http://photos.tuchong.com/23552/f/624083.jpg"));
 //        }});
+
+
+        List<BarUser> list = new ArrayList<>();
+        for (int i = 0; i < Math.min(5, mPresenter.getTopicTopUserList().size()); i++) {
+            TopicTopUser user = mPresenter.getTopicTopUserList().get(i);
+            list.add(new BarUser(user.getAvatar()));
+        }
         mBarView.refreshData(list);
+    }
+
+    @Override
+    public void onTopicTopUserLoadCompleted() {
+
     }
 
     @Override
@@ -226,5 +237,20 @@ public class TopicFragment extends BaseFragment<TopicPresenter> implements Topic
     @Override
     public void hideLoading() {
 
+    }
+
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        switch (event.getEvent()) {
+            case EventBean.EVENTBUS_TAG_UPDATED:
+                // 加载标签数据
+                mPresenter.myRecommendTag();
+                break;
+        }
     }
 }

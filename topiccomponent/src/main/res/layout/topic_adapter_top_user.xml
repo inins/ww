@@ -24,29 +24,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="7dp"
-        android:layout_marginStart="10dp"
         android:layout_marginTop="8dp"
-        android:text="阿刁"
         android:textColor="#ff313131"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/topic_linearlayout2"
-        app:layout_constraintStart_toEndOf="@+id/avatar_image_view"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/gender_layout"
+        app:layout_constraintStart_toStartOf="@+id/gender_layout"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="阿刁" />
 
     <LinearLayout
-        android:id="@+id/topic_linearlayout2"
+        android:id="@+id/gender_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="14dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/topic_shape_rect_corner_solid_red_gray"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingBottom="4dp"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:paddingTop="4dp"
+        android:paddingBottom="2dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/avatar_image_view"
         app:layout_constraintTop_toTopOf="parent">
@@ -62,9 +61,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:text="00后"
             android:textColor="#ffffffff"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            tools:text="00后" />
 
     </LinearLayout>
 
@@ -76,16 +75,16 @@
         android:layout_marginStart="11dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/topic_shape_rect_corner_solid_text_blank_dark"
-        android:paddingBottom="4dp"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:paddingTop="4dp"
-        android:text="天秤座"
+        android:paddingBottom="2dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="2dp"
         android:textColor="#ffffffff"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/topic_linearlayout2"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/gender_layout"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="天秤座" />
 
     <TextView
         android:id="@+id/topic_count_text_view"
@@ -94,29 +93,28 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="15dp"
         android:layout_marginTop="8dp"
-        android:text="参与228话题"
         android:textColor="@color/common_blue_deep"
         android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="参与228话题" />
 
     <TextView
         android:id="@+id/tags_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:layout_marginStart="10dp"
         android:layout_marginTop="8dp"
         android:ellipsize="end"
         android:maxWidth="176dp"
         android:singleLine="true"
-        android:text="#周杰伦 #旅游 #深夜食堂 #成都 #周杰伦 #旅游 #深夜食堂 #成都"
         android:textColor="@color/common_text_dark"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/avatar_image_view"
-        app:layout_constraintTop_toBottomOf="@+id/topic_linearlayout2" />
+        app:layout_constraintStart_toStartOf="@+id/gender_layout"
+        app:layout_constraintTop_toBottomOf="@+id/gender_layout"
+        tools:text="#周杰伦 #旅游 #深夜食堂 #成都 #周杰伦 #旅游 #深夜食堂 #成都" />
 
     <View
         android:layout_width="match_parent"
