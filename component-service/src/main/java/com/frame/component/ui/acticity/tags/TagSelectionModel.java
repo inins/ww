@@ -1,16 +1,10 @@
-package com.wang.social.login.mvp.model;
+package com.frame.component.ui.acticity.tags;
 
 import com.frame.component.common.NetParam;
 import com.frame.di.scope.ActivityScope;
 import com.frame.http.api.BaseJson;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.BaseModel;
-import com.wang.social.login.mvp.contract.TagSelectionContract;
-import com.wang.social.login.mvp.model.api.TagService;
-import com.wang.social.login.mvp.model.entities.PersonalTagCount;
-import com.wang.social.login.mvp.model.entities.Tag;
-import com.wang.social.login.mvp.model.entities.dto.PersonalTagCountDTO;
-import com.wang.social.login.mvp.model.entities.dto.TagsDTO;
 
 import java.util.List;
 import java.util.Map;
@@ -18,10 +12,6 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
-import timber.log.Timber;
-
-import com.wang.social.login.BuildConfig;
-import com.wang.social.login.utils.StringUtils;
 
 @ActivityScope
 public class TagSelectionModel extends BaseModel implements TagSelectionContract.Model {

@@ -1,8 +1,9 @@
-package com.wang.social.login.mvp.ui;
+package com.frame.component.ui.acticity.tags;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -14,29 +15,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.frame.component.helper.CommonHelper;
+import com.frame.component.service.R;
+import com.frame.component.service.R2;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.integration.AppManager;
 import com.frame.router.facade.annotation.RouteNode;
-import com.frame.utils.FrameUtils;
 import com.frame.utils.ToastUtil;
-import com.squareup.leakcanary.RefWatcher;
-import com.wang.social.login.R;
-import com.wang.social.login.R2;
-import com.wang.social.login.di.component.DaggerTagSelectionComponent;
-import com.wang.social.login.di.module.TagSelectionModule;
-import com.wang.social.login.mvp.contract.TagSelectionContract;
-import com.wang.social.login.mvp.model.entities.Tag;
-import com.wang.social.login.mvp.model.entities.Tags;
-import com.wang.social.login.mvp.presenter.TagSelectionPresenter;
-import com.wang.social.login.mvp.ui.widget.TagListFragment;
-import com.wang.social.login.utils.Keys;
-import com.wang.social.login.utils.StringUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 
 import javax.inject.Inject;
@@ -45,21 +37,41 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import timber.log.Timber;
 
-import static com.wang.social.login.utils.Keys.MODE_CONFIRM;
-import static com.wang.social.login.utils.Keys.MODE_SELECTION;
-import static com.wang.social.login.utils.Keys.NAME_FROM_LOGIN;
-import static com.wang.social.login.utils.Keys.NAME_MODE;
-import static com.wang.social.login.utils.Keys.NAME_SELECTED_LIST;
-import static com.wang.social.login.utils.Keys.NAME_TAG_TYPE;
-import static com.wang.social.login.utils.Keys.TAG_TYPE_INTEREST;
-import static com.wang.social.login.utils.Keys.TAG_TYPE_PERSONAL;
-import static com.wang.social.login.utils.Keys.TAG_TYPE_TAG_LIST;
-
 @RouteNode(path = "/login_tag_selection", desc = "标签选择")
 public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter> implements
         TagSelectionContract.View {
 
-    private @Keys.TagType int mTagType = TAG_TYPE_PERSONAL; // 标签类型，个人中心模块需要调用，所以默认为个人标签
+
+    public final static String EVENTBUS_TAG_DELETE = "EVENTBUS_TAG_DELETE";
+    public final static String EVENTBUS_TAG_ENTITY = "EVENTBUS_TAG_ENTITY";
+
+    public final static String NAME_MODE = "NAME_MODE";
+    public final static String NAME_FROM_LOGIN = "NAME_FROM_LOGIN";
+    public final static String NAME_TAG_TYPE = "NAME_TAG_TYPE";
+    public final static String NAME_SELECTED_LIST = "NAME_SELECTED_LIST";
+    public final static String NAME_PARENT_ID = "NAME_PARENT_ID";
+    // 标签选择
+    public final static String MODE_SELECTION = "MODE_SELECTION";
+    // 确认标签选择
+    public final static String MODE_CONFIRM = "MODE_CONFIRM";
+
+    /**
+     * 标签类型定义
+     */
+    public final static int TAG_TYPE_UNKNOWN = -1;  // 标签类型未知
+    public final static int TAG_TYPE_INTEREST = 0;  // 兴趣标签
+    public final static int TAG_TYPE_PERSONAL = 1;  // 个人标签
+    public final static int TAG_TYPE_TAG_LIST = 3;  // 直接返回选中的标签列表
+    @IntDef({
+            TAG_TYPE_UNKNOWN,
+            TAG_TYPE_INTEREST,
+            TAG_TYPE_PERSONAL,
+            TAG_TYPE_TAG_LIST
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface TagType {}
+
+    private @TagType int mTagType = TAG_TYPE_PERSONAL; // 标签类型，个人中心模块需要调用，所以默认为个人标签
 
     /**
      * 启动标签选择页面
@@ -69,19 +81,30 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
      * @param fromLogin 是否是从Login页面跳转过来的
      * @param type 类型，兴趣标签或者个人标签，加载已选和提交更改时需要调用不同的接口
      */
-    private static void start(Context context, String mode, ArrayList<Tag> selectedList, boolean fromLogin, @Keys.TagType int type) {
+    private static void start(Context context,
+                              String mode,
+                              ArrayList<Tag> selectedList,
+                              boolean fromLogin,
+                              @TagType int type,
+                              String ids) {
         Intent intent = new Intent(context, TagSelectionActivity.class);
         intent.putExtra(NAME_MODE, mode);
         intent.putExtra(NAME_FROM_LOGIN, fromLogin);
         intent.putExtra(NAME_TAG_TYPE, type);
+        intent.putExtra("ids", ids);
         if (null != selectedList) {
             intent.putParcelableArrayListExtra(NAME_SELECTED_LIST, selectedList);
         }
         context.startActivity(intent);
     }
 
-    public static void startForTagList(Context context) {
-        start(context, MODE_SELECTION, null, false, TAG_TYPE_TAG_LIST);
+    /**
+     * 返回选择的标签 id列表 和 mame列表
+     * @param context context
+     * @param ids 已选标签ID列表，以逗号隔开 id1,id2,id3.....
+     */
+    public static void startForTagList(Context context, String ids) {
+        start(context, MODE_SELECTION, null, false, TAG_TYPE_TAG_LIST, ids);
     }
 
     /**
@@ -90,21 +113,21 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
      * 从登录页面启动的一定是兴趣标签
      */
     public static void startSelectionFromLogin(Context context) {
-        start(context, MODE_SELECTION, null, true, TAG_TYPE_INTEREST);
+        start(context, MODE_SELECTION, null, true, TAG_TYPE_INTEREST, null);
     }
 
     /**
      * 启动标签选择页面
      */
-    public static void startSelection(Context context, @Keys.TagType int type) {
-        start(context, MODE_SELECTION, null, false, type);
+    public static void startSelection(Context context, @TagType int type) {
+        start(context, MODE_SELECTION, null, false, type, null);
     }
 
     /**
      * 开始确认标签选择
      */
-    public static void startConfirm(Context context, ArrayList<Tag> selectedList, boolean fromLogin, @Keys.TagType int type) {
-        start(context, MODE_CONFIRM, selectedList, fromLogin, type);
+    public static void startConfirm(Context context, ArrayList<Tag> selectedList, boolean fromLogin, @TagType int type) {
+        start(context, MODE_CONFIRM, selectedList, fromLogin, type, null);
     }
 
     @BindView(R2.id.toolbar)
@@ -139,12 +162,12 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
     private void resetCountTV() {
         // 如果是兴趣大杂烩，则显示确定
         if (mode.equals(MODE_CONFIRM)) {
-            selectedCountHintTV.setText(getString(R.string.login_confirm));
+            selectedCountHintTV.setText(getString(R.string.tags_confirm));
         }
 
         // 如果是个人标签，则显示 选定
         if (mTagType == TAG_TYPE_PERSONAL) {
-            selectedCountHintTV.setText(getString(R.string.login_selected));
+            selectedCountHintTV.setText(getString(R.string.tags_selected));
         }
 
         refreshCountTV();
@@ -212,7 +235,7 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
 
     @Override
     public int initView(@NonNull Bundle savedInstanceState) {
-        return R.layout.login_activity_tag_selection;
+        return R.layout.tags_activity_tag_selection;
     }
 
     @Override
@@ -254,8 +277,8 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
      * 初始化 兴趣大杂烩 UI和数据
      */
     private void initConfirmData() {
-        titleTV.setText(getString(R.string.login_tag_confirm_title));
-        titleHintTV.setText(getString(R.string.login_tag_confirm_title_hint));
+        titleTV.setText(getString(R.string.tags_confirm_title));
+        titleHintTV.setText(getString(R.string.tags_confirm_title_hint));
 
         // 移除选择模式时需要的View
         contentLayout.removeAllViews();
@@ -388,8 +411,8 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
         }
 
         Tag tag;
-        if (event.get(Keys.EVENTBUS_TAG_ENTITY) instanceof Tag) {
-            tag = (Tag) event.get(Keys.EVENTBUS_TAG_ENTITY);
+        if (event.get(EVENTBUS_TAG_ENTITY) instanceof Tag) {
+            tag = (Tag) event.get(EVENTBUS_TAG_ENTITY);
         } else {
             throw new ClassCastException("EventBus 返回数据类型不符，需要 Tag");
         }
@@ -419,14 +442,6 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
     @Override
     public void onDestroy() {
         super.onDestroy();
-
-        if (FrameUtils.obtainAppComponentFromContext(this).extras().get(RefWatcher.class.getName())
-            instanceof RefWatcher) {
-            Timber.i("Watch this!");
-            RefWatcher refWatcher = (RefWatcher)FrameUtils.obtainAppComponentFromContext(this).extras().get(RefWatcher.class.getName());
-
-            refWatcher.watch(this);
-        }
     }
 
     /**

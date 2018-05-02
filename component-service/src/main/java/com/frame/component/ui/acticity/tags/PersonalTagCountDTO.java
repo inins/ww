@@ -1,7 +1,7 @@
-package com.wang.social.login.mvp.model.entities.dto;
+package com.frame.component.ui.acticity.tags;
 
 import com.frame.http.api.Mapper;
-import com.wang.social.login.mvp.model.entities.PersonalTagCount;
+import com.frame.component.ui.acticity.tags.PersonalTagCount;
 
 public class PersonalTagCountDTO implements Mapper<PersonalTagCount> {
     int tagCount;

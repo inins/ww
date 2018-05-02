@@ -3,7 +3,7 @@ package com.wang.social.login.mvp.model.entities.dto;
 import com.frame.component.entities.User;
 import com.wang.social.login.mvp.model.entities.LoginInfo;
 import com.frame.http.api.Mapper;
-import com.wang.social.login.mvp.model.entities.Tags;
+import com.frame.component.ui.acticity.tags.Tags;
 
 /**
  * ========================================

@@ -30,7 +30,7 @@
                 android:id="@+id/selected_count_hint_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/login_selected_count"
+                android:text="@string/tags_selected_count"
                 android:textColor="@color/common_text_blank_dark"
                 android:textSize="16sp"
                 />
@@ -60,7 +60,7 @@
             android:id="@+id/title_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/login_what_are_you_interested_in"
+            android:text="@string/tags_what_are_you_interested_in"
             android:textColor="@color/common_text_blank"
             android:textSize="24sp"
             />
@@ -68,7 +68,7 @@
             android:id="@+id/title_hint_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/login_tag_selection_title_hint"
+            android:text="@string/tags_selection_title_hint"
             android:textColor="@color/common_text_blank"
             android:textSize="13sp"
             android:layout_marginTop="7dp"

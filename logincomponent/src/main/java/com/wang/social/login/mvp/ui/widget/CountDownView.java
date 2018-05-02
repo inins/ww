@@ -78,7 +78,7 @@ public class CountDownView extends AppCompatTextView {
                     public void onError(Throwable e) {
                         setEnabled(true);
                         CountDownView.this.setText(charSequence);
-                        setTextBackground(R.drawable.login_shape_rect_corner_stroke_blue_deep);
+                        setTextBackground(R.drawable.tags_shape_rect_corner_stroke_blue_deep);
                     }
 
                     @Override
@@ -86,7 +86,7 @@ public class CountDownView extends AppCompatTextView {
                         setEnabled(true);
                         CountDownView.this.setText(charSequence);
 
-                        setTextBackground(R.drawable.login_shape_rect_corner_stroke_blue_deep);
+                        setTextBackground(R.drawable.tags_shape_rect_corner_stroke_blue_deep);
                     }
                 });
     }

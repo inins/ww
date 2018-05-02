@@ -1,6 +1,6 @@
-package com.wang.social.login.mvp.model;
+package com.frame.component.ui.acticity.tags;
 
-import com.wang.social.login.mvp.model.entities.Tag;
+import com.frame.component.ui.acticity.tags.Tag;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

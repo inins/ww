@@ -2,6 +2,7 @@ package com.wang.social.login.mvp.model.entities;
 
 
 import com.frame.component.entities.User;
+import com.frame.component.ui.acticity.tags.Tags;
 
 import lombok.Data;
 

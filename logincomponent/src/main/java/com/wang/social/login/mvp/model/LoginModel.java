@@ -3,13 +3,13 @@ package com.wang.social.login.mvp.model;
 import com.frame.component.common.NetParam;
 import com.wang.social.login.mvp.contract.LoginContract;
 import com.wang.social.login.mvp.model.api.LoginService;
-import com.wang.social.login.mvp.model.api.TagService;
+import com.frame.component.ui.acticity.tags.TagService;
 import com.wang.social.login.mvp.model.entities.dto.LoginInfoDTO;
 import com.frame.di.scope.ActivityScope;
 import com.frame.http.api.BaseJson;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.BaseModel;
-import com.wang.social.login.mvp.model.entities.dto.TagsDTO;
+import com.frame.component.ui.acticity.tags.TagsDTO;
 
 import java.util.Map;
 
@@ -17,7 +17,6 @@ import javax.inject.Inject;
 
 import io.reactivex.Observable;
 
-import com.wang.social.login.BuildConfig;
 /**
  * ========================================
  * <p>

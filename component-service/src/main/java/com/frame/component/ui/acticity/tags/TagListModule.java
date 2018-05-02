@@ -1,9 +1,8 @@
-package com.wang.social.login.di.module;
+package com.frame.component.ui.acticity.tags;
 
-import com.frame.di.scope.ActivityScope;
 import com.frame.di.scope.FragmentScope;
-import com.wang.social.login.mvp.contract.TagListContract;
-import com.wang.social.login.mvp.model.TagListModel;
+import com.frame.component.ui.acticity.tags.TagListContract;
+import com.frame.component.ui.acticity.tags.TagListModel;
 
 import dagger.Module;
 import dagger.Provides;

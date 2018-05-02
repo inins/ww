@@ -1,4 +1,4 @@
-package com.wang.social.login.mvp.ui.widget.adapter;
+package com.frame.component.ui.acticity.tags;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -9,8 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.wang.social.login.R;
-import com.wang.social.login.mvp.model.entities.Tag;
+import com.frame.component.service.R;
 
 import java.lang.ref.WeakReference;
 
@@ -44,7 +43,7 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context)
-                .inflate(R.layout.login_view_tag, parent, false);
+                .inflate(R.layout.tags_view_tag, parent, false);
 
         return new ViewHolder(view);
     }
@@ -59,12 +58,12 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
         if (dataProvider.get().isSelected(tag)) {
             holder.nameTV.setBackground(
                     context.getResources().
-                            getDrawable(R.drawable.login_shape_rect_corner_solid_blue_deep));
+                            getDrawable(R.drawable.tags_shape_rect_corner_solid_blue_deep));
             holder.nameTV.setTextColor(Color.WHITE);
         } else {
             holder.nameTV.setBackground(
                     context.getResources().
-                            getDrawable(R.drawable.login_shape_rect_corner_stroke_blue_deep));
+                            getDrawable(R.drawable.tags_shape_rect_corner_stroke_blue_deep));
             holder.nameTV.setTextColor(
                     context.getResources().getColor(R.color.common_blue_deep));
         }

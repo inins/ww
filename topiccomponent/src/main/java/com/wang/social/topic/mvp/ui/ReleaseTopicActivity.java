@@ -18,13 +18,12 @@ import android.widget.TextView;
 import com.frame.component.ui.acticity.BGMList.BGMListActivity;
 import com.frame.component.ui.acticity.BGMList.Music;
 import com.frame.component.ui.base.BaseAppActivity;
-import com.frame.component.utils.MapUtil;
 import com.frame.component.view.MusicBoard;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.utils.ToastUtil;
-import com.wang.social.login.mvp.ui.TagSelectionActivity;
+import com.frame.component.ui.acticity.tags.TagSelectionActivity;
 import com.wang.social.topic.R;
 import com.wang.social.topic.R2;
 import com.wang.social.topic.di.component.DaggerReleaseTopicComponent;
@@ -33,8 +32,6 @@ import com.wang.social.topic.mvp.contract.ReleaseTopicContract;
 import com.wang.social.topic.mvp.model.entities.Template;
 import com.wang.social.topic.mvp.presenter.ReleaseTopicPresenter;
 import com.wang.social.topic.mvp.ui.widget.DFSetPrice;
-
-import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -233,20 +230,21 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     private String mTagIds;
     private String mTagNames;
 
+    // 标签
     @OnClick(R2.id.topic_tags_text_view)
     public void topicTags() {
-        Bundle bundle = new Bundle();
-        if (!TextUtils.isEmpty(mTagIds)) {
-            bundle.putString("ids", mTagIds);
-        }
-        bundle.putString("NAME_MODE", "MODE_SELECTION");
-        bundle.putInt("NAME_TAG_TYPE", 3);
-
-        Intent intent = new Intent(this, TagSelectionActivity.class);
-        intent.putExtras(bundle);
-
-        startActivity(intent);
-
+//        Bundle bundle = new Bundle();
+//        if (!TextUtils.isEmpty(mTagIds)) {
+//            bundle.putString("ids", mTagIds);
+//        }
+//        bundle.putString("NAME_MODE", "MODE_SELECTION");
+//        bundle.putInt("NAME_TAG_TYPE", 3);
+//
+//        Intent intent = new Intent(this, TagSelectionActivity.class);
+//        intent.putExtras(bundle);
+//
+//        startActivity(intent);
+        TagSelectionActivity.startForTagList(this, mTagIds);
     }
 
     @Override

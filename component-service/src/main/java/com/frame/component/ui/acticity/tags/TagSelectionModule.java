@@ -1,9 +1,6 @@
-package com.wang.social.login.di.module;
+package com.frame.component.ui.acticity.tags;
 
 import com.frame.di.scope.ActivityScope;
-import com.wang.social.login.mvp.contract.TagSelectionContract;
-import com.wang.social.login.mvp.model.TagSelectionModel;
-
 import dagger.Module;
 import dagger.Provides;
 

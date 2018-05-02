@@ -1,6 +1,4 @@
-package com.wang.social.login.mvp.model.entities;
-
-import com.wang.social.login.mvp.model.entities.Tag;
+package com.frame.component.ui.acticity.tags;
 
 import java.util.ArrayList;
 import java.util.List;

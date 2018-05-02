@@ -1,13 +1,7 @@
-package com.wang.social.login.mvp.model.entities;
+package com.frame.component.ui.acticity.tags;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.IntDef;
-import android.support.annotation.IntegerRes;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.util.Date;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

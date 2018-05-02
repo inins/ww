@@ -1,4 +1,4 @@
-package com.wang.social.login.mvp.model.entities;
+package com.frame.component.ui.acticity.tags;
 
 import lombok.Data;
 

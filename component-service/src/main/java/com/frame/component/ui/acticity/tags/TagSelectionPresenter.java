@@ -1,4 +1,4 @@
-package com.wang.social.login.mvp.presenter;
+package com.frame.component.ui.acticity.tags;
 
 import com.frame.di.scope.ActivityScope;
 import com.frame.http.api.ApiHelper;
@@ -6,11 +6,6 @@ import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
-import com.wang.social.login.mvp.contract.TagSelectionContract;
-import com.wang.social.login.mvp.model.entities.PersonalTagCount;
-import com.wang.social.login.mvp.model.entities.Tag;
-import com.wang.social.login.mvp.model.entities.Tags;
-import com.wang.social.login.mvp.model.entities.dto.PersonalTagCountDTO;
 
 import java.util.ArrayList;
 

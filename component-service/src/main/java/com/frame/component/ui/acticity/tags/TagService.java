@@ -1,9 +1,6 @@
-package com.wang.social.login.mvp.model.api;
+package com.frame.component.ui.acticity.tags;
 
 import com.frame.http.api.BaseJson;
-import com.wang.social.login.mvp.model.entities.PersonalTagCount;
-import com.wang.social.login.mvp.model.entities.dto.PersonalTagCountDTO;
-import com.wang.social.login.mvp.model.entities.dto.TagsDTO;
 
 import java.util.Map;
 

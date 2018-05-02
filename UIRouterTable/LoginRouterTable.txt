@@ -14,9 +14,6 @@ HOST : login
 修改/重置密码
 /login_reset_password
 
-标签选择
-/login_tag_selection
-
 验证手机
 /login_verify_phone
 

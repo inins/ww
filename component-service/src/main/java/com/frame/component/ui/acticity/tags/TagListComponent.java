@@ -1,10 +1,7 @@
-package com.wang.social.login.di.component;
+package com.frame.component.ui.acticity.tags;
 
 import com.frame.di.component.AppComponent;
-import com.frame.di.scope.ActivityScope;
 import com.frame.di.scope.FragmentScope;
-import com.wang.social.login.di.module.TagListModule;
-import com.wang.social.login.mvp.ui.widget.TagListFragment;
 
 import dagger.Component;
 

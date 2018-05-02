@@ -103,7 +103,6 @@ dependencies {
     implementation rootProject.ext.dependencies["constraint-layout"]
     implementation project(':component-service')
     annotationProcessor project(':router-anno-compiler')
-    implementation 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'
 
     implementation project(':socializecomponent')
 }

@@ -1,4 +1,4 @@
-package com.wang.social.login.mvp.ui.widget;
+package com.frame.component.ui.acticity.tags;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,19 +8,12 @@ import android.support.v7.widget.RecyclerView;
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.beloo.widget.chipslayoutmanager.SpacingItemDecoration;
 import com.frame.base.BaseFragment;
+import com.frame.component.service.R;
+import com.frame.component.service.R2;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.ToastUtil;
-import com.wang.social.login.R;
-import com.wang.social.login.R2;
-import com.wang.social.login.di.component.DaggerTagListComponent;
-import com.wang.social.login.di.module.TagListModule;
-import com.wang.social.login.mvp.contract.TagListContract;
-import com.wang.social.login.mvp.model.entities.Tag;
-import com.wang.social.login.mvp.presenter.TagListPresenter;
-import com.wang.social.login.mvp.ui.widget.adapter.TagAdapter;
-import com.wang.social.login.utils.Keys;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -30,17 +23,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import timber.log.Timber;
 
-import static com.wang.social.login.utils.Keys.MODE_CONFIRM;
-import static com.wang.social.login.utils.Keys.MODE_SELECTION;
-import static com.wang.social.login.utils.Keys.NAME_MODE;
-import static com.wang.social.login.utils.Keys.NAME_PARENT_ID;
-import static com.wang.social.login.utils.Keys.NAME_SELECTED_LIST;
-import static com.wang.social.login.utils.Keys.NAME_TAG_TYPE;
-import static com.wang.social.login.utils.Keys.TAG_TYPE_INTEREST;
-import static com.wang.social.login.utils.Keys.TAG_TYPE_PERSONAL;
-import static com.wang.social.login.utils.Keys.TAG_TYPE_TAG_LIST;
+import static com.frame.component.ui.acticity.tags.TagSelectionActivity.EVENTBUS_TAG_ENTITY;
+import static com.frame.component.ui.acticity.tags.TagSelectionActivity.MODE_CONFIRM;
+import static com.frame.component.ui.acticity.tags.TagSelectionActivity.MODE_SELECTION;
+import static com.frame.component.ui.acticity.tags.TagSelectionActivity.NAME_MODE;
+import static com.frame.component.ui.acticity.tags.TagSelectionActivity.NAME_PARENT_ID;
+import static com.frame.component.ui.acticity.tags.TagSelectionActivity.NAME_SELECTED_LIST;
+import static com.frame.component.ui.acticity.tags.TagSelectionActivity.NAME_TAG_TYPE;
+import static com.frame.component.ui.acticity.tags.TagSelectionActivity.TAG_TYPE_INTEREST;
+import static com.frame.component.ui.acticity.tags.TagSelectionActivity.TAG_TYPE_PERSONAL;
+import static com.frame.component.ui.acticity.tags.TagSelectionActivity.TAG_TYPE_TAG_LIST;
 
 public class TagListFragment extends BaseFragment<TagListPresenter> implements
         TagListContract.View {
@@ -50,7 +43,7 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
      *
      * @param list 选中列表(主要在 兴趣大杂烩时使用)
      */
-    public static TagListFragment newSelectionMode(int parentId, ArrayList<Tag> list, @Keys.TagType int type) {
+    public static TagListFragment newSelectionMode(int parentId, ArrayList<Tag> list, @TagSelectionActivity.TagType int type) {
         TagListFragment fragment = new TagListFragment();
 
         Bundle bundle = new Bundle();
@@ -68,7 +61,7 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
      * @param list
      * @return
      */
-    public static TagListFragment newConfirmMode(ArrayList<Tag> list, @Keys.TagType int type) {
+    public static TagListFragment newConfirmMode(ArrayList<Tag> list, @TagSelectionActivity.TagType int type) {
         TagListFragment fragment = new TagListFragment();
 
         Bundle bundle = new Bundle();
@@ -110,46 +103,51 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
     // 父标签id
     int parentId = 0;
     // 标签列表类型（个人标签还是兴趣标签）
-    @Keys.TagType
+    @TagSelectionActivity.TagType
     int tagListType = TAG_TYPE_PERSONAL;
 
-    private TagAdapter.DataProvider tagDataProvider = new TagAdapter.DataProvider() {
-        @Override
-        public int getItemCount() {
-            return mPresenter.getTagCount();
-        }
+    private TagAdapter.DataProvider tagDataProvider;
 
-        @Override
-        public Tag getItem(int position) {
-            return mPresenter.getTag(position);
-        }
-
-        @Override
-        public boolean isDeleteMode() {
-            return mode.equals(MODE_CONFIRM);
-        }
-
-        /**
-         * 是否选中，需要根据当前标签列表的模式来判断
-         * @param tag
-         * @return
-         */
-        @Override
-        public boolean isSelected(Tag tag) {
-            // 编辑模式一定是选中
-            if (isDeleteMode()) return true;
-
-            switch (tagListType) {
-                case TAG_TYPE_PERSONAL:
-                    return tag.isPersonalTag() || tag.isPersonalSelectedTag();
-                case TAG_TYPE_INTEREST:
-                case TAG_TYPE_TAG_LIST:
-                    return tag.isInterest();
+    {
+        tagDataProvider = new TagAdapter.DataProvider() {
+            @Override
+            public int getItemCount() {
+                return mPresenter.getTagCount();
             }
 
-            return false;
-        }
-    };
+            @Override
+            public Tag getItem(int position) {
+                return mPresenter.getTag(position);
+            }
+
+            @Override
+            public boolean isDeleteMode() {
+                return mode.equals(MODE_CONFIRM);
+            }
+
+            /**
+             * 是否选中，需要根据当前标签列表的模式来判断
+             *
+             * @param tag
+             * @return
+             */
+            @Override
+            public boolean isSelected(Tag tag) {
+                // 编辑模式一定是选中
+                if (isDeleteMode()) return true;
+
+                switch (tagListType) {
+                    case TAG_TYPE_PERSONAL:
+                        return tag.isPersonalTag() || tag.isPersonalSelectedTag();
+                    case TAG_TYPE_INTEREST:
+                    case TAG_TYPE_TAG_LIST:
+                        return tag.isInterest();
+                }
+
+                return false;
+            }
+        };
+    }
 
     @Override
     public boolean useEventBus() {
@@ -174,7 +172,7 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
             tagListChanged();
 
             EventBean bean = new EventBean(selected ? EventBean.EVENTBUS_TAG_SELECTED : EventBean.EVENTBUS_TAG_UNSELECT);
-            bean.put(Keys.EVENTBUS_TAG_ENTITY, tag);
+            bean.put(EVENTBUS_TAG_ENTITY, tag);
             EventBus.getDefault().post(bean);
         }
 
@@ -184,7 +182,7 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
             mPresenter.removeTag(tag);
 
             EventBean bean = new EventBean(EventBean.EVENTBUS_TAG_DELETE);
-            bean.put(Keys.EVENTBUS_TAG_ENTITY, tag);
+            bean.put(EVENTBUS_TAG_ENTITY, tag);
             EventBus.getDefault().post(bean);
         }
     };
@@ -200,7 +198,7 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
 
     @Override
     public int initView(@Nullable Bundle savedInstanceState) {
-        return R.layout.login_fragment_tag_list;
+        return R.layout.tags_fragment_tag_list;
     }
 
     @Override
@@ -243,7 +241,7 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
     /**
      * 收到删除的通知，需要让界面执行取消选中的操作，因为可能是不用的界面
      */
-//    @Subscriber(tag = Keys.EVENTBUS_TAG_DELETE)
+//    @Subscriber(tag = EVENTBUS_TAG_DELETE)
 //    public void tagDelete(Tag tag) {
 //        mPresenter.unselectTag(tag);
 //    }
@@ -253,8 +251,8 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
 //        Timber.i("EventBuss 事件通知");
         switch (event.getEvent()) {
             case EventBean.EVENTBUS_TAG_DELETE:
-                if (event.get(Keys.EVENTBUS_TAG_ENTITY) instanceof Tag) {
-                    Tag tag = (Tag) event.get(Keys.EVENTBUS_TAG_ENTITY);
+                if (event.get(EVENTBUS_TAG_ENTITY) instanceof Tag) {
+                    Tag tag = (Tag) event.get(EVENTBUS_TAG_ENTITY);
                     mPresenter.unselectTag(tag);
                 } else {
                     throw new ClassCastException("EventBus 返回数据类型不符，需要 Tag");

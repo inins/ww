@@ -1,14 +1,10 @@
-package com.wang.social.login.mvp.presenter;
+package com.frame.component.ui.acticity.tags;
 
-import com.frame.di.scope.ActivityScope;
 import com.frame.di.scope.FragmentScope;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
-import com.wang.social.login.mvp.contract.TagListContract;
-import com.wang.social.login.mvp.model.entities.Tag;
-import com.wang.social.login.mvp.model.entities.Tags;
 
 import java.util.ArrayList;
 import java.util.List;
