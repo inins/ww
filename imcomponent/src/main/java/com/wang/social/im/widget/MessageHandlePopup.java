@@ -3,6 +3,7 @@ package com.wang.social.im.widget;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.support.constraint.ConstraintLayout;
+import android.support.constraint.Guideline;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,7 @@ public class MessageHandlePopup extends PopupWindow {
         TextView tvDelete = view.findViewById(R.id.mh_tv_delete);
         View vLine = view.findViewById(R.id.mh_line);
         TextView tvWithdraw = view.findViewById(R.id.mh_tv_withdraw);
+        Guideline guideline = view.findViewById(R.id.mh_guideline);
 
         if (!showTop){
             view.setBackgroundResource(R.drawable.im_bg_message_handle_bottom);
@@ -63,10 +65,7 @@ public class MessageHandlePopup extends PopupWindow {
             tvWithdraw.setVisibility(View.GONE);
             vLine.setVisibility(View.GONE);
 
-            ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) tvDelete.getLayoutParams();
-            layoutParams.endToEnd = PARENT_ID;
-
-            tvDelete.setLayoutParams(layoutParams);
+            guideline.setGuidelinePercent(1);
         }
         setContentView(view);
 

@@ -2,11 +2,16 @@ package com.wang.social.im.mvp.contract;
 
 import android.content.Context;
 
+import com.frame.http.api.BaseJson;
 import com.frame.mvp.IModel;
 import com.frame.mvp.IView;
+import com.wang.social.im.mvp.model.entities.EnvelopInfo;
 import com.wang.social.im.mvp.model.entities.UIMessage;
+import com.wang.social.im.mvp.model.entities.dto.EnvelopInfoDTO;
 
 import java.util.List;
+
+import io.reactivex.Observable;
 
 /**
  * ======================================
@@ -47,9 +52,22 @@ public interface ConversationContract {
          * @return
          */
         Context getContext();
+
+        /**
+         * 显示红包弹框
+         * @param uiMessage
+         * @param envelopInfo
+         */
+        void showEnvelopDialog(UIMessage uiMessage, EnvelopInfo envelopInfo);
     }
 
     interface Model extends IModel{
 
+        /**
+         * 获取红包详情
+         * @param envelopId
+         * @return
+         */
+        Observable<BaseJson<EnvelopInfoDTO>> getEnvelopInfo(long envelopId);
     }
 }

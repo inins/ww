@@ -115,7 +115,7 @@ public class FragmentDelegateImp implements FragmentDelegate {
     @Override
     public void onDestroy() {
         if (iFragment.useEventBus()){
-            EventBus.getDefault().unregister(this);
+            EventBus.getDefault().unregister(mFragment);
         }
         this.iFragment = null;
         this.mFragmentManager = null;

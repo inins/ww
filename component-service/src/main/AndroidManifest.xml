@@ -5,11 +5,10 @@
 
     <application
         android:allowBackup="true"
-        android:supportsRtl="true"
-        android:theme="@style/common_AppTheme">
+        android:supportsRtl="true">
 
         <!--解决7.0 file://URI 协议在应用间废弃的问题，通过FileProvider途径进行文件共享-->
-        <provider
+        <!--<provider
             android:name="com.frame.component.provider.PhotoProvider"
             android:authorities="com.ins.ww.fileprovider"
             android:grantUriPermissions="true"
@@ -17,7 +16,7 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
-        </provider>
+        </provider>-->
 
         <activity android:name="com.frame.component.ui.acticity.WebActivity" />
         <activity android:name="com.frame.component.ui.acticity.PhotoActivity" />

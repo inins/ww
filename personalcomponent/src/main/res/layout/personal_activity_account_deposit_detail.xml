@@ -23,51 +23,43 @@
             app:popupTheme="@style/personal_AppTheme.PopupOverlay">
 
             <TextView
-                android:id="@+id/btn_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_marginRight="15dp"
-                android:background="@drawable/personal_shape_rect_hint_conerfull"
-                android:drawablePadding="8dp"
-                android:drawableRight="@drawable/personal_ic_down_dark"
-                android:onClick="onClick"
-                android:paddingBottom="5dp"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp"
-                android:paddingTop="5dp"
-                android:text="全部"
+                android:layout_gravity="center"
+                android:text="@string/personal_account_deposit_detail_title"
                 android:textColor="@color/common_text_blank"
-                android:textSize="15sp" />
+                android:textSize="17sp" />
 
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.widget.NestedScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
+        android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tablayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="42dp"
+            android:background="@color/common_white"
+            app:tabGravity="center"
+            app:tabIndicatorColor="@color/common_blue"
+            app:tabIndicatorHeight="1dp"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/common_text_blank"
+            app:tabTextAppearance="@style/common_TabLayoutTextSizeStyleBig"
+            app:tabTextColor="@color/common_text_dark_light" />
 
-            <com.frame.component.view.TitleView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="15dp"
-                app:personal_textNote="@string/personal_account_deposit_detail_note"
-                app:personal_textTitle="@string/personal_account_deposit_detail_title" />
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp" />
+    </LinearLayout>
 
-        </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+
 </android.support.design.widget.CoordinatorLayout>

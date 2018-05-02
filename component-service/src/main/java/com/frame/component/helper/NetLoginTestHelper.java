@@ -56,6 +56,29 @@ public class NetLoginTestHelper {
                         User user = wrap.getUserInfo();
                         AppDataHelper.saveUser(user);
                         AppDataHelper.saveToken(wrap.getToken());
+                        AppDataHelper.saveImSign(wrap.getUserSig());
+                    }
+                });
+    }
+
+    public void loginTest(String phone, String pwd) {
+        Map<String, Object> param = new NetParam()
+                .put("mobile", phone)
+                .put("password", pwd)
+                .put("v", "2.0.0")
+                .putSignature()
+                .build();
+        mRepositoryManager.obtainRetrofitService(CommonService.class).login(param)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ErrorHandleSubscriber<BaseJson<UserWrap>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseJson<UserWrap> base) {
+                        UserWrap wrap = base.getData();
+                        User user = wrap.getUserInfo();
+                        AppDataHelper.saveUser(user);
+                        AppDataHelper.saveToken(wrap.getToken());
+                        AppDataHelper.saveImSign(wrap.getUserSig());
                     }
                 });
     }

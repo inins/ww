@@ -17,13 +17,13 @@ public class DialogSure extends BaseDialogOkCancel {
     @BindView(R2.id.text_title)
     TextView textTitle;
 
-    private String title;
+    private CharSequence title;
 
-    public DialogSure(Context context, String title) {
+    public DialogSure(Context context, CharSequence title) {
         this(context, title, "取消", "确认");
     }
 
-    public DialogSure(Context context, String title, String cancelBtnText, String okBtnText) {
+    public DialogSure(Context context, CharSequence title, String cancelBtnText, String okBtnText) {
         super(context, cancelBtnText, okBtnText);
         this.title = title;
     }
@@ -39,7 +39,7 @@ public class DialogSure extends BaseDialogOkCancel {
         textTitle.setText(title);
     }
 
-    public static void showDialog(Context context, String title, OnSureCallback callback) {
+    public static void showDialog(Context context, CharSequence title, OnSureCallback callback) {
         DialogSure dialogSure = new DialogSure(context, title);
         dialogSure.setOkClickListener((view -> {
             if (callback != null) callback.onOkClick();

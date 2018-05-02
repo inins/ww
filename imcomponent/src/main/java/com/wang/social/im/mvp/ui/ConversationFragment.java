@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,8 +22,11 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.frame.base.BaseFragment;
+import com.frame.component.ui.dialog.DialogLoading;
+import com.frame.component.utils.UIUtil;
 import com.frame.di.component.AppComponent;
 import com.frame.utils.SizeUtils;
+import com.frame.utils.ToastUtil;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.imsdk.TIMConversation;
@@ -30,6 +34,7 @@ import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMImage;
 import com.tencent.imsdk.TIMImageElem;
 import com.tencent.imsdk.TIMImageType;
+import com.tencent.imsdk.TIMLocationElem;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMSoundElem;
@@ -47,19 +52,25 @@ import com.wang.social.im.enums.MessageType;
 import com.frame.component.helper.sound.AudioPlayManager;
 import com.frame.component.helper.sound.AudioRecordManager;
 import com.wang.social.im.mvp.contract.ConversationContract;
+import com.wang.social.im.mvp.model.entities.EnvelopInfo;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 import com.wang.social.im.mvp.presenter.ConversationPresenter;
 import com.wang.social.im.mvp.ui.adapters.MessageListAdapter;
 import com.wang.social.im.mvp.ui.adapters.holders.BaseMessageViewHolder;
 import com.wang.social.im.view.IMInputView;
 import com.wang.social.im.view.plugin.PluginModule;
+import com.wang.social.im.widget.EnvelopDialog;
 import com.wang.social.im.widget.MessageHandlePopup;
+import com.wang.social.location.mvp.model.entities.LocationInfo;
+import com.wang.social.location.mvp.ui.LocationActivity;
+import com.wang.social.location.mvp.ui.LocationShowActivity;
 import com.wang.social.pictureselector.ActivityPicturePreview;
 import com.wang.social.pictureselector.PictureSelector;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,11 +90,15 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     private static final int REQUEST_SELECT_PICTURE = 1000;
     //发红包
     private static final int REQUEST_CREATE_ENVELOP = 1001;
+    //位置选择
+    private static final int REQUEST_CREATE_LOCATION = 1002;
 
     @BindView(R2.id.fc_message_list)
     RecyclerView fcMessageList;
     @BindView(R2.id.fc_input)
     IMInputView fcInput;
+
+    private WeakReference<DialogLoading> mLoading;
 
     private ConversationType mConversationType;
     private String mTargetId;
@@ -110,6 +125,8 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mOffsetLimit = SizeUtils.dp2px(70);
+
+        mLoading = new WeakReference<>(new DialogLoading(getActivity()));
 
         AudioRecordManager.getInstance().setRecordListener(new RecordListener());
     }
@@ -246,28 +263,37 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
                     String message = data.getStringExtra("message");
                     mPresenter.sendEnvelopMessage(envelopId, message);
                     break;
+                case REQUEST_CREATE_LOCATION://位置
+                    LocationInfo locationInfo = (LocationInfo) data.getSerializableExtra(LocationActivity.RESULT_EXTRA_KEY);
+                    mPresenter.sendLocationMessage(locationInfo);
+                    break;
             }
         }
     }
 
     @Override
     public void showLoading() {
-
+        if (mLoading.get() == null) {
+            mLoading = new WeakReference<>(new DialogLoading(getActivity()));
+        }
+        mLoading.get().show();
     }
 
     @Override
     public void hideLoading() {
-
+        if (mLoading.get() != null) {
+            mLoading.get().dismiss();
+        }
     }
 
     @Override
     public void showMessages(List<UIMessage> uiMessages) {
         boolean needScroll = true;
         int lastVisiblePosition = mLayoutManager.findLastVisibleItemPosition();
-        if (mAdapter.getItemCount() - lastVisiblePosition > 3) {
+        if (mAdapter.getData() != null && mAdapter.getItemCount() - lastVisiblePosition > 3) {
             needScroll = false;
         }
-        if (mAdapter.getData() == null) {
+        if (mAdapter.getData() == null || mAdapter.getData().size() == 0) {
             mAdapter.refreshData(uiMessages);
         } else {
             mAdapter.addItem(uiMessages);
@@ -293,7 +319,7 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
 
     @Override
     public void insertMessages(List<UIMessage> uiMessages) {
-        if (mAdapter.getData() == null) {
+        if (mAdapter.getData() == null || mAdapter.getData().size() == 0) {
             mAdapter.refreshData(uiMessages);
 
             fcMessageList.scrollToPosition(mAdapter.getData().size() - 1);
@@ -315,6 +341,12 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     }
 
     @Override
+    public void showEnvelopDialog(UIMessage uiMessage, EnvelopInfo envelopInfo) {
+        EnvelopDialog envelopDialog = new EnvelopDialog(getActivity(), uiMessage, envelopInfo);
+        envelopDialog.show();
+    }
+
+    @Override
     public void onPluginClick(PluginModule pluginModule) {
         switch (pluginModule.getPluginType()) {
             case IMAGE: //图片选择
@@ -332,9 +364,24 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
                         break;
                     case TEAM:
                     case SOCIAL:
-                        CreateMultiEnvelopActivity.start(getActivity(), REQUEST_CREATE_ENVELOP);
+                        CreateMultiEnvelopActivity.start(getActivity(), mTargetId, REQUEST_CREATE_ENVELOP);
                         break;
                 }
+                break;
+            case LOCATION:
+                new RxPermissions(getActivity())
+                        .requestEach(Manifest.permission.ACCESS_FINE_LOCATION)
+                        .subscribe(new Consumer<Permission>() {
+                            @Override
+                            public void accept(Permission permission) throws Exception {
+                                if (permission.granted) {
+                                    Intent intent = new Intent(getActivity(), LocationActivity.class);
+                                    startActivityForResult(intent, REQUEST_CREATE_LOCATION);
+                                } else if (permission.shouldShowRequestPermissionRationale) {
+                                    ToastUtil.showToastShort(UIUtil.getString(com.wang.social.location.R.string.loc_toast_open_location_permission));
+                                }
+                            }
+                        });
                 break;
         }
     }
@@ -413,16 +460,25 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
 
     @Override
     public void onContentClick(View view, UIMessage uiMessage, int position) {
-        if (uiMessage.getMessageType() == MessageType.IMAGE) {
-            TIMImageElem imageElem = (TIMImageElem) uiMessage.getMessageElem(TIMImageElem.class);
-            if (imageElem != null) {
-                for (TIMImage image : imageElem.getImageList()) {
-                    if (image.getType() == TIMImageType.Original) {
-                        ActivityPicturePreview.start(mActivity, image.getUrl());
-                        break;
+        switch (uiMessage.getMessageType()) {
+            case IMAGE:
+                TIMImageElem imageElem = (TIMImageElem) uiMessage.getMessageElem(TIMImageElem.class);
+                if (imageElem != null) {
+                    for (TIMImage image : imageElem.getImageList()) {
+                        if (image.getType() == TIMImageType.Original) {
+                            ActivityPicturePreview.start(mActivity, image.getUrl());
+                            break;
+                        }
                     }
                 }
-            }
+                break;
+            case LOCATION:
+                TIMLocationElem locationElem = (TIMLocationElem) uiMessage.getMessageElem(TIMLocationElem.class);
+                LocationShowActivity.start(getActivity(), locationElem.getLatitude(), locationElem.getLongitude());
+                break;
+            case RED_ENVELOP:
+                mPresenter.getEnvelopInfo(uiMessage);
+                break;
         }
     }
 
@@ -494,6 +550,15 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
             TIMConversationExt ext = new TIMConversationExt(mConversation);
             ext.syncMsgRevokedNotification(null);
         }
+    }
+
+    /**
+     * 消息发生改变
+     * @param uiMessage
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageChanged(UIMessage uiMessage){
+        refreshMessage(uiMessage);
     }
 
     private class RecordListener implements AudioRecordManager.OnRecordListener {

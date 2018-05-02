@@ -13,6 +13,7 @@ import com.frame.base.BaseAdapter;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.utils.FrameUtils;
 import com.google.gson.Gson;
+import com.tencent.imsdk.ext.message.TIMMessageExt;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.enums.CustomElemType;
@@ -93,11 +94,12 @@ public class EnvelopViewHolder extends BaseMessageViewHolder<UIMessage> {
         }
 
         //显示红包信息
-        EnvelopElemData elem = (EnvelopElemData) itemValue.getCustomMessageElem(CustomElemType.RED_ENVELOP, gson);
+        EnvelopElemData elem = (EnvelopElemData) itemValue.getCustomMessageElemData(CustomElemType.RED_ENVELOP, gson);
         if (elem != null){
             msgTvMessage.setText(elem.getMessage() == null ? "" : elem.getMessage());
-            EnvelopMessageCacheInfo cacheInfo = itemValue.getEnvelopCacheInfo(gson);
-            if (cacheInfo == null || cacheInfo.getStatus() == EnvelopMessageCacheInfo.STATUS_INITIAL){
+            TIMMessageExt messageExt = new TIMMessageExt(itemValue.getTimMessage());
+            int status = messageExt.getCustomInt();
+            if (status == EnvelopMessageCacheInfo.STATUS_INITIAL){
                 msgTvStatus.setText(R.string.im_envelop_status_adopt);
                 if (itemValue.getTimMessage().isSelf()){
                     msgClEnvelop.setBackgroundResource(R.drawable.im_bg_msg_envelop_right);
@@ -105,10 +107,12 @@ public class EnvelopViewHolder extends BaseMessageViewHolder<UIMessage> {
                     msgClEnvelop.setBackgroundResource(R.drawable.im_bg_msg_envelop_left);
                 }
             }else {
-                if (cacheInfo.getStatus() == EnvelopMessageCacheInfo.STATUS_ADOPTED){
+                if (status == EnvelopMessageCacheInfo.STATUS_ADOPTED){
                     msgTvStatus.setText(R.string.im_envelop_status_adopted);
-                }else if (cacheInfo.getStatus() == EnvelopMessageCacheInfo.STATUS_OVERDUE){
+                }else if (status == EnvelopMessageCacheInfo.STATUS_OVERDUE){
                     msgTvStatus.setText(R.string.im_envelop_status_overdue);
+                }else if (status == EnvelopMessageCacheInfo.STATUS_EMPTY){
+                    msgTvStatus.setText(R.string.im_envelop_status_empty);
                 }
                 if (itemValue.getTimMessage().isSelf()){
                     msgClEnvelop.setBackgroundResource(R.drawable.im_bg_msg_envelop_right_adopted);

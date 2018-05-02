@@ -81,4 +81,12 @@ public class Funshow implements Serializable {
     public void setIsShopping(boolean isShopping) {
         this.isShopping = isShopping ? 1 : 0;
     }
+
+    public boolean isFree() {
+        return isFree == 1;
+    }
+
+    public void setIsFree(boolean isFree) {
+        this.isFree = isFree ? 1 : 0;
+    }
 }

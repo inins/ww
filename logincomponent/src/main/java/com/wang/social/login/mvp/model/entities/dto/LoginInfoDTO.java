@@ -14,6 +14,7 @@ import com.wang.social.login.mvp.model.entities.Tags;
 
 public class LoginInfoDTO implements Mapper<LoginInfo>{
     String token;
+    String userSig;
     User userInfo;
     Tags userTags;
 
@@ -23,6 +24,7 @@ public class LoginInfoDTO implements Mapper<LoginInfo>{
         loginInfo.setToken(token == null ? "" : token);
         loginInfo.setUserInfo(userInfo);
         loginInfo.setUserTags(userTags);
+        loginInfo.setImSign(userSig);
         return loginInfo;
     }
 }

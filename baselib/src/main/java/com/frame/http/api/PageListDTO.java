@@ -18,7 +18,7 @@ public class PageListDTO<T extends Mapper<R>, R> implements Mapper<PageList<R>> 
     private int pages;
     private int current;
     private String orderByField;
-    private List<T> records;
+    private List<T> list;
 
     @Override
     public PageList<R> transform() {
@@ -27,8 +27,8 @@ public class PageListDTO<T extends Mapper<R>, R> implements Mapper<PageList<R>> 
         listResult.setCurrentPage(current);
         listResult.setOrderField(orderByField);
         List<R> listR = new ArrayList<>();
-        if (records != null) {
-            for (T t : records) {
+        if (list != null) {
+            for (T t : list) {
                 listR.add(t.transform());
             }
         }

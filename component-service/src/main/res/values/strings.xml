@@ -1,4 +1,8 @@
 <resources>
+    <!-- error toast -->
+    <string name="com_toast_network_error">网络异常</string>
+    <string name="com_toast_timeout">链接超时</string>
+
     <string name="no_bgm">无音乐</string>
     <string name="add_bgm">添加BGM</string>
     <string name="add_bgm_hint">添加背景音乐，你的话题更有趣</string>

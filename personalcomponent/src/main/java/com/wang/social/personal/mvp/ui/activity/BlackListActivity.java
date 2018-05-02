@@ -8,15 +8,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 
-import com.frame.base.BaseAdapter;
 import com.frame.component.api.CommonService;
+import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.entities.ShatDownUser;
-import com.frame.component.entities.TestEntity;
-import com.frame.component.entities.User;
 import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.component.ui.dialog.DialogSure;
+import com.frame.component.view.TitleView;
 import com.frame.di.component.AppComponent;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
@@ -30,13 +30,10 @@ import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
-import com.frame.component.common.ItemDecorationDivider;
 import com.wang.social.personal.di.component.DaggerSingleActivityComponent;
 import com.wang.social.personal.mvp.model.api.UserService;
 import com.wang.social.personal.mvp.ui.adapter.RecycleAdapterBlacklist;
-import com.frame.component.view.TitleView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -52,6 +49,8 @@ public class BlackListActivity extends BasicAppActivity implements IView, Recycl
     TitleView titleview;
     @BindView(R2.id.spring)
     SpringView springView;
+    @BindView(R2.id.btn_right)
+    TextView btnRight;
     private RecycleAdapterBlacklist adapter;
 
     private boolean isBlankList;
@@ -93,7 +92,7 @@ public class BlackListActivity extends BasicAppActivity implements IView, Recycl
         springView.setListener(new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
-                netGetPhotoList();
+                netGetShatDownList();
             }
 
             @Override
@@ -107,6 +106,9 @@ public class BlackListActivity extends BasicAppActivity implements IView, Recycl
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.btn_right) {
+            DialogSure.showDialog(this, "确定要释放所有囚犯？", () -> {
+                netFreeUsers(adapter.getAllItemIds());
+            });
         }
     }
 
@@ -118,8 +120,17 @@ public class BlackListActivity extends BasicAppActivity implements IView, Recycl
     @Override
     public void onFreeBtnClick(ShatDownUser user, int position) {
         DialogSure.showDialog(this, "确定要释放该囚犯？", () -> {
-            netFreeUsers(String.valueOf(user.getUserId()));
+            netFreeUsers(String.valueOf(user.getShieldUserId()));
         });
+    }
+
+    private void setUserData(List<ShatDownUser> users) {
+        if (!StrUtil.isEmpty(users)) {
+            adapter.refreshData(users);
+            btnRight.setText(getResources().getString(R.string.personal_blacklist_btn_right) + "(" + users.size() + ")");
+        } else {
+            btnRight.setText("");
+        }
     }
 
     @Override
@@ -144,7 +155,7 @@ public class BlackListActivity extends BasicAppActivity implements IView, Recycl
 
     ///////////////////////////////
 
-    private void netGetPhotoList() {
+    private void netGetShatDownList() {
         ApiHelperEx.execute(this, false,
                 ApiHelperEx.getService(UserService.class).shatDownList(),
                 new ErrorHandleSubscriber<BaseJson<BaseListWrap<ShatDownUser>>>() {
@@ -152,14 +163,14 @@ public class BlackListActivity extends BasicAppActivity implements IView, Recycl
                     public void onNext(BaseJson<BaseListWrap<ShatDownUser>> basejson) {
                         BaseListWrap<ShatDownUser> wrap = basejson.getData();
                         List<ShatDownUser> list = wrap.getList();
-                        if (!StrUtil.isEmpty(list)) {
-                            adapter.refreshData(list);
-                        }
+                        setUserData(list);
                         springView.onFinishFreshAndLoadDelay();
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        ToastUtil.showToastShort(e.getMessage());
+                        springView.onFinishFreshAndLoadDelay();
                     }
                 });
     }
@@ -178,5 +189,12 @@ public class BlackListActivity extends BasicAppActivity implements IView, Recycl
                         ToastUtil.showToastLong(e.getMessage());
                     }
                 });
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

@@ -23,7 +23,7 @@ public abstract class BasicAppActivity extends BasicActivity {
 
     protected Toolbar toolbar;
 
-    private WeakReference<DialogLoading> dialogLoading;
+    protected WeakReference<DialogLoading> dialogLoading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +74,7 @@ public abstract class BasicAppActivity extends BasicActivity {
         if (dialogLoading.get() != null) dialogLoading.get().dismiss();
     }
 
-    public final void showLoadingDialog() {
+    public void showLoadingDialog() {
         if (dialogLoading.get() == null) dialogLoading = new WeakReference(new DialogLoading(this));
         dialogLoading.get().show();
     }

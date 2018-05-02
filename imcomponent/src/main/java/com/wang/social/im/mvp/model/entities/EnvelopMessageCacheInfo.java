@@ -26,6 +26,10 @@ public class EnvelopMessageCacheInfo {
      * 红包已过期
      */
     public static final int STATUS_OVERDUE = 2;
+    /**
+     * 红包已抢光
+     */
+    public static final int STATUS_EMPTY = 3;
 
     @Getter
     @Setter

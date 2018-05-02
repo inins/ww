@@ -3,6 +3,9 @@ package com.wang.social.im.mvp.presenter;
 import android.support.annotation.NonNull;
 
 import com.frame.di.scope.FragmentScope;
+import com.frame.http.api.ApiHelper;
+import com.frame.http.api.error.ErrorHandleSubscriber;
+import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
 import com.frame.utils.ToastUtil;
 import com.google.gson.Gson;
@@ -10,6 +13,7 @@ import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMCustomElem;
 import com.tencent.imsdk.TIMImageElem;
+import com.tencent.imsdk.TIMLocationElem;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageListener;
@@ -20,16 +24,25 @@ import com.tencent.imsdk.ext.message.TIMConversationExt;
 import com.tencent.imsdk.ext.message.TIMMessageExt;
 import com.wang.social.im.R;
 import com.wang.social.im.app.IMConstants;
+import com.wang.social.im.enums.CustomElemType;
 import com.wang.social.im.mvp.contract.ConversationContract;
 import com.wang.social.im.mvp.model.entities.EnvelopElemData;
+import com.wang.social.im.mvp.model.entities.EnvelopInfo;
+import com.wang.social.im.mvp.model.entities.EnvelopMessageCacheInfo;
+import com.wang.social.im.mvp.model.entities.LocationAddressInfo;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 import com.wang.social.im.mvp.ui.adapters.MessageListAdapter;
+import com.wang.social.location.mvp.model.entities.LocationInfo;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
 import javax.inject.Inject;
+
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 
 /**
  * ======================================
@@ -46,6 +59,10 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
 
     @Inject
     Gson gson;
+    @Inject
+    ApiHelper mApiHelper;
+    @Inject
+    RxErrorHandler mErrorHandler;
 
     @Inject
     public ConversationPresenter(ConversationContract.Model model, ConversationContract.View view) {
@@ -205,6 +222,7 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
 
     /**
      * 发送红包消息
+     *
      * @param envelopId
      * @param message
      */
@@ -218,6 +236,70 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
         timMessage.addElement(envelopElem);
 
         doSendMessage(timMessage);
+    }
+
+    /**
+     * 发送位置消息
+     *
+     * @param locationInfo
+     */
+    public void sendLocationMessage(LocationInfo locationInfo) {
+        TIMMessage timMessage = new TIMMessage();
+        TIMLocationElem locationElem = new TIMLocationElem();
+        locationElem.setLatitude(locationInfo.getLatitude());
+        locationElem.setLongitude(locationInfo.getLongitude());
+        LocationAddressInfo addressInfo = new LocationAddressInfo();
+        addressInfo.setPlace(locationInfo.getPlace());
+        addressInfo.setAddress(locationInfo.getAddress());
+        locationElem.setDesc(gson.toJson(addressInfo));
+        timMessage.addElement(locationElem);
+
+        doSendMessage(timMessage);
+    }
+
+    /**
+     * 获取红包详情
+     *
+     * @param uiMessage
+     */
+    public void getEnvelopInfo(UIMessage uiMessage) {
+        EnvelopElemData envelopElemData = (EnvelopElemData) uiMessage.getCustomMessageElemData(CustomElemType.RED_ENVELOP, gson);
+        if (envelopElemData != null) {
+            mApiHelper.execute(mRootView, mModel.getEnvelopInfo(envelopElemData.getEnvelopId()), new ErrorHandleSubscriber<EnvelopInfo>(mErrorHandler) {
+                @Override
+                public void onNext(EnvelopInfo envelopInfo) {
+                    mRootView.showEnvelopDialog(uiMessage, envelopInfo);
+                    TIMMessageExt messageExt = new TIMMessageExt(uiMessage.getTimMessage());
+                    //检查红包状态
+                    if (envelopInfo.getGotDiamond() > 0){
+                        messageExt.setCustomInt(EnvelopMessageCacheInfo.STATUS_ADOPTED);
+                    }else {
+                        switch (envelopInfo.getStatus()) {
+                            case LIVING:
+                                messageExt.setCustomInt(EnvelopMessageCacheInfo.STATUS_INITIAL);
+                                break;
+                            case EMPTY:
+                                messageExt.setCustomInt(EnvelopMessageCacheInfo.STATUS_EMPTY);
+                                break;
+                            case OVERDUE:
+                                messageExt.setCustomInt(EnvelopMessageCacheInfo.STATUS_OVERDUE);
+                                break;
+                        }
+                    }
+                    mRootView.refreshMessage(uiMessage);
+                }
+            }, new Consumer<Disposable>() {
+                @Override
+                public void accept(Disposable disposable) throws Exception {
+                    mRootView.showLoading();
+                }
+            }, new Action() {
+                @Override
+                public void run() throws Exception {
+                    mRootView.hideLoading();
+                }
+            });
+        }
     }
 
     /**

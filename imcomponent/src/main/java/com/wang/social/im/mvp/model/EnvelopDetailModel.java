@@ -1,11 +1,18 @@
 package com.wang.social.im.mvp.model;
 
 import com.frame.di.scope.ActivityScope;
+import com.frame.http.api.BaseJson;
+import com.frame.http.api.PageListDTO;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.BaseModel;
 import com.wang.social.im.mvp.contract.EnvelopDetailContract;
+import com.wang.social.im.mvp.model.api.EnvelopService;
+import com.wang.social.im.mvp.model.entities.EnvelopAdoptInfo;
+import com.wang.social.im.mvp.model.entities.dto.EnvelopAdoptInfoDTO;
 
 import javax.inject.Inject;
+
+import io.reactivex.Observable;
 
 /**
  * ============================================
@@ -20,5 +27,12 @@ public class EnvelopDetailModel extends BaseModel implements EnvelopDetailContra
     @Inject
     public EnvelopDetailModel(IRepositoryManager repositoryManager) {
         super(repositoryManager);
+    }
+
+    @Override
+    public Observable<BaseJson<PageListDTO<EnvelopAdoptInfoDTO, EnvelopAdoptInfo>>> getAdoptList(long envelopId, int currentPage) {
+        return mRepositoryManager
+                .obtainRetrofitService(EnvelopService.class)
+                .getEnvelopAdoptList("2.0.0", envelopId, currentPage, 20);
     }
 }

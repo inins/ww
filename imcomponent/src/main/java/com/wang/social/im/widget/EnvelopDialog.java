@@ -9,21 +9,45 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.frame.component.utils.UIUtil;
 import com.frame.di.component.AppComponent;
+import com.frame.http.api.ApiException;
+import com.frame.http.api.BaseJson;
+import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.integration.IRepositoryManager;
 import com.frame.utils.FrameUtils;
+import com.frame.utils.RxLifecycleUtils;
+import com.google.gson.Gson;
+import com.tencent.imsdk.TIMCustomElem;
+import com.tencent.imsdk.ext.message.TIMMessageExt;
 import com.wang.social.im.R;
+import com.wang.social.im.enums.CustomElemType;
+import com.wang.social.im.mvp.model.api.ApiCode;
+import com.wang.social.im.mvp.model.api.EnvelopService;
+import com.wang.social.im.mvp.model.entities.EnvelopAdoptInfo;
 import com.wang.social.im.mvp.model.entities.EnvelopInfo;
+import com.wang.social.im.mvp.model.entities.EnvelopMessageCacheInfo;
+import com.wang.social.im.mvp.model.entities.UIMessage;
+import com.wang.social.im.mvp.model.entities.dto.EnvelopAdoptInfoDTO;
 import com.wang.social.im.mvp.ui.EnvelopDetailActivity;
 
+import org.greenrobot.eventbus.EventBus;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Bo on 2017-12-11.
@@ -45,16 +69,22 @@ public class EnvelopDialog extends Dialog {
     private Context context;
     private CompositeDisposable disposables;
 
+    private UIMessage uiMessage;
     private EnvelopInfo envelopInfo;
 
     private ImageLoader mImageLoader;
     private IRepositoryManager mRepositoryManager;
     private RxErrorHandler mErrorHandler;
 
-    public EnvelopDialog(@NonNull Context context, EnvelopInfo envelopInfo) {
+    private Gson gson;
+
+    public EnvelopDialog(@NonNull Context context, UIMessage uiMessage, EnvelopInfo envelopInfo) {
         super(context, R.style.common_MyDialog);
         this.context = context;
         this.envelopInfo = envelopInfo;
+        this.uiMessage = uiMessage;
+
+        gson = FrameUtils.obtainAppComponentFromContext(context).gson();
     }
 
     @Override
@@ -111,6 +141,7 @@ public class EnvelopDialog extends Dialog {
                 .placeholder(R.drawable.common_default_circle_placeholder)
                 .errorPic(R.drawable.common_default_circle_placeholder)
                 .url(envelopInfo.getFromPortrait())
+                .isCircle(true)
                 .imageView(drpCivHead)
                 .build());
         drpTvFrom.setText(envelopInfo.getFromNickname());
@@ -133,8 +164,6 @@ public class EnvelopDialog extends Dialog {
             disposables.clear();
             disposables = null;
         }
-        context = null;
-        envelopInfo = null;
         drpIvbClose = null;
         drpCivHead = null;
         drpTvFrom = null;
@@ -145,11 +174,16 @@ public class EnvelopDialog extends Dialog {
         drpTvbLookDetail = null;
         drpTvTip = null;
         drpLoading = null;
+        gson = null;
     }
 
     private void showInfo() {
-        if (envelopInfo.getStatus() == EnvelopInfo.Status.LIVING) {
+        if (envelopInfo.getStatus() == EnvelopInfo.Status.LIVING && envelopInfo.getGotDiamond() == 0) {
             drpTvMessage.setText(envelopInfo.getMessage());
+            if (envelopInfo.isSelf()) {
+                drpTvbOpen.setVisibility(View.GONE);
+                drpTvbLookDetail.setVisibility(View.VISIBLE);
+            }
         } else {
             drpTvbOpen.setVisibility(View.GONE);
             if (envelopInfo.getGotDiamond() > 0) {
@@ -158,9 +192,9 @@ public class EnvelopDialog extends Dialog {
                 drpTvDiamond.setText(String.valueOf(envelopInfo.getGotDiamond()));
             } else {
                 if (envelopInfo.getStatus() == EnvelopInfo.Status.OVERDUE) {
-                    drpTvMessage.setText(envelopInfo.isSelf() ? R.string.im_envelop_overdue_self : R.string.im_envelop_overdue);
+                    drpTvMessage.setText(envelopInfo.getType() == EnvelopInfo.EnvelopType.PRIVATE ? R.string.im_envelop_overdue : R.string.im_envelop_overdue_self);
                 } else if (envelopInfo.getStatus() == EnvelopInfo.Status.EMPTY) {
-                    drpTvMessage.setText(R.string.im_envelop_empty);
+                    drpTvMessage.setText(envelopInfo.isSelf() ? envelopInfo.getMessage() : UIUtil.getString(R.string.im_envelop_empty));
                 }
             }
 
@@ -190,17 +224,94 @@ public class EnvelopDialog extends Dialog {
             }
         });
 
+        //查看详情
         drpTvbLookDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
-                EnvelopDetailActivity.start(context, envelopInfo.getEnvelopId());
+                EnvelopDetailActivity.start(context, envelopInfo);
             }
         });
     }
 
+    /**
+     * 领取红包
+     */
     private void openRedPacket() {
-        drpLoading.setVisibility(View.VISIBLE);
+        mRepositoryManager
+                .obtainRetrofitService(EnvelopService.class)
+                .adoptEnvelop("2.0.0", envelopInfo.getEnvelopId())
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe(new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                        disposables.add(disposable);
+                        drpLoading.setVisibility(View.VISIBLE);
+                    }
+                })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doFinally(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        drpLoading.setVisibility(View.GONE);
+                    }
+                })
+                .map(new Function<BaseJson<EnvelopAdoptInfoDTO>, EnvelopAdoptInfo>() {
+                    @Override
+                    public EnvelopAdoptInfo apply(BaseJson<EnvelopAdoptInfoDTO> t) throws Exception {
+                        return t.getData().transform();
+                    }
+                })
+                .subscribe(new ErrorHandleSubscriber<EnvelopAdoptInfo>(mErrorHandler) {
+                    @Override
+                    public void onNext(EnvelopAdoptInfo envelopAdoptInfo) {
+                        envelopInfo.setGotDiamond(envelopAdoptInfo.getGotDiamondNumber());
+                        showInfo();
 
+                        updateEnvelopMessageCache(envelopAdoptInfo.getGotDiamondNumber(), EnvelopMessageCacheInfo.STATUS_ADOPTED);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (e instanceof ApiException) {
+                            switch (((ApiException) e).getErrorCode()) {
+                                case ApiCode.ENVELOP_OVERDUE:
+                                    envelopInfo.setStatus(EnvelopInfo.Status.OVERDUE);
+                                    showInfo();
+                                    updateEnvelopMessageCache(0, EnvelopMessageCacheInfo.STATUS_OVERDUE);
+                                    break;
+                                case ApiCode.ENVELOP_EMPTY:
+                                    showInfo();
+                                    envelopInfo.setStatus(EnvelopInfo.Status.EMPTY);
+                                    break;
+                                default:
+                                    drpTvbOpen.setEnabled(true);
+                                    super.onError(e);
+                                    break;
+                            }
+                        } else {
+                            drpTvbOpen.setEnabled(true);
+                            super.onError(e);
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 修改红包消息缓存信息
+     *
+     * @param godDiamond
+     * @param status
+     */
+    private void updateEnvelopMessageCache(int godDiamond, int status) {
+        TIMMessageExt messageExt = new TIMMessageExt(uiMessage.getTimMessage());
+        EnvelopMessageCacheInfo cacheInfo = new EnvelopMessageCacheInfo();
+        cacheInfo.setGotDiamond(godDiamond);
+        cacheInfo.setStatus(status);
+        messageExt.setCustomStr(gson.toJson(messageExt));
+        messageExt.setCustomInt(status);
+
+        EventBus.getDefault().post(uiMessage);
     }
 }

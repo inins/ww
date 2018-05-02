@@ -18,11 +18,17 @@ import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.utils.UIUtil;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
+import com.frame.router.facade.annotation.Autowired;
 import com.frame.utils.SizeUtils;
+import com.frame.utils.ToastUtil;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
+import com.wang.social.im.app.IMConstants;
 import com.wang.social.im.common.InputPositiveIntegerFilter;
+import com.wang.social.im.di.component.DaggerCreateEnvelopComponent;
+import com.wang.social.im.di.modules.CreateEnvelopModule;
 import com.wang.social.im.mvp.contract.CreateEnvelopContract;
+import com.wang.social.im.mvp.model.entities.EnvelopInfo;
 import com.wang.social.im.mvp.presenter.CreateEnvelopPresenter;
 
 import butterknife.BindView;
@@ -51,11 +57,14 @@ public class CreateMultiEnvelopActivity extends BaseAppActivity<CreateEnvelopPre
     @BindView(R2.id.cmr_tvb_plug)
     TextView cmrTvbPlug;
 
+    private String groupId;
+
     //标识当前是否为拼手气模式
     private boolean isSpell = true;
 
-    public static void start(Activity activity, int requestCode) {
+    public static void start(Activity activity, String groupId, int requestCode) {
         Intent intent = new Intent(activity, CreateMultiEnvelopActivity.class);
+        intent.putExtra("groupId", groupId);
         activity.startActivityForResult(intent, requestCode);
     }
 
@@ -66,7 +75,11 @@ public class CreateMultiEnvelopActivity extends BaseAppActivity<CreateEnvelopPre
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
-
+        DaggerCreateEnvelopComponent.builder()
+                .appComponent(appComponent)
+                .createEnvelopModule(new CreateEnvelopModule(this))
+                .build()
+                .inject(this);
     }
 
     @Override
@@ -76,6 +89,8 @@ public class CreateMultiEnvelopActivity extends BaseAppActivity<CreateEnvelopPre
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
+        groupId = getIntent().getStringExtra("groupId");
+
         init();
     }
 
@@ -88,7 +103,7 @@ public class CreateMultiEnvelopActivity extends BaseAppActivity<CreateEnvelopPre
         toolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
             @Override
             public void onButtonClick(SocialToolbar.ClickType clickType) {
-                switch (clickType){
+                switch (clickType) {
                     case LEFT_ICON:
                         onBackPressed();
                         break;
@@ -142,27 +157,39 @@ public class CreateMultiEnvelopActivity extends BaseAppActivity<CreateEnvelopPre
     }
 
     @Override
-    public void showLoading() {
+    public void showLoadingDialog() {
+        super.showLoadingDialog();
+        dialogLoading.get().setCancelable(false);
+    }
 
+    @Override
+    public void showLoading() {
+        showLoadingDialog();
     }
 
     @Override
     public void hideLoading() {
-
+        dismissLoadingDialog();
     }
 
     @OnClick({R2.id.cmr_tv_click_change, R2.id.cmr_tvb_plug})
     public void onViewClicked(View view) {
-        if (view.getId() == R.id.cmr_tv_click_change){
+        if (view.getId() == R.id.cmr_tv_click_change) {
             isSpell = !isSpell;
             toggleMode();
-        }else if (view.getId() == R.id.cmr_tvb_plug){
-            Intent intent = new Intent();
-
-            intent.putExtra("envelopId", 0L);
-            intent.putExtra("message", cmrEtMessage.getText().toString());
-            setResult(RESULT_OK, intent);
-            finish();
+        } else if (view.getId() == R.id.cmr_tvb_plug) {
+            int inputDiamond = Integer.parseInt(cmrEtDiamond.getText().toString());
+            int inputCount = Integer.parseInt(cmrEtCount.getText().toString());
+            if ((isSpell && inputDiamond / inputCount > IMConstants.MULTI_ENVELOP_DIAMOND_LIMIT) ||
+                    (!isSpell && inputDiamond > IMConstants.MULTI_ENVELOP_DIAMOND_LIMIT)) {
+                ToastUtil.showToastShort(UIUtil.getString(R.string.im_envelop_toast_limit, IMConstants.MULTI_ENVELOP_DIAMOND_LIMIT));
+                return;
+            }
+            String message = cmrEtMessage.getText().toString();
+            if (TextUtils.isEmpty(message)) {
+                message = getString(R.string.im_envelop_message_default);
+            }
+            mPresenter.createEnvelop(isSpell ? EnvelopInfo.EnvelopType.SPELL : EnvelopInfo.EnvelopType.EQUAL, getPayDiamond(), inputCount, message, groupId);
         }
     }
 
@@ -202,5 +229,14 @@ public class CreateMultiEnvelopActivity extends BaseAppActivity<CreateEnvelopPre
             int count = TextUtils.isEmpty(countStr) ? 0 : Integer.parseInt(countStr);
             return diamond * count;
         }
+    }
+
+    @Override
+    public void onCreateSuccess(long envelopId, String message) {
+        Intent intent = new Intent();
+        intent.putExtra("envelopId", envelopId);
+        intent.putExtra("message", message);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 }
