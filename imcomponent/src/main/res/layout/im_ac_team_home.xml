@@ -7,7 +7,7 @@
     android:background="@color/common_white">
 
     <com.frame.component.view.SocialToolbar
-        android:id="@+id/sc_toolbar"
+        android:id="@+id/th_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:toolbar_left_icon="@drawable/common_ic_back"
@@ -19,15 +19,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sc_toolbar">
+        app:layout_constraintTop_toBottomOf="@id/th_toolbar">
 
         <android.support.constraint.ConstraintLayout
-            android:id="@+id/sc_cl_content"
+            android:id="@+id/th_cl_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/sc_tv_title"
+                android:id="@+id/th_tv_title"
                 style="@style/im_title_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
                 tools:text="海贼王" />
 
             <ImageView
-                android:id="@+id/sc_iv_cover"
+                android:id="@+id/th_iv_cover"
                 android:layout_width="0dp"
                 android:layout_height="173dp"
                 android:layout_marginEnd="@dimen/common_border_margin"
@@ -44,33 +44,33 @@
                 android:layout_marginTop="25dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sc_tv_title"
+                app:layout_constraintTop_toBottomOf="@id/th_tv_title"
                 tools:src="@drawable/im_image_message_placeholder" />
 
             <ImageView
-                android:id="@+id/sc_iv_pay_logo"
+                android:id="@+id/th_iv_pay_logo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginStart="8dp"
                 android:src="@drawable/common_ic_tag_pay"
                 android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@id/sc_iv_cover"
-                app:layout_constraintLeft_toLeftOf="@id/sc_iv_cover"
+                app:layout_constraintBottom_toBottomOf="@id/th_iv_cover"
+                app:layout_constraintLeft_toLeftOf="@id/th_iv_cover"
                 tools:visibility="visible" />
 
             <TextView
-                android:id="@+id/sc_tv_tag"
+                android:id="@+id/th_tv_tag"
                 style="@style/im_secondary_title_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="23dp"
                 android:text="@string/im_tag"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sc_iv_cover" />
+                app:layout_constraintTop_toBottomOf="@id/th_iv_cover" />
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/sc_rlv_tags"
+                android:id="@+id/th_rlv_tags"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/common_border_margin"
@@ -78,98 +78,31 @@
                 android:layout_marginTop="11dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sc_tv_tag" />
+                app:layout_constraintTop_toBottomOf="@id/th_tv_tag" />
 
             <TextView
-                android:id="@+id/sc_tv_social_intro"
-                style="@style/im_secondary_title_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/im_social_intro"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sc_rlv_tags" />
-
-            <ImageView
-                android:id="@+id/sc_iv_intro_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp"
-                android:paddingEnd="@dimen/common_border_margin"
-                android:paddingStart="10dp"
-                android:paddingTop="10dp"
-                android:src="@drawable/common_ic_edit"
-                app:layout_constraintBottom_toBottomOf="@id/sc_tv_social_intro"
-                app:layout_constraintRight_toRightOf="parent" />
-
-            <TextView
-                android:id="@+id/sc_tv_intro"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/common_border_margin"
-                android:layout_marginStart="@dimen/common_border_margin"
-                android:layout_marginTop="10dp"
-                android:textColor="#434343"
-                android:textSize="16dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sc_iv_intro_edit"
-                tools:text="我想去种一点花，虽然没办法让他们看见彩虹，不过就这样吧" />
-
-            <TextView
-                android:id="@+id/sc_tv_teams"
-                style="@style/im_secondary_title_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/im_team"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sc_tv_intro" />
-
-            <TextView
-                android:id="@+id/sc_tv_team_size"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
-                android:layout_marginStart="5dp"
-                android:textColor="@color/common_text_blank"
-                android:textSize="11dp"
-                app:layout_constraintBottom_toBottomOf="@id/sc_tv_teams"
-                app:layout_constraintLeft_toRightOf="@id/sc_tv_teams"
-                tools:text="(10个)" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/sc_rlv_teams"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/common_border_margin"
-                android:layout_marginStart="@dimen/common_border_margin"
-                android:layout_marginTop="10dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sc_tv_teams" />
-
-            <TextView
-                android:id="@+id/sc_tv_member"
+                android:id="@+id/th_tv_member"
                 style="@style/im_secondary_title_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/im_member"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sc_rlv_teams" />
+                app:layout_constraintTop_toBottomOf="@id/th_rlv_tags" />
 
             <TextView
-                android:id="@+id/sc_tv_member_size"
+                android:id="@+id/th_tv_member_size"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="2dp"
                 android:layout_marginStart="5dp"
                 android:textColor="@color/common_text_blank"
                 android:textSize="11dp"
-                app:layout_constraintBottom_toBottomOf="@id/sc_tv_member"
-                app:layout_constraintLeft_toRightOf="@id/sc_tv_member"
+                app:layout_constraintBottom_toBottomOf="@id/th_tv_member"
+                app:layout_constraintLeft_toRightOf="@id/th_tv_member"
                 tools:text="(10人)" />
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/sc_rlv_members"
+                android:id="@+id/th_rlv_members"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/common_border_margin"
@@ -177,175 +110,19 @@
                 android:layout_marginTop="10dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sc_tv_member" />
+                app:layout_constraintTop_toBottomOf="@id/th_tv_member" />
 
             <TextView
-                android:id="@+id/sc_tv_member_dynamic"
-                android:layout_width="0dp"
-                android:layout_height="35dp"
-                android:layout_marginEnd="@dimen/common_border_margin"
-                android:layout_marginStart="@dimen/common_border_margin"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/im_bg_button_dynamic"
-                android:drawableRight="@drawable/common_ic_next"
-                android:gravity="center_vertical|left"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:text="@string/im_member_dynamic"
-                android:textColor="#434343"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sc_rlv_members" />
-
-            <TextView
-                android:id="@+id/sc_tv_name_card"
-                style="@style/im_secondary_title_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/im_name_card"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sc_tv_member_dynamic" />
-
-            <LinearLayout
-                android:id="@+id/sc_ll_portrait"
-                android:layout_width="0dp"
-                android:layout_height="54dp"
-                android:background="?attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingEnd="@dimen/common_border_margin"
-                android:paddingStart="@dimen/common_border_margin"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sc_tv_name_card">
-
-                <TextView
-                    style="@style/im_social_content_text"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/im_my_social_head" />
-
-                <ImageView
-                    android:id="@+id/sc_iv_portrait"
-                    android:layout_width="34dp"
-                    android:layout_height="34dp"
-                    tools:src="@drawable/common_default_circle_placeholder" />
-            </LinearLayout>
-
-            <View
-                android:id="@+id/sc_line_portrait"
-                android:layout_width="0dp"
-                android:layout_height="0.5dp"
-                android:layout_marginEnd="@dimen/common_border_margin"
-                android:layout_marginStart="@dimen/common_border_margin"
-                android:background="?attr/dividerHorizontal"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sc_ll_portrait" />
-
-            <LinearLayout
-                android:id="@+id/sc_ll_nickname"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:background="?attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingEnd="@dimen/common_border_margin"
-                android:paddingStart="@dimen/common_border_margin"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sc_line_portrait">
-
-                <TextView
-                    style="@style/im_social_content_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/im_my_social_nickname" />
-
-                <TextView
-                    android:id="@+id/sc_tv_nickname"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:gravity="right"
-                    android:lines="1"
-                    android:textColor="@color/common_text_blank"
-                    android:textSize="15dp"
-                    tools:text="路飞" />
-            </LinearLayout>
-
-            <View
-                android:id="@+id/sc_line_name_card"
-                android:layout_width="0dp"
-                android:layout_height="7dp"
-                android:background="?attr/dividerHorizontal"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sc_ll_nickname" />
-
-            <TextView
-                android:id="@+id/sc_tv_shadow"
-                style="@style/im_secondary_title_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/im_my_shadow"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sc_line_name_card" />
-
-            <LinearLayout
-                android:id="@+id/sc_ll_shadow"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:background="?attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingEnd="@dimen/common_border_margin"
-                android:paddingStart="@dimen/common_border_margin"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sc_tv_shadow">
-
-                <ImageView
-                    android:id="@+id/sc_tv_shadow_portrait"
-                    android:layout_width="34dp"
-                    android:layout_height="34dp"
-                    tools:src="@drawable/common_default_circle_placeholder" />
-
-                <TextView
-                    android:id="@+id/sc_tv_shadow_nickname"
-                    style="@style/im_social_content_text"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_weight="1"
-                    android:drawableRight="@drawable/common_ic_next"
-                    android:ellipsize="end"
-                    android:lines="1"
-                    tools:text="路飞" />
-            </LinearLayout>
-
-            <View
-                android:id="@+id/sc_line_shadow"
-                android:layout_width="0dp"
-                android:layout_height="7dp"
-                android:background="?attr/dividerHorizontal"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sc_ll_shadow" />
-
-            <TextView
-                android:id="@+id/sc_tv_setting"
+                android:id="@+id/th_tv_setting"
                 style="@style/im_secondary_title_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/im_setting"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sc_line_shadow" />
+                app:layout_constraintTop_toBottomOf="@id/th_rlv_members" />
 
             <LinearLayout
-                android:id="@+id/sc_ll_social_name"
+                android:id="@+id/th_ll_team_name"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:background="?attr/selectableItemBackground"
@@ -355,16 +132,16 @@
                 android:paddingStart="@dimen/common_border_margin"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sc_tv_setting">
+                app:layout_constraintTop_toBottomOf="@id/th_tv_setting">
 
                 <TextView
                     style="@style/im_social_content_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/im_social_name" />
+                    android:text="@string/im_team_name" />
 
                 <TextView
-                    android:id="@+id/sc_tv_social_name"
+                    android:id="@+id/th_tv_team_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -377,7 +154,7 @@
             </LinearLayout>
 
             <View
-                android:id="@+id/sc_line_social_name"
+                android:id="@+id/th_line_team_name"
                 android:layout_width="0dp"
                 android:layout_height="0.5dp"
                 android:layout_marginEnd="@dimen/common_border_margin"
@@ -385,10 +162,10 @@
                 android:background="?attr/dividerHorizontal"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sc_ll_social_name" />
+                app:layout_constraintTop_toBottomOf="@id/th_ll_team_name" />
 
             <LinearLayout
-                android:id="@+id/sc_ll_notify_type"
+                android:id="@+id/th_ll_notify_type"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:background="?attr/selectableItemBackground"
@@ -398,7 +175,7 @@
                 android:paddingStart="@dimen/common_border_margin"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sc_line_social_name">
+                app:layout_constraintTop_toBottomOf="@id/th_line_team_name">
 
                 <TextView
                     style="@style/im_social_content_text"
@@ -407,7 +184,7 @@
                     android:text="@string/im_message_receive" />
 
                 <TextView
-                    android:id="@+id/sc_tv_notify_type"
+                    android:id="@+id/th_tv_notify_type"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -422,7 +199,7 @@
             </LinearLayout>
 
             <View
-                android:id="@+id/sc_line_notify_type"
+                android:id="@+id/th_line_notify_type"
                 android:layout_width="0dp"
                 android:layout_height="0.5dp"
                 android:layout_marginEnd="@dimen/common_border_margin"
@@ -430,35 +207,10 @@
                 android:background="?attr/dividerHorizontal"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sc_ll_notify_type" />
+                app:layout_constraintTop_toBottomOf="@id/th_ll_notify_type" />
 
             <TextView
-                android:id="@+id/sc_tv_background_chat"
-                style="@style/im_social_content_text"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:drawableRight="@drawable/common_ic_next"
-                android:gravity="center_vertical"
-                android:paddingEnd="@dimen/common_border_margin"
-                android:paddingStart="@dimen/common_border_margin"
-                android:text="@string/im_now_background_chat"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sc_line_notify_type" />
-
-            <View
-                android:id="@+id/sc_line_background_chat"
-                android:layout_width="0dp"
-                android:layout_height="0.5dp"
-                android:layout_marginEnd="@dimen/common_border_margin"
-                android:layout_marginStart="@dimen/common_border_margin"
-                android:background="?attr/dividerHorizontal"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sc_tv_background_chat" />
-
-            <TextView
-                android:id="@+id/sc_tv_clear_message"
+                android:id="@+id/th_tv_clear_message"
                 style="@style/im_social_content_text"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
@@ -469,10 +221,10 @@
                 android:text="@string/im_clear_message"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sc_line_background_chat" />
+                app:layout_constraintTop_toBottomOf="@id/th_line_notify_type" />
 
             <View
-                android:id="@+id/sc_line_clear_message"
+                android:id="@+id/th_line_clear_message"
                 android:layout_width="0dp"
                 android:layout_height="0.5dp"
                 android:layout_marginEnd="@dimen/common_border_margin"
@@ -480,10 +232,10 @@
                 android:background="?attr/dividerHorizontal"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sc_tv_clear_message" />
+                app:layout_constraintTop_toBottomOf="@id/th_tv_clear_message" />
 
             <TextView
-                android:id="@+id/sc_tv_charge_setting"
+                android:id="@+id/th_tv_background_chat"
                 style="@style/im_social_content_text"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
@@ -491,13 +243,13 @@
                 android:gravity="center_vertical"
                 android:paddingEnd="@dimen/common_border_margin"
                 android:paddingStart="@dimen/common_border_margin"
-                android:text="@string/im_charge_setting"
+                android:text="@string/im_now_background_chat"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sc_line_clear_message" />
+                app:layout_constraintTop_toBottomOf="@id/th_tv_clear_message" />
 
             <View
-                android:id="@+id/sc_line_charge_setting"
+                android:id="@+id/th_line_background_chat"
                 android:layout_width="0dp"
                 android:layout_height="0.5dp"
                 android:layout_marginEnd="@dimen/common_border_margin"
@@ -505,10 +257,35 @@
                 android:background="?attr/dividerHorizontal"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sc_tv_charge_setting" />
+                app:layout_constraintTop_toBottomOf="@id/th_tv_background_chat" />
+
+            <TextView
+                android:id="@+id/th_tv_charge_setting"
+                style="@style/im_social_content_text"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:drawableRight="@drawable/common_ic_next"
+                android:gravity="center_vertical"
+                android:paddingEnd="@dimen/common_border_margin"
+                android:paddingStart="@dimen/common_border_margin"
+                android:text="@string/im_team_charge"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/th_tv_background_chat" />
+
+            <View
+                android:id="@+id/th_line_charge_setting"
+                android:layout_width="0dp"
+                android:layout_height="0.5dp"
+                android:layout_marginEnd="@dimen/common_border_margin"
+                android:layout_marginStart="@dimen/common_border_margin"
+                android:background="?attr/dividerHorizontal"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/th_tv_charge_setting" />
 
             <LinearLayout
-                android:id="@+id/sc_ll_public"
+                android:id="@+id/th_ll_apply"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:background="?attr/selectableItemBackground"
@@ -518,17 +295,17 @@
                 android:paddingStart="@dimen/common_border_margin"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sc_line_charge_setting">
+                app:layout_constraintTop_toBottomOf="@id/th_line_charge_setting">
 
                 <TextView
                     style="@style/im_social_content_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/im_social_public" />
+                    android:text="@string/im_team_apply_join" />
 
                 <com.kyleduo.switchbutton.SwitchButton
-                    android:id="@+id/sc_sb_public"
+                    android:id="@+id/th_sb_apply"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:kswBackColor="#ebebeb"
@@ -537,7 +314,7 @@
             </LinearLayout>
 
             <View
-                android:id="@+id/sc_line_public"
+                android:id="@+id/th_line_apply"
                 android:layout_width="0dp"
                 android:layout_height="0.5dp"
                 android:layout_marginEnd="@dimen/common_border_margin"
@@ -545,78 +322,10 @@
                 android:background="?attr/dividerHorizontal"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sc_ll_public" />
+                app:layout_constraintTop_toBottomOf="@id/th_ll_apply" />
 
             <TextView
-                android:id="@+id/sc_tv_join_limit"
-                style="@style/im_social_content_text"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:drawableRight="@drawable/common_ic_next"
-                android:gravity="center_vertical"
-                android:paddingEnd="@dimen/common_border_margin"
-                android:paddingStart="@dimen/common_border_margin"
-                android:text="@string/im_join_limit"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sc_line_public" />
-
-            <View
-                android:id="@+id/sc_line_join_limit"
-                android:layout_width="0dp"
-                android:layout_height="0.5dp"
-                android:layout_marginEnd="@dimen/common_border_margin"
-                android:layout_marginStart="@dimen/common_border_margin"
-                android:background="?attr/dividerHorizontal"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sc_tv_join_limit" />
-
-            <LinearLayout
-                android:id="@+id/sc_ll_create_team"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:background="?attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingEnd="@dimen/common_border_margin"
-                android:paddingStart="@dimen/common_border_margin"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sc_line_join_limit">
-
-                <TextView
-                    style="@style/im_social_content_text"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:lines="1"
-                    android:text="@string/im_allow_member_create_team" />
-
-                <com.kyleduo.switchbutton.SwitchButton
-                    android:id="@+id/sc_sb_create_team"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:kswBackColor="#ebebeb"
-                    app:kswThumbColor="@color/common_white"
-                    app:kswTintColor="@color/common_colorAccent" />
-            </LinearLayout>
-
-            <View
-                android:id="@+id/sc_line_create_team"
-                android:layout_width="0dp"
-                android:layout_height="0.5dp"
-                android:layout_marginEnd="@dimen/common_border_margin"
-                android:layout_marginStart="@dimen/common_border_margin"
-                android:background="?attr/dividerHorizontal"
-                app:layout_constraintBottom_toTopOf="@+id/sc_tvb_handle"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sc_ll_create_team" />
-
-            <TextView
-                android:id="@+id/sc_tvb_handle"
+                android:id="@+id/th_tvb_handle"
                 android:layout_width="230dp"
                 android:layout_height="35dp"
                 android:layout_marginBottom="24dp"
@@ -628,7 +337,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/sc_line_create_team"
+                app:layout_constraintTop_toBottomOf="@+id/th_line_apply"
                 tools:text="@string/im_dissolve_social" />
         </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>

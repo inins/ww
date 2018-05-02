@@ -22,4 +22,24 @@
     <string name="im_dissolve_social">解散趣聊</string>
     <string name="im_exit_social">退出趣聊</string>
     <string name="im_group_master">群主</string>
+    <string name="im_team_name">觅聊名称</string>
+    <string name="im_team_charge">觅聊收费</string>
+    <string name="im_team_apply_join">申请加入</string>
+    <string name="im_dissolve_team">解散觅聊</string>
+    <string name="im_exit_team">退出觅聊</string>
+
+    <!-- 分身设置 -->
+    <string name="im_shadow_setting">分身设置</string>
+    <string name="im_shadow_setting_sub">往往，分身让你口无遮拦</string>
+    <string name="im_setting_portrait">设置头像</string>
+    <string name="im_shadow_nickname">昵称:</string>
+    <string name="im_shadow_gender">性别:</string>
+    <string name="im_shadow_sure">创建</string>
+    <string name="im_shadow_tip">分身只可免费修改三次资料，请谨慎操作</string>
+    <string name="im_shadow_what_is">什么是</string>
+    <string name="im_shadow">分身?</string>
+
+    <!--Toast-->
+    <string name="im_toast_clear_fail">清除失败</string>
+    <string name="im_toast_clear_success">清除成功</string>
 </resources>

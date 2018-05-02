@@ -108,8 +108,9 @@
         <activity android:name=".mvp.ui.CreateSingleEnvelopActivity" />
         <activity android:name=".mvp.ui.CreateMultiEnvelopActivity" />
         <activity android:name=".mvp.ui.EnvelopDetailActivity" />
-        <!--<activity android:name=".mvp.ui.SocialHomeActivity" />-->
-        <activity android:name=".mvp.ui.TeamHomeActivity"></activity>
+         <activity android:name=".mvp.ui.SocialHomeActivity" />
+        <activity android:name=".mvp.ui.TeamHomeActivity" />
+        <activity android:name=".mvp.ui.ShadowSettingActivity"></activity>
     </application>
 
 </manifest>
