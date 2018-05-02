@@ -23,6 +23,7 @@ import com.frame.component.view.MusicBoard;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
+import com.frame.utils.ToastUtil;
 import com.wang.social.login.mvp.ui.TagSelectionActivity;
 import com.wang.social.topic.R;
 import com.wang.social.topic.R2;
@@ -92,6 +93,8 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
             public void onButtonClick(SocialToolbar.ClickType clickType) {
                 if (clickType == SocialToolbar.ClickType.LEFT_ICON) {
                     finish();
+                } else if (clickType == SocialToolbar.ClickType.RIGHT_TEXT) {
+                    addTopic();
                 }
             }
         });
@@ -205,6 +208,18 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         }
     }
 
+    private void addTopic() {
+        mPresenter.resetNetParam()
+                .setTitle(mTitleET.getText().toString())
+                .setBackgroundImage("")
+                .setTagIds(mTagIds)
+                .setBackgroundMusicId(mPresenter.getBGMusic().getMusicId())
+                .setContent("")
+                .setTemplateId(mPresenter.getTemplate().getId());
+
+        mPresenter.addTopic();
+    }
+
     private void refreshTitleCount(int length) {
         mTitleCountTV.setText(String.format(getString(R.string.topic_title_length_format), length));
     }
@@ -264,12 +279,12 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
     @Override
     public void showLoading() {
-
+        showLoadingDialog();
     }
 
     @Override
     public void hideLoading() {
-
+        dismissLoadingDialog();
     }
 
     @Override
@@ -277,5 +292,10 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         super.onPause();
 
         mMusicBoard.onPause();
+    }
+
+    @Override
+    public void toastLong(String msg) {
+        ToastUtil.showToastLong(msg);
     }
 }

@@ -106,4 +106,11 @@ public interface TopicService {
     @FormUrlEncoded
     @POST("app/common/report")
     Observable<BaseJson> report(@FieldMap Map<String, Object> param);
+
+    /**
+     * 话题发布
+     */
+    @FormUrlEncoded
+    @POST("app/topic/addTopic")
+    Observable<BaseJson> addTopic(@FieldMap Map<String, Object> param);
 }
