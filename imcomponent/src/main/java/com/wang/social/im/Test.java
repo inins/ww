@@ -25,5 +25,8 @@ public class Test {
         IA c = new C();
         System.out.println(B.class.isInstance(b));
         System.out.println(B.class.isInstance(c));
+
+        System.out.println(0x001);
+        System.out.println(0x002);
     }
 }

@@ -2,8 +2,8 @@ package com.wang.social.im.mvp.presenter;
 
 import com.frame.di.scope.ActivityScope;
 import com.frame.http.api.error.ErrorHandleSubscriber;
-import com.wang.social.im.mvp.contract.SocialHomeContract;
-import com.wang.social.im.mvp.model.entities.SocialInfo;
+import com.wang.social.im.mvp.contract.TeamHomeContract;
+import com.wang.social.im.mvp.model.entities.TeamInfo;
 
 import javax.inject.Inject;
 
@@ -14,29 +14,27 @@ import io.reactivex.functions.Consumer;
 /**
  * ============================================
  * <p>
- * Create by ChenJing on 2018-04-28 16:46
+ * Create by ChenJing on 2018-05-02 15:17
  * ============================================
  */
 @ActivityScope
-public class SocialHomePresenter extends GroupPresenter<SocialHomeContract.Model, SocialHomeContract.View> {
+public class TeamHomePresenter extends GroupPresenter<TeamHomeContract.Model, TeamHomeContract.View>{
 
     @Inject
-    public SocialHomePresenter(SocialHomeContract.Model model, SocialHomeContract.View view) {
+    public TeamHomePresenter(TeamHomeContract.Model model, TeamHomeContract.View view) {
         super(model, view);
     }
 
     /**
-     * 获取趣聊信息
-     * @param socialId
+     * 获取觅聊详情
+     * @param teamId
      */
-    public void getSocialInfo(String socialId) {
-        mApiHelper.execute(mRootView, mModel.getSocialInfo(socialId),
-                new ErrorHandleSubscriber<SocialInfo>() {
+    public void getTeamInfo(String teamId){
+        mApiHelper.execute(mRootView, mModel.getTeamInfo(teamId),
+                new ErrorHandleSubscriber<TeamInfo>(mErrorHandler) {
                     @Override
-                    public void onNext(SocialInfo socialInfo) {
-
-                        //获取成员列表
-                        getMemberList(socialId);
+                    public void onNext(TeamInfo teamInfo) {
+                        mRootView.showTeamInfo(teamInfo);
                     }
                 }, new Consumer<Disposable>() {
                     @Override
