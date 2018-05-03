@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="im_gender">性别</string>
+    <string name="im_male">男</string>
+    <string name="im_female">女</string>
+    <string name="im_age">年龄</string>
+    <string name="im_gem">宝石</string>
+
+    <!--趣聊详情-->
     <string name="im_setting">设置</string>
     <string name="im_team">觅聊</string>
     <string name="im_tag">标签</string>
@@ -22,11 +29,63 @@
     <string name="im_dissolve_social">解散趣聊</string>
     <string name="im_exit_social">退出趣聊</string>
     <string name="im_group_master">群主</string>
+
+    <!-- 觅聊详情 -->
     <string name="im_team_name">觅聊名称</string>
     <string name="im_team_charge">觅聊收费</string>
     <string name="im_team_apply_join">申请加入</string>
     <string name="im_dissolve_team">解散觅聊</string>
     <string name="im_exit_team">退出觅聊</string>
+
+    <!-- 创建趣聊 -->
+    <string name="im_create">创建</string>
+    <string name="im_create_social">创建趣聊</string>
+    <string name="im_create_social_title_tip">往往-因你而个性</string>
+    <string name="im_click_update">单击修改</string>
+    <string name="im_name_for_social">为趣聊命名</string>
+    <string name="im_social_attribute">设置趣聊属性</string>
+    <string name="im_social_tags">为趣聊打上标签</string>
+    <string name="im_social_tags_tip">最多可以选择5个标签</string>
+    <string name="im_what_is_team">什么是觅聊</string>
+    <string name="im_create_tip">每位用户可以免费创建一次趣聊</string>
+    <string name="im_save">保存</string>
+    
+    <!-- 趣聊属性设置 -->
+    <string name="im_social_attr_title_tip">往往-有趣才个性</string>
+    <string name="im_group_public">群公开</string>
+    <string name="im_default_public">(默认公开)</string>
+    <string name="im_public">公开</string>
+    <string name="im_public_tip">任何人都能进入趣聊，允许被搜索</string>
+    <string name="im_private">非公开</string>
+    <string name="im_private_tip">只允许通过邀请，不允许被搜索</string>
+    <string name="im_charge_tip">(可免费创建一次付费群，创建收费可获得更多收益)</string>
+    <string name="im_lin_rule">快活林规则</string>
+    <string name="im_allow_free_join">允许免费加入</string>
+    <string name="im_social_pay_join">付费加入趣聊</string>
+    <string name="im_join_limit_tip">(默认无条件)</string>
+    <string name="im_unlimited">不 限</string>
+    <string name="im_after_90">90后</string>
+    <string name="im_after_95">95后</string>
+    <string name="im_after_00">00后</string>
+    <string name="im_other">其 他</string>
+    <string name="im_social_pay_notice">趣聊群收费须知</string>
+    <string name="im_gem_100">100宝石</string>
+    <string name="im_gem_300">300宝石</string>
+    <string name="im_gem_500">500宝石</string>
+    <string name="im_gem_custom">自定义:</string>
+    
+    <!--创建觅聊-->
+    <string name="im_create_team_title">创建觅聊</string>
+    <string name="im_create_team_title_tip">往往-从陌生到相识</string>
+    <string name="im_name_for_team">为觅聊命名</string>
+    <string name="im_team_attribute">设置觅聊属性</string>
+    <string name="im_team_select_tag">为觅聊打上标签</string>
+    <string name="im_select_tags_tip">请选择觅聊标签</string>
+    <string name="im_team_charge_tip">(创建收费觅聊，收益激增，玩法更多)</string>
+    <string name="im_need_audit">需要管理员验证通过</string>
+    <string name="im_team_pay_join">付费加入觅聊</string>
+    <string name="im_team_pay_join_tip">付费即可直接加入</string>
+    <string name="im_team_pay_notice">觅聊群收费须知</string>
 
     <!-- 分身设置 -->
     <string name="im_shadow_setting">分身设置</string>
@@ -42,4 +101,6 @@
     <!--Toast-->
     <string name="im_toast_clear_fail">清除失败</string>
     <string name="im_toast_clear_success">清除成功</string>
+    <string name="im_toast_social_gem_limit_tip">请输入100~400000的宝石数</string>
+    <string name="im_toast_age_limit">请选择年龄条件</string>
 </resources>

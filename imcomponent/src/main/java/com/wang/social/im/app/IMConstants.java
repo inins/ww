@@ -36,6 +36,17 @@ public interface IMConstants {
     int MULTI_ENVELOP_DIAMOND_LIMIT = 20000;
 
     /**
+     * 趣聊收费下限
+     */
+    int SOCIAL_CHARGE_LIMIT_MIN = 100;
+    /**
+     * 趣聊收费上限
+     */
+    int SOCIAL_CHARGE_LIMIT_MAX = 400000;
+
+    /**
+
+    /**
      * 撤回消息发送时间超过两分钟
      */
     int TIM_ERROR_CODE_REVOKE_TIMEOUT = 6223;

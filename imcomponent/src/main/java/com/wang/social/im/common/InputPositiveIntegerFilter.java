@@ -7,6 +7,7 @@ import com.frame.utils.RegexConstants;
 import com.frame.utils.RegexUtils;
 
 /**
+ * {@link android.widget.EditText}输入正整数过滤器
  * Created by Bo on 2018-01-10.
  */
 
