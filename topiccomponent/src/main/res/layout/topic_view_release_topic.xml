@@ -20,7 +20,7 @@
     <TextView
         android:id="@+id/topic_textview7"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="22dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:text="@string/topic_topic_title"
@@ -189,7 +189,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/topic_textview12"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/music_board_layout"
+        app:layout_constraintTop_toTopOf="@+id/topic_textview12"
         app:srcCompat="@drawable/topic_ic_star" />
 
     <TextView
@@ -204,17 +204,21 @@
         app:layout_constraintStart_toEndOf="@+id/topic_imageview7"
         app:layout_constraintTop_toBottomOf="@+id/music_board_layout" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="48dp"
-        android:background="@drawable/topic_shape_rect_corner_solid_bk_light"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topic_textview12">
+        <com.wang.social.topic.mvp.ui.widget.richeditor.RichEditor
+            android:id="@+id/rich_editor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="200dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="48dp"
+            android:background="@drawable/topic_shape_rect_corner_solid_bk_light"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/topic_textview12">
 
-    </LinearLayout>
+        </com.wang.social.topic.mvp.ui.widget.richeditor.RichEditor>
+
+
 
 </android.support.constraint.ConstraintLayout>

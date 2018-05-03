@@ -1,8 +1,9 @@
-package com.wang.social.topic;
+package com.wang.social.topic.utils;
 
 import android.content.Context;
 
 import com.frame.utils.TimeUtils;
+import com.wang.social.topic.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

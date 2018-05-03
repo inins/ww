@@ -44,8 +44,10 @@ public class ReleaseTopicPresenter extends
         return this;
     }
 
-    public ReleaseTopicPresenter setBackgroundMusicId(int backgroundMusicId) {
-        mNetParam.put("backgroundMusicId", backgroundMusicId);
+    public ReleaseTopicPresenter setBackgroundMusicId() {
+        if (null != mBGMusic) {
+            mNetParam.put("backgroundMusicId", mBGMusic.getMusicId());
+        }
         return this;
     }
 
@@ -54,8 +56,10 @@ public class ReleaseTopicPresenter extends
         return this;
     }
 
-    public ReleaseTopicPresenter setTemplateId(int templateId) {
-        mNetParam.put("templateId", templateId);
+    public ReleaseTopicPresenter setTemplateId() {
+        if (null != mTemplate) {
+            mNetParam.put("templateId", mTemplate.getId());
+        }
         return this;
     }
 
