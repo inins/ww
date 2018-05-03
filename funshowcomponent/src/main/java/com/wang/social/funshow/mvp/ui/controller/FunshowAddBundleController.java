@@ -3,15 +3,20 @@ package com.wang.social.funshow.mvp.ui.controller;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
+import android.widget.TextView;
 
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.ui.base.BaseController;
 import com.frame.component.view.bundleimgview.BundleImgEntity;
 import com.frame.component.view.bundleimgview.BundleImgView;
+import com.frame.entities.EventBean;
 import com.frame.utils.StrUtil;
+import com.frame.utils.ToastUtil;
+import com.wang.social.funshow.R;
 import com.wang.social.funshow.R2;
 import com.wang.social.funshow.helper.VideoPhotoHelperEx;
 import com.wang.social.funshow.mvp.entities.funshow.Pic;
+import com.wang.social.location.mvp.model.entities.LocationInfo;
 import com.wang.social.pictureselector.helper.PhotoHelper;
 
 import java.util.ArrayList;
@@ -23,13 +28,29 @@ public class FunshowAddBundleController extends FunshowAddBaseController impleme
 
     @BindView(R2.id.bundleview)
     BundleImgView bundleview;
+    @BindView(R2.id.text_position)
+    TextView textPosition;
 
     private VideoPhotoHelperEx photoHelperEx;
     private int MaxPhotoCount = 9;
 
+    private LocationInfo location;
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        switch (event.getEvent()) {
+            case EventBean.EVENT_LOCATION_SELECT:
+                location = (LocationInfo) event.get("location");
+                textPosition.setVisibility(View.VISIBLE);
+                textPosition.setText(location.getProvince() + location.getCity());
+                break;
+        }
+    }
+
     public FunshowAddBundleController(View root) {
         super(root);
-        //int layout = R.layout.funshow_lay_add_bundle;
+        int layout = R.layout.funshow_lay_add_bundle;
+        registEventBus();
         onInitCtrl();
         onInitData();
     }
@@ -78,25 +99,29 @@ public class FunshowAddBundleController extends FunshowAddBaseController impleme
 
     ////////////////////////
 
-    public boolean isVideoRsc() {
-        return false;
+
+    public LocationInfo getLocation() {
+        return location;
     }
 
     public List<String> getImgPaths() {
-        if (!isVideoRsc()) {
-            return bundleview.getResultsStrArray();
-        } else {
-            return null;
+        List<String> imgpaths = new ArrayList<>();
+        List<BundleImgEntity> results = bundleview.getResults();
+        for (BundleImgEntity bean : results) {
+            if (!bean.isVideo()) {
+                imgpaths.add(bean.getPath());
+            }
         }
+        return imgpaths;
     }
 
     public String getVideoPath() {
-        if (isVideoRsc()) {
-            List<String> rsc = bundleview.getResultsStrArray();
-            if (!StrUtil.isEmpty(rsc)) return rsc.get(0);
-            else return null;
-        } else {
-            return "";
+        List<BundleImgEntity> results = bundleview.getResults();
+        for (BundleImgEntity bean : results) {
+            if (bean.isVideo()) {
+                return bean.getPath();
+            }
         }
+        return "";
     }
 }

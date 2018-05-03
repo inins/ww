@@ -11,6 +11,7 @@ import android.util.AttributeSet;
 import android.widget.EditText;
 
 import com.frame.component.common.ConerBkSpan;
+import com.frame.utils.StrUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -114,6 +115,9 @@ public class ConerEditText extends android.support.v7.widget.AppCompatEditText {
         editText.setSelection(editText.getText().length());
     }
 
+    /**
+     * 获取tags
+     */
     public List<String> getTags() {
         List<String> tags = new ArrayList<>();
         Editable s = getText();
@@ -127,6 +131,19 @@ public class ConerEditText extends android.support.v7.widget.AppCompatEditText {
         return tags;
     }
 
+    //上面方法的重载，获取tags,以逗号分隔
+    public String getTagsStr() {
+        List<String> tags = getTags();
+        String tagsStr = "";
+        for (String tag : tags) {
+            tagsStr += tag + ",";
+        }
+        return StrUtil.subLastChart(tagsStr, ",");
+    }
+
+    /**
+     * 获取key
+     */
     public String getKey() {
         String content = getText().toString();
         if (TextUtils.isEmpty(content.trim())) return "";

@@ -95,6 +95,7 @@ public class RecycleAdapterBundleImg extends RecyclerView.Adapter<RecyclerView.V
 
         holder.card_bundle.setRadius(corner);
         holder.square_framelayout.setWihi(wihi);
+        holder.img_bundle_play.setVisibility(bundle.isVideo() ? View.VISIBLE : View.GONE);
         if (onBundleLoadImgListener != null) {
             onBundleLoadImgListener.onloadImg(holder.img_bundle_show, bundle.getPath(), 0);
         } else {
@@ -137,6 +138,7 @@ public class RecycleAdapterBundleImg extends RecyclerView.Adapter<RecyclerView.V
     public class HolderItem extends RecyclerView.ViewHolder {
         CardView card_bundle;
         ImageView img_bundle_show;
+        ImageView img_bundle_play;
         ImageView img_bundle_delete;
         SquareFramelayout square_framelayout;
 
@@ -145,6 +147,7 @@ public class RecycleAdapterBundleImg extends RecyclerView.Adapter<RecyclerView.V
             card_bundle = itemView.findViewById(R.id.card_bundle);
             square_framelayout = itemView.findViewById(R.id.square_framelayout);
             img_bundle_show = itemView.findViewById(R.id.img_bundle_show);
+            img_bundle_play = itemView.findViewById(R.id.img_bundle_play);
             img_bundle_delete = itemView.findViewById(R.id.img_bundle_delete);
             if (enable) {
                 img_bundle_delete.setVisibility(View.VISIBLE);

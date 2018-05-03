@@ -45,7 +45,10 @@
                         android:hint="请输入搜索关键字"
                         android:imeOptions="actionSearch"
                         android:inputType="textPersonName"
-                        android:textSize="12sp" />
+                        android:textSize="12sp">
+
+                        <requestFocus />
+                    </com.frame.component.view.ConerEditText>
 
                 </android.support.v7.widget.CardView>
 

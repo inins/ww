@@ -95,6 +95,9 @@ public class CtrlVideoView extends FrameLayout implements View.OnClickListener {
     }
 
     private void initCtrl() {
+        videoview.setOnCompletionListener(mp -> {
+            btn_play.setSelected(false);
+        });
         videoview.setOnPreparedListener(mp -> {
             isPrepare = true;
             lay_board.setVisibility(VISIBLE);

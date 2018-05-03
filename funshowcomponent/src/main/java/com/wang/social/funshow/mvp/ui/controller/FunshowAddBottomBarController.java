@@ -3,6 +3,7 @@ package com.wang.social.funshow.mvp.ui.controller;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +24,7 @@ import com.wang.social.funshow.mvp.ui.activity.AiteUserListActivity;
 import com.wang.social.funshow.mvp.ui.activity.FunshowAddActivity;
 import com.wang.social.funshow.mvp.ui.activity.LockActivity;
 import com.wang.social.funshow.mvp.ui.dialog.MusicPopupWindow;
+import com.wang.social.location.mvp.ui.LocationActivity;
 
 import java.util.Random;
 
@@ -172,7 +174,9 @@ public class FunshowAddBottomBarController extends FunshowAddBaseController {
         } else if (i == R.id.btn_aite) {
             AiteUserListActivity.start(getContext());
         } else if (i == R.id.btn_position) {
-
+//            LocationActivity.start(getContext());
+            Intent intent = new Intent(getContext(), LocationActivity.class);
+            getContext().startActivity(intent);
         } else if (i == R.id.btn_lock) {
             LockActivity.start(getContext(), lock);
         } else if (i == R.id.btn_music) {

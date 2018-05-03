@@ -14,6 +14,7 @@ import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.NetLoginTestHelper;
 import com.frame.component.helper.NetPayStoneHelper;
+import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.component.view.barview.BarUser;
 import com.frame.component.view.barview.BarView;
 import com.frame.di.component.AppComponent;
@@ -37,6 +38,8 @@ import com.wang.social.funshow.mvp.ui.activity.HotUserListActivity;
 import com.wang.social.funshow.mvp.ui.adapter.RecycleAdapterHome;
 import com.wang.social.funshow.mvp.ui.dialog.DialogSureFunshowPay;
 import com.wang.social.funshow.utils.FunShowUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,6 +89,16 @@ public class FunShowFragment extends BaseFragment<FunshowListPresonter> implemen
                 adapter.refreshCommentById(talkId);
                 break;
             }
+            case EventBean.EVENT_FUNSHOW_LIST_FRESH: {
+//                mPresenter.netGetFunshowList(type, true);
+                springView.callFreshDelay();
+                break;
+            }
+            case EventBean.EVENT_FUNSHOW_LIST_TYPE_CHANGE: {
+                type = (int) event.get("type");
+                mPresenter.netGetFunshowList(type, true);
+                break;
+            }
         }
     }
 
@@ -98,13 +111,7 @@ public class FunShowFragment extends BaseFragment<FunshowListPresonter> implemen
     public void initData(@Nullable Bundle savedInstanceState) {
         adapter = new RecycleAdapterHome();
         adapter.setOnItemClickListener(this);
-        adapter.setOnDislikeClickListener((v, funshow) -> {
-            if (funshow.getUserId() == AppDataHelper.getUser().getUserId()) {
-                ToastUtil.showToastShort("不能屏蔽自己");
-            } else {
-                mPresenter.shatDownUser(funshow.getUserId());
-            }
-        });
+        adapter.setOnDislikeClickListener((v, funshow) -> mPresenter.shatDownUser(funshow.getUserId()));
         recycler.setNestedScrollingEnabled(false);
         recycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recycler.setAdapter(adapter);
@@ -129,6 +136,12 @@ public class FunShowFragment extends BaseFragment<FunshowListPresonter> implemen
         //测试跳转代码
         getView().findViewById(R.id.btn_funshow_add).setOnClickListener(v -> FunshowAddActivity.start(getContext()));
         getView().findViewById(R.id.btn_funshow_login).setOnClickListener(v -> NetLoginTestHelper.newInstance().loginTest());
+        getView().findViewById(R.id.btn_funshow_type).setOnClickListener(v -> {
+            int typein = type == 0 ? 1 : 0;
+            EventBean eventBean = new EventBean(EventBean.EVENT_FUNSHOW_LIST_TYPE_CHANGE);
+            eventBean.put("type",typein);
+            EventBus.getDefault().post(eventBean);
+        });
     }
 
     @Override
@@ -169,10 +182,16 @@ public class FunShowFragment extends BaseFragment<FunshowListPresonter> implemen
 
     @Override
     public void showLoading() {
+        if (getActivity() instanceof BasicAppActivity) {
+            ((BasicAppActivity) getActivity()).showLoadingDialog();
+        }
     }
 
     @Override
     public void hideLoading() {
+        if (getActivity() instanceof BasicAppActivity) {
+            ((BasicAppActivity) getActivity()).dismissLoadingDialog();
+        }
     }
 
     @Override

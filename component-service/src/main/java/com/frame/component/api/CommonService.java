@@ -61,7 +61,16 @@ public interface CommonService {
     @POST("/app/userWallet/exchange")
     Observable<BaseJson<Object>> exchangeStone(@FieldMap Map<String, Object> param);
 
+    //用户支付（趣晒/话题/创建趣聊/加入趣聊/创建觅聊支付/加入觅聊）
     @FormUrlEncoded
     @POST("/app/order/createOrder")
     Observable<BaseJson<Object>> payStone(@FieldMap Map<String, Object> param);
+
+    /**
+     * 举报（用户/话题/趣聊/趣晒）
+     * type 举报类型（0人 1趣聊 2趣晒 3主播 4 话题）
+     */
+    @FormUrlEncoded
+    @POST("/app/common/report?v=2.0.0")
+    Observable<BaseJson<Object>> report(@Field("objectId") int objectId, @Field("type") int type);
 }

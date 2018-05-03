@@ -33,6 +33,7 @@ import com.wang.social.funshow.mvp.ui.controller.FunshowAddEditController;
 import com.wang.social.funshow.mvp.ui.controller.FunshowAddMusicBoardController;
 import com.wang.social.funshow.mvp.ui.controller.FunshowAddTagController;
 import com.wang.social.funshow.mvp.ui.view.DispatchTouchNestedScrollView;
+import com.wang.social.location.mvp.model.entities.LocationInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,11 +96,11 @@ public class FunshowAddActivity extends BasicAppActivity implements IView {
 
     private void postCommit(String voiceUrl, String videoUrl, List<String> photoUrls) {
         FunshowAddPost postBean = new FunshowAddPost();
-        postBean.setAdCode("610100");
-        postBean.setProvince("四川省");
-        postBean.setCity("绵阳市");
-        postBean.setLatitude("30.566729");
-        postBean.setLongitude("104.063642");
+//        postBean.setAdCode("610100");
+//        postBean.setProvince("四川省");
+//        postBean.setCity("绵阳市");
+//        postBean.setLatitude("30.566729");
+//        postBean.setLongitude("104.063642");
         postBean.setContent(editController.getContent());
         postBean.setCreatorId(AppDataHelper.getUser().getUserId());
         postBean.setIsAnonymous(tagController.isHideName() ? "1" : "0");   //是否匿名
@@ -110,6 +111,16 @@ public class FunshowAddActivity extends BasicAppActivity implements IView {
         //@用户列表
         postBean.setUsers(editController.getAiteUsers());
 
+        //设置位置信息
+        LocationInfo location = bundleController.getLocation();
+        if (location != null) {
+            postBean.setProvince(location.getProvince());
+            postBean.setCity(location.getCity());
+            postBean.setLatitude(String.valueOf(location.getLatitude()));
+            postBean.setLongitude(String.valueOf(location.getLongitude()));
+            postBean.setAddress(location.getAddress());
+            postBean.setAdCode(location.getAdCode());
+        }
         //图片资源
         ArrayList<ResourcePost> resources = new ArrayList<>();
         for (int i = 0; i < photoUrls.size(); i++) {
