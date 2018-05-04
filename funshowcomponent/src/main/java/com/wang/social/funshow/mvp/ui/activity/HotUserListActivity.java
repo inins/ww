@@ -142,14 +142,14 @@ public class HotUserListActivity extends BasicAppActivity implements IView, Base
 
     public void netLoadmore() {
         ApiHelperEx.execute(this, false,
-                ApiHelperEx.getService(FunshowService.class).getFunshowTopUserList("square", ++current, size),
+                ApiHelperEx.getService(FunshowService.class).getFunshowTopUserList("square", current + 1, size),
                 new ErrorHandleSubscriber<BaseJson<BaseListWrap<TopUser>>>() {
                     @Override
                     public void onNext(BaseJson<BaseListWrap<TopUser>> basejson) {
                         BaseListWrap<TopUser> warp = basejson.getData();
                         List<TopUser> list = warp.getList();
                         if (!StrUtil.isEmpty(list)) {
-                            current = warp.getCurrent();
+                            current++;
                             adapter.addItem(list);
                         } else {
                             ToastUtil.showToastLong("没有更多数据了");

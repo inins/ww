@@ -1,6 +1,6 @@
 package com.wang.social.topic;
 
-import com.frame.utils.TimeUtils;
+import com.wang.social.topic.utils.StringUtil;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -8,8 +8,6 @@ import org.junit.Test;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
-import static org.junit.Assert.*;
 
 public class StringUtilTest {
 

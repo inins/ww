@@ -96,6 +96,7 @@ dependencies {
     //compile 'com.liaoinstan.springview:library:1.3.2'
     implementation project(':pictureselectorcomponent')
     implementation project(':springlibrary')
+    implementation project(':locationlib')
 }
 
 if (!project.isRunAlone) {

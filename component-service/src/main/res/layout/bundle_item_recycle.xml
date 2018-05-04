@@ -5,14 +5,14 @@
     android:id="@+id/card_bundle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="#F2F2F2"
     android:foreground="?attr/selectableItemBackground"
+    app:cardBackgroundColor="#F2F2F2"
     app:cardCornerRadius="4dp"
     app:cardElevation="0dp">
 
     <com.frame.component.view.SquareFramelayout
-        android:layout_width="match_parent"
         android:id="@+id/square_framelayout"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="0dp">
 
@@ -22,6 +22,13 @@
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop" />
+
+        <ImageView
+            android:id="@+id/img_bundle_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/common_ic_bundle_play" />
 
         <ImageView
             android:id="@+id/img_bundle_delete"

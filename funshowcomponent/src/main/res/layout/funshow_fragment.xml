@@ -9,9 +9,9 @@
 
     <com.liaoinstan.springview.widget.SpringView
         android:id="@+id/spring"
-        app:type="follow"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:type="follow">
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -63,6 +63,15 @@
                     android:gravity="center"
                     android:padding="15dp"
                     android:text="登录(仅测试)" />
+
+                <TextView
+                    android:id="@+id/btn_funshow_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:gravity="center"
+                    android:padding="15dp"
+                    android:text="趣聊/佬友（仅测试）" />
 
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>

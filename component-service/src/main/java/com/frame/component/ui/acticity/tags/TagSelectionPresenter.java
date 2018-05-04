@@ -1,5 +1,7 @@
 package com.frame.component.ui.acticity.tags;
 
+import android.text.TextUtils;
+
 import com.frame.di.scope.ActivityScope;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.BaseJson;
@@ -134,14 +136,26 @@ public class TagSelectionPresenter extends
                 });
     }
 
-    public void setSelectedListFromBundle(String idsStr) {
+    public void setSelectedListFromBundle(String idsStr, String namesStr) {
         if (null != idsStr) {
             selectedList.clear();
 
             String[] ids = idsStr.split(",");
-            for (String id : ids) {
+            String[] names = null;
+            if (!TextUtils.isEmpty(namesStr)) {
+                names = namesStr.split(" ");
+            }
+            for (int i = 0; i < ids.length; i++) {
+                String id = ids[i];
                 Tag tag = new Tag();
+                String name = "";
+                if (null != names && names.length > i) {
+                    if (!TextUtils.isEmpty(names[i]) && names[i].length() > 1) {
+                        name = names[i].substring(1);
+                    }
+                }
                 tag.setId(Integer.parseInt(id));
+                tag.setTagName(name);
                 selectedList.add(tag);
             }
         }
@@ -263,7 +277,7 @@ public class TagSelectionPresenter extends
      * @return 选中数量
      */
     public int getSelectedTagCount() {
-        return selectedList.size();
+        return null == selectedList ? 0 : selectedList.size();
     }
 
     /**
@@ -272,7 +286,7 @@ public class TagSelectionPresenter extends
      * @param list
      */
     public void setSelectedTagList(ArrayList<Tag> list) {
-        selectedList = list;
+        selectedList = list == null ? new ArrayList<>() : list;
     }
 
     /**

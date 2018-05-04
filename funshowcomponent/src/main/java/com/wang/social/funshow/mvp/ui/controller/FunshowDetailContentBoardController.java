@@ -1,15 +1,12 @@
 package com.wang.social.funshow.mvp.ui.controller;
 
-import android.net.Uri;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.ImageView;
-import android.widget.MediaController;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import com.frame.component.helper.ImageLoaderHelper;
-import com.frame.component.ui.acticity.BGMList.Music;
-import com.frame.component.ui.acticity.PhotoActivity;
 import com.frame.component.ui.base.BaseController;
 import com.frame.component.utils.viewutils.FontUtils;
 import com.frame.component.view.bundleimgview.BundleImgView;
@@ -17,6 +14,7 @@ import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
+import com.frame.utils.SizeUtils;
 import com.frame.utils.ToastUtil;
 import com.wang.social.funshow.R;
 import com.wang.social.funshow.R2;
@@ -26,6 +24,7 @@ import com.wang.social.funshow.mvp.model.api.FunshowService;
 import com.wang.social.funshow.mvp.ui.view.CtrlVideoView;
 import com.wang.social.funshow.mvp.ui.view.MusicBubbleView;
 import com.wang.social.funshow.utils.FunShowUtil;
+import com.wang.social.pictureselector.ActivityPicturePreview;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -39,16 +38,15 @@ public class FunshowDetailContentBoardController extends BaseController {
     TextView textTitle;
     @BindView(R2.id.img_header)
     ImageView imgHeader;
-    @BindView(R2.id.bundleview)
-    BundleImgView bundleview;
-    @BindView(R2.id.videoview)
-    CtrlVideoView videoview;
     @BindView(R2.id.text_position)
     TextView textPosition;
     @BindView(R2.id.text_time)
     TextView textTime;
     @BindView(R2.id.musicbubble)
     MusicBubbleView musicbubble;
+
+    BundleImgView bundleview;
+    CtrlVideoView videoview;
 
     private int talkId;
     private FunshowDetail funshowDetail;
@@ -66,12 +64,6 @@ public class FunshowDetailContentBoardController extends BaseController {
     protected void onInitCtrl() {
         FontUtils.boldText(textName);
         FontUtils.boldText(textTitle);
-        bundleview.setOnBundleClickListener(new BundleImgView.OnBundleSimpleClickListener() {
-            @Override
-            public void onPhotoShowClick(String path, int position) {
-                PhotoActivity.start(getContext(), bundleview.getResultsStrArray(), position);
-            }
-        });
     }
 
     @Override
@@ -88,49 +80,57 @@ public class FunshowDetailContentBoardController extends BaseController {
             textPosition.setText(funshowDetail.getProvince() + funshowDetail.getCity());
 
 
-            //设置视频
             FunshowDetailVideoRsc videoRsc = funshowDetail.getVideoRsc();
             if (videoRsc != null) {
-                videoview.setVisibility(View.VISIBLE);
-                videoview.setVideoURL(videoRsc.getUrl());
+                setVideoData(videoRsc);
             } else {
-                videoview.setVisibility(View.GONE);
-
-                //设置图片集
-                if (funshowDetail.getPicCount() != 0) {
-                    if (funshowDetail.getPicCount() == 1) {
-                        bundleview.setColcountWihi(1, 1.76f);
-                    } else if (funshowDetail.getPicCount() == 2) {
-                        bundleview.setColcountWihi(2, 0.87f);
-                    } else if (funshowDetail.getPicCount() >= 3 && funshowDetail.getPicCount() <= 9) {
-                        bundleview.setColcountWihi(3, 0.87f);
-                    }
-                    bundleview.setPhotos(funshowDetail.getBundleImgEntities());
-                    bundleview.setVisibility(View.VISIBLE);
-                } else {
-                    bundleview.setVisibility(View.GONE);
-                }
-            }
-
-            //设置音乐
-            FunshowDetailVideoRsc musicRsc = funshowDetail.getMusicRsc();
-            if (musicRsc != null) {
-                musicbubble.resetMusic(musicRsc.trans2Music());
-                musicbubble.setVisibility(View.VISIBLE);
-            } else {
-                musicbubble.setVisibility(View.GONE);
+                setPicData(funshowDetail);
+                setMusicData(funshowDetail.getMusicRsc());
             }
         }
     }
 
-    /////////////////////////////////////////
-
-    public void changeBundleView(int colcount, float wihi) {
-        bundleview.setColcountWihi(colcount, wihi);
+    //初始化视频视图并设置视频
+    private void setVideoData(FunshowDetailVideoRsc videoRsc) {
+        ViewStub stub = getRoot().findViewById(R.id.stub_video);
+        videoview = stub.inflate().findViewById(R.id.videoview);
+        videoview.getLayoutParams().height = SizeUtils.dp2px(360);
+        videoview.setVideoURL(videoRsc.getUrl());
     }
 
-    public int getBundleViewColCount() {
-        return bundleview.getColcount();
+    //设置音乐
+    private void setMusicData(FunshowDetailVideoRsc musicRsc) {
+        if (musicRsc != null) {
+            musicbubble.resetMusic(musicRsc.trans2Music());
+            musicbubble.setVisibility(View.VISIBLE);
+        } else {
+            musicbubble.setVisibility(View.GONE);
+        }
+    }
+
+    //初始化图片视图并设置图片集
+    private void setPicData(FunshowDetail funshowDetail) {
+        ViewStub stub = getRoot().findViewById(R.id.stub_pic);
+        bundleview = stub.inflate().findViewById(R.id.bundleview);
+        bundleview.setOnBundleClickListener(new BundleImgView.OnBundleSimpleClickListener() {
+            @Override
+            public void onPhotoShowClick(String path, int position) {
+                ActivityPicturePreview.start(getContext(), position, bundleview.getResultsStrArray().toArray(new String[]{}));
+            }
+        });
+        if (funshowDetail.getPicCount() != 0) {
+            if (funshowDetail.getPicCount() == 1) {
+                bundleview.setColcountWihi(1, 1.76f);
+            } else if (funshowDetail.getPicCount() == 2) {
+                bundleview.setColcountWihi(2, 0.87f);
+            } else if (funshowDetail.getPicCount() >= 3 && funshowDetail.getPicCount() <= 9) {
+                bundleview.setColcountWihi(3, 0.87f);
+            }
+            bundleview.setPhotos(funshowDetail.getBundleImgEntities());
+            bundleview.setVisibility(View.VISIBLE);
+        } else {
+            bundleview.setVisibility(View.GONE);
+        }
     }
 
     /////////////////////////////////////////

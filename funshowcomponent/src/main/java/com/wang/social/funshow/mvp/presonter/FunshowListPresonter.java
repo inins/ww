@@ -2,6 +2,7 @@ package com.wang.social.funshow.mvp.presonter;
 
 
 import com.frame.component.entities.BaseListWrap;
+import com.frame.component.helper.AppDataHelper;
 import com.frame.di.scope.FragmentScope;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.ApiHelperEx;
@@ -105,6 +106,10 @@ public class FunshowListPresonter extends BasePresenter<FunshowListContract.Mode
     }
 
     public void shatDownUser(int userId) {
+        if (userId == AppDataHelper.getUser().getUserId()) {
+            ToastUtil.showToastShort("不能屏蔽自己");
+            return;
+        }
         ApiHelperEx.execute(mRootView, true,
                 mModel.shatDownUser(userId + "", 1),
                 new ErrorHandleSubscriber<BaseJson<Object>>(mErrorHandler) {

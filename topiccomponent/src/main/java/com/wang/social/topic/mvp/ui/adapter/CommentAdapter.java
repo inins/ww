@@ -1,7 +1,6 @@
 package com.wang.social.topic.mvp.ui.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
@@ -16,7 +15,7 @@ import com.frame.component.utils.SpannableStringUtil;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.utils.FrameUtils;
 import com.wang.social.topic.R;
-import com.wang.social.topic.StringUtil;
+import com.wang.social.topic.utils.StringUtil;
 import com.wang.social.topic.mvp.model.entities.Comment;
 
 import java.util.List;

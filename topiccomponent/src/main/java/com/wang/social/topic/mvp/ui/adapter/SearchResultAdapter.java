@@ -2,12 +2,10 @@ package com.wang.social.topic.mvp.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.text.SpannableString;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,7 +14,7 @@ import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.SizeUtils;
 import com.wang.social.topic.R;
-import com.wang.social.topic.StringUtil;
+import com.wang.social.topic.utils.StringUtil;
 import com.wang.social.topic.mvp.model.entities.SearchResult;
 
 import java.util.List;

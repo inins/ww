@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
+import com.frame.component.entities.Tag;
 import com.wang.social.funpoint.R;
 import com.wang.social.funpoint.R2;
 import com.wang.social.funpoint.mvp.entities.Lable;
@@ -15,7 +16,7 @@ import com.wang.social.funpoint.mvp.entities.Lable;
 import butterknife.BindView;
 
 
-public class RecycleAdapterLable extends BaseAdapter<Lable> {
+public class RecycleAdapterLable extends BaseAdapter<Tag> {
 
     private final static int TYPE_SRC_ITEM = R.layout.funpoint_item_lable;
     private final static int TYPE_SRC_MORE = R.layout.funpoint_item_lable_more;
@@ -55,7 +56,7 @@ public class RecycleAdapterLable extends BaseAdapter<Lable> {
     }
 
 
-    public class HolderItem extends BaseViewHolder<Lable> {
+    public class HolderItem extends BaseViewHolder<Tag> {
         @BindView(R2.id.text_name)
         TextView text_name;
 
@@ -64,8 +65,8 @@ public class RecycleAdapterLable extends BaseAdapter<Lable> {
         }
 
         @Override
-        protected void bindData(Lable lable, int position, OnItemClickListener onItemClickListener) {
-            text_name.setText(lable.getName());
+        protected void bindData(Tag lable, int position, OnItemClickListener onItemClickListener) {
+            text_name.setText(lable.getTagName());
         }
 
         @Override
@@ -73,14 +74,14 @@ public class RecycleAdapterLable extends BaseAdapter<Lable> {
         }
     }
 
-    public class HolderMore extends BaseViewHolder<Lable> {
+    public class HolderMore extends BaseViewHolder<Tag> {
 
         public HolderMore(Context context, ViewGroup root, int layoutRes) {
             super(context, root, layoutRes);
         }
 
         @Override
-        protected void bindData(Lable lable, int position, OnItemClickListener onItemClickListener) {
+        protected void bindData(Tag lable, int position, OnItemClickListener onItemClickListener) {
             itemView.setOnClickListener((view) -> {
                 if (onMoreClickListener != null) onMoreClickListener.onMoreClick(view);
             });

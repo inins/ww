@@ -31,6 +31,7 @@ public class PictureSelector {
 
     public static final String NAME_FILE_PATH = "NAME_FILE_PATH";
     public static final String NAME_FILE_PATH_LIST = "NAME_FILE_PATH_LIST";
+    public final static String NAME_CURRENT  = "CURRENT";
 
     public static final int REQUEST_CODE_CLIP = 10101;
 

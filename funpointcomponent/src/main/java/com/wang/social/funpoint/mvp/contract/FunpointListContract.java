@@ -1,6 +1,7 @@
 package com.wang.social.funpoint.mvp.contract;
 
 import com.frame.component.entities.BaseListWrap;
+import com.frame.component.entities.Tag;
 import com.frame.http.api.BaseJson;
 import com.frame.mvp.IModel;
 import com.frame.mvp.IView;
@@ -25,11 +26,19 @@ public interface FunpointListContract {
 
         void appendList(List<Funpoint> datas);
 
+        void reFreshReadCountById(int newsId);
+
+        void reFreshTags(List<Tag> tags);
+
         void finishSpringView();
     }
 
     interface Model extends IModel {
 
         Observable<BaseJson<BaseListWrap<Funpoint>>> getFunpointList(int isCondition, int current, int size);
+
+        Observable<BaseJson<Object>> readFunpoint(int newsId);
+
+        Observable<BaseJson<BaseListWrap<Tag>>> getRecommendTag();
     }
 }

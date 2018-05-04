@@ -8,7 +8,9 @@ import android.support.design.widget.AppBarLayout;
 import android.view.View;
 import android.widget.EditText;
 
+import com.frame.component.helper.NetReportHelper;
 import com.frame.component.ui.base.BasicAppActivity;
+import com.frame.component.ui.dialog.DialogSure;
 import com.frame.di.component.AppComponent;
 import com.frame.mvp.IView;
 import com.frame.utils.FocusUtil;
@@ -69,20 +71,9 @@ public class FunshowDetailActivity extends BasicAppActivity implements IView {
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.btn_right) {
-            switch (contentBoardController.getBundleViewColCount()) {
-                case 4:
-                    contentBoardController.changeBundleView(3, 0.87f);
-                    break;
-                case 3:
-                    contentBoardController.changeBundleView(2, 0.87f);
-                    break;
-                case 2:
-                    contentBoardController.changeBundleView(1, 1.76f);
-                    break;
-                case 1:
-                    contentBoardController.changeBundleView(4, 1f);
-                    break;
-            }
+            DialogSure.showDialog(this, "确定要举报该趣晒？", () -> {
+                NetReportHelper.newInstance().netReportFunshow(this, talkId, () -> finish());
+            });
         }
     }
 
@@ -113,12 +104,5 @@ public class FunshowDetailActivity extends BasicAppActivity implements IView {
     @Override
     public void hideLoading() {
         dismissLoadingDialog();
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
     }
 }

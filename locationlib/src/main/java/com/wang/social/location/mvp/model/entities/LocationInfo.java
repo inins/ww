@@ -36,4 +36,8 @@ public class LocationInfo implements Serializable{
         所在城市
      */
     private String city;
+    /*
+        行政区划代码
+     */
+    private String adCode;
 }

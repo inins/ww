@@ -1,6 +1,7 @@
 package com.wang.social.funpoint.mvp.model;
 
 import com.frame.component.entities.BaseListWrap;
+import com.frame.component.entities.Tag;
 import com.frame.di.scope.FragmentScope;
 import com.frame.http.api.BaseJson;
 import com.frame.integration.IRepositoryManager;
@@ -32,5 +33,19 @@ public class FunpointListModel extends BaseModel implements FunpointListContract
         return mRepositoryManager
                 .obtainRetrofitService(FunpointService.class)
                 .getFunpointList(isCondition, current, size);
+    }
+
+    @Override
+    public Observable<BaseJson<Object>> readFunpoint(int newsId) {
+        return mRepositoryManager
+                .obtainRetrofitService(FunpointService.class)
+                .readFunpoint(newsId);
+    }
+
+    @Override
+    public Observable<BaseJson<BaseListWrap<Tag>>> getRecommendTag() {
+        return mRepositoryManager
+                .obtainRetrofitService(FunpointService.class)
+                .getRecommendTag();
     }
 }

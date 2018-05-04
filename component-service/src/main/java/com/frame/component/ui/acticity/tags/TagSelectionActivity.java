@@ -30,6 +30,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -39,7 +40,7 @@ import timber.log.Timber;
 
 @RouteNode(path = "/login_tag_selection", desc = "标签选择")
 public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter> implements
-        TagSelectionContract.View {
+        TagSelectionContract.View, TagListFragment.MaxListener {
 
 
     public final static String EVENTBUS_TAG_DELETE = "EVENTBUS_TAG_DELETE";
@@ -50,6 +51,7 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
     public final static String NAME_TAG_TYPE = "NAME_TAG_TYPE";
     public final static String NAME_SELECTED_LIST = "NAME_SELECTED_LIST";
     public final static String NAME_PARENT_ID = "NAME_PARENT_ID";
+    public final static String NAME_MAX_SELECTION = "NAME_MAX_SELECTION";
     // 标签选择
     public final static String MODE_SELECTION = "MODE_SELECTION";
     // 确认标签选择
@@ -62,6 +64,17 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
     public final static int TAG_TYPE_INTEREST = 0;  // 兴趣标签
     public final static int TAG_TYPE_PERSONAL = 1;  // 个人标签
     public final static int TAG_TYPE_TAG_LIST = 3;  // 直接返回选中的标签列表
+
+    @Override
+    public boolean checkMax() {
+        if (mPresenter.getSelectedList().size() >= mMax) {
+            ToastUtil.showToastLong(String.format("最多可以选择%d个标签", mMax));
+            return true;
+        }
+
+        return false;
+    }
+
     @IntDef({
             TAG_TYPE_UNKNOWN,
             TAG_TYPE_INTEREST,
@@ -86,12 +99,16 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
                               ArrayList<Tag> selectedList,
                               boolean fromLogin,
                               @TagType int type,
-                              String ids) {
+//                              String ids,
+//                              String names,
+                              int max) {
         Intent intent = new Intent(context, TagSelectionActivity.class);
         intent.putExtra(NAME_MODE, mode);
         intent.putExtra(NAME_FROM_LOGIN, fromLogin);
         intent.putExtra(NAME_TAG_TYPE, type);
-        intent.putExtra("ids", ids);
+//        intent.putExtra("ids", ids);
+//        intent.putExtra("names", names);
+        intent.putExtra(NAME_MAX_SELECTION, max);
         if (null != selectedList) {
             intent.putParcelableArrayListExtra(NAME_SELECTED_LIST, selectedList);
         }
@@ -101,10 +118,15 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
     /**
      * 返回选择的标签 id列表 和 mame列表
      * @param context context
-     * @param ids 已选标签ID列表，以逗号隔开 id1,id2,id3.....
+//     * @param ids 已选标签ID列表，以逗号隔开 id1,id2,id3.....
      */
-    public static void startForTagList(Context context, String ids) {
-        start(context, MODE_SELECTION, null, false, TAG_TYPE_TAG_LIST, ids);
+    public static void startForTagList(Context context, ArrayList<Tag> list, int max) {
+//        start(context, MODE_SELECTION, null, false, TAG_TYPE_TAG_LIST, ids, names, max);
+        start(context, MODE_SELECTION, list, false, TAG_TYPE_TAG_LIST, max);
+    }
+
+    public static void startForTagList(Context context, ArrayList<Tag> list) {
+        startForTagList(context, list, Integer.MAX_VALUE);
     }
 
     /**
@@ -112,22 +134,33 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
      *
      * 从登录页面启动的一定是兴趣标签
      */
+    public static void startSelectionFromLogin(Context context, int max) {
+        start(context, MODE_SELECTION, null, true, TAG_TYPE_INTEREST, max);
+    }
+
     public static void startSelectionFromLogin(Context context) {
-        start(context, MODE_SELECTION, null, true, TAG_TYPE_INTEREST, null);
+        startSelectionFromLogin(context, Integer.MAX_VALUE);
     }
 
     /**
      * 启动标签选择页面
      */
+    public static void startSelection(Context context, @TagType int type, int max) {
+        start(context, MODE_SELECTION, null, false, type, max);
+    }
     public static void startSelection(Context context, @TagType int type) {
-        start(context, MODE_SELECTION, null, false, type, null);
+        startSelection(context, type, Integer.MAX_VALUE);
     }
 
     /**
      * 开始确认标签选择
      */
+    public static void startConfirm(Context context, ArrayList<Tag> selectedList, boolean fromLogin, @TagType int type, int max) {
+        start(context, MODE_CONFIRM, selectedList, fromLogin, type, max);
+    }
+
     public static void startConfirm(Context context, ArrayList<Tag> selectedList, boolean fromLogin, @TagType int type) {
-        start(context, MODE_CONFIRM, selectedList, fromLogin, type, null);
+        startConfirm(context, selectedList, fromLogin, type, Integer.MAX_VALUE);
     }
 
     @BindView(R2.id.toolbar)
@@ -152,6 +185,8 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
     String mode = MODE_SELECTION;
     // 是否是从登录页面跳转过来的,为了个人中心调用，默认设置为不是从登录页面跳转过来
     boolean fromLogin = false;
+    // 最多可以选择多少个
+    private int mMax = Integer.MAX_VALUE;
 
     @Inject
     AppManager appManager;
@@ -240,6 +275,8 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
+        mMax = getIntent().getIntExtra(NAME_MAX_SELECTION, Integer.MAX_VALUE);
+
         // 读取调用模式
         if (getIntent().hasExtra(NAME_MODE)) {
             mode = getIntent().getStringExtra(NAME_MODE);
@@ -290,10 +327,11 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
         }
 
         // 这里不需要parentId，所以传入-1
+        TagListFragment fragment = TagListFragment.newConfirmMode(mPresenter.getSelectedList(), mTagType);
+        fragment.setMaxListener(this);
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.ts_content_layout,
-                        TagListFragment.newConfirmMode(mPresenter.getSelectedList(), mTagType))
+                .add(R.id.ts_content_layout, fragment)
                 .commit();
     }
 
@@ -307,8 +345,12 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
             mPresenter.myRecommendTag();
         } else if (mTagType == TAG_TYPE_TAG_LIST) {
             // 获取选择标签模式下，需要从bundle中获取数据
-            String idsStr = getIntent().getStringExtra("ids");
-            mPresenter.setSelectedListFromBundle(idsStr);
+//            String idsStr = getIntent().getStringExtra("ids");
+//            String namesStr = getIntent().getStringExtra("names");
+//            mPresenter.setSelectedListFromBundle(idsStr, namesStr);
+
+            mPresenter.setSelectedTagList(
+                    getIntent().getParcelableArrayListExtra(NAME_SELECTED_LIST));
 
             // 加载父标签列表
             mPresenter.getParentTagList();
@@ -332,7 +374,10 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
             @Override
             public Fragment getItem(int position) {
                 Tag parentTag = tags.getList().get(position);
-                return TagListFragment.newSelectionMode(parentTag.getId(), mPresenter.getSelectedList(), mTagType);
+                TagListFragment fragment =
+                        TagListFragment.newSelectionMode(parentTag.getId(), mPresenter.getSelectedList(), mTagType);
+                fragment.setMaxListener(TagSelectionActivity.this);
+                return fragment;
             }
 
             @Override
@@ -387,12 +432,13 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
                     // 提交个人标签
                     mPresenter.addPersonalTag();
                 } else if (TAG_TYPE_TAG_LIST == mTagType) { // 话题发布选择标签，直接返回标签列表文字
-                    String ids = StringUtils.formatTagIds(mPresenter.getSelectedList());
-                    String names = StringUtils.formatTagNames(mPresenter.getSelectedList());
+//                    String ids = StringUtils.formatTagIds(mPresenter.getSelectedList());
+//                    String names = StringUtils.formatTagNames(mPresenter.getSelectedList());
 
                     EventBean bean = new EventBean(EventBean.EVENTBUS_TAG_SELECTED_LIST);
-                    bean.put("ids", ids);
-                    bean.put("names", names);
+                    bean.put(NAME_SELECTED_LIST, mPresenter.getSelectedList());
+//                    bean.put("ids", ids);
+//                    bean.put("names", names);
                     EventBus.getDefault().post(bean);
 
                     quitFinish();
@@ -492,5 +538,39 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    public static String formatTagIds(List<Tag> list) {
+        String tagIds = "";
+
+        if (null != list) {
+            for (int i = 0; i < list.size(); i++) {
+                Tag tag = list.get(i);
+                Timber.i(tag.getId() + " " + tag.getTagName());
+                tagIds = tagIds + tag.getId();
+                if (i < list.size() - 1) {
+                    tagIds = tagIds + ",";
+                }
+            }
+        }
+
+        return tagIds;
+    }
+
+    public static String formatTagNames(List<Tag> list) {
+        String tagNames = "";
+
+        if (null != list) {
+            for (int i = 0; i < list.size(); i++) {
+                Tag tag = list.get(i);
+                Timber.i(tag.getId() + " " + tag.getTagName());
+                tagNames = tagNames + " #" + tag.getTagName();
+                if (i < list.size() - 1) {
+                    tagNames = tagNames + ",";
+                }
+            }
+        }
+
+        return tagNames;
     }
 }

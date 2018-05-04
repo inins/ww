@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
 import com.frame.component.helper.ImageLoaderHelper;
+import com.frame.component.utils.viewutils.FontUtils;
+import com.frame.utils.StrUtil;
 import com.wang.social.funpoint.R;
 import com.wang.social.funpoint.R2;
 import com.wang.social.funpoint.mvp.entities.Funpoint;
@@ -42,6 +44,7 @@ public class RecycleAdapterHome extends BaseAdapter<Funpoint> {
         @Override
         protected void bindData(Funpoint bean, int position, OnItemClickListener onItemClickListener) {
             ImageLoaderHelper.loadImg(imgPic, bean.getImgUrl());
+            FontUtils.boldText(textTitle);
             textTitle.setText(bean.getNewsTitle());
             cardPic.setVisibility(!TextUtils.isEmpty(bean.getImgUrl()) ? View.VISIBLE : View.GONE);
             textNote.setText(bean.getNoteStr());
@@ -54,6 +57,19 @@ public class RecycleAdapterHome extends BaseAdapter<Funpoint> {
         @Override
         protected boolean useItemClickListener() {
             return true;
+        }
+    }
+
+    /////////////////////
+
+    public void reFreshReadCountById(int newsId) {
+        if (StrUtil.isEmpty(getData())) return;
+        for (int i = 0; i < getData().size(); i++) {
+            Funpoint funpoint = getData().get(i);
+            if (funpoint.getNewsId() == newsId) {
+                funpoint.setReadTotal(funpoint.getReadTotal() + 1);
+                notifyItemChanged(i);
+            }
         }
     }
 }
