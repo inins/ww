@@ -16,6 +16,7 @@ import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.beloo.widget.chipslayoutmanager.SpacingItemDecoration;
 import com.frame.base.BaseAdapter;
 import com.frame.component.helper.CommonHelper;
+import com.frame.component.ui.acticity.tags.TagSelectionActivity;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
@@ -176,7 +177,8 @@ public class LableActivity extends BaseAppActivity<LablePresonter> implements La
                 adapter_me.notifyDataSetChanged();
             }
         } else if (i == R.id.btn_add) {
-            CommonHelper.LoginHelper.startTagSelectActivity(this);
+//            CommonHelper.LoginHelper.startTagSelectActivity(this);
+            TagSelectionActivity.startSelection(this, TagSelectionActivity.TAG_TYPE_PERSONAL);
         }
     }
 

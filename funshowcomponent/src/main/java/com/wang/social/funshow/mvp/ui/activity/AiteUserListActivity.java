@@ -127,8 +127,10 @@ public class AiteUserListActivity extends BasicAppActivity implements IView {
                     @Override
                     public void onNext(BaseJson<BaseListWrap<Friend>> basejson) {
                         BaseListWrap<Friend> warp = basejson.getData();
-                        List<Friend> list = warp.getList();
-                        adapter.refreshData(list);
+                        if (warp != null) {
+                            List<Friend> list = warp.getList();
+                            adapter.refreshData(list);
+                        }
                     }
 
                     @Override

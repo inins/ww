@@ -8,29 +8,31 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.frame.base.BasicFragment;
 import com.frame.di.component.AppComponent;
+import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.wang.social.R;
 import com.wang.social.mvp.ui.adapter.PagerAdapterPlaza;
+import com.wang.social.mvp.ui.dialog.FunshowSortPopupWindow;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
- * 建设中 fragment 占位
  */
 
 public class PlazaFragment extends BasicFragment {
 
     @BindView(R.id.tablayout)
-    TabLayout tablayout;
+    SmartTabLayout tablayout;
     @BindView(R.id.pager)
     ViewPager pager;
 
+    private FunshowSortPopupWindow popupWindow;
     private PagerAdapterPlaza pagerAdapter;
-    Unbinder unbinder;
 
     private String[] titles = new String[]{"趣晒", "话题", "趣点"};
 
@@ -48,10 +50,18 @@ public class PlazaFragment extends BasicFragment {
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
+        popupWindow = new FunshowSortPopupWindow(getContext());
         pagerAdapter = new PagerAdapterPlaza(getChildFragmentManager(), titles);
         pager.setAdapter(pagerAdapter);
         pager.setOffscreenPageLimit(3);
-        tablayout.setupWithViewPager(pager);
+        tablayout.setViewPager(pager);
+        tablayout.setOnTabClickListener(position -> {
+            if (position == 0) {
+                popupWindow.showPopupWindow(tablayout.getTabAt(0));
+            }
+        });
+        //第一个tab有一个下拉箭头
+        ((TextView) tablayout.getTabAt(0).findViewById(R.id.custom_text)).setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.common_ic_down, 0);
     }
 
     @Override
@@ -62,18 +72,5 @@ public class PlazaFragment extends BasicFragment {
 
     @Override
     public void setupFragmentComponent(@NonNull AppComponent appComponent) {
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
     }
 }

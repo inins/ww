@@ -3,10 +3,12 @@ package com.frame.component.helper;
 import android.content.Context;
 import android.os.Bundle;
 
+import com.frame.component.path.FunshowPath;
 import com.frame.component.path.HomePath;
 import com.frame.component.path.ImPath;
 import com.frame.component.path.LoginPath;
 import com.frame.component.router.ui.UIRouter;
+import com.frame.utils.ToastUtil;
 
 //公用的帮助类
 public class CommonHelper {
@@ -42,7 +44,13 @@ public class CommonHelper {
         }
     }
 
-    public static class ImHelper{
+    public static class FunshowHelper {
+        public static void startAddActivity(Context context) {
+            UIRouter.getInstance().openUri(context, FunshowPath.FUNSHOW_URL, null);
+        }
+    }
+
+    public static class ImHelper {
 
         /**
          * 个人聊天界面
