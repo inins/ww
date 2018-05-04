@@ -1,5 +1,6 @@
 package com.wang.social.funshow.mvp.ui.controller;
 
+import android.app.Activity;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,8 +10,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.frame.component.api.CommonService;
 import com.frame.component.common.GridSpacingItemDecoration;
 import com.frame.component.entities.BaseListWrap;
+import com.frame.component.helper.AppDataHelper;
 import com.frame.component.ui.base.BaseController;
 import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelperEx;
@@ -59,6 +62,7 @@ public class FunshowDetailZanController extends BaseController implements View.O
     private MorePopupWindow popupWindow;
 
     private int talkId;
+    private int userId;
 
     @Override
     public void onCommonEvent(EventBean event) {
@@ -68,6 +72,7 @@ public class FunshowDetailZanController extends BaseController implements View.O
                 int commonCount = (int) event.get("commonCount");
                 int shareCount = (int) event.get("shareCount");
                 boolean isSupport = (boolean) event.get("isSupport");
+                userId = (int) event.get("userId");
                 textZan.setSelected(isSupport);
                 textZan.setText(String.valueOf(zanCount));
                 textComment.setText(String.valueOf(commonCount));
@@ -94,14 +99,9 @@ public class FunshowDetailZanController extends BaseController implements View.O
     @Override
     protected void onInitCtrl() {
         popupWindow = new MorePopupWindow(getContext());
-        popupWindow.setOnDislikeClickListener(v -> {
-            ToastUtil.showToastShort("开发中。。");
-        });
-
+        popupWindow.setOnDislikeClickListener(v -> netDislike(userId));
         adapterZan = new RecycleAdapterZan();
-        adapterZan.setOnMoreClickListener(v -> {
-            ZanUserListActivity.start(getContext(), talkId);
-        });
+        adapterZan.setOnMoreClickListener(v -> ZanUserListActivity.start(getContext(), talkId));
         recyclerZan.setNestedScrollingEnabled(false);
         recyclerZan.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         recyclerZan.setAdapter(adapterZan);
@@ -157,6 +157,28 @@ public class FunshowDetailZanController extends BaseController implements View.O
                         if (!StrUtil.isEmpty(zanUsers)) {
                             adapterZan.refreshData(zanUsers);
                         }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        ToastUtil.showToastLong(e.getMessage());
+                    }
+                });
+    }
+
+    private void netDislike(int userId) {
+        if (userId == 0) return;
+        if (userId == AppDataHelper.getUser().getUserId()) {
+            ToastUtil.showToastShort("不能屏蔽自己");
+            return;
+        }
+        ApiHelperEx.execute(getIView(), true,
+                ApiHelperEx.getService(CommonService.class).shatDownUser(userId + "", 1),
+                new ErrorHandleSubscriber<BaseJson<Object>>() {
+                    @Override
+                    public void onNext(BaseJson<Object> basejson) {
+                        EventBus.getDefault().post(new EventBean(EventBean.EVENT_FUNSHOW_LIST_FRESH));
+                        if (getContext() instanceof Activity) ((Activity) getContext()).finish();
                     }
 
                     @Override

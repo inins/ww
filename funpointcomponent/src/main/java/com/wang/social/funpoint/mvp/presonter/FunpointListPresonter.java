@@ -2,6 +2,7 @@ package com.wang.social.funpoint.mvp.presonter;
 
 
 import com.frame.component.entities.BaseListWrap;
+import com.frame.component.entities.Tag;
 import com.frame.di.scope.FragmentScope;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.ApiHelperEx;
@@ -37,16 +38,25 @@ public class FunpointListPresonter extends BasePresenter<FunpointListContract.Mo
         super(model, view);
     }
 
-    public void netGetFunpointList(boolean needloading) {
-        current = 1;
-        ApiHelperEx.execute(mRootView, needloading,
-                mModel.getFunpointList(1, current, size),
+    public void netGetFunpointList(boolean isFresh) {
+        if (isFresh) current = 0;
+        ApiHelperEx.execute(mRootView, false,
+                mModel.getFunpointList(1, current + 1, size),
                 new ErrorHandleSubscriber<BaseJson<BaseListWrap<Funpoint>>>(mErrorHandler) {
                     @Override
                     public void onNext(BaseJson<BaseListWrap<Funpoint>> basejson) {
                         BaseListWrap<Funpoint> warp = basejson.getData();
                         List<Funpoint> list = warp.getList();
-                        mRootView.reFreshList(list);
+                        if (!StrUtil.isEmpty(list)) {
+                            current = warp.getCurrent();
+                            if (isFresh) {
+                                mRootView.reFreshList(list);
+                            } else {
+                                mRootView.appendList(list);
+                            }
+                        } else {
+                            ToastUtil.showToastLong("没有更多数据了");
+                        }
                         mRootView.finishSpringView();
                     }
 
@@ -58,28 +68,37 @@ public class FunpointListPresonter extends BasePresenter<FunpointListContract.Mo
                 });
     }
 
-    public void netLoadmore(int isCondition) {
+
+    public void netReadFunpoint(int newsId) {
         ApiHelperEx.execute(mRootView, false,
-                mModel.getFunpointList(isCondition, current + 1, size),
-                new ErrorHandleSubscriber<BaseJson<BaseListWrap<Funpoint>>>(mErrorHandler) {
+                mModel.readFunpoint(newsId),
+                new ErrorHandleSubscriber<BaseJson<Object>>(mErrorHandler) {
                     @Override
-                    public void onNext(BaseJson<BaseListWrap<Funpoint>> basejson) {
-                        BaseListWrap<Funpoint> warp = basejson.getData();
-                        List<Funpoint> list = warp.getList();
-                        if (!StrUtil.isEmpty(list)) {
-                            current = warp.getCurrent();
-                            mRootView.appendList(list);
-                            mRootView.finishSpringView();
-                        } else {
-                            ToastUtil.showToastLong("没有更多数据了");
-                            mRootView.finishSpringView();
-                        }
+                    public void onNext(BaseJson<Object> basejson) {
+                        mRootView.reFreshReadCountById(newsId);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         ToastUtil.showToastLong(e.getMessage());
-                        mRootView.finishSpringView();
+                    }
+                });
+    }
+
+    public void netGetRecommendTag() {
+        ApiHelperEx.execute(mRootView, false,
+                mModel.getRecommendTag(),
+                new ErrorHandleSubscriber<BaseJson<BaseListWrap<Tag>>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseJson<BaseListWrap<Tag>> basejson) {
+                        BaseListWrap<Tag> wrap = basejson.getData();
+                        List<Tag> tags = wrap.getList();
+                        mRootView.reFreshTags(tags);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        ToastUtil.showToastLong(e.getMessage());
                     }
                 });
     }

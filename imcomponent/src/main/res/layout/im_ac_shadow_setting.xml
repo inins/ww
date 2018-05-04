@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/common_white">
+
+    <com.frame.component.view.SocialToolbar
+        android:id="@+id/ss_toolbar"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:toolbar_left_icon="@drawable/common_ic_back" />
+
+    <com.frame.component.view.TitleView
+        android:id="@+id/ss_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/common_border_margin"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ss_toolbar"
+        app:personal_textNote="@string/im_shadow_setting_sub"
+        app:personal_textTitle="@string/im_shadow_setting" />
+    
+    <ImageView
+        android:id="@+id/ss_iv_portrait"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ss_title"
+        android:layout_marginTop="25dp"
+        tools:src="@drawable/im_image_message_placeholder"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="8dp"
+        android:textColor="@color/common_white"
+        android:text="@string/im_setting_portrait"
+        android:gravity="center"
+        app:layout_constraintLeft_toLeftOf="@id/ss_iv_portrait"
+        app:layout_constraintRight_toRightOf="@id/ss_iv_portrait"
+        app:layout_constraintBottom_toBottomOf="@id/ss_iv_portrait"
+        android:background="@drawable/im_bg_setting_portrait_head"/>
+
+    <TextView
+        android:id="@+id/ss_tv_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:textColor="@color/common_text_blank"
+        android:text="@string/im_shadow_nickname"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ss_iv_portrait"
+        app:layout_constraintRight_toLeftOf="@id/ss_et_nickname"
+        android:layout_marginTop="37dp"/>
+    
+    <EditText
+        android:id="@+id/ss_et_nickname"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:textSize="14dp"
+        android:layout_marginStart="9dp"
+        android:textColor="@color/common_text_blank"
+        android:lines="1"
+        app:layout_constraintLeft_toRightOf="@id/ss_tv_nickname"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ss_tv_nickname"
+        app:layout_constraintBottom_toBottomOf="@id/ss_tv_nickname"/>
+
+    <TextView
+        android:id="@+id/ss_tv_gender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@id/ss_tv_nickname"
+        app:layout_constraintTop_toBottomOf="@id/ss_tv_nickname"
+        android:layout_marginTop="45dp"
+        android:textSize="15dp"
+        android:textColor="@color/common_text_blank"
+        android:text="@string/im_shadow_gender"/>
+
+    <RadioGroup
+        android:id="@+id/ss_rg_gender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="18dp"
+        app:layout_constraintLeft_toRightOf="@id/ss_tv_gender"
+        app:layout_constraintTop_toTopOf="@id/ss_tv_gender"
+        app:layout_constraintBottom_toBottomOf="@id/ss_tv_gender">
+
+        <RadioButton
+            android:id="@+id/ss_rb_male"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/im_shadow_male"/>
+
+        <RadioButton
+            android:id="@+id/ss_rb_female"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:button="@drawable/im_shadow_female"/>
+
+        <RadioButton
+            android:id="@+id/ss_rb_secret"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:button="@drawable/im_shadow_secret"/>
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/ss_tv_sure"
+        android:layout_width="220dp"
+        android:layout_height="33dp"
+        android:background="@drawable/common_bg_btn_theme"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ss_rg_gender"
+        android:layout_marginTop="56dp"
+        android:gravity="center"
+        android:textSize="15dp"
+        android:textColor="@color/common_white"
+        android:text="@string/im_shadow_sure"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ss_tv_sure"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/common_text_dark_light"
+        android:textSize="10dp"
+        android:text="@string/im_shadow_tip"/>
+
+    <TextView
+        android:id="@+id/ss_tv_what"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/ss_tv_shadow"
+        android:layout_marginBottom="8dp"
+        android:text="@string/im_shadow_what_is"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        android:textSize="11dp"
+        android:textColor="@color/common_text_dark_light"/>
+
+    <TextView
+        android:id="@+id/ss_tv_shadow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@id/ss_tv_what"
+        app:layout_constraintBottom_toBottomOf="@id/ss_tv_what"
+        app:layout_constraintRight_toRightOf="parent"
+        android:text="@string/im_shadow"
+        android:textSize="11dp"
+        android:textColor="@color/common_colorAccent"/>
+</android.support.constraint.ConstraintLayout>

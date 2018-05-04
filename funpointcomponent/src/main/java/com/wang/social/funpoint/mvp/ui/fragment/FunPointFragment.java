@@ -15,6 +15,7 @@ import com.frame.base.BaseAdapter;
 import com.frame.base.BaseFragment;
 import com.frame.base.BasicFragment;
 import com.frame.component.common.GridSpacingItemDecoration;
+import com.frame.component.entities.Tag;
 import com.frame.component.entities.TestEntity;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.helper.NetLoginTestHelper;
@@ -22,6 +23,7 @@ import com.frame.component.ui.acticity.WebActivity;
 import com.frame.component.view.barview.BarUser;
 import com.frame.component.view.barview.BarView;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
 import com.frame.utils.SizeUtils;
 import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.container.AliHeader;
@@ -75,6 +77,21 @@ public class FunPointFragment extends BaseFragment<FunpointListPresonter> implem
     }
 
     @Override
+    public void onCommonEvent(EventBean event) {
+        switch (event.getEvent()) {
+            //TODO:接收到修改标签的消息后刷新标签，暂时还未确定消息key值，暂时写个123（123这个消息并不存在）
+            case 123:
+                mPresenter.netGetRecommendTag();
+                break;
+        }
+    }
+
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
+    @Override
     public int initView(@Nullable Bundle savedInstanceState) {
         return R.layout.funpoint_fragment;
     }
@@ -100,27 +117,24 @@ public class FunPointFragment extends BaseFragment<FunpointListPresonter> implem
         springView.setListener(new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
-                mPresenter.netGetFunpointList(false);
+                mPresenter.netGetFunpointList(true);
             }
 
             @Override
             public void onLoadmore() {
+                mPresenter.netGetFunpointList(false);
             }
         });
 
-        mPresenter.netGetFunpointList(false);
-
-        adapterLable.refreshData(new ArrayList<Lable>() {{
-            add(new Lable("社交软件"));
-            add(new Lable("APP"));
-            add(new Lable("同城交友"));
-        }});
+        mPresenter.netGetFunpointList(true);
+        mPresenter.netGetRecommendTag();
 
         getView().findViewById(R.id.btn_funshow_login).setOnClickListener(v -> NetLoginTestHelper.newInstance().loginTest());
     }
 
     @Override
     public void onItemClick(Funpoint bean, int position) {
+        mPresenter.netReadFunpoint(bean.getNewsId());
         WebActivity.start(getContext(), bean.getUrl());
     }
 
@@ -160,6 +174,16 @@ public class FunPointFragment extends BaseFragment<FunpointListPresonter> implem
     @Override
     public void appendList(List<Funpoint> datas) {
         adapterHome.addItem(datas);
+    }
+
+    @Override
+    public void reFreshReadCountById(int newsId) {
+        adapterHome.reFreshReadCountById(newsId);
+    }
+
+    @Override
+    public void reFreshTags(List<Tag> tags) {
+        adapterLable.refreshData(tags);
     }
 
     @Override

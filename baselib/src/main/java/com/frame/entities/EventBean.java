@@ -52,6 +52,13 @@ public class EventBean implements Serializable {
     public static final int EVENT_CTRL_FUNSHOW_ADD_USER = 0xffa305;
     //发布趣晒选择趣晒锁
     public static final int EVENT_CTRL_FUNSHOW_ADD_LOCK = 0xffa306;
+    //通知刷新趣晒列表
+    public static final int EVENT_FUNSHOW_LIST_FRESH = 0xffa307;
+    //趣晒列表改变了筛选类型（趣聊、老友）
+    public static final int EVENT_FUNSHOW_LIST_TYPE_CHANGE = 0xffa308;
+
+    //选择地址
+    public static final int EVENT_LOCATION_SELECT = 0xffa401;
 
     @IntDef({
             EVENTBUS_TAG_SELECTED,
@@ -72,6 +79,9 @@ public class EventBean implements Serializable {
             EVENT_CTRL_FUNSHOW_DETAIL_EVAID,
             EVENT_CTRL_FUNSHOW_ADD_USER,
             EVENT_CTRL_FUNSHOW_ADD_LOCK,
+            EVENT_FUNSHOW_LIST_FRESH,
+            EVENT_FUNSHOW_LIST_TYPE_CHANGE,
+            EVENT_LOCATION_SELECT,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface EventBeanType {

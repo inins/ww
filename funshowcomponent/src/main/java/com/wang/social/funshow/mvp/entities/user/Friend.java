@@ -2,14 +2,17 @@ package com.wang.social.funshow.mvp.entities.user;
 
 import com.frame.component.entities.BaseSelectBean;
 import com.frame.component.entities.Tag;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.List;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
-public class Friend extends BaseSelectBean implements Serializable{
+@EqualsAndHashCode(callSuper = false)
+public class Friend extends BaseSelectBean implements Serializable {
 
     /**
      * friendId : 10000
@@ -22,6 +25,7 @@ public class Friend extends BaseSelectBean implements Serializable{
      */
 
     private int friendId;
+    @SerializedName("nickname")
     private String nickName;
     private String avatar;
     private int age;

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <com.frame.component.view.bundleimgview.BundleImgView
         android:id="@+id/bundleview"
@@ -17,4 +18,18 @@
         app:corner="0dp"
         app:space_width="4dp" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/text_position"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:drawableLeft="@drawable/funshow_ic_position"
+        android:drawablePadding="2dp"
+        android:textColor="@color/common_text_dark"
+        android:textSize="11sp"
+        android:visibility="gone"
+        tools:text="四川省成都市"
+        tools:visibility="visible" />
+
+</LinearLayout>

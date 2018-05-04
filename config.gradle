@@ -76,7 +76,7 @@ ext {
             "butterknife-compiler"     : "com.jakewharton:butterknife-compiler:${version["butterknifeSdkVersion"]}",
             "photoview"                : "com.github.chrisbanes.photoview:library:1.2.3",
             "nineoldandroids"          : "com.nineoldandroids:library:2.4.0",
-            "constraint-layout"        : "com.android.support.constraint:constraint-layout:1.0.2",
+            "constraint-layout"        : "com.android.support.constraint:constraint-layout:1.1.0",
             "chips-layoutmanager"      : "com.beloo.widget:ChipsLayoutManager:0.3.7@aar",  //Flow Layout
             "switch-button"            : "com.kyleduo.switchbutton:library:1.4.6"  //switch button
     ]

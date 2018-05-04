@@ -1,0 +1,34 @@
+package com.wang.social.im.mvp.model;
+
+import com.frame.di.scope.ActivityScope;
+import com.frame.http.api.BaseJson;
+import com.frame.integration.IRepositoryManager;
+import com.wang.social.im.mvp.contract.TeamHomeContract;
+import com.wang.social.im.mvp.model.api.GroupService;
+import com.wang.social.im.mvp.model.entities.dto.TeamInfoDTO;
+
+import javax.inject.Inject;
+
+import io.reactivex.Observable;
+
+/**
+ * ============================================
+ * <p>
+ * Create by ChenJing on 2018-05-02 15:15
+ * ============================================
+ */
+@ActivityScope
+public class TeamHomeModel extends GroupModel implements TeamHomeContract.Model{
+
+    @Inject
+    public TeamHomeModel(IRepositoryManager repositoryManager) {
+        super(repositoryManager);
+    }
+
+    @Override
+    public Observable<BaseJson<TeamInfoDTO>> getTeamInfo(String teamId) {
+        return mRepositoryManager
+                .obtainRetrofitService(GroupService.class)
+                .getTeamInfo("2.0.0", teamId);
+    }
+}

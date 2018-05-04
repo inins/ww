@@ -91,7 +91,6 @@ public class NetPayStoneHelper {
                     @Override
                     public void onError(Throwable e) {
                         ToastUtil.showToastShort(e.getMessage());
-//                        if (callback != null) callback.error(e.getMessage());
                     }
                 });
     }

@@ -1,10 +1,7 @@
 package com.wang.social.im.mvp.presenter;
 
 import com.frame.di.scope.ActivityScope;
-import com.frame.http.api.ApiHelper;
 import com.frame.http.api.error.ErrorHandleSubscriber;
-import com.frame.http.api.error.RxErrorHandler;
-import com.frame.mvp.BasePresenter;
 import com.wang.social.im.mvp.contract.SocialHomeContract;
 import com.wang.social.im.mvp.model.entities.SocialInfo;
 

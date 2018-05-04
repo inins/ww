@@ -17,5 +17,5 @@ import dagger.Component;
 @Component(modules = SocialHomeModule.class, dependencies = AppComponent.class)
 public interface SocialHomeComponent {
 
-//    void inject(SocialHomeActivity activity);
+    void inject(SocialHomeActivity activity);
 }

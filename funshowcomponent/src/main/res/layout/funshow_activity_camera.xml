@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.wang.social.funshow.mvp.ui.view.TextureCameraPreview
+        android:id="@+id/camera_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:background="@drawable/funshow_shape_rect_gradient_none_dark_v"/>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/transparent"
+        app:navigationIcon="@drawable/common_ic_close_light"
+        app:popupTheme="@style/common_AppTheme.PopupOverlay" >
+
+        <TextView
+            android:id="@+id/btn_right"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:foreground="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:text="确定"
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
+
+    </android.support.v7.widget.Toolbar>
+
+    <ImageView
+        android:id="@+id/img_pic"
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="106dp"
+        android:layout_gravity="bottom"
+        android:background="#55000000"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/btn_camera_flash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick="onClick"
+            android:src="@drawable/funshow_ic_camera_flash"
+            app:layout_constraintBottom_toBottomOf="@+id/lay_camera_taken"
+            app:layout_constraintEnd_toStartOf="@+id/lay_camera_taken"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/lay_camera_taken" />
+
+        <TextView
+            android:id="@+id/text_camera_notice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="轻触拍照，长按摄像"
+            android:textColor="#99ffffff"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toTopOf="@+id/lay_camera_taken"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <FrameLayout
+            android:id="@+id/lay_camera_taken"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.wang.social.funshow.mvp.ui.view.VideoBtnView
+                android:id="@+id/videobtn_camera"
+                android:layout_width="56dp"
+                android:layout_height="56dp" />
+        </FrameLayout>
+
+        <ImageView
+            android:id="@+id/btn_camera_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick="onClick"
+            android:src="@drawable/funshow_ic_camera_switch"
+            app:layout_constraintBottom_toBottomOf="@+id/lay_camera_taken"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/lay_camera_taken"
+            app:layout_constraintTop_toTopOf="@+id/lay_camera_taken" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</FrameLayout>

@@ -1,5 +1,6 @@
 package com.wang.social.location.mvp.ui;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -43,6 +44,7 @@ import com.frame.base.BaseAdapter;
 import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
 import com.frame.utils.SizeUtils;
 import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.widget.SpringView;
@@ -50,6 +52,8 @@ import com.wang.social.location.R;
 import com.wang.social.location.R2;
 import com.wang.social.location.mvp.model.entities.LocationInfo;
 import com.wang.social.location.mvp.ui.adapters.LocationAdapter;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,6 +97,12 @@ public class LocationActivity extends BasicAppActivity implements LocationSource
     private LocationInfo mMapLocation;
     private LocationAdapter mAdapter;
     private int mPageNum = 1;
+
+    //FIXME:错误: 无法访问LocationSource，找不到com.amap.api.maps2d.LocationSource的类文件
+    public static void start(Context context) {
+        Intent intent = new Intent(context, LocationActivity.class);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,8 +187,11 @@ public class LocationActivity extends BasicAppActivity implements LocationSource
                         onBackPressed();
                         break;
                     case RIGHT_TEXT:
+                        LocationInfo location = mAdapter.getSelectLocation();
+                        //同时以2种方式返回位置信息，ActivityResults的方法返回参数的同时post位置参数
+                        EventBus.getDefault().post(new EventBean(EventBean.EVENT_LOCATION_SELECT).put("location", location));
                         Intent intent = new Intent();
-                        intent.putExtra(RESULT_EXTRA_KEY, mAdapter.getSelectLocation());
+                        intent.putExtra(RESULT_EXTRA_KEY, location);
                         setResult(RESULT_OK, intent);
                         finish();
                         break;
@@ -305,6 +318,7 @@ public class LocationActivity extends BasicAppActivity implements LocationSource
                 mMapLocation.setProvince(aMapLocation.getProvince());
                 mMapLocation.setCity(aMapLocation.getCity());
 
+
                 Location location = new Location("AMap");
                 location.setLatitude(aMapLocation.getLatitude());
                 location.setLongitude(aMapLocation.getLongitude());
@@ -403,6 +417,7 @@ public class LocationActivity extends BasicAppActivity implements LocationSource
                         locationInfo.setProvince(item.getProvinceName());
                         locationInfo.setPlace(item.getTitle());
                         locationInfo.setAddress(item.getSnippet());
+                        locationInfo.setAdCode(item.getAdCode());
                         locations.add(locationInfo);
                     }
                     if (refresh) {
