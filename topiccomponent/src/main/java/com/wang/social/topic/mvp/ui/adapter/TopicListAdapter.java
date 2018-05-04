@@ -1,11 +1,8 @@
 package com.wang.social.topic.mvp.ui.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.text.format.DateFormat;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,21 +15,10 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.SizeUtils;
-import com.frame.utils.TimeUtils;
 import com.wang.social.topic.R;
-import com.wang.social.topic.StringUtil;
-import com.wang.social.topic.mvp.model.entities.Tag;
+import com.wang.social.topic.utils.StringUtil;
 import com.wang.social.topic.mvp.model.entities.Topic;
 import com.wang.social.topic.mvp.model.entities.TopicTag;
-import com.wang.social.topic.mvp.ui.WrapContentLinearLayoutManager;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
-import timber.log.Timber;
 
 public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.ViewHolder> {
 

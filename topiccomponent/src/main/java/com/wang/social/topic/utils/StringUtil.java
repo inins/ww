@@ -1,8 +1,9 @@
-package com.wang.social.topic;
+package com.wang.social.topic.utils;
 
 import android.content.Context;
 
 import com.frame.utils.TimeUtils;
+import com.wang.social.topic.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -84,5 +85,10 @@ public class StringUtil {
         year = year % 100;
         if (year == 0) return "00";
         return Integer.toString(year);
+    }
+
+    public static boolean isURL(String str){
+        str = str.toLowerCase();
+        return str.startsWith("http:");
     }
 }

@@ -2,9 +2,8 @@ package com.wang.social.topic.mvp.model.entities.dto;
 
 
 import com.frame.http.api.Mapper;
-import com.wang.social.topic.StringUtil;
+import com.wang.social.topic.utils.StringUtil;
 import com.wang.social.topic.mvp.model.entities.Tag;
-import com.wang.social.topic.mvp.model.entities.Tags;
 import com.wang.social.topic.mvp.model.entities.TopicDetail;
 
 import java.util.ArrayList;

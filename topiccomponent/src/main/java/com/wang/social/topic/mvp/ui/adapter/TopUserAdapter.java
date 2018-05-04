@@ -13,13 +13,11 @@ import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.TimeUtils;
 import com.wang.social.topic.R;
-import com.wang.social.topic.StringUtil;
+import com.wang.social.topic.utils.StringUtil;
 import com.wang.social.topic.mvp.model.entities.Tag;
 import com.wang.social.topic.mvp.model.entities.TopicTopUser;
 
 import java.util.List;
-
-import timber.log.Timber;
 
 public class TopUserAdapter extends RecyclerView.Adapter<TopUserAdapter.ViewHolder> {
 

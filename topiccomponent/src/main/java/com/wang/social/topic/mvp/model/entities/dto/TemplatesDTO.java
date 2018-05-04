@@ -1,7 +1,6 @@
 package com.wang.social.topic.mvp.model.entities.dto;
 
 import com.frame.http.api.Mapper;
-import com.wang.social.topic.StringUtil;
 import com.wang.social.topic.mvp.model.entities.Template;
 import com.wang.social.topic.mvp.model.entities.Templates;
 

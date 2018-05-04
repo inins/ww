@@ -26,6 +26,7 @@ public class FragmentPicturePreview extends Fragment {
     ViewPager viewPager;
     PreviewAdapter previewAdapter;
     String[] files;
+    private int mCurrent;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -58,10 +59,13 @@ public class FragmentPicturePreview extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         files = getActivity().getIntent().getStringArrayExtra(PictureSelector.NAME_FILE_PATH_LIST);
+        mCurrent = getActivity().getIntent().getIntExtra(PictureSelector.NAME_CURRENT, 0);
 
         if (null != files && files.length > 0) {
             previewAdapter = new PreviewAdapter(getContext(), files);
             viewPager.setAdapter(previewAdapter);
+
+            viewPager.setCurrentItem(mCurrent);
         }
     }
 

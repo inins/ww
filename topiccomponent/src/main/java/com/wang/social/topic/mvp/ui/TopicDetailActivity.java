@@ -24,7 +24,7 @@ import com.frame.utils.TimeUtils;
 import com.frame.utils.ToastUtil;
 import com.wang.social.topic.R;
 import com.wang.social.topic.R2;
-import com.wang.social.topic.StringUtil;
+import com.wang.social.topic.utils.StringUtil;
 import com.wang.social.topic.di.component.DaggerTopicDetailComponent;
 import com.wang.social.topic.di.module.TopicDetailModule;
 import com.wang.social.topic.mvp.contract.TopicDetailContract;

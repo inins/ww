@@ -2,6 +2,8 @@ package com.wang.social.topic.mvp.ui.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.DrawableRes;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -40,7 +42,8 @@ public class CarouselPicker extends ViewPager {
     private void initAttributes(Context context, AttributeSet attrs) {
         if (attrs != null) {
             final TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.topic_CarouselPicker);
-            itemsVisible = array.getInteger(R.styleable.topic_CarouselPicker_topic_CarouselPicker_items_visible, itemsVisible);
+            itemsVisible = array.getInteger(R.styleable.topic_CarouselPicker_topic_CarouselPicker_items_visible,
+                    itemsVisible);
             switch (itemsVisible) {
                 case 3:
                     TypedValue threeValue = new TypedValue();
@@ -102,11 +105,13 @@ public class CarouselPicker extends ViewPager {
         List<PickerItem> items = new ArrayList<>();
         Context context;
         int drawable;
+        String[] colors;
 
-        public CarouselViewAdapter(Context context, List<PickerItem> items, int drawable) {
+        public CarouselViewAdapter(Context context, List<PickerItem> items, int drawable, String[] colors) {
             this.context = context;
             this.drawable = drawable;
             this.items = items;
+            this.colors = colors;
             if (this.drawable == 0) {
                 this.drawable = R.layout.topic_carousel_picker_page;
             }
@@ -115,30 +120,38 @@ public class CarouselPicker extends ViewPager {
 
         @Override
         public int getCount() {
-            return items.size();
+            return null == items ? colors.length : items.size();
         }
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             View view = LayoutInflater.from(context).inflate(this.drawable, null);
-            ImageView iv = (ImageView) view.findViewById(R.id.iv);
-            TextView tv = (TextView) view.findViewById(R.id.tv);
-            PickerItem pickerItem = items.get(position);
-            iv.setVisibility(VISIBLE);
-            if (pickerItem.hasDrawable()) {
+            ImageView iv = view.findViewById(R.id.iv);
+            TextView tv = view.findViewById(R.id.tv);
+            if (null != items) {
+                PickerItem pickerItem = items.get(position);
                 iv.setVisibility(VISIBLE);
-                tv.setVisibility(GONE);
-                iv.setImageResource(pickerItem.getDrawable());
-            } else {
-                if (pickerItem.getText() != null) {
-                    iv.setVisibility(GONE);
-                    tv.setVisibility(VISIBLE);
-                    tv.setText(pickerItem.getText());
-                    int textSize = ((TextItem) pickerItem).getTextSize();
-                    if (textSize != 0) {
-                        tv.setTextSize(dpToPx(((TextItem) pickerItem).getTextSize()));
+                if (pickerItem.hasDrawable()) {
+                    iv.setVisibility(VISIBLE);
+                    tv.setVisibility(GONE);
+                    iv.setImageResource(pickerItem.getDrawable());
+                } else {
+                    if (pickerItem.getText() != null) {
+                        iv.setVisibility(GONE);
+                        tv.setVisibility(VISIBLE);
+                        tv.setText(pickerItem.getText());
+                        int textSize = ((TextItem) pickerItem).getTextSize();
+                        if (textSize != 0) {
+                            tv.setTextSize(dpToPx(((TextItem) pickerItem).getTextSize()));
+                        }
                     }
                 }
+            } else {
+                tv.setVisibility(GONE);
+                iv.setVisibility(VISIBLE);
+                iv.setImageResource(R.drawable.topic_cr_bg);
+                GradientDrawable myGrad = (GradientDrawable) iv.getDrawable();
+                myGrad.setColor(Color.parseColor(colors[position % colors.length]));
             }
             view.setTag(position);
             container.addView(view);

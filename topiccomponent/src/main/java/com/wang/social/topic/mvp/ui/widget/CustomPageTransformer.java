@@ -19,8 +19,8 @@ public class CustomPageTransformer implements ViewPager.PageTransformer {
         if (viewPager == null) {
             viewPager = (ViewPager) view.getParent();
         }
-        view.setScaleY(1-Math.abs(position));
-        view.setScaleX(1-Math.abs(position));
+//        view.setScaleY(1-Math.abs(position));
+//        view.setScaleX(1-Math.abs(position));
     }
 
 }
