@@ -6,7 +6,7 @@ import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.BaseModel;
 import com.wang.social.im.mvp.contract.ShadowSettingContract;
 import com.wang.social.im.mvp.model.api.GroupService;
-import com.wang.social.im.mvp.model.entities.dto.ShadowCheckInfoDTO;
+import com.wang.social.im.mvp.model.entities.dto.PayCheckInfoDTO;
 
 import javax.inject.Inject;
 
@@ -27,7 +27,7 @@ public class ShadowSettingModel extends BaseModel implements ShadowSettingContra
     }
 
     @Override
-    public Observable<BaseJson<ShadowCheckInfoDTO>> checkShadowStatus(String groupId) {
+    public Observable<BaseJson<PayCheckInfoDTO>> checkShadowStatus(String groupId) {
         return mRepositoryManager
                 .obtainRetrofitService(GroupService.class)
                 .checkShadowStatus("2.0.0", groupId);

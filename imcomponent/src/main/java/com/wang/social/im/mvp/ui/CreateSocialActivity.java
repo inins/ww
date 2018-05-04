@@ -3,31 +3,50 @@ package com.wang.social.im.mvp.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.InputFilter;
+import android.text.Spanned;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.frame.component.ui.acticity.tags.StringUtils;
+import com.frame.component.ui.acticity.tags.TagSelectionActivity;
 import com.frame.component.ui.base.BaseAppActivity;
+import com.frame.component.utils.UIUtil;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
+import com.frame.http.imageloader.ImageLoader;
+import com.frame.http.imageloader.glide.ImageConfigImpl;
+import com.frame.http.imageloader.glide.RoundedCornersTransformation;
+import com.frame.utils.RegexUtils;
+import com.frame.utils.ToastUtil;
 import com.kyleduo.switchbutton.SwitchButton;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
+import com.wang.social.im.di.component.DaggerCreateSocialComponent;
+import com.wang.social.im.di.modules.CreateSocialModule;
+import com.wang.social.im.helper.ImageSelectHelper;
 import com.wang.social.im.mvp.contract.CreateSocialContract;
+import com.wang.social.im.mvp.model.entities.CreateGroupResult;
 import com.wang.social.im.mvp.model.entities.SocialAttribute;
 import com.wang.social.im.mvp.presenter.CreateSocialPresenter;
+import com.wang.social.pictureselector.helper.PhotoHelper;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 /**
  * 创建趣聊
  */
-public class CreateSocialActivity extends BaseAppActivity<CreateSocialPresenter> implements CreateSocialContract.View {
+public class CreateSocialActivity extends BaseAppActivity<CreateSocialPresenter> implements CreateSocialContract.View, PhotoHelper.OnPhotoCallback {
 
     private static final int REQUEST_CODE_ATTR = 1000;
-    private static final int REQUEST_CODE_TAGS = 1001;
 
     @BindView(R2.id.cs_toolbar)
     SocialToolbar csToolbar;
@@ -44,14 +63,28 @@ public class CreateSocialActivity extends BaseAppActivity<CreateSocialPresenter>
 
     private SocialAttribute mAttr;
 
+    private String mCoverPath;
+    private String mTags;
+    private ImageSelectHelper mImageSelectHelper;
+
+    @Inject
+    ImageLoader mImageLoader;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        init();
     }
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
-
+        DaggerCreateSocialComponent
+                .builder()
+                .appComponent(appComponent)
+                .createSocialModule(new CreateSocialModule(this))
+                .build()
+                .inject(this);
     }
 
     @Override
@@ -70,21 +103,70 @@ public class CreateSocialActivity extends BaseAppActivity<CreateSocialPresenter>
     }
 
     @Override
-    public void showLoading() {
+    public boolean useEventBus() {
+        return true;
+    }
 
+    private void init() {
+        scEtName.setFilters(new InputFilter[]{new InputFilter() {
+            @Override
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                if (source.length() + scEtName.getText().length() > 8) {
+                    return "";
+                }
+                if (!RegexUtils.isUsernameMe(source)) {
+                    return "";
+                }
+                return source;
+            }
+        }});
+
+        csToolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
+            @Override
+            public void onButtonClick(SocialToolbar.ClickType clickType) {
+                switch (clickType){
+                    case LEFT_ICON:
+                        onBackPressed();
+                        break;
+                    case RIGHT_TEXT:
+                        String name = scEtName.getText().toString();
+                        if (TextUtils.isEmpty(name)){
+                            ToastUtil.showToastShort(UIUtil.getString(R.string.im_toast_social_name));
+                            return;
+                        }
+                        if (TextUtils.isEmpty(mCoverPath)){
+                            ToastUtil.showToastShort(UIUtil.getString(R.string.im_toast_cover));
+                            return;
+                        }
+                        if (TextUtils.isEmpty(mTags)){
+                            ToastUtil.showToastShort(UIUtil.getString(R.string.im_toast_tag));
+                        }
+                        mPresenter.checkPayStatus(mAttr, mCoverPath, name, scSbTeam.isChecked(), mTags);
+                        break;
+                }
+            }
+        });
+    }
+
+    @Override
+    public void showLoading() {
+        showLoadingDialog();
     }
 
     @Override
     public void hideLoading() {
-
+        dismissLoadingDialog();
     }
 
-    @OnClick({R2.id.sc_cl_attribute, R2.id.sc_cl_tags, R2.id.sc_tv_create_tip})
+    @OnClick({R2.id.sc_cl_attribute, R2.id.sc_cl_tags, R2.id.sc_tv_create_tip, R2.id.sc_iv_cover})
     public void onViewClicked(View view) {
         if (view.getId() == R.id.sc_cl_attribute) {
             SocialAttributeActivity.start(this, REQUEST_CODE_ATTR, mAttr);
+        } else if (view.getId() == R.id.sc_iv_cover) {
+            mImageSelectHelper = ImageSelectHelper.newInstance(this, this);
+            mImageSelectHelper.showDialog();
         } else if (view.getId() == R.id.sc_cl_tags) {
-
+            TagSelectionActivity.startForTagList(this, mTags);
         } else if (view.getId() == R.id.sc_tv_create_tip) {
 
         }
@@ -93,6 +175,9 @@ public class CreateSocialActivity extends BaseAppActivity<CreateSocialPresenter>
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (mImageSelectHelper != null) {
+            mImageSelectHelper.onActivityResult(requestCode, resultCode, data);
+        }
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_CODE_ATTR:
@@ -146,11 +231,44 @@ public class CreateSocialActivity extends BaseAppActivity<CreateSocialPresenter>
                         attrBuffer.append("其他");
                         break;
                 }
-                if (i != mAttr.getAgeLimit().size() - 1){
+                if (i != mAttr.getAgeLimit().size() - 1) {
                     attrBuffer.append("、");
                 }
             }
         }
         scTvAttributeIntro.setText(attrBuffer.toString());
+    }
+
+    @Override
+    public void onResult(String path) {
+        mCoverPath = path;
+        mImageLoader.loadImage(this, ImageConfigImpl
+                .builder()
+                .imageView(scIvCover)
+                .url(path)
+                .placeholder(R.drawable.im_round_image_placeholder)
+                .errorPic(R.drawable.im_round_image_placeholder)
+                .transformation(new RoundedCornersTransformation(getResources().getDimensionPixelSize(R.dimen.im_round_image_radius), 0, RoundedCornersTransformation.CornerType.ALL))
+                .build());
+    }
+
+    @Override
+    public void onCreateComplete(CreateGroupResult result) {
+
+    }
+
+    @Override
+    public void showPayDialog() {
+
+    }
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        if (event.getEvent() == EventBean.EVENTBUS_TAG_SELECTED_LIST) {
+            mTags = (String) event.get("ids");
+            String names = (String) event.get("names");
+
+            scTvTagsTip.setText(names);
+        }
     }
 }

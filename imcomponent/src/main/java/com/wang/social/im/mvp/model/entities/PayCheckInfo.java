@@ -9,7 +9,7 @@ import lombok.Setter;
  * Create by ChenJing on 2018-05-02 17:03
  * ============================================
  */
-public class ShadowCheckInfo {
+public class PayCheckInfo {
 
     /**
      * 不需要支付

@@ -6,7 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.text.Editable;
 import android.text.InputFilter;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -60,6 +63,8 @@ public class TeamAttributeActivity extends BasicAppActivity {
 
     private TeamAttribute mAttribute;
 
+    private boolean mFromTextChange;
+
     public static void start(Activity activity, int requestCode, TeamAttribute attribute) {
         Intent intent = new Intent(activity, TeamAttributeActivity.class);
         intent.putExtra(EXTRA_ATTR, attribute);
@@ -90,6 +95,26 @@ public class TeamAttributeActivity extends BasicAppActivity {
             mAttribute = new TeamAttribute();
         }
         toggleJoin();
+        if (mAttribute.isCharge()) {
+            taRgGem.setVisibility(View.VISIBLE);
+            taTvCustomGem.setVisibility(View.VISIBLE);
+            taEtGem.setVisibility(View.VISIBLE);
+            taTvGem.setVisibility(View.VISIBLE);
+            switch (mAttribute.getGem()) {
+                case 100:
+                    taRgGem.check(R.id.ta_rb_gem_100);
+                    break;
+                case 300:
+                    taRgGem.check(R.id.ta_rb_gem_300);
+                    break;
+                case 500:
+                    taRgGem.check(R.id.ta_rb_gem_500);
+                    break;
+                default:
+                    taEtGem.setText(String.valueOf(mAttribute.getGem()));
+                    break;
+            }
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -110,6 +135,10 @@ public class TeamAttributeActivity extends BasicAppActivity {
                         mAttribute.setGem(500);
                         break;
                 }
+                if (!mFromTextChange){
+                    taEtGem.setText("");
+                }
+                mFromTextChange = false;
             }
         });
 
@@ -117,16 +146,41 @@ public class TeamAttributeActivity extends BasicAppActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    mFromTextChange = true;
                     taRgGem.clearCheck();
+                    if (TextUtils.isEmpty(taEtGem.getText().toString())) {
+                        mAttribute.setGem(0);
+                    }
                 }
                 return false;
+            }
+        });
+
+        taEtGem.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!TextUtils.isEmpty(s)) {
+                    mFromTextChange = true;
+                    taRgGem.clearCheck();
+                    mAttribute.setGem(Integer.valueOf(s.toString()));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
         taToolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
             @Override
             public void onButtonClick(SocialToolbar.ClickType clickType) {
-                switch (clickType){
+                switch (clickType) {
                     case LEFT_ICON:
                         onBackPressed();
                         break;
@@ -170,6 +224,7 @@ public class TeamAttributeActivity extends BasicAppActivity {
             taTvJoinFree.setTextColor(unselectedColor);
             taTvJoinFreeTip.setTextColor(unselectedColorGray);
 
+            taRgGem.setVisibility(View.VISIBLE);
             taTvCustomGem.setVisibility(View.VISIBLE);
             taEtGem.setVisibility(View.VISIBLE);
             taTvGem.setVisibility(View.VISIBLE);
@@ -181,6 +236,7 @@ public class TeamAttributeActivity extends BasicAppActivity {
             taTvJoinCharge.setTextColor(unselectedColor);
             taTvJoinChargeTip.setTextColor(unselectedColorGray);
 
+            taRgGem.setVisibility(View.GONE);
             taTvCustomGem.setVisibility(View.GONE);
             taEtGem.setVisibility(View.GONE);
             taTvGem.setVisibility(View.GONE);

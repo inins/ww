@@ -92,6 +92,8 @@ public class SocialAttributeActivity extends BasicAppActivity {
 
     private SocialAttribute mAttribute;
 
+    private boolean mFromTextChange;
+
     public static void start(Activity activity, int requestCode, SocialAttribute attribute) {
         Intent intent = new Intent(activity, SocialAttributeActivity.class);
         intent.putExtra(EXTRA_ATTR, attribute);
@@ -236,6 +238,10 @@ public class SocialAttributeActivity extends BasicAppActivity {
                         mAttribute.setGem(500);
                         break;
                 }
+                if (!mFromTextChange){
+                    saEtGem.setText("");
+                }
+                mFromTextChange = false;
             }
         });
 
@@ -244,6 +250,9 @@ public class SocialAttributeActivity extends BasicAppActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     saRgGem.clearCheck();
+                    if (TextUtils.isEmpty(saEtGem.getText().toString())) {
+                        mAttribute.setGem(0);
+                    }
                 }
                 return false;
             }
@@ -258,6 +267,8 @@ public class SocialAttributeActivity extends BasicAppActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!TextUtils.isEmpty(s)) {
+                    mFromTextChange = true;
+                    saRgGem.clearCheck();
                     mAttribute.setGem(Integer.valueOf(s.toString()));
                 }
             }

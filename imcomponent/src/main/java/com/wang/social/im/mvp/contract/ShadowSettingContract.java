@@ -3,7 +3,7 @@ package com.wang.social.im.mvp.contract;
 import com.frame.http.api.BaseJson;
 import com.frame.mvp.IModel;
 import com.frame.mvp.IView;
-import com.wang.social.im.mvp.model.entities.dto.ShadowCheckInfoDTO;
+import com.wang.social.im.mvp.model.entities.dto.PayCheckInfoDTO;
 
 import io.reactivex.Observable;
 
@@ -26,7 +26,7 @@ public interface ShadowSettingContract {
          * @param groupId
          * @return
          */
-        Observable<BaseJson<ShadowCheckInfoDTO>> checkShadowStatus(String groupId);
+        Observable<BaseJson<PayCheckInfoDTO>> checkShadowStatus(String groupId);
 
         /**
          * 修改分身信息

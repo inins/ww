@@ -1,7 +1,7 @@
 package com.wang.social.im.mvp.model.entities.dto;
 
 import com.frame.http.api.Mapper;
-import com.wang.social.im.mvp.model.entities.ShadowCheckInfo;
+import com.wang.social.im.mvp.model.entities.PayCheckInfo;
 
 /**
  * ============================================
@@ -9,7 +9,7 @@ import com.wang.social.im.mvp.model.entities.ShadowCheckInfo;
  * Create by ChenJing on 2018-05-02 17:03
  * ============================================
  */
-public class ShadowCheckInfoDTO implements Mapper<ShadowCheckInfo> {
+public class PayCheckInfoDTO implements Mapper<PayCheckInfo> {
 
     //订单申请ID
     private String applyId;
@@ -17,13 +17,13 @@ public class ShadowCheckInfoDTO implements Mapper<ShadowCheckInfo> {
     private int applyState;
 
     @Override
-    public ShadowCheckInfo transform() {
-        ShadowCheckInfo checkInfo = new ShadowCheckInfo();
+    public PayCheckInfo transform() {
+        PayCheckInfo checkInfo = new PayCheckInfo();
         checkInfo.setOrderId(applyId == null ? "" : applyId);
-        if (applyState == 0){
-            checkInfo.setCheckState(ShadowCheckInfo.STATUS_WITHOUT);
+        if (applyState == 1){
+            checkInfo.setCheckState(PayCheckInfo.STATUS_WITHOUT);
         }else {
-            checkInfo.setCheckState(ShadowCheckInfo.STATUS_NEED);
+            checkInfo.setCheckState(PayCheckInfo.STATUS_NEED);
         }
         return checkInfo;
     }

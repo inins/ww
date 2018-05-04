@@ -192,7 +192,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/common_border_margin"
-                    android:text="@string/im_social_tags"
+                    android:text="@string/im_allow_create_team"
                     android:textColor="@color/common_text_blank"
                     android:textSize="17dp"
                     app:layout_constraintBottom_toTopOf="@+id/sc_tv_team_tip"
@@ -221,9 +221,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/common_border_margin"
                     android:layout_marginTop="5dp"
-                    app:kswBackColor="#ebebeb"
+                    app:kswBackColor="@color/common_button_switch"
                     app:kswThumbColor="@color/common_white"
-                    app:kswTintColor="@color/common_colorAccent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="@id/sc_tv_team" />
             </android.support.constraint.ConstraintLayout>
@@ -233,7 +232,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="15dp"
                 android:text="@string/im_create_tip"
                 android:textColor="@color/common_text_dark_light"
                 android:textSize="11dp"

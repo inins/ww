@@ -6,7 +6,7 @@ import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
 import com.wang.social.im.mvp.contract.ShadowSettingContract;
-import com.wang.social.im.mvp.model.entities.ShadowCheckInfo;
+import com.wang.social.im.mvp.model.entities.PayCheckInfo;
 
 import javax.inject.Inject;
 
@@ -43,7 +43,7 @@ public class ShadowSettingPresenter extends BasePresenter<ShadowSettingContract.
     public void updateShadowInfo(String socialId, String nickname, String portrait) {
         //检查是否需要支付
         mApiHelper.execute(mRootView, mModel.checkShadowStatus(socialId),
-                new ErrorHandleSubscriber<ShadowCheckInfo>(mErrorHandler) {
+                new ErrorHandleSubscriber<PayCheckInfo>(mErrorHandler) {
 
                     @Override
                     public void onSubscribe(Disposable d) {
@@ -52,8 +52,8 @@ public class ShadowSettingPresenter extends BasePresenter<ShadowSettingContract.
                     }
 
                     @Override
-                    public void onNext(ShadowCheckInfo shadowCheckInfo) {
-                        if (shadowCheckInfo.getCheckState() == ShadowCheckInfo.STATUS_NEED) { //需要支付
+                    public void onNext(PayCheckInfo shadowCheckInfo) {
+                        if (shadowCheckInfo.getCheckState() == PayCheckInfo.STATUS_NEED) { //需要支付
 
                         } else {//无需支付
 

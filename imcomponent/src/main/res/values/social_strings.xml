@@ -5,6 +5,9 @@
     <string name="im_female">女</string>
     <string name="im_age">年龄</string>
     <string name="im_gem">宝石</string>
+    <string name="im_gallery">官方图库</string>
+    <string name="im_shoot">拍摄</string>
+    <string name="im_album">相册</string>
 
     <!--趣聊详情-->
     <string name="im_setting">设置</string>
@@ -59,6 +62,7 @@
     <string name="im_private">非公开</string>
     <string name="im_private_tip">只允许通过邀请，不允许被搜索</string>
     <string name="im_charge_tip">(可免费创建一次付费群，创建收费可获得更多收益)</string>
+    <string name="im_allow_create_team">允许成员创建觅聊</string>
     <string name="im_lin_rule">快活林规则</string>
     <string name="im_allow_free_join">允许免费加入</string>
     <string name="im_social_pay_join">付费加入趣聊</string>
@@ -103,4 +107,7 @@
     <string name="im_toast_clear_success">清除成功</string>
     <string name="im_toast_social_gem_limit_tip">请输入100~400000的宝石数</string>
     <string name="im_toast_age_limit">请选择年龄条件</string>
+    <string name="im_toast_social_name">请输入趣聊名称</string>
+    <string name="im_toast_tag">请选择标签</string>
+    <string name="im_toast_cover">请设置封面</string>
 </resources>
