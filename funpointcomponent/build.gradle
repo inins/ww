@@ -1,7 +1,7 @@
 //if (project.isRunAlone) {
-    apply plugin: 'com.android.application'
+//    apply plugin: 'com.android.application'
 //} else {
-//    apply plugin: 'com.component.build'
+    apply plugin: 'com.component.build'
 //}
 apply plugin: 'com.jakewharton.butterknife'
 
@@ -14,7 +14,7 @@ android {
     }
 
     defaultConfig {
-        if(project.isRunAlone){
+        if (project.isRunAlone) {
             applicationId "com.dongdongkeji.wangwangsocial"
         }
         minSdkVersion rootProject.ext.android["minSdkVersion"]
