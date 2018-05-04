@@ -136,6 +136,24 @@ public class SocializeUtil {
         void onCancel(@SharePlatform int platform);
     }
 
+    public static class SimpleShareListener implements ShareListener {
+        @Override
+        public void onStart(int platform) {
+        }
+
+        @Override
+        public void onResult(int platform) {
+        }
+
+        @Override
+        public void onError(int platform, Throwable t) {
+        }
+
+        @Override
+        public void onCancel(int platform) {
+        }
+    }
+
 
     public static void init(Application application) {
         Timber.i("友盟初始化...");
@@ -482,7 +500,8 @@ public class SocializeUtil {
     public static void umShareWeb(Activity activity, @SharePlatform int platform,
                                   String url, String title, String content, String imageUrl) {
         // 先判断是否安装了对应的客户端
-        boolean installed = UMShareAPI.get(activity).isInstall(activity, toUMShareMedia(platform));;
+        boolean installed = UMShareAPI.get(activity).isInstall(activity, toUMShareMedia(platform));
+        ;
         String msg = "";
         // 先判断是否安装了客户端
         switch (platform) {

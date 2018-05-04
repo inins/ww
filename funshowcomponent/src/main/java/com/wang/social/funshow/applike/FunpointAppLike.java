@@ -18,7 +18,7 @@ import com.wang.social.funshow.app.FunshowServiceImpl;
 
 public class FunpointAppLike implements IApplicationLike{
 
-    private final String HOST = "funpoint";
+    private final String HOST = "funshow";
 
     @Override
     public void onCreate() {

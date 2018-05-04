@@ -106,6 +106,8 @@ dependencies {
     implementation rootProject.ext.dependencies["constraint-layout"]
     implementation project(':component-service')
     annotationProcessor project(':router-anno-compiler')
+    //代替tablayout
+    implementation 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
 }
 
 combuild {

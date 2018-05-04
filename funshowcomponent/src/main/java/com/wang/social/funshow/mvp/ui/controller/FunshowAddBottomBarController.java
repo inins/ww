@@ -16,6 +16,7 @@ import com.frame.component.ui.acticity.BGMList.Music;
 import com.frame.component.ui.base.BaseController;
 import com.frame.entities.EventBean;
 import com.frame.utils.KeyboardUtils;
+import com.frame.utils.ToastUtil;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.wang.social.funshow.R;
@@ -174,13 +175,16 @@ public class FunshowAddBottomBarController extends FunshowAddBaseController {
         } else if (i == R.id.btn_aite) {
             AiteUserListActivity.start(getContext());
         } else if (i == R.id.btn_position) {
-//            LocationActivity.start(getContext());
             Intent intent = new Intent(getContext(), LocationActivity.class);
             getContext().startActivity(intent);
         } else if (i == R.id.btn_lock) {
             LockActivity.start(getContext(), lock);
         } else if (i == R.id.btn_music) {
-            popupWindow.showPopupWindow(v);
+            if (!getBundleController().hasVideoRsc()) {
+                popupWindow.showPopupWindow(v);
+            } else {
+                ToastUtil.showToastShort("您已经录制了视频，不能再添加语音或音乐了");
+            }
         } else if (i == R.id.btn_keyboard) {
             setVoiceRecordVisible(false);
             KeyboardUtils.showSoftInput((Activity) getContext());

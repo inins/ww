@@ -70,7 +70,7 @@ public class FunpointListPresonter extends BasePresenter<FunpointListContract.Mo
 
 
     public void netReadFunpoint(int newsId) {
-        ApiHelperEx.execute(mRootView, false,
+        ApiHelperEx.execute(null, false,
                 mModel.readFunpoint(newsId),
                 new ErrorHandleSubscriber<BaseJson<Object>>(mErrorHandler) {
                     @Override

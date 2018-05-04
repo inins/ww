@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.ui.dialog.BaseDialog;
 import com.wang.social.R;
 
@@ -16,7 +17,7 @@ import butterknife.OnClick;
 public class DialogHomeAdd extends BaseDialog {
 
     public DialogHomeAdd(Context context) {
-        super(context,R.style.common_PopupDialog);
+        super(context, R.style.common_PopupDialog);
     }
 
     @Override
@@ -34,6 +35,7 @@ public class DialogHomeAdd extends BaseDialog {
         switch (v.getId()) {
             case R.id.btn_qs:
                 if (onAddDialogClickListener != null) onAddDialogClickListener.onQsClick(v);
+                CommonHelper.FunshowHelper.startAddActivity(getContext());
                 dismiss();
                 break;
             case R.id.btn_topic:

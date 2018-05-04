@@ -27,6 +27,7 @@ public class VideoBtnView extends FrameLayout implements View.OnClickListener, V
 
     private CircleProgressView progressView;
     private View btn_go;
+    private boolean enableLongPress = true;
 
     public VideoBtnView(@NonNull Context context) {
         this(context, null);
@@ -71,12 +72,14 @@ public class VideoBtnView extends FrameLayout implements View.OnClickListener, V
 
     @Override
     public boolean onLongClick(View v) {
+        if (!enableLongPress) return false;
         startProgress();
         return true;
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        if (!enableLongPress) return false;
         switch (event.getAction()) {
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
@@ -119,6 +122,17 @@ public class VideoBtnView extends FrameLayout implements View.OnClickListener, V
             disposable = null;
         }
     }
+
+    ///////////////////////////
+
+    public boolean isEnableLongPress() {
+        return enableLongPress;
+    }
+
+    public void setEnableLongPress(boolean enableLongPress) {
+        this.enableLongPress = enableLongPress;
+    }
+
 
     ///////////////////////////
 

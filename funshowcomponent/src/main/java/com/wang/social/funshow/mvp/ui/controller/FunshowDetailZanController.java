@@ -2,6 +2,7 @@ package com.wang.social.funshow.mvp.ui.controller;
 
 import android.app.Activity;
 import android.support.design.widget.AppBarLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,7 @@ import com.frame.component.api.CommonService;
 import com.frame.component.common.GridSpacingItemDecoration;
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.helper.AppDataHelper;
+import com.frame.component.helper.NetShareHelper;
 import com.frame.component.ui.base.BaseController;
 import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelperEx;
@@ -33,6 +35,7 @@ import com.wang.social.funshow.mvp.ui.adapter.RecycleAdapterZan;
 import com.wang.social.funshow.mvp.ui.dialog.MorePopupWindow;
 import com.wang.social.funshow.net.helper.NetZanHelper;
 import com.wang.social.funshow.utils.FunShowUtil;
+import com.wang.social.socialize.SocializeUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -138,10 +141,30 @@ public class FunshowDetailZanController extends BaseController implements View.O
             KeyboardUtils.showSoftInput(editEva);
             EventBus.getDefault().post(new CommentEvent());
         } else if (id == R.id.text_share) {
-
+            share();
         } else if (id == R.id.img_more) {
             popupWindow.showPopupWindow(v);
         }
+    }
+
+    private void share() {
+        if (getContext() instanceof AppCompatActivity) {
+            SocializeUtil.shareWeb(((AppCompatActivity) getContext()).getSupportFragmentManager(),
+                    new SocializeUtil.SimpleShareListener() {
+                        @Override
+                        public void onResult(int platform) {
+                            FunShowUtil.addSubTextViewCount(textShare, true);
+                            NetShareHelper.newInstance().netShareFunshow(null, null, talkId, null);
+                            //同时通知列表刷新数量
+                            EventBus.getDefault().post(new EventBean(EventBean.EVENT_FUNSHOW_DETAIL_ADD_SHARE));
+                        }
+                    },
+                    "http://www.wangsocial.com/",
+                    "往往",
+                    "有点2的社交软件",
+                    "http://resouce.dongdongwedding.com/activity_cashcow_moneyTree.png");
+        }
+
     }
 
     ////////////////////////////////////////////

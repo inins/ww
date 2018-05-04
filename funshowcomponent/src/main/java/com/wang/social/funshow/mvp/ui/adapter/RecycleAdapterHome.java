@@ -20,6 +20,7 @@ import com.wang.social.funshow.mvp.ui.dialog.MorePopupWindow;
 import com.wang.social.funshow.net.helper.NetZanHelper;
 import com.wang.social.funshow.utils.FunShowUtil;
 import com.wang.social.funshow.utils.VideoCoverUtil;
+import com.wang.social.socialize.SocializeUtil;
 
 import butterknife.BindView;
 
@@ -108,12 +109,7 @@ public class RecycleAdapterHome extends BaseAdapter<Funshow> {
                 });
             });
             textShare.setOnClickListener(v -> {
-//                SocializeUtil.shareWeb(getChildFragmentManager(),
-//                        shareListener,
-//                        "http://www.wangsocial.com/",
-//                        "往往",
-//                        "有点2的社交软件",
-//                        "http://resouce.dongdongwedding.com/activity_cashcow_moneyTree.png");
+                if (onShareClickListener != null) onShareClickListener.onShareClick(v, bean);
             });
         }
 
@@ -130,48 +126,76 @@ public class RecycleAdapterHome extends BaseAdapter<Funshow> {
     //////////////////////////////
 
 
-    public Funshow getItemById(int talkId) {
-        if (getData() == null) return null;
-        for (Funshow funshow : getData()) {
-            if (funshow.getTalkId() == talkId) {
-                return funshow;
+    public int getIndexById(int talkId) {
+        if (getData() == null) return -1;
+        for (int i = 0; i < getData().size(); i++) {
+            if (getData().get(i).getTalkId() == talkId) {
+                return i;
             }
         }
-        return null;
+        return -1;
     }
 
     public void refreshZanById(int talkId, boolean isZan, int zanCount) {
-        if (StrUtil.isEmpty(getData())) return;
-        for (int i = 0; i < getData().size(); i++) {
-            Funshow funshow = getData().get(i);
-            if (funshow.getTalkId() == talkId) {
-                funshow.setTalkSupportNum(zanCount);
-                funshow.setIsSupport(isZan);
-                notifyItemChanged(i);
-            }
+        int index = getIndexById(talkId);
+        if (index != -1) {
+            Funshow funshow = getData().get(index);
+            funshow.setTalkSupportNum(zanCount);
+            funshow.setIsSupport(isZan);
+            notifyItemChanged(index);
         }
+//        if (StrUtil.isEmpty(getData())) return;
+//        for (int i = 0; i < getData().size(); i++) {
+//            Funshow funshow = getData().get(i);
+//            if (funshow.getTalkId() == talkId) {
+//                funshow.setTalkSupportNum(zanCount);
+//                funshow.setIsSupport(isZan);
+//                notifyItemChanged(i);
+//            }
+//        }
     }
 
     public void refreshCommentById(int talkId) {
-        if (StrUtil.isEmpty(getData())) return;
-        for (int i = 0; i < getData().size(); i++) {
-            Funshow funshow = getData().get(i);
-            if (funshow.getTalkId() == talkId) {
-                funshow.setTalkCommentNum(funshow.getTalkCommentNum() + 1);
-                notifyItemChanged(i);
-            }
+        int index = getIndexById(talkId);
+        if (index != -1) {
+            Funshow funshow = getData().get(index);
+            funshow.setTalkCommentNum(funshow.getTalkCommentNum() + 1);
+            notifyItemChanged(index);
+        }
+//        if (StrUtil.isEmpty(getData())) return;
+//        for (int i = 0; i < getData().size(); i++) {
+//            Funshow funshow = getData().get(i);
+//            if (funshow.getTalkId() == talkId) {
+//                funshow.setTalkCommentNum(funshow.getTalkCommentNum() + 1);
+//                notifyItemChanged(i);
+//            }
+//        }
+    }
+
+    public void refreshShareById(int talkId) {
+        int index = getIndexById(talkId);
+        if (index != -1) {
+            Funshow funshow = getData().get(index);
+            funshow.setTalkShareNum(funshow.getTalkShareNum() + 1);
+            notifyItemChanged(index);
         }
     }
 
     public void refreshNeedPayById(int talkId) {
-        if (StrUtil.isEmpty(getData())) return;
-        for (int i = 0; i < getData().size(); i++) {
-            Funshow funshow = getData().get(i);
-            if (funshow.getTalkId() == talkId) {
-                funshow.setIsShopping(false);
-                notifyItemChanged(i);
-            }
+        int index = getIndexById(talkId);
+        if (index != -1) {
+            Funshow funshow = getData().get(index);
+            funshow.setIsShopping(false);
+            notifyItemChanged(index);
         }
+//        if (StrUtil.isEmpty(getData())) return;
+//        for (int i = 0; i < getData().size(); i++) {
+//            Funshow funshow = getData().get(i);
+//            if (funshow.getTalkId() == talkId) {
+//                funshow.setIsShopping(false);
+//                notifyItemChanged(i);
+//            }
+//        }
     }
 
     /////////////////////////////
@@ -184,5 +208,15 @@ public class RecycleAdapterHome extends BaseAdapter<Funshow> {
 
     public void setOnDislikeClickListener(OnDislikeClickListener onDislikeClickListener) {
         this.onDislikeClickListener = onDislikeClickListener;
+    }
+
+    public interface OnShareClickListener {
+        void onShareClick(View v, Funshow funshow);
+    }
+
+    private OnShareClickListener onShareClickListener;
+
+    public void setOnShareClickListener(OnShareClickListener onShareClickListener) {
+        this.onShareClickListener = onShareClickListener;
     }
 }

@@ -18,6 +18,7 @@ import com.wang.social.mvp.ui.fragment.PlazaFragment;
 public class PagerAdapterHome extends FragmentPagerAdapter {
 
     private Fragment currentFragment;
+    private Fragment personalFragment;
 
     public PagerAdapterHome(FragmentManager fm) {
         super(fm);
@@ -49,7 +50,8 @@ public class PagerAdapterHome extends FragmentPagerAdapter {
                 return PlazaFragment.newInstance();
             case 3: {
                 PersonalService personalService = (PersonalService) Router.getInstance().getService(PersonalService.class.getName());
-                return personalService.getPersonalFragment();
+                personalFragment = personalService.getPersonalFragment();
+                return personalFragment;
             }
             default:
                 return null;
@@ -58,5 +60,9 @@ public class PagerAdapterHome extends FragmentPagerAdapter {
 
     public Fragment getCurrentFragment() {
         return currentFragment;
+    }
+
+    public Fragment getPersonalFragment() {
+        return personalFragment;
     }
 }

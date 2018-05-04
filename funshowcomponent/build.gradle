@@ -1,7 +1,7 @@
 //if (project.isRunAlone) {
-    apply plugin: 'com.android.application'
+//    apply plugin: 'com.android.application'
 //} else {
-//    apply plugin: 'com.component.build'
+    apply plugin: 'com.component.build'
 //}
 apply plugin: 'com.jakewharton.butterknife'
 
@@ -97,6 +97,7 @@ dependencies {
     implementation project(':pictureselectorcomponent')
     implementation project(':springlibrary')
     implementation project(':locationlib')
+    implementation project(':socializecomponent')
 }
 
 if (!project.isRunAlone) {

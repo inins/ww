@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wang.social.funshow.R;
@@ -30,13 +31,23 @@ public class CameraActivity extends AppCompatActivity {
     private TextureCameraPreview camera_view;
     private View btn_camera_flash;
     private View btn_camera_switch;
-
+    private TextView text_camera_notice;
     private VideoBtnView videobtn_camera;
-
     private ImageView img_pic;
 
+    private boolean videoEnable;
+
     public static void start(Activity activity, int requestCode) {
+        start(activity, true, requestCode);
+    }
+
+    public static void startDisableVideo(Activity activity, int requestCode) {
+        start(activity, false, requestCode);
+    }
+
+    public static void start(Activity activity, boolean videoEnable, int requestCode) {
         Intent intent = new Intent(activity, CameraActivity.class);
+        intent.putExtra("videoEnable", videoEnable);
         activity.startActivityForResult(intent, requestCode);
     }
 
@@ -49,6 +60,7 @@ public class CameraActivity extends AppCompatActivity {
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
+        initBase();
         initView();
         initCtrl();
     }
@@ -82,13 +94,25 @@ public class CameraActivity extends AppCompatActivity {
         }
     }
 
+    private void initBase() {
+        videoEnable = getIntent().getBooleanExtra("videoEnable", false);
+    }
+
     private void initView() {
         camera_view = findViewById(R.id.camera_view);
         btn_camera_flash = findViewById(R.id.btn_camera_flash);
         btn_camera_switch = findViewById(R.id.btn_camera_switch);
         videobtn_camera = findViewById(R.id.videobtn_camera);
+        text_camera_notice = findViewById(R.id.text_camera_notice);
 
         img_pic = findViewById(R.id.img_pic);
+        if (videoEnable) {
+            text_camera_notice.setText("轻触拍照，长按摄像");
+            videobtn_camera.setEnableLongPress(true);
+        } else {
+            text_camera_notice.setText("轻触拍照");
+            videobtn_camera.setEnableLongPress(false);
+        }
     }
 
     private void initCtrl() {
@@ -158,13 +182,11 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btn_camera_flash:
-                camera_view.openFlash();
-                break;
-            case R.id.btn_camera_switch:
-                camera_view.switchCamera();
-                break;
+        int i = view.getId();
+        if (i == R.id.btn_camera_flash) {
+            camera_view.openFlash();
+        } else if (i == R.id.btn_camera_switch) {
+            camera_view.switchCamera();
         }
     }
 }
