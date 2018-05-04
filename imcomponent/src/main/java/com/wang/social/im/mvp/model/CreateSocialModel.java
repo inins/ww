@@ -66,7 +66,7 @@ public class CreateSocialModel extends BaseModel implements CreateSocialContract
                         ageLimit.append("00,");
                         break;
                     case OTHER:
-                        ageLimit.append("其他,");
+                        ageLimit.append("other,");
                         break;
                 }
             }

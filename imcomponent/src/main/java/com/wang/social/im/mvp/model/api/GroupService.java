@@ -117,4 +117,33 @@ public interface GroupService {
     @FormUrlEncoded
     @POST("app/group/createGroup")
     Observable<BaseJson<CreateGroupResultDTO>> createSocial(@FieldMap Map<String, Object> map);
+
+    /**
+     * 检查创建觅聊是否需要付费
+     *
+     * @param version
+     * @param socialId
+     * @return
+     */
+    @POST("app/group/createMiGroupApply")
+    Observable<BaseJson<PayCheckInfoDTO>> checkCreateTeamStatus(@Query("v") String version, @Query("groupId") String socialId);
+
+    /**
+     * 创建觅聊
+     * "applyId":1,            //	订单申请ID
+     * "groupName":"名称",          //	觅聊群名称
+     * "groupCoverPlan":"http://fds",     //		封面URL
+     * "headUrl":"",            //	群头像URL
+     * “isOpen”,1				//是否开放加入群
+     * "validation":0,         //	是否验证（0（默认） 不需要 1需要）
+     * "isFree":0,             //是否免费: 0.收费; 1.免费用
+     * "gemstone":20,           //	收费宝石个数
+     * "tagIds":1           //标签ID
+     * @param map
+     * @return
+     */
+    @Headers(HEADER_CONTENT_TYPE)
+    @FormUrlEncoded
+    @POST("app/group/createMiGroup")
+    Observable<BaseJson<CreateGroupResultDTO>> createTeam(@FieldMap Map<String, Object> map);
 }

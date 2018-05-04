@@ -11,9 +11,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.frame.component.ui.acticity.tags.StringUtils;
+import com.frame.component.helper.NetPayStoneHelper;
+import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.component.ui.acticity.tags.TagSelectionActivity;
 import com.frame.component.ui.base.BaseAppActivity;
+import com.frame.component.ui.dialog.PayDialog;
 import com.frame.component.utils.UIUtil;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
@@ -26,6 +28,7 @@ import com.frame.utils.ToastUtil;
 import com.kyleduo.switchbutton.SwitchButton;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
+import com.wang.social.im.app.IMConstants;
 import com.wang.social.im.di.component.DaggerCreateSocialComponent;
 import com.wang.social.im.di.modules.CreateSocialModule;
 import com.wang.social.im.helper.ImageSelectHelper;
@@ -35,11 +38,12 @@ import com.wang.social.im.mvp.model.entities.SocialAttribute;
 import com.wang.social.im.mvp.presenter.CreateSocialPresenter;
 import com.wang.social.pictureselector.helper.PhotoHelper;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import timber.log.Timber;
 
 /**
  * 创建趣聊
@@ -64,6 +68,7 @@ public class CreateSocialActivity extends BaseAppActivity<CreateSocialPresenter>
     private SocialAttribute mAttr;
 
     private String mCoverPath;
+    private ArrayList<Tag> mSelectTags;
     private String mTags;
     private ImageSelectHelper mImageSelectHelper;
 
@@ -124,22 +129,23 @@ public class CreateSocialActivity extends BaseAppActivity<CreateSocialPresenter>
         csToolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
             @Override
             public void onButtonClick(SocialToolbar.ClickType clickType) {
-                switch (clickType){
+                switch (clickType) {
                     case LEFT_ICON:
                         onBackPressed();
                         break;
                     case RIGHT_TEXT:
                         String name = scEtName.getText().toString();
-                        if (TextUtils.isEmpty(name)){
+                        if (TextUtils.isEmpty(name)) {
                             ToastUtil.showToastShort(UIUtil.getString(R.string.im_toast_social_name));
                             return;
                         }
-                        if (TextUtils.isEmpty(mCoverPath)){
+                        if (TextUtils.isEmpty(mCoverPath)) {
                             ToastUtil.showToastShort(UIUtil.getString(R.string.im_toast_cover));
                             return;
                         }
-                        if (TextUtils.isEmpty(mTags)){
+                        if (TextUtils.isEmpty(mTags)) {
                             ToastUtil.showToastShort(UIUtil.getString(R.string.im_toast_tag));
+                            return;
                         }
                         mPresenter.checkPayStatus(mAttr, mCoverPath, name, scSbTeam.isChecked(), mTags);
                         break;
@@ -166,7 +172,7 @@ public class CreateSocialActivity extends BaseAppActivity<CreateSocialPresenter>
             mImageSelectHelper = ImageSelectHelper.newInstance(this, this);
             mImageSelectHelper.showDialog();
         } else if (view.getId() == R.id.sc_cl_tags) {
-            TagSelectionActivity.startForTagList(this, mTags);
+            TagSelectionActivity.startForTagList(this, mSelectTags, 5);
         } else if (view.getId() == R.id.sc_tv_create_tip) {
 
         }
@@ -258,17 +264,36 @@ public class CreateSocialActivity extends BaseAppActivity<CreateSocialPresenter>
     }
 
     @Override
-    public void showPayDialog() {
-
+    public void showPayDialog(String applyId, String cover, String name, boolean canCreateTeam, SocialAttribute socialAttribute, String tags) {
+        String message = UIUtil.getString(R.string.im_team_pay_message, IMConstants.CREATE_GROUP_PRICE);
+        PayDialog payDialog = new PayDialog(this, new PayDialog.OnPayListener() {
+            @Override
+            public void onPay() {
+                mPresenter.payForCreate(applyId, cover, name, canCreateTeam, socialAttribute, tags);
+            }
+        }, message, String.valueOf(IMConstants.CREATE_GROUP_PRICE));
+        payDialog.show();
     }
 
     @Override
     public void onCommonEvent(EventBean event) {
         if (event.getEvent() == EventBean.EVENTBUS_TAG_SELECTED_LIST) {
-            mTags = (String) event.get("ids");
-            String names = (String) event.get("names");
+            mSelectTags = (ArrayList<Tag>) event.get(TagSelectionActivity.NAME_SELECTED_LIST);
 
-            scTvTagsTip.setText(names);
+            if (mSelectTags != null && mSelectTags.size() > 0) {
+                StringBuilder idBuffer = new StringBuilder();
+                StringBuilder nameBuffer = new StringBuilder();
+                for (Tag tag : mSelectTags) {
+                    idBuffer.append(tag.getId()).append(",");
+                    nameBuffer.append("#").append(tag.getTagName()).append(" ");
+                }
+                idBuffer.deleteCharAt(idBuffer.length() - 1);
+                mTags = idBuffer.toString();
+                scTvTagsTip.setText(nameBuffer.toString());
+            } else {
+                mTags = null;
+                scTvTagsTip.setText(R.string.im_social_tags_tip);
+            }
         }
     }
 }

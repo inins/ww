@@ -1,6 +1,7 @@
 package com.frame.component.helper;
 
 import com.frame.component.api.CommonService;
+import com.frame.component.app.Constant;
 import com.frame.component.common.NetParam;
 import com.frame.component.entities.User;
 import com.frame.component.entities.UserWrap;
@@ -71,6 +72,32 @@ public class NetPayStoneHelper {
                 .put("objectId", talkId + "")
                 .put("objectType", "talk")
                 .put("payChannels", "gemstone")
+                .put("versionCode", "17")
+                .put("channelCode", "1")
+                .put("v", "2.0.0")
+                .putSignature()
+                .build();
+        netPayStone(view, param, callback);
+    }
+
+    /**
+     * 宝石支付
+     *
+     * @param view
+     * @param price      支付价格
+     * @param objectType 支付对象类型
+     *                   {@link com.frame.component.app.Constant#PAY_OBJECT_TYPE_CREATE_SOCIAL}
+     *                   {@link com.frame.component.app.Constant#PAY_OBJECT_TYPE_TALK}
+     *                   {@link com.frame.component.app.Constant#PAY_OBJECT_TYPE_TOPIC}
+     * @param objectId   支付对象ID
+     * @param callback
+     */
+    public void stonePay(IView view, int price, String objectType, String objectId, OnStonePayCallback callback) {
+        Map<String, Object> param = NetParam.newInstance()
+                .put("price", price)
+                .put("objectId", objectId)
+                .put("objectType", objectType)
+                .put("payChannels", Constant.PAY_CHANNEL_STONE)
                 .put("versionCode", "17")
                 .put("channelCode", "1")
                 .put("v", "2.0.0")

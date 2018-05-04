@@ -22,8 +22,11 @@ public class PayCheckInfo {
 
     @Getter
     @Setter
-    private String orderId;
+    private String applyId;
     @Getter
     @Setter
     private int checkState;
+    @Getter
+    @Setter
+    private boolean allowCreateTeam;
 }

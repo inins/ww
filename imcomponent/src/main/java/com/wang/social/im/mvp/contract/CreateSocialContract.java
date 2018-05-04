@@ -29,7 +29,7 @@ public interface CreateSocialContract {
         /**
          * 显示支付弹框
          */
-        void showPayDialog();
+        void showPayDialog(String applyId, String cover, String name, boolean canCreateTeam, SocialAttribute socialAttribute, String tags);
     }
 
     interface Model extends IModel {

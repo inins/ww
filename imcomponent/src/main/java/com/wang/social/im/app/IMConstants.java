@@ -43,6 +43,10 @@ public interface IMConstants {
      * 趣聊收费上限
      */
     int SOCIAL_CHARGE_LIMIT_MAX = 400000;
+    /**
+     * 创建趣聊/觅聊费用
+     */
+    int CREATE_GROUP_PRICE = 100;
 
     /**
 

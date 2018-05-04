@@ -52,7 +52,7 @@
     <string name="im_what_is_team">什么是觅聊</string>
     <string name="im_create_tip">每位用户可以免费创建一次趣聊</string>
     <string name="im_save">保存</string>
-    
+
     <!-- 趣聊属性设置 -->
     <string name="im_social_attr_title_tip">往往-有趣才个性</string>
     <string name="im_group_public">群公开</string>
@@ -77,7 +77,7 @@
     <string name="im_gem_300">300宝石</string>
     <string name="im_gem_500">500宝石</string>
     <string name="im_gem_custom">自定义:</string>
-    
+
     <!--创建觅聊-->
     <string name="im_create_team_title">创建觅聊</string>
     <string name="im_create_team_title_tip">往往-从陌生到相识</string>
@@ -90,6 +90,8 @@
     <string name="im_team_pay_join">付费加入觅聊</string>
     <string name="im_team_pay_join_tip">付费即可直接加入</string>
     <string name="im_team_pay_notice">觅聊群收费须知</string>
+    <string name="im_team_pay_message">本次创建需要支付%d宝石</string>
+    <string name="im_team_create_tip">每位趣聊成员只允许免费创建一个觅聊</string>
 
     <!-- 分身设置 -->
     <string name="im_shadow_setting">分身设置</string>
@@ -110,4 +112,5 @@
     <string name="im_toast_social_name">请输入趣聊名称</string>
     <string name="im_toast_tag">请选择标签</string>
     <string name="im_toast_cover">请设置封面</string>
+    <string name="im_toast_team_name">请输入觅聊名称</string>
 </resources>

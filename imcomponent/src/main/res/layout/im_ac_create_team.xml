@@ -201,17 +201,17 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </android.support.constraint.ConstraintLayout>
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/ct_tv_create_tip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:text="@string/im_create_tip"
+                android:text="@string/im_team_create_tip"
                 android:textColor="@color/common_text_dark_light"
                 android:textSize="11dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent" />
+                app:layout_constraintRight_toRightOf="parent" />-->
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

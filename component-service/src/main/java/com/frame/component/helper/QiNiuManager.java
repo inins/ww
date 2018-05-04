@@ -247,7 +247,7 @@ public class QiNiuManager {
         UploadManager uploadManager = new UploadManager();
         String fileName = file.getName();
         String suffix = fileName.substring(fileName.lastIndexOf("."), fileName.length());
-        String uploadName = "wangwang_" + TimeUtils.millis2String(System.currentTimeMillis(), new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())) + "_" + UUID.randomUUID() + suffix;
+        String uploadName = TimeUtils.millis2String(System.currentTimeMillis(), new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())) + "_" + UUID.randomUUID() + suffix;
         ResponseInfo responseInfo = uploadManager.syncPut(file, uploadName, token, null);
         if (responseInfo.isOK()) {
             return Api.QINIU_PREFIX + uploadName;
