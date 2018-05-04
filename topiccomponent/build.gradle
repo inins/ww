@@ -102,6 +102,7 @@ dependencies {
     compile 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'
 
     implementation project(':springlibrary')
+    implementation project(':pictureselectorcomponent')
 }
 
 if (!isRunAlone.toBoolean()) {

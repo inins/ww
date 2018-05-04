@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2017 Wasabeef
+ * Copyright (C) 2015 Wasabeef
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,21 @@ document.addEventListener("selectionchange", function() { RE.backuprange(); });
 
 // Initializations
 RE.callback = function() {
+   var ranges = [
+         '\ud83c[\udf00-\udfff]',
+         '\ud83d[\udc00-\ude4f]',
+         '\ud83d[\ude80-\udeff]'
+     ];
+
+    var oldlen=RE.editor.innerHTML;
+    var newlen=RE.editor.innerHTML.replace(new RegExp(ranges.join('|'), 'g'), '');
+
+    if(oldlen!=newlen){
+        RE.backuprange();
+        RE.editor.innerHTML =  RE.editor.innerHTML.replace(new RegExp(ranges.join('|'), 'g'), '');
+        RE.restorerange();
+    }
+    //RE.editor.focus();
     window.location.href = "re-callback://" + encodeURI(RE.getHtml());
 }
 
@@ -36,7 +51,14 @@ RE.setHtml = function(contents) {
 }
 
 RE.getHtml = function() {
-    return RE.editor.innerHTML;
+
+    var ranges = [
+        '\ud83c[\udf00-\udfff]',
+        '\ud83d[\udc00-\ude4f]',
+        '\ud83d[\ude80-\udeff]'
+    ];
+
+    return RE.editor.innerHTML.replace(new RegExp(ranges.join('|'), 'g'), '');
 }
 
 RE.getText = function() {
@@ -47,8 +69,14 @@ RE.setBaseTextColor = function(color) {
     RE.editor.style.color  = color;
 }
 
+//RE.setBaseFontSize = function(size) {
+//    RE.editor.style.fontSize = size;
+//}
+
 RE.setBaseFontSize = function(size) {
-    RE.editor.style.fontSize = size;
+    document.execCommand("styleWithCSS", null, true);
+    document.execCommand("FontSize", false, size);
+    document.execCommand("styleWithCSS", null, false);
 }
 
 RE.setPadding = function(left, top, right, bottom) {
@@ -86,10 +114,6 @@ RE.setPlaceholder = function(placeholder) {
     RE.editor.setAttribute("placeholder", placeholder);
 }
 
-RE.setInputEnabled = function(inputEnabled) {
-    RE.editor.contentEditable = String(inputEnabled);
-}
-
 RE.undo = function() {
     document.execCommand('undo', false, null);
 }
@@ -122,14 +146,59 @@ RE.setUnderline = function() {
     document.execCommand('underline', false, null);
 }
 
-RE.setBullets = function() {
-    document.execCommand('insertUnorderedList', false, null);
+RE.setOrderdisc = function() {
+    //document.execCommand('InsertUnorderedList', false, null);
+     document.execCommand('InsertOrderedList', false, 'upperLatin');
+     selectedElement = window.getSelection().focusNode.parentNode;
+     selectedElement.style.listStyleType="disc";
 }
 
-RE.setNumbers = function() {
-    document.execCommand('insertOrderedList', false, null);
+RE.setOrderNumbers = function() {
+    //document.execCommand('InsertOrderedList', false, null);
+    document.execCommand('InsertOrderedList', false, 'upperLatin');
+    selectedElement = window.getSelection().focusNode.parentNode;
+    selectedElement.style.listStyleType="decimal";
 }
-
+RE.setOrderCjk = function() {
+    document.execCommand('InsertOrderedList', false, 'upperLatin');
+    selectedElement = window.getSelection().focusNode.parentNode;
+    selectedElement.style.listStyleType="cjk-ideographic";
+}
+RE.setOrderCircle = function() {
+    document.execCommand('InsertOrderedList', false, 'upperLatin');
+    selectedElement = window.getSelection().focusNode.parentNode;
+    selectedElement.style.listStyleType="circle";
+}
+RE.setOrderSquare = function() {
+    document.execCommand('InsertOrderedList', false, 'upperLatin');
+    selectedElement = window.getSelection().focusNode.parentNode;
+    selectedElement.style.listStyleType="square";
+}
+RE.setNumberRoman = function() {
+    document.execCommand('InsertOrderedList', false, 'upperLatin');
+    selectedElement = window.getSelection().focusNode.parentNode;
+    selectedElement.style.listStyleType="upper-roman";
+}
+RE.setNumbersLower = function() {
+    document.execCommand('InsertOrderedList', false, 'upperLatin');
+    selectedElement = window.getSelection().focusNode.parentNode;
+    selectedElement.style.listStyleType="lower-alpha";
+}
+RE.setNumbersUpper = function() {
+    document.execCommand('InsertOrderedList', false, 'upperLatin');
+    selectedElement = window.getSelection().focusNode.parentNode;
+    selectedElement.style.listStyleType="upper-alpha";
+}
+RE.setNumbersNone = function() {
+    document.execCommand('InsertOrderedList', false, 'upperLatin');
+    selectedElement = window.getSelection().focusNode.parentNode;
+    selectedElement.style.listStyleType="none";
+}
+RE.setFont = function(font) {
+//        selectedElement = window.getSelection().focusNode.parentNode;
+//        selectedElement.style.fontFamily = "qqt"
+document.execCommand('fontName', false, font);
+}
 RE.setTextColor = function(color) {
     RE.restorerange();
     document.execCommand("styleWithCSS", null, true);
@@ -148,8 +217,11 @@ RE.setFontSize = function(fontSize){
     document.execCommand("fontSize", false, fontSize);
 }
 
-RE.setHeading = function(heading) {
-    document.execCommand('formatBlock', false, '<h'+heading+'>');
+RE.setHeading = function(heading,b) {
+    if(b)
+        document.execCommand('formatBlock', false, '<h'+heading+'>');
+    else
+        document.execCommand('formatBlock', false, '<p>');
 }
 
 RE.setIndent = function() {
@@ -172,19 +244,53 @@ RE.setJustifyRight = function() {
     document.execCommand('justifyRight', false, null);
 }
 
-RE.setBlockquote = function() {
-    document.execCommand('formatBlock', false, '<blockquote>');
+RE.setBlockquote = function(b) {
+    if(b)
+        document.execCommand('formatBlock', false, '<blockquote>');
+    else
+        document.execCommand('formatBlock', false, '<p>');
 }
 
+////插入图片
+//RE.insertImage = function(url, alt) {
+//    var html = '<img  src="' + url + '" alt="' + alt + '" /><p align=center style="color:#aaaaaa">来自App的图片</p><hr align=center width=200 color=#aaaaaa size=1 /><br/><br/>';
+//    RE.insertHTML(html);
+//}
+
+//插入图片
 RE.insertImage = function(url, alt) {
-    var html = '<img src="' + url + '" alt="' + alt + '" />';
+    var html = '<img align=center src="' + url + '" alt="' + alt + '" /><br/><br/>';
     RE.insertHTML(html);
+}
+
+//插入图片
+RE.insertAudioImage = function(url, alt) {
+    var html = '<img onclick="playAudio(\''+url+'\');" id="audioImg" align=center src="http://resouce.dongdongwedding.com/topic_yuyin_ico@2x.png" alt="' + alt + '" /><br/><br/>';
+    RE.insertHTML(html);
+}
+
+//插入标签
+RE.initAudioPlay = function() {
+    var html = '<audio src="" id="musicPlay"> </audio>';
+    RE.insertHTML(html);
+}
+
+
+//插入分割线
+RE.insertHr = function() {
+    var html = '<hr color=#e2e2e2 size=1 /><br/>';
+    RE.insertHTML(html);
+}
+//插入文本
+RE.insertText = function(text) {
+    RE.insertHTML(text);
 }
 
 RE.insertHTML = function(html) {
     RE.restorerange();
     document.execCommand('insertHTML', false, html);
 }
+
 
 RE.insertLink = function(url, title) {
     RE.restorerange();
@@ -236,6 +342,7 @@ RE.restorerange = function(){
 
 RE.enabledEditingItems = function(e) {
     var items = [];
+
     if (document.queryCommandState('bold')) {
         items.push('bold');
     }
@@ -280,7 +387,18 @@ RE.enabledEditingItems = function(e) {
         items.push(formatBlock);
     }
 
-    window.location.href = "re-state://" + encodeURI(items.join(','));
+    if(e.which==13){
+        items.push("enter");
+    }
+
+
+    var ranges = [
+        '\ud83c[\udf00-\udfff]',
+        '\ud83d[\udc00-\ude4f]',
+        '\ud83d[\ude80-\udeff]'
+    ];
+
+    window.location.href = "re-state://" + encodeURI(items.join(','))+"@_@"+encodeURI(RE.getHtml());
 }
 
 RE.focus = function() {
@@ -298,15 +416,16 @@ RE.blurFocus = function() {
 }
 
 RE.removeFormat = function() {
-    document.execCommand('removeFormat', false, null);
+    execCommand('removeFormat', false, null);
 }
 
 // Event Listeners
 RE.editor.addEventListener("input", RE.callback);
 RE.editor.addEventListener("keyup", function(e) {
-    var KEY_LEFT = 37, KEY_RIGHT = 39;
-    if (e.which == KEY_LEFT || e.which == KEY_RIGHT) {
-        RE.enabledEditingItems(e);
-    }
+    //RE.enabledEditingItems(e);
+   var KEY_LEFT = 37, KEY_RIGHT = 39;
+   if (e.which == KEY_LEFT || e.which == KEY_RIGHT || e.which ==8 || e.which == 13) {
+       RE.enabledEditingItems(e);
+   }
 });
 RE.editor.addEventListener("click", RE.enabledEditingItems);

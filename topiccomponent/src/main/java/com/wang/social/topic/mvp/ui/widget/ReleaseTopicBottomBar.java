@@ -107,15 +107,20 @@ public class ReleaseTopicBottomBar extends LinearLayout {
 
         if (mFontMode) {
             mClickListener.onFontClick();
-            mFontIV.setImageResource(R.drawable.topic_ic_keyboard);
-            mFontMode = false;
+            setToFontMode();
         } else {
             mClickListener.onKeyBoardClick();
-            mFontIV.setImageResource(R.drawable.topic_ic_font);
-            mFontMode = true;
+            setToSoftInputMode();
         }
     }
 
-    public void onSoftInputHiden() {
+    public void setToFontMode() {
+        mFontIV.setImageResource(R.drawable.topic_ic_keyboard);
+        mFontMode = false;
+    }
+
+    public void setToSoftInputMode() {
+        mFontIV.setImageResource(R.drawable.topic_ic_font);
+        mFontMode = true;
     }
 }

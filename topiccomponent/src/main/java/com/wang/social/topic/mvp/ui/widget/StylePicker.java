@@ -107,7 +107,7 @@ public class StylePicker extends FrameLayout {
     CirclePicker mTextSizeCP;
 
     private int mDefaultColorIndex = 0;
-    private int mDefaultSizeIndex = 2;
+    private int mDefaultSizeIndex = 4;
     private int mDefaultFontIndex = 0;
     private int mDefaultSymbolIndex = 0;
 
@@ -261,7 +261,8 @@ public class StylePicker extends FrameLayout {
             public void onItemSelected(int position, CirclePickerItem item) {
 //                ToastUtil.showToastShort("字体大小 " + sizeRes[position]);
                 if (null != mTextListener) {
-                    mTextListener.onSize(sizeRes[position]);
+                    // 字体大小RichEditor那边规定了时1-7
+                    mTextListener.onSize(formatTextSizeForRichEditor(position + 1));
                 }
             }
         });
@@ -365,7 +366,11 @@ public class StylePicker extends FrameLayout {
     }
 
     public int getDefaultSize() {
-        return sizeRes[mDefaultSizeIndex];
+        return formatTextSizeForRichEditor(mDefaultSizeIndex + 1);
+    }
+
+    private int formatTextSizeForRichEditor(int size) {
+        return Math.max(1, Math.min(size, 7));
     }
 
     public int getDefaultFont() {

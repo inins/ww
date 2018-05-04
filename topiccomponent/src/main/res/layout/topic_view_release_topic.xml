@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:paddingLeft="14dp"
     android:paddingRight="14dp">
 
@@ -46,8 +45,8 @@
             android:background="@android:color/transparent"
             android:gravity="start|top"
             android:hint="@string/topic_topic_title_hint"
-            android:maxLength="30"
             android:inputType="textMultiLine"
+            android:maxLength="30"
             android:textColor="@color/common_text_blank"
             android:textSize="14sp" />
 
@@ -91,16 +90,15 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/commom_ic_bundle_add"/>
+                android:src="@drawable/commom_ic_bundle_add" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/topic_topic_cover_hint"
                 android:layout_marginTop="9dp"
+                android:text="@string/topic_topic_cover_hint"
                 android:textColor="@color/common_text_dark"
-                android:textSize="12sp"
-                />
+                android:textSize="12sp" />
 
         </LinearLayout>
 
@@ -108,7 +106,7 @@
             android:id="@+id/cover_image_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitXY"/>
+            android:scaleType="fitXY" />
 
 
     </FrameLayout>
@@ -139,12 +137,12 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="8dp"
-        android:textColor="@color/common_text_blank"
-        android:textSize="17sp"
+        android:background="@drawable/topic_shape_rect_corner_solid_bk_light"
         android:gravity="center_vertical"
         android:paddingLeft="14dp"
         android:paddingRight="14dp"
-        android:background="@drawable/topic_shape_rect_corner_solid_bk_light"
+        android:textColor="@color/common_text_blank"
+        android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topic_textview9" />
@@ -175,8 +173,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:orientation="horizontal"
         android:background="@drawable/topic_shape_rect_corner_solid_bk_light"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topic_textview11">
@@ -204,21 +202,20 @@
         app:layout_constraintStart_toEndOf="@+id/topic_imageview7"
         app:layout_constraintTop_toBottomOf="@+id/music_board_layout" />
 
-        <com.wang.social.topic.mvp.ui.widget.richeditor.RichEditor
-            android:id="@+id/rich_editor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="200dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="48dp"
-            android:background="@drawable/topic_shape_rect_corner_solid_bk_light"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/topic_textview12">
+    <com.wang.social.topic.mvp.ui.widget.richeditor.RichEditor
+        android:id="@+id/rich_editor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="48dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/topic_shape_rect_corner_solid_bk_light"
+        android:minHeight="302dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topic_textview12">
 
-        </com.wang.social.topic.mvp.ui.widget.richeditor.RichEditor>
-
+    </com.wang.social.topic.mvp.ui.widget.richeditor.RichEditor>
 
 
 </android.support.constraint.ConstraintLayout>

@@ -22,6 +22,8 @@ import retrofit2.http.QueryMap;
 
 public interface TopicService {
 
+    String HEADER_CONTENT_TYPE = "Content-Type:application/x-www-form-urlencoded; charset=utf-8";
+
     /**
      * 最新话题列表
      */
@@ -71,8 +73,6 @@ public interface TopicService {
     /**
      * 评论话题/回复话题评论
      */
-    String HEADER_CONTENT_TYPE = "Content-Type:application/x-www-form-urlencoded; charset=utf-8";
-
     @Headers(HEADER_CONTENT_TYPE)
     @FormUrlEncoded
     @POST("app/topic/topicComment")
@@ -110,6 +110,7 @@ public interface TopicService {
     /**
      * 话题发布
      */
+    @Headers(HEADER_CONTENT_TYPE)
     @FormUrlEncoded
     @POST("app/topic/addTopic")
     Observable<BaseJson> addTopic(@FieldMap Map<String, Object> param);

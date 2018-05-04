@@ -8,7 +8,9 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.frame.component.ui.acticity.BGMList.BGMListActivity;
@@ -18,10 +20,14 @@ import com.frame.component.view.MusicBoard;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
+import com.frame.http.imageloader.glide.ImageConfigImpl;
+import com.frame.utils.FrameUtils;
 import com.frame.utils.KeyboardUtils;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.ToastUtil;
 import com.frame.component.ui.acticity.tags.TagSelectionActivity;
+import com.wang.social.pictureselector.ActivityPictureSelector;
+import com.wang.social.pictureselector.PictureSelector;
 import com.wang.social.topic.R;
 import com.wang.social.topic.R2;
 import com.wang.social.topic.di.component.DaggerReleaseTopicComponent;
@@ -33,6 +39,7 @@ import com.wang.social.topic.mvp.ui.widget.DFSetPrice;
 import com.wang.social.topic.mvp.ui.widget.ReleaseTopicBottomBar;
 import com.wang.social.topic.mvp.ui.widget.StylePicker;
 import com.wang.social.topic.mvp.ui.widget.richeditor.RichEditor;
+import com.wang.social.topic.utils.HtmlUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -43,6 +50,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
     public final static int REQUEST_CODE_TEMPLATE = 1001;
     public final static int REQUEST_CODE_BGM = 1002;
+    public final static int REQUEST_CODE_COVER_IMGAE = 1003;
 
     // 根View，主要用于监听软键盘的状态
     @BindView(R2.id.root_view)
@@ -53,6 +61,9 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     EditText mTitleET;
     @BindView(R2.id.title_count_text_view)
     TextView mTitleCountTV;
+    // 封面图片
+    @BindView(R2.id.cover_image_view)
+    ImageView mCoverIV;
     // 标签
     @BindView(R2.id.topic_tags_text_view)
     TextView mTagsTV;
@@ -61,6 +72,8 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     MusicBoard mMusicBoard;
 
     // 底部栏
+    @BindView(R2.id.bottom_layout)
+    View mBottomLayout;
     @BindView(R2.id.bottom_bar)
     ReleaseTopicBottomBar mBottomBar;
     // 文字样式控制
@@ -72,6 +85,17 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
     // 判断键盘是否弹起时候的阈值
     private int mKeyboardHeight;
+    // 键盘是否弹出
+    private boolean mSoftInputPopuped;
+    // 标题编辑器是否获取焦点
+    private boolean mTitltEditorFocused;
+    // 内容编辑器是否获取焦点
+    private boolean mRichEditorFocused;
+    // 点击字体按钮时如果键盘已弹起，那么要等键盘落下后再显示样式选择器
+    // 记录状态
+    private boolean mNeedShowStylePicker;
+    // 封面图片路径
+    private String mCoverImage;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -151,18 +175,24 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
             @Override
             public void onFontClick() {
-                // 隐藏键盘
-                KeyboardUtils.hideSoftInput(ReleaseTopicActivity.this);
-                // 弹出文本样式选择器
-                mStylePicker.setVisibility(View.VISIBLE);
+                // 如果软键盘已弹出
+                if (mSoftInputPopuped) {
+                    // 隐藏键盘
+                    KeyboardUtils.hideSoftInput(ReleaseTopicActivity.this);
+                    mNeedShowStylePicker = true;
+                } else {
+//                    mStylePicker.setVisibility(View.VISIBLE);
+                    showStylePicker(true);
+                }
             }
 
             @Override
             public void onKeyBoardClick() {
+                // 隐藏文本样式选择器
+//                mStylePicker.setVisibility(View.GONE);
+                showStylePicker(false);
                 // 弹出软键盘
                 KeyboardUtils.showSoftInput(ReleaseTopicActivity.this);
-                // 隐藏文本样式选择器
-                mStylePicker.setVisibility(View.GONE);
             }
 
             @Override
@@ -270,29 +300,49 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         mRichEditor.setOnTextChangeListener(new RichEditor.OnTextChangeListener() {
             @Override
             public void onTextChange(String text) {
-                Timber.i(mRichEditor.getHtml());
+                Timber.i(text);
+            }
+        });
+
+        mTitleET.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                Timber.i("编辑器焦点 " + Boolean.toString(hasFocus));
+                mTitltEditorFocused = hasFocus;
+                if (hasFocus) {
+                    editTextHasFocused();
+                }
+            }
+        });
+        mTitleET.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Timber.i("标题编辑器点击");
+                if (mTitltEditorFocused) {
+                    editTextHasFocused();
+                }
             }
         });
 
         mRichEditor.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus && !mRichEditorInited) {
-                    Timber.i("初始化富文本编辑器");
-
-                    resetRETextColor(mStylePicker.getDefaultColor());
-                    resetRETextSize(mStylePicker.getDefaultSize());
-                    resetSymbolStyle(mStylePicker.getDefaultSymbol());
-
-                    mRichEditorInited = true;
+                Timber.i("编辑器焦点 " + Boolean.toString(hasFocus));
+                mRichEditorFocused = hasFocus;
+                if (hasFocus) {
+                    editTextHasFocused();
                 }
             }
         });
 
+        resetRETextColor(mStylePicker.getDefaultColor());
+        resetRETextSize(mStylePicker.getDefaultSize());
+        resetSymbolStyle(mStylePicker.getDefaultSymbol());
+        resetRETextColor(mStylePicker.getDefaultColor());
+        resetRETextSize(mStylePicker.getDefaultSize());
+        resetSymbolStyle(mStylePicker.getDefaultSymbol());
         mRichEditor.setPlaceholder("你想说什么?......为保障用户们的友好体验，请最少输入30个字");
     }
-
-    private boolean mRichEditorInited = false;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -317,9 +367,25 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
                     mPresenter.setBGMusic(music);
 
                     break;
+                case REQUEST_CODE_COVER_IMGAE:
+                    // 封面图片
+                    String[] list = data.getStringArrayExtra(PictureSelector.NAME_FILE_PATH_LIST);
+                    mCoverImage = list[0];
+
+                    if (TextUtils.isEmpty(mCoverImage)) {
+                        FrameUtils.obtainAppComponentFromContext(this)
+                                .imageLoader()
+                                .loadImage(this, ImageConfigImpl.builder()
+                                .imageView(mCoverIV)
+                                .url(mCoverImage)
+                                .build());
+                    }
+
+                    break;
             }
         }
     }
+
 
     private void resetRETextColor(int color) {
         Timber.i("重置文字颜色 " + color);
@@ -329,6 +395,13 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     private void resetRETextSize(int size) {
         Timber.i("重置文字大小 " + size);
         mRichEditor.setEditorFontSize(size);
+    }
+
+    private void editTextHasFocused() {
+        Timber.i("编辑器获取焦点");
+        // 当文本编辑器获取焦点后软键盘会弹出，这个时候要隐藏样式选择器
+//        mStylePicker.setVisibility(View.GONE);
+        showStylePicker(false);
     }
 
     private boolean isclick;
@@ -353,13 +426,59 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         }
     }
 
+    private boolean checkInput(boolean toast) {
+        String title = mTitleET.getText().toString();
+        if (TextUtils.isEmpty(title)) {
+            if (toast) {
+                ToastUtil.showToastShort("请输入话题名称");
+            }
+            return false;
+        }
+
+        if (TextUtils.isEmpty(mTagIds)) {
+            if (toast) {
+                ToastUtil.showToastShort("请选择标签");
+            }
+            return false;
+        }
+
+        if (null == mPresenter.getBGMusic()) {
+            if (toast) {
+                ToastUtil.showToastShort("请选择背景音乐");
+            }
+
+            return false;
+        }
+
+        if (TextUtils.isEmpty(mRichEditor.getHtml())) {
+            if (toast) {
+                ToastUtil.showToastShort("请输入内容");
+            }
+            return false;
+        }
+
+        String content = HtmlUtil.delHTMLTag(mRichEditor.getHtml());
+        if (content.length() < 30) {
+            if (toast) {
+                ToastUtil.showToastShort("为保障用户们的友好体验，请最少输入30个字");
+            }
+            return false;
+        }
+
+        return true;
+    }
+
     private void addTopic() {
+        if (!checkInput(true)) {
+            return;
+        }
+
         mPresenter.resetNetParam()
                 .setTitle(mTitleET.getText().toString())
                 .setBackgroundImage("")
                 .setTagIds(mTagIds)
                 .setBackgroundMusicId()
-                .setContent("")
+                .setContent(mRichEditor.getHtml())
                 .setTemplateId();
 
         mPresenter.addTopic();
@@ -372,7 +491,11 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
     @OnClick(R2.id.cover_layout)
     public void selectCoverImage() {
-
+        PictureSelector.from(this)
+                .spanCount(3)
+                .isClip(false)
+                .maxSelection(1)
+                .forResult(REQUEST_CODE_COVER_IMGAE);
     }
 
     private String mTagIds;
@@ -450,15 +573,45 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     }
 
     @Override
-    public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+    public void onLayoutChange(View v, int left, int top, int right, int bottom,
+                               int oldLeft, int oldTop, int oldRight, int oldBottom) {
+        Timber.i(String.format("bottom=%d oldBottom=%d", bottom, oldBottom));
+
         // 现在认为只要控件将Activity向上推的高度超过了1/3屏幕高，就认为软键盘弹起
         if(oldBottom != 0 && bottom != 0 &&(oldBottom - bottom > mKeyboardHeight)){
             // 弹起
             // 隐藏文本样式选择器
-            mStylePicker.setVisibility(View.GONE);
+            Timber.i("键盘打开");
+            mSoftInputPopuped = true;
+            // 键盘打开后要将底部的图标改变
+            mBottomBar.setToSoftInputMode();
+            // 确保键盘打开时选择器隐藏
+            if (mStylePicker.getVisibility() == View.VISIBLE) {
+                mBottomLayout.setVisibility(View.GONE);
+
+                showStylePicker(false);
+
+                mBottomLayout.setVisibility(View.VISIBLE);
+            }
         }else if(oldBottom != 0 && bottom != 0 &&(bottom - oldBottom > mKeyboardHeight)){
             // 关闭
+            Timber.i("键盘关闭");
+            mSoftInputPopuped = false;
+
+            // 是否需要打开样式选择器
+            if (mNeedShowStylePicker) {
+                // 弹出文本样式选择器
+                showStylePicker(true);
+                mNeedShowStylePicker = false;
+            }
         }
+    }
+
+    private void showStylePicker(boolean visible) {
+        mStylePicker.setVisibility(visible ? View.VISIBLE : View.GONE);
+
+        // 当样式选择器可见时，内容编辑器不可点击，解决键盘和选择器同时显示的问题
+//        mRichEditor.setFocusable(!visible);
     }
 
     @Override

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2017 Wasabeef
+ * Copyright (C) 2015 Wasabeef
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +16,61 @@
 
 @charset "UTF-8";
 
+@font-face{
+  font-family: 'kt';
+  src: url('file:///android_asset/kaiti.ttf');
+}
 
+@font-face{
+  font-family: 'pfb';
+  src: url('file:///android_asset/pingfang_bz.ttf');
+}
+
+@font-face{
+   font-family: 'pfc';
+   src: url('file:///android_asset/pingfang_cu.ttf');
+}
+
+@font-face{
+  font-family: 'pfx';
+   src: url('file:///android_asset/pingfang_xi.ttf');
+}
+
+@font-face{
+  font-family: 'st';
+   src: url('file:///android_asset/songti.ttf');
+}
+
+@font-face{
+   font-family: 'ww';
+   src: url('file:///android_asset/wawa.TTF');
+}
+
+@font-face{
+   font-family: 'yy';
+   src: url('file:///android_asset/youyuan.TTF');
+}
 html {
   height: 100%;
+}
+
+img{
+  margin-top:10px;
+  margin-bottom:10px;
+  max-width: 100%;
+  min-width: 100%;
+}
+
+#audioImg{
+  min-width:14px!important;
+  max-width:14px!important;
+  height:14px!important;
+  margin:0;
+  padding:0;
+}
+
+img{
+  -webkit-border-radius: 20px;border-radius: 20px;border: 0px solid black;
 }
 
 body {
@@ -31,13 +83,29 @@ body {
 
 #editor {
   display: table-cell;
+
+  -webkit-user-select: auto !important;
+  -webkit-user-modify: read-write !important;
+
   outline: 0px solid transparent;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
 }
 
+blockquote{
+background-color: whitesmoke;
+border-left: 4px solid #999999;
+font-size: 15px;
+font-weight: 100;
+padding: 10px 15px;
+margin-left: 0px;
+margin-right : 0px;
+}
+
 #editor[placeholder]:empty:not(:focus):before {
   content: attr(placeholder);
   opacity: .5;
 }}
+
+
