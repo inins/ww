@@ -8,15 +8,17 @@ import com.wang.social.pictureselector.ui.dialog.DialogBottomPhoto;
 
 import java.lang.ref.WeakReference;
 
-
+/**
+ * PhotoHelper拓展：
+ * 提供通用的dialog弹窗
+ * 如果需要自定义弹窗样式，请直接使用PhotoHelper
+ * {@link PhotoHelper.startCamera()}
+ * {@link PhotoHelper.startPhoto()}
+ */
 public class PhotoHelperEx extends PhotoHelper {
-
-    private final int REQUEST_CODE_CAMERA = 0xf212;
 
     //使用弱引用持有dialog，以便及时回收
     private WeakReference<DialogBottomPhoto> dialogPhoto;
-    //是否显示官方图库选项，默认不显示
-    private boolean needOfficialPhoto;
 
     private PhotoHelperEx(Activity activity, OnPhotoCallback callback) {
         super(activity, callback);
