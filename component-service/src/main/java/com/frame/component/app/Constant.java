@@ -26,7 +26,10 @@ public interface Constant {
      * 支付类型:话题
      */
     String PAY_OBJECT_TYPE_TOPIC = "topic";
-
+    /**
+     * 支付类型：修改分身
+     */
+    String PAY_OBJECT_TYPE_SHADOW = "changeShadow";
     /**
      * 支付渠道：宝石支付
      */

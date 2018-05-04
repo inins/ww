@@ -113,4 +113,7 @@
     <string name="im_toast_tag">请选择标签</string>
     <string name="im_toast_cover">请设置封面</string>
     <string name="im_toast_team_name">请输入觅聊名称</string>
+    <string name="im_toast_nickname">请输入昵称</string>
+    <string name="im_toast_gender">请选择性别</string>
+    <string name="im_toast_portrait">请设置头像</string>
 </resources>

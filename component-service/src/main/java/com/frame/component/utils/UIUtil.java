@@ -1,5 +1,6 @@
 package com.frame.component.utils;
 
+import android.support.annotation.DimenRes;
 import android.support.annotation.StringRes;
 
 import com.frame.utils.Utils;
@@ -29,5 +30,14 @@ public class UIUtil {
      */
     public static String getString(@StringRes int resId, Object... format){
         return String.format(Utils.getContext().getString(resId), format);
+    }
+
+    /**
+     * 获取定义的dp值
+     * @param resId
+     * @return
+     */
+    public static int getDimen(@DimenRes int resId){
+        return Utils.getContext().getResources().getDimensionPixelSize(resId);
     }
 }

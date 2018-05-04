@@ -79,13 +79,14 @@ public interface GroupService {
      * @param orderId
      * @param nickname
      * @param portrait
+     * @param gender   0女1男2迷
      * @return
      */
     @Headers(HEADER_CONTENT_TYPE)
     @FormUrlEncoded
     @POST("app/shadow/updateUserShadow")
     Observable<BaseJson> updateShadowInfo(@Field("v") String version, @Field("groupId") String socialId, @Field("applyId") String orderId,
-                                          @Field("nickname") String nickname, @Field("avatar") String portrait);
+                                          @Field("nickname") String nickname, @Field("avatar") String portrait, @Field("sex") int gender);
 
     /**
      * 检查创建趣聊是否需要付费
@@ -139,6 +140,7 @@ public interface GroupService {
      * "isFree":0,             //是否免费: 0.收费; 1.免费用
      * "gemstone":20,           //	收费宝石个数
      * "tagIds":1           //标签ID
+     *
      * @param map
      * @return
      */

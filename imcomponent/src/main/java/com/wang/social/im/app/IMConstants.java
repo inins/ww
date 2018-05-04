@@ -47,6 +47,10 @@ public interface IMConstants {
      * 创建趣聊/觅聊费用
      */
     int CREATE_GROUP_PRICE = 100;
+    /**
+     * 修改分身费用
+     */
+    int UPDATE_SHADOW_PRICE = 100;
 
     /**
 

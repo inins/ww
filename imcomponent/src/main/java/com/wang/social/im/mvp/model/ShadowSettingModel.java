@@ -4,6 +4,7 @@ import com.frame.di.scope.ActivityScope;
 import com.frame.http.api.BaseJson;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.BaseModel;
+import com.wang.social.im.enums.Gender;
 import com.wang.social.im.mvp.contract.ShadowSettingContract;
 import com.wang.social.im.mvp.model.api.GroupService;
 import com.wang.social.im.mvp.model.entities.dto.PayCheckInfoDTO;
@@ -19,7 +20,7 @@ import io.reactivex.Observable;
  * ============================================
  */
 @ActivityScope
-public class ShadowSettingModel extends BaseModel implements ShadowSettingContract.Model{
+public class ShadowSettingModel extends BaseModel implements ShadowSettingContract.Model {
 
     @Inject
     public ShadowSettingModel(IRepositoryManager repositoryManager) {
@@ -34,9 +35,21 @@ public class ShadowSettingModel extends BaseModel implements ShadowSettingContra
     }
 
     @Override
-    public Observable<BaseJson> updateShadowInfo(String socialId, String orderId, String nickname, String portrait) {
+    public Observable<BaseJson> updateShadowInfo(String socialId, String orderId, String nickname, String portrait, Gender gender) {
+        int genderInt;
+        switch (gender) {
+            case FEMALE:
+                genderInt = 0;
+                break;
+            case MALE:
+                genderInt = 1;
+                break;
+            default:
+                genderInt = 2;
+                break;
+        }
         return mRepositoryManager
                 .obtainRetrofitService(GroupService.class)
-                .updateShadowInfo("2.0.0", socialId, orderId, nickname, portrait);
+                .updateShadowInfo("2.0.0", socialId, orderId, nickname, portrait, genderInt);
     }
 }

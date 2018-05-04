@@ -119,7 +119,8 @@
         <activity android:name=".mvp.ui.EnvelopDetailActivity" />
         <activity android:name=".mvp.ui.SocialHomeActivity" />
         <activity android:name=".mvp.ui.TeamHomeActivity" />
-        <activity android:name=".mvp.ui.ShadowSettingActivity" />
+        <activity android:name=".mvp.ui.ShadowSettingActivity"
+            android:exported="true"/>
         <activity android:name=".mvp.ui.CreateSocialActivity"
             android:exported="true"/>
         <activity android:name=".mvp.ui.SocialAttributeActivity" />
