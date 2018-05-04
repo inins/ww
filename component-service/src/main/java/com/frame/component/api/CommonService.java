@@ -73,4 +73,12 @@ public interface CommonService {
     @FormUrlEncoded
     @POST("/app/common/report?v=2.0.0")
     Observable<BaseJson<Object>> report(@Field("objectId") int objectId, @Field("type") int type);
+
+    /**
+     * 分享趣晒/话题
+     * type 分享类型（topic:话题；group：趣聊；talk:趣晒; ）
+     */
+    @FormUrlEncoded
+    @POST("/app/share/save?v=2.0.0")
+    Observable<BaseJson<Object>> sharefun(@Field("targetUserId") Integer targetUserId, @Field("objectId") int objectId, @Field("type") String type);
 }

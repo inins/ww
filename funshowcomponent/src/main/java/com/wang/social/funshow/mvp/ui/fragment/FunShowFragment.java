@@ -1,5 +1,6 @@
 package com.wang.social.funshow.mvp.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -14,6 +15,7 @@ import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.NetLoginTestHelper;
 import com.frame.component.helper.NetPayStoneHelper;
+import com.frame.component.helper.NetShareHelper;
 import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.component.view.barview.BarUser;
 import com.frame.component.view.barview.BarView;
@@ -38,6 +40,7 @@ import com.wang.social.funshow.mvp.ui.activity.HotUserListActivity;
 import com.wang.social.funshow.mvp.ui.adapter.RecycleAdapterHome;
 import com.wang.social.funshow.mvp.ui.dialog.DialogSureFunshowPay;
 import com.wang.social.funshow.utils.FunShowUtil;
+import com.wang.social.socialize.SocializeUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -89,8 +92,12 @@ public class FunShowFragment extends BaseFragment<FunshowListPresonter> implemen
                 adapter.refreshCommentById(talkId);
                 break;
             }
+            case EventBean.EVENT_FUNSHOW_DETAIL_ADD_SHARE: {
+                int talkId = (int) event.get("talkId");
+                adapter.refreshShareById(talkId);
+                break;
+            }
             case EventBean.EVENT_FUNSHOW_LIST_FRESH: {
-//                mPresenter.netGetFunshowList(type, true);
                 springView.callFreshDelay();
                 break;
             }
@@ -112,6 +119,20 @@ public class FunShowFragment extends BaseFragment<FunshowListPresonter> implemen
         adapter = new RecycleAdapterHome();
         adapter.setOnItemClickListener(this);
         adapter.setOnDislikeClickListener((v, funshow) -> mPresenter.shatDownUser(funshow.getUserId()));
+        adapter.setOnShareClickListener((v, funshow) -> {
+            SocializeUtil.shareWeb(getChildFragmentManager(),
+                    new SocializeUtil.SimpleShareListener() {
+                        @Override
+                        public void onResult(int platform) {
+                            adapter.refreshShareById(funshow.getTalkId());
+                            NetShareHelper.newInstance().netShareFunshow(null, null, funshow.getTalkId(), null);
+                        }
+                    },
+                    "http://www.wangsocial.com/",
+                    "往往",
+                    "有点2的社交软件",
+                    "http://resouce.dongdongwedding.com/activity_cashcow_moneyTree.png");
+        });
         recycler.setNestedScrollingEnabled(false);
         recycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recycler.setAdapter(adapter);
@@ -139,7 +160,7 @@ public class FunShowFragment extends BaseFragment<FunshowListPresonter> implemen
         getView().findViewById(R.id.btn_funshow_type).setOnClickListener(v -> {
             int typein = type == 0 ? 1 : 0;
             EventBean eventBean = new EventBean(EventBean.EVENT_FUNSHOW_LIST_TYPE_CHANGE);
-            eventBean.put("type",typein);
+            eventBean.put("type", typein);
             EventBus.getDefault().post(eventBean);
         });
     }
@@ -219,4 +240,10 @@ public class FunShowFragment extends BaseFragment<FunshowListPresonter> implemen
     public void reFreshTopUsers(List<TopUser> topUsers) {
         barview.refreshData(TopUser.topUsers2BarUsers(topUsers));
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
 }

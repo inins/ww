@@ -126,10 +126,9 @@ public class HomeActivity extends BasicAppActivity implements RadioGroup.OnCheck
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Fragment currentFragment = pagerAdapter.getCurrentFragment();
-        if (currentFragment instanceof PersonalFragmentInterface) {
-            currentFragment.onActivityResult(requestCode, resultCode, data);
-        }
+        Fragment personalFragment = pagerAdapter.getPersonalFragment();
+        if (personalFragment != null)
+            personalFragment.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
