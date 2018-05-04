@@ -86,4 +86,9 @@ public class StringUtil {
         if (year == 0) return "00";
         return Integer.toString(year);
     }
+
+    public static boolean isURL(String str){
+        str = str.toLowerCase();
+        return str.startsWith("http:");
+    }
 }

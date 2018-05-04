@@ -8,13 +8,14 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.frame.component.ui.acticity.BGMList.BGMListActivity;
 import com.frame.component.ui.acticity.BGMList.Music;
+import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.view.MusicBoard;
 import com.frame.component.view.SocialToolbar;
@@ -26,8 +27,10 @@ import com.frame.utils.KeyboardUtils;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.ToastUtil;
 import com.frame.component.ui.acticity.tags.TagSelectionActivity;
-import com.wang.social.pictureselector.ActivityPictureSelector;
+import com.wang.social.pictureselector.ActivityPicturePreview;
 import com.wang.social.pictureselector.PictureSelector;
+import com.wang.social.pictureselector.helper.PhotoHelper;
+import com.wang.social.pictureselector.helper.PhotoHelperEx;
 import com.wang.social.topic.R;
 import com.wang.social.topic.R2;
 import com.wang.social.topic.di.component.DaggerReleaseTopicComponent;
@@ -41,16 +44,19 @@ import com.wang.social.topic.mvp.ui.widget.StylePicker;
 import com.wang.social.topic.mvp.ui.widget.richeditor.RichEditor;
 import com.wang.social.topic.utils.HtmlUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import timber.log.Timber;
 
 public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
-        implements ReleaseTopicContract.View, View.OnLayoutChangeListener {
+        implements ReleaseTopicContract.View, View.OnLayoutChangeListener, PhotoHelper.OnPhotoCallback {
 
     public final static int REQUEST_CODE_TEMPLATE = 1001;
     public final static int REQUEST_CODE_BGM = 1002;
-    public final static int REQUEST_CODE_COVER_IMGAE = 1003;
+    public final static int REQUEST_CODE_COVER_IMAGE = 1003;
 
     // 根View，主要用于监听软键盘的状态
     @BindView(R2.id.root_view)
@@ -96,6 +102,11 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     private boolean mNeedShowStylePicker;
     // 封面图片路径
     private String mCoverImage;
+    // 图片选择封装
+    private PhotoHelperEx mPhotoHelperEx;
+    // 记录标签选择返回
+    private String mTagIds;
+    private String mTagNames;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -117,6 +128,8 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         int screenHeight = this.getWindowManager().getDefaultDisplay().getHeight();
         //阀值设置为屏幕高度的1/3
         mKeyboardHeight = screenHeight/3;
+
+        mPhotoHelperEx = PhotoHelperEx.newInstance(this, this);
 
         // 顶部状态栏控制
         mToolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
@@ -348,6 +361,8 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        mPhotoHelperEx.onActivityResult(requestCode, resultCode, data);
+
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_CODE_TEMPLATE: // 模板选择
@@ -367,19 +382,21 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
                     mPresenter.setBGMusic(music);
 
                     break;
-                case REQUEST_CODE_COVER_IMGAE:
+                case REQUEST_CODE_COVER_IMAGE:
                     // 封面图片
-                    String[] list = data.getStringArrayExtra(PictureSelector.NAME_FILE_PATH_LIST);
-                    mCoverImage = list[0];
-
-                    if (TextUtils.isEmpty(mCoverImage)) {
-                        FrameUtils.obtainAppComponentFromContext(this)
-                                .imageLoader()
-                                .loadImage(this, ImageConfigImpl.builder()
-                                .imageView(mCoverIV)
-                                .url(mCoverImage)
-                                .build());
-                    }
+//                    String[] list = data.getStringArrayExtra(PictureSelector.NAME_FILE_PATH_LIST);
+//
+//                    ActivityPicturePreview.start(this, 2, list);
+//                    mCoverImage = list[0];
+//
+//                    if (TextUtils.isEmpty(mCoverImage)) {
+//                        FrameUtils.obtainAppComponentFromContext(this)
+//                                .imageLoader()
+//                                .loadImage(this, ImageConfigImpl.builder()
+//                                .imageView(mCoverIV)
+//                                .url(mCoverImage)
+//                                .build());
+//                    }
 
                     break;
             }
@@ -473,15 +490,31 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
             return;
         }
 
-        mPresenter.resetNetParam()
-                .setTitle(mTitleET.getText().toString())
-                .setBackgroundImage("")
-                .setTagIds(mTagIds)
-                .setBackgroundMusicId()
-                .setContent(mRichEditor.getHtml())
-                .setTemplateId();
+//        mPresenter.resetNetParam()
+//                .setTitle(mTitleET.getText().toString())
+//                .setBackgroundImage("")
+//                .setTagIds(mTagIds)
+//                .setBackgroundMusicId()
+//                .setContent(mRichEditor.getHtml())
+//                .setTemplateId();
+//
+//        mPresenter.addTopic();
 
-        mPresenter.addTopic();
+        mPresenter.addTopic(
+                mTitleET.getText().toString(),
+                mRichEditor.getHtml(),
+                "",
+                mTagIds,
+                0,
+                0,
+                "",
+                "",
+                "",
+                "",
+                mPresenter.getTemplate() == null ? 0 : mPresenter.getTemplate().getId(),
+                mCoverImage,
+                mPresenter.getBGMusic() == null ? 0 : mPresenter.getBGMusic().getMusicId(),
+                "");
     }
 
     private void refreshTitleCount(int length) {
@@ -491,15 +524,16 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
     @OnClick(R2.id.cover_layout)
     public void selectCoverImage() {
-        PictureSelector.from(this)
-                .spanCount(3)
-                .isClip(false)
-                .maxSelection(1)
-                .forResult(REQUEST_CODE_COVER_IMGAE);
+//        PictureSelector.from(this)
+//                .spanCount(3)
+//                .isClip(false)
+//                .maxSelection(3)
+//                .forResult(REQUEST_CODE_COVER_IMAGE);
+
+
+        mPhotoHelperEx.showDefaultDialog();
     }
 
-    private String mTagIds;
-    private String mTagNames;
 
     // 标签
     @OnClick(R2.id.topic_tags_text_view)
@@ -515,7 +549,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 //        intent.putExtras(bundle);
 //
 //        startActivity(intent);
-        TagSelectionActivity.startForTagList(this, mTagIds);
+        TagSelectionActivity.startForTagList(this, mTagLit, 3);
     }
 
     @Override
@@ -523,18 +557,21 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         return true;
     }
 
+    private ArrayList<Tag> mTagLit;
     @Override
     public void onCommonEvent(EventBean event) {
         if (event.getEvent() == EventBean.EVENTBUS_TAG_SELECTED_LIST) {
 
-            String ids = (String) event.get("ids");
-            String names = (String) event.get("names");
+            mTagLit = (ArrayList<Tag>) event.get(TagSelectionActivity.NAME_SELECTED_LIST);
 
-            Timber.i(ids);
-            Timber.i(names);
+//            String ids = (String) event.get("ids");
+//            String names = (String) event.get("names");
+//
+//            Timber.i(ids);
+//            Timber.i(names);
 
-            mTagIds = ids;
-            mTagNames = names;
+            mTagIds = TagSelectionActivity.formatTagIds(mTagLit);
+            mTagNames = TagSelectionActivity.formatTagNames(mTagLit);
 
             mTagsTV.setText(mTagNames);
         }
@@ -617,5 +654,24 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     @Override
     public void toastLong(String msg) {
         ToastUtil.showToastLong(msg);
+    }
+
+    @Override
+    public void onResult(String path) {
+        Timber.i("图片返回 : " + path);
+        String[] pathArray = PhotoHelper.format2Array(path);
+        mCoverImage = pathArray[0];
+
+        if (!TextUtils.isEmpty(mCoverImage)) {
+            FrameUtils.obtainAppComponentFromContext(this)
+                    .imageLoader()
+                    .loadImage(this, ImageConfigImpl.builder()
+                            .imageView(mCoverIV)
+                            .url(mCoverImage)
+                            .transformation(new RoundedCorners(SizeUtils.dp2px(16)))
+                            .build());
+
+//            ActivityPicturePreview.start(this, path);
+        }
     }
 }

@@ -13,8 +13,8 @@
 
     <LinearLayout
         android:id="@+id/bottom_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
         android:layout_alignParentBottom="true"
         android:background="@color/common_white_trans"
         android:orientation="horizontal">
@@ -44,6 +44,12 @@
             android:textColor="#ff189aff"
             android:textSize="16sp" />
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ff868382"
+        android:layout_below="@+id/view_pager"/>
 
 
 </RelativeLayout>

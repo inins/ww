@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import com.wang.social.pictureselector.R;
 import com.wang.social.pictureselector.model.SelectorSpec;
+import com.wang.social.pictureselector.ui.widget.ClipZoomImageView;
 
 /**
  * Created by King on 2018/3/30.
@@ -46,7 +47,7 @@ public class PreviewAdapter extends PagerAdapter {
 
         View view = LayoutInflater.from(context)
                 .inflate(R.layout.ps_preview_image_layout, container, false);
-        ImageView imageView = view.findViewById(R.id.image_view);
+        ClipZoomImageView imageView = view.findViewById(R.id.image_view);
         SelectorSpec.getInstance()
                 .getImageEngine()
                 .loadImage(context, filepath, null, imageView);

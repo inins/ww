@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import timber.log.Timber;
 
 import static com.frame.component.ui.acticity.tags.TagSelectionActivity.EVENTBUS_TAG_ENTITY;
 import static com.frame.component.ui.acticity.tags.TagSelectionActivity.MODE_CONFIRM;
@@ -37,6 +38,10 @@ import static com.frame.component.ui.acticity.tags.TagSelectionActivity.TAG_TYPE
 
 public class TagListFragment extends BaseFragment<TagListPresenter> implements
         TagListContract.View {
+
+    public interface MaxListener {
+        boolean checkMax();
+    }
 
     /**
      * 返回TagListFragment
@@ -105,6 +110,11 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
     // 标签列表类型（个人标签还是兴趣标签）
     @TagSelectionActivity.TagType
     int tagListType = TAG_TYPE_PERSONAL;
+    private MaxListener mMaxListener;
+
+    public void setMaxListener(MaxListener maxListener) {
+        mMaxListener = maxListener;
+    }
 
     private TagAdapter.DataProvider tagDataProvider;
 
@@ -162,11 +172,21 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
                 if (tag.isPersonalTag()) return;
             }
 
+            boolean selected = tagListType == TAG_TYPE_PERSONAL ?
+                    tag.isPersonalSelectedTag() | tag.isPersonalTag() : tag.isInterest();
+
+            if (!selected && null != mMaxListener) {
+                if (mMaxListener.checkMax()) {
+                    Timber.i("标签数量够了");
+                    return;
+                }
+            }
+
             // 执行 Tag 点击动作
             tag.clickTag();
 
             // 点击后 Tag 是否被选中了
-            boolean selected = tagListType == TAG_TYPE_PERSONAL ?
+            selected = tagListType == TAG_TYPE_PERSONAL ?
                     tag.isPersonalSelectedTag() | tag.isPersonalTag() : tag.isInterest();
 
             tagListChanged();
