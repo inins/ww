@@ -14,16 +14,23 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.frame.component.helper.NetFindMyWalletHelper;
+import com.frame.component.helper.NetPayStoneHelper;
+import com.frame.mvp.IView;
 import com.wang.social.topic.R;
 import com.wang.social.topic.mvp.model.entities.Topic;
+import com.wang.social.topic.mvp.ui.TopicDetailActivity;
 
 public class DFShopping extends DialogFragment {
-    public static DFShopping showDialog(FragmentManager manager, Topic topic) {
+    public static DFShopping showDialog(FragmentManager manager, Context context, IView iView, Topic topic) {
         if (null == topic) return null;
 
         DFShopping dialog = new DFShopping();
-
+        dialog.setContext(context);
+        dialog.setIView(iView);
+        dialog.setTopic(topic);
         FragmentTransaction ft = manager.beginTransaction();
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         dialog.show(ft, topic.getTitle());
@@ -31,13 +38,31 @@ public class DFShopping extends DialogFragment {
         return dialog;
     }
 
+    private Context mContext;
+    private View mView;
+    private IView mIView;
+    private Topic mTopic;
+    private TextView mWalletTV;
+
+    public void setContext(Context context) {
+        mContext = context;
+    }
+
+    public void setIView(IView IView) {
+        mIView = IView;
+    }
+
+    public void setTopic(Topic topic) {
+        mTopic = topic;
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getActivity()).inflate(
+        mView = LayoutInflater.from(getActivity()).inflate(
                 R.layout.topic_dialog_shopping, null, false);
 
         Dialog dialog = new Dialog(getActivity(), R.style.TopicDialogStyle);
-        dialog.setContentView(view);
+        dialog.setContentView(mView);
 
         dialog.setCancelable(true);
 
@@ -45,18 +70,51 @@ public class DFShopping extends DialogFragment {
                 .getSystemService(Context.WINDOW_SERVICE);
         Display display = windowManager.getDefaultDisplay();
         // 调整dialog背景大小
-        view.setLayoutParams(new FrameLayout.LayoutParams((int) (display
+        mView.setLayoutParams(new FrameLayout.LayoutParams((int) (display
                 .getWidth() * 0.80), LinearLayout.LayoutParams.WRAP_CONTENT));
 
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        view.findViewById(R.id.cancel_text_view)
+        if (null != mTopic) {
+            TextView priceTV = mView.findViewById(R.id.price_text_view);
+            priceTV.setText(Integer.toString(mTopic.getPrice()));
+        }
+
+        mWalletTV = mView.findViewById(R.id.your_wallet_text_view);
+
+        mView.findViewById(R.id.cancel_text_view)
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         DFShopping.this.dismiss();
                     }
                 });
+
+        // 获取钻石数量
+        NetFindMyWalletHelper.newInstance().findMyWallet(mIView, new NetFindMyWalletHelper.FindMyWalletCallback() {
+            @Override
+            public void onWallet(int diamondNum) {
+                mWalletTV.setVisibility(View.VISIBLE);
+                mWalletTV.setText(String.format(getContext().getString(R.string.topic_balance_format), diamondNum));
+
+                mView.findViewById(R.id.ok_text_view)
+                        .setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                NetPayStoneHelper.newInstance()
+                                        .netPayTopic(mIView, mTopic.getTopicId(), mTopic.getPrice(),
+                                                new NetPayStoneHelper.OnStonePayCallback() {
+                                                    @Override
+                                                    public void success() {
+                                                        TopicDetailActivity.start(mContext, mTopic.getTopicId(), mTopic.getUserId());
+                                                    }
+                                                });
+
+                                DFShopping.this.dismiss();
+                            }
+                        });
+            }
+        });
 
         return dialog;
     }

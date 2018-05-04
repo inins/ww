@@ -96,7 +96,9 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
                     public void onTopicClick(Topic topic) {
                         if (topic.getIsShopping() == 1) {
                             // 需要支付
-                            DFShopping.showDialog(getActivity().getSupportFragmentManager(), topic);
+                            DFShopping.showDialog(getActivity().getSupportFragmentManager(),
+                                    getActivity(),
+                                    TopicListFragment.this, topic);
                         } else {
                             TopicDetailActivity.start(getActivity(), topic.getTopicId(), topic.getUserId());
                         }

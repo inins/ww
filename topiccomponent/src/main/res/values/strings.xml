@@ -1,5 +1,5 @@
 <resources>
-    <string name="topic_app_name">TopicComponent</string>
+    <string name="topic_app_name">话题</string>
     <string name="topic_zhi_shi_mo">知识魔</string>
     <string name="topic_hint_1">发布话题50条以上</string>
     <string name="topic_top_user_hint">评论话题20以上，他们都是优秀的学者</string>

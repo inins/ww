@@ -9,9 +9,15 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
+import android.webkit.JavascriptInterface;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.frame.component.ui.base.BaseAppActivity;
@@ -20,6 +26,7 @@ import com.frame.di.component.AppComponent;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.utils.BarUtils;
 import com.frame.utils.FrameUtils;
+import com.frame.utils.SizeUtils;
 import com.frame.utils.TimeUtils;
 import com.frame.utils.ToastUtil;
 import com.wang.social.topic.R;
@@ -33,6 +40,7 @@ import com.wang.social.topic.mvp.presenter.TopicDetailPresenter;
 import com.wang.social.topic.mvp.ui.widget.AppBarStateChangeListener;
 import com.wang.social.topic.mvp.ui.widget.GradualColorTextView;
 import com.wang.social.topic.mvp.ui.widget.GradualImageView;
+import com.wang.social.topic.utils.WebFontStyleUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -41,7 +49,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> implements TopicDetailContract.View {
-
+    private static final String SETUP_HTML = "file:///android_asset/editor.html";
     public final static String NAME_TOPIC_ID = "NAME_TOPIC_ID";
     public final static String NAME_CREATOR_ID = "NAME_CREATOR_ID";
 
@@ -172,6 +180,7 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
 
         mTopicId = getIntent().getIntExtra(NAME_TOPIC_ID, -1);
         mCreatorId = getIntent().getIntExtra(NAME_CREATOR_ID, -1);
+//        mTopicId = 30;
 
         mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             // CollapsingToolbarLayout收起的进度
@@ -214,6 +223,8 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
         // 加载详情
         mPresenter.getTopicDetails(mTopicId);
 //        mPresenter.test();
+
+//        NetFindMyWalletHelper.newInstance().findMyWallet(this);
     }
 
     private void resetView(boolean loaded) {
@@ -356,9 +367,42 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
         // 页面内容
         if (null == mContentWV) {
             mContentWV = new WebView(getApplicationContext());
+            mContentWV.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+            WebSettings setting = mContentWV.getSettings();
+
+
+            setting.setDefaultTextEncodingName("UTF-8");
+            setting.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+            setting.setDefaultTextEncodingName("utf-8");
+            setting.setLoadsImagesAutomatically(true);//设置自动加载图片
+            setting.setJavaScriptEnabled(true);
+            mContentWV.setWebChromeClient(new WebChromeClient());
+            mContentWV.setVerticalScrollBarEnabled(false);
+            mContentWV.setHorizontalScrollBarEnabled(false);
+            mContentWV.setBackgroundColor(Color.TRANSPARENT);
+
+            mContentWV.addJavascriptInterface(this, "App");
+
+            mContentWV.setWebViewClient(new WebViewClient() {
+
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                    return false;
+                }
+
+                public void onPageFinished(WebView view, String url) {
+                    //LogUtils.showTagE(wv_content.getContentHeight() + "");
+                    //wv_content.loadUrl("javascript:window.jo.run(document.documentElement.scrollHeight+'');");
+                    mContentWV.loadUrl("javascript:App.resize(document.body.getBoundingClientRect().height)");
+                }
+            });
+
             mContentLayout.addView(mContentWV);
         }
-        mContentWV.loadData(detail.getContent(), "text/html; charset=UTF-8", null);
+//        mContentWV.loadData(detail.getContent(), "text/html; charset=UTF-8", null);
+        mContentWV.loadDataWithBaseURL(SETUP_HTML,
+                WebFontStyleUtil.getFontStyle() + detail.getContent(),
+                "text/html", "utf-8", null);
 
         // 底部
         resetSupportLayout(detail.getIsSupport(), detail.getSupportTotal());
@@ -367,6 +411,37 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
 
         // 显示UI
         resetView(true);
+    }
+
+
+    @JavascriptInterface
+    public void resize(final float height) {
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                //wv_content.getLayoutParams().height = (int) (height * getResources().getDisplayMetrics().density);
+                mContentWV.setLayoutParams(
+                        new FrameLayout.LayoutParams(
+                                getResources().getDisplayMetrics().widthPixels,
+                                (int) (height * getResources().getDisplayMetrics().density)
+                                        + SizeUtils.dp2px(20) + mBottomLayout.getHeight()));
+            }
+        });
+    }
+
+    private class HeightGetter {
+        @JavascriptInterface
+        public void run(final String height) {
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)
+                            mContentWV.getLayoutParams();
+                    params.height = Integer.parseInt(height);
+                    mContentWV.setLayoutParams(params);
+                    //Toast.makeText(getApplicationContext(), height, 0).show();
+                }
+            });
+        }
     }
 
     @OnClick(R2.id.report_text_view)

@@ -26,16 +26,22 @@
         android:layout_below="@+id/toolbar"
         android:layout_marginBottom="20dp"/>
 
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/nested_scroll_view"
+    <include layout="@layout/topic_view_release_topic2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/title_text_view"
-        android:layout_above="@+id/bottom_layout">
+        android:layout_above="@+id/bottom_layout"/>
 
-        <include layout="@layout/topic_view_release_topic"/>
+    <!--<android.support.v4.widget.NestedScrollView-->
+        <!--android:id="@+id/nested_scroll_view"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_below="@+id/title_text_view"-->
+        <!--android:layout_above="@+id/bottom_layout">-->
 
-    </android.support.v4.widget.NestedScrollView>
+        <!--<include layout="@layout/topic_view_release_topic"/>-->
+
+    <!--</android.support.v4.widget.NestedScrollView>-->
 
     <LinearLayout
         android:id="@+id/bottom_layout"

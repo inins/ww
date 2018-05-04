@@ -1,6 +1,7 @@
 package com.wang.social.topic.mvp.presenter;
 
 import android.support.annotation.IntDef;
+import android.text.TextUtils;
 
 import com.frame.component.helper.QiNiuManager;
 import com.frame.component.ui.acticity.BGMList.Music;
@@ -31,13 +32,13 @@ public class ReleaseTopicPresenter extends
 
     private final static int COMMIT_STATE_IDLE = 0;
     private final static int COMMIT_STATE_COVER_IMAGE = 1;
-    private final static int COMMIT_STATE_CONTENT_ATTACHMENT = 2;
+    private final static int COMMIT_STATE_CONTENT_IMG = 2;
     private final static int COMMIT_STATE_TOPIC = 3;
 
     @IntDef( {
             COMMIT_STATE_IDLE,
             COMMIT_STATE_COVER_IMAGE,
-            COMMIT_STATE_CONTENT_ATTACHMENT,
+            COMMIT_STATE_CONTENT_IMG,
             COMMIT_STATE_TOPIC
     })
     @Retention(RetentionPolicy.SOURCE)
@@ -187,52 +188,48 @@ public class ReleaseTopicPresenter extends
         mBackgroundImage = backgroundImage;
         mContent = content;
 
-        // 检测封面图片是否是url
-        if (!StringUtil.isURL(backgroundImage)) {
-            // 封面图片需要上传
-            commitBackgroundImage(backgroundImage);
-            return;
-        } else {
-            setBackgroundImage(backgroundImage);
+        if (!TextUtils.isEmpty(backgroundImage)) {
+            // 检测封面图片是否是url
+            if (!StringUtil.isURL(backgroundImage)) {
+                // 封面图片需要上传
+                commitBackgroundImage(backgroundImage);
+                return;
+            } else {
+                setBackgroundImage(backgroundImage);
+            }
         }
 
-        // 检测内容里面有哪些内容需要上传
-        if (checkContent(content)) {
-            // 上传内容附件
-            commitContentAttachment();
+        // 提交内容附件
+        commitContentAttachment(mContent);
+    }
+    private String mLocalImgPath;
+
+    /**
+     * 上传内容里面的附件（图片 音频 等）
+     *
+     */
+    private void commitContentAttachment(String content) {
+        // 检测是否有图片需要上传
+        mLocalImgPath = StringUtil.findLocalImg(content);
+        if (!TextUtils.isEmpty(mLocalImgPath)) {
+            // 需要上传图片
+            commitContentImg();
             return;
-        } else {
-            setContent(content);
         }
+
+        setContent(content);
 
         addTopic();
     }
 
-    /**
-     * 检测content是否有内容需要上传
-     *
-     * @param content 内容
-     */
-    public boolean checkContent(String content) {
-        // 查找内功中是否有需要上传的资源
+    public void commitContentImg() {
+        Timber.i("上传内容图片 " + mLocalImgPath);
 
-        setContent(content);
-        return false;
-    }
-
-    /**
-     * 上传内容里面的附件（图片 音频 等）
-     */
-    public void commitContentAttachment() {
-        if (!checkContent(mContent)) {
-            // 没有内容需要上传了，直接上传话题
-            addTopic();
-            return;
-        }
-
-        setCommitState(COMMIT_STATE_CONTENT_ATTACHMENT);
+        setCommitState(COMMIT_STATE_CONTENT_IMG);
 
         mRootView.showLoading();
+
+        netUploadCommit(mLocalImgPath);
     }
 
     /**
@@ -265,7 +262,8 @@ public class ReleaseTopicPresenter extends
 
                     @Override
                     public void onNext(Object o) {
-
+                        // 发布成功
+                        mRootView.onAddTopicSuccess();
                     }
 
 
@@ -300,10 +298,15 @@ public class ReleaseTopicPresenter extends
                     setBackgroundImage(mBackgroundImage);
 
                     // 上传内容附件
-                    commitContentAttachment();
-                } else if (mCommitState == COMMIT_STATE_CONTENT_ATTACHMENT) {
+                    commitContentAttachment(mContent);
+                } else if (mCommitState == COMMIT_STATE_CONTENT_IMG) {
                     // 上传内容附件成功
+                    Timber.i("上传内容图片成功 : " + url);
+                    Timber.i(mContent);
+                    mContent = mContent.replaceAll(mLocalImgPath, url);
+                    Timber.i(mContent);
 
+                    commitContentAttachment(mContent);
                 }
             }
 

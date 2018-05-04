@@ -284,6 +284,7 @@ public class RichEditor extends WebView {
     }
 
     public synchronized void setBackground(String url) {
+        exec("javascript:RE.prepareInsert();");
         exec("javascript:RE.setBackgroundImage('url(" + url + ")');");
     }
 

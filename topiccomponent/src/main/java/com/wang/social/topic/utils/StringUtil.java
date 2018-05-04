@@ -1,6 +1,7 @@
 package com.wang.social.topic.utils;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.frame.utils.TimeUtils;
 import com.wang.social.topic.R;
@@ -88,7 +89,56 @@ public class StringUtil {
     }
 
     public static boolean isURL(String str){
+        if (TextUtils.isEmpty(str)) return false;
         str = str.toLowerCase();
         return str.startsWith("http:");
+    }
+
+
+
+    public final static String TAG_IMG = "<img";
+    public final static String TAG_END = ">";
+    public final static String TAG_SRC = "src=";
+    public final static String TAG_COLON = "\"";
+    public final static String TAG_BLANK = " ";
+    public static String findLocalImg(String content) {
+        if (null == content || content.length() <= 0) return "";
+
+        int index = 0;
+
+        int startPos = content.indexOf(TAG_IMG);
+        if (startPos < 0) return "";
+
+        index += startPos;
+
+        String temp = content.substring(startPos);
+
+        int endPos = temp.indexOf(TAG_END);
+
+        if (endPos < 0) return "";
+
+        index += endPos;
+
+        temp = temp.substring(0, endPos);
+
+        startPos = temp.indexOf(TAG_SRC);
+
+        if (startPos < 0) return "";
+
+        temp = temp.substring(startPos + TAG_SRC.length());
+
+        endPos = temp.indexOf(TAG_BLANK);
+
+        temp = temp.substring(0, endPos);
+
+        temp = temp.replaceAll("\"", "");
+        temp = temp.replaceAll("'", "");
+        temp = temp.replaceAll(" ", "");
+
+        if (isURL(temp)) {
+            return findLocalImg(content.substring(index));
+        }
+
+        return temp;
     }
 }

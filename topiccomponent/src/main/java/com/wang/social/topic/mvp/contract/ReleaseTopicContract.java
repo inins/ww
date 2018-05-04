@@ -12,6 +12,7 @@ import io.reactivex.Observable;
 public interface ReleaseTopicContract {
     interface View extends IView {
         void toastLong(String msg);
+        void onAddTopicSuccess();
     }
 
 

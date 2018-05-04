@@ -3,6 +3,7 @@ package com.wang.social.topic.mvp.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -27,8 +28,6 @@ import com.frame.utils.KeyboardUtils;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.ToastUtil;
 import com.frame.component.ui.acticity.tags.TagSelectionActivity;
-import com.wang.social.pictureselector.ActivityPicturePreview;
-import com.wang.social.pictureselector.PictureSelector;
 import com.wang.social.pictureselector.helper.PhotoHelper;
 import com.wang.social.pictureselector.helper.PhotoHelperEx;
 import com.wang.social.topic.R;
@@ -42,10 +41,12 @@ import com.wang.social.topic.mvp.ui.widget.DFSetPrice;
 import com.wang.social.topic.mvp.ui.widget.ReleaseTopicBottomBar;
 import com.wang.social.topic.mvp.ui.widget.StylePicker;
 import com.wang.social.topic.mvp.ui.widget.richeditor.RichEditor;
+import com.wang.social.topic.utils.FileUtil;
 import com.wang.social.topic.utils.HtmlUtil;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -57,6 +58,15 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     public final static int REQUEST_CODE_TEMPLATE = 1001;
     public final static int REQUEST_CODE_BGM = 1002;
     public final static int REQUEST_CODE_COVER_IMAGE = 1003;
+
+    private final static int IMAGE_TYPE_COVER = 1;  // 封面图片
+    private final static int IMAGE_TYPE_CONTENT = 2;// 内容插入图片
+    @IntDef({
+            IMAGE_TYPE_COVER,
+            IMAGE_TYPE_CONTENT
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    @interface ImageType {}
 
     // 根View，主要用于监听软键盘的状态
     @BindView(R2.id.root_view)
@@ -107,6 +117,8 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     // 记录标签选择返回
     private String mTagIds;
     private String mTagNames;
+    // 图片选择的类型
+    private @ImageType int mImageType;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -211,6 +223,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
             @Override
             public void onImageClick() {
                 // 图片
+                showPhotoDialog(IMAGE_TYPE_CONTENT);
             }
 
             @Override
@@ -351,9 +364,9 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         resetRETextColor(mStylePicker.getDefaultColor());
         resetRETextSize(mStylePicker.getDefaultSize());
         resetSymbolStyle(mStylePicker.getDefaultSymbol());
-        resetRETextColor(mStylePicker.getDefaultColor());
-        resetRETextSize(mStylePicker.getDefaultSize());
-        resetSymbolStyle(mStylePicker.getDefaultSymbol());
+//        resetRETextColor(mStylePicker.getDefaultColor());
+//        resetRETextSize(mStylePicker.getDefaultSize());
+//        resetSymbolStyle(mStylePicker.getDefaultSymbol());
         mRichEditor.setPlaceholder("你想说什么?......为保障用户们的友好体验，请最少输入30个字");
     }
 
@@ -368,6 +381,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
                 case REQUEST_CODE_TEMPLATE: // 模板选择
                     Template template = data.getParcelableExtra("template");
                     Timber.i("onActivityResult : " + template.getId() + " " + template.getName());
+                    Timber.i(template.getUrl());
 
                     mPresenter.setTemplate(template);
 
@@ -423,7 +437,22 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
     private boolean isclick;
     private void resetSymbolStyle(int position) {
-        if (position == 1) {
+        if (!TextUtils.isEmpty(mRichEditor.getHtml()) &&
+                !mRichEditor.getHtml().endsWith("</ol>") &&
+                mRichEditor.getHtml().endsWith("</div>") &&
+                !mRichEditor.getHtml().endsWith("</ol></div>")) {
+            isclick = false;
+        }
+        if (isclick) {
+            mRichEditor.setOrderNumbers();
+        }
+        isclick = true;
+
+        if (TextUtils.isEmpty(mRichEditor.getHtml()) ||
+                (position == 0 && mRichEditor.getHtml().endsWith("</ol>"))) {
+            //mRichEditor.setNumbersNone();
+            isclick = false;
+        } else if (position == 1) {
             //mRichEditor.setBullets();
             mRichEditor.setOrderNumbers();
         } else if (position == 2) {
@@ -530,6 +559,11 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 //                .maxSelection(3)
 //                .forResult(REQUEST_CODE_COVER_IMAGE);
 
+        showPhotoDialog(IMAGE_TYPE_COVER);
+    }
+
+    private void showPhotoDialog(@ImageType int type) {
+        mImageType = type;
 
         mPhotoHelperEx.showDefaultDialog();
     }
@@ -656,22 +690,41 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         ToastUtil.showToastLong(msg);
     }
 
+    /**
+     * 话题发布成功
+     */
+    @Override
+    public void onAddTopicSuccess() {
+
+    }
+
     @Override
     public void onResult(String path) {
         Timber.i("图片返回 : " + path);
         String[] pathArray = PhotoHelper.format2Array(path);
-        mCoverImage = pathArray[0];
 
-        if (!TextUtils.isEmpty(mCoverImage)) {
-            FrameUtils.obtainAppComponentFromContext(this)
-                    .imageLoader()
-                    .loadImage(this, ImageConfigImpl.builder()
-                            .imageView(mCoverIV)
-                            .url(mCoverImage)
-                            .transformation(new RoundedCorners(SizeUtils.dp2px(16)))
-                            .build());
+        if (null == pathArray) return;
+        if (pathArray.length <= 0) return;
 
-//            ActivityPicturePreview.start(this, path);
+        Timber.i(String.format("文件大小 : " + FileUtil.getFileSize(pathArray[0])));
+
+        switch (mImageType) {
+            case IMAGE_TYPE_CONTENT:
+                mRichEditor.insertImage(pathArray[0], "图片");
+                break;
+            case IMAGE_TYPE_COVER:
+                mCoverImage = pathArray[0];
+
+                if (!TextUtils.isEmpty(mCoverImage)) {
+                    FrameUtils.obtainAppComponentFromContext(this)
+                            .imageLoader()
+                            .loadImage(this, ImageConfigImpl.builder()
+                                    .imageView(mCoverIV)
+                                    .url(mCoverImage)
+                                    .transformation(new RoundedCorners(SizeUtils.dp2px(16)))
+                                    .build());
+                }
+                break;
         }
     }
 }

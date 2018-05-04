@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="14dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/topic_ic_star" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="@string/topic_topic_title"
+                android:textColor="@color/common_text_dark"
+                android:textSize="17sp" />
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="77dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/topic_shape_rect_corner_solid_bk_light"
+            android:padding="14dp">
+
+            <EditText
+                android:id="@+id/title_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:gravity="start|top"
+                android:hint="@string/topic_topic_title_hint"
+                android:inputType="textMultiLine"
+                android:maxLength="30"
+                android:textColor="@color/common_text_blank"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/title_count_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:textColor="@color/common_text_dark"
+                android:textSize="12sp" />
+
+        </FrameLayout>
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="@string/topic_topic_cover"
+            android:textColor="@color/common_text_dark"
+            android:textSize="17sp"/>
+
+        <FrameLayout
+            android:id="@+id/cover_layout"
+            android:layout_width="158dp"
+            android:layout_height="108dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/topic_shape_rect_corner_solid_bk_light">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/commom_ic_bundle_add" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="9dp"
+                    android:text="@string/topic_topic_cover_hint"
+                    android:textColor="@color/common_text_dark"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/cover_image_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY" />
+
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="24dp">
+
+            <ImageView
+                android:id="@+id/topic_imageview5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/topic_ic_star" />
+
+            <TextView
+                android:id="@+id/topic_textview9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="@string/topic_tag"
+                android:textColor="@color/common_text_dark"
+                android:textSize="17sp" />
+        </LinearLayout>
+
+
+
+        <TextView
+            android:id="@+id/topic_tags_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/topic_shape_rect_corner_solid_bk_light"
+            android:gravity="center_vertical"
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp"
+            android:textColor="@color/common_text_blank"
+            android:textSize="17sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="24dp">
+
+            <ImageView
+                android:id="@+id/topic_imageview6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/topic_ic_star" />
+
+            <TextView
+                android:id="@+id/topic_textview11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="@string/topic_music"
+                android:textColor="@color/common_text_dark"
+                android:textSize="17sp"/>
+
+        </LinearLayout>
+
+        <com.frame.component.view.MusicBoard
+            android:id="@+id/music_board_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:minHeight="38dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/topic_shape_rect_corner_solid_bk_light"
+            android:orientation="horizontal">
+
+        </com.frame.component.view.MusicBoard>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="24dp">
+
+            <ImageView
+                android:id="@+id/topic_imageview7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/topic_ic_star" />
+
+            <TextView
+                android:id="@+id/topic_textview12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="@string/topic_content"
+                android:textColor="@color/common_text_dark"
+                android:textSize="17sp" />
+        </LinearLayout>
+
+
+        <com.wang.social.topic.mvp.ui.widget.richeditor.RichEditor
+            android:id="@+id/rich_editor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/topic_shape_rect_corner_solid_bk_light"
+            android:adjustViewBounds="true"
+            android:minHeight="302dp"
+            android:orientation="vertical">
+
+        </com.wang.social.topic.mvp.ui.widget.richeditor.RichEditor>
+
+    </LinearLayout>
+
+
+</android.support.v4.widget.NestedScrollView>

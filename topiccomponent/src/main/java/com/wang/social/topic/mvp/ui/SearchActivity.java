@@ -106,7 +106,8 @@ public class SearchActivity extends BaseAppActivity<SearchPresenter> implements 
                 } else {
                     // 需要支付
                     DFShopping.showDialog(SearchActivity.this.getSupportFragmentManager(),
-                            new Topic());
+                            SearchActivity.this,
+                            SearchActivity.this, new Topic());
                 }
             }
         });

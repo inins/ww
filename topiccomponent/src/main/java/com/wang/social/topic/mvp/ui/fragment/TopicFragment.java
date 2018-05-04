@@ -188,6 +188,10 @@ public class TopicFragment extends BaseFragment<TopicPresenter> implements Topic
 
     @Override
     public void onMyRecommendTagListLoad(List<Tag> list) {
+        mSelectedTag1TV.setVisibility(View.GONE);
+        mSelectedTag2TV.setVisibility(View.GONE);
+        mSelectedTag3TV.setVisibility(View.GONE);
+
         for (int i = 0; i < Math.min(3, list.size()); i++) {
             Tag tag = list.get(i);
             switch (i) {
@@ -199,7 +203,7 @@ public class TopicFragment extends BaseFragment<TopicPresenter> implements Topic
                     mSelectedTag2TV.setVisibility(View.VISIBLE);
                     mSelectedTag2TV.setText(tag.getTagName());
                     break;
-                case 3:
+                case 2:
                     mSelectedTag3TV.setVisibility(View.VISIBLE);
                     mSelectedTag3TV.setText(tag.getTagName());
                     break;

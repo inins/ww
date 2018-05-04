@@ -100,4 +100,19 @@ public class NetPayStoneHelper {
     public interface OnStonePayCallback {
         void success();
     }
+
+    public void netPayTopic(IView view, int topicId, int stoneCount, OnStonePayCallback callback) {
+        Map<String, Object> param = NetParam.newInstance()
+                .put("price", stoneCount)
+                .put("objectId", topicId + "")
+                .put("objectType", "topic")
+                .put("payChannels", "gemstone")
+                .put("versionCode", "17")
+                .put("channelCode", "1")
+                .put("v", "2.0.0")
+                .putSignature()
+                .build();
+        netPayStone(view, param, callback);
+    }
+
 }

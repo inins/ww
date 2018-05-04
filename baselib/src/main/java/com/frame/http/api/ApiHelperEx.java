@@ -29,7 +29,7 @@ public class ApiHelperEx {
      * bindView 为null 则不绑定生命周期
      * doOnSubscribe,doFinally 为null 则不会执行
      */
-    private static <T> void execute(IView bindView, Observable<T> observable, Observer<T> observer, Consumer<Disposable> doOnSubscribe, Action doFinally) {
+    public static <T> void execute(IView bindView, Observable<T> observable, Observer<T> observer, Consumer<Disposable> doOnSubscribe, Action doFinally) {
         observable = observable.subscribeOn(Schedulers.io());
         if (bindView != null) {
             observable = observable.compose(RxLifecycleUtils.bindToLifecycle(bindView));
@@ -70,8 +70,8 @@ public class ApiHelperEx {
         execute(bindView, needLoading, observable, observer, null, null);
     }
 
-
     public static <T> T getService(Class<T> service) {
         return FrameUtils.obtainAppComponentFromContext(Utils.getContext()).repoitoryManager().obtainRetrofitService(service);
     }
+
 }

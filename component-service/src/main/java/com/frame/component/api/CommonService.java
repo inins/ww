@@ -1,6 +1,8 @@
 package com.frame.component.api;
 
+import com.frame.component.entities.DiamondNum;
 import com.frame.component.entities.UserWrap;
+import com.frame.component.entities.dto.DiamondNumDTO;
 import com.frame.component.entities.dto.QiNiuDTO;
 import com.frame.http.api.BaseJson;
 
@@ -73,4 +75,13 @@ public interface CommonService {
     @FormUrlEncoded
     @POST("/app/common/report?v=2.0.0")
     Observable<BaseJson<Object>> report(@Field("objectId") int objectId, @Field("type") int type);
+
+
+    /**
+     * 举报（用户/话题/趣聊/趣晒）
+     * type 举报类型（0人 1趣聊 2趣晒 3主播 4 话题）
+     */
+    @FormUrlEncoded
+    @POST("/app/userInfo/findMyWallet")
+    Observable<BaseJson<DiamondNum>> findMyWallet(@FieldMap Map<String, Object> param);
 }

@@ -15,7 +15,7 @@ android {
 
     defaultConfig {
         if (isRunAlone.toBoolean()) {
-            applicationId "com.dongdongkeji.wangwangsocial"
+//            applicationId "com.dongdongkeji.wangwangsocial"
 
 
             manifestPlaceholders = [qqappid: "1106099147"]
@@ -99,7 +99,7 @@ dependencies {
     implementation rootProject.ext.dependencies["constraint-layout"]
     implementation project(':component-service')
     annotationProcessor project(':router-anno-compiler')
-    compile 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'
+    implementation 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'
 
     implementation project(':springlibrary')
     implementation project(':pictureselectorcomponent')
