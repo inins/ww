@@ -18,6 +18,7 @@ import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.IView;
+import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.FocusUtil;
 import com.frame.utils.ToastUtil;
 import com.wang.social.funshow.R;
@@ -42,6 +43,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 
+@RouteNode(path = "/add", desc = "发布趣晒")
 public class FunshowAddActivity extends BasicAppActivity implements IView {
 
     @BindView(R2.id.titleview)

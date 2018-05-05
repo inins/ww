@@ -44,6 +44,8 @@ public class EventBean implements Serializable {
     public static final int EVENT_CTRL_FUNSHOW_DETAIL_DATA = 0xffa301;
     //趣晒控制器通知刷新评论
     public static final int EVENT_FUNSHOW_DETAIL_ADD_EVA = 0xffa302;
+    //趣晒控制器通知刷新分享数量
+    public static final int EVENT_FUNSHOW_DETAIL_ADD_SHARE = 0xffa319;
     //趣晒详情点赞通知列表更新数量
     public static final int EVENT_FUNSHOW_UPDATE_ZAN = 0xffa303;
     //趣晒详情评论点击通知编辑框
@@ -75,6 +77,7 @@ public class EventBean implements Serializable {
             EVENT_ACCOUNT_EXCHANGE_STONE,
             EVENT_CTRL_FUNSHOW_DETAIL_DATA,
             EVENT_FUNSHOW_DETAIL_ADD_EVA,
+            EVENT_FUNSHOW_DETAIL_ADD_SHARE,
             EVENT_FUNSHOW_UPDATE_ZAN,
             EVENT_CTRL_FUNSHOW_DETAIL_EVAID,
             EVENT_CTRL_FUNSHOW_ADD_USER,

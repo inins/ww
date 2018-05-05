@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/common_white">
 
     <com.frame.component.view.SocialToolbar
@@ -24,143 +24,146 @@
         app:layout_constraintTop_toBottomOf="@id/ss_toolbar"
         app:personal_textNote="@string/im_shadow_setting_sub"
         app:personal_textTitle="@string/im_shadow_setting" />
-    
+
     <ImageView
         android:id="@+id/ss_iv_portrait"
         android:layout_width="70dp"
         android:layout_height="70dp"
+        android:layout_marginTop="25dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ss_title"
-        android:layout_marginTop="25dp"
-        tools:src="@drawable/im_image_message_placeholder"/>
+        tools:src="@drawable/im_image_message_placeholder" />
 
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="8dp"
-        android:textColor="@color/common_white"
-        android:text="@string/im_setting_portrait"
+        android:background="@drawable/im_bg_setting_portrait_head"
         android:gravity="center"
-        app:layout_constraintLeft_toLeftOf="@id/ss_iv_portrait"
-        app:layout_constraintRight_toRightOf="@id/ss_iv_portrait"
+        android:text="@string/im_setting_portrait"
+        android:textColor="@color/common_white"
+        android:textSize="8dp"
         app:layout_constraintBottom_toBottomOf="@id/ss_iv_portrait"
-        android:background="@drawable/im_bg_setting_portrait_head"/>
+        app:layout_constraintLeft_toLeftOf="@id/ss_iv_portrait"
+        app:layout_constraintRight_toRightOf="@id/ss_iv_portrait" />
 
     <TextView
         android:id="@+id/ss_tv_nickname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="15dp"
-        android:textColor="@color/common_text_blank"
+        android:layout_marginTop="37dp"
         android:text="@string/im_shadow_nickname"
+        android:textColor="@color/common_text_blank"
+        android:textSize="15dp"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ss_iv_portrait"
         app:layout_constraintRight_toLeftOf="@id/ss_et_nickname"
-        android:layout_marginTop="37dp"/>
-    
+        app:layout_constraintTop_toBottomOf="@id/ss_iv_portrait" />
+
     <EditText
         android:id="@+id/ss_et_nickname"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:textSize="14dp"
         android:layout_marginStart="9dp"
-        android:textColor="@color/common_text_blank"
+        android:background="@drawable/im_bg_input"
+        android:gravity="center"
         android:lines="1"
+        android:paddingBottom="5dp"
+        android:textColor="@color/common_text_blank"
+        android:textSize="14dp"
+        app:layout_constraintBottom_toBottomOf="@id/ss_tv_nickname"
         app:layout_constraintLeft_toRightOf="@id/ss_tv_nickname"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/ss_tv_nickname"
-        app:layout_constraintBottom_toBottomOf="@id/ss_tv_nickname"/>
+        app:layout_constraintTop_toTopOf="@id/ss_tv_nickname" />
 
     <TextView
         android:id="@+id/ss_tv_gender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="@id/ss_tv_nickname"
-        app:layout_constraintTop_toBottomOf="@id/ss_tv_nickname"
         android:layout_marginTop="45dp"
-        android:textSize="15dp"
+        android:text="@string/im_shadow_gender"
         android:textColor="@color/common_text_blank"
-        android:text="@string/im_shadow_gender"/>
+        android:textSize="15dp"
+        app:layout_constraintLeft_toLeftOf="@id/ss_tv_nickname"
+        app:layout_constraintTop_toBottomOf="@id/ss_tv_nickname" />
 
     <RadioGroup
         android:id="@+id/ss_rg_gender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginStart="18dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@id/ss_tv_gender"
         app:layout_constraintLeft_toRightOf="@id/ss_tv_gender"
-        app:layout_constraintTop_toTopOf="@id/ss_tv_gender"
-        app:layout_constraintBottom_toBottomOf="@id/ss_tv_gender">
+        app:layout_constraintTop_toTopOf="@id/ss_tv_gender">
 
         <RadioButton
             android:id="@+id/ss_rb_male"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:button="@drawable/im_shadow_male"/>
+            android:button="@drawable/im_shadow_male" />
 
         <RadioButton
             android:id="@+id/ss_rb_female"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
-            android:button="@drawable/im_shadow_female"/>
+            android:button="@drawable/im_shadow_female" />
 
         <RadioButton
             android:id="@+id/ss_rb_secret"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
-            android:button="@drawable/im_shadow_secret"/>
+            android:button="@drawable/im_shadow_secret" />
     </RadioGroup>
 
     <TextView
         android:id="@+id/ss_tv_sure"
         android:layout_width="220dp"
         android:layout_height="33dp"
+        android:layout_marginTop="56dp"
         android:background="@drawable/common_bg_btn_theme"
+        android:gravity="center"
+        android:text="@string/im_shadow_sure"
+        android:textColor="@color/common_white"
+        android:textSize="15dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ss_rg_gender"
-        android:layout_marginTop="56dp"
-        android:gravity="center"
-        android:textSize="15dp"
-        android:textColor="@color/common_white"
-        android:text="@string/im_shadow_sure"/>
+        app:layout_constraintTop_toBottomOf="@id/ss_rg_gender" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ss_tv_sure"
         android:layout_marginTop="8dp"
+        android:text="@string/im_shadow_tip"
         android:textColor="@color/common_text_dark_light"
         android:textSize="10dp"
-        android:text="@string/im_shadow_tip"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ss_tv_sure" />
 
     <TextView
         android:id="@+id/ss_tv_what"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/ss_tv_shadow"
         android:layout_marginBottom="8dp"
         android:text="@string/im_shadow_what_is"
-        app:layout_constraintHorizontal_chainStyle="packed"
+        android:textColor="@color/common_text_dark_light"
         android:textSize="11dp"
-        android:textColor="@color/common_text_dark_light"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/ss_tv_shadow" />
 
     <TextView
         android:id="@+id/ss_tv_shadow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toRightOf="@id/ss_tv_what"
-        app:layout_constraintBottom_toBottomOf="@id/ss_tv_what"
-        app:layout_constraintRight_toRightOf="parent"
         android:text="@string/im_shadow"
+        android:textColor="@color/common_colorAccent"
         android:textSize="11dp"
-        android:textColor="@color/common_colorAccent"/>
+        app:layout_constraintBottom_toBottomOf="@id/ss_tv_what"
+        app:layout_constraintLeft_toRightOf="@id/ss_tv_what"
+        app:layout_constraintRight_toRightOf="parent" />
 </android.support.constraint.ConstraintLayout>

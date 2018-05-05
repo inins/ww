@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <com.frame.component.view.SocialToolbar
+        android:id="@+id/ta_toolbar"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:toolbar_left_icon="@drawable/common_ic_back"
+        app:toolbar_right_text="@string/im_save" />
+
+    <com.frame.component.view.TitleView
+        android:id="@+id/ta_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/common_border_margin"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ta_toolbar"
+        app:personal_textNote="@string/im_create_team_title_tip"
+        app:personal_textTitle="@string/im_team_attribute" />
+
+    <TextView
+        android:id="@+id/sa_tv_charge_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/common_border_margin"
+        android:layout_marginTop="10dp"
+        android:text="@string/im_team_charge"
+        android:textColor="@color/common_text_blank"
+        android:textSize="18dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ta_title" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:layout_marginStart="5dp"
+        android:text="@string/im_team_charge_tip"
+        android:textColor="@color/common_text_dark_light"
+        android:textSize="11dp"
+        app:layout_constraintBottom_toBottomOf="@id/sa_tv_charge_title"
+        app:layout_constraintLeft_toRightOf="@id/sa_tv_charge_title" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/ta_cl_free"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="5dp"
+        android:background="?attr/selectableItemBackground"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sa_tv_charge_title">
+
+        <ImageView
+            android:id="@+id/ta_iv_join_free"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/common_border_margin"
+            android:src="@drawable/common_ic_check_hot"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/ta_tv_join_free"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="9dp"
+            android:paddingBottom="2dp"
+            android:text="@string/im_allow_free_join"
+            android:textColor="@color/common_colorAccent"
+            android:textSize="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/ta_iv_join_free"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/ta_tv_join_free_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginStart="5dp"
+            android:text="@string/im_need_audit"
+            android:textColor="@color/common_blue_gray"
+            android:textSize="11dp"
+            app:layout_constraintBottom_toBottomOf="@id/ta_tv_join_free"
+            app:layout_constraintLeft_toRightOf="@id/ta_tv_join_free" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/ta_cl_charge"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="5dp"
+        android:background="?attr/selectableItemBackground"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ta_cl_free">
+
+        <ImageView
+            android:id="@+id/ta_iv_join_charge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/common_border_margin"
+            android:src="@drawable/common_ic_check"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/ta_tv_join_charge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="9dp"
+            android:paddingBottom="2dp"
+            android:text="@string/im_team_pay_join"
+            android:textColor="@color/common_text_blank"
+            android:textSize="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/ta_iv_join_charge"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/ta_tv_join_charge_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginStart="5dp"
+            android:text="@string/im_team_pay_join_tip"
+            android:textColor="@color/common_text_dark_light"
+            android:textSize="11dp"
+            app:layout_constraintBottom_toBottomOf="@id/ta_tv_join_charge"
+            app:layout_constraintLeft_toRightOf="@id/ta_tv_join_charge" />
+    </android.support.constraint.ConstraintLayout>
+
+    <RadioGroup
+        android:id="@+id/ta_rg_gem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ta_cl_charge">
+
+        <RadioButton
+            android:id="@+id/ta_rb_gem_100"
+            android:layout_width="74dp"
+            android:layout_height="30dp"
+            android:background="@drawable/common_bg_theme_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/im_gem_100"
+            android:textColor="@color/common_text_theme_bg_selector" />
+
+        <RadioButton
+            android:id="@+id/ta_rb_gem_300"
+            android:layout_width="74dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/common_bg_theme_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/im_gem_300"
+            android:textColor="@color/common_text_theme_bg_selector" />
+
+        <RadioButton
+            android:id="@+id/ta_rb_gem_500"
+            android:layout_width="74dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/common_bg_theme_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/im_gem_500"
+            android:textColor="@color/common_text_theme_bg_selector" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/ta_tv_custom_gem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/im_gem_custom"
+        android:textColor="@color/common_text_blank"
+        android:textSize="12dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/ta_et_gem"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/ta_et_gem"
+        app:layout_constraintTop_toTopOf="@+id/ta_et_gem" />
+
+    <EditText
+        android:id="@+id/ta_et_gem"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/im_bg_input"
+        android:lines="1"
+        android:textColor="@color/common_text_blank"
+        android:textSize="13dp"
+        android:visibility="gone"
+        android:inputType="number"
+        android:gravity="center"
+        android:paddingBottom="5dp"
+        app:layout_constraintLeft_toRightOf="@id/ta_tv_custom_gem"
+        app:layout_constraintRight_toLeftOf="@+id/ta_tv_gem"
+        app:layout_constraintTop_toBottomOf="@id/ta_rg_gem" />
+
+    <TextView
+        android:id="@+id/ta_tv_gem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:text="@string/im_gem"
+        android:textColor="@color/common_text_blank"
+        android:textSize="12dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/ta_et_gem"
+        app:layout_constraintLeft_toRightOf="@id/ta_et_gem"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ta_et_gem" />
+
+    <TextView
+        android:id="@+id/sa_tv_notice_remind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="*"
+        android:textColor="@color/common_colorAccent"
+        android:textSize="11dp"
+        app:layout_constraintBottom_toBottomOf="@id/sa_tv_notice"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/sa_tv_notice"
+        app:layout_constraintTop_toTopOf="@id/sa_tv_notice" />
+
+    <TextView
+        android:id="@+id/sa_tv_notice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="13dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/im_team_pay_notice"
+        android:textColor="@color/common_text_dark"
+        android:textSize="11dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/sa_tv_notice_remind"
+        app:layout_constraintRight_toRightOf="parent" />
+</android.support.constraint.ConstraintLayout>

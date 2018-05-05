@@ -5,6 +5,7 @@ import android.view.View;
 import com.frame.component.ui.base.BaseController;
 import com.wang.social.funshow.mvp.ui.activity.FunshowAddActivity;
 
+//添加趣晒controller鸡肋。提供几个相互获取对象的方法
 public abstract class FunshowAddBaseController extends BaseController{
 
     public FunshowAddBaseController(View root) {

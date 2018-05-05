@@ -67,54 +67,10 @@ public class RecycleAdapterBundleImg extends RecyclerView.Adapter<RecyclerView.V
         });
 
         if (holder instanceof HolderAdd) {
-            bindTypeAdd((HolderAdd) holder, position);
+            ((HolderAdd) holder).bindTypeAdd(position);
         } else if (holder instanceof HolderItem) {
-            bindTypeItem((HolderItem) holder, position);
+            ((HolderItem) holder).bindTypeItem(position);
         }
-    }
-
-    private void bindTypeAdd(HolderAdd holder, int position) {
-        holder.card_bundle.setRadius(corner);
-        holder.square_framelayout.setWihi(wihi);
-        //如果超过最多数量，不在显示最后一个加
-        if (results != null && results.size() >= maxcount && maxcount != 0) {
-            holder.itemView.setVisibility(View.GONE);
-        } else {
-            holder.itemView.setVisibility(View.VISIBLE);
-        }
-
-        holder.itemView.setOnClickListener((v) -> {
-            if (bundleClickListener != null) {
-                bundleClickListener.onPhotoAddClick(v);
-            }
-        });
-    }
-
-    private void bindTypeItem(final HolderItem holder, int position) {
-        final BundleImgEntity bundle = results.get(position);
-
-        holder.card_bundle.setRadius(corner);
-        holder.square_framelayout.setWihi(wihi);
-        holder.img_bundle_play.setVisibility(bundle.isVideo() ? View.VISIBLE : View.GONE);
-        if (onBundleLoadImgListener != null) {
-            onBundleLoadImgListener.onloadImg(holder.img_bundle_show, bundle.getPath(), 0);
-        } else {
-            if (!holder.itemView.isInEditMode()) {
-                ImageLoaderHelper.loadImg(holder.img_bundle_show, bundle.getPath());
-            }
-        }
-        holder.img_bundle_show.setOnClickListener((v) -> {
-            if (bundleClickListener != null)
-                bundleClickListener.onPhotoShowClick(bundle.getPath(), position);
-        });
-        holder.img_bundle_delete.setOnClickListener((v) -> {
-            results.remove(holder.getLayoutPosition());
-            notifyItemRemoved(holder.getLayoutPosition());
-            notifyItemChanged(getItemCount() - 1);
-            if (bundleClickListener != null) {
-                bundleClickListener.onPhotoDelClick(v, position);
-            }
-        });
     }
 
     @Override
@@ -155,6 +111,33 @@ public class RecycleAdapterBundleImg extends RecyclerView.Adapter<RecyclerView.V
                 img_bundle_delete.setVisibility(View.INVISIBLE);
             }
         }
+
+        public void bindTypeItem(int position) {
+            final BundleImgEntity bundle = results.get(position);
+
+            card_bundle.setRadius(corner);
+            square_framelayout.setWihi(wihi);
+            img_bundle_play.setVisibility(bundle.isVideo() ? View.VISIBLE : View.GONE);
+            if (onBundleLoadImgListener != null) {
+                onBundleLoadImgListener.onloadImg(img_bundle_show, bundle.getPath(), 0);
+            } else {
+                if (!itemView.isInEditMode()) {
+                    ImageLoaderHelper.loadImg(img_bundle_show, bundle.getPath());
+                }
+            }
+            img_bundle_show.setOnClickListener((v) -> {
+                if (bundleClickListener != null)
+                    bundleClickListener.onPhotoShowClick(bundle.getPath(), position);
+            });
+            img_bundle_delete.setOnClickListener((v) -> {
+                results.remove(getLayoutPosition());
+                notifyItemRemoved(getLayoutPosition());
+                notifyItemChanged(getItemCount() - 1);
+                if (bundleClickListener != null) {
+                    bundleClickListener.onPhotoDelClick(v, position);
+                }
+            });
+        }
     }
 
     public class HolderAdd extends RecyclerView.ViewHolder {
@@ -170,6 +153,23 @@ public class RecycleAdapterBundleImg extends RecyclerView.Adapter<RecyclerView.V
                 square_framelayout.removeAllViews();
                 LayoutInflater.from(itemView.getContext()).inflate(src_addbtn, square_framelayout, true);
             }
+        }
+
+        public void bindTypeAdd(int position) {
+            card_bundle.setRadius(corner);
+            square_framelayout.setWihi(wihi);
+            //如果超过最多数量，不在显示最后一个加
+            if (results != null && results.size() >= maxcount && maxcount != 0) {
+                itemView.setVisibility(View.GONE);
+            } else {
+                itemView.setVisibility(View.VISIBLE);
+            }
+
+            itemView.setOnClickListener((v) -> {
+                if (bundleClickListener != null) {
+                    bundleClickListener.onPhotoAddClick(v);
+                }
+            });
         }
     }
 

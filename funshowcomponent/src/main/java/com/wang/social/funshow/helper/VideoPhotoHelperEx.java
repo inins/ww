@@ -15,6 +15,8 @@ import java.lang.ref.WeakReference;
 public class VideoPhotoHelperEx extends PhotoHelper {
 
     private final int REQUEST_CODE_CAMERA = 0xf212;
+    //是否可以拍视频
+    private boolean videoEnable = false;
 
     //使用弱引用持有dialog，以便及时回收
     private WeakReference<DialogBottomVideoPhoto> dialogPhoto;
@@ -47,8 +49,7 @@ public class VideoPhotoHelperEx extends PhotoHelper {
 
             @Override
             public void onCameraClick(View v) {
-//                startCamera();
-                CameraActivity.start(activity, REQUEST_CODE_CAMERA);
+                CameraActivity.start(activity, videoEnable, REQUEST_CODE_CAMERA);
             }
 
             @Override
@@ -76,5 +77,13 @@ public class VideoPhotoHelperEx extends PhotoHelper {
         if (dialogPhoto == null || dialogPhoto.get() != null) {
             dialogPhoto.get().dismiss();
         }
+    }
+
+    public boolean isVideoEnable() {
+        return videoEnable;
+    }
+
+    public void setVideoEnable(boolean videoEnable) {
+        this.videoEnable = videoEnable;
     }
 }

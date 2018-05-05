@@ -15,6 +15,7 @@ import com.frame.di.component.AppComponent;
 import com.frame.mvp.IView;
 import com.frame.utils.FocusUtil;
 import com.liaoinstan.springview.widget.SpringView;
+import com.umeng.socialize.UMShareAPI;
 import com.wang.social.funshow.R;
 import com.wang.social.funshow.R2;
 import com.wang.social.funshow.di.component.DaggerSingleActivityComponent;
@@ -77,6 +78,11 @@ public class FunshowDetailActivity extends BasicAppActivity implements IView {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+    }
 
     @Override
     protected void onDestroy() {

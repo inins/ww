@@ -76,7 +76,9 @@ public abstract class BasicAppActivity extends BasicActivity {
 
     public void showLoadingDialog() {
         if (dialogLoading.get() == null) dialogLoading = new WeakReference(new DialogLoading(this));
-        dialogLoading.get().show();
+        if (!dialogLoading.get().isShowing()){
+            dialogLoading.get().show();
+        }
     }
 
     public final void dismissLoadingDialog() {

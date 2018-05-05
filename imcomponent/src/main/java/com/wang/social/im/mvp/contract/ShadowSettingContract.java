@@ -3,7 +3,9 @@ package com.wang.social.im.mvp.contract;
 import com.frame.http.api.BaseJson;
 import com.frame.mvp.IModel;
 import com.frame.mvp.IView;
-import com.wang.social.im.mvp.model.entities.dto.ShadowCheckInfoDTO;
+import com.wang.social.im.enums.Gender;
+import com.wang.social.im.mvp.model.entities.ShadowInfo;
+import com.wang.social.im.mvp.model.entities.dto.PayCheckInfoDTO;
 
 import io.reactivex.Observable;
 
@@ -17,6 +19,16 @@ public interface ShadowSettingContract {
 
     interface View extends IView{
 
+        /**
+         * 显示支付弹框
+         */
+        void showPayDialog(String applyId, ShadowInfo info);
+
+        /**
+         * 修改完成
+         * @param info
+         */
+        void onUpdateComplete(ShadowInfo info);
     }
 
     interface Model extends IModel{
@@ -26,7 +38,7 @@ public interface ShadowSettingContract {
          * @param groupId
          * @return
          */
-        Observable<BaseJson<ShadowCheckInfoDTO>> checkShadowStatus(String groupId);
+        Observable<BaseJson<PayCheckInfoDTO>> checkShadowStatus(String groupId);
 
         /**
          * 修改分身信息
@@ -36,6 +48,6 @@ public interface ShadowSettingContract {
          * @param portrait
          * @return
          */
-        Observable<BaseJson> updateShadowInfo(String socialId, String orderId, String nickname, String portrait);
+        Observable<BaseJson> updateShadowInfo(String socialId, String orderId, String nickname, String portrait, Gender gender);
     }
 }

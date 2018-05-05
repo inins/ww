@@ -23,5 +23,10 @@
 
     <color name="common_bk_light">#F2F2F2</color>      <!--亮灰色背景-->
 
+    <color name="common_bg_gray">#e7e7e7</color>
+    <color name="common_bg_gray_selected">#d2d2d2</color>
+
+    <color name="common_white_selected">#e6e6e6</color>
+
     <color name="common_list_divider">#e5e5e5</color>
 </resources>

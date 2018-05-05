@@ -17,7 +17,7 @@ public class FunshowAddMusicBoardController extends FunshowAddBaseController imp
 
     @BindView(R2.id.musicboard)
     MusicBoard musicboard;
-    @BindView(R.id.btn_del)
+    @BindView(R2.id.btn_del)
     ImageView btnDel;
     private Music music;
 
@@ -51,15 +51,20 @@ public class FunshowAddMusicBoardController extends FunshowAddBaseController imp
 
     /////////////////////////////////////////
 
+    //设置音频资源
     public void setMusicPath(Music music) {
         this.music = music;
-
         musicboard.resetMusic(music);
-
         getRoot().setVisibility(View.VISIBLE);
     }
 
+    //获取音频资源
     public String getMusicPath() {
         return music != null ? music.getUrl() : "";
+    }
+
+    //是否已有音频资源
+    public boolean hasMusicRsc() {
+        return music != null;
     }
 }

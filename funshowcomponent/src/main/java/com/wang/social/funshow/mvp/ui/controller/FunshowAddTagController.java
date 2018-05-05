@@ -15,9 +15,9 @@ public class FunshowAddTagController extends FunshowAddBaseController implements
 
     @BindView(R2.id.check_hidename)
     CheckBox checkHidename;
-    @BindView(R.id.check_pay)
+    @BindView(R2.id.check_pay)
     CheckedTextView checkPay;
-    @BindView(R.id.text_amount)
+    @BindView(R2.id.text_amount)
     TextView textAmount;
 
     private int diamond;
