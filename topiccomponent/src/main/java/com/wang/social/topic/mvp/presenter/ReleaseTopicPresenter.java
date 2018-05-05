@@ -13,6 +13,7 @@ import com.frame.mvp.BasePresenter;
 import com.wang.social.topic.mvp.contract.ReleaseTopicContract;
 import com.wang.social.topic.mvp.model.entities.Template;
 import com.wang.social.topic.utils.StringUtil;
+import com.wang.social.topic.utils.WebFontStyleUtil;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -56,6 +57,8 @@ public class ReleaseTopicPresenter extends
     private Template mTemplate;
     // 背景图片 封面图片
     private String mBackgroundImage;
+    // 标题,最后生成内容页面的时候需要
+    private String mTitle;
     // 内容
     private String mContent;
 
@@ -100,6 +103,12 @@ public class ReleaseTopicPresenter extends
         return this;
     }
 
+    public ReleaseTopicPresenter setTemplateId(int templateId) {
+        mNetParam.put("templateId", templateId);
+
+        return this;
+    }
+
     public ReleaseTopicPresenter setAddress(String address) {
         mNetParam.put("address", address);
         return this;
@@ -131,12 +140,15 @@ public class ReleaseTopicPresenter extends
     }
 
     public ReleaseTopicPresenter setTitle(String title) {
+        mTitle = title;
         mNetParam.put("title", title);
         return this;
     }
 
     public ReleaseTopicPresenter setContent(String content) {
-        mNetParam.put("content", content);
+        // 生成网页格式
+        mNetParam.put("content",
+                WebFontStyleUtil.getHtmlFormat(mTitle.trim(), content));
         return this;
     }
 
@@ -180,9 +192,20 @@ public class ReleaseTopicPresenter extends
 
         // 不需要上传的参数先封装
         resetNetParam();
+        // 标题
         setTitle(title);
+        // 简介
+        setFirstStrff(firstStrff);
+        // 标签
         setTagIds(tagIds);
+        // 背景图
         setBackgroundMusicId(backgroundMusicId);
+        // 是否付费
+        setRelateState(relateState);
+        // 价格
+        setGemston(gemstone);
+        // 模板
+        setTemplateId(templateId);
 
         // 记录可能需要上传的参数
         mBackgroundImage = backgroundImage;
@@ -263,7 +286,7 @@ public class ReleaseTopicPresenter extends
                     @Override
                     public void onNext(Object o) {
                         // 发布成功
-                        mRootView.onAddTopicSuccess();
+                        mRootView.onReleaseTopicSuccess();
                     }
 
 

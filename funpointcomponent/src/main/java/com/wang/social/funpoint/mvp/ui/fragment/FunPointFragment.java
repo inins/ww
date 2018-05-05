@@ -20,6 +20,7 @@ import com.frame.component.entities.TestEntity;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.helper.NetLoginTestHelper;
 import com.frame.component.ui.acticity.WebActivity;
+import com.frame.component.ui.acticity.tags.TagSelectionActivity;
 import com.frame.component.view.barview.BarUser;
 import com.frame.component.view.barview.BarView;
 import com.frame.di.component.AppComponent;
@@ -80,7 +81,7 @@ public class FunPointFragment extends BaseFragment<FunpointListPresonter> implem
     public void onCommonEvent(EventBean event) {
         switch (event.getEvent()) {
             //TODO:接收到修改标签的消息后刷新标签，暂时还未确定消息key值，暂时写个123（123这个消息并不存在）
-            case 123:
+            case EventBean.EVENTBUS_TAG_UPDATED:
                 mPresenter.netGetRecommendTag();
                 break;
         }
@@ -99,7 +100,8 @@ public class FunPointFragment extends BaseFragment<FunpointListPresonter> implem
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         adapterLable = new RecycleAdapterLable();
-        adapterLable.setOnMoreClickListener(v -> SearchActivity.start(getContext()));
+        adapterLable.setOnMoreClickListener(v ->
+                TagSelectionActivity.startSelection(getActivity(), TagSelectionActivity.TAG_TYPE_INTEREST));
         recyclerLable.setNestedScrollingEnabled(false);
         recyclerLable.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         recyclerLable.setAdapter(adapterLable);

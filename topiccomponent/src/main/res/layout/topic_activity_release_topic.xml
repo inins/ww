@@ -68,6 +68,22 @@
 
         </com.wang.social.topic.mvp.ui.widget.StylePicker>
 
+        <FrameLayout
+            android:id="@+id/voice_layout"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/btn_voice_record"
+                android:layout_width="77dp"
+                android:layout_height="77dp"
+                android:layout_gravity="center"
+                android:background="@drawable/common_shape_oval_gradient_blue"
+                android:scaleType="center"
+                android:src="@drawable/common_ic_voice_record" />
+        </FrameLayout>
+
     </LinearLayout>
 
 </RelativeLayout>

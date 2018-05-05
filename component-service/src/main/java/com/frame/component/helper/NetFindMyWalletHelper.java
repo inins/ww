@@ -40,7 +40,7 @@ public class NetFindMyWalletHelper {
         return new NetFindMyWalletHelper();
     }
 
-    public void findMyWallet(IView view, FindMyWalletCallback callback) {
+    public void findMyWallet(IView view, boolean needLoading, FindMyWalletCallback callback) {
 //        Timber.i("findMyWallet");
         Map<String, Object> param = new NetParam()
                 .put("v", "2.0.0")
@@ -48,7 +48,7 @@ public class NetFindMyWalletHelper {
                 .build();
 
 
-        ApiHelperEx.execute(view, false,
+        ApiHelperEx.execute(view, needLoading,
                 ApiHelperEx.getService(CommonService.class)
                         .findMyWallet(param),
                 new ErrorHandleSubscriber<BaseJson<DiamondNum>>() {

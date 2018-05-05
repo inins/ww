@@ -28,25 +28,29 @@
         android:background="#ffe5e5e5"
         app:layout_constraintEnd_toEndOf="@+id/textView"
         app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/topic_edittext" />
+        app:layout_constraintTop_toBottomOf="@+id/price_edittext" />
 
     <EditText
-        android:id="@+id/topic_edittext"
-        android:layout_width="wrap_content"
+        android:id="@+id/price_edittext"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:minWidth="70dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="28dp"
         android:background="@android:color/transparent"
         android:gravity="center"
         android:inputType="number"
-        android:textColor="@color/common_text_blank"
-        android:textSize="24sp"
-        android:paddingTop="8dp"
+        android:maxEms="6"
+        android:minWidth="70dp"
         android:paddingBottom="8dp"
-        android:textStyle="bold"
+        android:paddingTop="8dp"
+        android:singleLine="true"
+        android:textColor="@color/common_text_blank"
         android:textCursorDrawable="@null"
-        app:layout_constraintEnd_toEndOf="@+id/textView"
-        app:layout_constraintStart_toStartOf="@+id/textView"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/topic_view2"
+        app:layout_constraintStart_toStartOf="@+id/topic_view2"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         tools:text="555" />
 
@@ -54,16 +58,16 @@
         android:id="@+id/topic_textview3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
+        android:layout_marginStart="8dp"
         android:text="@string/topic_diamond"
         android:textColor="#ff434343"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/topic_edittext"
-        app:layout_constraintEnd_toEndOf="@+id/topic_view2"
-        app:layout_constraintTop_toTopOf="@+id/topic_edittext" />
+        app:layout_constraintBottom_toBottomOf="@+id/price_edittext"
+        app:layout_constraintStart_toEndOf="@+id/topic_view2"
+        app:layout_constraintTop_toTopOf="@+id/price_edittext" />
 
     <TextView
-        android:id="@+id/topic_textview4"
+        android:id="@+id/reset_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -89,10 +93,11 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topic_textview4" />
+        app:layout_constraintTop_toBottomOf="@+id/reset_text_view" />
 
 
     <TextView
+        android:id="@+id/ok_text_view"
         android:layout_width="68dp"
         android:layout_height="27dp"
         android:layout_marginBottom="15dp"
@@ -105,6 +110,6 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topic_textview4" />
+        app:layout_constraintTop_toBottomOf="@+id/reset_text_view" />
 
 </android.support.constraint.ConstraintLayout>

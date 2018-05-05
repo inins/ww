@@ -15,6 +15,7 @@ import com.frame.utils.ToastUtil;
 import com.wang.social.funpoint.mvp.contract.FunpointListContract;
 import com.wang.social.funpoint.mvp.entities.Funpoint;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -92,7 +93,7 @@ public class FunpointListPresonter extends BasePresenter<FunpointListContract.Mo
                     @Override
                     public void onNext(BaseJson<BaseListWrap<Tag>> basejson) {
                         BaseListWrap<Tag> wrap = basejson.getData();
-                        List<Tag> tags = wrap.getList();
+                        List<Tag> tags = null != wrap && null != wrap.getList() ? wrap.getList() : new ArrayList<>();
                         mRootView.reFreshTags(tags);
                     }
 

@@ -111,4 +111,30 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/tag_all_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="19dp"
+        android:layout_marginBottom="32dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/common_ic_tag_all" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tags_all"
+            android:textColor="#ff189aff"
+            android:textSize="10sp"
+            />
+
+    </LinearLayout>
+
 </RelativeLayout>

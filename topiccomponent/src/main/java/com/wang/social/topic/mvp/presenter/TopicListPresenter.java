@@ -34,6 +34,10 @@ public class TopicListPresenter extends
     private int mSize = 10;
     // 当前页码
     private int mCurrent = 0;
+    // 是否大量知识
+    private boolean mTagAll = false;
+
+
 
     @Inject
     public TopicListPresenter(TopicListContract.Model model, TopicListContract.View view) {
@@ -47,6 +51,10 @@ public class TopicListPresenter extends
         }
 
         return null;
+    }
+
+    public void setTagAll(boolean tagAll) {
+        mTagAll = tagAll;
     }
 
     public int getTopicCount() {
@@ -110,10 +118,12 @@ public class TopicListPresenter extends
         initHandler();
 
         mApiHelper.execute(mRootView,
-                mModel.getNewsList("1", mSize, mCurrent + 1),
+                mModel.getNewsList(mTagAll ? "1" : "0", mSize, mCurrent + 1),
                 mErrorHandleSubscriber,
                 mConsumer,
                 mAction);
+
+        setTagAll(false);
     }
 
     public void getHotList() {

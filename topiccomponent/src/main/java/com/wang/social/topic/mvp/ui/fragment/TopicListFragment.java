@@ -8,7 +8,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.frame.base.BaseFragment;
+import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
 import com.frame.utils.ToastUtil;
 import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.container.AliHeader;
@@ -24,11 +26,16 @@ import com.wang.social.topic.mvp.ui.TopicDetailActivity;
 import com.wang.social.topic.mvp.ui.adapter.TopicListAdapter;
 import com.wang.social.topic.mvp.ui.widget.DFShopping;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import butterknife.BindView;
 import timber.log.Timber;
+
+import static com.frame.component.ui.acticity.tags.TagSelectionActivity.EVENTBUS_TAG_ENTITY;
 
 public class TopicListFragment extends BaseFragment<TopicListPresenter> implements TopicListContract.View {
     public final static String KEY_TYPE = "TYPE";
@@ -199,4 +206,30 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
             mAdapter.notifyDataSetChanged();
         }
     }
+
+
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
+    @Override
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCommonEvent(EventBean event) {
+//        Timber.i("EventBuss 事件通知");
+        switch (event.getEvent()) {
+            case EventBean.EVENTBUS_TAG_ALL:
+                Timber.i("大量知识");
+                if (mFragmentType == FRAGMENT_NEW) {
+                    Timber.i("刷新最新话题列表");
+
+                    mPresenter.setTagAll(true);
+                    mSpringView.callFreshDelay();
+                }
+                break;
+        }
+    }
+
+
+
 }

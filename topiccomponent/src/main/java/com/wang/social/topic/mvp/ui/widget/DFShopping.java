@@ -91,7 +91,7 @@ public class DFShopping extends DialogFragment {
                 });
 
         // 获取钻石数量
-        NetFindMyWalletHelper.newInstance().findMyWallet(mIView, new NetFindMyWalletHelper.FindMyWalletCallback() {
+        NetFindMyWalletHelper.newInstance().findMyWallet(mIView, false, new NetFindMyWalletHelper.FindMyWalletCallback() {
             @Override
             public void onWallet(int diamondNum) {
                 mWalletTV.setVisibility(View.VISIBLE);

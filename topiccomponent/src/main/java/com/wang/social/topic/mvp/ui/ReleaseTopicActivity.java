@@ -1,19 +1,24 @@
 package com.wang.social.topic.mvp.ui;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.NestedScrollView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.frame.component.helper.sound.AudioRecordManager;
 import com.frame.component.ui.acticity.BGMList.BGMListActivity;
 import com.frame.component.ui.acticity.BGMList.Music;
 import com.frame.component.ui.acticity.tags.Tag;
@@ -23,11 +28,13 @@ import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
+import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.KeyboardUtils;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.ToastUtil;
 import com.frame.component.ui.acticity.tags.TagSelectionActivity;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.wang.social.pictureselector.helper.PhotoHelper;
 import com.wang.social.pictureselector.helper.PhotoHelperEx;
 import com.wang.social.topic.R;
@@ -47,11 +54,13 @@ import com.wang.social.topic.utils.HtmlUtil;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import timber.log.Timber;
 
+@RouteNode(path = "/topic_release", desc = "话题发布")
 public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         implements ReleaseTopicContract.View, View.OnLayoutChangeListener, PhotoHelper.OnPhotoCallback {
 
@@ -61,16 +70,21 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
     private final static int IMAGE_TYPE_COVER = 1;  // 封面图片
     private final static int IMAGE_TYPE_CONTENT = 2;// 内容插入图片
+
     @IntDef({
             IMAGE_TYPE_COVER,
             IMAGE_TYPE_CONTENT
     })
     @Retention(RetentionPolicy.SOURCE)
-    @interface ImageType {}
+    @interface ImageType {
+    }
 
     // 根View，主要用于监听软键盘的状态
     @BindView(R2.id.root_view)
     View mRootView;
+    // 话题编辑滚动View
+    @BindView(R2.id.nested_scroll_view)
+    NestedScrollView mNestedScrollView;
     @BindView(R2.id.toolbar)
     SocialToolbar mToolbar;
     @BindView(R2.id.title_edit_text)
@@ -98,6 +112,11 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     // 内容编辑器
     @BindView(R2.id.rich_editor)
     RichEditor mRichEditor;
+    // 录音
+    @BindView(R2.id.voice_layout)
+    View mVoicLayout;
+    @BindView(R2.id.btn_voice_record)
+    ImageView mVoiceRecordIV;
 
     // 判断键盘是否弹起时候的阈值
     private int mKeyboardHeight;
@@ -110,6 +129,8 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     // 点击字体按钮时如果键盘已弹起，那么要等键盘落下后再显示样式选择器
     // 记录状态
     private boolean mNeedShowStylePicker;
+    // 点击语音输入如果键盘已弹起，需要键盘落下后再显示
+    private boolean mNeedShowVoiceLayout;
     // 封面图片路径
     private String mCoverImage;
     // 图片选择封装
@@ -118,7 +139,10 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     private String mTagIds;
     private String mTagNames;
     // 图片选择的类型
-    private @ImageType int mImageType;
+    private @ImageType
+    int mImageType;
+    // 价格
+    private int mPrice = 0;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -139,7 +163,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         //获取屏幕高度
         int screenHeight = this.getWindowManager().getDefaultDisplay().getHeight();
         //阀值设置为屏幕高度的1/3
-        mKeyboardHeight = screenHeight/3;
+        mKeyboardHeight = screenHeight / 3;
 
         mPhotoHelperEx = PhotoHelperEx.newInstance(this, this);
 
@@ -195,7 +219,21 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
             @Override
             public void onVoiceClick() {
-                // 语音
+                if (mVoicLayout.getVisibility() == View.VISIBLE) {
+                    showVoiceLayout(false);
+                } else {
+                    if (mSoftInputPopuped) {
+                        // 隐藏键盘
+                        KeyboardUtils.hideSoftInput(ReleaseTopicActivity.this);
+                        mNeedShowVoiceLayout = true;
+                    } else {
+                        // 显示语音输入
+                        showVoiceLayout(true);
+
+                    }
+                }
+                // 隐藏样式选择器
+                showStylePicker(false);
             }
 
             @Override
@@ -209,6 +247,9 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 //                    mStylePicker.setVisibility(View.VISIBLE);
                     showStylePicker(true);
                 }
+
+                // 隐藏语音输入
+                showVoiceLayout(false);
             }
 
             @Override
@@ -216,6 +257,8 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
                 // 隐藏文本样式选择器
 //                mStylePicker.setVisibility(View.GONE);
                 showStylePicker(false);
+                // 隐藏语音输入
+                showVoiceLayout(false);
                 // 弹出软键盘
                 KeyboardUtils.showSoftInput(ReleaseTopicActivity.this);
             }
@@ -229,7 +272,12 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
             @Override
             public void onChargeClick() {
                 // 收费设置
-                DFSetPrice.showDialog(getSupportFragmentManager());
+                DFSetPrice.showDialog(getSupportFragmentManager(), mPrice, new DFSetPrice.PriceCallback() {
+                    @Override
+                    public void onPrice(int price) {
+                        mPrice = price;
+                    }
+                });
             }
         });
 
@@ -243,6 +291,8 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
             @Override
             public void onFont(int position) {
                 Timber.i("重置字体 " + position);
+
+                resetREFont(position);
             }
 
             @Override
@@ -315,18 +365,49 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
             }
         });
 
+        // 录音
+        mVoiceRecordIV.setOnTouchListener((v, event) -> {
+            new RxPermissions(this).requestEach(Manifest.permission.RECORD_AUDIO)
+                    .subscribe((permission) -> {
+                        if (permission.granted) {
+                            switch (event.getAction()) {
+                                case MotionEvent.ACTION_DOWN:
+                                    AudioRecordManager.getInstance().startRecord(v);
+                                    break;
+                                case MotionEvent.ACTION_MOVE:
+//                                    AudioRecordManager.getInstance().continueRecord();
+//                                    AudioRecordManager.getInstance().willCancelRecord();
+                                    break;
+                                case MotionEvent.ACTION_UP:
+                                case MotionEvent.ACTION_CANCEL:
+                                    AudioRecordManager.getInstance().stopRecord();
+                                    break;
+                            }
+                        }
+                    });
+            return true;
+        });
+
         // 内容编辑器相关设置
-        int padding = 5;
+        //        mRichEditor.setEditorBackgroundColor(Color.TRANSPARENT);
+        int padding = SizeUtils.dp2px(5);
         mRichEditor.setPadding(
-                SizeUtils.dp2px(padding),
-                SizeUtils.dp2px(padding),
-                SizeUtils.dp2px(padding),
-                SizeUtils.dp2px(padding));
+                padding,
+                padding,
+                padding,
+                padding);
+
+        mRichEditor.setOnDecorationChangeListener(new RichEditor.OnDecorationStateListener() {
+            @Override
+            public void onStateChangeListener(String text, List<RichEditor.Type> types) {
+                Timber.i("onStateChangeListener : " + text);
+            }
+        });
 
         mRichEditor.setOnTextChangeListener(new RichEditor.OnTextChangeListener() {
             @Override
             public void onTextChange(String text) {
-                Timber.i(text);
+//                Timber.i(text);
             }
         });
 
@@ -361,13 +442,54 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
             }
         });
 
+
+        mRichEditor.setPlaceholder("你想说什么?......为保障用户们的友好体验，请最少输入30个字");
+    }
+
+    private boolean isfont = false;
+    private void resetREFont(int position) {
+        if (position == 0) {
+            if (isfont) {
+                mRichEditor.setFont("kt,STKaiti-SC-Regular,STKaiti-SC-Regular");
+            }
+            isfont = true;
+        } else if (position == 1) {
+            if (isfont) {
+                mRichEditor.setFont("pfb,PingFangSC-Regular,sans-serif");
+            }
+            isfont = true;
+        } else if (position == 2) {
+            if (isfont) {
+                mRichEditor.setFont("pfc,PingFangSC-Semibold,sans-serif");
+            }
+            isfont = true;
+        } else if (position == 3) {
+            if (isfont) {
+                mRichEditor.setFont("pfx,PingFangSC-Light, sans-serif");
+            }
+            isfont = true;
+        } else if (position == 4) {
+            if (isfont) {
+                mRichEditor.setFont("st,STSongti-SC-Regular");
+            }
+            isfont = true;
+        } else if (position == 5) {
+            if (isfont) {
+                mRichEditor.setFont("ww,DFWaWaSC-W5");
+            }
+            isfont = true;
+        } else if (position == 6) {
+            if (isfont) {
+                mRichEditor.setFont("yy,STYuanti-SC-Regular");
+            }
+            isfont = true;
+        }
+    }
+
+    private void resetRichEditorStyle() {
         resetRETextColor(mStylePicker.getDefaultColor());
         resetRETextSize(mStylePicker.getDefaultSize());
-        resetSymbolStyle(mStylePicker.getDefaultSymbol());
-//        resetRETextColor(mStylePicker.getDefaultColor());
-//        resetRETextSize(mStylePicker.getDefaultSize());
 //        resetSymbolStyle(mStylePicker.getDefaultSymbol());
-        mRichEditor.setPlaceholder("你想说什么?......为保障用户们的友好体验，请最少输入30个字");
     }
 
     @Override
@@ -433,9 +555,16 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         // 当文本编辑器获取焦点后软键盘会弹出，这个时候要隐藏样式选择器
 //        mStylePicker.setVisibility(View.GONE);
         showStylePicker(false);
+        // 隐藏语音输入框
+        showVoiceLayout(false);
+    }
+
+    private void showVoiceLayout(boolean visible) {
+        mVoicLayout.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
     private boolean isclick;
+
     private void resetSymbolStyle(int position) {
         if (!TextUtils.isEmpty(mRichEditor.getHtml()) &&
                 !mRichEditor.getHtml().endsWith("</ol>") &&
@@ -515,6 +644,9 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     }
 
     private void addTopic() {
+        // 打印内容
+        Timber.i(mRichEditor.getHtml());
+
         if (!checkInput(true)) {
             return;
         }
@@ -529,13 +661,15 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 //
 //        mPresenter.addTopic();
 
+        String content = HtmlUtil.delHTMLTag(mRichEditor.getHtml());
+
         mPresenter.addTopic(
                 mTitleET.getText().toString(),
                 mRichEditor.getHtml(),
-                "",
+                content.substring(0, Math.min(30, content.length())),
                 mTagIds,
-                0,
-                0,
+                mPrice > 0 ? 1 : 0,
+                mPrice,
                 "",
                 "",
                 "",
@@ -548,6 +682,13 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
     private void refreshTitleCount(int length) {
         mTitleCountTV.setText(String.format(getString(R.string.topic_title_length_format), length));
+    }
+
+    @OnClick(R2.id.music_board_layout)
+    public void selectBackgroundMusic() {
+        BGMListActivity.start(ReleaseTopicActivity.this,
+                mPresenter.getBGMusic(),
+                REQUEST_CODE_BGM);
     }
 
 
@@ -592,6 +733,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     }
 
     private ArrayList<Tag> mTagLit;
+
     @Override
     public void onCommonEvent(EventBean event) {
         if (event.getEvent() == EventBean.EVENTBUS_TAG_SELECTED_LIST) {
@@ -648,15 +790,21 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
                                int oldLeft, int oldTop, int oldRight, int oldBottom) {
         Timber.i(String.format("bottom=%d oldBottom=%d", bottom, oldBottom));
 
+        if (mRichEditor.isFocused()) {
+            Timber.i("焦点在内容编辑器");
+            // 上滚
+            mNestedScrollView.fullScroll(View.FOCUS_DOWN);
+        }
+
         // 现在认为只要控件将Activity向上推的高度超过了1/3屏幕高，就认为软键盘弹起
-        if(oldBottom != 0 && bottom != 0 &&(oldBottom - bottom > mKeyboardHeight)){
+        if (oldBottom != 0 && bottom != 0 && (oldBottom - bottom > mKeyboardHeight)) {
             // 弹起
             // 隐藏文本样式选择器
             Timber.i("键盘打开");
             mSoftInputPopuped = true;
             // 键盘打开后要将底部的图标改变
             mBottomBar.setToSoftInputMode();
-            // 确保键盘打开时选择器隐藏
+            // 确保键盘打开时选择器隐藏和语音输入
             if (mStylePicker.getVisibility() == View.VISIBLE) {
                 mBottomLayout.setVisibility(View.GONE);
 
@@ -664,7 +812,14 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
                 mBottomLayout.setVisibility(View.VISIBLE);
             }
-        }else if(oldBottom != 0 && bottom != 0 &&(bottom - oldBottom > mKeyboardHeight)){
+            if (mVoicLayout.getVisibility() == View.VISIBLE) {
+                mBottomLayout.setVisibility(View.GONE);
+
+                showVoiceLayout(false);
+
+                mBottomLayout.setVisibility(View.VISIBLE);
+            }
+        } else if (oldBottom != 0 && bottom != 0 && (bottom - oldBottom > mKeyboardHeight)) {
             // 关闭
             Timber.i("键盘关闭");
             mSoftInputPopuped = false;
@@ -674,6 +829,11 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
                 // 弹出文本样式选择器
                 showStylePicker(true);
                 mNeedShowStylePicker = false;
+            }
+
+            if (mNeedShowVoiceLayout) {
+                showVoiceLayout(true);
+                mNeedShowVoiceLayout = false;
             }
         }
     }
@@ -694,8 +854,9 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
      * 话题发布成功
      */
     @Override
-    public void onAddTopicSuccess() {
-
+    public void onReleaseTopicSuccess() {
+        ToastUtil.showToastShort("话题发布成功");
+        finish();
     }
 
     @Override
@@ -727,4 +888,14 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
                 break;
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        if (mStylePicker.getVisibility() == View.VISIBLE) {
+            mStylePicker.setVisibility(View.GONE);
+        } else {
+            finish();
+        }
+    }
+
 }

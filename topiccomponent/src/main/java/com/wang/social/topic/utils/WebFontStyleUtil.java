@@ -73,4 +73,27 @@ public class WebFontStyleUtil {
                 "</body>" +
                 "</html>";
     }
+
+//    String oldStr = "function playAudio(url){" +
+//            "var musicPlay=document.getElementById('musicPlay');" +
+//            "musicPlay.setAttribute('src',url);" +
+//            "musicPlay.play();" +
+//            "}";
+
+    String str = "function playAudio(url)" +
+            "{var musicPlay=document.getElementById('musicPlay');" +
+            "var musicPlay=document.getElementById('musicPlay');" +
+            "var originUrl = musicPlay.getAttribute('src');" +
+            "if(originUrl == url)" +
+            "{" +
+            "if(musicPlay.paused == false)" +
+            "{" +
+            "musicPlay.pause();" +
+            "}" +
+            "else" +
+            "{" +
+            "musicPlay.play();" +
+            "}}" +
+            "else" +
+            "{musicPlay.pause();musicPlay.setAttribute('src',url);musicPlay.play();}}";
 }

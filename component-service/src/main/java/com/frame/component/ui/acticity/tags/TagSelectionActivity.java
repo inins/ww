@@ -82,17 +82,20 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
             TAG_TYPE_TAG_LIST
     })
     @Retention(RetentionPolicy.SOURCE)
-    public @interface TagType {}
+    public @interface TagType {
+    }
 
-    private @TagType int mTagType = TAG_TYPE_PERSONAL; // 标签类型，个人中心模块需要调用，所以默认为个人标签
+    private @TagType
+    int mTagType = TAG_TYPE_PERSONAL; // 标签类型，个人中心模块需要调用，所以默认为个人标签
 
     /**
      * 启动标签选择页面
-     * @param context context
-     * @param mode 启动模式 @MODE_SELECTION 对应标签选择页面 @MODE_CONFIRM 对应标签确认页面
+     *
+     * @param context      context
+     * @param mode         启动模式 @MODE_SELECTION 对应标签选择页面 @MODE_CONFIRM 对应标签确认页面
      * @param selectedList 已选标签列表
-     * @param fromLogin 是否是从Login页面跳转过来的
-     * @param type 类型，兴趣标签或者个人标签，加载已选和提交更改时需要调用不同的接口
+     * @param fromLogin    是否是从Login页面跳转过来的
+     * @param type         类型，兴趣标签或者个人标签，加载已选和提交更改时需要调用不同的接口
      */
     private static void start(Context context,
                               String mode,
@@ -117,8 +120,9 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
 
     /**
      * 返回选择的标签 id列表 和 mame列表
+     *
      * @param context context
-//     * @param ids 已选标签ID列表，以逗号隔开 id1,id2,id3.....
+     *                //     * @param ids 已选标签ID列表，以逗号隔开 id1,id2,id3.....
      */
     public static void startForTagList(Context context, ArrayList<Tag> list, int max) {
 //        start(context, MODE_SELECTION, null, false, TAG_TYPE_TAG_LIST, ids, names, max);
@@ -131,7 +135,7 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
 
     /**
      * 从登录页面启动标签选择页面
-     *
+     * <p>
      * 从登录页面启动的一定是兴趣标签
      */
     public static void startSelectionFromLogin(Context context, int max) {
@@ -148,6 +152,7 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
     public static void startSelection(Context context, @TagType int type, int max) {
         start(context, MODE_SELECTION, null, false, type, max);
     }
+
     public static void startSelection(Context context, @TagType int type) {
         startSelection(context, type, Integer.MAX_VALUE);
     }
@@ -180,7 +185,10 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
     @BindView(R2.id.title_hint_text_view)
     TextView titleHintTV;
     @BindView(R2.id.selected_count_layout)
-            View selectedCountLayout;
+    View selectedCountLayout;
+    // 大量知识
+    @BindView(R2.id.tag_all_layout)
+    View mTatAllLayout;
 
     String mode = MODE_SELECTION;
     // 是否是从登录页面跳转过来的,为了个人中心调用，默认设置为不是从登录页面跳转过来
@@ -252,6 +260,7 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
     }
 
     private int mMyTagCount = 0;
+
     @Override
     public void setMyTagCount(int count) {
         mMyTagCount = count;
@@ -296,6 +305,13 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
                 }
             }
         });
+
+        // 只有兴趣标签才有大量知识
+        if (mTagType != TAG_TYPE_INTEREST) {
+            mTatAllLayout.setVisibility(View.GONE);
+        } else {
+            mTatAllLayout.setVisibility(View.VISIBLE);
+        }
 
         switch (mode) {
             case MODE_SELECTION:
@@ -408,6 +424,17 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
     }
 
     /**
+     * 大量知识
+     */
+    @OnClick(R2.id.tag_all_layout)
+    public void tagAll() {
+        // 发送通知
+        EventBus.getDefault().post(new EventBean(EventBean.EVENTBUS_TAG_ALL));
+        // 直接退出
+        quitFinish();
+    }
+
+    /**
      * 右上角文字区域点击
      */
     @OnClick(R2.id.selected_count_layout)
@@ -428,7 +455,7 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
                 if (TAG_TYPE_INTEREST == mTagType) { // 兴趣标签
                     // 提交兴趣标签
                     mPresenter.updateRecommendTag();
-                } else if (TAG_TYPE_PERSONAL == mTagType){ // 个人标签
+                } else if (TAG_TYPE_PERSONAL == mTagType) { // 个人标签
                     // 提交个人标签
                     mPresenter.addPersonalTag();
                 } else if (TAG_TYPE_TAG_LIST == mTagType) { // 话题发布选择标签，直接返回标签列表文字
@@ -526,8 +553,9 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
 
     /**
      * 拦截返回键，执行退出操作
+     *
      * @param keyCode 按键
-     * @param event 按键
+     * @param event   按键
      * @return
      */
     @Override

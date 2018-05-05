@@ -2,13 +2,11 @@ package com.wang.social.mvp.ui.dialog;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.FrameLayout;
 
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.ui.dialog.BaseDialog;
 import com.wang.social.R;
 
-import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -40,6 +38,7 @@ public class DialogHomeAdd extends BaseDialog {
                 break;
             case R.id.btn_topic:
                 if (onAddDialogClickListener != null) onAddDialogClickListener.onTopicClick(v);
+                CommonHelper.TopicHelper.startTopicRelease(getContext());
                 dismiss();
                 break;
         }

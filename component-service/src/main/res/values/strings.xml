@@ -14,4 +14,5 @@
     <string name="tags_selected_count">已选</string>
     <string name="tags_selected">选定</string>
     <string name="tags_confirm">确定</string>
+    <string name="tags_all">大量知识</string>
 </resources>

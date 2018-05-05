@@ -3,14 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:minHeight="65dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
 
     <ImageView
         android:id="@+id/avatar_image_view"
-        android:layout_width="49dp"
-        android:layout_height="49dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="12dp"
         android:layout_marginTop="10dp"
@@ -26,7 +27,7 @@
         android:layout_marginBottom="7dp"
         android:layout_marginTop="8dp"
         android:textColor="#ff313131"
-        android:textSize="18sp"
+        android:textSize="17sp"
         app:layout_constraintBottom_toTopOf="@+id/gender_layout"
         app:layout_constraintStart_toStartOf="@+id/gender_layout"
         app:layout_constraintTop_toTopOf="parent"
@@ -62,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:textColor="#ffffffff"
-            android:textSize="12sp"
+            android:textSize="11sp"
             tools:text="00后" />
 
     </LinearLayout>
@@ -80,7 +81,7 @@
         android:paddingRight="10dp"
         android:paddingTop="2dp"
         android:textColor="#ffffffff"
-        android:textSize="12sp"
+        android:textSize="11sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/gender_layout"
         app:layout_constraintTop_toTopOf="parent"
@@ -110,7 +111,7 @@
         android:maxWidth="176dp"
         android:singleLine="true"
         android:textColor="@color/common_text_dark"
-        android:textSize="12sp"
+        android:textSize="11sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/gender_layout"
         app:layout_constraintTop_toBottomOf="@+id/gender_layout"

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.text.TextUtils;
@@ -47,6 +48,7 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> implements TopicDetailContract.View {
     private static final String SETUP_HTML = "file:///android_asset/editor.html";
@@ -367,13 +369,15 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
         // 页面内容
         if (null == mContentWV) {
             mContentWV = new WebView(getApplicationContext());
-            mContentWV.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            mContentWV.setLayoutParams(new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT));
 
             WebSettings setting = mContentWV.getSettings();
 
 
             setting.setDefaultTextEncodingName("UTF-8");
-            setting.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+//            setting.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
             setting.setDefaultTextEncodingName("utf-8");
             setting.setLoadsImagesAutomatically(true);//设置自动加载图片
             setting.setJavaScriptEnabled(true);
@@ -420,11 +424,12 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
             @Override
             public void run() {
                 //wv_content.getLayoutParams().height = (int) (height * getResources().getDisplayMetrics().density);
+                Timber.w("resizze : " + height);
                 mContentWV.setLayoutParams(
                         new FrameLayout.LayoutParams(
                                 getResources().getDisplayMetrics().widthPixels,
                                 (int) (height * getResources().getDisplayMetrics().density)
-                                        + SizeUtils.dp2px(20) + mBottomLayout.getHeight()));
+                                        + SizeUtils.dp2px(320) + mBottomLayout.getHeight()));
             }
         });
     }
@@ -437,7 +442,8 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
                     FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)
                             mContentWV.getLayoutParams();
                     params.height = Integer.parseInt(height);
-                    mContentWV.setLayoutParams(params);
+                    Timber.w("HeightGetter : " + params.height);
+                    mContentLayout.setLayoutParams(params);
                     //Toast.makeText(getApplicationContext(), height, 0).show();
                 }
             });

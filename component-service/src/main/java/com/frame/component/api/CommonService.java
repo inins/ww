@@ -86,8 +86,7 @@ public interface CommonService {
 
 
     /**
-     * 举报（用户/话题/趣聊/趣晒）
-     * type 举报类型（0人 1趣聊 2趣晒 3主播 4 话题）
+     * 获取用户自己的账户余额信息
      */
     @FormUrlEncoded
     @POST("/app/userInfo/findMyWallet")

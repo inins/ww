@@ -7,6 +7,7 @@ import com.frame.component.path.FunshowPath;
 import com.frame.component.path.HomePath;
 import com.frame.component.path.ImPath;
 import com.frame.component.path.LoginPath;
+import com.frame.component.path.TopicPath;
 import com.frame.component.router.ui.UIRouter;
 import com.frame.utils.ToastUtil;
 
@@ -86,6 +87,16 @@ public class CommonHelper {
             Bundle bundle = new Bundle();
             bundle.putString("targetId", targetId);
             UIRouter.getInstance().openUri(context, ImPath.TEAM_URL, bundle);
+        }
+    }
+
+    public static class TopicHelper {
+        /**
+         * 话题发布
+         * @param context context
+         */
+        public static void startTopicRelease(Context context) {
+            UIRouter.getInstance().openUri(context, TopicPath.TOPIC_RELEASE_URL, null);
         }
     }
 }
