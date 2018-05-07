@@ -144,7 +144,7 @@
         android:background="#FFFFFF"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <include layout="@layout/topic_view_detail_content" />
+        <include layout="@layout/topic_view_detail_content2" />
 
     </android.support.v4.widget.NestedScrollView>
 

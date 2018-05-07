@@ -182,7 +182,7 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
 
         mTopicId = getIntent().getIntExtra(NAME_TOPIC_ID, -1);
         mCreatorId = getIntent().getIntExtra(NAME_CREATOR_ID, -1);
-//        mTopicId = 30;
+        mTopicId = 30;
 
         mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             // CollapsingToolbarLayout收起的进度
@@ -377,7 +377,7 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
 
 
             setting.setDefaultTextEncodingName("UTF-8");
-//            setting.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+            setting.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
             setting.setDefaultTextEncodingName("utf-8");
             setting.setLoadsImagesAutomatically(true);//设置自动加载图片
             setting.setJavaScriptEnabled(true);
@@ -395,6 +395,19 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
                 }
 
                 public void onPageFinished(WebView view, String url) {
+                    if(android.os.Build.VERSION.SDK_INT >= 19) {
+                        mContentWV.loadUrl("javascript:(function(){"
+                                + "var objs = document.getElementsByTagName('img'); "
+                                + "for(var i=0;i<objs.length;i++) {"
+                                + // //webview图片自适应，android4.4之前都有用，4.4之后google优化后，无法支持，需要自己手动缩放
+                                " objs[i].style.width = '100%';objs[i].style.height = 'auto';"
+                                + "}"
+                                + "})()"
+                        );
+                    } else{
+                        view.loadUrl("javascript:var imgs = document.getElementsByTagName('img');for(var i = 0; i<imgs.length; i++){imgs[i].style.width = '100%';imgs[i].style.height= 'auto';}");
+
+                    }
                     //LogUtils.showTagE(wv_content.getContentHeight() + "");
                     //wv_content.loadUrl("javascript:window.jo.run(document.documentElement.scrollHeight+'');");
                     mContentWV.loadUrl("javascript:App.resize(document.body.getBoundingClientRect().height)");
@@ -424,12 +437,13 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
             @Override
             public void run() {
                 //wv_content.getLayoutParams().height = (int) (height * getResources().getDisplayMetrics().density);
-                Timber.w("resizze : " + height);
+                Timber.w("resize : " + height);
                 mContentWV.setLayoutParams(
                         new FrameLayout.LayoutParams(
-                                getResources().getDisplayMetrics().widthPixels,
+//                                getResources().getDisplayMetrics().widthPixels,
+                                mContentLayout.getWidth(),
                                 (int) (height * getResources().getDisplayMetrics().density)
-                                        + SizeUtils.dp2px(320) + mBottomLayout.getHeight()));
+                                        + (SizeUtils.dp2px(14) * 2) + mBottomLayout.getHeight()));
             }
         });
     }

@@ -12,6 +12,7 @@ import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
 import com.wang.social.topic.mvp.contract.ReleaseTopicContract;
 import com.wang.social.topic.mvp.model.entities.Template;
+import com.wang.social.topic.utils.FileUtil;
 import com.wang.social.topic.utils.StringUtil;
 import com.wang.social.topic.utils.WebFontStyleUtil;
 
@@ -247,6 +248,7 @@ public class ReleaseTopicPresenter extends
 
     public void commitContentImg() {
         Timber.i("上传内容图片 " + mLocalImgPath);
+        Timber.i("图片大小 : " + FileUtil.getFileSize(mLocalImgPath));
 
         setCommitState(COMMIT_STATE_CONTENT_IMG);
 

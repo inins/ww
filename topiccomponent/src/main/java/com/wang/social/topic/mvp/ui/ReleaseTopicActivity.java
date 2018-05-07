@@ -387,6 +387,48 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
                     });
             return true;
         });
+        // 录音返回
+        AudioRecordManager.getInstance().setRecordListener(new AudioRecordManager.OnRecordListener() {
+            @Override
+            public void initView(View root) {
+
+            }
+
+            @Override
+            public void onTimeOut(int counter) {
+
+            }
+
+            @Override
+            public void onRecording() {
+
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onCompleted(int duration, String path) {
+                mRichEditor.insertAudioImage(path, "录音");
+            }
+
+            @Override
+            public void onDBChanged(int db) {
+
+            }
+
+            @Override
+            public void tooShort() {
+
+            }
+
+            @Override
+            public void onDestroy() {
+
+            }
+        });
 
         // 内容编辑器相关设置
         //        mRichEditor.setEditorBackgroundColor(Color.TRANSPARENT);
@@ -706,9 +748,10 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     private void showPhotoDialog(@ImageType int type) {
         mImageType = type;
 
+        mPhotoHelperEx.setMaxSelectCount(9);
+        mPhotoHelperEx.setClip(false);
         mPhotoHelperEx.showDefaultDialog();
     }
-
 
     // 标签
     @OnClick(R2.id.topic_tags_text_view)
@@ -856,7 +899,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     @Override
     public void onReleaseTopicSuccess() {
         ToastUtil.showToastShort("话题发布成功");
-        finish();
+//        finish();
     }
 
     @Override
@@ -871,7 +914,9 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
         switch (mImageType) {
             case IMAGE_TYPE_CONTENT:
-                mRichEditor.insertImage(pathArray[0], "图片");
+                for (String imagePath : pathArray) {
+                    mRichEditor.insertImage(imagePath, "图片");
+                }
                 break;
             case IMAGE_TYPE_COVER:
                 mCoverImage = pathArray[0];
