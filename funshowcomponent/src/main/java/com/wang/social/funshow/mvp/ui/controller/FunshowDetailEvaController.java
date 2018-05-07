@@ -53,7 +53,7 @@ public class FunshowDetailEvaController extends BaseController implements BaseAd
         switch (event.getEvent()) {
             case EventBean.EVENT_FUNSHOW_DETAIL_ADD_EVA:
                 netLoadEvaList(true);
-                FunShowUtil.addSubTextViewCountForEnd(textEvaCount,true,getContext().getResources().getString(R.string.funshow_home_funshow_detail_eva));
+                FunShowUtil.addSubTextViewCountForEnd(textEvaCount, true, getContext().getResources().getString(R.string.funshow_home_funshow_detail_eva));
                 break;
             case EventBean.EVENT_CTRL_FUNSHOW_DETAIL_DATA:
                 int commonCount = (int) event.get("commonCount");
@@ -129,7 +129,7 @@ public class FunshowDetailEvaController extends BaseController implements BaseAd
                             if (isFresh) adapterEva.refreshItem(list);
                             else adapterEva.addItem(list);
                         } else {
-                            ToastUtil.showToastLong("没有更多数据了");
+                            if (!isFresh) ToastUtil.showToastLong("没有更多数据了");
                         }
                     }
 

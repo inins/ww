@@ -291,6 +291,10 @@ public class TextureCameraPreview extends TextureView implements TextureView.Sur
         return isRecording;
     }
 
+    public boolean isStartCamera() {
+        return mCamera != null;
+    }
+
     public void start() {
         if (isSurfaceAvailable) {
             openCamera();

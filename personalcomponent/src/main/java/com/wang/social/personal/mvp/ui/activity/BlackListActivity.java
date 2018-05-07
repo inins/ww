@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -81,7 +82,7 @@ public class BlackListActivity extends BasicAppActivity implements IView, Recycl
         titleview.setTitle(getResources().getString(isBlankList ? R.string.personal_blacklist_title : R.string.personal_shutdown_title));
         titleview.setNote(getResources().getString(isBlankList ? R.string.personal_blacklist_title_note : R.string.personal_shutdown_title_note));
 
-        adapter = new RecycleAdapterBlacklist();
+        adapter = new RecycleAdapterBlacklist(isBlankList);
         adapter.setOnBlankListUserClickListener(this);
         recycler.setNestedScrollingEnabled(false);
         recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -106,9 +107,12 @@ public class BlackListActivity extends BasicAppActivity implements IView, Recycl
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.btn_right) {
-            DialogSure.showDialog(this, "确定要释放所有囚犯？", () -> {
-                netFreeUsers(adapter.getAllItemIds());
-            });
+            if (TextUtils.isEmpty(adapter.getAllItemIds())) {
+                ToastUtil.showToastShort("没有可选用户");
+            }
+//            DialogSure.showDialog(this, "确定要释放所有囚犯？", () -> {
+            netFreeUsers(adapter.getAllItemIds());
+//            });
         }
     }
 
@@ -119,9 +123,9 @@ public class BlackListActivity extends BasicAppActivity implements IView, Recycl
 
     @Override
     public void onFreeBtnClick(ShatDownUser user, int position) {
-        DialogSure.showDialog(this, "确定要释放该囚犯？", () -> {
-            netFreeUsers(String.valueOf(user.getShieldUserId()));
-        });
+//        DialogSure.showDialog(this, "确定要释放该囚犯？", () -> {
+        netFreeUsers(String.valueOf(user.getShieldUserId()));
+//        });
     }
 
     private void setUserData(List<ShatDownUser> users) {
@@ -129,7 +133,8 @@ public class BlackListActivity extends BasicAppActivity implements IView, Recycl
             adapter.refreshData(users);
             btnRight.setText(getResources().getString(R.string.personal_blacklist_btn_right) + "(" + users.size() + ")");
         } else {
-            btnRight.setText("");
+            adapter.refreshData(users);
+            btnRight.setText(getResources().getString(R.string.personal_blacklist_btn_right) + "(0)");
         }
     }
 
@@ -189,12 +194,5 @@ public class BlackListActivity extends BasicAppActivity implements IView, Recycl
                         ToastUtil.showToastLong(e.getMessage());
                     }
                 });
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
     }
 }

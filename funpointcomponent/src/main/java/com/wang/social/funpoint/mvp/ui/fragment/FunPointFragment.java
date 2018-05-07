@@ -80,9 +80,11 @@ public class FunPointFragment extends BaseFragment<FunpointListPresonter> implem
     @Override
     public void onCommonEvent(EventBean event) {
         switch (event.getEvent()) {
-            //TODO:接收到修改标签的消息后刷新标签，暂时还未确定消息key值，暂时写个123（123这个消息并不存在）
             case EventBean.EVENTBUS_TAG_UPDATED:
                 mPresenter.netGetRecommendTag();
+                break;
+            case EventBean.EVENTBUS_TAG_ALL:
+                //大量知识，有待处理
                 break;
         }
     }

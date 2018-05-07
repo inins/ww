@@ -21,6 +21,12 @@ import butterknife.BindView;
 
 public class RecycleAdapterBlacklist extends BaseAdapter<ShatDownUser> {
 
+    private boolean isBlankList;
+
+    public RecycleAdapterBlacklist(boolean isBlankList) {
+        this.isBlankList = isBlankList;
+    }
+
     @Override
     protected BaseViewHolder createViewHolder(Context context, ViewGroup parent, int viewType) {
         return new Holder(context, parent, R.layout.personal_item_blacklist);
@@ -56,6 +62,7 @@ public class RecycleAdapterBlacklist extends BaseAdapter<ShatDownUser> {
             textLableGender.setText(TimeUtils.getBirthdaySpan(bean.getBirthday()));
             textLableAstro.setText(TimeUtils.getAstro(bean.getBirthday()));
             textTags.setText(bean.getTagText());
+            btnFree.setText(isBlankList ? R.string.personal_blacklist_btn_free : R.string.personal_shutdown_btn_free);
             slidmenu.close();
 
             include_coutent.setOnClickListener(v -> {
