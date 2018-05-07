@@ -3,8 +3,16 @@ package com.wang.social.im.mvp.contract;
 import com.frame.http.api.BaseJson;
 import com.frame.mvp.IModel;
 import com.frame.mvp.IView;
+import com.wang.social.im.mvp.model.entities.MemberInfo;
 import com.wang.social.im.mvp.model.entities.SocialInfo;
+import com.wang.social.im.mvp.model.entities.TeamInfo;
+import com.wang.social.im.mvp.model.entities.dto.ListDataDTO;
+import com.wang.social.im.mvp.model.entities.dto.MemberInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.SocialDTO;
+import com.wang.social.im.mvp.model.entities.dto.SocialHomeDTO;
+import com.wang.social.im.mvp.model.entities.dto.TeamInfoDTO;
+
+import java.util.List;
 
 import io.reactivex.Observable;
 
@@ -24,6 +32,12 @@ public interface SocialHomeContract {
          * @param socialInfo
          */
         void showSocialInfo(SocialInfo socialInfo);
+
+        /**
+         * 显示觅聊列表
+         * @param teams
+         */
+        void showTeams(List<TeamInfo> teams);
     }
 
     interface Model extends GroupContract.GroupModel {
@@ -34,6 +48,20 @@ public interface SocialHomeContract {
          * @param socialId
          * @return
          */
-        Observable<BaseJson<SocialDTO>> getSocialInfo(String socialId);
+        Observable<BaseJson<SocialHomeDTO>> getSocialInfo(String socialId);
+
+        /**
+         * 修改趣聊信息
+         * @param social
+         * @return
+         */
+        Observable<BaseJson> updateSocialInfo(SocialInfo social);
+
+        /**
+         * 获取觅聊列表
+         * @param socialId
+         * @return
+         */
+        Observable<BaseJson<ListDataDTO<TeamInfoDTO, TeamInfo>>> getTeamList(String socialId);
     }
 }

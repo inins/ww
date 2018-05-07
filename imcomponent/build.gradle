@@ -66,6 +66,7 @@ dependencies {
     }
     implementation rootProject.ext.dependencies["chips-layoutmanager"]
     implementation rootProject.ext.dependencies["switch-button"]
+    implementation rootProject.ext.dependencies["tablayout"]
     implementation project(':component-service')
     annotationProcessor project(':router-anno-compiler')
     implementation project(':pictureselectorcomponent')

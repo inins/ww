@@ -1,6 +1,7 @@
 package com.wang.social.im.mvp.ui.adapters;
 
 import android.content.Context;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,6 +15,8 @@ import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.mvp.model.entities.MemberInfo;
 
+import java.util.List;
+
 import butterknife.BindView;
 
 /**
@@ -23,6 +26,10 @@ import butterknife.BindView;
  * ============================================
  */
 public class HomeMemberAdapter extends BaseAdapter<MemberInfo> {
+
+    public HomeMemberAdapter(List<MemberInfo> members) {
+        valueList = members;
+    }
 
     @Override
     protected BaseViewHolder createViewHolder(Context context, ViewGroup parent, int viewType) {
@@ -47,6 +54,12 @@ public class HomeMemberAdapter extends BaseAdapter<MemberInfo> {
         protected void bindData(MemberInfo itemValue, int position, OnItemClickListener onItemClickListener) {
             if (position == getData().size() - 1) {
                 ghmIvPortrait.setImageResource(R.drawable.im_img_member_more);
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // TODO: 2018-05-07 跳转到成员列表
+                    }
+                });
             } else {
                 imageLoader.loadImage(getContext(), ImageConfigImpl.builder()
                         .imageView(ghmIvPortrait)

@@ -31,11 +31,12 @@
         <meta-data
             android:name="com.wang.social.im.app.IMConfiguration"
             android:value="ConfigModule" />
+
         <provider
             android:name="com.frame.component.provider.PhotoProvider"
             android:authorities="com.ins.ww.fileprovider"
-            android:grantUriPermissions="true"
-            android:exported="false">
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
@@ -117,16 +118,23 @@
         <activity android:name=".mvp.ui.CreateSingleEnvelopActivity" />
         <activity android:name=".mvp.ui.CreateMultiEnvelopActivity" />
         <activity android:name=".mvp.ui.EnvelopDetailActivity" />
-        <activity android:name=".mvp.ui.SocialHomeActivity" />
+        <activity
+            android:name=".mvp.ui.SocialHomeActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
         <activity android:name=".mvp.ui.TeamHomeActivity" />
-        <activity android:name=".mvp.ui.ShadowSettingActivity"
-            android:exported="true"/>
-        <activity android:name=".mvp.ui.CreateSocialActivity"
-            android:exported="true"/>
-        <activity android:name=".mvp.ui.SocialAttributeActivity" />
-        <activity android:name=".mvp.ui.CreateTeamActivity"
+        <activity
+            android:name=".mvp.ui.ShadowSettingActivity"
             android:exported="true" />
-        <activity android:name=".mvp.ui.TeamAttributeActivity"/>
+        <activity
+            android:name=".mvp.ui.CreateSocialActivity"
+            android:exported="true" />
+        <activity android:name=".mvp.ui.SocialAttributeActivity" />
+        <activity
+            android:name=".mvp.ui.CreateTeamActivity"
+            android:exported="true" />
+        <activity android:name=".mvp.ui.TeamAttributeActivity" />
     </application>
 
 </manifest>

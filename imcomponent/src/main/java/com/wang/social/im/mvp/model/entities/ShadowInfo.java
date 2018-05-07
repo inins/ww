@@ -18,10 +18,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ShadowInfo implements Parcelable {
 
+    public static final int STATUS_OPEN = 0x001;
+    public static final int STATUS_CLOSE = 0x002;
+
     private String socialId;
     private String portrait;
     private String nickname;
     private Gender gender;
+    private int status;
 
     @Override
     public int describeContents() {
@@ -34,6 +38,7 @@ public class ShadowInfo implements Parcelable {
         dest.writeString(this.portrait);
         dest.writeString(this.nickname);
         dest.writeInt(this.gender == null ? -1 : this.gender.ordinal());
+        dest.writeInt(this.status);
     }
 
     protected ShadowInfo(Parcel in) {
@@ -42,9 +47,10 @@ public class ShadowInfo implements Parcelable {
         this.nickname = in.readString();
         int tmpGender = in.readInt();
         this.gender = tmpGender == -1 ? null : Gender.values()[tmpGender];
+        this.status = in.readInt();
     }
 
-    public static final Parcelable.Creator<ShadowInfo> CREATOR = new Parcelable.Creator<ShadowInfo>() {
+    public static final Creator<ShadowInfo> CREATOR = new Creator<ShadowInfo>() {
         @Override
         public ShadowInfo createFromParcel(Parcel source) {
             return new ShadowInfo(source);
