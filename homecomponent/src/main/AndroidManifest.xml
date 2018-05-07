@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.wang.social.home">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name="com.frame.base.BaseApplication"
+        android:allowBackup="true"
+        android:screenOrientation="portrait">
+
+        <meta-data
+            android:name="com.wang.social.home.app.HomeGlobalConfiguration"
+            android:value="ConfigModule" />
+
+    </application>
+
+</manifest>
