@@ -58,19 +58,17 @@ img{
   margin-top:10px;
   margin-bottom:10px;
   max-width: 98%;
-  min-width: 98%;
-}
-
-#audioImg{
-  min-width:14px!important;
-  max-width:14px!important;
-  height:14px!important;
-  margin:0;
-  padding:0;
 }
 
 img{
-  -webkit-border-radius: 20px;border-radius: 20px;border: 0px solid black;
+  -webkit-border-radius: 16px;border-radius: 16px;border: 0px solid black;
+}
+
+#audioImg{
+  margin-top:10px;
+  margin-bottom:10px;
+
+  webkit-border-radius: 0px;border-radius: 0px;border: 0px solid black;
 }
 
 body {

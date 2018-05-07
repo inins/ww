@@ -2,7 +2,10 @@ package com.wang.social.topic.mvp.ui;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
@@ -48,6 +51,7 @@ import com.wang.social.topic.mvp.ui.widget.DFSetPrice;
 import com.wang.social.topic.mvp.ui.widget.ReleaseTopicBottomBar;
 import com.wang.social.topic.mvp.ui.widget.StylePicker;
 import com.wang.social.topic.mvp.ui.widget.richeditor.RichEditor;
+import com.wang.social.topic.utils.AudioImageUtil;
 import com.wang.social.topic.utils.FileUtil;
 import com.wang.social.topic.utils.HtmlUtil;
 
@@ -58,11 +62,23 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 @RouteNode(path = "/topic_release", desc = "话题发布")
 public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         implements ReleaseTopicContract.View, View.OnLayoutChangeListener, PhotoHelper.OnPhotoCallback {
+
+    public static void start(Context context) {
+        context.startActivity(new Intent(context, ReleaseTopicActivity.class));
+    }
 
     public final static int REQUEST_CODE_TEMPLATE = 1001;
     public final static int REQUEST_CODE_BGM = 1002;
@@ -98,6 +114,8 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     @BindView(R2.id.topic_tags_text_view)
     TextView mTagsTV;
     // 背景音乐
+    @BindView(R2.id.bg_music_layout)
+    View mBgMusicLayout;
     @BindView(R2.id.music_board_layout)
     MusicBoard mMusicBoard;
 
@@ -143,6 +161,8 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     int mImageType;
     // 价格
     private int mPrice = 0;
+
+    private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -330,23 +350,23 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
             @Override
             public void onLeftAlign(boolean enable) {
-                if (enable) {
-                    mRichEditor.setAlignLeft();
-                }
+//                if (enable) {
+                mRichEditor.setAlignLeft();
+//                }
             }
 
             @Override
             public void onRightAlign(boolean enable) {
-                if (enable) {
-                    mRichEditor.setAlignRight();
-                }
+//                if (enable) {
+                mRichEditor.setAlignRight();
+//                }
             }
 
             @Override
             public void onCenterAlign(boolean enable) {
-                if (enable) {
-                    mRichEditor.setAlignCenter();
-                }
+//                if (enable) {
+                mRichEditor.setAlignCenter();
+//                }
             }
         });
 
@@ -381,6 +401,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
                                 case MotionEvent.ACTION_UP:
                                 case MotionEvent.ACTION_CANCEL:
                                     AudioRecordManager.getInstance().stopRecord();
+                                    showVoiceLayout(false);
                                     break;
                             }
                         }
@@ -411,7 +432,56 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
             @Override
             public void onCompleted(int duration, String path) {
-                mRichEditor.insertAudioImage(path, "录音");
+
+                Observable.create(new ObservableOnSubscribe<String>() {
+                    @Override
+                    public void subscribe(ObservableEmitter<String> emitter) throws Exception {
+                        emitter.onNext(AudioImageUtil.createAudioImage(
+                                ReleaseTopicActivity.this,
+                                mRichEditor.getWidth(),
+                                duration));
+                        emitter.onComplete();
+                    }
+                })
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<String>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+                                mCompositeDisposable.add(d);
+                                showLoading();
+                            }
+
+                            @Override
+                            public void onNext(String s) {
+                                BitmapFactory.Options options = new BitmapFactory.Options();
+                                /**
+                                 * 最关键在此，把options.inJustDecodeBounds = true;
+                                 * 这里再decodeFile()，返回的bitmap为空，但此时调用options.outHeight时，已经包含了图片的高了
+                                 */
+                                options.inJustDecodeBounds = true;
+                                Bitmap bitmap = BitmapFactory.decodeFile(s, options); // 此时返回的bitmap为null
+                                Timber.i("音频图片大小 : " + options.outWidth + " " + options.outHeight);
+                                mRichEditor.insertAudioImage(path, s, options.outWidth, options.outHeight, "录音");
+//                                mRichEditor.insertAudioImage(path, s, 100, 40, "录音");
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                hideLoading();
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                hideLoading();
+                            }
+                        });
+
+//                String image = AudioImageUtil.createAudioImage(
+//                        ReleaseTopicActivity.this,
+//                        mRichEditor.getWidth(),
+//                        duration);
+//                mRichEditor.insertAudioImage(path, image, "录音");
             }
 
             @Override
@@ -453,6 +523,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
             }
         });
 
+
         mTitleET.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -488,43 +559,21 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         mRichEditor.setPlaceholder("你想说什么?......为保障用户们的友好体验，请最少输入30个字");
     }
 
-    private boolean isfont = false;
     private void resetREFont(int position) {
         if (position == 0) {
-            if (isfont) {
-                mRichEditor.setFont("kt,STKaiti-SC-Regular,STKaiti-SC-Regular");
-            }
-            isfont = true;
+            mRichEditor.setFont("kt,STKaiti-SC-Regular,STKaiti-SC-Regular");
         } else if (position == 1) {
-            if (isfont) {
-                mRichEditor.setFont("pfb,PingFangSC-Regular,sans-serif");
-            }
-            isfont = true;
+            mRichEditor.setFont("pfb,PingFangSC-Regular,sans-serif");
         } else if (position == 2) {
-            if (isfont) {
-                mRichEditor.setFont("pfc,PingFangSC-Semibold,sans-serif");
-            }
-            isfont = true;
+            mRichEditor.setFont("pfc,PingFangSC-Semibold,sans-serif");
         } else if (position == 3) {
-            if (isfont) {
-                mRichEditor.setFont("pfx,PingFangSC-Light, sans-serif");
-            }
-            isfont = true;
+            mRichEditor.setFont("pfx,PingFangSC-Light, sans-serif");
         } else if (position == 4) {
-            if (isfont) {
-                mRichEditor.setFont("st,STSongti-SC-Regular");
-            }
-            isfont = true;
+            mRichEditor.setFont("st,STSongti-SC-Regular");
         } else if (position == 5) {
-            if (isfont) {
-                mRichEditor.setFont("ww,DFWaWaSC-W5");
-            }
-            isfont = true;
+            mRichEditor.setFont("ww,DFWaWaSC-W5");
         } else if (position == 6) {
-            if (isfont) {
-                mRichEditor.setFont("yy,STYuanti-SC-Regular");
-            }
-            isfont = true;
+            mRichEditor.setFont("yy,STYuanti-SC-Regular");
         }
     }
 
@@ -555,6 +604,12 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
                 case REQUEST_CODE_BGM: // 背景音乐
                     Music music = Music.newInstance(data);
                     Timber.i("onActivityResult " + music.getMusicId() + " " + music.getMusicName());
+
+                    if (music.getMusicId() == -1) {
+                        mBgMusicLayout.setVisibility(View.GONE);
+                    } else {
+                        mBgMusicLayout.setVisibility(View.VISIBLE);
+                    }
 
                     mMusicBoard.resetMusic(music);
                     mPresenter.setBGMusic(music);
@@ -590,6 +645,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     private void resetRETextSize(int size) {
         Timber.i("重置文字大小 " + size);
         mRichEditor.setEditorFontSize(size);
+//        mRichEditor.setFontSize(size);
     }
 
     private void editTextHasFocused() {
@@ -605,22 +661,20 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         mVoicLayout.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
+    private int mSymbolPosition;
     private boolean isclick;
 
     private void resetSymbolStyle(int position) {
-        if (!TextUtils.isEmpty(mRichEditor.getHtml()) &&
-                !mRichEditor.getHtml().endsWith("</ol>") &&
-                mRichEditor.getHtml().endsWith("</div>") &&
-                !mRichEditor.getHtml().endsWith("</ol></div>")) {
+        Timber.i("重设列表样式 : " + position);
+
+        if (!TextUtils.isEmpty(mRichEditor.getHtml()) && !mRichEditor.getHtml().endsWith("</ol>") && mRichEditor.getHtml().endsWith("</div>") && !mRichEditor.getHtml().endsWith("</ol></div>")) {
             isclick = false;
         }
         if (isclick) {
             mRichEditor.setOrderNumbers();
         }
         isclick = true;
-
-        if (TextUtils.isEmpty(mRichEditor.getHtml()) ||
-                (position == 0 && mRichEditor.getHtml().endsWith("</ol>"))) {
+        if (TextUtils.isEmpty(mRichEditor.getHtml()) || (position == 0 && mRichEditor.getHtml().endsWith("</ol>"))) {
             //mRichEditor.setNumbersNone();
             isclick = false;
         } else if (position == 1) {
@@ -643,6 +697,27 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         }
     }
 
+    private void setSymbolStyle(int position) {
+        if (position == 1) {
+            mRichEditor.setOrderNumbers();
+        } else if (position == 2) {
+            mRichEditor.setNumbersLower();
+        } else if (position == 3) {
+            mRichEditor.setNumbersUpper();
+        } else if (position == 4) {
+            mRichEditor.setNumberRoman();
+        } else if (position == 5) {
+            mRichEditor.setOrderCjk();
+        } else if (position == 6) {
+            mRichEditor.setOrderCircle();
+        } else if (position == 7) {
+            mRichEditor.setOrderSquare();
+        } else if (position == 8) {
+            mRichEditor.setOrderdisc();
+        }
+
+    }
+
     private boolean checkInput(boolean toast) {
         String title = mTitleET.getText().toString();
         if (TextUtils.isEmpty(title)) {
@@ -659,13 +734,13 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
             return false;
         }
 
-        if (null == mPresenter.getBGMusic()) {
-            if (toast) {
-                ToastUtil.showToastShort("请选择背景音乐");
-            }
-
-            return false;
-        }
+//        if (null == mPresenter.getBGMusic()) {
+//            if (toast) {
+//                ToastUtil.showToastShort("请选择背景音乐");
+//            }
+//
+//            return false;
+//        }
 
         if (TextUtils.isEmpty(mRichEditor.getHtml())) {
             if (toast) {
@@ -687,7 +762,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
     private void addTopic() {
         // 打印内容
-        Timber.i(mRichEditor.getHtml());
+        Timber.i(TextUtils.isEmpty(mRichEditor.getHtml()) ? "内容为空" : mRichEditor.getHtml());
 
         if (!checkInput(true)) {
             return;
@@ -748,8 +823,13 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     private void showPhotoDialog(@ImageType int type) {
         mImageType = type;
 
-        mPhotoHelperEx.setMaxSelectCount(9);
-        mPhotoHelperEx.setClip(false);
+        if (type == IMAGE_TYPE_COVER) {
+            mPhotoHelperEx.setMaxSelectCount(1);
+            mPhotoHelperEx.setClip(false);
+        } else {
+            mPhotoHelperEx.setMaxSelectCount(9);
+            mPhotoHelperEx.setClip(false);
+        }
         mPhotoHelperEx.showDefaultDialog();
     }
 
@@ -943,4 +1023,12 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (null != mCompositeDisposable) {
+            mCompositeDisposable.dispose();
+        }
+    }
 }

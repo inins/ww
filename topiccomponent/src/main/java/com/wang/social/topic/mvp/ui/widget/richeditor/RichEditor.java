@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import timber.log.Timber;
+
 /**
  * 富文本编辑器，基于WebView
  * Created by Chao on 2017/6/21.
@@ -412,34 +414,42 @@ public class RichEditor extends WebView {
     }
 
     public synchronized void setOrderdisc() {
+        Timber.i("");
         exec("javascript:RE.setOrderdisc();");
     }//实心圆
 
     public synchronized void setOrderNumbers() {
+        Timber.i("javascript:RE.setOrderNumbers();");
         exec("javascript:RE.setOrderNumbers();");
     }//数字
 
     public synchronized void setOrderCircle() {
+        Timber.i("javascript:RE.setOrderCircle();");
         exec("javascript:RE.setOrderCircle();");
     }//空心圆
 
     public synchronized void setOrderSquare() {
+        Timber.i("javascript:RE.setOrderSquare();");
         exec("javascript:RE.setOrderSquare();");
     }//方块
 
     public synchronized void setNumberRoman() {
+        Timber.i("javascript:RE.setNumberRoman();");
         exec("javascript:RE.setNumberRoman();");
     }//罗马数字
 
     public synchronized void setNumbersLower() {
+        Timber.i("javascript:RE.setNumbersLower();");
         exec("javascript:RE.setNumbersLower();");
     }//小写字母
 
     public synchronized void setNumbersUpper() {
+        Timber.i("javascript:RE.setNumbersUpper();");
         exec("javascript:RE.setNumbersUpper();");
     }//大写字母
 
     public synchronized void setOrderCjk() {
+        Timber.i("javascript:RE.setOrderCjk();");
         exec("javascript:RE.setOrderCjk();");
     }//一
 
@@ -460,9 +470,9 @@ public class RichEditor extends WebView {
         exec("javascript:RE.initAudioPlay();");
     }
 
-    public synchronized void insertAudioImage(String url, String alt) {
+    public synchronized void insertAudioImage(String url, String img, int w, int h, String alt) {
         exec("javascript:RE.prepareInsert();");
-        exec("javascript:RE.insertAudioImage('" + url + "', '" + alt + "');");
+        exec("javascript:RE.insertAudioImage('" + url + "', '" + img + "', '" + w + "', '" + h + "', '" + alt + "');");
     }
 
     public synchronized void insertHr() {

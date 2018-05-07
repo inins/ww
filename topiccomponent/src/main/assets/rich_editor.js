@@ -200,7 +200,6 @@ RE.setFont = function(font) {
 document.execCommand('fontName', false, font);
 }
 RE.setTextColor = function(color) {
-    RE.restorerange();
     document.execCommand("styleWithCSS", null, true);
     document.execCommand('foreColor', false, color);
     document.execCommand("styleWithCSS", null, false);
@@ -264,8 +263,10 @@ RE.insertImage = function(url, alt) {
 }
 
 //插入图片
-RE.insertAudioImage = function(url, alt) {
-    var html = '<img onclick="playAudio(\''+url+'\');" id="audioImg" align=center src="http://resouce.dongdongwedding.com/topic_yuyin_ico@2x.png" alt="' + alt + '" /><br/><br/>';
+RE.insertAudioImage = function(url, img, w, h, alt) {
+//    var html = '<img onclick="playAudio(\''+url+'\');" id="audioImg" align=left src=' + img + ' alt="' + alt + '" /><br/><br/>';
+//    var html = '<img onclick="playAudio(\''+url+'\');" id="audioImg" align=center src=' + img + ' width:=' + w + ' height:=' + h +  ' alt="' + alt + '" /><br/><br/>';
+var html = '<img onclick="playAudio(\''+url+'\');" id="audioImg" align=center src=' + img + ' width:=' + w + ' height:=' + h +  ' alt="' + alt + '" style="max-width: 100%;" /><br/><br/>';
     RE.insertHTML(html);
 }
 

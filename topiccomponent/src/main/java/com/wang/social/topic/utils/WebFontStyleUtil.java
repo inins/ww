@@ -39,32 +39,27 @@ public class WebFontStyleUtil {
                 "<head>" +
                 "<meta charset='utf-8' />" +
                 "<title>" + title + "</title>" +
-                "<meta name='viewport' content='width=device-width, initial-scale=1' />" +
+
+                "<meta name='HandheldFriendly' content='True'/>" +
+                "<meta name='MobileOptimized' content='320' />" +
+                "<meta name='viewport' content='width=device-width, initial-scale=1' />"
+                +
+
                 "<style>" +
-                "#audioImg{" +
-                " min-width:14px!important;" +
-                " max-width:14px!important;" +
-                " height:14px!important;" +
-                " margin:0;" +
-                " padding:0;}" +
                 "img{" +
                 "-webkit-border-radius: 20px;border-radius: 20px;border: 0px solid black;" +
                 "margin-top:10px;" +
                 "margin-bottom:10px;" +
-                "max-width:  98%;" +
-                "min-width:  98%;" +
+                "max-width:  100%;" +
                 "}" +
                 "body{" +
-                "width: 97.5%;" +
+                "width: 100%;" +
                 "word-wrap:break-word;" +
                 "}" +
                 "</style>" +
                 "<script>" +
-                "function playAudio(url){" +
-                "var musicPlay=document.getElementById('musicPlay');" +
-                "musicPlay.setAttribute('src',url);" +
-                "musicPlay.play();" +
-                "}" +
+                PLAY_AUDIO_S
+                +
                 "</script>" +
                 "</head>" +
                 "<body>" +
@@ -80,7 +75,7 @@ public class WebFontStyleUtil {
 //            "musicPlay.play();" +
 //            "}";
 
-    String str = "function playAudio(url)" +
+    private final static String PLAY_AUDIO_S = "function playAudio(url)" +
             "{var musicPlay=document.getElementById('musicPlay');" +
             "var musicPlay=document.getElementById('musicPlay');" +
             "var originUrl = musicPlay.getAttribute('src');" +

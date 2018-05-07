@@ -37,7 +37,7 @@ public class TopicDetail {
     private String nickname;
     private Integer sex;
     private String backgroundImage;
-    private String backgroundMusicId;
+    private Integer backgroundMusicId;
     private String backgroundMusicName;
     private String backgroundMusicUrl;
     private Long birthday;

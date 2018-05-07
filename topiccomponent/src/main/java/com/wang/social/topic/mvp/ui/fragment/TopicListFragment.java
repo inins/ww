@@ -51,9 +51,11 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
     public static final int FRAGMENT_NEW = 0;
     public static final int FRAGMENT_HOT = 1;
     public static final int FRAGMENT_LOW = 2;
-    @IntDef({ FRAGMENT_NEW, FRAGMENT_HOT, FRAGMENT_LOW })
+
+    @IntDef({FRAGMENT_NEW, FRAGMENT_HOT, FRAGMENT_LOW})
     @Retention(RetentionPolicy.SOURCE)
-    public @interface FragmentType {}
+    public @interface FragmentType {
+    }
 
     @BindView(R2.id.spring_view)
     SpringView mSpringView;
@@ -65,7 +67,8 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
     // onResume 调用后才开始加载
     boolean mIsLoaded = false;
     // 类型
-    @FragmentType int mFragmentType = FRAGMENT_NEW;
+    @FragmentType
+    int mFragmentType = FRAGMENT_NEW;
 
     @Override
     public void setupFragmentComponent(@NonNull AppComponent appComponent) {
@@ -227,9 +230,13 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
                     mSpringView.callFreshDelay();
                 }
                 break;
+            case EventBean.EVENTBUS_TAG_UPDATED:
+                Timber.i("标签更新");
+
+                mSpringView.callFreshDelay();
+                break;
         }
     }
-
 
 
 }

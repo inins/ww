@@ -104,7 +104,7 @@
                 android:id="@+id/cover_image_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="fitXY" />
+                android:scaleType="centerCrop" />
 
 
         </FrameLayout>
@@ -146,41 +146,51 @@
             android:textColor="@color/common_text_blank"
             android:textSize="17sp" />
 
+
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginTop="24dp">
-
-            <ImageView
-                android:id="@+id/topic_imageview6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/topic_ic_star" />
-
-            <TextView
-                android:id="@+id/topic_textview11"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:text="@string/topic_music"
-                android:textColor="@color/common_text_dark"
-                android:textSize="17sp"/>
-
-        </LinearLayout>
-
-        <com.frame.component.view.MusicBoard
-            android:id="@+id/music_board_layout"
+            android:id="@+id/bg_music_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:minHeight="38dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/topic_shape_rect_corner_solid_bk_light"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:layout_marginTop="24dp"
+            android:visibility="gone">
 
-        </com.frame.component.view.MusicBoard>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/topic_imageview6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/topic_ic_star"
+                    android:visibility="invisible"/>
+
+                <TextView
+                    android:id="@+id/topic_textview11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="@string/topic_music"
+                    android:textColor="@color/common_text_dark"
+                    android:textSize="17sp"/>
+
+            </LinearLayout>
+
+            <com.frame.component.view.MusicBoard
+                android:id="@+id/music_board_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/topic_shape_rect_corner_solid_bk_light"
+                android:orientation="horizontal">
+
+            </com.frame.component.view.MusicBoard>
+        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="wrap_content"

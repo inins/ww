@@ -21,7 +21,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.frame.component.ui.acticity.BGMList.Music;
 import com.frame.component.ui.base.BaseAppActivity;
+import com.frame.component.view.MusicBoard;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
@@ -101,6 +103,9 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
     // 星座
     @BindView(R2.id.constellation_text_view)
     TextView mConstellationTV;
+    // 背景音乐
+    @BindView(R2.id.music_board_layout)
+    MusicBoard mMusicBoard;
     // 内容 WebView
     @BindView(R2.id.content_layout)
     FrameLayout mContentLayout;
@@ -182,7 +187,7 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
 
         mTopicId = getIntent().getIntExtra(NAME_TOPIC_ID, -1);
         mCreatorId = getIntent().getIntExtra(NAME_CREATOR_ID, -1);
-        mTopicId = 30;
+//        mTopicId = 30;
 
         mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             // CollapsingToolbarLayout收起的进度
@@ -366,6 +371,17 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
         // 星座
         mConstellationTV.setText(TimeUtils.getZodiac(detail.getBirthday()));
 
+        // 背景音乐
+        if (!TextUtils.isEmpty(detail.getBackgroundMusicUrl())) {
+            Music music = new Music();
+            music.setMusicId(detail.getBackgroundMusicId());
+            music.setMusicName(detail.getBackgroundMusicName());
+            music.setUrl(detail.getBackgroundMusicUrl());
+            mMusicBoard.resetMusic(music);
+        } else {
+            mMusicBoard.setVisibility(View.GONE);
+        }
+
         // 页面内容
         if (null == mContentWV) {
             mContentWV = new WebView(getApplicationContext());
@@ -377,7 +393,7 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
 
 
             setting.setDefaultTextEncodingName("UTF-8");
-            setting.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+//            setting.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
             setting.setDefaultTextEncodingName("utf-8");
             setting.setLoadsImagesAutomatically(true);//设置自动加载图片
             setting.setJavaScriptEnabled(true);
@@ -400,7 +416,8 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
                                 + "var objs = document.getElementsByTagName('img'); "
                                 + "for(var i=0;i<objs.length;i++) {"
                                 + // //webview图片自适应，android4.4之前都有用，4.4之后google优化后，无法支持，需要自己手动缩放
-                                " objs[i].style.width = '100%';objs[i].style.height = 'auto';"
+                                " objs[i].style.width = '100%';" +
+                                "objs[i].style.height = 'auto';"
                                 + "}"
                                 + "})()"
                         );
