@@ -2,11 +2,13 @@ package com.wang.social.im.mvp.model.api;
 
 import com.frame.http.api.BaseJson;
 import com.wang.social.im.mvp.model.entities.MemberInfo;
+import com.wang.social.im.mvp.model.entities.TeamInfo;
 import com.wang.social.im.mvp.model.entities.dto.CreateGroupResultDTO;
 import com.wang.social.im.mvp.model.entities.dto.ListDataDTO;
 import com.wang.social.im.mvp.model.entities.dto.MemberInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.PayCheckInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.SocialDTO;
+import com.wang.social.im.mvp.model.entities.dto.SocialHomeDTO;
 import com.wang.social.im.mvp.model.entities.dto.TeamInfoDTO;
 
 import java.util.Map;
@@ -29,6 +31,19 @@ import retrofit2.http.Query;
  */
 public interface GroupService {
 
+    /**
+     * 查询觅聊列表类型：全部
+     */
+    int TEAM_LIST_ALL = 0;
+    /**
+     * 查询觅聊列表类型：我创建
+     */
+    int TEAM_LIST_CREATE = 1;
+    /**
+     * 查询觅聊列表类型：成员创建
+     */
+    int TEAM_LIST_MEMBER_CREATE = 2;
+
     String HEADER_CONTENT_TYPE = "Content-Type:application/x-www-form-urlencoded; charset=utf-8";
 
     /**
@@ -40,6 +55,16 @@ public interface GroupService {
      */
     @GET("app/group/getGroupInfo")
     Observable<BaseJson<SocialDTO>> getSocialInfo(@Query("v") String version, @Query("groupId") String socialId);
+
+    /**
+     * 趣聊主页获取趣聊详情
+     *
+     * @param version
+     * @param socialId
+     * @return
+     */
+    @GET("app/group/getGroupCombinationInfo")
+    Observable<BaseJson<SocialHomeDTO>> getSocialHomeInfo(@Query("v") String version, @Query("groupId") String socialId);
 
     /**
      * 获取趣聊/觅聊成员列表
@@ -148,4 +173,75 @@ public interface GroupService {
     @FormUrlEncoded
     @POST("app/group/createMiGroup")
     Observable<BaseJson<CreateGroupResultDTO>> createTeam(@FieldMap Map<String, Object> map);
+
+    /**
+     * 修改趣聊/觅聊名片信息
+     *
+     * @param version
+     * @param groupId
+     * @param nickname
+     * @param portrait
+     * @param msgNotifyType 0全部 1不提示 2只提示＠我的
+     * @return
+     */
+    @Headers(HEADER_CONTENT_TYPE)
+    @FormUrlEncoded
+    @POST("app/group/updateMyGroupMemberInfo")
+    Observable<BaseJson> updateNameCard(@Field("v") String version, @Field("groupId") String groupId,
+                                        @Field("memberName") String nickname, @Field("memberHeadUrl") String portrait,
+                                        @Field("receiveMsgType") int msgNotifyType);
+
+    /**
+     * 修改趣聊信息
+     * "groupName":"标题",                    //趣聊群名称
+     * “groupDesc”:”群介绍”,					 //群介绍
+     * "groupCoverPlan":"http://xx.jpg",      //封面URL
+     * "headUrl":"http://head.jpg",           //群头像URL
+     * "isOpen":1,                            //是否公开: 0.封闭; 1.公开
+     * "isFree":0,                            //是否免费: 0.收费; 1.免费用
+     * "totalDiamond":100,                    //收费钻石个数
+     * "gender":null,                         //性别限制 （null表示男女都可以） 0男 1女
+     * "ageRange":"90,00",                    //年代区间
+     * "isCreateMi":1,                        //是否允许创建觅1：允许创建2：不允许创建
+     * "tagIds":"1,2"                         //标签ID，以,分隔
+     *
+     * @param map
+     * @return
+     */
+    @Headers(HEADER_CONTENT_TYPE)
+    @FormUrlEncoded
+    @POST("app/group/updateGroupInfo")
+    Observable<BaseJson> updateSocialInfo(@FieldMap Map<String, Object> map);
+
+    /**
+     * 获取趣聊列表
+     *
+     * @param version
+     * @param socialId
+     * @param type     0：全部<默认>，1：我创建，2：成员创建
+     * @return
+     */
+    @GET("app/group/getMiList")
+    Observable<BaseJson<ListDataDTO<TeamInfoDTO, TeamInfo>>> getTeamList(@Query("v") String version, @Query("groupId") String socialId,
+                                                                         @Query("type") int type);
+
+    /**
+     * 解散趣聊/觅聊
+     *
+     * @param version
+     * @param groupId
+     * @return
+     */
+    @POST("app/group/dissolutionGroup")
+    Observable<BaseJson> dissolveGroup(@Query("v") String version, @Query("groupId") String groupId);
+
+    /**
+     * 退出趣聊/觅聊
+     *
+     * @param version
+     * @param groupId
+     * @return
+     */
+    @POST("app/group/userExitGroup")
+    Observable<BaseJson> exitGroup(@Query("v") String version, @Query("groupId") String groupId);
 }

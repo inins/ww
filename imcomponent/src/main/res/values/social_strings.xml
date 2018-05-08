@@ -15,6 +15,7 @@
     <string name="im_tag">标签</string>
     <string name="im_social_intro">群简介</string>
     <string name="im_team_size_format">(%d个)</string>
+    <string name="im_member_size_format">(%d人)</string>
     <string name="im_member">成员</string>
     <string name="im_member_dynamic">成员动态</string>
     <string name="im_name_card">我的名片</string>
@@ -32,6 +33,9 @@
     <string name="im_dissolve_social">解散趣聊</string>
     <string name="im_exit_social">退出趣聊</string>
     <string name="im_group_master">群主</string>
+    <string name="im_group_desc_setting">设置群简介</string>
+    <string name="im_self_group_name">我的群名称</string>
+    <string name="im_group_name_setting">设置群名称</string>
 
     <!-- 觅聊详情 -->
     <string name="im_team_name">觅聊名称</string>
@@ -116,4 +120,5 @@
     <string name="im_toast_nickname">请输入昵称</string>
     <string name="im_toast_gender">请选择性别</string>
     <string name="im_toast_portrait">请设置头像</string>
+    <string name="im_toast_group_desc">请输入简介内容</string>
 </resources>
