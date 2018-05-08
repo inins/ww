@@ -71,7 +71,7 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
         }
 
         // 头像
-        if (TextUtils.isEmpty(comment.getAvatar())) {
+        if (!TextUtils.isEmpty(comment.getAvatar())) {
             FrameUtils.obtainAppComponentFromContext(mContext)
                     .imageLoader()
                     .loadImage(mContext,

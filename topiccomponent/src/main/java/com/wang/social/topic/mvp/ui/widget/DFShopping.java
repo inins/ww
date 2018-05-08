@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.frame.component.helper.NetFindMyWalletHelper;
 import com.frame.component.helper.NetPayStoneHelper;
 import com.frame.mvp.IView;
+import com.frame.utils.ToastUtil;
 import com.wang.social.topic.R;
 import com.wang.social.topic.mvp.model.entities.Topic;
 import com.wang.social.topic.mvp.ui.TopicDetailActivity;
@@ -43,6 +44,7 @@ public class DFShopping extends DialogFragment {
     private IView mIView;
     private Topic mTopic;
     private TextView mWalletTV;
+    private TextView mConfirmTV;
 
     public void setContext(Context context) {
         mContext = context;
@@ -80,6 +82,7 @@ public class DFShopping extends DialogFragment {
             priceTV.setText(Integer.toString(mTopic.getPrice()));
         }
 
+        mConfirmTV = mView.findViewById(R.id.ok_text_view);
         mWalletTV = mView.findViewById(R.id.your_wallet_text_view);
 
         mView.findViewById(R.id.cancel_text_view)
@@ -97,22 +100,39 @@ public class DFShopping extends DialogFragment {
                 mWalletTV.setVisibility(View.VISIBLE);
                 mWalletTV.setText(String.format(getContext().getString(R.string.topic_balance_format), diamondNum));
 
-                mView.findViewById(R.id.ok_text_view)
-                        .setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                NetPayStoneHelper.newInstance()
-                                        .netPayTopic(mIView, mTopic.getTopicId(), mTopic.getPrice(),
-                                                new NetPayStoneHelper.OnStonePayCallback() {
-                                                    @Override
-                                                    public void success() {
-                                                        TopicDetailActivity.start(mContext, mTopic.getTopicId(), mTopic.getUserId());
-                                                    }
-                                                });
+                if (diamondNum < mTopic.getPrice()) {
+                    mConfirmTV.setText(getContext().getResources().getString(R.string.topic_dialog_shopping_charge));
 
-                                DFShopping.this.dismiss();
-                            }
-                        });
+                    mView.findViewById(R.id.ok_text_view)
+                            .setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    //
+                                    ToastUtil.showToastLong("去充值");
+
+                                    DFShopping.this.dismiss();
+                                }
+                            });
+                } else {
+                    mConfirmTV.setText(getContext().getResources().getString(R.string.topic_dialog_shopping_ok));
+
+                    mView.findViewById(R.id.ok_text_view)
+                            .setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    NetPayStoneHelper.newInstance()
+                                            .netPayTopic(mIView, mTopic.getTopicId(), mTopic.getPrice(),
+                                                    new NetPayStoneHelper.OnStonePayCallback() {
+                                                        @Override
+                                                        public void success() {
+                                                            TopicDetailActivity.start(mContext, mTopic.getTopicId(), mTopic.getUserId());
+                                                        }
+                                                    });
+
+                                    DFShopping.this.dismiss();
+                                }
+                            });
+                }
             }
         });
 

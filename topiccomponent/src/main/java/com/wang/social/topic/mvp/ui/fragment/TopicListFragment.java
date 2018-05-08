@@ -23,6 +23,7 @@ import com.wang.social.topic.mvp.contract.TopicListContract;
 import com.wang.social.topic.mvp.model.entities.Topic;
 import com.wang.social.topic.mvp.presenter.TopicListPresenter;
 import com.wang.social.topic.mvp.ui.TopicDetailActivity;
+import com.wang.social.topic.mvp.ui.WrapContentLinearLayoutManager;
 import com.wang.social.topic.mvp.ui.adapter.TopicListAdapter;
 import com.wang.social.topic.mvp.ui.widget.DFShopping;
 
@@ -115,7 +116,7 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
                     }
                 });
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mAdapter);
 
         // 刷新和加载更多

@@ -70,6 +70,7 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:paddingLeft">15dp</item>
         <item name="android:paddingRight">15dp</item>
+        <item name="android:maxLength">150</item>
         <item name="android:textColor">@color/common_text_blank</item>
         <item name="android:textColorHint">@color/common_text_hint</item>
         <item name="android:background">@android:color/transparent</item>

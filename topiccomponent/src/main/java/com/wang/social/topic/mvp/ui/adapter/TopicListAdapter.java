@@ -125,19 +125,19 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
             for (int i = 0; i < Math.min(topic.getTopicTag().size(), 3); i++) {
                 TopicTag tag = topic.getTopicTag().get(i);
                 if (null == tag) continue;
-                if (!TextUtils.isEmpty(tag.getName())) {
+                if (!TextUtils.isEmpty(tag.getTagName())) {
                     switch (i) {
                         case 0:
                             holder.tag1TV.setVisibility(View.VISIBLE);
-                            holder.tag1TV.setText(tag.getName());
+                            holder.tag1TV.setText(tag.getTagName());
                             break;
                         case 1:
                             holder.tag2TV.setVisibility(View.VISIBLE);
-                            holder.tag2TV.setText(tag.getName());
+                            holder.tag2TV.setText(tag.getTagName());
                             break;
                         case 2:
                             holder.tag3TV.setVisibility(View.VISIBLE);
-                            holder.tag3TV.setText(tag.getName());
+                            holder.tag3TV.setText(tag.getTagName());
                             break;
                     }
                 }

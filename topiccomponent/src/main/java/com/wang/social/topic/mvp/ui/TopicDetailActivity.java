@@ -270,6 +270,8 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
         // 背景图
         if (TextUtils.isEmpty(detail.getBackgroundImage())) {
             // 没有背景图时候的配色方案
+            mBackgroundIV.setVisibility(View.GONE);
+            mGradualImageView.setVisibility(View.GONE);
             // 标签
             mTagTV.setGradual(true);
             mTagTV.setGradualColor(getResources().getColor(R.color.common_text_blank),
@@ -316,6 +318,7 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
             mGradualImageView.setGradual(true);
             mGradualImageView.setDrawable(R.drawable.common_ic_playing1, R.drawable.common_ic_playing2);
 
+            mBackgroundIV.setVisibility(View.VISIBLE);
             FrameUtils.obtainAppComponentFromContext(this)
                     .imageLoader()
                     .loadImage(this,
