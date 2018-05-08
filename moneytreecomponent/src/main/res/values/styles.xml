@@ -1,0 +1,37 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 创建游戏输入框 -->
+    <style name="mt_StyleEditorCreateGame">
+        <item name="android:background">@drawable/mt_bg_create_game_editor</item>
+        <item name="android:layout_width">70dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:textColor">#F84E4F</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:inputType">number</item>
+    </style>
+
+    <!-- 创建游戏文字 -->
+    <style name="mt_StyleTextCreateGame">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/common_text_blank</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!-- 游戏记录类型文字 -->
+    <style name="mt_StyleTextGameRecordType">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/common_text_blank</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+
+</resources>

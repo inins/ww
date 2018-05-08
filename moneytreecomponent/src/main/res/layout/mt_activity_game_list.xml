@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    <com.frame.component.view.SocialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:actionBarSize"
+        app:toolbar_left_icon="@drawable/common_ic_back"
+        app:toolbar_right_text="@string/mt_game_record"
+        app:toolbar_right_text_color="#FB717A"
+        app:toolbar_title_text="@string/mt_money_tree"
+        app:toolbar_title_text_color="@color/common_text_blank">
+
+    </com.frame.component.view.SocialToolbar>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/common_list_divider"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.liaoinstan.springview.widget.SpringView
+            android:id="@+id/spring_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </android.support.v7.widget.RecyclerView>
+
+        </com.liaoinstan.springview.widget.SpringView>
+
+        <ImageView
+            android:id="@+id/create_game_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/mt_btn_creatgame"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="12dp"/>
+
+    </FrameLayout>
+
+</LinearLayout>

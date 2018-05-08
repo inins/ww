@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="mt_money_tree">摇钱树</string>
+    <string name="mt_game_record">游戏记录</string>
+    <string name="mt_enter">进入</string>
+    <string name="mt_joined">已参与</string>
+    <string name="mt_format_number_of_person">%1d/%2d人</string>
+    <string name="mt_game_time_colon">游戏时间：</string>
+    <string name="mt_game_number_of_person_colon">游戏人数：</string>
+    <string name="mt_game_price_colon">支付钻石：</string>
+    <string name="mt_people">人</string>
+    <string name="mt_unlimited">不限</string>
+    <string name="mt_gemstone">钻</string>
+    <string name="mt_minute">分钟</string>
+    <string name="mt_create_pay">创建并支付</string>
+    <string name="mt_all">全部</string>
+    <string name="mt_lose">输</string>
+    <string name="mt_win">赢</string>
+    <string name="mt_tie">平</string>
+    <string name="mt_cancel">取消</string>
+    <string name="mt_confirm">确定</string>
+    <string name="mt_time_define">自定义</string>
+    <string name="mt_time_minute_1">1分钟</string>
+    <string name="mt_time_minute_2">2分钟</string>
+    <string name="mt_time_minute_5">5分钟</string>
+    <string name="mt_time_minute_10">10分钟</string>
+</resources>

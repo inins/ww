@@ -45,18 +45,18 @@ public class WebFontStyleUtil {
                 "<meta name='viewport' content='width=device-width, initial-scale=1' />"
                 +
 
-                "<style>" +
-                "img{" +
-                "-webkit-border-radius: 20px;border-radius: 20px;border: 0px solid black;" +
-                "margin-top:10px;" +
-                "margin-bottom:10px;" +
-                "max-width:  100%;" +
-                "}" +
-                "body{" +
-                "width: 100%;" +
-                "word-wrap:break-word;" +
-                "}" +
-                "</style>" +
+//                "<style>" +
+//                "img{" +
+//                "-webkit-border-radius: 20px;border-radius: 20px;border: 0px solid black;" +
+//                "margin-top:10px;" +
+//                "margin-bottom:10px;" +
+//                "max-width:  100%;" +
+//                "}" +
+//                "body{" +
+//                "width: 100%;" +
+//                "word-wrap:break-word;" +
+//                "}" +
+//                "</style>" +
                 "<script>" +
                 PLAY_AUDIO_S
                 +

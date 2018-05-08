@@ -14,6 +14,7 @@
       <module fileurl="file://$PROJECT_DIR$/imcomponent/imcomponent.iml" filepath="$PROJECT_DIR$/imcomponent/imcomponent.iml" />
       <module fileurl="file://$PROJECT_DIR$/locationlib/locationlib.iml" filepath="$PROJECT_DIR$/locationlib/locationlib.iml" />
       <module fileurl="file://$PROJECT_DIR$/logincomponent/logincomponent.iml" filepath="$PROJECT_DIR$/logincomponent/logincomponent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/moneytreecomponent/moneytreecomponent.iml" filepath="$PROJECT_DIR$/moneytreecomponent/moneytreecomponent.iml" />
       <module fileurl="file://$PROJECT_DIR$/personalcomponent/personalcomponent.iml" filepath="$PROJECT_DIR$/personalcomponent/personalcomponent.iml" />
       <module fileurl="file://$PROJECT_DIR$/pictureselectorcomponent/pictureselectorcomponent.iml" filepath="$PROJECT_DIR$/pictureselectorcomponent/pictureselectorcomponent.iml" />
       <module fileurl="file://$PROJECT_DIR$/router-anno-compiler/router-anno-compiler.iml" filepath="$PROJECT_DIR$/router-anno-compiler/router-anno-compiler.iml" />

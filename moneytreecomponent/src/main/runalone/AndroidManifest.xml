@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.wang.social.moneytree">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name="com.frame.base.BaseApplication"
+        android:allowBackup="true"
+        android:label="摇钱树"
+        android:screenOrientation="portrait"
+        android:theme="@style/common_AppTheme">
+
+        <!-- Meta Data -->
+
+        <meta-data
+            android:name="com.wang.social.moneytree.runalone.GlobalConfiguration"
+            android:value="ConfigModule" />
+
+        <activity android:name=".mvp.ui.GameListActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".mvp.ui.GameRecordListActivity">
+        </activity>
+
+    </application>
+
+</manifest>

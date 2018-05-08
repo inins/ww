@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/mt_imageview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/mt_bg_create_game" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/mt_shape_rect_corner_solid_white"
+        android:minHeight="216dp"
+        android:minWidth="288dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/mt_imageview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="26dp">
+
+            <TextView
+                style="@style/mt_StyleTextCreateGame"
+                android:text="@string/mt_game_time_colon"/>
+
+            <EditText
+                android:id="@+id/time_edit_text"
+                style="@style/mt_StyleEditorCreateGame" />
+
+            <ImageView
+                android:id="@+id/time_select_image_view"
+                android:layout_width="19dp"
+                android:layout_height="19dp"
+                tools:src="@color/common_blue"/>
+
+            <TextView
+                style="@style/mt_StyleTextCreateGame"
+                android:text="@string/mt_minute"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="26dp">
+
+            <TextView
+                style="@style/mt_StyleTextCreateGame"
+                android:text="@string/mt_game_number_of_person_colon"/>
+
+            <EditText
+                style="@style/mt_StyleEditorCreateGame"
+                android:id="@+id/number_of_people_edit_text"
+                android:maxEms="200"/>
+
+            <TextView
+                style="@style/mt_StyleTextCreateGame"
+                android:text="@string/mt_people"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="26dp">
+
+            <TextView
+                style="@style/mt_StyleTextCreateGame"
+                android:text="@string/mt_game_price_colon"/>
+
+            <EditText
+                style="@style/mt_StyleEditorCreateGame"/>
+
+            <TextView
+                style="@style/mt_StyleTextCreateGame"
+                android:text="@string/mt_gemstone"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/create_game_text_view"
+            android:layout_width="115dp"
+            android:layout_height="29dp"
+            android:background="@drawable/mt_bg_create_game_button"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:textColor="@color/common_white"
+            android:textSize="14sp"
+            android:text="@string/mt_create_pay"
+            android:layout_marginTop="30dp"
+            />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/shutdown_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/mt_ic_shutdown"
+        app:layout_constraintEnd_toEndOf="@+id/mt_imageview"
+        app:layout_constraintStart_toStartOf="@+id/mt_imageview"
+        app:layout_constraintTop_toBottomOf="@+id/mt_imageview" />
+
+
+</android.support.constraint.ConstraintLayout>

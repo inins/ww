@@ -979,7 +979,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     @Override
     public void onReleaseTopicSuccess() {
         ToastUtil.showToastShort("话题发布成功");
-//        finish();
+        finish();
     }
 
     @Override

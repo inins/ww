@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="100dp"
+    android:layout_height="200dp"
+    android:gravity="center_horizontal"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp">
+
+    <TextView
+        android:id="@+id/all_text_view"
+        style="@style/mt_StyleTextGameRecordType"
+        android:text="@string/mt_all"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/common_list_divider"/>
+
+    <TextView
+        android:id="@+id/lose_text_view"
+        style="@style/mt_StyleTextGameRecordType"
+        android:text="@string/mt_lose"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/common_list_divider"/>
+
+    <TextView
+        android:id="@+id/win_text_view"
+        style="@style/mt_StyleTextGameRecordType"
+        android:text="@string/mt_win"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/common_list_divider"/>
+
+    <TextView
+        android:id="@+id/tie_text_view"
+        style="@style/mt_StyleTextGameRecordType"
+        android:text="@string/mt_tie"/>
+
+</LinearLayout>
