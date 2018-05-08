@@ -3,7 +3,7 @@ package com.wang.social.im.mvp.contract;
 import com.frame.http.api.BaseJson;
 import com.frame.mvp.IModel;
 import com.frame.mvp.IView;
-import com.wang.social.im.enums.Gender;
+import com.frame.component.enums.Gender;
 import com.wang.social.im.mvp.model.entities.ShadowInfo;
 import com.wang.social.im.mvp.model.entities.dto.PayCheckInfoDTO;
 

@@ -3,7 +3,7 @@ package com.wang.social.im.mvp.model.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.wang.social.im.enums.Gender;
+import com.frame.component.enums.Gender;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -79,6 +79,7 @@ ext {
             "constraint-layout"        : "com.android.support.constraint:constraint-layout:1.1.0",
             "chips-layoutmanager"      : "com.beloo.widget:ChipsLayoutManager:0.3.7@aar",  //Flow Layout
             "switch-button"            : "com.kyleduo.switchbutton:library:1.4.6",  //switch button
-            "tablayout"                : "com.ogaclejapan.smarttablayout:library:1.6.1@aar"
+            "tablayout"                : "com.ogaclejapan.smarttablayout:library:1.6.1@aar",
+            "recyclerview-inidex"      : "me.yokeyword:indexablerecyclerview:1.3.0"
     ]
 }

@@ -30,6 +30,15 @@
     <string name="im_chat">聊天</string>
     <string name="im_friend">好友</string>
     <string name="im_notify">通知</string>
+    <string name="im_my_social">我的趣聊</string>
+    <string name="im_my_friend">我的好友 (%d)</string>
+    <string name="im_scan">扫一扫</string>
+    <string name="im_contacts">手机通讯录</string>
+    <string name="im_unjoied">还未加入往往</string>
+    <string name="im_added">已添加</string>
+    <string name="im_phone_book">手机通讯录</string>
+    <string name="im_phone_book_tip">邀请熟人一起玩，告别孤独不再孤单</string>
 
     <string name="im_toast_revoke_timeout">发送时间超过2分钟，不能被撤回</string>
+    <string name="im_toast_contact_permission">请打开通讯录读取权限</string>
 </resources>

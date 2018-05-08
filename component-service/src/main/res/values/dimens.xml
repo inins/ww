@@ -7,4 +7,5 @@
     <dimen name="WheelMargins">8dp</dimen>
     <dimen name="WheelItemHeightSpace">16dp</dimen>
     <dimen name="WheelItemWidthSpace">32dp</dimen>
+    <dimen name="popup_auto_width">100dp</dimen>
 </resources>

@@ -1,5 +1,6 @@
 package com.wang.social.im.mvp.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -74,6 +75,11 @@ public class CreateSocialActivity extends BaseAppActivity<CreateSocialPresenter>
 
     @Inject
     ImageLoader mImageLoader;
+
+    public static void start(Context context) {
+        Intent intent = new Intent(context, CreateSocialActivity.class);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
