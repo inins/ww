@@ -13,7 +13,7 @@ import com.frame.mvp.BasePresenter;
 import com.frame.utils.StrUtil;
 import com.frame.utils.ToastUtil;
 import com.wang.social.funpoint.mvp.contract.FunpointListContract;
-import com.wang.social.funpoint.mvp.entities.Funpoint;
+import com.frame.component.entities.funpoint.Funpoint;
 
 import java.util.ArrayList;
 import java.util.List;

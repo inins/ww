@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.v4.app.FragmentManager;
 
 import com.frame.base.delegate.AppDelegate;
+import com.frame.component.router.ui.UIRouter;
 import com.frame.di.module.GlobalConfigModule;
 import com.frame.integration.ConfigModule;
 

@@ -15,8 +15,7 @@ import com.frame.component.utils.viewutils.FontUtils;
 import com.frame.utils.StrUtil;
 import com.wang.social.funpoint.R;
 import com.wang.social.funpoint.R2;
-import com.wang.social.funpoint.mvp.entities.Funpoint;
-import com.wang.social.funpoint.utils.FunPointUtil;
+import com.frame.component.entities.funpoint.Funpoint;
 
 import butterknife.BindView;
 

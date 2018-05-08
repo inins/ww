@@ -30,6 +30,7 @@
             </intent-filter>
         </activity>
 
+    <activity android:name=".mvp.ui.activity.CardActivity"/>
     </application>
 
 </manifest>

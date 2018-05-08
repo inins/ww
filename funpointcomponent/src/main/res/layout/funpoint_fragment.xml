@@ -37,7 +37,7 @@
                         android:id="@+id/btn_search"
                         style="@style/common_EditNone"
                         android:layout_height="match_parent"
-                        android:drawableLeft="@drawable/funpoint_ic_home_search"
+                        android:drawableLeft="@drawable/common_ic_home_search"
                         android:drawablePadding="5dp"
                         android:foreground="?attr/selectableItemBackground"
                         android:hint="请输入搜索关键字" />

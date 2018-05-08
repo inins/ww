@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import com.frame.component.service.funpoint.FunpointService;
 import com.frame.component.service.personal.PersonalService;
 import com.wang.social.funpoint.mvp.ui.fragment.FunPointFragment;
+import com.wang.social.funpoint.mvp.ui.fragment.SearchFunpointFragment;
 
 /**
  * ========================================
@@ -17,5 +18,10 @@ public class FunpointServiceImpl implements FunpointService {
     @Override
     public Fragment getFunpointFragment() {
         return FunPointFragment.newInstance();
+    }
+
+    @Override
+    public Fragment getSearchFunpointFragment() {
+        return SearchFunpointFragment.newInstance();
     }
 }

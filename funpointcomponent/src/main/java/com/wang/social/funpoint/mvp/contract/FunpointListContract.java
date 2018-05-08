@@ -5,12 +5,11 @@ import com.frame.component.entities.Tag;
 import com.frame.http.api.BaseJson;
 import com.frame.mvp.IModel;
 import com.frame.mvp.IView;
-import com.wang.social.funpoint.mvp.entities.Funpoint;
+import com.frame.component.entities.funpoint.Funpoint;
 
 import java.util.List;
 
 import io.reactivex.Observable;
-import retrofit2.http.Query;
 
 /**
  * =========================================

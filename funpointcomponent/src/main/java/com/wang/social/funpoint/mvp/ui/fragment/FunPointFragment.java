@@ -6,23 +6,15 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseFragment;
-import com.frame.base.BasicFragment;
 import com.frame.component.common.GridSpacingItemDecoration;
 import com.frame.component.entities.Tag;
-import com.frame.component.entities.TestEntity;
-import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.helper.NetLoginTestHelper;
 import com.frame.component.ui.acticity.WebActivity;
 import com.frame.component.ui.acticity.tags.TagSelectionActivity;
-import com.frame.component.view.barview.BarUser;
-import com.frame.component.view.barview.BarView;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.utils.SizeUtils;
@@ -35,20 +27,15 @@ import com.wang.social.funpoint.di.component.DaggerFunPointListFragmentComponent
 import com.wang.social.funpoint.di.component.DaggerSingleFragmentComponent;
 import com.wang.social.funpoint.di.module.FunpointListModule;
 import com.wang.social.funpoint.mvp.contract.FunpointListContract;
-import com.wang.social.funpoint.mvp.entities.Funpoint;
-import com.wang.social.funpoint.mvp.entities.Lable;
+import com.frame.component.entities.funpoint.Funpoint;
 import com.wang.social.funpoint.mvp.presonter.FunpointListPresonter;
 import com.wang.social.funpoint.mvp.ui.activity.SearchActivity;
 import com.wang.social.funpoint.mvp.ui.adapter.RecycleAdapterHome;
 import com.wang.social.funpoint.mvp.ui.adapter.RecycleAdapterLable;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 

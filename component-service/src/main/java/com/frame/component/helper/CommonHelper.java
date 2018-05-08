@@ -43,6 +43,9 @@ public class CommonHelper {
         public static void startHomeActivity(Context context) {
             UIRouter.getInstance().openUri(context, HomePath.HOME_URL, null);
         }
+        public static void startSearchActivity(Context context) {
+            UIRouter.getInstance().openUri(context, HomePath.SEARCH_URL, null);
+        }
     }
 
     public static class FunshowHelper {

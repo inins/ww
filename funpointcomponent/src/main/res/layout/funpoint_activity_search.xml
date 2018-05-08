@@ -40,7 +40,7 @@
                         android:id="@+id/edit_search"
                         style="@style/common_EditNone"
                         android:layout_height="match_parent"
-                        android:drawableLeft="@drawable/funpoint_ic_home_search"
+                        android:drawableLeft="@drawable/common_ic_home_search"
                         android:drawablePadding="5dp"
                         android:hint="请输入搜索关键字"
                         android:imeOptions="actionSearch"
@@ -71,29 +71,36 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <com.frame.component.view.LoadingLayout
-        android:id="@+id/loadingview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <!--<com.frame.component.view.LoadingLayout-->
+        <!--android:id="@+id/loadingview"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
+        <!--app:layout_fail="@layout/funpoint_layout_lack_search"-->
+        <!--app:layout_lack="@layout/funpoint_layout_lack_search"-->
+        <!--app:layout_loading="@layout/layout_loading">-->
+
+        <!--<com.liaoinstan.springview.widget.SpringView-->
+            <!--android:id="@+id/spring"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
+
+            <!--<android.support.v7.widget.RecyclerView-->
+                <!--android:id="@+id/recycler"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:clipToPadding="false"-->
+                <!--android:paddingBottom="10dp"-->
+                <!--android:paddingTop="15dp" />-->
+
+        <!--</com.liaoinstan.springview.widget.SpringView>-->
+
+    <!--</com.frame.component.view.LoadingLayout>-->
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_fail="@layout/funpoint_layout_lack_search"
-        app:layout_lack="@layout/funpoint_layout_lack_search"
-        app:layout_loading="@layout/layout_loading">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-        <com.liaoinstan.springview.widget.SpringView
-            android:id="@+id/spring"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:paddingBottom="10dp"
-                android:paddingTop="15dp" />
-
-        </com.liaoinstan.springview.widget.SpringView>
-
-    </com.frame.component.view.LoadingLayout>
 </android.support.design.widget.CoordinatorLayout>

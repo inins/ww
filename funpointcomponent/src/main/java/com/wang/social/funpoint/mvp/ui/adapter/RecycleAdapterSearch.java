@@ -20,16 +20,18 @@ import com.frame.component.view.ConerEditText;
 import com.frame.utils.StrUtil;
 import com.wang.social.funpoint.R;
 import com.wang.social.funpoint.R2;
-import com.wang.social.funpoint.mvp.entities.Funpoint;
+import com.frame.component.entities.funpoint.Funpoint;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
 
 public class RecycleAdapterSearch extends BaseAdapter<Funpoint> {
 
-    ConerEditText editSearch;
+    private String tags;
+    private String key;
 
     @Override
     protected BaseViewHolder createViewHolder(Context context, ViewGroup parent, int viewType) {
@@ -59,30 +61,24 @@ public class RecycleAdapterSearch extends BaseAdapter<Funpoint> {
 
             //设置搜索关键字高亮
             //遍历搜索tags和关键字，匹配成功则设置为高亮
-            if (editSearch != null) {
-                //获取关键字集合
-                List<String> tags = editSearch.getTags();
-                String key = editSearch.getKey();
-                List<String> keys = new ArrayList<>();
-                if (!StrUtil.isEmpty(tags)) keys.addAll(tags);
-                if (!TextUtils.isEmpty(key)) keys.add(key);
-                if (StrUtil.isEmpty(keys)) return;
-                //遍历匹配关键字
-                String newsTitle = bean.getNewsTitle();
-                int color = ContextCompat.getColor(getContext(), R.color.common_blue_deep);
-                SpannableString spannableString = new SpannableString(newsTitle);
-                for (String str : keys) {
-                    //匹配成功：设置高亮
-                    if (newsTitle.contains(str)) {
-                        int start = newsTitle.indexOf(str);
-                        int end = start + str.length();
-                        spannableString.setSpan(new ForegroundColorSpan(color), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    }
+            //获取关键字集合
+            List<String> keys = new ArrayList<>();
+            if (!StrUtil.isEmpty(tags)) keys.addAll(Arrays.asList(tags.split(",")));
+            if (!TextUtils.isEmpty(key)) keys.add(key);
+            if (StrUtil.isEmpty(keys)) return;
+            //遍历匹配关键字
+            String newsTitle = bean.getNewsTitle();
+            int color = ContextCompat.getColor(getContext(), R.color.common_blue_deep);
+            SpannableString spannableString = new SpannableString(newsTitle);
+            for (String str : keys) {
+                //匹配成功：设置高亮
+                if (newsTitle.contains(str)) {
+                    int start = newsTitle.indexOf(str);
+                    int end = start + str.length();
+                    spannableString.setSpan(new ForegroundColorSpan(color), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
-                textTitle.setText(spannableString);
-            } else {
-                textTitle.setText(bean.getNewsTitle());
             }
+            textTitle.setText(spannableString);
         }
 
         @Override
@@ -108,7 +104,21 @@ public class RecycleAdapterSearch extends BaseAdapter<Funpoint> {
         }
     }
 
-    public void setEditSearch(ConerEditText editSearch) {
-        this.editSearch = editSearch;
+    /////////////////////
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 }

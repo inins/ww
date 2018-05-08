@@ -7,7 +7,7 @@ import com.frame.http.api.BaseJson;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.BaseModel;
 import com.wang.social.funpoint.mvp.contract.FunpointListContract;
-import com.wang.social.funpoint.mvp.entities.Funpoint;
+import com.frame.component.entities.funpoint.Funpoint;
 import com.wang.social.funpoint.mvp.model.api.FunpointService;
 
 import javax.inject.Inject;

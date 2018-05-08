@@ -13,6 +13,8 @@
             android:name="com.wang.social.home.app.HomeGlobalConfiguration"
             android:value="ConfigModule" />
 
+        <activity android:name=".mvp.ui.activity.CardActivity"/>
+
     </application>
 
 </manifest>
