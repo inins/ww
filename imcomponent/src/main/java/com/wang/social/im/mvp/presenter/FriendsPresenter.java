@@ -1,23 +1,16 @@
 package com.wang.social.im.mvp.presenter;
 
-import com.frame.component.entities.FriendInfo;
 import com.frame.component.enums.Gender;
 import com.frame.di.scope.FragmentScope;
 import com.frame.http.api.ApiHelper;
-import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.mvp.BasePresenter;
 import com.wang.social.im.mvp.contract.FriendsContract;
 import com.wang.social.im.mvp.model.entities.IndexFriendInfo;
-import com.wang.social.im.mvp.model.entities.ListData;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
 
 /**
  * ============================================

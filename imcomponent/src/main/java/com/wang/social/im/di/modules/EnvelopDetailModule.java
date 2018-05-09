@@ -1,9 +1,7 @@
 package com.wang.social.im.di.modules;
 
 import com.frame.di.scope.ActivityScope;
-import com.wang.social.im.mvp.contract.CreateEnvelopContract;
 import com.wang.social.im.mvp.contract.EnvelopDetailContract;
-import com.wang.social.im.mvp.model.CreateEnvelopModel;
 import com.wang.social.im.mvp.model.EnvelopDetailModel;
 
 import dagger.Module;

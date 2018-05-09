@@ -16,7 +16,6 @@ import com.wang.social.im.mvp.model.entities.dto.TeamInfoDTO;
 import java.util.Map;
 
 import io.reactivex.Observable;
-import lombok.Getter;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
@@ -256,4 +255,13 @@ public interface GroupService {
      */
     @GET("app/group/joinList")
     Observable<BaseJson<ListDataDTO<SimpleGroupInfoDTO, SimpleGroupInfo>>> getBeinGroups(@Query("v") String version);
+
+    /**
+     * 获取趣聊/觅聊成员列表
+     * @param version
+     * @param groupId
+     * @return
+     */
+    @GET("app/group/getGroupMemberList")
+    Observable<BaseJson<ListDataDTO<MemberInfoDTO, MemberInfo>>> getGroupMember(@Query("v") String version, @Query("groupId") String groupId);
 }

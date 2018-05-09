@@ -2,7 +2,6 @@ package com.wang.social.im.widget;
 
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
-import android.support.constraint.ConstraintLayout;
 import android.support.constraint.Guideline;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +13,6 @@ import com.wang.social.im.R;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 
 import lombok.Setter;
-
-import static android.support.constraint.ConstraintLayout.LayoutParams.PARENT_ID;
 
 /**
  * ============================================

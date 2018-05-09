@@ -108,11 +108,16 @@
     <string name="im_shadow_tip">分身只可免费修改三次资料，请谨慎操作</string>
     <string name="im_shadow_what_is">什么是</string>
     <string name="im_shadow">分身?</string>
-    
+
     <!-- 趣聊列表 -->
     <string name="im_joined_teams">已加入的觅聊</string>
     <string name="im_me_created_social">我创建的趣聊</string>
     <string name="im_me_joined_social">我加入的趣聊</string>
+
+    <!-- 成员列表 -->
+    <string name="im_member_list_title">成员列表</string>
+    <string name="im_team_member_list_title_tip">%d位成员，有%d位好友在同一个觅聊</string>
+    <string name="im_social_member_list_title_tip">%d位成员，有%d位好友在同一个趣聊</string>
 
     <!--Toast-->
     <string name="im_toast_clear_fail">清除失败</string>

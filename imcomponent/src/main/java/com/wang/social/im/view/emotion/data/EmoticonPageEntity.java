@@ -3,9 +3,9 @@ package com.wang.social.im.view.emotion.data;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
-
 import com.wang.social.im.view.emotion.widget.EmoticonPageView;
+
+import java.util.List;
 
 
 public class EmoticonPageEntity<T> extends PageEntity<EmoticonPageEntity> {

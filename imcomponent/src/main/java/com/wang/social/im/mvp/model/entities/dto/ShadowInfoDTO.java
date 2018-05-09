@@ -1,7 +1,7 @@
 package com.wang.social.im.mvp.model.entities.dto;
 
-import com.frame.http.api.Mapper;
 import com.frame.component.enums.Gender;
+import com.frame.http.api.Mapper;
 import com.wang.social.im.mvp.model.entities.ShadowInfo;
 
 /**

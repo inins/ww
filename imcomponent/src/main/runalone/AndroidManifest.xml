@@ -15,7 +15,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
     <!-- 用于读取手机当前的状态 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
@@ -138,9 +138,11 @@
             android:name=".mvp.ui.CreateTeamActivity"
             android:exported="true" />
         <activity android:name=".mvp.ui.TeamAttributeActivity" />
-        <activity android:name=".mvp.ui.SocialListActivity"
-            android:exported="true"/>
-        <activity android:name=".mvp.ui.PhoneBookActivity"></activity>
+        <activity
+            android:name=".mvp.ui.SocialListActivity"
+            android:exported="true" />
+        <activity android:name=".mvp.ui.PhoneBookActivity" />
+        <activity android:name=".mvp.ui.MemberListActivity"></activity>
     </application>
 
 </manifest>

@@ -2,7 +2,6 @@ package com.wang.social.im.mvp.model.entities;
 
 import com.wang.social.im.view.expand.model.ExpandableListItem;
 
-import java.util.Arrays;
 import java.util.List;
 
 import lombok.Getter;
@@ -11,41 +10,28 @@ import lombok.Setter;
 /**
  * ============================================
  * <p>
- * Create by ChenJing on 2018-05-09 10:13
+ * Create by ChenJing on 2018-05-09 20:09
  * ============================================
  */
-public class SocialListLevelTwo implements ExpandableListItem {
+public class MembersLevelOne implements ExpandableListItem {
 
-    private boolean expanded = false;
+    @Setter
+    private boolean expanded;
     @Getter
     @Setter
-    private String id;
+    private String title;
     @Getter
     @Setter
-    private String pid;
-    @Getter
-    @Setter
-    private String socialId;
-    @Getter
-    @Setter
-    private String name;
-    @Getter
-    @Setter
-    private String avatar;
-    @Getter
-    @Setter
-    private int memberCount;
-    @Setter
-    private List<TeamInfo> teams;
+    private List<MemberInfo> members;
 
     @Override
     public List<?> getChildItemList() {
-        return Arrays.asList(teams);
+        return members;
     }
 
     @Override
     public boolean isExpanded() {
-        return expanded;
+        return this.expanded;
     }
 
     @Override

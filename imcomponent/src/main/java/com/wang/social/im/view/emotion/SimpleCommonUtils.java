@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-
 import com.wang.social.im.R;
 import com.wang.social.im.view.emotion.adapter.EmoticonsAdapter;
 import com.wang.social.im.view.emotion.adapter.PageSetAdapter;

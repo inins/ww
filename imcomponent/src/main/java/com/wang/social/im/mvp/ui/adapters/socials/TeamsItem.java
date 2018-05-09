@@ -1,11 +1,9 @@
-package com.wang.social.im.mvp.ui.adapters.sociallist;
+package com.wang.social.im.mvp.ui.adapters.socials;
 
-import android.graphics.Rect;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.frame.utils.SizeUtils;
 import com.wang.social.im.R;
 import com.wang.social.im.mvp.model.entities.TeamInfo;
 import com.wang.social.im.mvp.ui.adapters.SocialListTeamAdapter;

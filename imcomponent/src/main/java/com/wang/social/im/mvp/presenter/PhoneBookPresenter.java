@@ -3,7 +3,6 @@ package com.wang.social.im.mvp.presenter;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
 

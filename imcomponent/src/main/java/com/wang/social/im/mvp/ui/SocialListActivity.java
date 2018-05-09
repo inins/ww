@@ -17,7 +17,7 @@ import com.wang.social.im.di.modules.SocialListModule;
 import com.wang.social.im.mvp.contract.SocialListContract;
 import com.wang.social.im.mvp.model.entities.SocialListLevelOne;
 import com.wang.social.im.mvp.presenter.SocialListPresenter;
-import com.wang.social.im.mvp.ui.adapters.sociallist.SocialListAdapter;
+import com.wang.social.im.mvp.ui.adapters.socials.SocialListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

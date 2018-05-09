@@ -1,6 +1,5 @@
 package com.wang.social.im.mvp.model.entities.dto;
 
-import com.frame.component.entities.FriendInfo;
 import com.frame.component.entities.dto.TagDTO;
 import com.frame.component.enums.Gender;
 import com.frame.component.ui.acticity.tags.Tag;

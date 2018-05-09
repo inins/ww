@@ -5,10 +5,10 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-
 import com.wang.social.im.view.emotion.data.PageEntity;
 import com.wang.social.im.view.emotion.data.PageSetEntity;
+
+import java.util.ArrayList;
 
 /**
  * use XhsEmotionsKeyboard(https://github.com/w446108264/XhsEmoticonsKeyboard)

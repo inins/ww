@@ -1,7 +1,5 @@
 package com.wang.social.im.mvp.model;
 
-import com.frame.component.entities.FriendInfo;
-import com.frame.component.entities.dto.FriendInfoDTO;
 import com.frame.di.scope.FragmentScope;
 import com.frame.http.api.BaseJson;
 import com.frame.integration.IRepositoryManager;

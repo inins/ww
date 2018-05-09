@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 
+import com.frame.component.enums.Gender;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.ui.dialog.PayDialog;
 import com.frame.component.utils.UIUtil;
@@ -27,7 +28,6 @@ import com.wang.social.im.R2;
 import com.wang.social.im.app.IMConstants;
 import com.wang.social.im.di.component.DaggerShadowSettingComponent;
 import com.wang.social.im.di.modules.ShadowSettingModule;
-import com.frame.component.enums.Gender;
 import com.wang.social.im.mvp.contract.ShadowSettingContract;
 import com.wang.social.im.mvp.model.entities.ShadowInfo;
 import com.wang.social.im.mvp.presenter.ShadowSettingPresenter;

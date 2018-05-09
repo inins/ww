@@ -1,4 +1,4 @@
-package com.wang.social.im.mvp.ui.adapters.sociallist;
+package com.wang.social.im.mvp.ui.adapters.socials;
 
 import android.animation.ObjectAnimator;
 import android.support.constraint.ConstraintLayout;

@@ -14,7 +14,6 @@ import com.frame.component.utils.UIUtil;
 import com.frame.di.component.AppComponent;
 import com.frame.router.facade.annotation.Autowired;
 import com.frame.utils.BarUtils;
-import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.ext.group.TIMGroupDetailInfo;
 import com.tencent.imsdk.ext.group.TIMGroupManagerExt;

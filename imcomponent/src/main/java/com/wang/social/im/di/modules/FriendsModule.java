@@ -1,9 +1,7 @@
 package com.wang.social.im.di.modules;
 
 import com.frame.di.scope.FragmentScope;
-import com.wang.social.im.mvp.contract.ConversationListContract;
 import com.wang.social.im.mvp.contract.FriendsContract;
-import com.wang.social.im.mvp.model.ConversationListModel;
 import com.wang.social.im.mvp.model.FriendsModel;
 
 import dagger.Module;

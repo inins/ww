@@ -3,7 +3,6 @@ package com.wang.social.im.view.emotion;
 import android.text.Spannable;
 import android.widget.EditText;
 
-
 import java.util.regex.Matcher;
 
 

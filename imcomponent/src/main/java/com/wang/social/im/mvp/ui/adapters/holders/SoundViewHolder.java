@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.frame.base.BaseAdapter;
 import com.frame.component.common.AppConstant;
+import com.frame.component.helper.sound.AudioPlayManager;
+import com.frame.component.helper.sound.IAudioPlayListener;
 import com.frame.component.utils.UIUtil;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.tencent.imsdk.TIMCallBack;
@@ -25,8 +27,6 @@ import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.enums.ConversationType;
 import com.wang.social.im.helper.ImHelper;
-import com.frame.component.helper.sound.AudioPlayManager;
-import com.frame.component.helper.sound.IAudioPlayListener;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 
 import java.io.File;

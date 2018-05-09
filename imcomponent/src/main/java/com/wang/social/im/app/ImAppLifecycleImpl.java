@@ -26,7 +26,6 @@ import com.tencent.imsdk.ext.sns.TIMFriendshipProxyListener;
 import com.tencent.imsdk.ext.sns.TIMUserConfigSnsExt;
 import com.wang.social.im.BuildConfig;
 import com.wang.social.im.enums.ConnectionStatus;
-import com.wang.social.im.enums.ConversationType;
 
 import org.greenrobot.eventbus.EventBus;
 

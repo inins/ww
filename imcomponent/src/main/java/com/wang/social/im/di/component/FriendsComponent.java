@@ -2,9 +2,7 @@ package com.wang.social.im.di.component;
 
 import com.frame.di.component.AppComponent;
 import com.frame.di.scope.FragmentScope;
-import com.wang.social.im.di.modules.ConversationListModule;
 import com.wang.social.im.di.modules.FriendsModule;
-import com.wang.social.im.mvp.ui.ConversationListFragment;
 import com.wang.social.im.mvp.ui.fragments.FriendsFragment;
 
 import dagger.Component;

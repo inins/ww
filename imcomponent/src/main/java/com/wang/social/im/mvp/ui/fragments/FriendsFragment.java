@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.frame.base.BaseFragment;
-import com.frame.component.entities.FriendInfo;
 import com.frame.component.utils.UIUtil;
 import com.frame.di.component.AppComponent;
 import com.wang.social.im.R;
@@ -27,13 +26,10 @@ import com.wang.social.im.mvp.presenter.FriendsPresenter;
 import com.wang.social.im.mvp.ui.SocialListActivity;
 import com.wang.social.im.mvp.ui.adapters.FriendsAdapter;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import me.yokeyword.indexablerv.IndexableHeaderAdapter;
 import me.yokeyword.indexablerv.IndexableLayout;
 
