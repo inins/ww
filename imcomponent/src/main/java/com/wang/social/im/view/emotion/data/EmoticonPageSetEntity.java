@@ -1,8 +1,8 @@
 package com.wang.social.im.view.emotion.data;
 
-import java.util.ArrayList;
-
 import com.wang.social.im.view.emotion.listener.PageViewInstantiateListener;
+
+import java.util.ArrayList;
 
 public class EmoticonPageSetEntity<T> extends PageSetEntity<EmoticonPageEntity> {
 

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.frame.component.path.ImPath;

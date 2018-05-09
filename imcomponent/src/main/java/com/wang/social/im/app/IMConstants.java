@@ -53,9 +53,12 @@ public interface IMConstants {
     int UPDATE_SHADOW_PRICE = 100;
 
     /**
-
-    /**
      * 撤回消息发送时间超过两分钟
      */
     int TIM_ERROR_CODE_REVOKE_TIMEOUT = 6223;
+
+
+    /** ---------------------------------------------------- **/
+    String CONTENT_INVITE_JOIN_APP = "加入往往咯";
+    /** ---------------------------------------------------- **/
 }

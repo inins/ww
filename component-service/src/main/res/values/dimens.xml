@@ -7,6 +7,7 @@
     <dimen name="WheelMargins">8dp</dimen>
     <dimen name="WheelItemHeightSpace">16dp</dimen>
     <dimen name="WheelItemWidthSpace">32dp</dimen>
+    <dimen name="popup_auto_width">100dp</dimen>
 
     <dimen name="design_fab_size_normal" tools:ignore="PrivateResource">70dp</dimen>
 </resources>

@@ -12,13 +12,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-
-import java.io.IOException;
-import java.util.ArrayList;
-
 import com.wang.social.im.R;
 import com.wang.social.im.view.emotion.ImageLoader;
 import com.wang.social.im.view.emotion.data.PageSetEntity;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * use XhsEmotionsKeyboard(https://github.com/w446108264/XhsEmoticonsKeyboard)

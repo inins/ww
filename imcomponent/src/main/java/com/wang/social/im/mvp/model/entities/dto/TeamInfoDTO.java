@@ -1,5 +1,6 @@
 package com.wang.social.im.mvp.model.entities.dto;
 
+import com.frame.component.entities.dto.TagDTO;
 import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.http.api.Mapper;
 import com.wang.social.im.mvp.model.entities.TeamInfo;

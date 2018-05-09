@@ -10,8 +10,6 @@ import com.wang.social.im.mvp.model.entities.MemberInfo;
 import com.wang.social.im.mvp.model.entities.dto.ListDataDTO;
 import com.wang.social.im.mvp.model.entities.dto.MemberInfoDTO;
 
-import java.security.acl.Group;
-
 import io.reactivex.Observable;
 
 /**

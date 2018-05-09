@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pa_ll_container"
+    android:layout_width="@dimen/popup_auto_width"
+    android:layout_height="wrap_content"
+    android:fitsSystemWindows="false"
+    android:orientation="vertical" />

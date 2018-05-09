@@ -1,4 +1,4 @@
-package com.wang.social.im.mvp.model.entities.dto;
+package com.frame.component.entities.dto;
 
 import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.http.api.Mapper;

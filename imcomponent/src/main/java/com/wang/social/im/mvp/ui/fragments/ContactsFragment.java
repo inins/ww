@@ -11,13 +11,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.frame.base.BasicFragment;
+import com.frame.component.entities.AutoPopupItemModel;
+import com.frame.component.ui.dialog.AutoPopupWindow;
 import com.frame.component.utils.UIUtil;
 import com.frame.di.component.AppComponent;
+import com.frame.utils.ScreenUtils;
+import com.frame.utils.SizeUtils;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.mvp.ui.ConversationListFragment;
+import com.wang.social.im.mvp.ui.CreateSocialActivity;
+import com.wang.social.im.mvp.ui.PhoneBookActivity;
 import com.wang.social.im.mvp.ui.adapters.FragmentAdapter;
+import com.wang.social.im.view.NoScrollViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +39,7 @@ import butterknife.OnClick;
  * Create by ChenJing on 2018-05-07 17:42
  * ============================================
  */
-public class ContactsFragment extends BasicFragment {
+public class ContactsFragment extends BasicFragment implements AutoPopupWindow.OnItemClickListener {
 
     @BindView(R2.id.fc_iv_more)
     ImageView fcIvMore;
@@ -41,7 +48,9 @@ public class ContactsFragment extends BasicFragment {
     @BindView(R2.id.fc_tab_layout)
     SmartTabLayout fcTabLayout;
     @BindView(R2.id.fc_viewpager)
-    ViewPager fcViewpager;
+    NoScrollViewPager fcViewpager;
+
+    private AutoPopupWindow popupWindow;
 
     public static ContactsFragment newInstance() {
 
@@ -112,9 +121,39 @@ public class ContactsFragment extends BasicFragment {
     @OnClick({R2.id.fc_iv_more, R2.id.fc_iv_search})
     public void onViewClicked(View view) {
         if (view.getId() == R.id.fc_iv_more) {
-
+            if (popupWindow == null) {
+                popupWindow = new AutoPopupWindow(getContext(), getMenuItems(), AutoPopupWindow.POINT_TO_RIGHT);
+                popupWindow.setItemClickListener(ContactsFragment.this);
+            }
+            if (!popupWindow.isShowing()) {
+                int showX = ScreenUtils.getScreenWidth() - getResources().getDimensionPixelSize(R.dimen.popup_auto_width) - SizeUtils.dp2px(5);
+                popupWindow.showAsDropDown(fcIvMore, showX, -SizeUtils.dp2px(15));
+            }
         } else if (view.getId() == R.id.fc_iv_search) {
 
+        }
+    }
+
+    private List<AutoPopupItemModel> getMenuItems() {
+        List<AutoPopupItemModel> items = new ArrayList<>();
+        AutoPopupItemModel createModel = new AutoPopupItemModel(0, R.string.im_create_social);
+        AutoPopupItemModel scanModel = new AutoPopupItemModel(0, R.string.im_scan);
+        AutoPopupItemModel contactsModel = new AutoPopupItemModel(0, R.string.im_contacts);
+        items.add(createModel);
+        items.add(scanModel);
+        items.add(contactsModel);
+        return items;
+    }
+
+    @Override
+    public void onItemClick(AutoPopupWindow popupWindow, int resId) {
+        popupWindow.dismiss();
+        if (resId == R.string.im_create_social) {
+            CreateSocialActivity.start(getContext());
+        } else if (resId == R.string.im_scan) {
+
+        } else if (resId == R.string.im_contacts) {
+            PhoneBookActivity.start(getActivity());
         }
     }
 }

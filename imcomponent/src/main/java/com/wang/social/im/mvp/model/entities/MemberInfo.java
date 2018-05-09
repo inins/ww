@@ -1,6 +1,10 @@
 package com.wang.social.im.mvp.model.entities;
 
+import com.frame.component.enums.Gender;
+import com.frame.component.ui.acticity.tags.Tag;
 import com.wang.social.im.enums.MessageNotifyType;
+
+import java.util.List;
 
 import lombok.Data;
 
@@ -22,8 +26,12 @@ public class MemberInfo {
     private String memberId;
     private String nickname;
     private String portrait;
+    private int age;
+    private Gender gender;
+    private String constellation;
     //消息提醒类型
     private MessageNotifyType notifyType;
     //角色
     private int role;
+    private List<Tag> tags;
 }

@@ -8,13 +8,12 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-
-import java.util.ArrayList;
-
 import com.wang.social.im.R;
 import com.wang.social.im.view.emotion.data.EmoticonPageEntity;
 import com.wang.social.im.view.emotion.listener.EmoticonClickListener;
 import com.wang.social.im.view.emotion.listener.EmoticonDisplayListener;
+
+import java.util.ArrayList;
 
 public class EmoticonsAdapter<T> extends BaseAdapter {
 

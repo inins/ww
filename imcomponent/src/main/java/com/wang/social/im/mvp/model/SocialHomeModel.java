@@ -6,15 +6,11 @@ import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.di.scope.ActivityScope;
 import com.frame.http.api.BaseJson;
 import com.frame.integration.IRepositoryManager;
-import com.frame.mvp.BaseModel;
 import com.wang.social.im.mvp.contract.SocialHomeContract;
 import com.wang.social.im.mvp.model.api.GroupService;
-import com.wang.social.im.mvp.model.entities.MemberInfo;
 import com.wang.social.im.mvp.model.entities.SocialInfo;
 import com.wang.social.im.mvp.model.entities.TeamInfo;
 import com.wang.social.im.mvp.model.entities.dto.ListDataDTO;
-import com.wang.social.im.mvp.model.entities.dto.MemberInfoDTO;
-import com.wang.social.im.mvp.model.entities.dto.SocialDTO;
 import com.wang.social.im.mvp.model.entities.dto.SocialHomeDTO;
 import com.wang.social.im.mvp.model.entities.dto.TeamInfoDTO;
 

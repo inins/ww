@@ -12,8 +12,6 @@ import com.frame.http.imageloader.ImageLoader;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.ScreenUtils;
 import com.frame.utils.TimeUtils;
-import com.tencent.imsdk.TIMConversationType;
-import com.tencent.imsdk.TIMMessageStatus;
 import com.wang.social.im.enums.ConversationType;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 
@@ -21,8 +19,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-
-import javax.inject.Inject;
 
 /**
  * ==========================================
