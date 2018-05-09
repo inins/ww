@@ -24,6 +24,7 @@ import com.wang.social.im.di.modules.FriendsModule;
 import com.wang.social.im.mvp.contract.FriendsContract;
 import com.wang.social.im.mvp.model.entities.IndexFriendInfo;
 import com.wang.social.im.mvp.presenter.FriendsPresenter;
+import com.wang.social.im.mvp.ui.SocialListActivity;
 import com.wang.social.im.mvp.ui.adapters.FriendsAdapter;
 
 import java.util.ArrayList;
@@ -130,7 +131,7 @@ public class FriendsFragment extends BaseFragment<FriendsPresenter> implements F
             ((ViewHolder) holder).clLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    SocialListActivity.start(getContext());
                 }
             });
         }

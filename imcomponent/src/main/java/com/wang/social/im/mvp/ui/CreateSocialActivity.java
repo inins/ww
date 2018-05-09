@@ -266,7 +266,7 @@ public class CreateSocialActivity extends BaseAppActivity<CreateSocialPresenter>
 
     @Override
     public void onCreateComplete(CreateGroupResult result) {
-
+        finish();
     }
 
     @Override

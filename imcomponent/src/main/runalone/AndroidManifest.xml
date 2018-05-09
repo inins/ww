@@ -138,7 +138,8 @@
             android:name=".mvp.ui.CreateTeamActivity"
             android:exported="true" />
         <activity android:name=".mvp.ui.TeamAttributeActivity" />
-        <activity android:name=".mvp.ui.SocialListActivity" />
+        <activity android:name=".mvp.ui.SocialListActivity"
+            android:exported="true"/>
         <activity android:name=".mvp.ui.PhoneBookActivity"></activity>
     </application>
 

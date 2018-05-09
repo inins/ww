@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -26,6 +27,7 @@ import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
+import com.wang.social.im.app.IMConstants;
 import com.wang.social.im.di.component.DaggerPhoneBookComponent;
 import com.wang.social.im.di.modules.PhoneBookModule;
 import com.wang.social.im.mvp.contract.PhoneBookContract;
@@ -133,7 +135,12 @@ public class PhoneBookActivity extends BaseAppActivity<PhoneBookPresenter> imple
 
     @Override
     public void onHandle(PhoneContact contact) {
-
+        if (!contact.isJoined()) {
+            Intent intent = new Intent(Intent.ACTION_SENDTO);
+            intent.setData(Uri.parse("smsto:" + contact.getPhoneNumber()));
+            intent.putExtra("sms_body", IMConstants.CONTENT_INVITE_JOIN_APP);
+            startActivity(intent);
+        }
     }
 
     private class HeaderAdapter extends IndexableHeaderAdapter {

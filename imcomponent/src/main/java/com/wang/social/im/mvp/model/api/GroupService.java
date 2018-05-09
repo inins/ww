@@ -2,11 +2,13 @@ package com.wang.social.im.mvp.model.api;
 
 import com.frame.http.api.BaseJson;
 import com.wang.social.im.mvp.model.entities.MemberInfo;
+import com.wang.social.im.mvp.model.entities.SimpleGroupInfo;
 import com.wang.social.im.mvp.model.entities.TeamInfo;
 import com.wang.social.im.mvp.model.entities.dto.CreateGroupResultDTO;
 import com.wang.social.im.mvp.model.entities.dto.ListDataDTO;
 import com.wang.social.im.mvp.model.entities.dto.MemberInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.PayCheckInfoDTO;
+import com.wang.social.im.mvp.model.entities.dto.SimpleGroupInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.SocialDTO;
 import com.wang.social.im.mvp.model.entities.dto.SocialHomeDTO;
 import com.wang.social.im.mvp.model.entities.dto.TeamInfoDTO;
@@ -14,6 +16,7 @@ import com.wang.social.im.mvp.model.entities.dto.TeamInfoDTO;
 import java.util.Map;
 
 import io.reactivex.Observable;
+import lombok.Getter;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
@@ -244,4 +247,13 @@ public interface GroupService {
      */
     @POST("app/group/userExitGroup")
     Observable<BaseJson> exitGroup(@Query("v") String version, @Query("groupId") String groupId);
+
+    /**
+     * 获取我的趣聊
+     *
+     * @param version
+     * @return
+     */
+    @GET("app/group/joinList")
+    Observable<BaseJson<ListDataDTO<SimpleGroupInfoDTO, SimpleGroupInfo>>> getBeinGroups(@Query("v") String version);
 }
