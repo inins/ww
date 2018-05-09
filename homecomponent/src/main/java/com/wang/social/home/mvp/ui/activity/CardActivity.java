@@ -13,8 +13,10 @@ import android.view.View;
 import android.widget.CheckedTextView;
 import android.widget.TextView;
 
+import com.frame.base.BaseAdapter;
 import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.di.component.AppComponent;
+import com.frame.utils.ToastUtil;
 import com.wang.social.home.R;
 import com.wang.social.home.R2;
 import com.wang.social.home.common.CardLayoutManager;
@@ -28,7 +30,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CardActivity extends BasicAppActivity {
+public class CardActivity extends BasicAppActivity implements BaseAdapter.OnItemClickListener<Card>{
 
     @BindView(R2.id.recycler)
     RecyclerView recycler;
@@ -62,6 +64,7 @@ public class CardActivity extends BasicAppActivity {
         popupWindow.setShadowView(shadow);
         //初始化recycle卡片view
         adapter = new RecycleAdapterCard();
+        adapter.setOnItemClickListener(this);
         recycler.setLayoutManager(new CardLayoutManager());
         recycler.setAdapter(adapter);
         //设置拖拽手势
@@ -128,13 +131,20 @@ public class CardActivity extends BasicAppActivity {
     }
 
     @Override
-    public void setupActivityComponent(@NonNull AppComponent appComponent) {
+    public void onItemClick(Card card, int position) {
+        CardDetailActivity.start(this);
+    }
+
+    public void onClick(View v) {
+        int id = v.getId();
+        if (id == R.id.btn_dislike) {
+            ToastUtil.showToastShort("dislike");
+        } else if (id == R.id.btn_like) {
+            ToastUtil.showToastShort("like");
+        }
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+    public void setupActivityComponent(@NonNull AppComponent appComponent) {
     }
 }

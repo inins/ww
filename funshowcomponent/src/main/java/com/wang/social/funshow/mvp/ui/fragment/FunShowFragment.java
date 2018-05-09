@@ -2,7 +2,6 @@ package com.wang.social.funshow.mvp.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,17 +11,14 @@ import android.view.View;
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseFragment;
 import com.frame.component.common.ItemDecorationDivider;
-import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.NetLoginTestHelper;
 import com.frame.component.helper.NetPayStoneHelper;
 import com.frame.component.helper.NetShareHelper;
 import com.frame.component.ui.base.BasicAppActivity;
-import com.frame.component.view.barview.BarUser;
 import com.frame.component.view.barview.BarView;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.utils.SizeUtils;
-import com.frame.utils.ToastUtil;
 import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
@@ -39,12 +35,10 @@ import com.wang.social.funshow.mvp.ui.activity.FunshowDetailActivity;
 import com.wang.social.funshow.mvp.ui.activity.HotUserListActivity;
 import com.wang.social.funshow.mvp.ui.adapter.RecycleAdapterHome;
 import com.wang.social.funshow.mvp.ui.dialog.DialogSureFunshowPay;
-import com.wang.social.funshow.utils.FunShowUtil;
 import com.wang.social.socialize.SocializeUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;

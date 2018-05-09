@@ -5,6 +5,7 @@
     <color name="common_colorAccent">#189AFF</color>
 
     <color name="common_red_gray">#FC969D</color>      <!--往往灰红-->
+    <color name="common_red_white">#33FC969D</color>      <!--往往灰红-->
     <color name="common_blue">#18B6FF</color>       <!--往往蓝-->
     <color name="common_blue_deep">#189AFF</color>       <!--往往深蓝-->
     <color name="common_blue_light">#18E7FF</color>       <!--往往浅蓝-->

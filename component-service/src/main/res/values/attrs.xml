@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <declare-styleable name="BannerView">
+        <attr name="selected_color" format="color|reference" />
+        <attr name="unselected_color" format="color|reference" />
+        <attr name="autoscroll" format="boolean" />
+        <attr name="number_indicator" format="boolean" />
+        <attr name="is_square">
+            <enum name="by_width" value="1" />
+            <enum name="by_hight" value="2" />
+        </attr>
+    </declare-styleable>
+
     <declare-styleable name="BundleImgView">
         <!-- 是否可编辑状态 -->
         <attr name="editble" format="boolean" />

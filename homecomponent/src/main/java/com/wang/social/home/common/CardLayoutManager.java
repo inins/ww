@@ -86,7 +86,7 @@ public class CardLayoutManager extends RecyclerView.LayoutManager {
         public static float SCALE_GAP = 0.08f;
 
         //每一级向下位移多少dp
-        public static int TRANS_Y_GAP = SizeUtils.dp2px(30);
+        public static int TRANS_Y_GAP = SizeUtils.dp2px(28);
     }
 
 }

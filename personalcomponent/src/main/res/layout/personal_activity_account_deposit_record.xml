@@ -111,7 +111,7 @@
                         android:layout_width="16dp"
                         android:layout_height="16dp"
                         android:layout_marginLeft="-9dp"
-                        android:src="@drawable/personal_shape_oval_white" />
+                        android:src="@drawable/common_shape_oval_white" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -125,7 +125,7 @@
                         android:layout_width="16dp"
                         android:layout_height="16dp"
                         android:layout_marginRight="-9dp"
-                        android:src="@drawable/personal_shape_oval_white" />
+                        android:src="@drawable/common_shape_oval_white" />
 
                 </LinearLayout>
 

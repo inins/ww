@@ -6,7 +6,6 @@ import android.widget.ImageView;
 
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
-import com.frame.component.entities.TestEntity;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.wang.social.home.R;
 import com.wang.social.home.R2;
@@ -25,6 +24,10 @@ public class RecycleAdapterCard extends BaseAdapter<Card> {
 
         @BindView(R2.id.img_pic)
         ImageView imgPic;
+        @BindView(R2.id.img_like)
+        ImageView imgLike;
+        @BindView(R2.id.img_dislike)
+        ImageView imgDislike;
 
         public Holder(Context context, ViewGroup root, int layoutRes) {
             super(context, root, layoutRes);
@@ -32,12 +35,23 @@ public class RecycleAdapterCard extends BaseAdapter<Card> {
 
         @Override
         protected void bindData(Card bean, int position, OnItemClickListener onItemClickListener) {
-
             ImageLoaderHelper.loadImgTestByPosition(imgPic, bean.getIndex());
         }
 
         @Override
         public void onRelease() {
+        }
+
+        @Override
+        protected boolean useItemClickListener() {
+            return true;
+        }
+
+        public void setLikeAlpha(double value) {
+            imgLike.setAlpha((float) value);
+        }
+        public void setDisLikeAlpha(double value) {
+            imgDislike.setAlpha((float) value);
         }
     }
 }

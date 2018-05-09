@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.ui.base.BaseController;
 import com.frame.component.utils.viewutils.FontUtils;
+import com.frame.mvp.IView;
 import com.wang.social.home.R;
 import com.wang.social.home.R2;
 import com.wang.social.home.mvp.ui.activity.CardActivity;
@@ -26,8 +27,8 @@ public class HomeNaviboardController extends BaseController implements View.OnCl
     @BindView(R2.id.btn_active)
     View btnActive;
 
-    public HomeNaviboardController(View root) {
-        super(root);
+    public HomeNaviboardController(IView iView, View root) {
+        super(iView, root);
         int layout = R.layout.home_lay_naviboard;
         registEventBus();
         onInitCtrl();

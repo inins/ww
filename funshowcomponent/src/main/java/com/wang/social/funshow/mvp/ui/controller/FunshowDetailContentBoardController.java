@@ -1,7 +1,6 @@
 package com.wang.social.funshow.mvp.ui.controller;
 
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,7 +22,7 @@ import com.wang.social.funshow.mvp.entities.funshow.FunshowDetailVideoRsc;
 import com.wang.social.funshow.mvp.model.api.FunshowService;
 import com.wang.social.funshow.mvp.ui.view.CtrlVideoView;
 import com.wang.social.funshow.mvp.ui.view.MusicBubbleView;
-import com.wang.social.funshow.utils.FunShowUtil;
+import com.frame.component.utils.FunShowUtil;
 import com.wang.social.pictureselector.ActivityPicturePreview;
 
 import org.greenrobot.eventbus.EventBus;

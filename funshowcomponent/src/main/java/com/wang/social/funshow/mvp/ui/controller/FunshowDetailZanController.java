@@ -33,8 +33,8 @@ import com.wang.social.funshow.mvp.model.api.FunshowService;
 import com.wang.social.funshow.mvp.ui.activity.ZanUserListActivity;
 import com.wang.social.funshow.mvp.ui.adapter.RecycleAdapterZan;
 import com.wang.social.funshow.mvp.ui.dialog.MorePopupWindow;
-import com.wang.social.funshow.net.helper.NetZanHelper;
-import com.wang.social.funshow.utils.FunShowUtil;
+import com.frame.component.helper.NetZanHelper;
+import com.frame.component.utils.FunShowUtil;
 import com.wang.social.socialize.SocializeUtil;
 
 import org.greenrobot.eventbus.EventBus;

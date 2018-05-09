@@ -16,14 +16,17 @@ import butterknife.Unbinder;
 public abstract class BaseController {
 
     private View root;
+    private IView iView;
     protected Unbinder mUnbinder;
 
     public BaseController(View root) {
-        this.root = root;
-        mUnbinder = ButterKnife.bind(this, root);
+        this(null, root);
+    }
 
-//        onInitCtrl();
-//        onInitData();
+    public BaseController(IView iView, View root) {
+        this.root = root;
+        this.iView = iView;
+        mUnbinder = ButterKnife.bind(this, root);
     }
 
     public void registEventBus() {
@@ -31,9 +34,9 @@ public abstract class BaseController {
     }
 
     private void unRegistEventBus() {
-//        if (EventBus.getDefault().isRegistered(this)) {
+        //事实证明，这个判断没什么卵用，unregister已经检查了注册状态
+        //if (EventBus.getDefault().isRegistered(this))
         EventBus.getDefault().unregister(this);
-//        }
     }
 
     //默认的eventbus事件处理方法
@@ -56,7 +59,11 @@ public abstract class BaseController {
     }
 
     public IView getIView() {
-        return (getContext() instanceof IView) ? (IView) getContext() : null;
+        if (iView != null) {
+            return iView;
+        } else {
+            return (getContext() instanceof IView) ? (IView) getContext() : null;
+        }
     }
 
     ////////////////////////////////////////

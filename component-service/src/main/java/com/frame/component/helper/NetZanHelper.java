@@ -1,14 +1,9 @@
-package com.wang.social.funshow.net.helper;
+package com.frame.component.helper;
 
 import android.view.View;
-import android.widget.TextView;
 
 import com.frame.component.api.CommonService;
-import com.frame.component.common.NetParam;
-import com.frame.component.entities.BaseListWrap;
-import com.frame.component.entities.User;
-import com.frame.component.entities.UserWrap;
-import com.frame.component.helper.AppDataHelper;
+import com.frame.component.utils.FunShowUtil;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
@@ -16,19 +11,10 @@ import com.frame.http.api.error.RxErrorHandler;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.IView;
 import com.frame.utils.FrameUtils;
-import com.frame.utils.RegexUtils;
 import com.frame.utils.ToastUtil;
 import com.frame.utils.Utils;
-import com.wang.social.funshow.mvp.entities.user.TopUser;
-import com.wang.social.funshow.mvp.model.api.FunshowService;
-import com.wang.social.funshow.utils.FunShowUtil;
-
-import java.util.List;
-import java.util.Map;
 
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2018/4/4.
@@ -51,14 +37,14 @@ public class NetZanHelper {
 
     public void funshowZan(IView view, View btn, int talkId, boolean isZan, OnFunshowZanCallback callback) {
         commonZan(view, btn,
-                ApiHelperEx.getService(FunshowService.class).funshowZan(talkId, isZan ? 1 : 2),
+                ApiHelperEx.getService(CommonService.class).funshowZan(talkId, isZan ? 1 : 2),
                 isZan,
                 callback);
     }
 
     public void funshowCommentZan(IView view, View btn, int talkId, int talkCommentId, boolean isZan, OnFunshowZanCallback callback) {
         commonZan(view, btn,
-                ApiHelperEx.getService(FunshowService.class).funshowCommentZan(talkId, talkCommentId, isZan ? 1 : 2),
+                ApiHelperEx.getService(CommonService.class).funshowCommentZan(talkId, talkCommentId, isZan ? 1 : 2),
                 isZan,
                 callback);
     }

@@ -1,4 +1,4 @@
-package com.wang.social.funshow.utils;
+package com.frame.component.utils;
 
 import android.view.View;
 import android.widget.TextView;
@@ -6,7 +6,6 @@ import android.widget.TextView;
 import com.frame.utils.RegexUtils;
 import com.frame.utils.StrUtil;
 import com.frame.utils.TimeUtils;
-import com.wang.social.funshow.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

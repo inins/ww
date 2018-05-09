@@ -91,4 +91,20 @@ public interface CommonService {
     @FormUrlEncoded
     @POST("/app/userInfo/findMyWallet")
     Observable<BaseJson<DiamondNum>> findMyWallet(@FieldMap Map<String, Object> param);
+
+    /**
+     * 趣晒点赞
+     * type类型1点赞 2取消点赞
+     */
+    @FormUrlEncoded
+    @POST("/app/talk/talkSupport?v=2.0.0")
+    Observable<BaseJson<Object>> funshowZan(@Field("talkId") int talkId, @Field("type") int type);
+
+    /**
+     * 趣晒点赞
+     * type类型1点赞 2取消点赞
+     */
+    @FormUrlEncoded
+    @POST("/app/talk/talkCommentSupport?v=2.0.0")
+    Observable<BaseJson<Object>> funshowCommentZan(@Field("talkId") int talkId, @Field("talkCommentId") int talkCommentId, @Field("type") int type);
 }
