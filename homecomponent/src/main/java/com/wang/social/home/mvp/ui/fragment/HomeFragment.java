@@ -6,13 +6,21 @@ import android.support.annotation.Nullable;
 
 import com.frame.base.BasicFragment;
 import com.frame.di.component.AppComponent;
+import com.frame.utils.FocusUtil;
 import com.wang.social.home.R;
+import com.wang.social.home.mvp.ui.controller.HomeContentController;
+import com.wang.social.home.mvp.ui.controller.HomeFunshowController;
+import com.wang.social.home.mvp.ui.controller.HomeNaviboardController;
 
 /**
  * 建设中 fragment 占位
  */
 
 public class HomeFragment extends BasicFragment {
+
+    private HomeNaviboardController naviboardController;
+    private HomeFunshowController funshowController;
+    private HomeContentController contentController;
 
     public static HomeFragment newInstance() {
         Bundle args = new Bundle();
@@ -28,6 +36,10 @@ public class HomeFragment extends BasicFragment {
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
+        naviboardController = new HomeNaviboardController(getView().findViewById(R.id.include_naviboard));
+        funshowController = new HomeFunshowController(getView().findViewById(R.id.include_funshow));
+        contentController = new HomeContentController(getView().findViewById(R.id.include_content));
+        FocusUtil.focusToTop(naviboardController.getRoot());
     }
 
     @Override

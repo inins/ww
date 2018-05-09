@@ -3,6 +3,7 @@ package com.wang.social.funpoint.di.component;
 import com.frame.di.component.AppComponent;
 import com.frame.di.scope.FragmentScope;
 import com.wang.social.funpoint.mvp.ui.fragment.FunPointFragment;
+import com.wang.social.funpoint.mvp.ui.fragment.SearchFunpointFragment;
 
 import dagger.Component;
 
@@ -13,5 +14,5 @@ import dagger.Component;
 @Component(dependencies = AppComponent.class)
 public interface SingleFragmentComponent {
 
-//    void inject(FunPointFragment personalFragment);
+    void inject(SearchFunpointFragment fragment);
 }

@@ -113,7 +113,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:drawableLeft="@drawable/funshow_ic_position"
+        android:drawableLeft="@drawable/common_ic_position"
         android:drawablePadding="2dp"
         android:text="四川省成都市"
         android:textColor="@color/common_text_dark"
@@ -127,7 +127,7 @@
         android:layout_height="30dp"
         android:paddingRight="15dp"
         android:scaleType="center"
-        android:src="@drawable/funshow_ic_more"
+        android:src="@drawable/common_ic_more_dark"
         app:layout_constraintStart_toStartOf="@+id/text_position"
         app:layout_constraintTop_toBottomOf="@+id/text_position" />
 

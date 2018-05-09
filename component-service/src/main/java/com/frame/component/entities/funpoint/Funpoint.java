@@ -1,6 +1,9 @@
-package com.wang.social.funpoint.mvp.entities;
+package com.frame.component.entities.funpoint;
 
-import com.wang.social.funpoint.utils.FunPointUtil;
+import com.frame.utils.TimeUtils;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import lombok.Data;
 
@@ -28,6 +31,7 @@ public class Funpoint {
     /////////////////////
 
     public String getNoteStr() {
-        return FunPointUtil.getFunshowTimeStr(time) + " " + src + " " + readTotal + "阅读";
+        String timeStr = TimeUtils.date2String(new Date(time), new SimpleDateFormat("MM-dd HH:mm"));
+        return timeStr + " " + src + " " + readTotal + "阅读";
     }
 }

@@ -11,4 +11,6 @@ import android.support.v4.app.Fragment;
 public interface FunpointService {
 
     Fragment getFunpointFragment();
+
+    Fragment getSearchFunpointFragment();
 }

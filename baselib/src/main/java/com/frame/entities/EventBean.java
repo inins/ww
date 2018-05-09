@@ -64,6 +64,9 @@ public class EventBean implements Serializable {
     //选择地址
     public static final int EVENT_LOCATION_SELECT = 0xffa401;
 
+    //主工程搜索参数
+    public static final int EVENT_APP_SEARCH = 0xffa501;
+
     @IntDef({
             EVENTBUS_TAG_SELECTED,
             EVENTBUS_TAG_UNSELECT,
@@ -88,6 +91,7 @@ public class EventBean implements Serializable {
             EVENT_FUNSHOW_LIST_FRESH,
             EVENT_FUNSHOW_LIST_TYPE_CHANGE,
             EVENT_LOCATION_SELECT,
+            EVENT_APP_SEARCH,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface EventBeanType {

@@ -1,3 +1,17 @@
 <resources>
     <string name="home_app_name">homecomponent</string>
-</resources>
+
+    <!--首页-->
+    <string name="home_home_title">发现</string>
+    <string name="home_home_naviboard_samekind_title">有趣的同类</string>
+    <string name="home_home_naviboard_samekind_note">往往有擦肩而过的另一半</string>
+    <string name="home_home_naviboard_circle_title">有趣的圈子</string>
+    <string name="home_home_naviboard_circle_note">往往因兴趣而聚集在一起</string>
+    <string name="home_home_naviboard_active_title">往往活动</string>
+    <string name="home_home_naviboard_active_note">海量活动赢取钻石</string>
+    <string name="home_home_funshow_title">最新趣晒</string>
+    <string name="home_home_funshow_note">往往，优秀的人都喜爱分享</string>
+    <string name="home_home_funshow_dislike">不感兴趣...</string>
+    <string name="home_home_content_title">精彩内容</string>
+
+    </resources>
