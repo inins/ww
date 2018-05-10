@@ -75,6 +75,7 @@ public class FunShowFragment extends BaseFragment<FunshowListPresonter> implemen
     public void onCommonEvent(EventBean event) {
         switch (event.getEvent()) {
             case EventBean.EVENT_FUNSHOW_UPDATE_ZAN: {
+                //在详情页点赞，收到通知刷新点赞状态及其点赞数量
                 int talkId = (int) event.get("talkId");
                 boolean isZan = (boolean) event.get("isZan");
                 int zanCount = (int) event.get("zanCount");
@@ -82,20 +83,24 @@ public class FunShowFragment extends BaseFragment<FunshowListPresonter> implemen
                 break;
             }
             case EventBean.EVENT_FUNSHOW_DETAIL_ADD_EVA: {
+                //在详情页评论，收到通知刷新评论数量
                 int talkId = (int) event.get("talkId");
                 adapter.refreshCommentById(talkId);
                 break;
             }
             case EventBean.EVENT_FUNSHOW_DETAIL_ADD_SHARE: {
+                //在详情页分享，收到通知刷新分享数量
                 int talkId = (int) event.get("talkId");
                 adapter.refreshShareById(talkId);
                 break;
             }
-            case EventBean.EVENT_FUNSHOW_LIST_FRESH: {
+            case EventBean.EVENT_FUNSHOW_DISSLIKE: {
+                //在详情页不喜欢，收到通知刷新列表
                 springView.callFreshDelay();
                 break;
             }
             case EventBean.EVENT_FUNSHOW_LIST_TYPE_CHANGE: {
+                //切换佬友筛选条件
                 type = (int) event.get("type");
                 mPresenter.netGetFunshowList(type, true);
                 break;

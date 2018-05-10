@@ -3,6 +3,7 @@ package com.wang.social.funpoint.mvp.presonter;
 
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.entities.Tag;
+import com.frame.component.helper.NetReadHelper;
 import com.frame.di.scope.FragmentScope;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.ApiHelperEx;
@@ -71,19 +72,22 @@ public class FunpointListPresonter extends BasePresenter<FunpointListContract.Mo
 
 
     public void netReadFunpoint(int newsId) {
-        ApiHelperEx.execute(null, false,
-                mModel.readFunpoint(newsId),
-                new ErrorHandleSubscriber<BaseJson<Object>>(mErrorHandler) {
-                    @Override
-                    public void onNext(BaseJson<Object> basejson) {
-                        mRootView.reFreshReadCountById(newsId);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        ToastUtil.showToastLong(e.getMessage());
-                    }
-                });
+        NetReadHelper.newInstance().netReadFunpoint(newsId,()->{
+            mRootView.reFreshReadCountById(newsId);
+        });
+//        ApiHelperEx.execute(null, false,
+//                mModel.readFunpoint(newsId),
+//                new ErrorHandleSubscriber<BaseJson<Object>>(mErrorHandler) {
+//                    @Override
+//                    public void onNext(BaseJson<Object> basejson) {
+//                        mRootView.reFreshReadCountById(newsId);
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        ToastUtil.showToastLong(e.getMessage());
+//                    }
+//                });
     }
 
     public void netGetRecommendTag() {

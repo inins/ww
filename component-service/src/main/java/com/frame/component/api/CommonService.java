@@ -107,4 +107,11 @@ public interface CommonService {
     @FormUrlEncoded
     @POST("/app/talk/talkCommentSupport?v=2.0.0")
     Observable<BaseJson<Object>> funshowCommentZan(@Field("talkId") int talkId, @Field("talkCommentId") int talkCommentId, @Field("type") int type);
+
+    /**
+     * 阅读趣点数量统计
+     */
+    @FormUrlEncoded
+    @POST("/app/news/addRealTotal?v=2.0.0")
+    Observable<BaseJson<Object>> readFunpoint(@Field("newsId") int newsId);
 }

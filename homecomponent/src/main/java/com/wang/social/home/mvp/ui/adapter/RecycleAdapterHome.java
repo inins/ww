@@ -79,6 +79,10 @@ public class RecycleAdapterHome extends BaseAdapter<FunpointAndTopic> {
             textTitle.setText(bean.getNewsTitle());
             cardPic.setVisibility(!TextUtils.isEmpty(bean.getImgUrl()) ? View.VISIBLE : View.GONE);
             textNote.setText(bean.getNoteStr());
+
+            itemView.setOnClickListener(v -> {
+                if (onFunpointClickListener != null) onFunpointClickListener.onFunpointClick(position, bean);
+            });
         }
 
         @Override
@@ -128,11 +132,36 @@ public class RecycleAdapterHome extends BaseAdapter<FunpointAndTopic> {
             textTime.setText(TimeUtils.date2String(bean.getCreateTime(), "MM-dd"));
             conertextTag.setText(bean.getTagStr());
             imgFlag.setVisibility(bean.isFree() ? View.GONE : View.VISIBLE);
+
+            itemView.setOnClickListener(v -> {
+                if (onTopicClickListener != null) onTopicClickListener.onTopicClick(position, bean);
+            });
         }
 
         @Override
         public void onRelease() {
         }
+    }
+
+    //////////////////////
+
+    private OnFunpointClickListener onFunpointClickListener;
+    private OnTopicClickListener onTopicClickListener;
+
+    public void setOnFunpointClickListener(OnFunpointClickListener onFunpointClickListener) {
+        this.onFunpointClickListener = onFunpointClickListener;
+    }
+
+    public void setOnTopicClickListener(OnTopicClickListener onTopicClickListener) {
+        this.onTopicClickListener = onTopicClickListener;
+    }
+
+    public interface OnFunpointClickListener {
+        void onFunpointClick(int position, Funpoint funpoint);
+    }
+
+    public interface OnTopicClickListener {
+        void onTopicClick(int position, Topic topic);
     }
 
     /////////////////////

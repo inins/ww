@@ -55,6 +55,10 @@ public class Funshow {
         return talkLiked == 1;
     }
 
+    public void setIsLike(boolean isLike) {
+        talkLiked = isLike ? 1 : 0;
+    }
+
     public boolean isVideo() {
         return mediaType == 2;
     }

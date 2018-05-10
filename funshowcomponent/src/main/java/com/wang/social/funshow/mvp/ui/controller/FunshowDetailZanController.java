@@ -32,7 +32,7 @@ import com.wang.social.funshow.mvp.entities.user.ZanUser;
 import com.wang.social.funshow.mvp.model.api.FunshowService;
 import com.wang.social.funshow.mvp.ui.activity.ZanUserListActivity;
 import com.wang.social.funshow.mvp.ui.adapter.RecycleAdapterZan;
-import com.wang.social.funshow.mvp.ui.dialog.MorePopupWindow;
+import com.frame.component.ui.dialog.MorePopupWindow;
 import com.frame.component.helper.NetZanHelper;
 import com.frame.component.utils.FunShowUtil;
 import com.wang.social.socialize.SocializeUtil;
@@ -200,7 +200,7 @@ public class FunshowDetailZanController extends BaseController implements View.O
                 new ErrorHandleSubscriber<BaseJson<Object>>() {
                     @Override
                     public void onNext(BaseJson<Object> basejson) {
-                        EventBus.getDefault().post(new EventBean(EventBean.EVENT_FUNSHOW_LIST_FRESH));
+                        EventBus.getDefault().post(new EventBean(EventBean.EVENT_FUNSHOW_DISSLIKE));
                         if (getContext() instanceof Activity) ((Activity) getContext()).finish();
                     }
 

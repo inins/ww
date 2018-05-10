@@ -28,10 +28,21 @@ public class ListUtil {
     //取列表前n个，如果越界或者空返回null
     public static <T> List<T> getFirst(List<T> list, int n) {
         if (list == null) return null;
-        if (list.size() <= 4) {
+        if (list.size() <= n) {
             return list;
         } else {
             return list.subList(0, n);
+        }
+    }
+
+    //移除一个项，自动验空和越界
+    public static void remove(List list, int position) {
+        if (list == null) return;
+        if (position < 0) return;
+        if (list.size() > position) {
+            list.remove(position);
+        } else {
+            return;
         }
     }
 

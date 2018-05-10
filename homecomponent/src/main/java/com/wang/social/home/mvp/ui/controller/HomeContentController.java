@@ -10,7 +10,10 @@ import com.frame.base.BaseAdapter;
 import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.entities.funpoint.Funpoint;
+import com.frame.component.helper.NetReadHelper;
+import com.frame.component.ui.acticity.WebActivity;
 import com.frame.component.ui.base.BaseController;
+import com.frame.component.utils.FunShowUtil;
 import com.frame.component.utils.viewutils.FontUtils;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
@@ -34,7 +37,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class HomeContentController extends BaseController implements BaseAdapter.OnItemClickListener<Funpoint> {
+public class HomeContentController extends BaseController implements RecycleAdapterHome.OnFunpointClickListener, RecycleAdapterHome.OnTopicClickListener {
 
     @BindView(R2.id.text_title)
     TextView textTitle;
@@ -56,7 +59,8 @@ public class HomeContentController extends BaseController implements BaseAdapter
         FontUtils.boldText(textTitle);
 
         adapter = new RecycleAdapterHome();
-//        adapter.setOnItemClickListener(this);
+        adapter.setOnFunpointClickListener(this);
+        adapter.setOnTopicClickListener(this);
         recycler.setNestedScrollingEnabled(false);
         recycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recycler.addItemDecoration(new ItemDecorationDivider(getContext(), LinearLayoutManager.VERTICAL));
@@ -65,21 +69,22 @@ public class HomeContentController extends BaseController implements BaseAdapter
 
     @Override
     protected void onInitData() {
-//        adapter.refreshData(new ArrayList<Funpoint>() {{
-//            add(new Funpoint());
-//            add(new Funpoint());
-//            add(new Funpoint());
-//            add(new Funpoint());
-//            add(new Funpoint());
-//            add(new Funpoint());
-//            add(new Funpoint());
-//            add(new Funpoint());
-//        }});
         netGetFunpointAndTopicList(true);
     }
 
     @Override
-    public void onItemClick(Funpoint funpoint, int position) {
+    public void onFunpointClick(int position, Funpoint funpoint) {
+        WebActivity.start(getContext(), funpoint.getUrl());
+        //增加阅读数量
+        NetReadHelper.newInstance().netReadFunpoint(funpoint.getNewsId(), () -> {
+            funpoint.setReadTotal(funpoint.getReadTotal() + 1);
+            adapter.notifyItemChanged(position);
+        });
+    }
+
+    @Override
+    public void onTopicClick(int position, Topic topic) {
+        ToastUtil.showToastShort("topcId:" + topic.getTopicId());
     }
 
     ////////////////////////////////////////////////
@@ -125,7 +130,7 @@ public class HomeContentController extends BaseController implements BaseAdapter
                         } else {
                             ToastUtil.showToastLong("没有更多数据了");
                         }
-                        if (getIView()!=null && getIView() instanceof HomeContract.View){
+                        if (getIView() != null && getIView() instanceof HomeContract.View) {
                             ((HomeContract.View) getIView()).finishSpringView();
                         }
                     }
@@ -133,7 +138,7 @@ public class HomeContentController extends BaseController implements BaseAdapter
                     @Override
                     public void onError(Throwable e) {
                         ToastUtil.showToastLong(e.getMessage());
-                        if (getIView()!=null && getIView() instanceof HomeContract.View){
+                        if (getIView() != null && getIView() instanceof HomeContract.View) {
                             ((HomeContract.View) getIView()).finishSpringView();
                         }
                     }

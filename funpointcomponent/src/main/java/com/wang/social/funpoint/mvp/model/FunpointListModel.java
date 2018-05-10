@@ -35,12 +35,12 @@ public class FunpointListModel extends BaseModel implements FunpointListContract
                 .getFunpointList(isCondition, current, size);
     }
 
-    @Override
-    public Observable<BaseJson<Object>> readFunpoint(int newsId) {
-        return mRepositoryManager
-                .obtainRetrofitService(FunpointService.class)
-                .readFunpoint(newsId);
-    }
+//    @Override
+//    public Observable<BaseJson<Object>> readFunpoint(int newsId) {
+//        return mRepositoryManager
+//                .obtainRetrofitService(FunpointService.class)
+//                .readFunpoint(newsId);
+//    }
 
     @Override
     public Observable<BaseJson<BaseListWrap<Tag>>> getRecommendTag() {

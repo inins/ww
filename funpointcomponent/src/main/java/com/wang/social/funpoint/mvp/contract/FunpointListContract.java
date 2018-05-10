@@ -36,7 +36,7 @@ public interface FunpointListContract {
 
         Observable<BaseJson<BaseListWrap<Funpoint>>> getFunpointList(int isCondition, int current, int size);
 
-        Observable<BaseJson<Object>> readFunpoint(int newsId);
+//        Observable<BaseJson<Object>> readFunpoint(int newsId);
 
         Observable<BaseJson<BaseListWrap<Tag>>> getRecommendTag();
     }

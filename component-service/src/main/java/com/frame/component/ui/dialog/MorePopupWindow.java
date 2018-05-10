@@ -1,11 +1,10 @@
-package com.wang.social.funshow.mvp.ui.dialog;
+package com.frame.component.ui.dialog;
 
 import android.content.Context;
 import android.view.View;
 
-import com.frame.component.ui.dialog.BasePopupWindow;
+import com.frame.component.service.R;
 import com.frame.utils.SizeUtils;
-import com.wang.social.funshow.R;
 
 public class MorePopupWindow extends BasePopupWindow implements View.OnClickListener {
 
@@ -16,7 +15,7 @@ public class MorePopupWindow extends BasePopupWindow implements View.OnClickList
 
     @Override
     public int getLayout() {
-        return R.layout.funshow_pop_dislike;
+        return R.layout.pop_dislike;
     }
 
     @Override
