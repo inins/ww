@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ccc">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/djl_cl_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/common_bg_white_corners_normal"
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp">
+
+        <TextView
+            android:id="@+id/djl_tv_limit_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/common_border_margin"
+            android:layout_marginTop="5dp"
+            android:text="@string/im_gender"
+            android:textColor="@color/common_text_blank"
+            android:textSize="12dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RadioGroup
+            android:id="@+id/djl_rg_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/common_border_margin"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/djl_tv_limit_gender">
+
+            <RadioButton
+                android:id="@+id/djl_rb_gender_unlimited"
+                android:layout_width="64dp"
+                android:layout_height="30dp"
+                android:background="@drawable/common_bg_theme_selector"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/im_unlimited"
+                android:textColor="@color/common_text_theme_bg_selector" />
+
+            <RadioButton
+                android:id="@+id/djl_rb_male"
+                android:layout_width="64dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/common_bg_theme_selector"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/im_male"
+                android:textColor="@color/common_text_theme_bg_selector" />
+
+            <RadioButton
+                android:id="@+id/djl_rb_female"
+                android:layout_width="64dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/common_bg_theme_selector"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/im_female"
+                android:textColor="@color/common_text_theme_bg_selector" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/djl_tv_limit_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/common_border_margin"
+            android:layout_marginTop="15dp"
+            android:text="@string/im_age"
+            android:textColor="@color/common_text_blank"
+            android:textSize="12dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/djl_rg_gender" />
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/djl_cb_age_unlimited"
+            android:layout_width="64dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="@dimen/common_border_margin"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/common_bg_theme_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/im_unlimited"
+            android:textColor="@color/common_text_theme_bg_selector"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/djl_tv_limit_age" />
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/djl_cb_90"
+            android:layout_width="64dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/common_bg_theme_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/im_after_90"
+            android:textColor="@color/common_text_theme_bg_selector"
+            app:layout_constraintLeft_toRightOf="@id/djl_cb_age_unlimited"
+            app:layout_constraintTop_toTopOf="@id/djl_cb_age_unlimited" />
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/djl_cb_95"
+            android:layout_width="64dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/common_bg_theme_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/im_after_95"
+            android:textColor="@color/common_text_theme_bg_selector"
+            app:layout_constraintLeft_toRightOf="@id/djl_cb_90"
+            app:layout_constraintTop_toTopOf="@id/djl_cb_age_unlimited" />
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/djl_cb_00"
+            android:layout_width="64dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/common_bg_theme_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/im_after_00"
+            android:textColor="@color/common_text_theme_bg_selector"
+            app:layout_constraintLeft_toRightOf="@id/djl_cb_95"
+            app:layout_constraintTop_toTopOf="@id/djl_cb_age_unlimited" />
+    </android.support.constraint.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/djl_tvb_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/common_bg_white_corners"
+        android:gravity="center"
+        android:text="@string/common_cancel"
+        android:textColor="@color/common_text_blank"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/djl_cl_content" />
+</android.support.constraint.ConstraintLayout>

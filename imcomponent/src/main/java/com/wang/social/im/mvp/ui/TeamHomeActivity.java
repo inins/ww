@@ -1,6 +1,8 @@
 package com.wang.social.im.mvp.ui;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -111,6 +113,12 @@ public class TeamHomeActivity extends BaseAppActivity<TeamHomePresenter> impleme
 
     private TeamInfo mTeam;
 
+    public static void start(Context context, String teamId) {
+        Intent intent = new Intent(context, TeamHomeActivity.class);
+        intent.putExtra("teamId", teamId);
+        context.startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -171,7 +179,7 @@ public class TeamHomeActivity extends BaseAppActivity<TeamHomePresenter> impleme
                 .imageView(thIvCover)
                 .url(teamInfo.getCover())
                 .build());
-        if (!teamInfo.isFree()){
+        if (!teamInfo.isFree()) {
             thIvPayLogo.setVisibility(View.VISIBLE);
         }
         showTags(teamInfo.getTags());
@@ -195,7 +203,7 @@ public class TeamHomeActivity extends BaseAppActivity<TeamHomePresenter> impleme
             }
         });
         thRlvMembers.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        thRlvMembers.setAdapter(new HomeMemberAdapter(members));
+        thRlvMembers.setAdapter(new HomeMemberAdapter(members, teamId, false));
     }
 
     @Override
@@ -210,17 +218,17 @@ public class TeamHomeActivity extends BaseAppActivity<TeamHomePresenter> impleme
 
     @OnClick({R2.id.th_ll_team_name, R2.id.th_ll_notify_type, R2.id.th_tv_clear_message, R2.id.th_tv_background_chat, R2.id.th_tv_charge_setting, R2.id.th_tvb_handle})
     public void onViewClicked(View view) {
-        if (view.getId() == R.id.th_ll_team_name){ //觅聊名称
+        if (view.getId() == R.id.th_ll_team_name) { //觅聊名称
 
-        }else if (view.getId() == R.id.th_ll_notify_type){ //通知类型
+        } else if (view.getId() == R.id.th_ll_notify_type) { //通知类型
 
-        }else if (view.getId() == R.id.th_tv_clear_message){//清除聊天内容
+        } else if (view.getId() == R.id.th_tv_clear_message) {//清除聊天内容
 
-        }else if (view.getId() == R.id.th_tv_background_chat){//背景图片
+        } else if (view.getId() == R.id.th_tv_background_chat) {//背景图片
 
-        }else if (view.getId() == R.id.th_tv_charge_setting){//收费设置
+        } else if (view.getId() == R.id.th_tv_charge_setting) {//收费设置
 
-        }else if (view.getId() == R.id.th_tvb_handle){//退出/解散觅聊
+        } else if (view.getId() == R.id.th_tvb_handle) {//退出/解散觅聊
 
         }
     }

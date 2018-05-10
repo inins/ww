@@ -142,7 +142,14 @@
             android:name=".mvp.ui.SocialListActivity"
             android:exported="true" />
         <activity android:name=".mvp.ui.PhoneBookActivity" />
-        <activity android:name=".mvp.ui.MemberListActivity"></activity>
+        <activity
+            android:name=".mvp.ui.MemberListActivity"
+            android:exported="true" />
+        <activity android:name=".mvp.ui.SocialChargeSettingActivity" />
+        <activity
+            android:name=".mvp.ui.NewUsersActivity"
+            android:exported="true" />
+        <activity android:name=".mvp.ui.SocialLimitActivity"></activity>
     </application>
 
 </manifest>

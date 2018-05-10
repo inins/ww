@@ -14,6 +14,7 @@ import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.utils.FrameUtils;
 import com.wang.social.im.R;
 import com.wang.social.im.mvp.model.entities.MemberInfo;
+import com.wang.social.im.view.SwipeMenuLayout;
 import com.wang.social.im.view.expand.viewholder.AbstractExpandableAdapterItem;
 
 import java.util.Calendar;
@@ -31,9 +32,22 @@ public class MemberItem extends AbstractExpandableAdapterItem {
     private TextView tvAge;
     private TextView tvConstellation;
     private TextView tvTags;
+    private ImageView ivFriendly;
+    private TextView tvbFriendly;
+    private TextView tvbTakeOut;
+    private SwipeMenuLayout menuLayout;
 
     ImageLoader imageLoader;
     Context context;
+
+    private boolean isMaster;
+    private MembersAdapter.OnHandleListener mHandleListener;
+
+
+    public MemberItem(boolean isMaster, MembersAdapter.OnHandleListener mHandleListener) {
+        this.mHandleListener = mHandleListener;
+        this.isMaster = isMaster;
+    }
 
     @Override
     public void onExpansionToggled(boolean expanded) {
@@ -47,6 +61,7 @@ public class MemberItem extends AbstractExpandableAdapterItem {
 
     @Override
     public void onBindViews(View root) {
+        menuLayout = (SwipeMenuLayout) root;
         context = root.getContext();
         imageLoader = FrameUtils.obtainAppComponentFromContext(root.getContext()).imageLoader();
 
@@ -55,6 +70,9 @@ public class MemberItem extends AbstractExpandableAdapterItem {
         tvAge = root.findViewById(R.id.if_tv_age);
         tvConstellation = root.findViewById(R.id.if_tv_constellation);
         tvTags = root.findViewById(R.id.if_tv_tags);
+        ivFriendly = root.findViewById(R.id.im_iv_friendly);
+        tvbFriendly = root.findViewById(R.id.im_tvb_friendly);
+        tvbTakeOut = root.findViewById(R.id.im_tvb_take_out);
     }
 
     @Override
@@ -76,13 +94,7 @@ public class MemberItem extends AbstractExpandableAdapterItem {
                     .url(member.getPortrait())
                     .build());
             tvNickname.setText(member.getNickname());
-            Calendar calendar = Calendar.getInstance();
-            int year = calendar.get(Calendar.YEAR);
-            String birYear = String.valueOf(year - member.getAge());
-            if (birYear.length() > 2) {
-                String range = birYear.charAt(birYear.length() - 2) + "0后";
-                tvAge.setText(range);
-            }
+            tvAge.setText(member.getAgeRange());
             Drawable genderDrawable;
             if (member.getGender() == Gender.MALE) {
                 tvAge.setBackgroundResource(R.drawable.im_bg_male);
@@ -99,6 +111,40 @@ public class MemberItem extends AbstractExpandableAdapterItem {
                 tags = tags + "#" + tag.getTagName() + " ";
             }
             tvTags.setText(tags);
+
+            if (member.isFriendly()) {
+                ivFriendly.setVisibility(View.VISIBLE);
+                tvbFriendly.setVisibility(View.GONE);
+            } else {
+                ivFriendly.setVisibility(View.GONE);
+                tvbFriendly.setVisibility(View.VISIBLE);
+            }
+
+            if (isMaster){
+                tvbTakeOut.setVisibility(View.VISIBLE);
+            }else {
+                tvbTakeOut.setVisibility(View.GONE);
+            }
+            menuLayout.quickClose();
+            tvbTakeOut.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    menuLayout.smoothClose();
+                    if (mHandleListener != null) {
+                        mHandleListener.onTakeOut(member, position);
+                    }
+                }
+            });
+
+            tvbFriendly.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    menuLayout.smoothClose();
+                    if (mHandleListener != null) {
+                        mHandleListener.onFriendly(member);
+                    }
+                }
+            });
         }
     }
 }

@@ -49,6 +49,9 @@ import com.wang.social.im.mvp.ui.adapters.HomeTagAdapter;
 import com.wang.social.im.mvp.ui.adapters.SocialHomeTeamsAdapter;
 import com.wang.social.pictureselector.helper.PhotoHelperEx;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -63,7 +66,10 @@ import butterknife.OnClick;
  */
 public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> implements SocialHomeContract.View {
 
-    private static final String EXTRA_SOCIAL_ID = "social_id";
+    private static final String EXTRA_SOCIAL_ID = "socialId";
+
+    private static final int REQUEST_CODE_CHARGE = 1000;
+    private static final int REQUEST_CODE_LIMIT = 1001;
 
     @BindView(R2.id.sc_toolbar)
     SocialToolbar scToolbar;
@@ -171,12 +177,17 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
     ConstraintLayout scClContent;
 
     @Autowired
-    String socialId = "26";
+    String socialId;
     @Inject
     ImageLoader mImageLoader;
     PhotoHelperEx mPhotoHelper;
 
     private SocialInfo mSocial;
+
+    //记录是否是通过用户点击修改状态
+    private boolean createTeamFromCode = true;
+    private boolean openFromCode = true;
+    private boolean notifyFromCode = true;
 
     public static void start(Context context, String socialId) {
         Intent intent = new Intent(context, SocialHomeActivity.class);
@@ -208,30 +219,45 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
+        socialId = "26";
         mPresenter.getSocialInfo(socialId);
+    }
+
+    @Override
+    public boolean useEventBus() {
+        return true;
     }
 
     private void init() {
         scSbCreateTeam.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mSocial.setCreateTeam(isChecked);
-                mPresenter.updateSocialInfo(mSocial);
+                if (!createTeamFromCode) {
+                    mSocial.setCreateTeam(isChecked);
+                    mPresenter.updateSocialInfo(mSocial);
+                }
+                createTeamFromCode = false;
             }
         });
         scSbNotifyType.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mSocial.getMemberInfo().setNotifyType(isChecked ? MessageNotifyType.ALL : MessageNotifyType.NONE);
-                mPresenter.updateNameCard(socialId, mSocial.getMemberInfo().getNickname(),
-                        mSocial.getMemberInfo().getPortrait(), mSocial.getMemberInfo().getNotifyType());
+                if (!notifyFromCode) {
+                    mSocial.getMemberInfo().setNotifyType(isChecked ? MessageNotifyType.ALL : MessageNotifyType.NONE);
+                    mPresenter.updateNameCard(socialId, mSocial.getMemberInfo().getNickname(),
+                            mSocial.getMemberInfo().getPortrait(), mSocial.getMemberInfo().getNotifyType());
+                }
+                notifyFromCode = false;
             }
         });
         scSbPublic.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mSocial.getAttr().setOpen(isChecked);
-                mPresenter.updateSocialInfo(mSocial);
+                if (!openFromCode) {
+                    mSocial.getAttr().setOpen(isChecked);
+                    mPresenter.updateSocialInfo(mSocial);
+                }
+                openFromCode = false;
             }
         });
     }
@@ -298,9 +324,14 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
             });
             editDialog.show();
         } else if (view.getId() == R.id.sc_ll_shadow) {//分身
-            ShadowSettingActivity.start(this, mSocial.getShadowInfo());
+            ShadowInfo shadowInfo = mSocial.getShadowInfo();
+            if (mSocial.getShadowInfo() == null) {
+                shadowInfo = new ShadowInfo();
+                shadowInfo.setSocialId(socialId);
+            }
+            ShadowSettingActivity.start(this, shadowInfo);
         } else if (view.getId() == R.id.sc_ll_social_name) {//趣聊名称
-            EditDialog editDialog = new EditDialog(this, mSocial.getDesc(), UIUtil.getString(R.string.im_group_name_setting), 8, new EditDialog.OnInputCompleteListener() {
+            EditDialog editDialog = new EditDialog(this, mSocial.getName(), UIUtil.getString(R.string.im_group_name_setting), 8, new EditDialog.OnInputCompleteListener() {
                 @Override
                 public void onComplete(Dialog dialog, String content) {
                     if (TextUtils.isEmpty(content)) {
@@ -320,9 +351,9 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
         } else if (view.getId() == R.id.sc_tv_clear_message) {//清空消息
             mPresenter.clearMessages(socialId);
         } else if (view.getId() == R.id.sc_tv_charge_setting) {//收费设置
-
+            SocialChargeSettingActivity.start(this, mSocial, REQUEST_CODE_CHARGE);
         } else if (view.getId() == R.id.sc_tv_join_limit) {//加入限制
-
+            SocialLimitActivity.start(this, mSocial, REQUEST_CODE_LIMIT);
         } else if (view.getId() == R.id.sc_tvb_handle) {//退出/解散
             if (mSocial.getMemberInfo() != null && mSocial.getMemberInfo().getRole() == MemberInfo.ROLE_MASTER) {
                 mPresenter.dissolveGroup(socialId);
@@ -394,14 +425,7 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
         //分身信息
         ShadowInfo shadowInfo = socialInfo.getShadowInfo();
         if (shadowInfo != null) {
-            mImageLoader.loadImage(this, ImageConfigImpl.builder()
-                    .placeholder(R.drawable.common_default_circle_placeholder)
-                    .errorPic(R.drawable.common_default_circle_placeholder)
-                    .imageView(scTvShadowPortrait)
-                    .url(selfInfo.getPortrait())
-                    .isCircle(true)
-                    .build());
-            scTvShadowNickname.setText(selfInfo.getNickname());
+            showShadow(shadowInfo);
         }
 
         scTvSocialName.setText(socialInfo.getName());
@@ -443,7 +467,7 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
             }
         });
         scRlvMembers.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        scRlvMembers.setAdapter(new HomeMemberAdapter(members));
+        scRlvMembers.setAdapter(new HomeMemberAdapter(members, socialId, true));
     }
 
     @Override
@@ -462,6 +486,13 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
         if (mPhotoHelper != null) {
             mPhotoHelper.onActivityResult(requestCode, resultCode, data);
         }
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_CODE_CHARGE) {
+                mSocial = data.getParcelableExtra(SocialChargeSettingActivity.EXTRA_SOCIAL);
+            } else if (requestCode == REQUEST_CODE_LIMIT) {
+                mSocial = data.getParcelableExtra(SocialLimitActivity.EXTRA_SOCIAL);
+            }
+        }
     }
 
     private void showTags(List<Tag> tags) {
@@ -473,6 +504,23 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
         scRlvTags.addItemDecoration(
                 new SpacingItemDecoration(SizeUtils.dp2px(5), SizeUtils.dp2px(5)));
         scRlvTags.setAdapter(new HomeTagAdapter(tags));
+    }
+
+    private void showShadow(ShadowInfo shadowInfo){
+        mImageLoader.loadImage(this, ImageConfigImpl.builder()
+                .placeholder(R.drawable.common_default_circle_placeholder)
+                .errorPic(R.drawable.common_default_circle_placeholder)
+                .imageView(scTvShadowPortrait)
+                .url(shadowInfo.getPortrait())
+                .isCircle(true)
+                .build());
+        scTvShadowNickname.setText(shadowInfo.getNickname());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onShadowInfoChanged(ShadowInfo shadowInfo) {
+        mSocial.setShadowInfo(shadowInfo);
+        showShadow(shadowInfo);
     }
 
     /**

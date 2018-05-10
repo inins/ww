@@ -23,7 +23,9 @@ public interface MemberListContract {
 
     interface View extends IView {
 
-        void showMembers(List<MembersLevelOne> members);
+        void showMembers(int memberCount, int friendCount, MemberInfo master, List<MembersLevelOne> members);
+
+        void onKickOutComplete(MemberInfo memberInfo);
     }
 
     interface Model extends IModel {
@@ -35,5 +37,13 @@ public interface MemberListContract {
          * @return
          */
         Observable<BaseJson<ListDataDTO<MemberInfoDTO, MemberInfo>>> getMembers(String groupId);
+
+        /**
+         * 踢出成员
+         * @param groupId
+         * @param memberUid
+         * @return
+         */
+        Observable<BaseJson> kickOutMember(String groupId, String memberUid);
     }
 }

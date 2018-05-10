@@ -4,4 +4,10 @@
         <attr name="im_eiv_select" format="reference" />
         <attr name="im_eiv_normal" format="reference" />
     </declare-styleable>
+
+    <declare-styleable name="im_SwipeMenuLayout">
+        <attr name="im_swipeEnable" format="boolean" />
+        <attr name="im_ios" format="boolean" />
+        <attr name="im_leftSwipe" format="boolean" />
+    </declare-styleable>
 </resources>
