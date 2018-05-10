@@ -19,6 +19,7 @@ import com.wang.social.moneytree.R2;
 import com.wang.social.moneytree.di.component.DaggerGameRecordListComponent;
 import com.wang.social.moneytree.di.module.GameRecordListModule;
 import com.wang.social.moneytree.mvp.contract.GameRecordListContract;
+import com.wang.social.moneytree.mvp.model.entities.GameRecord;
 import com.wang.social.moneytree.mvp.presenter.GameRecordListPresenter;
 import com.wang.social.moneytree.mvp.ui.adapter.GameRecordListAdapter;
 import com.wang.social.moneytree.mvp.ui.widget.PWRecordType;
@@ -27,7 +28,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class GameRecordListActivity extends BaseAppActivity<GameRecordListPresenter>
-        implements GameRecordListContract.View ,PWRecordType.TypeListener {
+        implements GameRecordListContract.View ,PWRecordType.TypeListener,
+        GameRecordListAdapter.ClickListener {
 
     public static void start(Context context) {
         Intent intent = new Intent(context, GameRecordListActivity.class);
@@ -71,6 +73,7 @@ public class GameRecordListActivity extends BaseAppActivity<GameRecordListPresen
         });
 
         mAdapter = new GameRecordListAdapter(mRecyclerView, mPresenter.getRecordList());
+        mAdapter.setClickListener(this);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(
                 new LinearLayoutManager(
@@ -118,6 +121,11 @@ public class GameRecordListActivity extends BaseAppActivity<GameRecordListPresen
     }
 
     @Override
+    public void onLoadRecordListCompleted() {
+        mSpringView.onFinishFreshAndLoadDelay();
+    }
+
+    @Override
     public void showLoading() {
         showLoadingDialog();
     }
@@ -125,5 +133,10 @@ public class GameRecordListActivity extends BaseAppActivity<GameRecordListPresen
     @Override
     public void hideLoading() {
         dismissLoadingDialog();
+    }
+
+    @Override
+    public void onEnterRecordDetail(GameRecord gameRecord) {
+        GameRoomActivity.startGameRecord(this, gameRecord);
     }
 }

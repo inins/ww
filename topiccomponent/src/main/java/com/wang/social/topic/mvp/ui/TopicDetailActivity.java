@@ -231,7 +231,7 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
         mPresenter.getTopicDetails(mTopicId);
 //        mPresenter.test();
 
-//        NetFindMyWalletHelper.newInstance().findMyWallet(this);
+//        NetAccountBalanceHelper.newInstance().accountBalance(this);
     }
 
     private void resetView(boolean loaded) {

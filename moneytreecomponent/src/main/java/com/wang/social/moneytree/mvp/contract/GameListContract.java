@@ -18,6 +18,9 @@ public interface GameListContract {
 
         void onCreateGameSuccess(NewGame newGame);
         void onCreateGameCompleted();
+
+        void onPayCreateGameSuccess();
+        void onPayCreateGameCompleted();
     }
 
 

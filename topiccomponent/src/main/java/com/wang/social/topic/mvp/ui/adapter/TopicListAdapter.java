@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.SizeUtils;
@@ -91,7 +92,9 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
         // 简要
         holder.contentTV.setText(topic.getFirstStrff());
         // 图片
+        holder.imageView.setVisibility(View.INVISIBLE);
         if (!TextUtils.isEmpty(topic.getTopicImage())) {
+            holder.imageView.setVisibility(View.VISIBLE);
             FrameUtils.obtainAppComponentFromContext(mContext)
                     .imageLoader()
                     .loadImage(mContext,
@@ -102,7 +105,9 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
                                     .build());
         }
         // 用户头像
+        holder.avatarIV.setVisibility(View.INVISIBLE);
         if (!TextUtils.isEmpty(topic.getUserCover())) {
+            holder.avatarIV.setVisibility(View.VISIBLE);
             FrameUtils.obtainAppComponentFromContext(mContext)
                     .imageLoader()
                     .loadImage(mContext,

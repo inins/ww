@@ -2,6 +2,7 @@ package com.wang.social.moneytree.mvp.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,7 @@ import java.util.List;
 public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHolder> {
 
     public interface ClickListener {
-        void onEnter(GameBean gameBean);
+        void onEnterGameRoom(GameBean gameBean);
     }
 
 
@@ -45,23 +46,26 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         if (null == mList) return;
-        if (0 < position || position >= mList.size()) return;
 
         GameBean game = mList.get(position);
 
-        ImageLoaderHelper.loadImg(holder.avatarIV, game.getRoomAvatar());
+        holder.avatarIV.setVisibility(View.INVISIBLE);
+        if (!TextUtils.isEmpty(game.getRoomAvatar())) {
+            holder.avatarIV.setVisibility(View.VISIBLE);
+            ImageLoaderHelper.loadCircleImg(holder.avatarIV, game.getRoomAvatar());
+        }
         holder.nameTV.setText(game.getRoomNickname());
         holder.infoTV.setText(String.format(
                 mContext.getString(R.string.mt_format_number_of_person),
-                game.getJoinNum(), game.getPeopleNum()));
-        holder.priceTV.setText(game.getDiamond());
+                game.getJoinNum()));
+        holder.priceTV.setText(Integer.toString(game.getDiamond()));
 
-        holder.rightTV.setTag(game);
-        holder.rightTV.setOnClickListener(new View.OnClickListener() {
+        holder.rootView.setTag(game);
+        holder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (null != mClickListener && v.getTag() instanceof GameBean) {
-                    mClickListener.onEnter((GameBean) v.getTag());
+                    mClickListener.onEnterGameRoom((GameBean) v.getTag());
                 }
             }
         });
@@ -73,6 +77,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHo
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+        View rootView;
         ImageView avatarIV;
         TextView nameTV;
         TextView priceTV;
@@ -82,6 +87,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHo
         public ViewHolder(View itemView) {
             super(itemView);
 
+            rootView = itemView.findViewById(R.id.root_view);
             avatarIV = itemView.findViewById(R.id.avatar_image_view);
             nameTV = itemView.findViewById(R.id.name_text_view);
             priceTV = itemView.findViewById(R.id.price_text_view);

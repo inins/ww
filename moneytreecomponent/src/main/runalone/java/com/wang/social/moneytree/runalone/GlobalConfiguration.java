@@ -9,6 +9,8 @@ import com.frame.component.api.Api;
 import com.frame.component.app.GlobalHttpHandlerImp;
 import com.frame.component.app.ResponseErrorListenerImp;
 import com.frame.component.helper.AppDataHelper;
+import com.frame.component.helper.CommonHelper;
+import com.frame.component.helper.NetLoginTestHelper;
 import com.frame.di.module.GlobalConfigModule;
 import com.frame.http.log.RequestInterceptor;
 import com.frame.integration.ConfigModule;
@@ -37,7 +39,7 @@ public class GlobalConfiguration implements ConfigModule{
                 .globalHttpHandler(new GlobalHttpHandlerImp(context))
                 .responseErrorListener(new ResponseErrorListenerImp());
 
-        AppDataHelper.saveToken("Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMzgyMzE1MDQyMCIsImNyZWF0ZWQiOjE1MjQyODI3MTE1MTEsImlkIjoxMDAyNywiZXhwIjoxNTI0ODg3NTExfQ.hiJzHYUjDK1OT2M1sRbgKa9Jicf-OJ3MtvWXGjMON8JH-uCDBHS6PSh54RXl3rOx-qHl7GGEpJ7H76pnYi3nLQ");
+//        AppDataHelper.saveToken("Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMzgyMzE1MDQyMCIsImNyZWF0ZWQiOjE1MjQyODI3MTE1MTEsImlkIjoxMDAyNywiZXhwIjoxNTI0ODg3NTExfQ.hiJzHYUjDK1OT2M1sRbgKa9Jicf-OJ3MtvWXGjMON8JH-uCDBHS6PSh54RXl3rOx-qHl7GGEpJ7H76pnYi3nLQ");
     }
 
     @Override

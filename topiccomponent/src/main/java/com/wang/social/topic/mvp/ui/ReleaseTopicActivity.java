@@ -727,6 +727,13 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
             return false;
         }
 
+        if (title.length() < 5) {
+            if (toast) {
+                ToastUtil.showToastShort("话题名称不能少于5字");
+            }
+            return false;
+        }
+
         if (TextUtils.isEmpty(mTagIds)) {
             if (toast) {
                 ToastUtil.showToastShort("请选择标签");

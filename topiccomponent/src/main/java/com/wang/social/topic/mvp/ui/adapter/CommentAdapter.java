@@ -62,7 +62,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         if (null == comment) return;
 
         // 头像
+        holder.avatarIV.setVisibility(View.INVISIBLE);
         if (!TextUtils.isEmpty(comment.getAvatar())) {
+            holder.avatarIV.setVisibility(View.VISIBLE);
             FrameUtils.obtainAppComponentFromContext(mContext)
                     .imageLoader()
                     .loadImage(mContext,

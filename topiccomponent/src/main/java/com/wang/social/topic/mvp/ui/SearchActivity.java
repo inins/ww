@@ -77,7 +77,8 @@ public class SearchActivity extends BaseAppActivity<SearchPresenter> implements 
                     }
                     mKeyword = mSearchET.getKey();
 
-                    mSearchET.setText("");
+                    // 清空搜索框
+//                    mSearchET.setText("");
                     mSpringView.callFreshDelay();
 //                    mPresenter.searchTopic(mKeyword, mTags, true);
                 }

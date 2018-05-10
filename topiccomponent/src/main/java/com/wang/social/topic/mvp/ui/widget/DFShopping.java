@@ -16,7 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.frame.component.helper.NetFindMyWalletHelper;
+import com.frame.component.helper.NetAccountBalanceHelper;
 import com.frame.component.helper.NetPayStoneHelper;
 import com.frame.mvp.IView;
 import com.frame.utils.ToastUtil;
@@ -94,7 +94,7 @@ public class DFShopping extends DialogFragment {
                 });
 
         // 获取钻石数量
-        NetFindMyWalletHelper.newInstance().findMyWallet(mIView, false, new NetFindMyWalletHelper.FindMyWalletCallback() {
+        NetAccountBalanceHelper.newInstance().accountBalance(mIView, false, new NetAccountBalanceHelper.FindMyWalletCallback() {
             @Override
             public void onWallet(int diamondNum) {
                 mWalletTV.setVisibility(View.VISIBLE);

@@ -1,5 +1,7 @@
 package com.wang.social.moneytree.mvp.model.entities;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.IntDef;
 
 import java.lang.annotation.Retention;
@@ -8,12 +10,13 @@ import java.lang.annotation.RetentionPolicy;
 import lombok.Data;
 
 @Data
-public class GameRecord {
+public class GameRecord implements Parcelable {
     public final static int TYPE_PLAYING = 0;
     public final static int TYPE_WIN = 1;
     public final static int TYPE_LOSE = 2;
     public final static int TYPE_TIE = 3;
     public final static int TYPE_FAILED = 4;
+
     @IntDef({
             TYPE_PLAYING,
             TYPE_WIN,
@@ -47,4 +50,59 @@ public class GameRecord {
     private int gotDiamond;
     private int type;
     private long createTime;
+
+
+
+
+    protected GameRecord(Parcel in) {
+        gameId = in.readInt();
+        roomNickname = in.readString();
+        peopleNum = in.readInt();
+        diamond = in.readInt();
+        groupId = in.readInt();
+        roomId = in.readInt();
+        roomAvatar = in.readString();
+        isFinish = in.readInt();
+        gameType = in.readInt();
+        joinNum = in.readInt();
+        timeLen = in.readInt();
+        gotDiamond = in.readInt();
+        type = in.readInt();
+        createTime = in.readLong();
+    }
+
+    public static final Creator<GameRecord> CREATOR = new Creator<GameRecord>() {
+        @Override
+        public GameRecord createFromParcel(Parcel in) {
+            return new GameRecord(in);
+        }
+
+        @Override
+        public GameRecord[] newArray(int size) {
+            return new GameRecord[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(gameId);
+        dest.writeString(roomNickname);
+        dest.writeInt(peopleNum);
+        dest.writeInt(diamond);
+        dest.writeInt(groupId);
+        dest.writeInt(roomId);
+        dest.writeString(roomAvatar);
+        dest.writeInt(isFinish);
+        dest.writeInt(gameType);
+        dest.writeInt(joinNum);
+        dest.writeInt(timeLen);
+        dest.writeInt(gotDiamond);
+        dest.writeInt(type);
+        dest.writeLong(createTime);
+    }
 }

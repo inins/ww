@@ -72,19 +72,13 @@ public class GameRecordListPresenter extends
                 }, new Consumer<Disposable>() {
                     @Override
                     public void accept(Disposable disposable) throws Exception {
-                        mRootView.showLoading();
                     }
                 }, new Action() {
                     @Override
                     public void run() throws Exception {
-                        mRootView.hideLoading();
+                        mRootView.onLoadRecordListCompleted();
                     }
                 });
-    }
-
-
-    private void testGameRecordListData() {
-        GameBean bean = new GameBean();
     }
 
     @Override

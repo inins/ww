@@ -5,7 +5,7 @@
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
     android:paddingBottom="10dp"
-    android:background="@drawable/mt_shape_rect_corner_solid_white">
+    android:background="@drawable/shape_rect_corner_solid_white">
 
     <com.wang.social.moneytree.mvp.ui.widget.TimePicker
         android:id="@+id/wheel_picker"

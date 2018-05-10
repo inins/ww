@@ -2,13 +2,17 @@ package com.wang.social.moneytree.mvp.ui;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableStringBuilder;
 
-import com.frame.base.BasicActivity;
 import com.frame.component.ui.base.BaseAppActivity;
+import com.frame.component.utils.SpannableStringUtil;
+import com.frame.component.view.DialogPay;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
+import com.frame.utils.StatusBarUtil;
 import com.frame.utils.ToastUtil;
 import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.container.AliHeader;
@@ -18,16 +22,19 @@ import com.wang.social.moneytree.R2;
 import com.wang.social.moneytree.di.component.DaggerGameListComponent;
 import com.wang.social.moneytree.di.module.GameListModule;
 import com.wang.social.moneytree.mvp.contract.GameListContract;
+import com.wang.social.moneytree.mvp.model.entities.GameBean;
 import com.wang.social.moneytree.mvp.model.entities.NewGame;
 import com.wang.social.moneytree.mvp.presenter.GameListPresenter;
 import com.wang.social.moneytree.mvp.ui.adapter.GameListAdapter;
 import com.wang.social.moneytree.mvp.ui.widget.DialogCreateGame;
+import com.wang.social.moneytree.mvp.ui.widget.DialogGameOver;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
 public class GameListActivity extends BaseAppActivity<GameListPresenter>
-        implements GameListContract.View, DialogCreateGame.CreateGameCallback {
+        implements GameListContract.View, DialogCreateGame.CreateGameCallback,
+        GameListAdapter.ClickListener {
 
     @BindView(R2.id.toolbar)
     SocialToolbar mToolbar;
@@ -42,8 +49,6 @@ public class GameListActivity extends BaseAppActivity<GameListPresenter>
     private int mGroupId;
     // 创建类型（1：通过群，2：用户）
     private int mType;
-    // 游戏类型（1：人数，2：时间）
-    private int mGameType;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -61,9 +66,11 @@ public class GameListActivity extends BaseAppActivity<GameListPresenter>
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
-        mGroupId = getIntent().getIntExtra("groupId", -1);
+        StatusBarUtil.setTranslucent(this);
+        StatusBarUtil.setTextDark(this);
+
+        mGroupId = getIntent().getIntExtra("groupId", 1);
         mType = getIntent().getIntExtra("type", 1);
-        mGameType = getIntent().getIntExtra("gameType", 1);
 
         mToolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
             @Override
@@ -77,6 +84,7 @@ public class GameListActivity extends BaseAppActivity<GameListPresenter>
         });
 
         mAdapter = new GameListAdapter(mRecyclerView, mPresenter.getGameList());
+        mAdapter.setClickListener(this);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(
                 new LinearLayoutManager(
@@ -97,6 +105,8 @@ public class GameListActivity extends BaseAppActivity<GameListPresenter>
             }
         });
         mSpringView.callFreshDelay();
+
+//        NetLoginTestHelper.newInstance().loginTest("13823150420", "111111");
     }
 
     @Override
@@ -116,6 +126,10 @@ public class GameListActivity extends BaseAppActivity<GameListPresenter>
 
     @Override
     public void onLoadGameListSuccess() {
+        refreshGameList();
+    }
+
+    private void refreshGameList() {
         if (null != mAdapter) {
             mAdapter.notifyDataSetChanged();
         }
@@ -128,10 +142,47 @@ public class GameListActivity extends BaseAppActivity<GameListPresenter>
 
     @Override
     public void onCreateGameSuccess(NewGame newGame) {
+        // 刷新页面
+        mSpringView.callFreshDelay();
+
+        // 隐藏创建游戏对话框
         if (null != mDialogCreateGame) {
             mDialogCreateGame.dismiss();
             mDialogCreateGame = null;
         }
+
+
+        // 支付
+        popupCreateGamePayDialog(newGame);
+    }
+
+    public void popupCreateGamePayDialog(NewGame newGame) {
+        String[] strings = {
+                getString(R.string.mt_format_pay_title_pre),
+                Integer.toString(newGame.getDiamond()),
+                getString(R.string.mt_format_pay_title_suf)};
+        int[] colors = {
+                ContextCompat.getColor(this, R.color.common_text_blank),
+                ContextCompat.getColor(this, R.color.common_blue_deep),
+                ContextCompat.getColor(this, R.color.common_text_blank)
+        };
+        SpannableStringBuilder titleText = SpannableStringUtil.createV2(strings, colors);
+        DialogPay.showPay(this,
+                getSupportFragmentManager(),
+                titleText,
+                getString(R.string.mt_format_pay_hint),
+                getString(R.string.common_cancel),
+                getString(R.string.mt_pay_immediately),
+                getString(R.string.mt_recharge_immediately),
+                newGame.getDiamond(),
+                newGame.getBalance(),
+                new DialogPay.DialogPayCallback() {
+
+                    @Override
+                    public void onPay() {
+                        mPresenter.payCreateGame(newGame);
+                    }
+                });
     }
 
     @Override
@@ -139,23 +190,42 @@ public class GameListActivity extends BaseAppActivity<GameListPresenter>
 
     }
 
+    @Override
+    public void onPayCreateGameSuccess() {
+        ToastUtil.showToastLong("创建游戏成功");
+
+        // 刷新页面
+        mSpringView.callFreshDelay();
+    }
+
+    @Override
+    public void onPayCreateGameCompleted() {
+
+    }
+
     @OnClick(R2.id.create_game_image_view)
     public void createGame() {
-        mDialogCreateGame = DialogCreateGame.show(getSupportFragmentManager(), this);
+        mDialogCreateGame = DialogCreateGame.show(this, getSupportFragmentManager(), this);
     }
 
     /**
      * 创建游戏
+     * <p>
+     * groupId   群ID (在群中创建时必传)
+     * type      创建类型（1：通过群，2：用户）
+     * gameType  游戏类型（1：人数，2：时间）
      *
-     *  groupId   群ID (在群中创建时必传)
-     *  type      创建类型（1：通过群，2：用户）
-     *  gameType  游戏类型（1：人数，2：时间）
      * @param resetTime 重置时长(s)
      * @param diamond   钻石数
      * @param peopleNum 开始人数 (gameType=1时必传)
      */
     @Override
-    public void createGame(int resetTime, int peopleNum, int diamond) {
-        mPresenter.createGame(mGroupId, mType, mGameType, resetTime, peopleNum, diamond);
+    public void createGame(int resetTime, int peopleNum, boolean unlimitedPeople, int diamond) {
+        mPresenter.createGame(mGroupId, mType, unlimitedPeople ? 2 : 1, resetTime, diamond, peopleNum);
+    }
+
+    @Override
+    public void onEnterGameRoom(GameBean gameBean) {
+        GameRoomActivity.startGame(this, gameBean);
     }
 }

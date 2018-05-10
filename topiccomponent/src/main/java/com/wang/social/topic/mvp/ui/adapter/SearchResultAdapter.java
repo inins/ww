@@ -80,7 +80,9 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         // 创建日期
         holder.createDateTV.setText(StringUtil.formatCreateDate(mContext, result.getCreateTime()));
         // 图片
+        holder.bgIV.setVisibility(View.INVISIBLE);
         if (!TextUtils.isEmpty(result.getBackgroundImage())) {
+            holder.bgIV.setVisibility(View.VISIBLE);
             FrameUtils.obtainAppComponentFromContext(mContext)
                     .imageLoader()
                     .loadImage(mContext,

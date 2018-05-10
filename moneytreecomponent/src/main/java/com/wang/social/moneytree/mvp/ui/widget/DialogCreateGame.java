@@ -9,17 +9,27 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.frame.component.utils.SpannableStringUtil;
+import com.frame.component.view.DialogPay;
+import com.frame.mvp.IView;
 import com.frame.utils.KeyboardUtils;
 import com.frame.utils.ToastUtil;
 import com.wang.social.moneytree.R;
@@ -27,11 +37,12 @@ import com.wang.social.moneytree.R;
 public class DialogCreateGame extends DialogFragment {
 
     public interface CreateGameCallback {
-        void createGame(int resetTime, int peopleNum, int diamond);
+        void createGame(int resetTime, int peopleNum, boolean unlimitedPeople, int diamond);
     }
 
-    public static DialogCreateGame show(FragmentManager manager, CreateGameCallback callback) {
+    public static DialogCreateGame show(IView iView, FragmentManager manager, CreateGameCallback callback) {
         DialogCreateGame dialog = new DialogCreateGame();
+        dialog.setIView(iView);
         dialog.setCreateGameCallback(callback);
 
         FragmentTransaction ft = manager.beginTransaction();
@@ -45,9 +56,17 @@ public class DialogCreateGame extends DialogFragment {
     private EditText mTimeET;
     // 人数
     private EditText mNumberET;
+    private TextView mNumberTV;
     // 钻数
     private EditText mPriceET;
+    // 不限人数
+    private CheckBox mUnlimitedCB;
+    private IView mIView;
     private CreateGameCallback mCreateGameCallback;
+
+    public void setIView(IView IView) {
+        mIView = IView;
+    }
 
     public void setCreateGameCallback(CreateGameCallback createGameCallback) {
         mCreateGameCallback = createGameCallback;
@@ -60,12 +79,31 @@ public class DialogCreateGame extends DialogFragment {
 
         mTimeET = view.findViewById(R.id.time_edit_text);
         mNumberET = view.findViewById(R.id.number_of_people_edit_text);
-        mPriceET = view.findViewById(R.id.price_text_view);
+        mNumberTV = view.findViewById(R.id.number_of_people_text_view);
+        mPriceET = view.findViewById(R.id.price_edit_text);
+        mUnlimitedCB = view.findViewById(R.id.unlimited_check_box);
+        mUnlimitedCB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    mNumberET.setVisibility(View.GONE);
+                    mNumberTV.setVisibility(View.VISIBLE);
+                } else {
+                    mNumberET.setVisibility(View.VISIBLE);
+                    mNumberTV.setVisibility(View.GONE);
+                }
+            }
+        });
 
         Dialog dialog = new Dialog(getActivity(), 0);
         dialog.setContentView(view);
 
         dialog.setCancelable(false);
+
+        Window window = dialog.getWindow();
+        WindowManager.LayoutParams lp = window.getAttributes();
+        lp.gravity = Gravity.CENTER;
+        window.setAttributes(lp);
 
         WindowManager windowManager = (WindowManager) getActivity()
                 .getSystemService(Context.WINDOW_SERVICE);
@@ -91,7 +129,12 @@ public class DialogCreateGame extends DialogFragment {
                     @Override
                     public void onClick(View v) {
                         if (null != mCreateGameCallback) {
-                            createGame();
+                            if (checkInput()) {
+                                createGame();
+                            }
+//                            if (checkInput()) {
+//                                popupDialogPay();
+//                            }
                         }
                     }
                 });
@@ -112,6 +155,44 @@ public class DialogCreateGame extends DialogFragment {
 
 
         return dialog;
+    }
+
+    private void popupDialogPay() {
+
+        int price = 0;
+
+        try {
+            price = Integer.parseInt(mPriceET.getText().toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        String[] strings = {
+                getString(R.string.mt_format_pay_title_pre),
+                Integer.toString(price),
+                getString(R.string.mt_format_pay_title_suf)};
+        int[] colors = {
+                ContextCompat.getColor(getContext(), R.color.common_text_blank),
+                ContextCompat.getColor(getContext(), R.color.common_blue_deep),
+                ContextCompat.getColor(getContext(), R.color.common_text_blank)
+        };
+        SpannableStringBuilder titleText = SpannableStringUtil.createV2(strings, colors);
+        DialogPay.showPay(mIView,
+                getChildFragmentManager(),
+                titleText,
+                getString(R.string.mt_format_pay_hint),
+                getString(R.string.common_cancel),
+                getString(R.string.mt_pay_immediately),
+                getString(R.string.mt_recharge_immediately),
+                price,
+                -1,
+                new DialogPay.DialogPayCallback() {
+
+                    @Override
+                    public void onPay() {
+                        createGame();
+                    }
+                });
     }
 
     private void setTime(int position) {
@@ -137,37 +218,44 @@ public class DialogCreateGame extends DialogFragment {
         mTimeET.setSelection(mTimeET.getText().length());
     }
 
-    private void createGame() {
-        int time = 0;
-        int number = 0;
-        int price = 0;
+    private int mResetTime;
+    private int mPeopleNum;
+    private int mPrice;
+    private boolean checkInput() {
 
         try {
-            time = Integer.parseInt(mTimeET.getText().toString());
+            mResetTime = Integer.parseInt(mTimeET.getText().toString());
         } catch (Exception e) {
             e.printStackTrace();
             ToastUtil.showToastLong("请输入游戏时间");
-            return;
+            return false;
+        }
+
+        if (!mUnlimitedCB.isChecked()) {
+            try {
+                mPeopleNum = Integer.parseInt(mNumberET.getText().toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+                ToastUtil.showToastLong("请输入游戏人数");
+                return false;
+            }
         }
 
         try {
-            number = Integer.parseInt(mTimeET.getText().toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-            ToastUtil.showToastLong("请输入游戏人数");
-            return;
-        }
-
-        try {
-            price = Integer.parseInt(mTimeET.getText().toString());
+            mPrice = Integer.parseInt(mPriceET.getText().toString());
         } catch (Exception e) {
             e.printStackTrace();
             ToastUtil.showToastLong("请输入支付钻石");
-            return;
+            return false;
         }
 
+        return true;
+    }
+
+    private void createGame() {
         if (null != mCreateGameCallback) {
-            mCreateGameCallback.createGame(time, number, price);
+            // 分钟转为秒
+            mCreateGameCallback.createGame(mResetTime * 1000, mPeopleNum, mUnlimitedCB.isChecked(), mPrice);
         }
     }
 

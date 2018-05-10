@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:paddingLeft="14dp"
-    android:paddingRight="14dp">
+    android:paddingRight="14dp"
+    android:id="@+id/root_view">
 
     <include layout="@layout/mt_adapter_user"
         android:id="@+id/info_layout"

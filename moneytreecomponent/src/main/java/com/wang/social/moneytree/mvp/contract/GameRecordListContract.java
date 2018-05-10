@@ -13,6 +13,7 @@ import io.reactivex.Observable;
 public interface GameRecordListContract {
     interface View extends IView {
         void onLoadRecordListSuccess();
+        void onLoadRecordListCompleted();
     }
 
 

@@ -57,12 +57,16 @@ public class GameListModel extends BaseModel implements GameListContract.Model {
     public Observable<BaseJson<NewGameDTO>> createGame(int groupId, int type, int gameType,
                                                        int resetTime, int diamond, int peopleNum) {
         NetParam netParam = new NetParam();
-        netParam.put("groupId", groupId);
+        if (type == 1) {
+            netParam.put("groupId", groupId);
+        }
         netParam.put("type", type);
         netParam.put("gameType", gameType);
         netParam.put("resetTime", resetTime);
         netParam.put("diamond", diamond);
-        netParam.put("peopleNum", peopleNum);
+        if (gameType == 1) {
+            netParam.put("peopleNum", peopleNum);
+        }
         netParam.put("v", "2.0.0");
 
         return mRepositoryManager

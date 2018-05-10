@@ -13,19 +13,22 @@
         android:theme="@style/common_AppTheme">
 
         <!-- Meta Data -->
-
         <meta-data
             android:name="com.wang.social.moneytree.runalone.GlobalConfiguration"
             android:value="ConfigModule" />
 
-        <activity android:name=".mvp.ui.GameListActivity"
-            android:screenOrientation="portrait">
+        <activity android:name=".runalone.MainActivity">
+        </activity>
+
+        <activity android:name=".mvp.ui.GameListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity android:name=".mvp.ui.GameRecordListActivity">
+        </activity>
+        <activity android:name=".mvp.ui.GameRoomActivity">
         </activity>
 
     </application>

@@ -5,7 +5,10 @@
     android:layout_height="200dp"
     android:gravity="center_horizontal"
     android:paddingLeft="5dp"
-    android:paddingRight="5dp">
+    android:paddingRight="5dp"
+    android:paddingTop="6dp"
+    android:paddingBottom="6dp"
+    android:background="@drawable/mt_game_tanchuang_kuang">
 
     <TextView
         android:id="@+id/all_text_view"

@@ -46,7 +46,9 @@ public class TopUserAdapter extends RecyclerView.Adapter<TopUserAdapter.ViewHold
         if (null == user) return;
 
         // 头像
+        holder.mAvatarIV.setVisibility(View.INVISIBLE);
         if (!TextUtils.isEmpty(user.getAvatar())) {
+            holder.mAvatarIV.setVisibility(View.VISIBLE);
             FrameUtils.obtainAppComponentFromContext(mContext)
                     .imageLoader()
                     .loadImage(mContext,

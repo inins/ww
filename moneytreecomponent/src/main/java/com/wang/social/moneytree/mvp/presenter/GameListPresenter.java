@@ -6,12 +6,14 @@ import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
 import com.wang.social.moneytree.mvp.contract.GameListContract;
+import com.wang.social.moneytree.mvp.model.PayHelper;
 import com.wang.social.moneytree.mvp.model.entities.GameBean;
 import com.wang.social.moneytree.mvp.model.entities.GameBeans;
 import com.wang.social.moneytree.mvp.model.entities.NewGame;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 import javax.inject.Inject;
 
@@ -103,6 +105,7 @@ public class GameListPresenter extends
                     @Override
                     public void onError(Throwable e) {
                         mRootView.showToastLong(e.getMessage());
+                        mRootView.hideLoading();
                     }
                 }, new Consumer<Disposable>() {
                     @Override
@@ -118,8 +121,29 @@ public class GameListPresenter extends
                 });
     }
 
-    private void testGameListData() {
-        GameBean bean = new GameBean();
+    public void payCreateGame(NewGame newGame) {
+        PayHelper.newInstance().payCreateGame(mRootView, newGame.getApplyId(), newGame.getDiamond(),
+                new ErrorHandleSubscriber<Object>(mErrorHandler) {
+                    @Override
+                    public void onNext(Object o) {
+                        mRootView.onPayCreateGameSuccess();
+                    }
+                    @Override
+                    public void onError(Throwable e) {
+                        mRootView.showToastLong(e.getMessage());
+                    }
+                }, new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                        mRootView.showLoading();
+                    }
+                }, new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mRootView.onPayCreateGameCompleted();
+                        mRootView.hideLoading();
+                    }
+                });
     }
 
     @Override

@@ -2,9 +2,8 @@ package com.frame.component.helper;
 
 import com.frame.component.api.CommonService;
 import com.frame.component.common.NetParam;
-import com.frame.component.entities.DiamondNum;
-import com.frame.component.entities.User;
-import com.frame.component.entities.UserWrap;
+import com.frame.component.entities.AccountBalance;
+import com.frame.component.entities.dto.AccountBalanceDTO;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
@@ -18,30 +17,41 @@ import com.frame.utils.Utils;
 
 import java.util.Map;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
-import timber.log.Timber;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 
-/**
- * Created by Administrator on 2018/4/4.
- */
-
-public class NetFindMyWalletHelper {
+public class NetAccountBalanceHelper {
 
     IRepositoryManager mRepositoryManager;
     RxErrorHandler mErrorHandler;
+    ApiHelper mApiHelper;
 
-    private NetFindMyWalletHelper() {
+    private NetAccountBalanceHelper() {
         this.mRepositoryManager = FrameUtils.obtainAppComponentFromContext(Utils.getContext()).repoitoryManager();
         this.mErrorHandler = FrameUtils.obtainAppComponentFromContext(Utils.getContext()).rxErrorHandler();
+        this.mApiHelper = FrameUtils.obtainAppComponentFromContext(Utils.getContext()).apiHelper();
     }
 
-    public static NetFindMyWalletHelper newInstance() {
-        return new NetFindMyWalletHelper();
+    public static NetAccountBalanceHelper newInstance() {
+        return new NetAccountBalanceHelper();
     }
 
-    public void findMyWallet(IView view, boolean needLoading, FindMyWalletCallback callback) {
-//        Timber.i("findMyWallet");
+    public void accountBalance(IView view,
+                               ErrorHandleSubscriber<AccountBalance> errorHandleSubscriber, Consumer<Disposable> doOnSubscribe, Action doFinally) {
+        Map<String, Object> param = new NetParam()
+                .put("v", "2.0.0")
+                .putSignature()
+                .build();
+
+        mApiHelper.execute(view,
+                mRepositoryManager.obtainRetrofitService(CommonService.class)
+                        .accountBalance(param),
+                errorHandleSubscriber,
+                doOnSubscribe, doFinally);
+    }
+
+    public void accountBalance(IView view, boolean needLoading, FindMyWalletCallback callback) {
         Map<String, Object> param = new NetParam()
                 .put("v", "2.0.0")
                 .putSignature()
@@ -50,14 +60,14 @@ public class NetFindMyWalletHelper {
 
         ApiHelperEx.execute(view, needLoading,
                 ApiHelperEx.getService(CommonService.class)
-                        .findMyWallet(param),
-                new ErrorHandleSubscriber<BaseJson<DiamondNum>>() {
+                        .accountBalance(param),
+                new ErrorHandleSubscriber<BaseJson<AccountBalanceDTO>>() {
                     @Override
-                    public void onNext(BaseJson<DiamondNum> basejson) {
+                    public void onNext(BaseJson<AccountBalanceDTO> basejson) {
 //                        Timber.i("钻石 " + basejson.getData().getDiamondNum());
                         if (null != callback) {
                             callback.onWallet(null != basejson && null != basejson.getData() ?
-                                    basejson.getData().getDiamondNum() : 0);
+                                    basejson.getData().getAmountDiamond() : 0);
                         }
                     }
 
