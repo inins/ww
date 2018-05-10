@@ -91,27 +91,27 @@ public class RecycleAdapterHome extends BaseAdapter<FunpointAndTopic> {
     }
 
     public class HolderTopic extends BaseViewHolder<Topic> {
-        @BindView(R.id.img_flag)
+        @BindView(R2.id.img_flag)
         ImageView imgFlag;
-        @BindView(R.id.conertext_tag)
+        @BindView(R2.id.conertext_tag)
         TextView conertextTag;
-        @BindView(R.id.text_time)
+        @BindView(R2.id.text_time)
         TextView textTime;
-        @BindView(R.id.text_title)
+        @BindView(R2.id.text_title)
         TextView textTitle;
-        @BindView(R.id.text_content)
+        @BindView(R2.id.text_content)
         TextView textContent;
-        @BindView(R.id.img_header)
+        @BindView(R2.id.img_header)
         ImageView imgHeader;
-        @BindView(R.id.text_name)
+        @BindView(R2.id.text_name)
         TextView textName;
-        @BindView(R.id.img_pic)
+        @BindView(R2.id.img_pic)
         ImageView imgPic;
-        @BindView(R.id.text_zan)
+        @BindView(R2.id.text_zan)
         TextView textZan;
-        @BindView(R.id.text_eva)
+        @BindView(R2.id.text_eva)
         TextView textEva;
-        @BindView(R.id.text_watch)
+        @BindView(R2.id.text_watch)
         TextView textWatch;
 
         public HolderTopic(Context context, ViewGroup root, int layoutRes) {

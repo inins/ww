@@ -38,7 +38,7 @@ public class CardActivity extends BasicAppActivity implements BaseAdapter.OnItem
     TabLayout tablayout;
     @BindView(R2.id.appbar)
     AppBarLayout appbar;
-    @BindView(R.id.shadow)
+    @BindView(R2.id.shadow)
     View shadow;
 
     private RecycleAdapterCard adapter;

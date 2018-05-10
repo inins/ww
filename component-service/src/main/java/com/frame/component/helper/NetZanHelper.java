@@ -35,6 +35,7 @@ public class NetZanHelper {
         return new NetZanHelper();
     }
 
+    //趣晒点赞
     public void funshowZan(IView view, View btn, int talkId, boolean isZan, OnFunshowZanCallback callback) {
         commonZan(view, btn,
                 ApiHelperEx.getService(CommonService.class).funshowZan(talkId, isZan ? 1 : 2),
@@ -42,6 +43,7 @@ public class NetZanHelper {
                 callback);
     }
 
+    //趣晒评论点赞
     public void funshowCommentZan(IView view, View btn, int talkId, int talkCommentId, boolean isZan, OnFunshowZanCallback callback) {
         commonZan(view, btn,
                 ApiHelperEx.getService(CommonService.class).funshowCommentZan(talkId, talkCommentId, isZan ? 1 : 2),

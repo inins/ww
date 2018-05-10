@@ -13,7 +13,7 @@ import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
 import com.wang.social.home.R;
 import com.wang.social.home.R2;
-import com.wang.social.home.di.component.DaggerSingleFragmentComponent;
+//import com.wang.social.home.di.component.DaggerSingleFragmentComponent;
 import com.wang.social.home.mvp.contract.HomeContract;
 import com.wang.social.home.mvp.ui.controller.HomeContentController;
 import com.wang.social.home.mvp.ui.controller.DetailBannerBoardController;

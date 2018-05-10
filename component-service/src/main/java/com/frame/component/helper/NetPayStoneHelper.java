@@ -41,31 +41,6 @@ public class NetPayStoneHelper {
         return new NetPayStoneHelper();
     }
 
-//    public void netExchange(IView view, int stoneCount, OnStonePayCallback callback) {
-//        Map<String, Object> param = NetParam.newInstance()
-//                .put("price", stoneCount)
-//                .put("objectType", "exchange")
-//                .put("payChannels", "aliPay")
-//                .put("versionCode", "2.0.0")
-//                .put("channelCode", "1")
-//    .put("v", "2.0.0")
-//                .putSignature()
-//                .build();
-//        ApiHelperEx.execute(view, true,
-//                ApiHelperEx.getService(CommonService.class).exchangeStone(param),
-//                new ErrorHandleSubscriber<BaseJson<Object>>() {
-//                    @Override
-//                    public void onNext(BaseJson<Object> basejson) {
-//                        if (callback != null) callback.success();
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        if (callback != null) callback.error(e.getMessage());
-//                    }
-//                });
-//    }
-
     public void netPayFunshow(IView view, int talkId, int stoneCount, OnStonePayCallback callback) {
         Map<String, Object> param = NetParam.newInstance()
                 .put("price", stoneCount)
