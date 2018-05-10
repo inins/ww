@@ -1,26 +1,22 @@
 package com.wang.social.home.mvp.ui.dialog;
 
 import android.content.Context;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Checkable;
 
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.beloo.widget.chipslayoutmanager.SpacingItemDecoration;
-import com.frame.component.common.GridSpacingItemDecoration;
 import com.frame.component.ui.dialog.BasePopupWindow;
+import com.frame.entities.EventBean;
 import com.frame.utils.SizeUtils;
-import com.frame.utils.ToastUtil;
 import com.wang.social.home.R;
-import com.wang.social.home.R2;
 import com.wang.social.home.mvp.entities.Lable;
 import com.wang.social.home.mvp.ui.adapter.RecycleAdapterPopLable;
 
-import java.util.ArrayList;
+import org.greenrobot.eventbus.EventBus;
 
-import butterknife.BindView;
+import java.util.ArrayList;
 
 public class CardPopupWindow extends BasePopupWindow {
 
@@ -56,23 +52,57 @@ public class CardPopupWindow extends BasePopupWindow {
         recyclerAge.setAdapter(adapterAge);
 
         adapterGender.setOnLableSelectListener((view, lable, position) -> {
-            ToastUtil.showToastShort(lable.getName());
+            //性别 0 男 1女 -1 未知
+            int gender = -1;
+            switch (lable.getIndex()) {
+                case 0:
+                    gender = -1;
+                    break;
+                case 1:
+                    gender = 0;
+                    break;
+                case 2:
+                    gender = 1;
+                    break;
+            }
+            EventBean eventBean = new EventBean(EventBean.EVENT_HOME_CARD_GENDER_SELECT).put("gender", gender);
+            EventBus.getDefault().post(eventBean);
         });
         adapterAge.setOnLableSelectListener((view, lable, position) -> {
-            ToastUtil.showToastShort(lable.getName());
+            //all,90,95,00,other
+            String age = null;
+            switch (lable.getIndex()) {
+                case 0:
+                    age = "不限";
+                    break;
+                case 1:
+                    age = "90后";
+                    break;
+                case 2:
+                    age = "95后";
+                    break;
+                case 3:
+                    age = "00后";
+                    break;
+                case 4:
+                    age = "其他";
+                    break;
+            }
+            EventBean eventBean = new EventBean(EventBean.EVENT_HOME_CARD_AGE_SELECT).put("age", age);
+            EventBus.getDefault().post(eventBean);
         });
 
         adapterGender.refreshData(new ArrayList<Lable>() {{
-            add(new Lable("不限", true));
-            add(new Lable("男"));
-            add(new Lable("女"));
+            add(new Lable(0, "不限", true));
+            add(new Lable(1, "男"));
+            add(new Lable(2, "女"));
         }});
         adapterAge.refreshData(new ArrayList<Lable>() {{
-            add(new Lable("不限", true));
-            add(new Lable("90后"));
-            add(new Lable("95后"));
-            add(new Lable("00后"));
-            add(new Lable("其他"));
+            add(new Lable(0, "不限", true));
+            add(new Lable(1, "90后"));
+            add(new Lable(2, "95后"));
+            add(new Lable(3, "00后"));
+            add(new Lable(4, "其他"));
         }});
     }
 

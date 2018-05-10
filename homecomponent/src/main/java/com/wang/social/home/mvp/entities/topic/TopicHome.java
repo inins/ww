@@ -1,4 +1,4 @@
-package com.wang.social.home.mvp.entities;
+package com.wang.social.home.mvp.entities.topic;
 
 import com.frame.component.entities.Tag;
 import com.frame.utils.StrUtil;
@@ -8,7 +8,7 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class Topic {
+public class TopicHome {
 
     /**
      * firstStrff : 好多好吃就放假经常坚持坚持姐姐飞机场忽大忽小不能吃就放假你才
@@ -58,5 +58,13 @@ public class Topic {
 
     public boolean isFree() {
         return isFree == 1;
+    }
+
+    public boolean isSupport() {
+        return isSupport != 0;
+    }
+
+    public void setIsSupport(boolean zan) {
+        isSupport = zan ? 1 : 0;
     }
 }

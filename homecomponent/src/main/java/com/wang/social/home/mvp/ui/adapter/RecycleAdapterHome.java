@@ -13,14 +13,16 @@ import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
 import com.frame.component.entities.funpoint.Funpoint;
 import com.frame.component.helper.ImageLoaderHelper;
+import com.frame.component.helper.NetZanHelper;
 import com.frame.component.utils.viewutils.FontUtils;
+import com.frame.component.view.ConerTextView;
+import com.frame.mvp.IView;
+import com.frame.utils.StrUtil;
 import com.frame.utils.TimeUtils;
 import com.wang.social.home.R;
 import com.wang.social.home.R2;
 import com.wang.social.home.mvp.entities.FunpointAndTopic;
-import com.wang.social.home.mvp.entities.Topic;
-
-import java.util.Date;
+import com.wang.social.home.mvp.entities.topic.TopicHome;
 
 import butterknife.BindView;
 
@@ -81,7 +83,8 @@ public class RecycleAdapterHome extends BaseAdapter<FunpointAndTopic> {
             textNote.setText(bean.getNoteStr());
 
             itemView.setOnClickListener(v -> {
-                if (onFunpointClickListener != null) onFunpointClickListener.onFunpointClick(position, bean);
+                if (onFunpointClickListener != null)
+                    onFunpointClickListener.onFunpointClick(position, bean);
             });
         }
 
@@ -90,11 +93,11 @@ public class RecycleAdapterHome extends BaseAdapter<FunpointAndTopic> {
         }
     }
 
-    public class HolderTopic extends BaseViewHolder<Topic> {
+    public class HolderTopic extends BaseViewHolder<TopicHome> {
         @BindView(R2.id.img_flag)
         ImageView imgFlag;
         @BindView(R2.id.conertext_tag)
-        TextView conertextTag;
+        ConerTextView conertextTag;
         @BindView(R2.id.text_time)
         TextView textTime;
         @BindView(R2.id.text_title)
@@ -119,19 +122,28 @@ public class RecycleAdapterHome extends BaseAdapter<FunpointAndTopic> {
         }
 
         @Override
-        protected void bindData(Topic bean, int position, OnItemClickListener onItemClickListener) {
+        protected void bindData(TopicHome bean, int position, OnItemClickListener onItemClickListener) {
             ImageLoaderHelper.loadCircleImg(imgHeader, bean.getUserCover());
             ImageLoaderHelper.loadImgTest(imgPic);
             ImageLoaderHelper.loadImg(imgPic, bean.getTopicImage());
             textTitle.setText(bean.getTitle());
             textContent.setText(bean.getFirstStrff());
             textName.setText(bean.getUserName());
+            textZan.setSelected(bean.isSupport());
             textZan.setText(String.valueOf(bean.getTopicSupportNum()));
             textEva.setText(String.valueOf(bean.getTopicCommentNum()));
             textWatch.setText(String.valueOf(bean.getTopicReadNum()));
             textTime.setText(TimeUtils.date2String(bean.getCreateTime(), "MM-dd"));
-            conertextTag.setText(bean.getTagStr());
+            conertextTag.setTagText(bean.getTagStr());
             imgFlag.setVisibility(bean.isFree() ? View.GONE : View.VISIBLE);
+
+            textZan.setOnClickListener(v -> {
+                IView iView = (getContext() instanceof IView) ? (IView) getContext() : null;
+                NetZanHelper.newInstance().topicZan(iView, textZan, bean.getTopicId(), !bean.isSupport(), (isZan, zanCount) -> {
+                    bean.setIsSupport(isZan);
+                    bean.setTopicSupportNum(zanCount);
+                });
+            });
 
             itemView.setOnClickListener(v -> {
                 if (onTopicClickListener != null) onTopicClickListener.onTopicClick(position, bean);
@@ -161,19 +173,41 @@ public class RecycleAdapterHome extends BaseAdapter<FunpointAndTopic> {
     }
 
     public interface OnTopicClickListener {
-        void onTopicClick(int position, Topic topic);
+        void onTopicClick(int position, TopicHome topic);
     }
 
     /////////////////////
 
-//    public void reFreshReadCountById(int newsId) {
-//        if (StrUtil.isEmpty(getData())) return;
-//        for (int i = 0; i < getData().size(); i++) {
-//            Funpoint funpoint = getData().get(i);
-//            if (funpoint.getNewsId() == newsId) {
-//                funpoint.setReadTotal(funpoint.getReadTotal() + 1);
-//                notifyItemChanged(i);
-//            }
-//        }
-//    }
+    private int getTopicIndexById(int topicId) {
+        if (StrUtil.isEmpty(getData())) return -1;
+        for (int i = 0; i < getData().size(); i++) {
+            FunpointAndTopic funpointAndTopic = getData().get(i);
+            if (funpointAndTopic.isTopic()) {
+                TopicHome topic = funpointAndTopic.getTopic();
+                if (topic.getTopicId() == topicId) {
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+
+    public void reFreshZanCountById(int topicId, boolean isZan) {
+        int index = getTopicIndexById(topicId);
+        if (index != -1) {
+            TopicHome topic = getData().get(index).getTopic();
+            topic.setTopicSupportNum(topic.getTopicSupportNum() + (isZan ? 1 : -1));
+            topic.setIsSupport(isZan);
+            notifyItemChanged(index);
+        }
+    }
+
+    public void reFreshEvaCountById(int topicId) {
+        int index = getTopicIndexById(topicId);
+        if (index != -1) {
+            TopicHome topic = getData().get(index).getTopic();
+            topic.setTopicCommentNum(topic.getTopicCommentNum() + 1);
+            notifyItemChanged(index);
+        }
+    }
 }

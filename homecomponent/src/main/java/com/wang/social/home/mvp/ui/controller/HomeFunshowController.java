@@ -9,7 +9,6 @@ import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.helper.NetZanHelper;
 import com.frame.component.ui.base.BaseController;
 import com.frame.component.ui.dialog.MorePopupWindow;
-import com.frame.component.utils.FunShowUtil;
 import com.frame.component.utils.ListUtil;
 import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelperEx;
@@ -21,7 +20,7 @@ import com.frame.utils.TimeUtils;
 import com.frame.utils.ToastUtil;
 import com.wang.social.home.R;
 import com.wang.social.home.R2;
-import com.wang.social.home.mvp.entities.Funshow;
+import com.wang.social.home.mvp.entities.funshow.FunshowHome;
 import com.wang.social.home.mvp.model.api.HomeService;
 
 import java.util.List;
@@ -59,8 +58,8 @@ public class HomeFunshowController extends BaseController {
 
     private MorePopupWindow popupWindow;
 
-    private List<Funshow> funshowList;
-    private Funshow currentFunshow;
+    private List<FunshowHome> funshowList;
+    private FunshowHome currentFunshow;
 
     @Override
     public void onCommonEvent(EventBean event) {
@@ -121,13 +120,13 @@ public class HomeFunshowController extends BaseController {
         netGetNewFunshow();
     }
 
-    private void setFunshowData(Funshow bean) {
+    private void setFunshowData(FunshowHome bean) {
         if (bean != null) {
             currentFunshow = bean;
             ImageLoaderHelper.loadCircleImg(img_header, bean.getHeadImg());
             textName.setText(bean.getNickname());
             textTitle.setText(bean.getContent());
-            textPosition.setText(bean.getAddress());
+            textPosition.setText(bean.getProvince() + bean.getCity());
             textZan.setText(bean.getSupportTotal() + "");
             textComment.setText(bean.getCommentTotal() + "");
             textShare.setText(bean.getShareTotal() + "");
@@ -163,18 +162,18 @@ public class HomeFunshowController extends BaseController {
         //移除最顶部的一条数据，取第下一条
         if (StrUtil.isEmpty(funshowList)) return;
         ListUtil.remove(funshowList, 0);
-        Funshow funshow = ListUtil.get(funshowList, 0);
+        FunshowHome funshow = ListUtil.get(funshowList, 0);
         setFunshowData(funshow);
     }
 
     public void netGetNewFunshow() {
         ApiHelperEx.execute(getIView(), false,
                 ApiHelperEx.getService(HomeService.class).getNewFunshow(),
-                new ErrorHandleSubscriber<BaseJson<BaseListWrap<Funshow>>>() {
+                new ErrorHandleSubscriber<BaseJson<BaseListWrap<FunshowHome>>>() {
                     @Override
-                    public void onNext(BaseJson<BaseListWrap<Funshow>> basejson) {
-                        BaseListWrap<Funshow> wrap = basejson.getData();
-                        List<Funshow> list = wrap.getList();
+                    public void onNext(BaseJson<BaseListWrap<FunshowHome>> basejson) {
+                        BaseListWrap<FunshowHome> wrap = basejson.getData();
+                        List<FunshowHome> list = wrap.getList();
                         if (!StrUtil.isEmpty(list)) {
                             funshowList = list;
                             setFunshowData(list.get(0));

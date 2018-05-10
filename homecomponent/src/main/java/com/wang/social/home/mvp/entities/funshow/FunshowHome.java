@@ -1,9 +1,9 @@
-package com.wang.social.home.mvp.entities;
+package com.wang.social.home.mvp.entities.funshow;
 
 import lombok.Data;
 
 @Data
-public class Funshow {
+public class FunshowHome {
 
     /**
      * creatorId : 10008
@@ -34,6 +34,8 @@ public class Funshow {
     private int talkId;
     private String content;
     private String address;
+    private String province;
+    private String city;
     private int mediaType;
     private int readTotal;
     private int commentTotal;

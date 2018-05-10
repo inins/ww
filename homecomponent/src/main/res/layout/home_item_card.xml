@@ -56,8 +56,9 @@
                 android:text="00后"
                 android:textColor="@color/common_white"
                 android:textSize="11sp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/text_name"
-                app:layout_constraintStart_toEndOf="@+id/text_name" />
+                app:layout_constraintBottom_toBottomOf="@+id/text_name"
+                app:layout_constraintStart_toEndOf="@+id/text_name"
+                app:layout_constraintTop_toTopOf="@+id/text_name" />
 
             <TextView
                 android:id="@+id/text_lable_astro"
@@ -72,8 +73,9 @@
                 android:text="白羊座"
                 android:textColor="@color/common_white"
                 android:textSize="11sp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/text_lable_gender"
-                app:layout_constraintStart_toEndOf="@+id/text_lable_gender" />
+                app:layout_constraintBottom_toBottomOf="@+id/text_lable_gender"
+                app:layout_constraintStart_toEndOf="@+id/text_lable_gender"
+                app:layout_constraintTop_toTopOf="@+id/text_lable_gender" />
 
             <TextView
                 android:id="@+id/text_tag"

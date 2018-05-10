@@ -4,6 +4,7 @@ import com.frame.component.entities.DiamondNum;
 import com.frame.component.entities.UserWrap;
 import com.frame.component.entities.dto.DiamondNumDTO;
 import com.frame.component.entities.dto.QiNiuDTO;
+import com.frame.component.entities.user.UserBoard;
 import com.frame.http.api.BaseJson;
 
 import java.util.Map;
@@ -101,7 +102,7 @@ public interface CommonService {
     Observable<BaseJson<Object>> funshowZan(@Field("talkId") int talkId, @Field("type") int type);
 
     /**
-     * 趣晒点赞
+     * 趣晒评论点赞
      * type类型1点赞 2取消点赞
      */
     @FormUrlEncoded
@@ -109,9 +110,24 @@ public interface CommonService {
     Observable<BaseJson<Object>> funshowCommentZan(@Field("talkId") int talkId, @Field("talkCommentId") int talkCommentId, @Field("type") int type);
 
     /**
+     * 话题点赞
+     * type类型1点赞 2取消点赞
+     */
+    @FormUrlEncoded
+    @POST("/app/topic/topicSupport?v=2.0.0")
+    Observable<BaseJson<Object>> topicZan(@Field("topicId") int topicId, @Field("type") int type);
+
+    /**
      * 阅读趣点数量统计
      */
     @FormUrlEncoded
     @POST("/app/news/addRealTotal?v=2.0.0")
     Observable<BaseJson<Object>> readFunpoint(@Field("newsId") int newsId);
+
+    /**
+     * 获取用户信息包括相册
+     */
+    @FormUrlEncoded
+    @POST("/app/userInfo/getUserInfoAndPhotos?v=2.0.0")
+    Observable<BaseJson<UserBoard>> getUserInfoAndPhotos(@Field("userId") int userId);
 }

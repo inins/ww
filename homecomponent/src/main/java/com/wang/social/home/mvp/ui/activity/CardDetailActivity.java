@@ -36,8 +36,11 @@ public class CardDetailActivity extends BasicAppActivity {
     private DetailFunshowController funshowController;
     private DetailTopicController topicController;
 
-    public static void start(Context context) {
+    private int userId;
+
+    public static void start(Context context, int userId) {
         Intent intent = new Intent(context, CardDetailActivity.class);
+        intent.putExtra("userId", userId);
         context.startActivity(intent);
     }
 
@@ -48,12 +51,13 @@ public class CardDetailActivity extends BasicAppActivity {
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
+        userId = getIntent().getIntExtra("userId", 0);
         toolbar.bringToFront();
         StatusBarUtil.setTranslucent(this);
 
-        bannerBoardController = new DetailBannerBoardController(findViewById(R.id.include_bannerboard));
-        funshowController = new DetailFunshowController(findViewById(R.id.include_funshow));
-        topicController = new DetailTopicController(findViewById(R.id.include_topic));
+        bannerBoardController = new DetailBannerBoardController(findViewById(R.id.include_bannerboard),userId);
+        funshowController = new DetailFunshowController(findViewById(R.id.include_funshow),userId);
+        topicController = new DetailTopicController(findViewById(R.id.include_topic),userId);
 
         scrollView.setOnScrollChangedListener((x, y, oldx, oldy) -> {
             //banner动态位置偏移
@@ -93,12 +97,5 @@ public class CardDetailActivity extends BasicAppActivity {
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
 
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
     }
 }

@@ -36,7 +36,7 @@ public class NetZanHelper {
     }
 
     //趣晒点赞
-    public void funshowZan(IView view, View btn, int talkId, boolean isZan, OnFunshowZanCallback callback) {
+    public void funshowZan(IView view, View btn, int talkId, boolean isZan, OnZanCallback callback) {
         commonZan(view, btn,
                 ApiHelperEx.getService(CommonService.class).funshowZan(talkId, isZan ? 1 : 2),
                 isZan,
@@ -44,7 +44,7 @@ public class NetZanHelper {
     }
 
     //趣晒评论点赞
-    public void funshowCommentZan(IView view, View btn, int talkId, int talkCommentId, boolean isZan, OnFunshowZanCallback callback) {
+    public void funshowCommentZan(IView view, View btn, int talkId, int talkCommentId, boolean isZan, OnZanCallback callback) {
         commonZan(view, btn,
                 ApiHelperEx.getService(CommonService.class).funshowCommentZan(talkId, talkCommentId, isZan ? 1 : 2),
                 isZan,
@@ -52,7 +52,23 @@ public class NetZanHelper {
     }
 
 
-    public void commonZan(IView view, View btn, Observable<BaseJson<Object>> call, boolean isZan, OnFunshowZanCallback callback) {
+    //话题点赞
+    public void topicZan(IView view, View btn, int topicId, boolean isZan, OnZanCallback callback) {
+        commonZan(view, btn,
+                ApiHelperEx.getService(CommonService.class).topicZan(topicId, isZan ? 1 : 2),
+                isZan,
+                callback);
+    }
+
+
+    /**
+     * @param view 绑定生命周期 可为null
+     * @param btn  点赞btn（textView）.点赞成功后会自动+1或-1
+     * @param call 请求
+     * @param isZan 点赞还是取消赞
+     * @param callback 回调（如果需要）
+     */
+    public void commonZan(IView view, View btn, Observable<BaseJson<Object>> call, boolean isZan, OnZanCallback callback) {
         ApiHelperEx.execute(view, false,
                 call,
                 new ErrorHandleSubscriber<BaseJson<Object>>() {
@@ -74,7 +90,7 @@ public class NetZanHelper {
                 });
     }
 
-    public interface OnFunshowZanCallback {
+    public interface OnZanCallback {
         void onSuccess(boolean isZan, int zanCount);
     }
 }

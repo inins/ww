@@ -27,7 +27,7 @@ import com.wang.social.personal.di.component.DaggerSingleActivityComponent;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.component.entities.BaseListWrap;
 import com.wang.social.personal.mvp.entities.photo.OffiPic;
-import com.wang.social.personal.mvp.entities.photo.Photo;
+import com.frame.component.entities.photo.Photo;
 import com.wang.social.personal.mvp.model.api.UserService;
 import com.wang.social.personal.mvp.ui.adapter.RecycleAdapterOfficialPhoto;
 

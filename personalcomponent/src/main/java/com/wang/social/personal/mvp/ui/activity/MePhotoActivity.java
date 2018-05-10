@@ -23,7 +23,7 @@ import com.frame.component.common.GridSpacingItemDecoration;
 import com.wang.social.personal.di.component.DaggerSingleActivityComponent;
 import com.wang.social.pictureselector.helper.PhotoHelper;
 import com.wang.social.personal.helper.PicPhotoHelperEx;
-import com.wang.social.personal.mvp.entities.photo.Photo;
+import com.frame.component.entities.photo.Photo;
 import com.wang.social.personal.mvp.ui.adapter.RecycleAdapterMePhoto;
 import com.frame.component.ui.dialog.DialogSure;
 import com.frame.component.view.TitleView;

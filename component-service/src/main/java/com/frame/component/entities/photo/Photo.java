@@ -1,4 +1,4 @@
-package com.wang.social.personal.mvp.entities.photo;
+package com.frame.component.entities.photo;
 
 import java.io.Serializable;
 

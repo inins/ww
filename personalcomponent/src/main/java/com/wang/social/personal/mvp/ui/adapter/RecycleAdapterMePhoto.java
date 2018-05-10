@@ -12,12 +12,9 @@ import com.frame.base.BaseViewHolder;
 import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.utils.StrUtil;
-import com.frame.utils.ToastUtil;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
-import com.wang.social.personal.mvp.entities.photo.Photo;
-
-import javax.inject.Inject;
+import com.frame.component.entities.photo.Photo;
 
 import butterknife.BindView;
 

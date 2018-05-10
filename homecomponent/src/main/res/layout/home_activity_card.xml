@@ -24,18 +24,21 @@
             app:navigationIcon="@drawable/common_ic_back"
             app:popupTheme="@style/common_AppTheme.PopupOverlay">
 
-            <android.support.design.widget.TabLayout
+            <com.ogaclejapan.smarttablayout.SmartTabLayout
                 android:id="@+id/tablayout"
                 android:layout_width="wrap_content"
                 android:layout_height="42dp"
                 android:layout_gravity="center_horizontal"
-                app:tabGravity="center"
-                app:tabIndicatorColor="@color/common_blue"
-                app:tabIndicatorHeight="1dp"
-                app:tabMode="fixed"
-                app:tabSelectedTextColor="@color/common_select_text_dark_blue"
-                app:tabTextAppearance="@style/common_TabLayoutTextSizeStyleBig"
-                app:tabTextColor="@color/common_text_dark_light" />
+                android:background="@android:color/transparent"
+                app:stl_customTabTextLayoutId="@layout/home_tab_text_blank_blue"
+                app:stl_customTabTextViewId="@id/custom_text"
+                app:stl_dividerThickness="0dp"
+                app:stl_indicatorColor="@color/common_blue"
+                app:stl_indicatorCornerRadius="2dp"
+                app:stl_indicatorInterpolation="smart"
+                app:stl_indicatorThickness="3dp"
+                app:stl_underlineColor="@android:color/transparent"
+                app:stl_underlineThickness="0px" />
 
         </android.support.v7.widget.Toolbar>
 
@@ -43,50 +46,10 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler"
+    <com.frame.component.view.UnScrollViewPager
+        android:id="@+id/pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:paddingBottom="160dp"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:paddingTop="70dp" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/btn_dislike"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="55dp"
-        android:layout_marginLeft="60dp"
-        android:backgroundTint="@color/common_white"
-        android:onClick="onClick"
-        android:scaleType="center"
-        android:shadowColor="@color/common_blue_gray"
-        app:borderWidth="0dp"
-        app:elevation="7dp"
-        app:fabSize="normal"
-        app:rippleColor="@color/common_blue_gray"
-        app:srcCompat="@drawable/home_ic_card_dislike" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/btn_like"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_marginBottom="55dp"
-        android:layout_marginRight="60dp"
-        android:backgroundTint="@color/common_white"
-        android:onClick="onClick"
-        android:scaleType="center"
-        android:shadowColor="@color/common_red_gray"
-        app:borderWidth="0dp"
-        app:elevation="7dp"
-        app:fabSize="normal"
-        app:rippleColor="@color/common_red_gray"
-        app:srcCompat="@drawable/home_ic_card_like" />
+        android:layout_height="match_parent" />
 
     <View
         android:id="@+id/shadow"

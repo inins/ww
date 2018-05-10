@@ -2,24 +2,21 @@ package com.wang.social.home.mvp.ui.controller;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.frame.base.BaseAdapter;
 import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.entities.funpoint.Funpoint;
 import com.frame.component.helper.NetReadHelper;
 import com.frame.component.ui.acticity.WebActivity;
 import com.frame.component.ui.base.BaseController;
-import com.frame.component.utils.FunShowUtil;
 import com.frame.component.utils.viewutils.FontUtils;
+import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.mvp.IView;
-import com.frame.utils.SizeUtils;
 import com.frame.utils.StrUtil;
 import com.frame.utils.ToastUtil;
 import com.google.gson.Gson;
@@ -28,7 +25,7 @@ import com.wang.social.home.R;
 import com.wang.social.home.R2;
 import com.wang.social.home.mvp.contract.HomeContract;
 import com.wang.social.home.mvp.entities.FunpointAndTopic;
-import com.wang.social.home.mvp.entities.Topic;
+import com.wang.social.home.mvp.entities.topic.TopicHome;
 import com.wang.social.home.mvp.model.api.HomeService;
 import com.wang.social.home.mvp.ui.adapter.RecycleAdapterHome;
 
@@ -45,6 +42,27 @@ public class HomeContentController extends BaseController implements RecycleAdap
     RecyclerView recycler;
 
     private RecycleAdapterHome adapter;
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        switch (event.getEvent()) {
+            case 123: {
+                //TODO:目前没有这个消息，后续添加
+                //在详情页点赞，收到通知刷新点赞状态及其点赞数量
+                int topicId = (int) event.get("topicId");
+                boolean isZan = (boolean) event.get("isZan");
+                adapter.reFreshZanCountById(topicId, isZan);
+                break;
+            }
+            case 1234: {
+                //TODO:目前没有这个消息，后续添加
+                //在详情页评论，收到通知刷新评论数量
+                int topicId = (int) event.get("topicId");
+                adapter.reFreshEvaCountById(topicId);
+                break;
+            }
+        }
+    }
 
     public HomeContentController(IView iView, View root) {
         super(iView, root);
@@ -83,7 +101,7 @@ public class HomeContentController extends BaseController implements RecycleAdap
     }
 
     @Override
-    public void onTopicClick(int position, Topic topic) {
+    public void onTopicClick(int position, TopicHome topic) {
         ToastUtil.showToastShort("topcId:" + topic.getTopicId());
     }
 
@@ -118,7 +136,7 @@ public class HomeContentController extends BaseController implements RecycleAdap
                                 if (jsonObject.has("newsId")) {
                                     ftList.add(new FunpointAndTopic(new Gson().fromJson(jsonObject, Funpoint.class)));
                                 } else if (jsonObject.has("topicId")) {
-                                    ftList.add(new FunpointAndTopic(new Gson().fromJson(jsonObject, Topic.class)));
+                                    ftList.add(new FunpointAndTopic(new Gson().fromJson(jsonObject, TopicHome.class)));
                                 }
                             }
                             current = warp.getCurrent();

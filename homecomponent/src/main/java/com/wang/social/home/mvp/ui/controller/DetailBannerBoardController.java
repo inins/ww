@@ -1,12 +1,21 @@
 package com.wang.social.home.mvp.ui.controller;
 
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.frame.component.api.CommonService;
+import com.frame.component.entities.user.UserBoard;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.ui.base.BaseController;
 import com.frame.component.view.ConerTextView;
 import com.frame.component.view.bannerview.BannerView;
 import com.frame.component.view.bannerview.Image;
+import com.frame.http.api.ApiHelperEx;
+import com.frame.http.api.BaseJson;
+import com.frame.http.api.error.ErrorHandleSubscriber;
+import com.frame.utils.TimeUtils;
+import com.frame.utils.ToastUtil;
 import com.wang.social.home.R;
 import com.wang.social.home.R2;
 
@@ -20,9 +29,24 @@ public class DetailBannerBoardController extends BaseController {
     BannerView banner;
     @BindView(R2.id.connertext_lable)
     ConerTextView connertextLable;
+    @BindView(R2.id.img_header)
+    ImageView imgHeader;
+    @BindView(R2.id.text_lable_gender)
+    TextView textLableGender;
+    @BindView(R2.id.text_lable_astro)
+    TextView textLableAstro;
+    @BindView(R2.id.text_name)
+    TextView textName;
+    @BindView(R2.id.text_position)
+    TextView textPosition;
+    @BindView(R2.id.text_sign)
+    TextView textSign;
 
-    public DetailBannerBoardController(View root) {
+    private int userId;
+
+    public DetailBannerBoardController(View root, int userId) {
         super(root);
+        this.userId = userId;
         int layout = R.layout.home_lay_carddetail_bannerboard;
         registEventBus();
         onInitCtrl();
@@ -35,15 +59,45 @@ public class DetailBannerBoardController extends BaseController {
 
     @Override
     protected void onInitData() {
-        banner.setDatas(new ArrayList<Image>() {{
-            add(new Image(ImageLoaderHelper.getRandomImg()));
-            add(new Image(ImageLoaderHelper.getRandomImg()));
-            add(new Image(ImageLoaderHelper.getRandomImg()));
-            add(new Image(ImageLoaderHelper.getRandomImg()));
-        }});
+        netGetNewFunshow(userId);
     }
+
+    private void setUserData(UserBoard user) {
+        if (user != null) {
+            ImageLoaderHelper.loadCircleImg(imgHeader, user.getAvatar());
+            textName.setText(user.getNickname());
+            textLableGender.setSelected(!user.isMale());
+            textLableGender.setText(TimeUtils.getBirthdaySpan(user.getBirthday()));
+            textLableAstro.setText(TimeUtils.getAstro(user.getBirthday()));
+            textPosition.setText(user.getCityName());
+            textSign.setText(user.getAutograph());
+            connertextLable.setTagText(user.getTagText());
+            banner.setDatas(user.getBannerImageList());
+        }
+    }
+
+    ///////////////////////////////////////
 
     public BannerView getBannerView() {
         return banner;
+    }
+
+    ///////////////////////////////////////
+
+    public void netGetNewFunshow(int userId) {
+        ApiHelperEx.execute(getIView(), false,
+                ApiHelperEx.getService(CommonService.class).getUserInfoAndPhotos(userId),
+                new ErrorHandleSubscriber<BaseJson<UserBoard>>() {
+                    @Override
+                    public void onNext(BaseJson<UserBoard> basejson) {
+                        UserBoard user = basejson.getData();
+                        setUserData(user);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        ToastUtil.showToastLong(e.getMessage());
+                    }
+                });
     }
 }
