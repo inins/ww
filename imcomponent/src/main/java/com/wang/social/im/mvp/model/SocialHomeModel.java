@@ -1,13 +1,12 @@
 package com.wang.social.im.mvp.model;
 
-import android.text.TextUtils;
-
 import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.di.scope.ActivityScope;
 import com.frame.http.api.BaseJson;
 import com.frame.integration.IRepositoryManager;
 import com.wang.social.im.mvp.contract.SocialHomeContract;
 import com.wang.social.im.mvp.model.api.GroupService;
+import com.wang.social.im.mvp.model.entities.SocialAttribute;
 import com.wang.social.im.mvp.model.entities.SocialInfo;
 import com.wang.social.im.mvp.model.entities.TeamInfo;
 import com.wang.social.im.mvp.model.entities.dto.ListDataDTO;
@@ -60,8 +59,30 @@ public class SocialHomeModel extends GroupModel implements SocialHomeContract.Mo
                 params.put("gender", 1);
                 break;
         }
-        if (!TextUtils.isEmpty(social.getAgeLimit())) {
-            params.put("ageRange", social.getAgeLimit());
+        StringBuilder builder = new StringBuilder();
+        for (SocialAttribute.AgeLimit ageLimit : social.getAttr().getAgeLimit()) {
+            if (ageLimit == SocialAttribute.AgeLimit.UNLIMITED) {
+                break;
+            } else {
+                switch (ageLimit) {
+                    case AFTER_90:
+                        builder.append("90").append(",");
+                        break;
+                    case AFTER_95:
+                        builder.append("95").append(",");
+                        break;
+                    case AFTER_00:
+                        builder.append("00").append(",");
+                        break;
+                    case OTHER:
+                        builder.append("other").append(",");
+                        break;
+                }
+            }
+        }
+        if (builder.length() > 0) {
+            builder.deleteCharAt(builder.length() - 2);
+            params.put("ageRange", builder.toString());
         }
         params.put("isCreateMi", social.isCreateTeam() ? 1 : 2);
         StringBuilder tagBuilder = new StringBuilder();

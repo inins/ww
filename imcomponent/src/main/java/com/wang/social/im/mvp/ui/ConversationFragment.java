@@ -172,7 +172,7 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
                 super.getItemOffsets(outRect, view, parent, state);
-                int itemSpace = getResources().getDimensionPixelSize(R.dimen.im_msg_text_size);
+                int itemSpace = getResources().getDimensionPixelSize(R.dimen.im_msg_item_space);
                 outRect.top = itemSpace;
                 outRect.bottom = itemSpace;
             }

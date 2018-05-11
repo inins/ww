@@ -1,5 +1,7 @@
 package com.wang.social.im.mvp.model.api;
 
+import com.frame.component.entities.UserInfo;
+import com.frame.component.entities.dto.UserInfoDTO;
 import com.frame.http.api.BaseJson;
 import com.wang.social.im.mvp.model.entities.IndexFriendInfo;
 import com.wang.social.im.mvp.model.entities.dto.IndexFriendInfoDTO;
@@ -45,4 +47,13 @@ public interface ChainService {
     @FormUrlEncoded
     @POST("app/userFriend/addApply")
     Observable<BaseJson> sendFriendlyApply(@Field("v") String version, @Field("addUserId") String userId, @Field("reason") String reason);
+
+    /**
+     * 新用户
+     *
+     * @param version
+     * @return
+     */
+    @GET("app/chatList/newUserList")
+    Observable<BaseJson<ListDataDTO<UserInfoDTO, UserInfo>>> getNewUsers(@Query("v") String version);
 }

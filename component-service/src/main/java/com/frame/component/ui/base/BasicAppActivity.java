@@ -66,12 +66,12 @@ public abstract class BasicAppActivity extends BasicActivity {
     protected void onPause() {
         super.onPause();
         isResume = false;
+        if (dialogLoading.get() != null) dialogLoading.get().dismiss();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (dialogLoading.get() != null) dialogLoading.get().dismiss();
     }
 
     public void showLoadingDialog() {

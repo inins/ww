@@ -1,8 +1,17 @@
 package com.wang.social.im.mvp.model.entities.dto;
 
+import com.frame.component.entities.dto.TagDTO;
+import com.frame.component.enums.Gender;
+import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.http.api.Mapper;
+import com.frame.utils.TimeUtils;
 import com.wang.social.im.enums.MessageNotifyType;
+import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.mvp.model.entities.MemberInfo;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 /**
  * ============================================
@@ -18,6 +27,10 @@ public class MemberInfoDTO implements Mapper<MemberInfo> {
     private String memberHeadUrl;
     private int memberRole;
     private int receiveMsgType;//0全部1不提示2只提示@
+    private long birthday;
+    private int sex;
+    private int isFriend; //0：非好友，1：好友
+    private List<TagDTO> tags;
 
     @Override
     public MemberInfo transform() {
@@ -38,6 +51,22 @@ public class MemberInfoDTO implements Mapper<MemberInfo> {
                 memberInfo.setNotifyType(MessageNotifyType.ALERT);
                 break;
         }
+        List<Tag> tagList = new ArrayList<>();
+        if (tags != null) {
+            for (TagDTO tagDTO : tags) {
+                tagList.add(tagDTO.transform());
+            }
+        }
+        memberInfo.setTags(tagList);
+        memberInfo.setBirthMills(birthday);
+        //计算年龄范围
+        memberInfo.setAgeRange(ImHelper.getAgeRange(birthday));
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(birthday);
+        memberInfo.setConstellation(TimeUtils.getAstro(calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)));
+        //性别判断
+        memberInfo.setGender(sex == 0 ? Gender.MALE : Gender.FEMALE);
+        memberInfo.setFriendly(isFriend == 1);
         return memberInfo;
     }
 }

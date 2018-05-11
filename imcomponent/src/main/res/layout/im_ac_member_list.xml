@@ -15,11 +15,13 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <LinearLayout
+                android:id="@+id/ml_ll_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="?attr/actionBarSize"
                 android:orientation="vertical"
                 android:paddingBottom="5dp"
+                android:visibility="invisible"
                 app:layout_collapseMode="pin">
 
                 <com.frame.component.view.TitleView
@@ -27,8 +29,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/common_border_margin"
-                    app:personal_textNote="@string/im_team_member_list_title_tip"
-                    tools:personal_textTitle="@string/im_member_list_title" />
+                    app:personal_textTitle="@string/im_member_list_title"
+                    tools:personal_textNote="@string/im_team_member_list_title_tip" />
 
                 <TextView
                     android:layout_width="45dp"
@@ -53,6 +55,7 @@
                 style="@style/common_AppTheme.AppBarOverlay"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:background="@color/common_colorPrimary"
                 app:layout_collapseMode="pin"
                 app:navigationIcon="@drawable/common_ic_back">
 

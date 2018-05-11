@@ -9,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 
 import static com.wang.social.im.app.IMConstants.CUSTOM_ELEM_ANONYMITY;
 import static com.wang.social.im.app.IMConstants.CUSTOM_ELEM_ENVELOP;
+import static com.wang.social.im.app.IMConstants.CUSTOM_ELEM_GAME_NOTIFY;
 import static com.wang.social.im.app.IMConstants.CUSTOM_ELEM_SHADOW;
 
 /**
@@ -31,7 +32,11 @@ public enum CustomElemType {
     /*
      * 分身消息
      */
-    SHADOW(CUSTOM_ELEM_SHADOW);
+    SHADOW(CUSTOM_ELEM_SHADOW),
+    /*
+     * 游戏通知消息
+     */
+    GAME_NOTIFY(CUSTOM_ELEM_GAME_NOTIFY);
 
     String value;
 
@@ -41,7 +46,7 @@ public enum CustomElemType {
 
     public static CustomElemType getElemType(String value) {
         for (CustomElemType elemType : values()) {
-            if (elemType.value.equals(value)){
+            if (elemType.value.equals(value)) {
                 return elemType;
             }
         }

@@ -10,6 +10,7 @@ import com.tencent.imsdk.TIMMessageListener;
 import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.ext.message.TIMConversationExt;
 import com.tencent.imsdk.ext.message.TIMManagerExt;
+import com.wang.social.im.app.IMConstants;
 import com.wang.social.im.mvp.contract.ConversationListContract;
 
 import java.util.ArrayList;
@@ -48,8 +49,9 @@ public class ConversationListPresenter extends BasePresenter<ConversationListCon
         List<TIMConversation> conversations = TIMManagerExt.getInstance().getConversationList();
         List<TIMConversation> result = new ArrayList<>();
         for (TIMConversation conversation : conversations) {
-            if (conversation.getType() != TIMConversationType.Group &&
-                    conversation.getType() != TIMConversationType.C2C) {
+            if ((conversation.getType() != TIMConversationType.Group && conversation.getType() != TIMConversationType.C2C) ||
+                    conversation.getPeer().startsWith(IMConstants.IM_IDENTITY_PREFIX_MIRROR) ||
+                    conversation.getPeer().startsWith(IMConstants.IM_IDENTITY_PREFIX_GAME)) {
                 continue;
             }
             result.add(conversation);

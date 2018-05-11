@@ -15,8 +15,7 @@ import lombok.Setter;
  */
 public class MembersLevelOne implements ExpandableListItem {
 
-    @Setter
-    private boolean expanded;
+    private boolean expanded = true;
     @Getter
     @Setter
     private String title;

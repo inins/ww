@@ -257,11 +257,12 @@ public interface GroupService {
     Observable<BaseJson<ListDataDTO<SimpleGroupInfoDTO, SimpleGroupInfo>>> getBeinGroups(@Query("v") String version);
 
     /**
-     * 获取趣聊/觅聊成员列表
+     * 将用户踢出觅聊/趣聊
      * @param version
      * @param groupId
+     * @param memberUid
      * @return
      */
-    @GET("app/group/getGroupMemberList")
-    Observable<BaseJson<ListDataDTO<MemberInfoDTO, MemberInfo>>> getGroupMember(@Query("v") String version, @Query("groupId") String groupId);
+    @POST("app/group/deleteGroupMember")
+    Observable<BaseJson> kickOutMember(@Query("v") String version, @Query("groupId") String groupId, @Query("targetUserId") String memberUid);
 }

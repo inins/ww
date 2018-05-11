@@ -14,6 +14,7 @@ import com.frame.utils.FrameUtils;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.mvp.model.entities.MemberInfo;
+import com.wang.social.im.mvp.ui.MemberListActivity;
 
 import java.util.List;
 
@@ -27,8 +28,13 @@ import butterknife.BindView;
  */
 public class HomeMemberAdapter extends BaseAdapter<MemberInfo> {
 
-    public HomeMemberAdapter(List<MemberInfo> members) {
+    private String groupId;
+    private boolean isSocial;
+
+    public HomeMemberAdapter(List<MemberInfo> members, String groupId, boolean isSocial) {
         valueList = members;
+        this.groupId = groupId;
+        this.isSocial = isSocial;
     }
 
     @Override
@@ -57,7 +63,7 @@ public class HomeMemberAdapter extends BaseAdapter<MemberInfo> {
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // TODO: 2018-05-07 跳转到成员列表
+                        MemberListActivity.start(getContext(), groupId, isSocial);
                     }
                 });
             } else {

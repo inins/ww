@@ -1,5 +1,7 @@
 package com.wang.social.im.mvp.model.entities.dto;
 
+import android.text.TextUtils;
+
 import com.frame.component.entities.dto.TagDTO;
 import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.http.api.Mapper;
@@ -37,7 +39,6 @@ public class SocialDTO implements Mapper<SocialInfo> {
         social.setName(groupName == null ? "" : groupName);
         social.setCover(groupCoverPlan == null ? "" : groupCoverPlan);
         social.setDesc(groupDesc == null ? "" : groupDesc);
-        social.setAgeLimit(ageRange);
         SocialAttribute attr = new SocialAttribute();
         attr.setOpen(isOpen == 1);
         attr.setCharge(isFree == 0);
@@ -48,6 +49,22 @@ public class SocialDTO implements Mapper<SocialInfo> {
             attr.setGenderLimit(SocialAttribute.GenderLimit.MALE);
         } else if (gender == 1) {
             attr.setGenderLimit(SocialAttribute.GenderLimit.FEMALE);
+        }
+        if (TextUtils.isEmpty(ageRange)) {
+            String[] limit = ageRange.split(",");
+            for (String age : limit) {
+                if (age.equals("90")) {
+                    attr.getAgeLimit().add(SocialAttribute.AgeLimit.AFTER_90);
+                } else if (age.equals("95")) {
+                    attr.getAgeLimit().add(SocialAttribute.AgeLimit.AFTER_95);
+                } else if (age.equals("00")) {
+                    attr.getAgeLimit().add(SocialAttribute.AgeLimit.AFTER_95);
+                } else if (age.equals("other")) {
+                    attr.getAgeLimit().add(SocialAttribute.AgeLimit.OTHER);
+                }
+            }
+        } else {
+            attr.getAgeLimit().add(SocialAttribute.AgeLimit.UNLIMITED);
         }
         social.setAttr(attr);
         social.setCreateTeam(isCreateMi == 1);

@@ -20,8 +20,13 @@ public class MembersAdapter extends BaseExpandableAdapter {
     private final int ITEM_TYPE_GROUP = 1;
     private final int ITEM_TYPE_MEMBER = 2;
 
-    public MembersAdapter(List data) {
+    private OnHandleListener mHandleListener;
+    private boolean isMaster;
+
+    public MembersAdapter(List data, OnHandleListener handleListener, boolean isMaster) {
         super(data);
+        this.mHandleListener = handleListener;
+        this.isMaster = isMaster;
     }
 
     @NonNull
@@ -32,7 +37,7 @@ public class MembersAdapter extends BaseExpandableAdapter {
             case ITEM_TYPE_GROUP:
                 return new MemberGroupItem();
             case ITEM_TYPE_MEMBER:
-                return new MemberItem();
+                return new MemberItem(isMaster, mHandleListener);
         }
         return null;
     }
@@ -45,5 +50,12 @@ public class MembersAdapter extends BaseExpandableAdapter {
             return ITEM_TYPE_MEMBER;
         }
         return super.getItemViewType(t);
+    }
+
+    public interface OnHandleListener {
+
+        void onFriendly(MemberInfo memberInfo);
+
+        void onTakeOut(MemberInfo memberInfo, int position);
     }
 }

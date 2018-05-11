@@ -46,6 +46,13 @@ public class MemberGroupItem extends AbstractExpandableAdapterItem {
 
     @Override
     public void onBindViews(View root) {
+        root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doExpandOrUnexpand();
+            }
+        });
+
         tvTitle = root.findViewById(R.id.mg_tv_title);
         tvMemberCount = root.findViewById(R.id.mg_tv_member_count);
         ivArrow = root.findViewById(R.id.mg_iv_arrow);
@@ -61,10 +68,14 @@ public class MemberGroupItem extends AbstractExpandableAdapterItem {
     @Override
     public void onUpdateViews(Object model, int position) {
         super.onUpdateViews(model, position);
+
+        onSetViews();
+        onExpansionToggled(getExpandableListItem().isExpanded());
+
         if (model instanceof MembersLevelOne) {
             MembersLevelOne levelOne = (MembersLevelOne) model;
             tvTitle.setText(levelOne.getTitle());
-            tvMemberCount.setText(UIUtil.getString(R.string.im_member_size_format, levelOne.getMembers()));
+            tvMemberCount.setText(UIUtil.getString(R.string.im_member_size_format, levelOne.getMembers().size()));
         }
     }
 }

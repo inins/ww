@@ -17,6 +17,7 @@
     <dimen name="im_msg_nickname_size">12dp</dimen>
     <dimen name="im_msg_image_radius">12dp</dimen>
     <dimen name="im_msg_item_space">11dp</dimen>
+    <dimen name="im_msg_game_item_space">10dp</dimen>
     <dimen name="im_msg_handle_popup_width">90dp</dimen>
     <dimen name="im_msg_handle_popup_width_narrow">50dp</dimen>
     <dimen name="im_msg_handle_popup_radius">3dp</dimen>

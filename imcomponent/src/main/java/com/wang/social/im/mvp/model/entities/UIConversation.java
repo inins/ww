@@ -6,6 +6,7 @@ import com.frame.utils.TimeUtils;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.ext.message.TIMConversationExt;
+import com.wang.social.im.app.IMConstants;
 import com.wang.social.im.enums.ConversationType;
 import com.wang.social.im.helper.FriendShipHelper;
 import com.wang.social.im.helper.GroupHelper;
@@ -41,7 +42,17 @@ public class UIConversation implements Comparable {
         if (conversation.getType() == TIMConversationType.C2C) {
             conversationType = ConversationType.PRIVATE;
         } else if (conversation.getType() == TIMConversationType.Group) {
-            conversationType = ConversationType.SOCIAL;
+            if (conversation.getPeer().startsWith(IMConstants.IM_IDENTITY_PREFIX_MIRROR)) {
+                conversationType = ConversationType.MIRROR;
+            } else {
+                //根据拉取的自定义字段判断是趣聊还是觅聊
+                int groupType = GroupHelper.getInstance().getGroupProfile(conversation.getPeer()).getGroupType();
+                if (groupType == GroupProfile.GROUP_TYPE_SOCIAL) {
+                    conversationType = ConversationType.SOCIAL;
+                } else if (groupType == GroupProfile.GROUP_TYPE_TEAM) {
+                    conversationType = ConversationType.TEAM;
+                }
+            }
         }
         identify = conversation.getPeer();
     }

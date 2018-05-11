@@ -34,4 +34,11 @@ public class MemberListModel extends BaseModel implements MemberListContract.Mod
                 .obtainRetrofitService(GroupService.class)
                 .getMembers("2.0.0", groupId);
     }
+
+    @Override
+    public Observable<BaseJson> kickOutMember(String groupId, String memberUid) {
+        return mRepositoryManager
+                .obtainRetrofitService(GroupService.class)
+                .kickOutMember("2.0.0", groupId, memberUid);
+    }
 }

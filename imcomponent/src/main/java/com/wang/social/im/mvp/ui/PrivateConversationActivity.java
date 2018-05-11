@@ -9,23 +9,32 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.frame.component.entities.AutoPopupItemModel;
 import com.frame.component.path.ImPath;
+import com.frame.component.ui.dialog.AutoPopupWindow;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.router.facade.annotation.Autowired;
 import com.frame.router.facade.annotation.RouteNode;
+import com.frame.utils.ScreenUtils;
+import com.frame.utils.SizeUtils;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.di.component.DaggerActivityComponent;
 import com.wang.social.im.enums.ConversationType;
 import com.wang.social.im.helper.FriendShipHelper;
 import com.wang.social.im.mvp.model.entities.FriendProfile;
+import com.wang.social.im.mvp.ui.fragments.ContactsFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * ============================================
@@ -35,7 +44,7 @@ import butterknife.BindView;
  * ============================================
  */
 @RouteNode(path = ImPath.PRIVATE_PATH, desc = "个人聊天")
-public class PrivateConversationActivity extends BasicConversationActivity {
+public class PrivateConversationActivity extends BasicConversationActivity implements AutoPopupWindow.OnItemClickListener {
 
     @BindView(R2.id.toolbar)
     SocialToolbar toolbar;
@@ -54,6 +63,8 @@ public class PrivateConversationActivity extends BasicConversationActivity {
     @Inject
     ImageLoader mImageLoader;
 
+    private AutoPopupWindow popupWindow;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +76,7 @@ public class PrivateConversationActivity extends BasicConversationActivity {
         toolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
             @Override
             public void onButtonClick(SocialToolbar.ClickType clickType) {
-                switch (clickType){
+                switch (clickType) {
                     case LEFT_ICON:
                         onBackPressed();
                         break;
@@ -125,6 +136,39 @@ public class PrivateConversationActivity extends BasicConversationActivity {
         Fragment fragment = getSupportFragmentManager().findFragmentByTag(ConversationFragment.class.getName() + "private");
         if (fragment != null) {
             fragment.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @OnClick(R2.id.pc_tv_nickname)
+    public void onViewClicked() {
+        if (popupWindow == null) {
+            popupWindow = new AutoPopupWindow(this, getMenuItems(), AutoPopupWindow.POINT_TO_RIGHT);
+            popupWindow.setItemClickListener(this);
+        }
+        if (!popupWindow.isShowing()) {
+            int showX = ScreenUtils.getScreenWidth() - getResources().getDimensionPixelSize(R.dimen.popup_auto_width) - SizeUtils.dp2px(5);
+            popupWindow.showAsDropDown(pcTvNickname, showX, -SizeUtils.dp2px(15));
+        }
+    }
+
+    private List<AutoPopupItemModel> getMenuItems() {
+        List<AutoPopupItemModel> items = new ArrayList<>();
+        AutoPopupItemModel settingModel = new AutoPopupItemModel(0, R.string.im_remark_setting);
+        AutoPopupItemModel cardModel = new AutoPopupItemModel(0, R.string.im_information_card);
+        items.add(settingModel);
+        items.add(cardModel);
+        return items;
+    }
+
+    @Override
+    public void onItemClick(AutoPopupWindow popupWindow, int resId) {
+        switch (resId) {
+            case R.string.im_remark_setting:
+
+                break;
+            case R.string.im_information_card:
+
+                break;
         }
     }
 }
