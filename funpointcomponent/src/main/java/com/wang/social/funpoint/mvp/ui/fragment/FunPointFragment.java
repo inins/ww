@@ -119,8 +119,6 @@ public class FunPointFragment extends BaseFragment<FunpointListPresonter> implem
 
         mPresenter.netGetFunpointList(true);
         mPresenter.netGetRecommendTag();
-
-        getView().findViewById(R.id.btn_funshow_login).setOnClickListener(v -> NetLoginTestHelper.newInstance().loginTest());
     }
 
     @Override

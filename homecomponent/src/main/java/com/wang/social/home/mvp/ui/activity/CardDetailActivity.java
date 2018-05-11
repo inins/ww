@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.frame.component.helper.ToolbarTansColorHelper;
 import com.frame.component.ui.base.BasicAppActivity;
+import com.frame.component.ui.dialog.DialogSure;
+import com.frame.component.ui.dialog.DialogValiRequest;
 import com.frame.component.view.ObservableNestedScrollView;
 import com.frame.di.component.AppComponent;
 import com.frame.utils.SizeUtils;
@@ -18,6 +20,7 @@ import com.frame.utils.StatusBarUtil;
 import com.frame.utils.ToastUtil;
 import com.wang.social.home.R;
 import com.wang.social.home.R2;
+import com.wang.social.home.mvp.entities.card.CardUser;
 import com.wang.social.home.mvp.ui.controller.DetailBannerBoardController;
 import com.wang.social.home.mvp.ui.controller.DetailFunshowController;
 import com.wang.social.home.mvp.ui.controller.DetailTopicController;
@@ -31,16 +34,26 @@ public class CardDetailActivity extends BasicAppActivity {
     ObservableNestedScrollView scrollView;
     @BindView(R2.id.btn_right)
     TextView btnRight;
+    @BindView(R2.id.btn_go)
+    TextView btnGo;
 
     private DetailBannerBoardController bannerBoardController;
     private DetailFunshowController funshowController;
     private DetailTopicController topicController;
 
     private int userId;
+    private CardUser cardUser;
 
     public static void start(Context context, int userId) {
         Intent intent = new Intent(context, CardDetailActivity.class);
         intent.putExtra("userId", userId);
+        context.startActivity(intent);
+    }
+
+    public static void start(Context context, CardUser cardUser) {
+        Intent intent = new Intent(context, CardDetailActivity.class);
+        intent.putExtra("userId", cardUser.getUserId());
+        intent.putExtra("cardUser", cardUser);
         context.startActivity(intent);
     }
 
@@ -52,12 +65,13 @@ public class CardDetailActivity extends BasicAppActivity {
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
         userId = getIntent().getIntExtra("userId", 0);
+        cardUser = (CardUser) getIntent().getSerializableExtra("cardUser");
         toolbar.bringToFront();
         StatusBarUtil.setTranslucent(this);
 
-        bannerBoardController = new DetailBannerBoardController(findViewById(R.id.include_bannerboard),userId);
-        funshowController = new DetailFunshowController(findViewById(R.id.include_funshow),userId);
-        topicController = new DetailTopicController(findViewById(R.id.include_topic),userId);
+        bannerBoardController = new DetailBannerBoardController(findViewById(R.id.include_bannerboard), userId, cardUser);
+        funshowController = new DetailFunshowController(findViewById(R.id.include_funshow), userId);
+        topicController = new DetailTopicController(findViewById(R.id.include_topic), userId);
 
         scrollView.setOnScrollChangedListener((x, y, oldx, oldy) -> {
             //banner动态位置偏移
@@ -83,6 +97,14 @@ public class CardDetailActivity extends BasicAppActivity {
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.btn_right) {
+            DialogSure.showDialog(this, "确定要举报该用户？", () -> {
+                ToastUtil.showToastShort("举报成功");
+                finish();
+            });
+        } else if (i == R.id.btn_go) {
+            DialogValiRequest.showDialog(this, content -> {
+                ToastUtil.showToastShort(content);
+            });
         }
     }
 

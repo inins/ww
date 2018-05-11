@@ -5,11 +5,9 @@ import android.graphics.Canvas;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
-import android.widget.ImageView;
 
-import com.wang.social.home.R;
 import com.wang.social.home.common.CardLayoutManager.CardConfig;
-import com.wang.social.home.mvp.ui.adapter.RecycleAdapterCard;
+import com.wang.social.home.mvp.ui.adapter.RecycleAdapterCardUser;
 
 import java.util.List;
 
@@ -65,8 +63,6 @@ public class ItemTouchCardCallback extends ItemTouchHelper.SimpleCallback {
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-        //Log.e("swipecard", "onSwiped() called with: viewHolder = [" + viewHolder + "], direction = [" + direction + "]");
-        //rollBack(viewHolder);
         //★实现循环的要点
         Object remove = mDatas.remove(viewHolder.getLayoutPosition());
         mDatas.add(0, remove);
@@ -75,9 +71,9 @@ public class ItemTouchCardCallback extends ItemTouchHelper.SimpleCallback {
 
         //item复位
         viewHolder.itemView.setRotation(0);
-        if (viewHolder instanceof RecycleAdapterCard.Holder) {
-            ((RecycleAdapterCard.Holder) viewHolder).setLikeAlpha(0);
-            ((RecycleAdapterCard.Holder) viewHolder).setDisLikeAlpha(0);
+        if (viewHolder instanceof RecycleAdapterCardUser.Holder) {
+            ((RecycleAdapterCardUser.Holder) viewHolder).setLikeAlpha(0);
+            ((RecycleAdapterCardUser.Holder) viewHolder).setDisLikeAlpha(0);
         }
 
         if (onSwipedListener != null)
@@ -111,11 +107,11 @@ public class ItemTouchCardCallback extends ItemTouchHelper.SimpleCallback {
                 double fractionX = dX / getThreshold(viewHolder);
                 child.setRotation((float) fractionX * MAX_ROTATION);
                 //根据X移动距离进行like和dislike的渐变
-                if (viewHolder instanceof RecycleAdapterCard.Holder) {
+                if (viewHolder instanceof RecycleAdapterCardUser.Holder) {
                     if (dX > 0)
-                        ((RecycleAdapterCard.Holder) viewHolder).setLikeAlpha(Math.abs(fractionX));
+                        ((RecycleAdapterCardUser.Holder) viewHolder).setLikeAlpha(Math.abs(fractionX));
                     else
-                        ((RecycleAdapterCard.Holder) viewHolder).setDisLikeAlpha(Math.abs(fractionX));
+                        ((RecycleAdapterCardUser.Holder) viewHolder).setDisLikeAlpha(Math.abs(fractionX));
                 }
             } else if (level == viewCount - 1) {
                 //最后一个

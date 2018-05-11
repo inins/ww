@@ -15,6 +15,7 @@ import com.wang.social.personal.mvp.entities.photo.PhotoListWrap;
 import com.wang.social.personal.mvp.entities.privates.PrivateDetail;
 import com.wang.social.personal.mvp.entities.thirdlogin.BindHistory;
 import com.wang.social.personal.mvp.entities.user.QrcodeInfo;
+import com.wang.social.personal.mvp.entities.user.UserRepresent;
 import com.wang.social.personal.mvp.entities.user.UserStatistic;
 
 import java.util.Map;
@@ -170,6 +171,10 @@ public interface UserService {
     //宝石收支明细
     @GET("/app/userWallet/gemstoneIncomeList?v=2.0.0")
     Observable<BaseJson<BaseListWrap<DiamondStoneIncome>>> toneIncomeList(@Query("type") int type, @Query("current") int current, @Query("size") int size);
+
+    //代言收益用户列表
+    @GET("/app/userWallet/getUserShareByUserId?v=2.0.0")
+    Observable<BaseJson<BaseListWrap<UserRepresent>>> getRepresentUserList(@Query("current") int current, @Query("size") int size);
 
 
 }

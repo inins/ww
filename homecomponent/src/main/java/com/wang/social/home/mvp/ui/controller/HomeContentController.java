@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.entities.funpoint.Funpoint;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.NetReadHelper;
 import com.frame.component.ui.acticity.WebActivity;
 import com.frame.component.ui.base.BaseController;
@@ -102,7 +103,7 @@ public class HomeContentController extends BaseController implements RecycleAdap
 
     @Override
     public void onTopicClick(int position, TopicHome topic) {
-        ToastUtil.showToastShort("topcId:" + topic.getTopicId());
+        CommonHelper.TopicHelper.startTopicDetail(getContext(), topic.getTopicId());
     }
 
     ////////////////////////////////////////////////

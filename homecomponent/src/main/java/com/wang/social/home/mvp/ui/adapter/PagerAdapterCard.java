@@ -8,6 +8,7 @@ import com.frame.component.router.Router;
 import com.frame.component.service.funpoint.FunpointService;
 import com.frame.component.service.funshow.FunshowService;
 import com.frame.component.service.topic.TopicService;
+import com.wang.social.home.mvp.ui.fragment.CardGroupFragment;
 import com.wang.social.home.mvp.ui.fragment.CardUserFragment;
 
 
@@ -40,7 +41,7 @@ public class PagerAdapterCard extends FragmentPagerAdapter {
             case 0:
                 return CardUserFragment.newInstance();
             case 1:
-                return CardUserFragment.newInstance();
+                return CardGroupFragment.newInstance();
             default:
                 return null;
         }

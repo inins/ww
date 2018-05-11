@@ -34,6 +34,7 @@ import com.wang.social.personal.mvp.ui.activity.FeedbackActivity;
 import com.wang.social.personal.mvp.ui.activity.LableActivity;
 import com.wang.social.personal.mvp.ui.activity.MeDetailActivity;
 import com.wang.social.personal.mvp.ui.activity.QrcodeActivity;
+import com.wang.social.personal.mvp.ui.activity.RepresentActivity;
 import com.wang.social.personal.mvp.ui.activity.SettingActivity;
 import com.wang.social.personal.net.helper.NetUserHelper;
 import com.wang.social.socialize.SocializeUtil;
@@ -73,8 +74,6 @@ public class PersonalFragment extends BasicFragment implements PersonalFragmentI
     ImageLoader mImageLoader;
     @Inject
     NetUserHelper netUserHelper;
-
-    Unbinder unbinder;
 
     public static PersonalFragment newInstance() {
         Bundle args = new Bundle();
@@ -144,7 +143,7 @@ public class PersonalFragment extends BasicFragment implements PersonalFragmentI
 
     }
 
-    @OnClick({R2.id.lay_nameboard, R2.id.btn_right, R2.id.btn_left, R2.id.btn_me_account, R2.id.btn_me_lable, R2.id.btn_me_feedback, R2.id.btn_me_share, R2.id.btn_me_about, R2.id.btn_me_eva})
+    @OnClick({R2.id.lay_nameboard, R2.id.btn_right, R2.id.btn_left, R2.id.btn_me_account, R2.id.btn_me_lable, R2.id.btn_me_feedback, R2.id.btn_me_share, R2.id.btn_me_about, R2.id.btn_me_eva, R2.id.btn_me_represent})
     public void onViewClicked(View v) {
         if (v.getId() == R.id.lay_nameboard) {
             MeDetailActivity.start(getContext());
@@ -173,8 +172,9 @@ public class PersonalFragment extends BasicFragment implements PersonalFragmentI
         } else if (v.getId() == R.id.btn_me_about) {
             AboutActivity.start(getContext(), AppConstant.Url.wwAbout);
         } else if (v.getId() == R.id.btn_me_eva) {
-            netUserHelper.loginTest();
             WebActivity.start(getContext(), AppConstant.Url.eva);
+        } else if (v.getId() == R.id.btn_me_represent) {
+            RepresentActivity.start(getContext());
         }
     }
 

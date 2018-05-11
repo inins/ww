@@ -18,6 +18,7 @@ import com.frame.utils.TimeUtils;
 import com.frame.utils.ToastUtil;
 import com.wang.social.home.R;
 import com.wang.social.home.R2;
+import com.wang.social.home.mvp.entities.card.CardUser;
 
 import java.util.ArrayList;
 
@@ -43,10 +44,12 @@ public class DetailBannerBoardController extends BaseController {
     TextView textSign;
 
     private int userId;
+    private CardUser cardUser;
 
-    public DetailBannerBoardController(View root, int userId) {
+    public DetailBannerBoardController(View root, int userId, CardUser cardUser) {
         super(root);
         this.userId = userId;
+        this.cardUser = cardUser;
         int layout = R.layout.home_lay_carddetail_bannerboard;
         registEventBus();
         onInitCtrl();
@@ -59,6 +62,8 @@ public class DetailBannerBoardController extends BaseController {
 
     @Override
     protected void onInitData() {
+        //如果cardUser不是null，则在加载过程中先展示cardUser中的数据
+        if (cardUser != null) setUserData(cardUser.tans2UserBoard());
         netGetNewFunshow(userId);
     }
 

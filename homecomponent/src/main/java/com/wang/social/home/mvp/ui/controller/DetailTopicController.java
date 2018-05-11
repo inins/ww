@@ -4,7 +4,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.frame.component.entities.BaseListWrap;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.helper.NetZanHelper;
 import com.frame.component.ui.base.BaseController;
@@ -54,6 +53,7 @@ public class DetailTopicController extends BaseController {
         super(root);
         this.userId = userId;
         int layout = R.layout.home_item_topic;
+        addLoadingLayout();
         registEventBus();
         onInitCtrl();
         onInitData();
@@ -87,7 +87,7 @@ public class DetailTopicController extends BaseController {
             textZan.setOnClickListener(v -> {
                 IView iView = (getContext() instanceof IView) ? (IView) getContext() : null;
                 NetZanHelper.newInstance().topicZan(iView, textZan, bean.getTopicId(), !bean.isSupport(), (isZan, zanCount) -> {
-                    bean.setIsSupport(isZan);
+                    bean.setIsSupportBool(isZan);
                     bean.setTopicSupportNum(zanCount);
                 });
             });
@@ -106,13 +106,21 @@ public class DetailTopicController extends BaseController {
                     @Override
                     public void onNext(BaseJson<TopicHomeDetail> basejson) {
                         TopicHomeDetail topicHomeDetail = basejson.getData();
-                        setTopicData(topicHomeDetail.tans2TopicHome());
+                        if (topicHomeDetail != null) {
+                            setTopicData(topicHomeDetail.tans2TopicHome());
+                            getLoadingLayout().showOut();
+                        } else {
+                            getLoadingLayout().showLackView();
+                        }
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         ToastUtil.showToastLong(e.getMessage());
+                        getLoadingLayout().showFailView();
                     }
-                });
+                }, () -> {
+                    getLoadingLayout().showLoadingView();
+                }, null);
     }
 }

@@ -17,11 +17,11 @@
         android:id="@+id/text_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="暴跌90%，有一个巨头，坠落了"
         android:textColor="@color/common_text_blank"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="暴跌90%，有一个巨头，坠落了" />
 
     <android.support.v7.widget.CardView
         android:id="@+id/card_img"
@@ -48,14 +48,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/home_ic_palyer_start" />
+                android:src="@drawable/home_ic_palyer_start"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
             <ImageView
                 android:id="@+id/img_tag_pay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:src="@drawable/common_ic_tag_pay" />
+                android:src="@drawable/common_ic_tag_pay"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/text_pic_count"
@@ -70,7 +74,7 @@
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:paddingTop="2dp"
-                android:text="1/7"
+                android:text="0/0"
                 android:textColor="@color/common_white"
                 android:textSize="10sp" />
         </FrameLayout>
@@ -83,11 +87,11 @@
         android:layout_marginTop="16dp"
         android:drawableLeft="@drawable/common_ic_position"
         android:drawablePadding="2dp"
-        android:text="四川省成都市"
         android:textColor="@color/common_text_dark"
         android:textSize="11sp"
         app:layout_constraintLeft_toLeftOf="@id/card_img"
-        app:layout_constraintTop_toBottomOf="@+id/card_img" />
+        app:layout_constraintTop_toBottomOf="@+id/card_img"
+        tools:text="四川省成都市" />
 
     <TextView
         android:id="@+id/text_zan"
@@ -97,11 +101,11 @@
         android:drawableLeft="@drawable/common_select_zan"
         android:drawablePadding="5dp"
         android:gravity="center"
-        android:text="110"
         android:textColor="@color/common_text_dark"
         android:textSize="11sp"
         app:layout_constraintEnd_toStartOf="@+id/text_comment"
-        app:layout_constraintTop_toTopOf="@+id/text_comment" />
+        app:layout_constraintTop_toTopOf="@+id/text_comment"
+        tools:text="110" />
 
     <TextView
         android:id="@+id/text_comment"
@@ -111,11 +115,11 @@
         android:drawableLeft="@drawable/common_ic_comment"
         android:drawablePadding="5dp"
         android:gravity="center"
-        android:text="110"
         android:textColor="@color/common_text_dark"
         android:textSize="11sp"
         app:layout_constraintEnd_toStartOf="@+id/text_share"
-        app:layout_constraintTop_toTopOf="@+id/text_share" />
+        app:layout_constraintTop_toTopOf="@+id/text_share"
+        tools:text="110" />
 
     <TextView
         android:id="@+id/text_share"
@@ -125,11 +129,11 @@
         android:drawableLeft="@drawable/common_ic_share"
         android:drawablePadding="5dp"
         android:gravity="center"
-        android:text="110"
         android:textColor="@color/common_text_dark"
         android:textSize="11sp"
         app:layout_constraintBottom_toBottomOf="@+id/text_position"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/text_position" />
+        app:layout_constraintTop_toTopOf="@+id/text_position"
+        tools:text="110" />
 
 </android.support.constraint.ConstraintLayout>

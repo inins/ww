@@ -64,7 +64,7 @@ public class TopicHome {
         return isSupport != 0;
     }
 
-    public void setIsSupport(boolean zan) {
+    public void setIsSupportBool(boolean zan) {
         isSupport = zan ? 1 : 0;
     }
 }

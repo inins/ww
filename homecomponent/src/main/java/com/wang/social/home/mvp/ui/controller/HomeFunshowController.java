@@ -1,15 +1,20 @@
 package com.wang.social.home.mvp.ui.controller;
 
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.frame.component.entities.BaseListWrap;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.helper.NetZanHelper;
 import com.frame.component.ui.base.BaseController;
 import com.frame.component.ui.dialog.MorePopupWindow;
 import com.frame.component.utils.ListUtil;
+import com.frame.component.view.LoadingLayout;
 import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
@@ -105,6 +110,7 @@ public class HomeFunshowController extends BaseController {
     public HomeFunshowController(IView iView, View root) {
         super(iView, root);
         int layout = R.layout.home_lay_funshow_item;
+        addLoadingLayout();
         registEventBus();
         onInitCtrl();
         onInitData();
@@ -135,7 +141,6 @@ public class HomeFunshowController extends BaseController {
             imgTagPay.setVisibility(bean.isFree() ? View.VISIBLE : View.GONE);
             textZan.setSelected(bean.isLiked());
 
-
             imgPlayer.setVisibility(bean.isVideo() ? View.VISIBLE : View.GONE);
             ImageLoaderHelper.loadImg(imgPic, bean.getUrl());
 
@@ -150,10 +155,8 @@ public class HomeFunshowController extends BaseController {
                 IView iView = (getContext() instanceof IView) ? (IView) getContext() : null;
                 NetZanHelper.newInstance().funshowZan(iView, textZan, bean.getTalkId(), !textZan.isSelected(), null);
             });
-            textShare.setOnClickListener(v -> {
-            });
             getRoot().setOnClickListener(v -> {
-                ToastUtil.showToastShort("funshowId:" + bean.getTalkId());
+                CommonHelper.FunshowHelper.startDetailActivity(getContext(), bean.getTalkId());
             });
         }
     }
@@ -184,6 +187,10 @@ public class HomeFunshowController extends BaseController {
                     public void onError(Throwable e) {
                         ToastUtil.showToastLong(e.getMessage());
                     }
+                }, () -> {
+                    getLoadingLayout().showLoadingView();
+                }, () -> {
+                    getLoadingLayout().showOut();
                 });
     }
 }

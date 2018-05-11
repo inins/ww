@@ -152,16 +152,6 @@ public class FunShowFragment extends BaseFragment<FunshowListPresonter> implemen
 
         mPresenter.netGetFunshowList(type, false);
         mPresenter.netGetFunshowTopUserList();
-
-        //测试跳转代码
-        getView().findViewById(R.id.btn_funshow_add).setOnClickListener(v -> FunshowAddActivity.start(getContext()));
-        getView().findViewById(R.id.btn_funshow_login).setOnClickListener(v -> NetLoginTestHelper.newInstance().loginTest());
-        getView().findViewById(R.id.btn_funshow_type).setOnClickListener(v -> {
-            int typein = type == 0 ? 1 : 0;
-            EventBean eventBean = new EventBean(EventBean.EVENT_FUNSHOW_LIST_TYPE_CHANGE);
-            eventBean.put("type", typein);
-            EventBus.getDefault().post(eventBean);
-        });
     }
 
     @Override

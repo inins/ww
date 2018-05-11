@@ -23,5 +23,7 @@ public class MainActivity extends AppCompatActivity {
             fragmentTransaction.add(R.id.fragment_container, funPointFragment, "funPointFragment");
         }
         fragmentTransaction.commit();
+
+        getView().findViewById(R.id.btn_funshow_login).setOnClickListener(v -> NetLoginTestHelper.newInstance().loginTest());
     }
 }

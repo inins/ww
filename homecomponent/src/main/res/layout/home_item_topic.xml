@@ -14,20 +14,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:paddingRight="8dp"
         android:src="@drawable/common_ic_tag_pay"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 
     <com.frame.component.view.ConerTextView
         android:id="@+id/conertext_tag"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:textColor="#ff818181"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/img_flag"
         app:layout_constraintStart_toEndOf="@+id/img_flag"
-        app:layout_constraintTop_toTopOf="@+id/img_flag"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="一起考研,大学里" />
 
 
@@ -36,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="15dp"
-        android:text="04-08"
+        tools:text="04-08"
         android:textColor="#ff818181"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/conertext_tag"
@@ -49,14 +51,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="25dp"
-        android:layout_marginTop="10dp"
-        android:text="这一刻，请允许我丧一些吧"
+        android:layout_marginTop="8dp"
         android:textColor="@color/common_text_blank"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/card_pic"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_flag" />
+        app:layout_constraintTop_toBottomOf="@+id/conertext_tag"
+        tools:text="这一刻，请允许我丧一些吧" />
 
     <TextView
         android:id="@+id/text_content"
@@ -66,7 +68,7 @@
         android:layout_marginTop="10dp"
         android:ellipsize="end"
         android:maxLines="2"
-        android:text="考研这五个多月的时间，多么多么的漫长 和难捱，只有经历过的人才最清楚。清..."
+        tools:text="考研这五个多月的时间，多么多么的漫长 和难捱，只有经历过的人才最清楚。清..."
         android:textColor="@color/common_text_blank_dark"
         android:textSize="14sp"
         app:layout_constraintEnd_toStartOf="@+id/card_pic"
@@ -89,7 +91,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:text="白无常白总的事迹"
+        tools:text="白无常白总的事迹"
         android:textColor="#ff434343"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/img_header"

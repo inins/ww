@@ -80,16 +80,6 @@
                     android:paddingBottom="7dp"
                     android:paddingTop="7dp" />
 
-
-                <TextView
-                    android:id="@+id/btn_funshow_login"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:gravity="center"
-                    android:padding="15dp"
-                    android:text="登录(仅测试)" />
-
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
 

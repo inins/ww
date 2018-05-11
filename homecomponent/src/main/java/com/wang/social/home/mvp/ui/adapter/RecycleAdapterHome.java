@@ -140,7 +140,7 @@ public class RecycleAdapterHome extends BaseAdapter<FunpointAndTopic> {
             textZan.setOnClickListener(v -> {
                 IView iView = (getContext() instanceof IView) ? (IView) getContext() : null;
                 NetZanHelper.newInstance().topicZan(iView, textZan, bean.getTopicId(), !bean.isSupport(), (isZan, zanCount) -> {
-                    bean.setIsSupport(isZan);
+                    bean.setIsSupportBool(isZan);
                     bean.setTopicSupportNum(zanCount);
                 });
             });
@@ -197,7 +197,7 @@ public class RecycleAdapterHome extends BaseAdapter<FunpointAndTopic> {
         if (index != -1) {
             TopicHome topic = getData().get(index).getTopic();
             topic.setTopicSupportNum(topic.getTopicSupportNum() + (isZan ? 1 : -1));
-            topic.setIsSupport(isZan);
+            topic.setIsSupportBool(isZan);
             notifyItemChanged(index);
         }
     }

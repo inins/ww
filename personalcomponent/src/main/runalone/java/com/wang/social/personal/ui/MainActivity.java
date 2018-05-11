@@ -6,6 +6,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.frame.component.helper.NetLoginTestHelper;
 import com.frame.utils.BarUtils;
 import com.wang.social.personal.R;
 import com.wang.social.personal.mvp.ui.fragment.PersonalFragment;
@@ -25,5 +26,7 @@ public class MainActivity extends AppCompatActivity {
             fragmentTransaction.add(R.id.fragment_container, personalFragment, "personalFragment");
         }
         fragmentTransaction.commit();
+
+        findViewById(R.id.btn_test_login).setOnClickListener(v -> NetLoginTestHelper.newInstance().loginTest());
     }
 }

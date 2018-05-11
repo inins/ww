@@ -1,6 +1,7 @@
 package com.wang.social.home.mvp.entities.card;
 
 import com.frame.component.entities.Tag;
+import com.frame.utils.StrUtil;
 
 import java.util.List;
 
@@ -30,4 +31,17 @@ public class CardGroup {
     private int gemstone;
     private int validation;
     private List<Tag> groupTags;
+
+    public String getTagText() {
+        if (StrUtil.isEmpty(groupTags)) return "";
+        String tagText = "# ";
+        for (Tag tag : groupTags) {
+            tagText += tag.getTagName() + " ";
+        }
+        return tagText.trim();
+    }
+
+    public boolean isFree() {
+        return isFree == 1;
+    }
 }

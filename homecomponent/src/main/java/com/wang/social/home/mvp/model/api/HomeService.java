@@ -49,7 +49,7 @@ public interface HomeService {
      * 他人名片 - 最新趣晒
      */
     @GET("/app/interest/latestTalk?v=2.0.0")
-    Observable<BaseJson<BaseListWrap<FunshowHomeDetail>>> getNewFunshowByUser(@Query("queryUserId") int queryUserId);
+    Observable<BaseJson<BaseListWrap<FunshowHome>>> getNewFunshowByUser(@Query("queryUserId") int queryUserId);
 
     /**
      * 他人名片 - 最近参与的话题

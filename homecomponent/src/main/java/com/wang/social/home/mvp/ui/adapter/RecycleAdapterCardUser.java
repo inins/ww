@@ -16,28 +16,28 @@ import com.wang.social.home.mvp.entities.card.CardUser;
 
 import butterknife.BindView;
 
-public class RecycleAdapterCard extends BaseAdapter<CardUser> {
+public class RecycleAdapterCardUser extends BaseAdapter<CardUser> {
 
     @Override
     protected BaseViewHolder createViewHolder(Context context, ViewGroup parent, int viewType) {
-        return new Holder(context, parent, R.layout.home_item_card);
+        return new Holder(context, parent, R.layout.home_item_card_user);
     }
 
     public class Holder extends BaseViewHolder<CardUser> {
         @BindView(R2.id.text_name)
-        TextView textName;
+        public TextView textName;
         @BindView(R2.id.text_lable_gender)
-        TextView textLableGender;
+        public TextView textLableGender;
         @BindView(R2.id.text_lable_astro)
-        TextView textLableAstro;
+        public TextView textLableAstro;
         @BindView(R2.id.text_tag)
-        TextView textTag;
+        public TextView textTag;
         @BindView(R2.id.text_position)
-        TextView textPosition;
+        public TextView textPosition;
         @BindView(R2.id.text_flag)
         TextView textFlag;
         @BindView(R2.id.img_pic)
-        ImageView imgPic;
+        public ImageView imgPic;
         @BindView(R2.id.img_like)
         ImageView imgLike;
         @BindView(R2.id.img_dislike)
@@ -61,15 +61,15 @@ public class RecycleAdapterCard extends BaseAdapter<CardUser> {
             textTag.setText(bean.getTagText());
             textPosition.setText(bean.getCity());
             textFlag.setText(bean.getPicCount() + "张图");
+
+            itemView.setOnClickListener(v -> {
+                if (onCardClickListener != null)
+                    onCardClickListener.onItemClick(bean, position, this);
+            });
         }
 
         @Override
         public void onRelease() {
-        }
-
-        @Override
-        protected boolean useItemClickListener() {
-            return true;
         }
 
         public void setLikeAlpha(double value) {
@@ -79,5 +79,17 @@ public class RecycleAdapterCard extends BaseAdapter<CardUser> {
         public void setDisLikeAlpha(double value) {
             imgDislike.setAlpha((float) value);
         }
+    }
+
+    ////////////////////////////////
+
+    private OnCardClickListener onCardClickListener;
+
+    public void setOnCardClickListener(OnCardClickListener onCardClickListener) {
+        this.onCardClickListener = onCardClickListener;
+    }
+
+    public interface OnCardClickListener {
+        void onItemClick(CardUser cardUser, int position, Holder holder);
     }
 }

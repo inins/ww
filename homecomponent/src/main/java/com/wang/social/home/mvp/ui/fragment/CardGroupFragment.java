@@ -26,9 +26,11 @@ import com.wang.social.home.R;
 import com.wang.social.home.R2;
 import com.wang.social.home.common.CardLayoutManager;
 import com.wang.social.home.common.ItemTouchCardCallback;
+import com.wang.social.home.mvp.entities.card.CardGroup;
 import com.wang.social.home.mvp.entities.card.CardUser;
 import com.wang.social.home.mvp.model.api.HomeService;
 import com.wang.social.home.mvp.ui.activity.CardDetailActivity;
+import com.wang.social.home.mvp.ui.adapter.RecycleAdapterCardGroup;
 import com.wang.social.home.mvp.ui.adapter.RecycleAdapterCardUser;
 
 import java.util.List;
@@ -39,7 +41,7 @@ import butterknife.BindView;
  * 建设中 fragment 占位
  */
 
-public class CardUserFragment extends BasicFragment implements RecycleAdapterCardUser.OnCardClickListener, View.OnClickListener, IView {
+public class CardGroupFragment extends BasicFragment implements RecycleAdapterCardGroup.OnCardClickListener, View.OnClickListener, IView {
 
     @BindView(R2.id.recycler)
     RecyclerView recycler;
@@ -48,35 +50,13 @@ public class CardUserFragment extends BasicFragment implements RecycleAdapterCar
     @BindView(R.id.btn_like)
     View btnLike;
 
-    private RecycleAdapterCardUser adapter;
+    private RecycleAdapterCardGroup adapter;
 
-    private Integer gender;
-    private String age;
-
-    public static CardUserFragment newInstance() {
+    public static CardGroupFragment newInstance() {
         Bundle args = new Bundle();
-        CardUserFragment fragment = new CardUserFragment();
+        CardGroupFragment fragment = new CardGroupFragment();
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public void onCommonEvent(EventBean event) {
-        switch (event.getEvent()) {
-            case EventBean.EVENT_HOME_CARD_GENDER_SELECT:
-                gender = (Integer) event.get("gender");
-                netGetCardUsers(true);
-                break;
-            case EventBean.EVENT_HOME_CARD_AGE_SELECT:
-                age = (String) event.get("age");
-                netGetCardUsers(true);
-                break;
-        }
-    }
-
-    @Override
-    public boolean useEventBus() {
-        return true;
     }
 
     @Override
@@ -90,7 +70,7 @@ public class CardUserFragment extends BasicFragment implements RecycleAdapterCar
         btnDislike.setOnClickListener(this);
 
         //初始化recycle卡片view
-        adapter = new RecycleAdapterCardUser();
+        adapter = new RecycleAdapterCardGroup();
         adapter.setOnCardClickListener(this);
         recycler.setLayoutManager(new CardLayoutManager());
         recycler.setAdapter(adapter);
@@ -98,7 +78,7 @@ public class CardUserFragment extends BasicFragment implements RecycleAdapterCar
         final ItemTouchCardCallback callback = new ItemTouchCardCallback(recycler, adapter.getData());
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(recycler);
-        callback.setOnSwipedListener((ItemTouchCardCallback.OnSwipedListener<CardUser>) (bean, direction) -> {
+        callback.setOnSwipedListener((ItemTouchCardCallback.OnSwipedListener<CardGroup>) (bean, direction) -> {
             if (ItemTouchHelper.RIGHT == direction)
                 DialogValiRequest.showDialog(getContext(), content -> {
                     ToastUtil.showToastShort(content);
@@ -123,21 +103,7 @@ public class CardUserFragment extends BasicFragment implements RecycleAdapterCar
     }
 
     @Override
-    public void onItemClick(CardUser bean, int position, RecycleAdapterCardUser.Holder holder) {
-        Intent intent = new Intent(getContext(), CardDetailActivity.class);
-        intent.putExtra("userId", bean.getUserId());
-        intent.putExtra("cardUser", bean);
-        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
-                Pair.create(holder.imgPic, "share_img"),
-                Pair.create(holder.textName, "share_name"),
-                Pair.create(holder.textLableGender, "share_gender"),
-                Pair.create(holder.textLableAstro, "share_astro")
-//                Pair.create(holder.layBoard, "share_board")
-//                Pair.create(holder.itemView, "share_root")
-//                Pair.create(holder.textPosition, "share_position"),
-//                Pair.create(holder.textTag, "share_lable")
-        );
-        startActivity(intent, options.toBundle());
+    public void onItemClick(CardGroup bean, int position, RecycleAdapterCardGroup.Holder holder) {
     }
 
     @Override
@@ -157,20 +123,20 @@ public class CardUserFragment extends BasicFragment implements RecycleAdapterCar
             ((BasicAppActivity) getActivity()).dismissLoadingDialog();
         }
     }
-
     //////////////////////分页查询////////////////////
     private int current = 1;
+
     private int size = 20;
 
     private void netGetCardUsers(boolean isFresh) {
         if (isFresh) current = 0;
         ApiHelperEx.execute(this, true,
-                ApiHelperEx.getService(HomeService.class).getCardUsers(gender, age, current + 1, size),
-                new ErrorHandleSubscriber<BaseJson<BaseListWrap<CardUser>>>() {
+                ApiHelperEx.getService(HomeService.class).getCardGroups(current + 1, size),
+                new ErrorHandleSubscriber<BaseJson<BaseListWrap<CardGroup>>>() {
                     @Override
-                    public void onNext(BaseJson<BaseListWrap<CardUser>> basejson) {
-                        BaseListWrap<CardUser> warp = basejson.getData();
-                        List<CardUser> list = warp.getList();
+                    public void onNext(BaseJson<BaseListWrap<CardGroup>> basejson) {
+                        BaseListWrap<CardGroup> warp = basejson.getData();
+                        List<CardGroup> list = warp.getList();
                         if (!StrUtil.isEmpty(list)) {
                             current = warp.getCurrent();
                             if (isFresh) {

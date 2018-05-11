@@ -53,10 +53,11 @@ public class HomeNaviboardController extends BaseController implements View.OnCl
         int id = v.getId();
         if (id == R.id.btn_search) {
             CommonHelper.HomeHelper.startSearchActivity(getContext());
-        }else if (id == R.id.btn_samekind) {
-        }else if (id == R.id.btn_circle) {
-            CardActivity.start(getContext());
-        }else if (id == R.id.btn_active) {
+        } else if (id == R.id.btn_samekind) {
+            CardActivity.startUser(getContext());
+        } else if (id == R.id.btn_circle) {
+            CardActivity.startGroup(getContext());
+        } else if (id == R.id.btn_active) {
         }
     }
 }

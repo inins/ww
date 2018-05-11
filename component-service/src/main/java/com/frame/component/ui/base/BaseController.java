@@ -2,7 +2,10 @@ package com.frame.component.ui.base;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 
+import com.frame.component.service.R;
+import com.frame.component.view.LoadingLayout;
 import com.frame.entities.EventBean;
 import com.frame.mvp.IView;
 
@@ -29,6 +32,30 @@ public abstract class BaseController {
         mUnbinder = ButterKnife.bind(this, root);
     }
 
+    //########################################
+    //################通用方法相关############
+    //########################################
+
+    public View getRoot() {
+        return root;
+    }
+
+    public Context getContext() {
+        return root.getContext();
+    }
+
+    public IView getIView() {
+        if (iView != null) {
+            return iView;
+        } else {
+            return (getContext() instanceof IView) ? (IView) getContext() : null;
+        }
+    }
+
+    //########################################
+    //################eventBus相关############
+    //########################################
+
     public void registEventBus() {
         EventBus.getDefault().register(this);
     }
@@ -50,23 +77,37 @@ public abstract class BaseController {
         unRegistEventBus();
     }
 
-    public View getRoot() {
-        return root;
-    }
+    //########################################
+    //################加载布局相关############
+    //########################################
 
-    public Context getContext() {
-        return root.getContext();
-    }
+    private LoadingLayout loadingLayout;
 
-    public IView getIView() {
-        if (iView != null) {
-            return iView;
-        } else {
-            return (getContext() instanceof IView) ? (IView) getContext() : null;
+    protected void addLoadingLayout() {
+        loadingLayout = new LoadingLayout(getContext());
+        loadingLayout.setLayoutParams(getRoot().getLayoutParams());
+        //loadingLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        loadingLayout.setLoadingViewSrc(R.layout.layout_loading);
+        loadingLayout.setFailViewSrc(R.layout.layout_fail);
+        loadingLayout.setLackViewSrc(R.layout.layout_lack);
+        ViewGroup parent = (ViewGroup) getRoot().getParent();
+        int index = -1;
+        for (int i = 0; i < parent.getChildCount(); i++) {
+            View child = parent.getChildAt(i);
+            if (child == getRoot()) index = i;
         }
+        parent.addView(loadingLayout, index);
+        parent.removeView(getRoot());
+        loadingLayout.addView(getRoot());
     }
 
-    ////////////////////////////////////////
+    public LoadingLayout getLoadingLayout() {
+        return loadingLayout;
+    }
+
+    //########################################
+    //################     接口   ############
+    //########################################
 
     protected abstract void onInitCtrl();
 

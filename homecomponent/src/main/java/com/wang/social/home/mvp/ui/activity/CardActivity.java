@@ -5,32 +5,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CheckedTextView;
-import android.widget.TextView;
 
-import com.frame.base.BaseAdapter;
 import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.di.component.AppComponent;
-import com.frame.utils.ToastUtil;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.wang.social.home.R;
 import com.wang.social.home.R2;
-import com.wang.social.home.common.CardLayoutManager;
-import com.wang.social.home.common.ItemTouchCardCallback;
 import com.wang.social.home.mvp.ui.adapter.PagerAdapterCard;
-import com.wang.social.home.mvp.ui.adapter.RecycleAdapterCard;
 import com.wang.social.home.mvp.ui.dialog.CardPopupWindow;
 
-import java.util.ArrayList;
-
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class CardActivity extends BasicAppActivity {
 
@@ -44,13 +31,21 @@ public class CardActivity extends BasicAppActivity {
     View shadow;
 
     private PagerAdapterCard pagerAdapter;
-
     private String[] titles = new String[]{"同类", "圈子"};
-
     private CardPopupWindow popupWindow;
+    private int position;
 
-    public static void start(Context context) {
+    public static void startUser(Context context) {
+        start(context, 0);
+    }
+
+    public static void startGroup(Context context) {
+        start(context, 1);
+    }
+
+    private static void start(Context context, int position) {
         Intent intent = new Intent(context, CardActivity.class);
+        intent.putExtra("position", position);
         context.startActivity(intent);
     }
 

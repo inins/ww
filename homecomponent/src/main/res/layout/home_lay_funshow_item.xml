@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/common_white"
+    android:layout_height="wrap_content"
     android:clipChildren="false"
     android:clipToPadding="false"
     android:orientation="vertical"
@@ -25,26 +24,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="默默"
         android:textColor="@color/common_text_blank_dark"
         android:textSize="11sp"
         app:layout_constraintStart_toEndOf="@+id/img_header"
-        app:layout_constraintTop_toTopOf="@+id/img_header" />
+        app:layout_constraintTop_toTopOf="@+id/img_header"
+        tools:text="莫言" />
 
     <TextView
         android:id="@+id/text_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="03-12 15:40"
         android:textColor="@color/common_text_dark"
         android:textSize="9sp"
         app:layout_constraintStart_toStartOf="@+id/text_name"
-        app:layout_constraintTop_toBottomOf="@+id/text_name" />
+        app:layout_constraintTop_toBottomOf="@+id/text_name"
+        tools:text="03-12 15:40" />
 
     <include
         android:id="@+id/include_funshow_content"
-        layout="@layout/home_lay_funshow_item_noheader"
+        layout="@layout/lay_funshow_item_noheader"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"

@@ -241,6 +241,20 @@
                     android:textColor="@color/common_text_dark"
                     android:textSize="12sp" />
 
+                <TextView
+                    android:id="@+id/btn_me_represent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="5dp"
+                    android:drawableTop="@drawable/personal_me_represent"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:text="@string/personal_me_represent"
+                    android:textColor="@color/common_text_dark"
+                    android:textSize="12sp" />
+
             </com.frame.component.view.AutoFitGridLayout>
 
         </LinearLayout>

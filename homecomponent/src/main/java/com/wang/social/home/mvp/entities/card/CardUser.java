@@ -1,14 +1,18 @@
 package com.wang.social.home.mvp.entities.card;
 
 import com.frame.component.entities.Tag;
+import com.frame.component.entities.photo.Photo;
+import com.frame.component.entities.user.UserBoard;
 import com.frame.utils.StrUtil;
+import com.frame.utils.ToastUtil;
 
+import java.io.Serializable;
 import java.util.List;
 
 import lombok.Data;
 
 @Data
-public class CardUser {
+public class CardUser implements Serializable {
 
 
     /**
@@ -33,7 +37,7 @@ public class CardUser {
     private String province;
     private String city;
     private List<Tag> userTags;
-    private List<CardPic> photoList;
+    private List<Photo> photoList;
 
     private int index;
 
@@ -56,5 +60,20 @@ public class CardUser {
 
     public int getPicCount() {
         return photoList != null ? photoList.size() : 0;
+    }
+
+    public UserBoard tans2UserBoard() {
+        UserBoard userBoard = new UserBoard();
+        userBoard.setUserId(userId);
+        userBoard.setNickname(nickname);
+        userBoard.setAvatar(avatar);
+        userBoard.setProvince(province);
+        userBoard.setCityName(city);
+        userBoard.setPicList(photoList);
+        userBoard.setTags(userTags);
+        userBoard.setSex(sex);
+        userBoard.setBirthday(birthday);
+
+        return userBoard;
     }
 }
