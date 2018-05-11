@@ -6,7 +6,7 @@ import com.frame.http.api.error.RxErrorHandler;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.IView;
 import com.frame.http.api.ApiHelperEx;
-import com.wang.social.personal.mvp.entities.photo.Photo;
+import com.frame.component.entities.photo.Photo;
 import com.wang.social.personal.mvp.entities.photo.PhotoListWrap;
 import com.wang.social.personal.mvp.model.api.UserService;
 

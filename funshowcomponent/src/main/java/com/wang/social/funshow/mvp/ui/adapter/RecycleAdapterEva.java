@@ -18,12 +18,10 @@ import com.wang.social.funshow.R2;
 import com.wang.social.funshow.mvp.entities.eva.Comment;
 import com.wang.social.funshow.mvp.entities.event.CommentEvent;
 import com.wang.social.funshow.mvp.ui.view.subevaview.SubEvaView;
-import com.wang.social.funshow.net.helper.NetZanHelper;
-import com.wang.social.funshow.utils.FunShowUtil;
+import com.frame.component.helper.NetZanHelper;
+import com.frame.component.utils.FunShowUtil;
 
 import org.greenrobot.eventbus.EventBus;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 

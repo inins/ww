@@ -51,22 +51,6 @@ public interface FunshowService {
     Observable<BaseJson<BaseListWrap<TopUser>>> getFunshowTopUserList(@Query("from") String from, @Query("current") int current, @Query("size") int size);
 
     /**
-     * 趣晒点赞
-     * type类型1点赞 2取消点赞
-     */
-    @FormUrlEncoded
-    @POST("/app/talk/talkSupport?v=2.0.0")
-    Observable<BaseJson<Object>> funshowZan(@Field("talkId") int talkId, @Field("type") int type);
-
-    /**
-     * 趣晒点赞
-     * type类型1点赞 2取消点赞
-     */
-    @FormUrlEncoded
-    @POST("/app/talk/talkCommentSupport?v=2.0.0")
-    Observable<BaseJson<Object>> funshowCommentZan(@Field("talkId") int talkId, @Field("talkCommentId") int talkCommentId, @Field("type") int type);
-
-    /**
      * 趣晒点赞列表
      */
     @FormUrlEncoded

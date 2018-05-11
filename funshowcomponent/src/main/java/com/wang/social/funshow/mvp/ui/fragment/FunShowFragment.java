@@ -2,7 +2,6 @@ package com.wang.social.funshow.mvp.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,17 +11,14 @@ import android.view.View;
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseFragment;
 import com.frame.component.common.ItemDecorationDivider;
-import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.NetLoginTestHelper;
 import com.frame.component.helper.NetPayStoneHelper;
 import com.frame.component.helper.NetShareHelper;
 import com.frame.component.ui.base.BasicAppActivity;
-import com.frame.component.view.barview.BarUser;
 import com.frame.component.view.barview.BarView;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.utils.SizeUtils;
-import com.frame.utils.ToastUtil;
 import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
@@ -39,12 +35,10 @@ import com.wang.social.funshow.mvp.ui.activity.FunshowDetailActivity;
 import com.wang.social.funshow.mvp.ui.activity.HotUserListActivity;
 import com.wang.social.funshow.mvp.ui.adapter.RecycleAdapterHome;
 import com.wang.social.funshow.mvp.ui.dialog.DialogSureFunshowPay;
-import com.wang.social.funshow.utils.FunShowUtil;
 import com.wang.social.socialize.SocializeUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -81,6 +75,7 @@ public class FunShowFragment extends BaseFragment<FunshowListPresonter> implemen
     public void onCommonEvent(EventBean event) {
         switch (event.getEvent()) {
             case EventBean.EVENT_FUNSHOW_UPDATE_ZAN: {
+                //在详情页点赞，收到通知刷新点赞状态及其点赞数量
                 int talkId = (int) event.get("talkId");
                 boolean isZan = (boolean) event.get("isZan");
                 int zanCount = (int) event.get("zanCount");
@@ -88,20 +83,24 @@ public class FunShowFragment extends BaseFragment<FunshowListPresonter> implemen
                 break;
             }
             case EventBean.EVENT_FUNSHOW_DETAIL_ADD_EVA: {
+                //在详情页评论，收到通知刷新评论数量
                 int talkId = (int) event.get("talkId");
                 adapter.refreshCommentById(talkId);
                 break;
             }
             case EventBean.EVENT_FUNSHOW_DETAIL_ADD_SHARE: {
+                //在详情页分享，收到通知刷新分享数量
                 int talkId = (int) event.get("talkId");
                 adapter.refreshShareById(talkId);
                 break;
             }
-            case EventBean.EVENT_FUNSHOW_LIST_FRESH: {
+            case EventBean.EVENT_FUNSHOW_DISSLIKE: {
+                //在详情页不喜欢，收到通知刷新列表
                 springView.callFreshDelay();
                 break;
             }
             case EventBean.EVENT_FUNSHOW_LIST_TYPE_CHANGE: {
+                //切换佬友筛选条件
                 type = (int) event.get("type");
                 mPresenter.netGetFunshowList(type, true);
                 break;
@@ -153,16 +152,6 @@ public class FunShowFragment extends BaseFragment<FunshowListPresonter> implemen
 
         mPresenter.netGetFunshowList(type, false);
         mPresenter.netGetFunshowTopUserList();
-
-        //测试跳转代码
-        getView().findViewById(R.id.btn_funshow_add).setOnClickListener(v -> FunshowAddActivity.start(getContext()));
-        getView().findViewById(R.id.btn_funshow_login).setOnClickListener(v -> NetLoginTestHelper.newInstance().loginTest());
-        getView().findViewById(R.id.btn_funshow_type).setOnClickListener(v -> {
-            int typein = type == 0 ? 1 : 0;
-            EventBean eventBean = new EventBean(EventBean.EVENT_FUNSHOW_LIST_TYPE_CHANGE);
-            eventBean.put("type", typein);
-            EventBus.getDefault().post(eventBean);
-        });
     }
 
     @Override

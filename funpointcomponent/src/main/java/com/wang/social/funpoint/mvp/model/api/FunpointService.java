@@ -31,12 +31,12 @@ public interface FunpointService {
     @GET("/app/news/searchList?v=2.0.0")
     Observable<BaseJson<BaseListWrap<Funpoint>>> getSearchFunpointList(@Query("tags") String tags, @Query("key") String key, @Query("current") int current, @Query("size") int size);
 
-    /**
-     * 阅读趣点数量统计
-     */
-    @FormUrlEncoded
-    @POST("/app/news/addRealTotal?v=2.0.0")
-    Observable<BaseJson<Object>> readFunpoint(@Field("newsId") int newsId);
+//    /**
+//     * 阅读趣点数量统计
+//     */
+//    @FormUrlEncoded
+//    @POST("/app/news/addRealTotal?v=2.0.0")
+//    Observable<BaseJson<Object>> readFunpoint(@Field("newsId") int newsId);
 
     /**
      * 已选推荐标签

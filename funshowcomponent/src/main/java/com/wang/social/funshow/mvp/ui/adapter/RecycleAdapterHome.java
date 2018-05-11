@@ -11,16 +11,14 @@ import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.mvp.IView;
-import com.frame.utils.StrUtil;
 import com.wang.social.funshow.R;
 import com.wang.social.funshow.R2;
 import com.wang.social.funshow.mvp.entities.funshow.Funshow;
 import com.wang.social.funshow.mvp.entities.funshow.FunshowListRsc;
-import com.wang.social.funshow.mvp.ui.dialog.MorePopupWindow;
-import com.wang.social.funshow.net.helper.NetZanHelper;
-import com.wang.social.funshow.utils.FunShowUtil;
+import com.frame.component.ui.dialog.MorePopupWindow;
+import com.frame.component.helper.NetZanHelper;
+import com.frame.component.utils.FunShowUtil;
 import com.wang.social.funshow.utils.VideoCoverUtil;
-import com.wang.social.socialize.SocializeUtil;
 
 import butterknife.BindView;
 

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/common_white"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:orientation="vertical"
+    android:paddingBottom="3dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="5dp">
+
+    <TextView
+        android:id="@+id/text_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/common_text_blank"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="暴跌90%，有一个巨头，坠落了" />
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_img"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:cardCornerRadius="8dp"
+        app:layout_constraintStart_toStartOf="@+id/text_title"
+        app:layout_constraintTop_toBottomOf="@+id/text_title">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/img_pic"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:scaleType="centerCrop"
+                android:src="@color/common_blue_hint" />
+
+            <ImageView
+                android:id="@+id/img_player"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/common_ic_palyer_start"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/img_tag_pay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:src="@drawable/common_ic_tag_pay"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/text_pic_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|bottom"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/common_shape_rect_light_conerfull"
+                android:gravity="center"
+                android:paddingBottom="2dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingTop="2dp"
+                android:text="0/0"
+                android:textColor="@color/common_white"
+                android:textSize="10sp" />
+        </FrameLayout>
+    </android.support.v7.widget.CardView>
+
+    <TextView
+        android:id="@+id/text_position"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:drawableLeft="@drawable/common_ic_position"
+        android:drawablePadding="2dp"
+        android:textColor="@color/common_text_dark"
+        android:textSize="11sp"
+        app:layout_constraintLeft_toLeftOf="@id/card_img"
+        app:layout_constraintTop_toBottomOf="@+id/card_img"
+        tools:text="四川省成都市" />
+
+    <TextView
+        android:id="@+id/text_zan"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginEnd="20dp"
+        android:drawableLeft="@drawable/common_select_zan"
+        android:drawablePadding="5dp"
+        android:gravity="center"
+        android:textColor="@color/common_text_dark"
+        android:textSize="11sp"
+        app:layout_constraintEnd_toStartOf="@+id/text_comment"
+        app:layout_constraintTop_toTopOf="@+id/text_comment"
+        tools:text="110" />
+
+    <TextView
+        android:id="@+id/text_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginEnd="20dp"
+        android:drawableLeft="@drawable/common_ic_comment"
+        android:drawablePadding="5dp"
+        android:gravity="center"
+        android:textColor="@color/common_text_dark"
+        android:textSize="11sp"
+        app:layout_constraintEnd_toStartOf="@+id/text_share"
+        app:layout_constraintTop_toTopOf="@+id/text_share"
+        tools:text="110" />
+
+    <TextView
+        android:id="@+id/text_share"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginEnd="8dp"
+        android:drawableLeft="@drawable/common_ic_share"
+        android:drawablePadding="5dp"
+        android:gravity="center"
+        android:textColor="@color/common_text_dark"
+        android:textSize="11sp"
+        app:layout_constraintBottom_toBottomOf="@+id/text_position"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/text_position"
+        tools:text="110" />
+
+</android.support.constraint.ConstraintLayout>

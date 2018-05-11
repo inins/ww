@@ -24,18 +24,21 @@
             app:navigationIcon="@drawable/common_ic_back"
             app:popupTheme="@style/common_AppTheme.PopupOverlay">
 
-            <android.support.design.widget.TabLayout
+            <com.ogaclejapan.smarttablayout.SmartTabLayout
                 android:id="@+id/tablayout"
                 android:layout_width="wrap_content"
                 android:layout_height="42dp"
                 android:layout_gravity="center_horizontal"
-                app:tabGravity="center"
-                app:tabIndicatorColor="@color/common_blue"
-                app:tabIndicatorHeight="1dp"
-                app:tabMode="fixed"
-                app:tabSelectedTextColor="@color/common_select_text_dark_blue"
-                app:tabTextAppearance="@style/common_TabLayoutTextSizeStyleBig"
-                app:tabTextColor="@color/common_text_dark_light" />
+                android:background="@android:color/transparent"
+                app:stl_customTabTextLayoutId="@layout/home_tab_text_blank_blue"
+                app:stl_customTabTextViewId="@id/custom_text"
+                app:stl_dividerThickness="0dp"
+                app:stl_indicatorColor="@color/common_blue"
+                app:stl_indicatorCornerRadius="2dp"
+                app:stl_indicatorInterpolation="smart"
+                app:stl_indicatorThickness="3dp"
+                app:stl_underlineColor="@android:color/transparent"
+                app:stl_underlineThickness="0px" />
 
         </android.support.v7.widget.Toolbar>
 
@@ -43,16 +46,10 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler"
+    <com.frame.component.view.UnScrollViewPager
+        android:id="@+id/pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:paddingBottom="160dp"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:paddingTop="70dp" />
+        android:layout_height="match_parent" />
 
     <View
         android:id="@+id/shadow"

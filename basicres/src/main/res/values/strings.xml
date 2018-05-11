@@ -13,10 +13,17 @@
     <string name="common_diamond_format">%d钻</string>
     <string name="common_diamond_format_space">%d&#160;钻</string>
     <string name="common_pay">支付</string>
+    <string name="common_share">分享</string>
 
     <string name="common_diamond_name">钻石</string>
     <string name="common_stone_name">宝石</string>
 
     <string name="common_dialog_camera">拍摄</string>
     <string name="common_dialog_photo">相册</string>
+    <string name="common_dialog_report">举报</string>
+
+    <string name="common_dislike">不感兴趣...</string>
+
+    <string name="common_validialog">请输入验证信息</string>
+    <string name="common_hint">请输入验证信息</string>
 </resources>

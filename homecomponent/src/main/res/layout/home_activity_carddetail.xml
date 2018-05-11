@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_white">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="76dp"
+        android:background="@android:color/transparent"
+        android:paddingTop="20dp"
+        app:navigationIcon="@drawable/common_ic_back_white"
+        app:popupTheme="@style/common_AppTheme.PopupOverlay"
+        tools:translationZ="1px">
+
+        <TextView
+            android:id="@+id/btn_right"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:foreground="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:text="@string/common_dialog_report"
+            android:textColor="@color/common_white"
+            android:textSize="16sp" />
+
+    </android.support.v7.widget.Toolbar>
+
+
+    <com.frame.component.view.ObservableNestedScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/include_bannerboard"
+                layout="@layout/home_lay_carddetail_bannerboard" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="@color/common_bk_light" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:text="最近的趣晒"
+                android:textColor="@color/common_text_blank"
+                android:textSize="19sp"
+                android:textStyle="bold" />
+
+            <include
+                android:id="@+id/include_funshow"
+                layout="@layout/home_lay_funshow_carddetail" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="@color/common_bk_light" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:text="最近参与的话题"
+                android:textColor="@color/common_text_blank"
+                android:textSize="19sp"
+                android:textStyle="bold" />
+
+            <include
+                android:id="@+id/include_topic"
+                layout="@layout/home_item_topic" />
+
+            <TextView
+                android:id="@+id/btn_go"
+                android:layout_width="160dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/common_shape_rect_gradient_red_conerfull"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:onClick="onClick"
+                android:text="添加好友"
+                android:textColor="@color/common_white"
+                android:textSize="17sp" />
+        </LinearLayout>
+    </com.frame.component.view.ObservableNestedScrollView>
+</android.support.design.widget.CoordinatorLayout>

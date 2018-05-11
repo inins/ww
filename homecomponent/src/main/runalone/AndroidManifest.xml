@@ -31,6 +31,7 @@
         </activity>
 
     <activity android:name=".mvp.ui.activity.CardActivity"/>
+    <activity android:name=".mvp.ui.activity.CardDetailActivity"/>
     </application>
 
 </manifest>

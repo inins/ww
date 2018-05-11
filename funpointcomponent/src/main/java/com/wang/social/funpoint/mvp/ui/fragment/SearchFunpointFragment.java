@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.frame.base.BaseAdapter;
 import com.frame.base.BasicFragment;
+import com.frame.component.api.CommonService;
 import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.entities.TestEntity;
@@ -192,7 +193,7 @@ public class SearchFunpointFragment extends BasicFragment implements IView, Base
 
     public void netReadFunpoint(int newsId) {
         ApiHelperEx.execute(null, false,
-                ApiHelperEx.getService(FunpointService.class).readFunpoint(newsId),
+                ApiHelperEx.getService(CommonService.class).readFunpoint(newsId),
                 new ErrorHandleSubscriber<BaseJson<Object>>() {
                     @Override
                     public void onNext(BaseJson<Object> basejson) {

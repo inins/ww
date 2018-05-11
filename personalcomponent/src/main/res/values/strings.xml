@@ -17,6 +17,7 @@
     <string name="personal_me_share">安利一下</string>
     <string name="personal_me_about">关于往往</string>
     <string name="personal_me_eva">赏个好评</string>
+    <string name="personal_me_represent">代言收益</string>
 
     <!--个人详情页面-->
     <string name="personal_medetail_title">个人信息</string>
@@ -206,4 +207,13 @@
     <!--我的二维码-->
     <string name="personal_qrcode_title">我的二维码</string>
     <string name="personal_qrcode_notice">扫描上面二维码，添加往往好友</string>
+
+    <!--代言收益页面-->
+    <string name="personal_represent_title">代言收益</string>
+    <string name="personal_represent_note">代言收益齐分享，社交也能变现！</string>
+    <string name="personal_represent_rule">代言收益规则</string>
+    <string name="personal_represent_code">您的邀请码</string>
+    <string name="personal_represent_diamond">您已获得的钻石</string>
+    <string name="personal_represent_user">下线用户</string>
+    <string name="personal_represent_item_diamond">回馈钻石</string>
 </resources>

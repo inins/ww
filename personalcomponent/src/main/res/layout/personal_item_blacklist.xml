@@ -11,7 +11,7 @@
 
         <include
             android:id="@+id/include_coutent"
-            layout="@layout/personal_lay_blacklist" />
+            layout="@layout/lay_userlist" />
 
         <TextView
             android:id="@+id/btn_free"

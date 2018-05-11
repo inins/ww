@@ -16,7 +16,7 @@ import com.frame.component.common.NetParam;
 import com.frame.http.api.ApiHelperEx;
 import com.wang.social.personal.mvp.contract.MeDetailContract;
 import com.wang.social.personal.mvp.entities.CommonEntity;
-import com.wang.social.personal.mvp.entities.photo.Photo;
+import com.frame.component.entities.photo.Photo;
 import com.wang.social.personal.net.helper.NetPhotoHelper;
 
 import org.greenrobot.eventbus.EventBus;

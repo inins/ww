@@ -7,6 +7,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
 import com.wang.social.home.common.CardLayoutManager.CardConfig;
+import com.wang.social.home.mvp.ui.adapter.RecycleAdapterCardUser;
 
 import java.util.List;
 
@@ -62,16 +63,18 @@ public class ItemTouchCardCallback extends ItemTouchHelper.SimpleCallback {
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-        //Log.e("swipecard", "onSwiped() called with: viewHolder = [" + viewHolder + "], direction = [" + direction + "]");
-        //rollBack(viewHolder);
         //★实现循环的要点
         Object remove = mDatas.remove(viewHolder.getLayoutPosition());
         mDatas.add(0, remove);
         Object next = mDatas.get(mDatas.size() - 1);
         mAdapter.notifyDataSetChanged();
 
-        //rotation进行复位
+        //item复位
         viewHolder.itemView.setRotation(0);
+        if (viewHolder instanceof RecycleAdapterCardUser.Holder) {
+            ((RecycleAdapterCardUser.Holder) viewHolder).setLikeAlpha(0);
+            ((RecycleAdapterCardUser.Holder) viewHolder).setDisLikeAlpha(0);
+        }
 
         if (onSwipedListener != null)
             onSwipedListener.onSwiped(next, direction);
@@ -103,6 +106,13 @@ public class ItemTouchCardCallback extends ItemTouchHelper.SimpleCallback {
                 //根据X移动距离进行选择
                 double fractionX = dX / getThreshold(viewHolder);
                 child.setRotation((float) fractionX * MAX_ROTATION);
+                //根据X移动距离进行like和dislike的渐变
+                if (viewHolder instanceof RecycleAdapterCardUser.Holder) {
+                    if (dX > 0)
+                        ((RecycleAdapterCardUser.Holder) viewHolder).setLikeAlpha(Math.abs(fractionX));
+                    else
+                        ((RecycleAdapterCardUser.Holder) viewHolder).setDisLikeAlpha(Math.abs(fractionX));
+                }
             } else if (level == viewCount - 1) {
                 //最后一个
                 //Y方向位移及缩小等同于上一级

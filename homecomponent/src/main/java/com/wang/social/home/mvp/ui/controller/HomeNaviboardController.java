@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.ui.base.BaseController;
 import com.frame.component.utils.viewutils.FontUtils;
+import com.frame.mvp.IView;
 import com.wang.social.home.R;
 import com.wang.social.home.R2;
 import com.wang.social.home.mvp.ui.activity.CardActivity;
@@ -26,8 +27,8 @@ public class HomeNaviboardController extends BaseController implements View.OnCl
     @BindView(R2.id.btn_active)
     View btnActive;
 
-    public HomeNaviboardController(View root) {
-        super(root);
+    public HomeNaviboardController(IView iView, View root) {
+        super(iView, root);
         int layout = R.layout.home_lay_naviboard;
         registEventBus();
         onInitCtrl();
@@ -52,10 +53,11 @@ public class HomeNaviboardController extends BaseController implements View.OnCl
         int id = v.getId();
         if (id == R.id.btn_search) {
             CommonHelper.HomeHelper.startSearchActivity(getContext());
-        }else if (id == R.id.btn_samekind) {
-        }else if (id == R.id.btn_circle) {
-            CardActivity.start(getContext());
-        }else if (id == R.id.btn_active) {
+        } else if (id == R.id.btn_samekind) {
+            CardActivity.startUser(getContext());
+        } else if (id == R.id.btn_circle) {
+            CardActivity.startGroup(getContext());
+        } else if (id == R.id.btn_active) {
         }
     }
 }

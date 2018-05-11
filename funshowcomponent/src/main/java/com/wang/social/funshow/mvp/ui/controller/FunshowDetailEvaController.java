@@ -26,7 +26,7 @@ import com.wang.social.funshow.mvp.entities.eva.Comment;
 import com.wang.social.funshow.mvp.entities.event.CommentEvent;
 import com.wang.social.funshow.mvp.model.api.FunshowService;
 import com.wang.social.funshow.mvp.ui.adapter.RecycleAdapterEva;
-import com.wang.social.funshow.utils.FunShowUtil;
+import com.frame.component.utils.FunShowUtil;
 
 import org.greenrobot.eventbus.EventBus;
 

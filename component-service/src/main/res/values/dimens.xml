@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <dimen name="WheelItemTextSize">14sp</dimen>
     <dimen name="WheelSelectedItemTextSize">20sp</dimen>
     <dimen name="WheelItemSpace">12dp</dimen>
@@ -8,4 +8,6 @@
     <dimen name="WheelItemHeightSpace">16dp</dimen>
     <dimen name="WheelItemWidthSpace">32dp</dimen>
     <dimen name="popup_auto_width">100dp</dimen>
+
+    <dimen name="design_fab_size_normal" tools:ignore="PrivateResource">70dp</dimen>
 </resources>

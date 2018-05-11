@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_white">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:paddingBottom="160dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="70dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btn_dislike"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="55dp"
+        android:layout_marginLeft="60dp"
+        android:backgroundTint="@color/common_white"
+        android:onClick="onClick"
+        android:scaleType="center"
+        android:shadowColor="@color/common_blue_gray"
+        app:borderWidth="0dp"
+        app:elevation="7dp"
+        app:fabSize="normal"
+        app:rippleColor="@color/common_blue_gray"
+        app:srcCompat="@drawable/home_ic_card_dislike" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btn_like"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="55dp"
+        android:layout_marginRight="60dp"
+        android:backgroundTint="@color/common_white"
+        android:onClick="onClick"
+        android:scaleType="center"
+        android:shadowColor="@color/common_red_gray"
+        app:borderWidth="0dp"
+        app:elevation="7dp"
+        app:fabSize="normal"
+        app:rippleColor="@color/common_red_gray"
+        app:srcCompat="@drawable/home_ic_card_like" />
+
+</FrameLayout>
