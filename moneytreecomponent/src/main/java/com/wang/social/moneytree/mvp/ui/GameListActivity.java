@@ -1,5 +1,7 @@
 package com.wang.social.moneytree.mvp.ui;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -27,7 +29,6 @@ import com.wang.social.moneytree.mvp.model.entities.NewGame;
 import com.wang.social.moneytree.mvp.presenter.GameListPresenter;
 import com.wang.social.moneytree.mvp.ui.adapter.GameListAdapter;
 import com.wang.social.moneytree.mvp.ui.widget.DialogCreateGame;
-import com.wang.social.moneytree.mvp.ui.widget.DialogGameOver;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -35,6 +36,13 @@ import butterknife.OnClick;
 public class GameListActivity extends BaseAppActivity<GameListPresenter>
         implements GameListContract.View, DialogCreateGame.CreateGameCallback,
         GameListAdapter.ClickListener {
+    public final static String NAME_GROUP_ID = "NAME_GROUP_ID";
+
+    public static void start(Context context, int groupId) {
+        Intent intent = new Intent(context, GameListActivity.class);
+        intent.putExtra(NAME_GROUP_ID, groupId);
+        context.startActivity(intent);
+    }
 
     @BindView(R2.id.toolbar)
     SocialToolbar mToolbar;
@@ -69,8 +77,8 @@ public class GameListActivity extends BaseAppActivity<GameListPresenter>
         StatusBarUtil.setTranslucent(this);
         StatusBarUtil.setTextDark(this);
 
-        mGroupId = getIntent().getIntExtra("groupId", 1);
-        mType = getIntent().getIntExtra("type", 1);
+        mGroupId = getIntent().getIntExtra(NAME_GROUP_ID, -1);
+        mType = mGroupId == -1 ? 2 : 1;
 
         mToolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
             @Override
@@ -105,8 +113,6 @@ public class GameListActivity extends BaseAppActivity<GameListPresenter>
             }
         });
         mSpringView.callFreshDelay();
-
-//        NetLoginTestHelper.newInstance().loginTest("13823150420", "111111");
     }
 
     @Override

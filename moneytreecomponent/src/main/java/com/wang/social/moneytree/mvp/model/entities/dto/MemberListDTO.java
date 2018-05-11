@@ -2,13 +2,14 @@ package com.wang.social.moneytree.mvp.model.entities.dto;
 
 import com.frame.component.entities.User;
 import com.frame.http.api.Mapper;
+import com.wang.social.moneytree.mvp.model.entities.Member;
 import com.wang.social.moneytree.mvp.model.entities.MemberList;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MemberListDTO implements Mapper<MemberList> {
-    List<User> list;
+    List<Member> list;
 
     @Override
     public MemberList transform() {

@@ -36,7 +36,7 @@ import com.wang.social.moneytree.mvp.presenter.GameRoomPresenter;
 import com.wang.social.moneytree.mvp.ui.adapter.GameRoomMemberListAdapter;
 import com.wang.social.moneytree.mvp.ui.adapter.GameScoreAdapter;
 import com.wang.social.moneytree.mvp.ui.widget.CountDownTextView;
-import com.wang.social.moneytree.mvp.ui.widget.DialogGameOver;
+import com.wang.social.moneytree.mvp.ui.widget.DialogGameEnd;
 import com.wang.social.moneytree.utils.ShakeUtils;
 
 import javax.inject.Inject;
@@ -47,7 +47,8 @@ import timber.log.Timber;
 
 public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
         implements GameRoomContract.View, CountDownTextView.CountDownListener,
-        ShakeUtils.OnShakeListener, DialogGameOver.GameOverListener{
+        ShakeUtils.OnShakeListener, DialogGameEnd.GameOverListener,
+        GameRoomMemberListAdapter.ClickListener {
     public final static String NAME_GAME_BEAN = "NAME_GAME_BEAN";
     public final static String NAME_GAME_RECORD = "NAME_GAME_RECORD";
 
@@ -147,6 +148,7 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
         if (null != mPresenter.getGameBean()) {
             // 成员列表
             mMemberAdapter = new GameRoomMemberListAdapter(mMemberListRV, mPresenter.getMemberList());
+            mMemberAdapter.setClickListener(this);
             mMemberListRV.setLayoutManager(
                     new LinearLayoutManager(
                             this,
@@ -197,7 +199,7 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
     @Override
     public void onLoadGameEndSuccess(GameEnd gameEnd) {
         // 显示对话框
-        DialogGameOver.show(getSupportFragmentManager(), gameEnd, this);
+        DialogGameEnd.show(getSupportFragmentManager(), gameEnd, this);
     }
 
     @Override
@@ -361,5 +363,10 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
     @Override
     public void onGameOverDialogDismiss() {
         finish();
+    }
+
+    @Override
+    public void onMemberMore() {
+        MemberListActivity.start(this, mPresenter.getGameBeanGameId());
     }
 }

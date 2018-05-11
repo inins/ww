@@ -25,26 +25,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.frame.component.utils.SpannableStringUtil;
-import com.frame.component.view.DialogPay;
-import com.frame.mvp.IView;
-import com.frame.utils.KeyboardUtils;
-import com.frame.utils.ToastUtil;
 import com.wang.social.moneytree.R;
 import com.wang.social.moneytree.mvp.model.entities.GameEnd;
 import com.wang.social.moneytree.mvp.ui.adapter.GameEndRankingAdapter;
 
-import java.text.SimpleDateFormat;
-
 import timber.log.Timber;
 
-public class DialogGameOver extends DialogFragment {
+public class DialogGameEnd extends DialogFragment {
 
     public interface GameOverListener {
         void onGameOverDialogDismiss();
     }
 
-    public static DialogGameOver show(FragmentManager manager, GameEnd gameEnd, GameOverListener listener) {
-        DialogGameOver dialog = new DialogGameOver();
+    public static DialogGameEnd show(FragmentManager manager, GameEnd gameEnd, GameOverListener listener) {
+        DialogGameEnd dialog = new DialogGameEnd();
         dialog.setGameEnd(gameEnd);
         dialog.setGameOverListener(listener);
 
@@ -81,7 +75,7 @@ public class DialogGameOver extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(
-                R.layout.mt_dialog_game_over, null, false);
+                R.layout.mt_dialog_game_end, null, false);
 
         if (null != mGameEnd) {
             // 时间

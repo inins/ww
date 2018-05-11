@@ -15,6 +15,7 @@ import com.wang.social.moneytree.mvp.model.entities.GameRecord;
 import com.wang.social.moneytree.mvp.model.entities.GameRecordDetail;
 import com.wang.social.moneytree.mvp.model.entities.GameScore;
 import com.wang.social.moneytree.mvp.model.entities.JoinGame;
+import com.wang.social.moneytree.mvp.model.entities.Member;
 import com.wang.social.moneytree.mvp.model.entities.MemberList;
 import com.wang.social.moneytree.mvp.model.entities.RoomMsg;
 import com.wang.social.moneytree.mvp.model.entities.dto.MemberListDTO;
@@ -45,7 +46,7 @@ public class GameRoomPresenter extends
     // 游戏结果列表（在记录详情中使用）
     private List<GameScore> mGameScoreList = new ArrayList<>();
     // 成员列表
-    private List<User> mMemberList = new ArrayList<>();
+    private List<Member> mMemberList = new ArrayList<>();
     // 房间信息
     private RoomMsg mRoomMsg;
 
@@ -82,7 +83,7 @@ public class GameRoomPresenter extends
         return mGameScoreList;
     }
 
-    public List<User> getMemberList() {
+    public List<Member> getMemberList() {
         return mMemberList;
     }
 
@@ -232,13 +233,15 @@ public class GameRoomPresenter extends
                     @Override
                     public void onNext(MemberList memberList) {
                         // 获取成员列表成功
-                        mMemberList.clear();
-                        for (int i = 0; i < Math.min(5 , memberList.getList().size()); i++) {
-                            mMemberList.add(memberList.getList().get(i));
+                        if (null != memberList && null != memberList.getList()) {
+                            mMemberList.clear();
+                            for (int i = 0; i < Math.min(5 , memberList.getList().size()); i++) {
+                                mMemberList.add(memberList.getList().get(i));
+                            }
+                            Member member = new Member();
+                            member.setUserId(-1);
+                            mMemberList.add(member);
                         }
-                        User user = new User();
-                        user.setId(-1);
-                        mMemberList.add(user);
 
                         mRootView.onLoadMemberListSuccess();
                     }

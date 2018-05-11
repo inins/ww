@@ -1,6 +1,7 @@
 package com.frame.component.view;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -8,8 +9,12 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.SpannableStringBuilder;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.frame.component.entities.AccountBalance;
@@ -205,6 +210,13 @@ public class DialogPay extends DialogFragment {
 
         dialog.setCancelable(true);
 
+        WindowManager windowManager = (WindowManager) getActivity()
+                .getSystemService(Context.WINDOW_SERVICE);
+        Display display = windowManager.getDefaultDisplay();
+        // 调整dialog背景大小
+        view.setLayoutParams(new FrameLayout.LayoutParams(
+                (int) (display.getWidth() * 0.85),
+                LinearLayout.LayoutParams.MATCH_PARENT));
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
 

@@ -2,6 +2,7 @@ package com.wang.social.moneytree.mvp.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +70,11 @@ public class GameEndRankingAdapter extends RecyclerView.Adapter<GameEndRankingAd
 
         holder.diamondIV.setVisibility(View.VISIBLE);
         // 头像
-//        ImageLoaderHelper.loadCircleImg(holder.avatarIV, gameEnd.get);
+        if (!TextUtils.isEmpty(score.getAvatar())) {
+            ImageLoaderHelper.loadCircleImg(holder.avatarIV, score.getAvatar());
+        } else {
+            holder.avatarIV.setVisibility(View.INVISIBLE);
+        }
         // 昵称
         holder.nameTV.setText(score.getNickname());
         // 钻石数

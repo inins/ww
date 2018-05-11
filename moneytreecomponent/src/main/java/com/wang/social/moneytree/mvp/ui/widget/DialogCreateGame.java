@@ -64,12 +64,25 @@ public class DialogCreateGame extends DialogFragment {
     private IView mIView;
     private CreateGameCallback mCreateGameCallback;
 
+    private final static int MAX_TIME = 300;
+    private final static int MIN_NUM = 2;
+
     public void setIView(IView IView) {
         mIView = IView;
     }
 
     public void setCreateGameCallback(CreateGameCallback createGameCallback) {
         mCreateGameCallback = createGameCallback;
+    }
+
+    private void setTimeText(int time) {
+        mTimeET.setText(Integer.toString(time));
+        mTimeET.setSelection(mTimeET.getText().length());
+    }
+
+    private void setNumberText(int num) {
+        mNumberET.setText(Integer.toString(num));
+        mNumberET.setSelection(mNumberET.getText().length());
     }
 
     @Override
@@ -82,6 +95,66 @@ public class DialogCreateGame extends DialogFragment {
         mNumberTV = view.findViewById(R.id.number_of_people_text_view);
         mPriceET = view.findViewById(R.id.price_edit_text);
         mUnlimitedCB = view.findViewById(R.id.unlimited_check_box);
+
+        // 默认值
+        setTimeText(10);
+        setNumberText(2);
+
+//        mTimeET.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                int time = 0;
+//                try {
+//                    time = Integer.parseInt(mTimeET.getText().toString());
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//
+//                if(time > MAX_TIME) {
+//                    ToastUtil.showToastLong(String.format("游戏时间不超过%1d分钟", MAX_TIME));
+//                    setTimeText(MAX_TIME);
+//                }
+//            }
+//        });
+//
+//        mNumberET.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                int number = 0;
+//                try {
+//                    number = Integer.parseInt(mNumberET.getText().toString());
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//
+//                if(number < MIN_NUM) {
+//                    ToastUtil.showToastLong(String.format("游戏人数最低%1d人", MIN_NUM));
+//                    setNumberText(MIN_NUM);
+//                }
+//            }
+//        });
+
+
         mUnlimitedCB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -202,16 +275,20 @@ public class DialogCreateGame extends DialogFragment {
                 KeyboardUtils.showSoftInput(mTimeET);
                 break;
             case 1:
-                mTimeET.setText("1");
+//                mTimeET.setText("1");
+                setTimeText(1);
                 break;
             case 2:
-                mTimeET.setText("2");
+//                mTimeET.setText("2");
+                setTimeText(2);
                 break;
             case 3:
-                mTimeET.setText("5");
+//                mTimeET.setText("5");
+                setTimeText(5);
                 break;
             case 4:
-                mTimeET.setText("10");
+//                mTimeET.setText("10");
+                setTimeText(10);
                 break;
         }
 
@@ -231,12 +308,24 @@ public class DialogCreateGame extends DialogFragment {
             return false;
         }
 
+        if (mResetTime > MAX_TIME) {
+            ToastUtil.showToastLong(String.format("游戏时间不超过%1d分钟", MAX_TIME));
+            setTimeText(MAX_TIME);
+            return false;
+        }
+
         if (!mUnlimitedCB.isChecked()) {
             try {
                 mPeopleNum = Integer.parseInt(mNumberET.getText().toString());
             } catch (Exception e) {
                 e.printStackTrace();
                 ToastUtil.showToastLong("请输入游戏人数");
+                return false;
+            }
+
+            if (mPeopleNum < MIN_NUM) {
+                ToastUtil.showToastLong(String.format("游戏人数最低%1d人", MIN_NUM));
+                setNumberText(MIN_NUM);
                 return false;
             }
         }
@@ -255,7 +344,7 @@ public class DialogCreateGame extends DialogFragment {
     private void createGame() {
         if (null != mCreateGameCallback) {
             // 分钟转为秒
-            mCreateGameCallback.createGame(mResetTime * 1000, mPeopleNum, mUnlimitedCB.isChecked(), mPrice);
+            mCreateGameCallback.createGame(mResetTime * 60, mPeopleNum, mUnlimitedCB.isChecked(), mPrice);
         }
     }
 

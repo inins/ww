@@ -8,5 +8,5 @@ import lombok.Data;
 
 @Data
 public class MemberList {
-    List<User> list;
+    List<Member> list;
 }

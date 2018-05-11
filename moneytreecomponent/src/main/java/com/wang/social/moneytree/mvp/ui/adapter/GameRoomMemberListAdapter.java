@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import com.frame.component.entities.User;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.wang.social.moneytree.R;
+import com.wang.social.moneytree.mvp.model.entities.Member;
 
 import java.util.List;
 
@@ -20,10 +21,10 @@ public class GameRoomMemberListAdapter extends RecyclerView.Adapter<GameRoomMemb
     }
 
     private Context mContext;
-    private List<User> mList;
+    private List<Member> mList;
     private ClickListener mClickListener;
 
-    public GameRoomMemberListAdapter(RecyclerView recyclerView, List<User> list) {
+    public GameRoomMemberListAdapter(RecyclerView recyclerView, List<Member> list) {
         mContext = recyclerView.getContext();
         mList = list;
     }
@@ -45,12 +46,12 @@ public class GameRoomMemberListAdapter extends RecyclerView.Adapter<GameRoomMemb
         if (null == mList) return;
         if (position < 0 || position >= mList.size()) return;
 
-        User user = mList.get(position);
+        Member member = mList.get(position);
 
-        if (null == user) return;
+        if (null == member) return;
 
         holder.iv.setOnClickListener(null);
-        if (user.getId() == -1) {
+        if (member.getUserId() == -1) {
             holder.iv.setImageResource(R.drawable.mt_game_more);
             holder.iv.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -61,7 +62,7 @@ public class GameRoomMemberListAdapter extends RecyclerView.Adapter<GameRoomMemb
                 }
             });
         } else {
-            ImageLoaderHelper.loadCircleImg(holder.iv, user.getAvatar());
+            ImageLoaderHelper.loadCircleImg(holder.iv, member.getAvatar());
         }
     }
 
