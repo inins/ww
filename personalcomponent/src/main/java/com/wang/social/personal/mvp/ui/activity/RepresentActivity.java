@@ -89,7 +89,7 @@ public class RepresentActivity extends BasicAppActivity implements IView {
                 netGetRepresentUserList(false);
             }
         });
-//        springView.callFreshDelay();
+        springView.callFreshDelay();
 
         ImageLoaderHelper.loadImgTest(imgPic);
     }
@@ -108,13 +108,13 @@ public class RepresentActivity extends BasicAppActivity implements IView {
         }
     }
 
-    private void setUserRepresentData(BaseListWrap wrap) {
-        if (wrap != null) {
-            textCode.setText(wrap.getUserCode());
-            textDiamond.setText(wrap.getUserTotalMoney());
-            textUserCount.setText(wrap.getTotal() + "人");
-        }
-    }
+//    private void setUserRepresentData(BaseListWrap wrap) {
+//        if (wrap != null) {
+//            textCode.setText(wrap.getUserCode());
+//            textDiamond.setText(wrap.getUserTotalMoney());
+//            textUserCount.setText(wrap.getTotal() + "人");
+//        }
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -149,7 +149,7 @@ public class RepresentActivity extends BasicAppActivity implements IView {
                     @Override
                     public void onNext(BaseJson<BaseListWrap<UserRepresent>> basejson) {
                         BaseListWrap<UserRepresent> warp = basejson.getData();
-                        setUserRepresentData(warp);
+//                        setUserRepresentData(warp);
                         List<UserRepresent> list = warp.getList();
                         if (!StrUtil.isEmpty(list)) {
                             current = warp.getCurrent();
