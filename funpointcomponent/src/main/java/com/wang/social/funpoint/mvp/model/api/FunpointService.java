@@ -3,17 +3,12 @@ package com.wang.social.funpoint.mvp.model.api;
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.entities.Tag;
 import com.frame.http.api.BaseJson;
-import com.wang.social.funpoint.mvp.entities.Funpoint;
-
-import java.util.Map;
+import com.frame.component.entities.funpoint.Funpoint;
 
 import io.reactivex.Observable;
-import retrofit2.http.Body;
 import retrofit2.http.Field;
-import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
@@ -36,12 +31,12 @@ public interface FunpointService {
     @GET("/app/news/searchList?v=2.0.0")
     Observable<BaseJson<BaseListWrap<Funpoint>>> getSearchFunpointList(@Query("tags") String tags, @Query("key") String key, @Query("current") int current, @Query("size") int size);
 
-    /**
-     * 阅读趣点数量统计
-     */
-    @FormUrlEncoded
-    @POST("/app/news/addRealTotal?v=2.0.0")
-    Observable<BaseJson<Object>> readFunpoint(@Field("newsId") int newsId);
+//    /**
+//     * 阅读趣点数量统计
+//     */
+//    @FormUrlEncoded
+//    @POST("/app/news/addRealTotal?v=2.0.0")
+//    Observable<BaseJson<Object>> readFunpoint(@Field("newsId") int newsId);
 
     /**
      * 已选推荐标签

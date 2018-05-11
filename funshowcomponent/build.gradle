@@ -30,6 +30,7 @@ android {
             }
         }
 
+        manifestPlaceholders = [qqappid: "1106099147"]
     }
     if (project.isRunAlone) {
         buildTypes {

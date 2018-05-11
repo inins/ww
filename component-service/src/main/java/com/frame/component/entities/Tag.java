@@ -1,9 +1,11 @@
 package com.frame.component.entities;
 
+import java.io.Serializable;
+
 import lombok.Data;
 
 @Data
-public class Tag {
+public class Tag implements Serializable{
 
     /**
      * id : 4

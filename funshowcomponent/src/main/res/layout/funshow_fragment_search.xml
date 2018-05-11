@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.frame.component.view.LoadingLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/loadingview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    app:layout_fail="@layout/funshow_layout_lack_search"
+    app:layout_lack="@layout/funshow_layout_lack_search"
+    app:layout_loading="@layout/layout_loading">
+
+    <com.liaoinstan.springview.widget.SpringView
+        android:id="@+id/spring"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:type="follow">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="10dp" />
+
+    </com.liaoinstan.springview.widget.SpringView>
+</com.frame.component.view.LoadingLayout>

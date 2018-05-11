@@ -13,6 +13,7 @@ import com.wang.social.im.R;
 import com.wang.social.im.app.IMConstants;
 import com.wang.social.im.mvp.ui.ConversationFragment;
 import com.wang.social.im.mvp.ui.ConversationListFragment;
+import com.wang.social.im.mvp.ui.fragments.ContactsFragment;
 
 import butterknife.BindView;
 
@@ -24,8 +25,8 @@ import butterknife.BindView;
  */
 public class ConversationListActivity extends BasicActivity {
 
-    @BindView(R.id.toolbar)
-    SocialToolbar toolbar;
+//    @BindView(R.id.toolbar)
+//    SocialToolbar toolbar;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -39,33 +40,33 @@ public class ConversationListActivity extends BasicActivity {
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
-        setSupportActionBar(toolbar);
+//        setSupportActionBar(toolbar);
 
         setListener();
 
-        ConversationListFragment fragment = ConversationListFragment.newInstance();
+        ContactsFragment fragment = ContactsFragment.newInstance();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.cv_list, fragment, ConversationFragment.class.getName());
+        transaction.add(R.id.cv_list, fragment, ContactsFragment.class.getName());
         transaction.commitAllowingStateLoss();
     }
 
     private void setListener() {
-        toolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
-            @Override
-            public void onButtonClick(SocialToolbar.ClickType clickType) {
-                if (clickType == SocialToolbar.ClickType.RIGHT_TEXT) {
-                    if (TIMManager.getInstance().getLoginUser().equals(IMConstants.USRE_IDENTIFIER_1)) {
-                        Intent intent = new Intent(ConversationListActivity.this, ConversationActivity.class);
-                        intent.putExtra("target", IMConstants.USRE_IDENTIFIER_2);
-                        startActivity(intent);
-                    } else {
-                        Intent intent = new Intent(ConversationListActivity.this, ConversationActivity.class);
-                        intent.putExtra("target", IMConstants.USRE_IDENTIFIER_1);
-                        startActivity(intent);
-                    }
-                }
-            }
-        });
+//        toolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
+//            @Override
+//            public void onButtonClick(SocialToolbar.ClickType clickType) {
+//                if (clickType == SocialToolbar.ClickType.RIGHT_TEXT) {
+//                    if (TIMManager.getInstance().getLoginUser().equals(IMConstants.USRE_IDENTIFIER_1)) {
+//                        Intent intent = new Intent(ConversationListActivity.this, ConversationActivity.class);
+//                        intent.putExtra("target", IMConstants.USRE_IDENTIFIER_2);
+//                        startActivity(intent);
+//                    } else {
+//                        Intent intent = new Intent(ConversationListActivity.this, ConversationActivity.class);
+//                        intent.putExtra("target", IMConstants.USRE_IDENTIFIER_1);
+//                        startActivity(intent);
+//                    }
+//                }
+//            }
+//        });
     }
 
     @Override

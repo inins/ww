@@ -37,7 +37,7 @@
                         android:id="@+id/btn_search"
                         style="@style/common_EditNone"
                         android:layout_height="match_parent"
-                        android:drawableLeft="@drawable/funpoint_ic_home_search"
+                        android:drawableLeft="@drawable/common_ic_home_search"
                         android:drawablePadding="5dp"
                         android:foreground="?attr/selectableItemBackground"
                         android:hint="请输入搜索关键字" />
@@ -79,16 +79,6 @@
                     android:clipToPadding="false"
                     android:paddingBottom="7dp"
                     android:paddingTop="7dp" />
-
-
-                <TextView
-                    android:id="@+id/btn_funshow_login"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:gravity="center"
-                    android:padding="15dp"
-                    android:text="登录(仅测试)" />
 
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>

@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +14,8 @@ import android.widget.LinearLayout;
 
 import com.frame.base.BaseAdapter;
 import com.frame.utils.SizeUtils;
-import com.tencent.imsdk.TIMConversationType;
 import com.wang.social.im.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

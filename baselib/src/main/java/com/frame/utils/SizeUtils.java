@@ -1,5 +1,6 @@
 package com.frame.utils;
 
+import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
@@ -26,8 +27,9 @@ public final class SizeUtils {
      * @return px值
      */
     public static int dp2px(float dpValue) {
-        final float scale = Utils.getContext().getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
+//        final float scale = Utils.getContext().getResources().getDisplayMetrics().density;
+//        return (int) (dpValue * scale + 0.5f);
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpValue, Resources.getSystem().getDisplayMetrics());
     }
 
     /**
@@ -37,8 +39,9 @@ public final class SizeUtils {
      * @return dp值
      */
     public static int px2dp(float pxValue) {
-        final float scale = Utils.getContext().getResources().getDisplayMetrics().density;
-        return (int) (pxValue / scale + 0.5f);
+//        final float scale = Utils.getContext().getResources().getDisplayMetrics().density;
+//        return (int) (pxValue / scale + 0.5f);
+        return (int) (pxValue / Resources.getSystem().getDisplayMetrics().density);
     }
 
     /**
@@ -48,8 +51,9 @@ public final class SizeUtils {
      * @return px值
      */
     public static int sp2px(float spValue) {
-        final float fontScale = Utils.getContext().getResources().getDisplayMetrics().scaledDensity;
-        return (int) (spValue * fontScale + 0.5f);
+//        final float fontScale = Utils.getContext().getResources().getDisplayMetrics().scaledDensity;
+//        return (int) (spValue * fontScale + 0.5f);
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, spValue, Resources.getSystem().getDisplayMetrics());
     }
 
     /**
@@ -59,8 +63,9 @@ public final class SizeUtils {
      * @return sp值
      */
     public static int px2sp(float pxValue) {
-        final float fontScale = Utils.getContext().getResources().getDisplayMetrics().scaledDensity;
-        return (int) (pxValue / fontScale + 0.5f);
+//        final float fontScale = Utils.getContext().getResources().getDisplayMetrics().scaledDensity;
+//        return (int) (pxValue / fontScale + 0.5f);
+        return (int) (pxValue / Resources.getSystem().getDisplayMetrics().scaledDensity);
     }
 
     /**

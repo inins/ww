@@ -20,9 +20,7 @@ import butterknife.BindView;
  */
 public abstract class BaseDialogOkCancel extends BaseDialog {
 
-//    @BindView(R2.id.btn_cancel)
     public TextView btnCancel;
-//    @BindView(R2.id.btn_ok)
     public TextView btnOk;
 
     private String okBtnText;

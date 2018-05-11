@@ -84,7 +84,9 @@ public class HotUserListActivity extends BasicAppActivity implements IView, Base
 
             @Override
             public void onLoadmore() {
-                netLoadmore();
+                //趣晒魔接口没有分页
+                //netLoadmore();
+                springView.onFinishFreshAndLoadDelay(1000);
             }
         });
         springView.callFreshDelay();
@@ -116,7 +118,7 @@ public class HotUserListActivity extends BasicAppActivity implements IView, Base
 
     //////////////////////分页查询////////////////////
     private int current = 1;
-    private int size = 20;
+    private int size = 1000;
 
     public void netGetTopUserList(boolean needloading) {
         current = 1;
@@ -140,28 +142,28 @@ public class HotUserListActivity extends BasicAppActivity implements IView, Base
     }
 
 
-    public void netLoadmore() {
-        ApiHelperEx.execute(this, false,
-                ApiHelperEx.getService(FunshowService.class).getFunshowTopUserList("square", current + 1, size),
-                new ErrorHandleSubscriber<BaseJson<BaseListWrap<TopUser>>>() {
-                    @Override
-                    public void onNext(BaseJson<BaseListWrap<TopUser>> basejson) {
-                        BaseListWrap<TopUser> warp = basejson.getData();
-                        List<TopUser> list = warp.getList();
-                        if (!StrUtil.isEmpty(list)) {
-                            current++;
-                            adapter.addItem(list);
-                        } else {
-                            ToastUtil.showToastLong("没有更多数据了");
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        ToastUtil.showToastLong(e.getMessage());
-                    }
-                }, null, () -> {
-                    springView.onFinishFreshAndLoadDelay();
-                });
-    }
+//    public void netLoadmore() {
+//        ApiHelperEx.execute(this, false,
+//                ApiHelperEx.getService(FunshowService.class).getFunshowTopUserList("square", current + 1, size),
+//                new ErrorHandleSubscriber<BaseJson<BaseListWrap<TopUser>>>() {
+//                    @Override
+//                    public void onNext(BaseJson<BaseListWrap<TopUser>> basejson) {
+//                        BaseListWrap<TopUser> warp = basejson.getData();
+//                        List<TopUser> list = warp.getList();
+//                        if (!StrUtil.isEmpty(list)) {
+//                            current++;
+//                            adapter.addItem(list);
+//                        } else {
+//                            ToastUtil.showToastLong("没有更多数据了");
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        ToastUtil.showToastLong(e.getMessage());
+//                    }
+//                }, null, () -> {
+//                    springView.onFinishFreshAndLoadDelay();
+//                });
+//    }
 }

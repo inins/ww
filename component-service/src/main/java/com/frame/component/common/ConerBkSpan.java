@@ -23,12 +23,16 @@ public class ConerBkSpan extends ReplacementSpan {
     private int color_text;
 
     public ConerBkSpan(int color_bk, int color_text) {
+        this(color_bk, color_text, null);
+    }
+
+    public ConerBkSpan(int color_bk, int color_text, Integer hight) {
         this.color_bk = color_bk;
         this.color_text = color_text;
         //初始化默认值
         this.padding_h = SizeUtils.dp2px(12);
         this.padding_v = SizeUtils.dp2px(3);
-        this.coner = SizeUtils.dp2px(30);
+        this.coner = hight != null ? hight / 2 : SizeUtils.dp2px(30);
         this.padding_draw = SizeUtils.dp2px(7);
     }
 

@@ -17,6 +17,7 @@
     <string name="personal_me_share">安利一下</string>
     <string name="personal_me_about">关于往往</string>
     <string name="personal_me_eva">赏个好评</string>
+    <string name="personal_me_represent">代言收益</string>
 
     <!--个人详情页面-->
     <string name="personal_medetail_title">个人信息</string>
@@ -55,7 +56,7 @@
     <string name="personal_setting_bindsocial">关联第三方账户</string>
     <string name="personal_setting_secret">个人隐私</string>
     <string name="personal_setting_clear">清除缓存</string>
-    <string name="personal_setting_shutdownlist">趣聊屏蔽列表</string>
+    <string name="personal_setting_shutdownlist">趣晒屏蔽列表</string>
     <string name="personal_setting_blanklist">好友黑名单</string>
     <string name="personal_setting_msg">新消息通知</string>
     <string name="personal_setting_logout">退出当前账号</string>
@@ -145,11 +146,13 @@
     <string name="personal_blacklist_title">好友黑名单</string>
     <string name="personal_blacklist_title_note">他/她们都是你曾经厌恶的人</string>
     <string name="personal_blacklist_btn_right">全部取消</string>
+    <string name="personal_blacklist_btn_free">取消\n黑名单</string>
 
     <!--好友黑名单页面-->
     <string name="personal_shutdown_title">趣晒屏蔽列表</string>
     <string name="personal_shutdown_title_note">此功能，仅影响趣晒是否显示</string>
     <string name="personal_shutdown_btn_right">全部取消</string>
+    <string name="personal_shutdown_btn_free">取消屏蔽</string>
 
     <!--关于往往页面-->
     <string name="personal_about_btn_right">常见问题</string>
@@ -204,4 +207,13 @@
     <!--我的二维码-->
     <string name="personal_qrcode_title">我的二维码</string>
     <string name="personal_qrcode_notice">扫描上面二维码，添加往往好友</string>
+
+    <!--代言收益页面-->
+    <string name="personal_represent_title">代言收益</string>
+    <string name="personal_represent_note">代言收益齐分享，社交也能变现！</string>
+    <string name="personal_represent_rule">代言收益规则</string>
+    <string name="personal_represent_code">您的邀请码</string>
+    <string name="personal_represent_diamond">您已获得的钻石</string>
+    <string name="personal_represent_user">下线用户</string>
+    <string name="personal_represent_item_diamond">回馈钻石</string>
 </resources>

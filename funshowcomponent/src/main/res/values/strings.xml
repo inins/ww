@@ -3,7 +3,6 @@
 
     <string name="funshow_home_bar_title">趣晒魔</string>
     <string name="funshow_home_bar_note">发布趣晒20条以上</string>
-    <string name="funshow_home_pop_dislike">不感兴趣...</string>
 
     <!--趣晒魔页面-->
     <string name="funshow_home_hotuserlist_title">趣晒魔</string>
@@ -44,4 +43,8 @@
     <string name="funshow_lock_showall">全部可见</string>
     <string name="funshow_lock_showfriend">好友可见</string>
     <string name="funshow_lock_showself">自己可见</string>
+
+    <!--搜索-->
+    <string name="funshow_search_lack_title">搜索帮助：</string>
+    <string name="funshow_search_lack_note">1.在输入名称后按下空格生成标签\n2.输入三个关键词搜索更精准\n3.可以使用标签+关键词联合搜索</string>
 </resources>

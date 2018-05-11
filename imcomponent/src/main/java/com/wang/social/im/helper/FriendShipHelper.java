@@ -1,6 +1,5 @@
 package com.wang.social.im.helper;
 
-import com.tencent.imsdk.TIMFriendshipManager;
 import com.tencent.imsdk.TIMUserProfile;
 import com.tencent.imsdk.ext.sns.TIMFriendGroup;
 import com.tencent.imsdk.ext.sns.TIMFriendshipProxy;

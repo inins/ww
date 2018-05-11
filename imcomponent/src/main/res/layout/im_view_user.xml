@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:id="@+id/if_iv_portrait"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="@dimen/common_border_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/common_default_circle_placeholder" />
+
+    <TextView
+        android:id="@+id/if_tv_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="13dp"
+        android:textColor="@color/common_text_blank"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/if_tv_age"
+        app:layout_constraintLeft_toRightOf="@id/if_iv_portrait"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="物理乖乖" />
+
+    <TextView
+        android:id="@+id/if_tv_age"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:drawablePadding="5dp"
+        android:gravity="center"
+        android:paddingBottom="1dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="1dp"
+        android:textColor="@color/common_white"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toTopOf="@id/if_tv_tags"
+        app:layout_constraintLeft_toLeftOf="@id/if_tv_nickname"
+        app:layout_constraintTop_toBottomOf="@id/if_tv_nickname"
+        tools:background="@drawable/im_bg_female"
+        tools:drawableStart="@drawable/common_ic_women"
+        tools:text="90后" />
+
+    <TextView
+        android:id="@+id/if_tv_constellation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/im_bg_constellation"
+        android:drawablePadding="5dp"
+        android:gravity="center"
+        android:paddingBottom="1dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="1dp"
+        android:textColor="@color/common_white"
+        android:textSize="12dp"
+        app:layout_constraintLeft_toRightOf="@id/if_tv_age"
+        app:layout_constraintTop_toTopOf="@id/if_tv_age"
+        tools:text="白羊座" />
+
+    <TextView
+        android:id="@+id/if_tv_tags"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/common_border_margin"
+        android:layout_marginTop="1dp"
+        android:ellipsize="end"
+        android:lines="1"
+        android:textColor="@color/common_text_dark"
+        android:textSize="11dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/if_tv_nickname"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/if_tv_constellation"
+        tools:text="#美食 #音乐 #可冷" />
+</merge>

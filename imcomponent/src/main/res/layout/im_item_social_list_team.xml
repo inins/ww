@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp">
+
+    <ImageView
+        android:id="@+id/slt_iv_avatar"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/im_round_image_placeholder" />
+
+    <TextView
+        android:id="@+id/slt_tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="7dp"
+        android:ellipsize="end"
+        android:lines="1"
+        android:maxWidth="90dp"
+        android:textColor="@color/common_text_blank"
+        android:textSize="14dp"
+        app:layout_constraintBottom_toTopOf="@id/slt_tv_member_count"
+        app:layout_constraintLeft_toRightOf="@id/slt_iv_avatar"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="旅游" />
+
+    <TextView
+        android:id="@+id/slt_tv_member_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/common_text_dark"
+        android:textSize="11dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/slt_tv_name"
+        app:layout_constraintTop_toBottomOf="@id/slt_tv_name"
+        tools:text="230人" />
+</android.support.constraint.ConstraintLayout>

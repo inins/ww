@@ -9,9 +9,12 @@ import com.frame.base.BaseViewHolder;
 import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.http.imageloader.glide.RoundedCornersTransformation;
+import com.frame.utils.FrameUtils;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.mvp.model.entities.TeamInfo;
+
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -23,6 +26,10 @@ import butterknife.BindView;
  * ============================================
  */
 public class SocialHomeTeamsAdapter extends BaseAdapter<TeamInfo> {
+
+    public SocialHomeTeamsAdapter(List<TeamInfo> teams) {
+        this.valueList = teams;
+    }
 
     @Override
     protected BaseViewHolder createViewHolder(Context context, ViewGroup parent, int viewType) {
@@ -38,6 +45,7 @@ public class SocialHomeTeamsAdapter extends BaseAdapter<TeamInfo> {
 
         public ViewHolder(Context context, ViewGroup root) {
             super(context, root, R.layout.im_item_social_home_team);
+            mImageLoader = FrameUtils.obtainAppComponentFromContext(context).imageLoader();
         }
 
         @Override

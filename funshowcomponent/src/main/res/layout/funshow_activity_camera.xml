@@ -13,7 +13,13 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="110dp"
-        android:background="@drawable/funshow_shape_rect_gradient_none_dark_v"/>
+        android:background="@drawable/funshow_shape_rect_gradient_none_dark_v" />
+
+    <ImageView
+        android:id="@+id/img_pic"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true" />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -21,7 +27,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@android:color/transparent"
         app:navigationIcon="@drawable/common_ic_close_light"
-        app:popupTheme="@style/common_AppTheme.PopupOverlay" >
+        app:popupTheme="@style/common_AppTheme.PopupOverlay">
 
         <TextView
             android:id="@+id/btn_right"
@@ -36,11 +42,6 @@
             android:textSize="16sp" />
 
     </android.support.v7.widget.Toolbar>
-
-    <ImageView
-        android:id="@+id/img_pic"
-        android:layout_width="100dp"
-        android:layout_height="100dp" />
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"

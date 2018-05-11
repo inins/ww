@@ -2,7 +2,6 @@ package com.wang.social.im.mvp.presenter;
 
 import com.frame.di.scope.ActivityScope;
 import com.frame.http.api.ApiHelper;
-import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;

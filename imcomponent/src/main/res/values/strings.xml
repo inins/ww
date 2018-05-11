@@ -1,9 +1,8 @@
 <resources>
-
+    <!-- Message -->
     <string name="im_chat_input_hint">输入消息...</string>
     <string name="im_voice_input">按住 说话</string>
     <string name="im_voice_input_hover">松开 发送</string>
-
     <string name="im_chat_input_plugin_image">图片</string>
     <string name="im_chat_input_plugin_shoot">拍摄</string>
     <string name="im_chat_input_plugin_location">位置</string>
@@ -14,12 +13,9 @@
     <string name="im_input_voice_cancel">松开手指，取消发送</string>
     <string name="im_input_voice_short">录音时间太短</string>
     <string name="im_input_voice_failure">录音失败！</string>
-
     <string name="im_message_handle_delete">删除</string>
     <string name="im_message_handle_withdraw">撤回</string>
-
     <string name="im_message_tip_revoke">&#160;撤回了一条消息</string>
-
     <string name="im_self">你</string>
     <string name="im_seconds">%d\&#034;</string>
     <string name="im_online_number">%d人在线</string>
@@ -30,5 +26,19 @@
     <string name="im_mirror_description">往往，每个人都有一面镜子</string>
     <string name="im_mirror_online_number">(在线%d人)</string>
 
+    <!-- 往来 -->
+    <string name="im_chat">聊天</string>
+    <string name="im_friend">好友</string>
+    <string name="im_notify">通知</string>
+    <string name="im_my_social">我的趣聊</string>
+    <string name="im_my_friend">我的好友 (%d)</string>
+    <string name="im_scan">扫一扫</string>
+    <string name="im_contacts">手机通讯录</string>
+    <string name="im_unjoied">还未加入往往</string>
+    <string name="im_added">已添加</string>
+    <string name="im_phone_book">手机通讯录</string>
+    <string name="im_phone_book_tip">邀请熟人一起玩，告别孤独不再孤单</string>
+
     <string name="im_toast_revoke_timeout">发送时间超过2分钟，不能被撤回</string>
+    <string name="im_toast_contact_permission">请打开通讯录读取权限</string>
 </resources>

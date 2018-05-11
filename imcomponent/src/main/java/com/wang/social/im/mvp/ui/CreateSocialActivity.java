@@ -1,5 +1,6 @@
 package com.wang.social.im.mvp.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,7 +12,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.frame.component.helper.NetPayStoneHelper;
 import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.component.ui.acticity.tags.TagSelectionActivity;
 import com.frame.component.ui.base.BaseAppActivity;
@@ -74,6 +74,11 @@ public class CreateSocialActivity extends BaseAppActivity<CreateSocialPresenter>
 
     @Inject
     ImageLoader mImageLoader;
+
+    public static void start(Context context) {
+        Intent intent = new Intent(context, CreateSocialActivity.class);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -260,7 +265,7 @@ public class CreateSocialActivity extends BaseAppActivity<CreateSocialPresenter>
 
     @Override
     public void onCreateComplete(CreateGroupResult result) {
-
+        finish();
     }
 
     @Override

@@ -1,10 +1,10 @@
 package com.wang.social.im.mvp.model;
 
+import com.frame.component.enums.Gender;
 import com.frame.di.scope.ActivityScope;
 import com.frame.http.api.BaseJson;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.BaseModel;
-import com.wang.social.im.enums.Gender;
 import com.wang.social.im.mvp.contract.ShadowSettingContract;
 import com.wang.social.im.mvp.model.api.GroupService;
 import com.wang.social.im.mvp.model.entities.dto.PayCheckInfoDTO;

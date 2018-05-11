@@ -43,11 +43,21 @@ public class CommonHelper {
         public static void startHomeActivity(Context context) {
             UIRouter.getInstance().openUri(context, HomePath.HOME_URL, null);
         }
+
+        public static void startSearchActivity(Context context) {
+            UIRouter.getInstance().openUri(context, HomePath.SEARCH_URL, null);
+        }
     }
 
     public static class FunshowHelper {
         public static void startAddActivity(Context context) {
-            UIRouter.getInstance().openUri(context, FunshowPath.FUNSHOW_URL, null);
+            UIRouter.getInstance().openUri(context, FunshowPath.FUNSHOW_ADD_URL, null);
+        }
+
+        public static void startDetailActivity(Context context, int talkId) {
+            Bundle bundle = new Bundle();
+            bundle.putInt("talkId", talkId);
+            UIRouter.getInstance().openUri(context, FunshowPath.FUNSHOW_DETAIL_URL, bundle);
         }
     }
 
@@ -93,10 +103,19 @@ public class CommonHelper {
     public static class TopicHelper {
         /**
          * 话题发布
+         *
          * @param context context
          */
         public static void startTopicRelease(Context context) {
             UIRouter.getInstance().openUri(context, TopicPath.TOPIC_RELEASE_URL, null);
+        }
+
+        /**
+         * 详情话题
+         */
+        public static void startTopicDetail(Context context, int topicId) {
+            //TODO:暂时没有，预留一个方法
+            ToastUtil.showToastShort("topicId:" + topicId);
         }
     }
 }

@@ -41,6 +41,7 @@ public class NetParam {
         return this;
     }
 
+    //添加签名参数
     public NetParam putSignature() {
         if (StrUtil.isEmpty(paramMap)) return this;
         String randomInt = String.valueOf(new Random().nextInt());

@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
 import com.frame.component.entities.Tag;
+import com.frame.utils.StrUtil;
 import com.wang.social.funpoint.R;
 import com.wang.social.funpoint.R2;
 import com.wang.social.funpoint.mvp.entities.Lable;
@@ -50,9 +51,17 @@ public class RecycleAdapterLable extends BaseAdapter<Tag> {
         }
     }
 
+    private int MAXCOUNT = 3;
+
     @Override
     public int getItemCount() {
-        return valueList == null ? 1 : valueList.size() + 1;
+        if (StrUtil.isEmpty(valueList)) {
+            return 1;
+        } else if (valueList.size() >= MAXCOUNT) {
+            return MAXCOUNT + 1;
+        } else {
+            return valueList.size() + 1;
+        }
     }
 
 

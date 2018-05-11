@@ -4,13 +4,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.TextView;
 
 import com.frame.component.ui.dialog.BaseDialog;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 
-import butterknife.BindView;
 import butterknife.OnClick;
 
 /**

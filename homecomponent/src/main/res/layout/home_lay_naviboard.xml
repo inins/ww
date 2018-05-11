@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="15dp"
+    tools:background="@color/common_white">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="20dp"
+        app:cardCornerRadius="18dp"
+        app:cardElevation="5dp">
+
+        <TextView
+            android:id="@+id/btn_search"
+            style="@style/common_EditNone"
+            android:layout_height="match_parent"
+            android:drawableLeft="@drawable/common_ic_home_search"
+            android:drawablePadding="5dp"
+            android:foreground="?attr/selectableItemBackground"
+            android:hint="请输入搜索关键字" />
+
+    </android.support.v7.widget.CardView>
+
+    <TextView
+        android:id="@+id/text_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="20dp"
+        android:drawableRight="@drawable/home_ic_tag"
+        android:gravity="center_vertical"
+        android:text="@string/home_home_title"
+        android:textColor="@color/common_text_blank"
+        android:textSize="32sp" />
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:clipToPadding="false"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/btn_samekind"
+                android:layout_width="135dp"
+                android:layout_height="97dp"
+                android:background="@drawable/home_bg_naviboard_samekind"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="bottom"
+                android:orientation="vertical"
+                android:padding="6dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/home_home_naviboard_samekind_title"
+                    android:textColor="@color/common_white"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/home_home_naviboard_samekind_note"
+                    android:textColor="@color/common_white"
+                    android:textSize="10sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btn_circle"
+                android:layout_width="135dp"
+                android:layout_height="97dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/home_bg_naviboard_circle"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="bottom"
+                android:orientation="vertical"
+                android:padding="6dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/home_home_naviboard_circle_title"
+                    android:textColor="@color/common_white"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/home_home_naviboard_circle_note"
+                    android:textColor="@color/common_white"
+                    android:textSize="10sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btn_active"
+                android:layout_width="135dp"
+                android:layout_height="97dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/home_bg_naviboard_active"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="bottom"
+                android:orientation="vertical"
+                android:padding="6dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/home_home_naviboard_active_title"
+                    android:textColor="@color/common_white"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/home_home_naviboard_active_note"
+                    android:textColor="@color/common_white"
+                    android:textSize="10sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+</LinearLayout>

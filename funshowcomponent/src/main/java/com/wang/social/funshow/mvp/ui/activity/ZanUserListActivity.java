@@ -80,12 +80,6 @@ public class ZanUserListActivity extends BasicAppActivity implements IView {
         springView.callFreshDelay();
     }
 
-    public void onClick(View v) {
-        int i = v.getId();
-        if (i == R.id.btn_right) {
-        }
-    }
-
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
 

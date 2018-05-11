@@ -5,8 +5,6 @@ import android.os.Parcelable;
 
 import com.tencent.imsdk.TIMManager;
 
-import java.io.Serializable;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

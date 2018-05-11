@@ -13,6 +13,7 @@ import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.component.ui.dialog.DialogSure;
 import com.frame.di.component.AppComponent;
 import com.frame.mvp.IView;
+import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.FocusUtil;
 import com.liaoinstan.springview.widget.SpringView;
 import com.umeng.socialize.UMShareAPI;
@@ -27,6 +28,7 @@ import com.wang.social.funshow.mvp.ui.controller.FunshowDetailZanController;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+@RouteNode(path = "/detail", desc = "趣晒详情")
 public class FunshowDetailActivity extends BasicAppActivity implements IView {
 
     @BindView(R2.id.spring)
@@ -35,7 +37,6 @@ public class FunshowDetailActivity extends BasicAppActivity implements IView {
     AppBarLayout appbarlayout;
     @BindView(R2.id.edit_eva)
     EditText editEva;
-
 
     private FunshowDetailContentBoardController contentBoardController;
     private FunshowDetailZanController zanController;

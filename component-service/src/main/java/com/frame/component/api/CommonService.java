@@ -3,6 +3,7 @@ package com.frame.component.api;
 import com.frame.component.entities.UserWrap;
 import com.frame.component.entities.dto.AccountBalanceDTO;
 import com.frame.component.entities.dto.QiNiuDTO;
+import com.frame.component.entities.user.UserBoard;
 import com.frame.http.api.BaseJson;
 
 import java.util.Map;
@@ -11,9 +12,7 @@ import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.QueryMap;
 
 /**
  * =========================================
@@ -92,4 +91,42 @@ public interface CommonService {
 
     @GET("/app/userWallet/accountBalance")
     Observable<BaseJson<AccountBalanceDTO>> accountBalance(@QueryMap Map<String, Object> param);
+
+    /**
+     * 趣晒点赞
+     * type类型1点赞 2取消点赞
+     */
+    @FormUrlEncoded
+    @POST("/app/talk/talkSupport?v=2.0.0")
+    Observable<BaseJson<Object>> funshowZan(@Field("talkId") int talkId, @Field("type") int type);
+
+    /**
+     * 趣晒评论点赞
+     * type类型1点赞 2取消点赞
+     */
+    @FormUrlEncoded
+    @POST("/app/talk/talkCommentSupport?v=2.0.0")
+    Observable<BaseJson<Object>> funshowCommentZan(@Field("talkId") int talkId, @Field("talkCommentId") int talkCommentId, @Field("type") int type);
+
+    /**
+     * 话题点赞
+     * type类型1点赞 2取消点赞
+     */
+    @FormUrlEncoded
+    @POST("/app/topic/topicSupport?v=2.0.0")
+    Observable<BaseJson<Object>> topicZan(@Field("topicId") int topicId, @Field("type") int type);
+
+    /**
+     * 阅读趣点数量统计
+     */
+    @FormUrlEncoded
+    @POST("/app/news/addRealTotal?v=2.0.0")
+    Observable<BaseJson<Object>> readFunpoint(@Field("newsId") int newsId);
+
+    /**
+     * 获取用户信息包括相册
+     */
+    @FormUrlEncoded
+    @POST("/app/userInfo/getUserInfoAndPhotos?v=2.0.0")
+    Observable<BaseJson<UserBoard>> getUserInfoAndPhotos(@Field("userId") int userId);
 }
