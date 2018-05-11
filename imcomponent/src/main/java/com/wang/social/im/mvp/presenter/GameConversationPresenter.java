@@ -11,6 +11,7 @@ import com.tencent.imcore.GroupManager;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMCustomElem;
+import com.tencent.imsdk.TIMElem;
 import com.tencent.imsdk.TIMGroupManager;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
@@ -19,6 +20,7 @@ import com.tencent.imsdk.TIMTextElem;
 import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.ext.group.TIMGroupManagerExt;
 import com.tencent.imsdk.ext.message.TIMConversationExt;
+import com.wang.social.im.app.IMConstants;
 import com.wang.social.im.enums.CustomElemType;
 import com.wang.social.im.enums.GameNotifyType;
 import com.wang.social.im.enums.MessageType;
@@ -89,6 +91,13 @@ public class GameConversationPresenter extends BasePresenter<GameConversationCon
         TIMGroupManager.getInstance().applyJoinGroup(identity, "", new TIMCallBack() {
             @Override
             public void onError(int i, String s) {
+                Timber.tag("加入聊天室").e(i + "=>" + s);
+                if (i == IMConstants.TIM_ERROR_CODE_GROUP_JOINED) {
+                    TIMManager.getInstance().addMessageListener(GameConversationPresenter.this);
+
+                    mRootView.joinComplete();
+                    getHistoryMessage();
+                }
             }
 
             @Override

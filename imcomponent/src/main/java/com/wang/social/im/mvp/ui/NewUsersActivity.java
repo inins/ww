@@ -107,6 +107,6 @@ public class NewUsersActivity extends BasicAppActivity implements IView, BaseAda
 
     @Override
     public void onItemClick(UserInfo userInfo, int position) {
-        //用户名片跳转
+        // TODO: 2018-05-11 页面跳转
     }
 }

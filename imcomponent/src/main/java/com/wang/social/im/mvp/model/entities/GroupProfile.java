@@ -8,6 +8,7 @@ import com.tencent.imsdk.TIMGroupReceiveMessageOpt;
 import com.tencent.imsdk.ext.group.TIMGroupBasicSelfInfo;
 import com.tencent.imsdk.ext.group.TIMGroupCacheInfo;
 import com.tencent.imsdk.ext.group.TIMGroupDetailInfo;
+import com.wang.social.im.app.IMConstants;
 
 /**
  * ============================================
@@ -15,7 +16,11 @@ import com.tencent.imsdk.ext.group.TIMGroupDetailInfo;
  * Create by ChenJing on 2018-04-17 11:21
  * ============================================
  */
-public class GroupProfile implements ProfileSummary{
+public class GroupProfile implements ProfileSummary {
+
+    public static final int GROUP_TYPE_SOCIAL = 0x001;
+    public static final int GROUP_TYPE_TEAM = 0x002;
+    public static final int GROUP_TYPE_MIRROR = 0x003;
 
     private TIMGroupDetailInfo profile;
     private TIMGroupBasicSelfInfo selfInfo;
@@ -25,10 +30,9 @@ public class GroupProfile implements ProfileSummary{
         this.selfInfo = cacheInfo.getSelfInfo();
     }
 
-
     @Override
     public String getPortrait() {
-        if (!TextUtils.isEmpty(profile.getFaceUrl())){
+        if (!TextUtils.isEmpty(profile.getFaceUrl())) {
             return profile.getFaceUrl();
         }
         return "";
@@ -36,7 +40,7 @@ public class GroupProfile implements ProfileSummary{
 
     @Override
     public String getName() {
-        if (!TextUtils.isEmpty(profile.getGroupName())){
+        if (!TextUtils.isEmpty(profile.getGroupName())) {
             return profile.getGroupName();
         }
         return "";
@@ -55,14 +59,26 @@ public class GroupProfile implements ProfileSummary{
     /**
      * 获取自己身份
      */
-    public TIMGroupMemberRoleType getRole(){
+    public TIMGroupMemberRoleType getRole() {
         return selfInfo.getRole();
     }
 
     /**
      * 获取消息接收状态
      */
-    public TIMGroupReceiveMessageOpt getMessagOpt(){
+    public TIMGroupReceiveMessageOpt getMessagOpt() {
         return selfInfo.getRecvMsgOption();
+    }
+
+    /**
+     * 群类型
+     * {@link #GROUP_TYPE_SOCIAL}
+     * {@link #GROUP_TYPE_TEAM}
+     * {@link #GROUP_TYPE_SOCIAL}
+     *
+     * @return
+     */
+    public int getGroupType() {
+        return Integer.parseInt(new String(profile.getCustom().get(IMConstants.IM_GROUP_PROFILE_TYPE)));
     }
 }

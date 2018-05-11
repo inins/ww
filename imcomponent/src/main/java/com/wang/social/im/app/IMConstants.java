@@ -58,11 +58,6 @@ public interface IMConstants {
     int UPDATE_SHADOW_PRICE = 100;
 
     /**
-     * 撤回消息发送时间超过两分钟
-     */
-    int TIM_ERROR_CODE_REVOKE_TIMEOUT = 6223;
-
-    /**
      * IM会话标识前缀：镜像聊天室
      */
     String IM_IDENTITY_PREFIX_MIRROR = "JX";
@@ -99,6 +94,24 @@ public interface IMConstants {
      * 摇钱树通知操作类型：游戏结果
      */
     String GAME_NOTIFY_TYPE_RESULT = "Result";
+
+    /** -------------------IM自定义字段---------------------*/
+    /**
+     * 群组类型（1：趣聊、2：觅聊、3：镜子聊天室）
+     */
+    String IM_GROUP_PROFILE_TYPE = "GroupType";
+    /**------------------------------------------------**/
+
+    /**--------------------IM错误码-----------------------**/
+    /**
+     * 撤回消息发送时间超过两分钟
+     */
+    int TIM_ERROR_CODE_REVOKE_TIMEOUT = 6223;
+    /**
+     * 已经加入过群组
+     */
+    int TIM_ERROR_CODE_GROUP_JOINED = 10013;
+    /**------------------------------------------------**/
 
     /**
      * ----------------------文案--------------------------

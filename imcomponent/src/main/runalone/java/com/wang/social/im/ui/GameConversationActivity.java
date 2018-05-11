@@ -29,7 +29,7 @@ public class GameConversationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.im_activity_game_conversation);
 
-        GameConversationFragment conversationFragment = GameConversationFragment.newInstance("129");
+        GameConversationFragment conversationFragment = GameConversationFragment.newInstance("135");
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.conversation, conversationFragment, ConversationFragment.class.getName());
         transaction.commitAllowingStateLoss();
