@@ -6,7 +6,7 @@ import java.util.List;
 
 import timber.log.Timber;
 
-public class StringUtils {
+public class TagUtils {
 
     public static String formatTagIds(List<Tag> list) {
         String tagIds = "";

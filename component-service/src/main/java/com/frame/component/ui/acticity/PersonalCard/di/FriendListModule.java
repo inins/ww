@@ -1,30 +1,30 @@
 package com.frame.component.ui.acticity.PersonalCard.di;
 
-import com.frame.component.ui.acticity.PersonalCard.contract.PersonalCardContract;
-import com.frame.component.ui.acticity.PersonalCard.model.PersonalCardModel;
-import com.frame.di.scope.ActivityScope;
+import com.frame.component.ui.acticity.PersonalCard.contract.FriendListContract;
+import com.frame.component.ui.acticity.PersonalCard.model.FriendListModel;
+import com.frame.di.scope.FragmentScope;
 
 import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class PersonalCardModule {
+public class FriendListModule {
 
-    private PersonalCardContract.View view;
+    private FriendListContract.View view;
 
-    public PersonalCardModule(PersonalCardContract.View view) {
+    public FriendListModule(FriendListContract.View view) {
         this.view = view;
     }
 
-    @ActivityScope
+    @FragmentScope
     @Provides
-    PersonalCardContract.View provideTopicView() {
+    FriendListContract.View provideFriendListView() {
         return this.view;
     }
 
-    @ActivityScope
+    @FragmentScope
     @Provides
-    PersonalCardContract.Model provideTopicModel(PersonalCardModel model) {
+    FriendListContract.Model provideFriendListModel(FriendListModel model) {
         return model;
     }
 }

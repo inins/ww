@@ -1,4 +1,4 @@
-package com.wang.social.topic.mvp.ui;
+package com.frame.component.ui.acticity.PersonalCard.ui;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;

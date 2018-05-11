@@ -212,7 +212,7 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
         // xx人参与中
         setJoinNumTV(roomMsg.getJoinNum());
         // 累计xx钻
-        mDiamondNumTV.setText(String.format(getString(R.string.mt_format_game_room_diamond_num), roomMsg.getDiamond()));
+        mDiamondNumTV.setText(String.format(getString(R.string.mt_format_game_room_diamond_num), roomMsg.getTotalDiamond()));
         // 是否已加入游戏
         // :isJoin:是否加入该游戏(0：未加入，1:加入);
         if (roomMsg.getIsJoin() == 0) {

@@ -1,5 +1,6 @@
 package com.frame.component.ui.acticity.PersonalCard.contract;
 
+import com.frame.component.ui.acticity.PersonalCard.model.entities.DTO.FriendListDTO;
 import com.frame.component.ui.acticity.PersonalCard.model.entities.DTO.UserInfoDTO;
 import com.frame.component.ui.acticity.PersonalCard.model.entities.DTO.UserStatisticsDTO;
 import com.frame.component.ui.acticity.PersonalCard.model.entities.UserInfo;
@@ -10,23 +11,19 @@ import com.frame.mvp.IView;
 
 import io.reactivex.Observable;
 
-public interface PersonalCardContract {
+public interface FriendListContract {
     interface View extends IView {
-        void onLoadUserInfoSuccess(UserInfo userInfo);
-        void onLoadUserStatisticsSuccess(UserStatistics statistics);
+        void onLoadFriendListSuccess();
+        void onLoadFriendListCompleted();
     }
 
     interface Model extends IModel {
         /**
-         * 用户数据统计（我的/推荐/个人名片）
-         * @param userId 用户ID
+         * 好友列表-他人名片查看
+         * @param otherUserId 他人用户id
+         * @param current 当前页数
+         * @param size 每页条数
          */
-        Observable<BaseJson<UserStatisticsDTO>> getUserStatistics(int userId);
-
-        /**
-         * 用户信息加个人相册输出（我的/个人名片）
-         * @param userId 用户ID,如果查询自己的名片信息不传
-         */
-        Observable<BaseJson<UserInfoDTO>> getUserInfoAndPhotos(int userId);
+        Observable<BaseJson<FriendListDTO>> getUserFriendList(int otherUserId, int current, int size);
     }
 }

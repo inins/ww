@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class StringUtilsTest {
+public class TagUtilsTest {
 
     @Test
     public void isMobileNO() {

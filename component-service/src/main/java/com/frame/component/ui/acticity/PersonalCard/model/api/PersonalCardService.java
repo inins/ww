@@ -1,6 +1,8 @@
 package com.frame.component.ui.acticity.PersonalCard.model.api;
 
 import com.frame.component.entities.dto.AccountBalanceDTO;
+import com.frame.component.ui.acticity.PersonalCard.model.entities.DTO.FriendListDTO;
+import com.frame.component.ui.acticity.PersonalCard.model.entities.DTO.TalkBeanListDTO;
 import com.frame.component.ui.acticity.PersonalCard.model.entities.DTO.UserInfoDTO;
 import com.frame.component.ui.acticity.PersonalCard.model.entities.DTO.UserStatisticsDTO;
 import com.frame.http.api.BaseJson;
@@ -31,5 +33,15 @@ public interface PersonalCardService {
     @POST("app/userInfo/getUserStatistics")
     Observable<BaseJson<UserStatisticsDTO>> getUserStatistics(@FieldMap Map<String, Object> param);
 
+    /**
+     * 好友列表-他人名片查看
+     */
+    @GET("app/userFriend/othersFriendList")
+    Observable<BaseJson<FriendListDTO>> getUserFriendList(@QueryMap Map<String, Object> param);
 
+    /**
+     * 趣聊列表-他人名片
+     */
+    @GET("app/group/list")
+    Observable<BaseJson<TalkBeanListDTO>> getGroupList(@QueryMap Map<String, Object> param);
 }

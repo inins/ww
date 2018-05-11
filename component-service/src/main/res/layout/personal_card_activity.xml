@@ -5,13 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/common_white"
     android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
         app:elevation="0dp">
 
         <android.support.design.widget.CollapsingToolbarLayout
@@ -83,7 +83,8 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/common_red_gray"
-        android:layout_gravity="bottom"></LinearLayout>
+        android:layout_gravity="bottom"
+        android:visibility="gone"></LinearLayout>
 
 
 </android.support.design.widget.CoordinatorLayout>

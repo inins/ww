@@ -32,7 +32,7 @@ public class TagSelectionModel extends BaseModel implements TagSelectionContract
 
     @Override
     public Observable<BaseJson> updateRecommendTag(List<Tag> list) {
-        String tagIds = StringUtils.formatTagIds(list);
+        String tagIds = TagUtils.formatTagIds(list);
         Map<String, Object> param = new NetParam()
                 .put("tagIds", tagIds)
                 .put("v", "2.0.0")
@@ -56,7 +56,7 @@ public class TagSelectionModel extends BaseModel implements TagSelectionContract
 
     @Override
     public Observable<BaseJson> addPersonalTag(List<Tag> list) {
-        String tagIds = StringUtils.formatTagIds(list);
+        String tagIds = TagUtils.formatTagIds(list);
         Map<String, Object> param = new NetParam()
                 .put("tagIds", tagIds)
                 .put("v", "2.0.0")

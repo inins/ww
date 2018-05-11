@@ -46,4 +46,7 @@ dependencies {
     implementation 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'
     //代替tablayout
     implementation 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
+    implementation ('com.alibaba.android:ultraviewpager:1.0.7.7@aar') {
+        transitive = true
+    }
 }

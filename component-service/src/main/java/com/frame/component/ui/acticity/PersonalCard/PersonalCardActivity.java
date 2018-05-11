@@ -19,8 +19,11 @@ import com.frame.component.ui.acticity.PersonalCard.di.PersonalCardModule;
 import com.frame.component.ui.acticity.PersonalCard.model.entities.UserInfo;
 import com.frame.component.ui.acticity.PersonalCard.model.entities.UserStatistics;
 import com.frame.component.ui.acticity.PersonalCard.presenter.PersonalCardPresenter;
+import com.frame.component.ui.acticity.PersonalCard.ui.fragment.FriendListFragment;
+import com.frame.component.ui.acticity.PersonalCard.ui.fragment.TalkListFragment;
 import com.frame.component.ui.acticity.PersonalCard.ui.fragment.TestFragment;
 import com.frame.component.ui.acticity.tags.Tag;
+import com.frame.component.ui.acticity.tags.TagUtils;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
@@ -108,7 +111,7 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
         initTabLayout();
 
         mPresenter.loadUserStatistics(mUserId);
-//        mPresenter.loadUserInfoAndPhotos(mUserId);
+        mPresenter.loadUserInfoAndPhotos(mUserId);
     }
 
     private static String[] TAB_LAYOUT_TITLES = { "好友", "趣聊", "趣晒", "话题" };
@@ -116,6 +119,13 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
         mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
+                switch (position) {
+                    case 0:
+                        return FriendListFragment.newInstance(mUserId);
+                    case 1:
+                        return TalkListFragment.newInstance(mUserId);
+                }
+
                 return new TestFragment();
             }
 
@@ -175,11 +185,7 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
         // 星座
         mXingZuoTV.setText(TimeUtils.getZodiac(userInfo.getBirthday()));
         // 标签
-        String tags = "";
-        for (Tag tag : userInfo.getTags()) {
-            tags += "#" + tag.getTagName() + "  ";
-        }
-        mTagsTV.setText(tags);
+        mTagsTV.setText(TagUtils.formatTagNames(userInfo.getTags()));
         // 签名
         mSignTV.setText(userInfo.getAutograph());
     }

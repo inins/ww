@@ -7,14 +7,10 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class TalkBean {
-    private int id;
-    private int pid;
-    private String groupName;
-    private String groupHeadUrl;
-    private String groupCoverPlan;
-    private List<Tag> tags;
-    private int isOpen;
-    private int isFree;
-    private int groupMemberNum;
+public class TalkBeanList {
+    private int current;
+    private int total;
+    private int pages;
+    private int size;
+    private List<TalkBean> list;
 }

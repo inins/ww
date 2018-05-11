@@ -1,4 +1,4 @@
-package com.wang.social.pictureselector.ui.widget;
+package com.frame.component.ui.acticity.PersonalCard.ui.widget;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
