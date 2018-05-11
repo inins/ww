@@ -130,6 +130,8 @@ public class UIMessage {
                 CustomElemType elemType = CustomElemType.getElemType(customElem);
                 if (elemType == CustomElemType.RED_ENVELOP) {
                     messageType = MessageType.RED_ENVELOP;
+                } else if (elemType == CustomElemType.GAME_NOTIFY) {
+                    messageType = MessageType.GAME_NOTIFY;
                 }
             }
         }
@@ -224,6 +226,8 @@ public class UIMessage {
                         switch (elemType) {
                             case RED_ENVELOP:
                                 return gson.fromJson(new String(customElem.getData(), "UTF-8"), EnvelopElemData.class);
+                            case GAME_NOTIFY:
+                                return gson.fromJson(new String(customElem.getData(), "UTF-8"), GameNotifyElemData.class);
                         }
                     }
                 }

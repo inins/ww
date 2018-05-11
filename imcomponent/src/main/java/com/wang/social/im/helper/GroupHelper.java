@@ -2,6 +2,7 @@ package com.wang.social.im.helper;
 
 import com.tencent.imsdk.ext.group.TIMGroupAssistant;
 import com.tencent.imsdk.ext.group.TIMGroupCacheInfo;
+import com.wang.social.im.app.IMConstants;
 import com.wang.social.im.mvp.model.entities.GroupProfile;
 
 import java.util.ArrayList;
@@ -21,13 +22,12 @@ public class GroupHelper {
     private volatile static GroupHelper mInstance;
 
     private Map<String, List<GroupProfile>> groups;
-    private static final String PUBLIC_GROUP = "Public", PRIVATE_GROUP = "Private", CHAT_ROOM = "ChatRoom";
 
     private GroupHelper() {
         groups = new HashMap<>();
-        groups.put(PUBLIC_GROUP, new ArrayList<>());
-        groups.put(PRIVATE_GROUP, new ArrayList<>());
-        groups.put(CHAT_ROOM, new ArrayList<>());
+        groups.put(IMConstants.IM_GROUP_TYPE_PUBLIC, new ArrayList<>());
+        groups.put(IMConstants.IM_GROUP_TYPE_PRIVATE, new ArrayList<>());
+        groups.put(IMConstants.IM_GROUP_TYPE_CHAT_ROOM, new ArrayList<>());
 
         refresh();
     }
@@ -58,13 +58,14 @@ public class GroupHelper {
 
     /**
      * 通过群ID查询群资料
+     *
      * @param identify
      * @return
      */
-    public GroupProfile getGroupProfile(String identify){
-        for (String key : groups.keySet()){
-            for (GroupProfile profile : groups.get(key)){
-                if (profile.getIdentify().equals(identify)){
+    public GroupProfile getGroupProfile(String identify) {
+        for (String key : groups.keySet()) {
+            for (GroupProfile profile : groups.get(key)) {
+                if (profile.getIdentify().equals(identify)) {
                     return profile;
                 }
             }
@@ -74,13 +75,14 @@ public class GroupHelper {
 
     /**
      * 根据指定类型，通过群ID查询群资料
+     *
      * @param type
      * @param identify
      * @return
      */
-    public GroupProfile getGroupProfile(String type, String identify){
-        for (GroupProfile profile : groups.get(type)){
-            if (profile.getIdentify().equals(identify)){
+    public GroupProfile getGroupProfile(String type, String identify) {
+        for (GroupProfile profile : groups.get(type)) {
+            if (profile.getIdentify().equals(identify)) {
                 return profile;
             }
         }

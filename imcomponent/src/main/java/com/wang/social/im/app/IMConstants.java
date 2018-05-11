@@ -26,6 +26,11 @@ public interface IMConstants {
     String CUSTOM_ELEM_SHADOW = "doppelganger";
 
     /**
+     * 自定义消息Elem类型：游戏通知
+     */
+    String CUSTOM_ELEM_GAME_NOTIFY = "GameNtf";
+
+    /**
      * 个人红包上限
      */
     int PRIVATE_ENVELOP_DIAMOND_LIMIT = 2000;
@@ -57,8 +62,47 @@ public interface IMConstants {
      */
     int TIM_ERROR_CODE_REVOKE_TIMEOUT = 6223;
 
+    /**
+     * IM会话标识前缀：镜像聊天室
+     */
+    String IM_IDENTITY_PREFIX_MIRROR = "JX";
+    /**
+     * IM会话标识前缀：摇钱树
+     */
+    String IM_IDENTITY_PREFIX_GAME = "YQS";
 
-    /** ---------------------------------------------------- **/
+    /**
+     * 群类型：私有群
+     */
+    String IM_GROUP_TYPE_PRIVATE = "Private";
+    /**
+     * 群类型：公共群
+     */
+    String IM_GROUP_TYPE_PUBLIC = "Public";
+    /**
+     * 群类型：聊天室
+     */
+    String IM_GROUP_TYPE_CHAT_ROOM = "ChatRoom";
+    /**
+     * 群类型：直播聊天室
+     */
+    String IM_GROUP_TYPE_AV_CHAT_ROOM = "AVChatRoom";
+    /**
+     * 摇钱树通知操作类型：创建
+     */
+    String GAME_NOTIFY_TYPE_CREATE = "Create";
+    /**
+     * 摇钱树通知操作类型：加入
+     */
+    String GAME_NOTIFY_TYPE_JOIN = "Add";
+    /**
+     * 摇钱树通知操作类型：游戏结果
+     */
+    String GAME_NOTIFY_TYPE_RESULT = "Result";
+
+    /**
+     * ----------------------文案--------------------------
+     **/
     String CONTENT_INVITE_JOIN_APP = "加入往往咯";
     /** ---------------------------------------------------- **/
 }
