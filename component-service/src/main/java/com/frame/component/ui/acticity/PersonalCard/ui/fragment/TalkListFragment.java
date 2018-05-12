@@ -84,7 +84,10 @@ public class TalkListFragment extends BasicFragment implements IView {
 
         mAdapter = new TalkAdapter(mRecyclerView, mList);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        mRecyclerView.addItemDecoration(new ThumbnailDecoration(SizeUtils.dp2px(10), Color.TRANSPARENT, true));
+        mRecyclerView.addItemDecoration(
+                new ThumbnailDecoration(SizeUtils.dp2px(10),
+                        Color.TRANSPARENT,
+                        true));
         mRecyclerView.setAdapter(mAdapter);
 
         // 更新，加载更多

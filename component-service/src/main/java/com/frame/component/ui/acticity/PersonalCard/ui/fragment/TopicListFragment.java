@@ -24,6 +24,7 @@ import com.frame.http.api.error.RxErrorHandler;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.IView;
 import com.frame.utils.FrameUtils;
+import com.frame.utils.ToastUtil;
 import com.frame.utils.Utils;
 import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.container.AliHeader;
@@ -39,7 +40,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 
-public class TopicListFragment extends BasicFragment implements IView {
+public class TopicListFragment extends BasicFragment implements IView, TopicListAdapter.ClickListener {
 
     public static TopicListFragment newInstance(int userid) {
         TopicListFragment fragment = new TopicListFragment();
@@ -171,5 +172,11 @@ public class TopicListFragment extends BasicFragment implements IView {
         super.onDestroy();
         mErrorHandler = null;
         mApiHelper = null;
+    }
+
+    @Override
+    public void onTopicClick(Topic topic) {
+        // 跳转到详情
+        ToastUtil.showToastLong("话题详情");
     }
 }
