@@ -8,6 +8,7 @@
     <string name="im_shoot">拍摄</string>
     <string name="im_album">相册</string>
     <string name="im_complete">完成</string>
+    <string name="im_search">搜索</string>
     <!-- Message -->
     <string name="im_chat_input_hint">输入消息...</string>
     <string name="im_voice_input">按住 说话</string>
@@ -31,6 +32,7 @@
     <string name="im_online_total_number">共%d人，%d人在线</string>
     <string name="im_remark_setting">设置备注</string>
     <string name="im_information_card">资料卡</string>
+    <string name="im_alter_friend">&#064;好友</string>
 
     <!-- Mirror -->
     <string name="im_mirror_title">镜像聊天</string>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="?actionBarSize">
+
+                <TextView
+                    android:id="@+id/aul_tvb_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="37dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="@dimen/common_border_margin"
+                    android:layout_marginStart="@dimen/common_border_margin"
+                    android:layout_marginTop="8dp"
+                    android:background="#cecece"
+                    android:drawablePadding="10dp"
+                    android:drawableStart="@drawable/common_ic_home_search"
+                    android:gravity="center_vertical"
+                    android:paddingStart="10dp"
+                    android:text="@string/im_search"
+                    android:textColor="@color/common_text_dark" />
+            </FrameLayout>
+
+            <com.frame.component.view.SocialToolbar
+                android:id="@+id/aul_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:background="@color/common_colorPrimary"
+                app:layout_collapseMode="pin"
+                app:toolbar_left_icon="@drawable/common_ic_close"
+                app:toolbar_title_text="@string/im_alter_friend" />
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <me.yokeyword.indexablerv.IndexableLayout
+        android:id="@+id/aul_users"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/common_white"
+        app:indexBar_selectedTextColor="@color/common_colorAccent"
+        app:indexBar_textColor="@color/common_text_blank"
+        app:indexBar_textSize="9sp"
+        app:indexBar_textSpace="5dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+</android.support.design.widget.CoordinatorLayout>

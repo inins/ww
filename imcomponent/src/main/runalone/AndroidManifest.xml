@@ -154,8 +154,10 @@
             android:name=".mvp.ui.NewUsersActivity"
             android:exported="true" />
         <activity android:name=".mvp.ui.SocialLimitActivity" />
-        <activity android:name=".mvp.ui.InviteFriendActivity"
-            android:exported="true"></activity>
+        <activity
+            android:name=".mvp.ui.InviteFriendActivity"
+            android:exported="true" />
+        <activity android:name=".mvp.ui.AlertUserListActivity"></activity>
     </application>
 
 </manifest>

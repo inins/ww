@@ -2,11 +2,13 @@ package com.wang.social.im.mvp.model.api;
 
 import com.frame.http.api.BaseJson;
 import com.wang.social.im.mvp.model.entities.IndexFriendInfo;
+import com.wang.social.im.mvp.model.entities.IndexMemberInfo;
 import com.wang.social.im.mvp.model.entities.MemberInfo;
 import com.wang.social.im.mvp.model.entities.SimpleGroupInfo;
 import com.wang.social.im.mvp.model.entities.TeamInfo;
 import com.wang.social.im.mvp.model.entities.dto.CreateGroupResultDTO;
 import com.wang.social.im.mvp.model.entities.dto.IndexFriendInfoDTO;
+import com.wang.social.im.mvp.model.entities.dto.IndexMemberInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.ListDataDTO;
 import com.wang.social.im.mvp.model.entities.dto.MemberInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.PayCheckInfoDTO;
@@ -290,4 +292,14 @@ public interface GroupService {
     @FormUrlEncoded
     @POST("app/group/invitation")
     Observable<BaseJson> sendGroupInvite(@Field("v") String version, @Field("groupId") String socialId, @Field("userIds") String users);
+
+    /**
+     * 获取趣聊/觅聊成员列表
+     *
+     * @param version
+     * @param groupId
+     * @return
+     */
+    @GET("app/group/getGroupMemberList")
+    Observable<BaseJson<ListDataDTO<IndexMemberInfoDTO, IndexMemberInfo>>> getAlertMembers(@Query("v") String version, @Query("groupId") String groupId);
 }
