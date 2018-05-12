@@ -8,7 +8,7 @@
     android:layout_marginRight="15dp"
     android:drawablePadding="3dp"
     android:gravity="center"
-    android:textColor="@color/select_text_darklight_blank"
+    android:textColor="@color/common_select_text_darklight_blank"
     android:textSize="18sp"
     tools:drawableRight="@drawable/common_ic_down"
     tools:text="tabText">

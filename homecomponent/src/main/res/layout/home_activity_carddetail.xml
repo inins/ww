@@ -81,7 +81,7 @@
 
             <include
                 android:id="@+id/include_topic"
-                layout="@layout/home_item_topic" />
+                layout="@layout/lay_item_topic" />
 
             <TextView
                 android:id="@+id/btn_go"

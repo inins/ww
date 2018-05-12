@@ -45,7 +45,7 @@
 
                 <include
                     android:id="@+id/include_funshow"
-                    layout="@layout/home_lay_funshow_item" />
+                    layout="@layout/lay_item_funshow" />
 
                 <View
                     android:layout_width="match_parent"

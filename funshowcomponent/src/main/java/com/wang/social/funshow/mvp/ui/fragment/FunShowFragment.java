@@ -118,20 +118,6 @@ public class FunShowFragment extends BaseFragment<FunshowListPresonter> implemen
         adapter = new RecycleAdapterHome();
         adapter.setOnItemClickListener(this);
         adapter.setOnDislikeClickListener((v, funshow) -> mPresenter.shatDownUser(funshow.getUserId()));
-        adapter.setOnShareClickListener((v, funshow) -> {
-            SocializeUtil.shareWeb(getChildFragmentManager(),
-                    new SocializeUtil.SimpleShareListener() {
-                        @Override
-                        public void onResult(int platform) {
-                            adapter.refreshShareById(funshow.getTalkId());
-                            NetShareHelper.newInstance().netShareFunshow(null, null, funshow.getTalkId(), null);
-                        }
-                    },
-                    "http://www.wangsocial.com/",
-                    "往往",
-                    "有点2的社交软件",
-                    "http://resouce.dongdongwedding.com/activity_cashcow_moneyTree.png");
-        });
         recycler.setNestedScrollingEnabled(false);
         recycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recycler.setAdapter(adapter);

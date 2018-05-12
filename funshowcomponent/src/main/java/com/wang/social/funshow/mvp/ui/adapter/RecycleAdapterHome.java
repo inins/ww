@@ -4,21 +4,15 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
-import com.frame.component.helper.ImageLoaderHelper;
-import com.frame.mvp.IView;
+import com.frame.component.view.FunshowView;
 import com.wang.social.funshow.R;
 import com.wang.social.funshow.R2;
 import com.wang.social.funshow.mvp.entities.funshow.Funshow;
-import com.wang.social.funshow.mvp.entities.funshow.FunshowListRsc;
 import com.frame.component.ui.dialog.MorePopupWindow;
-import com.frame.component.helper.NetZanHelper;
-import com.frame.component.utils.FunShowUtil;
-import com.wang.social.funshow.utils.VideoCoverUtil;
+import com.frame.component.utils.VideoCoverUtil;
 
 import butterknife.BindView;
 
@@ -30,32 +24,8 @@ public class RecycleAdapterHome extends BaseAdapter<Funshow> {
     }
 
     public class Holder extends BaseViewHolder<Funshow> {
-        @BindView(R2.id.img_header)
-        ImageView img_header;
-        @BindView(R2.id.img_pic)
-        ImageView imgPic;
-        @BindView(R2.id.img_more)
-        ImageView imgMore;
-        @BindView(R2.id.text_name)
-        TextView textName;
-        @BindView(R2.id.text_time)
-        TextView textTime;
-        @BindView(R2.id.text_title)
-        TextView textTitle;
-        @BindView(R2.id.img_player)
-        ImageView imgPlayer;
-        @BindView(R2.id.img_tag_pay)
-        ImageView imgTagPay;
-        @BindView(R2.id.text_pic_count)
-        TextView textPicCount;
-        @BindView(R2.id.text_position)
-        TextView textPosition;
-        @BindView(R2.id.text_zan)
-        TextView textZan;
-        @BindView(R2.id.text_comment)
-        TextView textComment;
-        @BindView(R2.id.text_share)
-        TextView textShare;
+        @BindView(R2.id.funshow_view)
+        FunshowView funshowView;
         MorePopupWindow popupWindow;
 
         public Holder(Context context, ViewGroup root, int layoutRes) {
@@ -65,49 +35,17 @@ public class RecycleAdapterHome extends BaseAdapter<Funshow> {
 
         @Override
         protected void bindData(Funshow bean, int position, OnItemClickListener onItemClickListener) {
-            ImageLoaderHelper.loadCircleImg(img_header, bean.getUserCover());
-            textName.setText(bean.getUserName());
-            textTitle.setText(bean.getContent());
-            textPosition.setText(bean.getProvince() + bean.getCity());
-            textZan.setText(bean.getTalkSupportNum() + "");
-            textComment.setText(bean.getTalkCommentNum() + "");
-            textShare.setText(bean.getTalkShareNum() + "");
-            textPicCount.setText("1/" + bean.getTalkImageNum());
-            textTime.setText(FunShowUtil.getFunshowTimeStr(bean.getCreateTime()));
-            imgTagPay.setVisibility(bean.isFree() ? View.VISIBLE : View.GONE);
-            textZan.setSelected(bean.isSupport());
-
-
-            imgPlayer.setVisibility(bean.hasVideo() ? View.VISIBLE : View.GONE);
-            if (bean.hasVideo()) {
-                Bitmap coverbitmap = VideoCoverUtil.createVideoThumbnail(bean.getResourceUrl().getUrl());
-                imgPic.setImageBitmap(coverbitmap);
-            } else {
-                FunshowListRsc imgRsc = bean.getFirstImg();
-                if (imgRsc != null) {
-                    ImageLoaderHelper.loadImg(imgPic, imgRsc.getUrl());
-                } else {
-                    imgPic.setImageResource(R.drawable.default_rect);
-                }
-            }
-
-            imgMore.setOnClickListener(view -> {
+            funshowView.setData(bean.tans2FunshowBean());
+            funshowView.setZanCallback((isZan, zanCount) -> {
+                bean.setIsSupport(isZan);
+                bean.setTalkSupportNum(zanCount);
+            });
+            funshowView.getMoreBtn().setOnClickListener(view -> {
                 popupWindow.setOnDislikeClickListener(v -> {
                     if (onDislikeClickListener != null)
                         onDislikeClickListener.onDislikeClick(v, bean);
                 });
                 popupWindow.showPopupWindow(view);
-            });
-
-            textZan.setOnClickListener(v -> {
-                IView iView = (getContext() instanceof IView) ? (IView) getContext() : null;
-                NetZanHelper.newInstance().funshowZan(iView, textZan, bean.getTalkId(), !textZan.isSelected(), (isZan, zanCount) -> {
-                    bean.setIsSupport(isZan);
-                    bean.setTalkSupportNum(zanCount);
-                });
-            });
-            textShare.setOnClickListener(v -> {
-                if (onShareClickListener != null) onShareClickListener.onShareClick(v, bean);
             });
         }
 
@@ -142,15 +80,6 @@ public class RecycleAdapterHome extends BaseAdapter<Funshow> {
             funshow.setIsSupport(isZan);
             notifyItemChanged(index);
         }
-//        if (StrUtil.isEmpty(getData())) return;
-//        for (int i = 0; i < getData().size(); i++) {
-//            Funshow funshow = getData().get(i);
-//            if (funshow.getTalkId() == talkId) {
-//                funshow.setTalkSupportNum(zanCount);
-//                funshow.setIsSupport(isZan);
-//                notifyItemChanged(i);
-//            }
-//        }
     }
 
     public void refreshCommentById(int talkId) {
@@ -160,14 +89,6 @@ public class RecycleAdapterHome extends BaseAdapter<Funshow> {
             funshow.setTalkCommentNum(funshow.getTalkCommentNum() + 1);
             notifyItemChanged(index);
         }
-//        if (StrUtil.isEmpty(getData())) return;
-//        for (int i = 0; i < getData().size(); i++) {
-//            Funshow funshow = getData().get(i);
-//            if (funshow.getTalkId() == talkId) {
-//                funshow.setTalkCommentNum(funshow.getTalkCommentNum() + 1);
-//                notifyItemChanged(i);
-//            }
-//        }
     }
 
     public void refreshShareById(int talkId) {
@@ -186,14 +107,6 @@ public class RecycleAdapterHome extends BaseAdapter<Funshow> {
             funshow.setIsShopping(false);
             notifyItemChanged(index);
         }
-//        if (StrUtil.isEmpty(getData())) return;
-//        for (int i = 0; i < getData().size(); i++) {
-//            Funshow funshow = getData().get(i);
-//            if (funshow.getTalkId() == talkId) {
-//                funshow.setIsShopping(false);
-//                notifyItemChanged(i);
-//            }
-//        }
     }
 
     /////////////////////////////
@@ -206,15 +119,5 @@ public class RecycleAdapterHome extends BaseAdapter<Funshow> {
 
     public void setOnDislikeClickListener(OnDislikeClickListener onDislikeClickListener) {
         this.onDislikeClickListener = onDislikeClickListener;
-    }
-
-    public interface OnShareClickListener {
-        void onShareClick(View v, Funshow funshow);
-    }
-
-    private OnShareClickListener onShareClickListener;
-
-    public void setOnShareClickListener(OnShareClickListener onShareClickListener) {
-        this.onShareClickListener = onShareClickListener;
     }
 }

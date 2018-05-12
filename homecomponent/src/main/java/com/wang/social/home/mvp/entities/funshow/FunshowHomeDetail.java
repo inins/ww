@@ -18,7 +18,7 @@ public class FunshowHomeDetail {
      * thumbnail : http://resouce.dongdongwedding.com/wangwang_2017-06-16_6d7da9a7-e8dd-4552-b8eb-5c49e4df8665.jpg
      * picNum : 1
      * mediaType : null
-     * creatorId : 10000
+     * userId : 10000
      * nickname : 飘飘飘香
      * avatar : http://resouce.dongdongwedding.com/wangwang_2017-10-01_aae4ffd4-fa63-4984-8519-8ee0500d8258.jpg
      * createTime : 1521787669000
