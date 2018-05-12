@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.TextView;
@@ -21,14 +22,12 @@ import com.wang.social.im.di.modules.InviteFriendModule;
 import com.wang.social.im.mvp.contract.InviteFriendContract;
 import com.wang.social.im.mvp.model.entities.IndexFriendInfo;
 import com.wang.social.im.mvp.presenter.InviteFriendPresenter;
-import com.wang.social.im.mvp.ui.adapters.FriendsAdapter;
 import com.wang.social.im.mvp.ui.adapters.InviteFriendAdapter;
 
 import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.yokeyword.indexablerv.IndexableAdapter;
 import me.yokeyword.indexablerv.IndexableLayout;
@@ -94,7 +93,7 @@ public class InviteFriendActivity extends BaseAppActivity<InviteFriendPresenter>
     @OnClick(R2.id.if_tv_invite)
     public void onViewClicked() {
         List<IndexFriendInfo> selectItems = mAdapter.getSelectItems();
-        mPresenter.sendInvie(socialId, selectItems);
+        mPresenter.sendInvite(socialId, selectItems);
     }
 
     @Override
@@ -118,7 +117,12 @@ public class InviteFriendActivity extends BaseAppActivity<InviteFriendPresenter>
     @Override
     public void onItemClick(View v, int originalPosition, int currentPosition, IndexFriendInfo entity) {
         entity.setSelected(!entity.isSelected());
-        mAdapter.notifyDataSetChanged();
+        View view = v.findViewById(R.id.iif_cb_check);
+        if (view instanceof AppCompatCheckBox) {
+            ((AppCompatCheckBox) view).setChecked(entity.isSelected());
+        } else {
+            mAdapter.notifyDataSetChanged();
+        }
 
         showSelectSize();
     }

@@ -68,7 +68,7 @@ public class InviteFriendPresenter extends BasePresenter<InviteFriendContract.Mo
      * @param socialId
      * @param friends
      */
-    public void sendInvie(String socialId, List<IndexFriendInfo> friends) {
+    public void sendInvite(String socialId, List<IndexFriendInfo> friends) {
         mApiHelper.executeNone(mRootView, mModel.sendInvite(socialId, friends),
                 new ErrorHandleSubscriber<BaseJson>() {
                     @Override
