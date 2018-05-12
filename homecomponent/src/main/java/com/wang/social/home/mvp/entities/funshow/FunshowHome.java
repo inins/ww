@@ -6,7 +6,7 @@ import lombok.Data;
 public class FunshowHome {
 
     /**
-     * creatorId : 10008
+     * userId : 10008
      * createTime : 1522068104000
      * nickname : 洗白白
      * headImg : http://resouce.dongdongwedding.com/wan7405.jpg

@@ -1,7 +1,7 @@
 //if (project.isRunAlone) {
-//    apply plugin: 'com.android.application'
+    apply plugin: 'com.android.application'
 //} else {
-    apply plugin: 'com.component.build'
+//    apply plugin: 'com.component.build'
 //}
 apply plugin: 'com.jakewharton.butterknife'
 
@@ -100,6 +100,8 @@ dependencies {
     implementation project(':pictureselectorcomponent')
     implementation project(':socializecomponent')
     implementation project(':springlibrary')
+    //代替tablayout
+    implementation 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
 //    implementation files('libs/alipaySdk-20180403.jar'){
 //        exclude
 //    }

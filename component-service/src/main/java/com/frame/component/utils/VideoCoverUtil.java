@@ -1,4 +1,4 @@
-package com.wang.social.funshow.utils;
+package com.frame.component.utils;
 
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;

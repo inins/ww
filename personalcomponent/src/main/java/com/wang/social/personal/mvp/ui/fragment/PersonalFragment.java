@@ -31,6 +31,7 @@ import com.wang.social.personal.mvp.entities.user.UserStatistic;
 import com.wang.social.personal.mvp.ui.activity.AboutActivity;
 import com.wang.social.personal.mvp.ui.activity.AccountActivity;
 import com.wang.social.personal.mvp.ui.activity.FeedbackActivity;
+import com.wang.social.personal.mvp.ui.activity.FunshowTopicActivity;
 import com.wang.social.personal.mvp.ui.activity.LableActivity;
 import com.wang.social.personal.mvp.ui.activity.MeDetailActivity;
 import com.wang.social.personal.mvp.ui.activity.QrcodeActivity;
@@ -143,7 +144,10 @@ public class PersonalFragment extends BasicFragment implements PersonalFragmentI
 
     }
 
-    @OnClick({R2.id.lay_nameboard, R2.id.btn_right, R2.id.btn_left, R2.id.btn_me_account, R2.id.btn_me_lable, R2.id.btn_me_feedback, R2.id.btn_me_share, R2.id.btn_me_about, R2.id.btn_me_eva, R2.id.btn_me_represent})
+    @OnClick({R2.id.lay_nameboard, R2.id.btn_right, R2.id.btn_left, R2.id.btn_me_account,
+            R2.id.btn_me_lable, R2.id.btn_me_feedback, R2.id.btn_me_share,
+            R2.id.btn_me_about, R2.id.btn_me_eva, R2.id.btn_me_represent,
+            R2.id.lay_funshow, R2.id.lay_topic})
     public void onViewClicked(View v) {
         if (v.getId() == R.id.lay_nameboard) {
             MeDetailActivity.start(getContext());
@@ -175,6 +179,10 @@ public class PersonalFragment extends BasicFragment implements PersonalFragmentI
             WebActivity.start(getContext(), AppConstant.Url.eva);
         } else if (v.getId() == R.id.btn_me_represent) {
             RepresentActivity.start(getContext());
+        } else if (v.getId() == R.id.lay_funshow) {
+            FunshowTopicActivity.startFunshow(getContext());
+        } else if (v.getId() == R.id.lay_topic) {
+            FunshowTopicActivity.startTopic(getContext());
         }
     }
 

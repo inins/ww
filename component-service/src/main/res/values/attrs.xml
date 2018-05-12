@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <declare-styleable name="FunshowView">
+        <!-- 是否显示header -->
+        <attr name="show_header" format="boolean" />
+    </declare-styleable>
+
     <declare-styleable name="BannerView">
         <attr name="selected_color" format="color|reference" />
         <attr name="unselected_color" format="color|reference" />
@@ -47,7 +52,7 @@
         <attr name="toolbar_right_icon" format="reference" />
         <attr name="toolbar_right_text" format="string" />
         <attr name="toolbar_right_text_color" format="color" />
-        <attr name="toolbar_title_text" format="string"/>
+        <attr name="toolbar_title_text" format="string" />
         <attr name="toolbar_title_text_color" format="color" />
     </declare-styleable>
 
