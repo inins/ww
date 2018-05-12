@@ -49,6 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="6dp"
+            android:visibility="invisible"
             app:stl_customTabTextLayoutId="@layout/personal_card_tab_layout"
             app:stl_customTabTextViewId="@id/name_text_view"
             app:stl_dividerThickness="0dp"

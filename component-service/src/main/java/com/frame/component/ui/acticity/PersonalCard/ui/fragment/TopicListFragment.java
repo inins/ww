@@ -1,31 +1,29 @@
 package com.frame.component.ui.acticity.PersonalCard.ui.fragment;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.frame.base.BasicFragment;
 import com.frame.component.common.NetParam;
+import com.frame.component.entities.Topic;
 import com.frame.component.service.R;
 import com.frame.component.service.R2;
 import com.frame.component.ui.acticity.PersonalCard.model.api.PersonalCardService;
-import com.frame.component.ui.acticity.PersonalCard.model.entities.DTO.TalkBeanListDTO;
-import com.frame.component.ui.acticity.PersonalCard.model.entities.TalkBean;
-import com.frame.component.ui.acticity.PersonalCard.model.entities.TalkBeanList;
-import com.frame.component.ui.acticity.PersonalCard.ui.adapter.TalkAdapter;
-import com.frame.component.ui.acticity.PersonalCard.ui.widget.ThumbnailDecoration;
+import com.frame.component.ui.acticity.PersonalCard.model.entities.DTO.TopicDTO;
+import com.frame.component.ui.acticity.PersonalCard.ui.adapter.TopicListAdapter;
 import com.frame.di.component.AppComponent;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.BaseJson;
+import com.frame.http.api.PageList;
+import com.frame.http.api.PageListDTO;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.IView;
 import com.frame.utils.FrameUtils;
-import com.frame.utils.SizeUtils;
 import com.frame.utils.Utils;
 import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.container.AliHeader;
@@ -41,12 +39,12 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 
-public class TalkListFragment extends BasicFragment implements IView {
+public class TopicListFragment extends BasicFragment implements IView {
 
-    public static TalkListFragment newInstance(int userId) {
-        TalkListFragment fragment = new TalkListFragment();
+    public static TopicListFragment newInstance(int userid) {
+        TopicListFragment fragment = new TopicListFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt("userid", userId);
+        bundle.putInt("userid", userid);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -55,15 +53,15 @@ public class TalkListFragment extends BasicFragment implements IView {
     SpringView mSpringView;
     @BindView(R2.id.recycler_view)
     RecyclerView mRecyclerView;
-    private TalkAdapter mAdapter;
+    private TopicListAdapter mAdapter;
 
-    private int mUserId;
     private ApiHelper mApiHelper = new ApiHelper();
     private IRepositoryManager mRepositoryManager;
     private RxErrorHandler mErrorHandler;
     private int mCurrent = 0;
     private int mSize = 10;
-    private List<TalkBean> mList = new ArrayList<>();
+    private List<Topic> mList = new ArrayList<>();
+    private int mUserId;
 
     @Override
     public void setupFragmentComponent(@NonNull AppComponent appComponent) {
@@ -72,7 +70,7 @@ public class TalkListFragment extends BasicFragment implements IView {
 
     @Override
     public int initView(@Nullable Bundle savedInstanceState) {
-        return R.layout.personal_card_fragment_list;
+        return R.layout.personal_card_fragment_list_side_14;
     }
 
     @Override
@@ -80,11 +78,12 @@ public class TalkListFragment extends BasicFragment implements IView {
         mRepositoryManager = FrameUtils.obtainAppComponentFromContext(Utils.getContext()).repoitoryManager();
         mErrorHandler = FrameUtils.obtainAppComponentFromContext(Utils.getContext()).rxErrorHandler();
 
-        mUserId = getArguments().getInt("userid");
+        if (getArguments() != null) {
+            mUserId = getArguments().getInt("userid");
+        }
 
-        mAdapter = new TalkAdapter(mRecyclerView, mList);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        mRecyclerView.addItemDecoration(new ThumbnailDecoration(SizeUtils.dp2px(10), Color.TRANSPARENT, true));
+        mAdapter = new TopicListAdapter(this, mRecyclerView, mList);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(mAdapter);
 
         // 更新，加载更多
@@ -93,12 +92,12 @@ public class TalkListFragment extends BasicFragment implements IView {
         mSpringView.setListener(new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
-                loadGroupList(true);
+                loadTopicList(true);
             }
 
             @Override
             public void onLoadmore() {
-                loadGroupList(false);
+                loadTopicList(false);
             }
         });
         mSpringView.callFreshDelay();
@@ -109,18 +108,21 @@ public class TalkListFragment extends BasicFragment implements IView {
 
     }
 
-    private void loadGroupList(boolean refresh) {
+    private void loadTopicList(boolean refresh) {
         if (refresh) {
             mCurrent = 0;
             mList.clear();
         }
         mApiHelper.execute(this,
-                getGroupList(mUserId, mCurrent + 1, mSize),
-                new ErrorHandleSubscriber<TalkBeanList>() {
+                getTopicList(mUserId, mCurrent + 1, mSize),
+                new ErrorHandleSubscriber<PageList<Topic>>() {
                     @Override
-                    public void onNext(TalkBeanList list) {
-                        if (null != list && null != list.getList()) {
-                            mList.addAll(list.getList());
+                    public void onNext(PageList<Topic> pageList) {
+                        if (null != pageList) {
+                            mCurrent = pageList.getCurrent();
+                            if (null != pageList.getList()) {
+                                mList.addAll(pageList.getList());
+                            }
                         }
 
                         if (null != mAdapter) {
@@ -142,7 +144,7 @@ public class TalkListFragment extends BasicFragment implements IView {
                 });
     }
 
-    private Observable<BaseJson<TalkBeanListDTO>> getGroupList(int queryUserId, int current, int size) {
+    private Observable<BaseJson<PageListDTO<TopicDTO, Topic>>> getTopicList(int queryUserId, int current, int size) {
         Map<String, Object> param = new NetParam()
                 .put("queryUserId", queryUserId)
                 .put("current", current)
@@ -151,7 +153,7 @@ public class TalkListFragment extends BasicFragment implements IView {
                 .build();
         return mRepositoryManager
                 .obtainRetrofitService(PersonalCardService.class)
-                .getGroupList(param);
+                .getFriendTopicList(param);
     }
 
     @Override

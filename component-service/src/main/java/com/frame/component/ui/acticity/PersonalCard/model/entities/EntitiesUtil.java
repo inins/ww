@@ -12,4 +12,6 @@ public class EntitiesUtil {
     public static String assertNotNull(String v) {
         return v == null ? "" : v;
     }
+
+    public static boolean assertNotNull(Boolean v) { return v == null ? false : v; }
 }

@@ -13,6 +13,7 @@ public class PageList<T> {
     private int maxPage;
     private int currentPage;
     private int total;
+    private int current;
     private String orderField;
     private List<T> records;
 
@@ -22,6 +23,14 @@ public class PageList<T> {
 
     public void setList(List<T> list) {
         this.records = list;
+    }
+
+    public int getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(int current) {
+        this.current = current;
     }
 
     public String getOrderField() {

@@ -22,6 +22,7 @@ import com.frame.component.ui.acticity.PersonalCard.presenter.PersonalCardPresen
 import com.frame.component.ui.acticity.PersonalCard.ui.fragment.FriendListFragment;
 import com.frame.component.ui.acticity.PersonalCard.ui.fragment.TalkListFragment;
 import com.frame.component.ui.acticity.PersonalCard.ui.fragment.TestFragment;
+import com.frame.component.ui.acticity.PersonalCard.ui.fragment.TopicListFragment;
 import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.component.ui.acticity.tags.TagUtils;
 import com.frame.component.ui.base.BaseAppActivity;
@@ -60,6 +61,9 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
     // 名字
     @BindView(R2.id.name_text_view)
     TextView mNameTV;
+    // 性别不同不同背景
+    @BindView(R2.id.gender_layout)
+    View mGenderLayout;
     // 性别
     @BindView(R2.id.gender_image_view)
     ImageView mGenderIV;
@@ -124,6 +128,10 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
                         return FriendListFragment.newInstance(mUserId);
                     case 1:
                         return TalkListFragment.newInstance(mUserId);
+                    case 2:
+                        break;
+                    case 3:
+                        return TopicListFragment.newInstance(mUserId);
                 }
 
                 return new TestFragment();
@@ -164,15 +172,18 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
         if (userInfo.getSex() == 0) {
             mGenderBGIV.setBackgroundResource(R.drawable.personal_card_bg_men);
             mInfoLayout.setBackgroundResource(R.drawable.personal_card_rect_men);
+            mGenderLayout.setBackgroundResource(R.drawable.common_shape_rect_blue_conerfull);
             mGenderIV.setImageResource(R.drawable.common_ic_man);
         } else if (userInfo.getSex() == 1) {
             mGenderBGIV.setBackgroundResource(R.drawable.personal_card_bg_women);
             mInfoLayout.setBackgroundResource(R.drawable.personal_card_rect_women);
+            mGenderLayout.setBackgroundResource(R.drawable.common_shape_rect_redgray_conerfull);
             mGenderIV.setImageResource(R.drawable.common_ic_women);
         } else {
 
             mGenderBGIV.setBackgroundResource(R.drawable.personal_card_bg_unknown);
             mInfoLayout.setBackgroundResource(R.drawable.personal_card_rect_unknown);
+            mGenderLayout.setBackgroundResource(R.drawable.common_shape_rect_dark_conerfull);
             mGenderIV.setVisibility(View.GONE);
         }
 
@@ -188,6 +199,11 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
         mTagsTV.setText(TagUtils.formatTagNames(userInfo.getTags()));
         // 签名
         mSignTV.setText(userInfo.getAutograph());
+
+        // 显示
+        mGenderLayout.setVisibility(View.VISIBLE);
+        mXingZuoTV.setVisibility(View.VISIBLE);
+        mTabLayout.setVisibility(View.VISIBLE);
     }
 
 
