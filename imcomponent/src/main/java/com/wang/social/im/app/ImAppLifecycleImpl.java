@@ -108,6 +108,7 @@ public class ImAppLifecycleImpl implements AppDelegate {
     private TIMGroupSettings getGroupSettings(){
         TIMGroupSettings settings = new TIMGroupSettings();
         TIMGroupSettings.Options options = new TIMGroupSettings.Options();
+        options.addCustomTag(IMConstants.IM_GROUP_PROFILE_TYPE);
         return settings;
     }
 

@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="im_gender">性别</string>
-    <string name="im_male">男</string>
-    <string name="im_female">女</string>
-    <string name="im_age">年龄</string>
-    <string name="im_gem">宝石</string>
-    <string name="im_gallery">官方图库</string>
-    <string name="im_shoot">拍摄</string>
-    <string name="im_album">相册</string>
+    <string name="im_group_charge_setting">收费设置</string>
+    <string name="im_group_charge">群收费</string>
 
     <!--趣聊详情-->
     <string name="im_setting">设置</string>
@@ -118,6 +112,8 @@
     <string name="im_member_list_title">成员列表</string>
     <string name="im_team_member_list_title_tip">%d位成员，有%d位好友在同一个觅聊</string>
     <string name="im_social_member_list_title_tip">%d位成员，有%d位好友在同一个趣聊</string>
+    <string name="im_add_friend">加好友</string>
+    <string name="im_take_out">踢出群</string>
 
     <!--Toast-->
     <string name="im_toast_clear_fail">清除失败</string>

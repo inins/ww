@@ -42,7 +42,10 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onSuccess() {
-                        Intent intent = new Intent(MainActivity.this, ConversationListActivity.class);
+//                        Intent intent = new Intent(MainActivity.this, ConversationListActivity.class);
+//                        startActivity(intent);
+//                        finish();
+                        Intent intent = new Intent(MainActivity.this, GameConversationActivity.class);
                         startActivity(intent);
                         finish();
                     }

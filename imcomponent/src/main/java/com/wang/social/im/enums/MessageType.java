@@ -33,6 +33,10 @@ public enum MessageType {
      */
     RED_ENVELOP,
     /*
+     * 摇钱树通知
+     */
+    GAME_NOTIFY,
+    /*
      * 未知消息
      */
     UNKNOWN

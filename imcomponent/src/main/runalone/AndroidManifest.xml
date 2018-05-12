@@ -98,6 +98,9 @@
         <activity
             android:name=".ui.ConversationListActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".ui.GameConversationActivity"
+            android:screenOrientation="portrait"
+            android:exported="true"/>
         <activity
             android:name=".ui.ConversationActivity"
             android:screenOrientation="portrait"
@@ -142,7 +145,14 @@
             android:name=".mvp.ui.SocialListActivity"
             android:exported="true" />
         <activity android:name=".mvp.ui.PhoneBookActivity" />
-        <activity android:name=".mvp.ui.MemberListActivity"></activity>
+        <activity
+            android:name=".mvp.ui.MemberListActivity"
+            android:exported="true" />
+        <activity android:name=".mvp.ui.SocialChargeSettingActivity" />
+        <activity
+            android:name=".mvp.ui.NewUsersActivity"
+            android:exported="true" />
+        <activity android:name=".mvp.ui.SocialLimitActivity"></activity>
     </application>
 
 </manifest>

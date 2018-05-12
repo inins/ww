@@ -101,9 +101,7 @@ public class ShadowSettingActivity extends BaseAppActivity<ShadowSettingPresente
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
-//        shadowInfo = getIntent().getExtras().getParcelable(EXTRA_INFO);
-        shadowInfo = new ShadowInfo();
-        shadowInfo.setSocialId("26");
+        shadowInfo = getIntent().getExtras().getParcelable(EXTRA_INFO);
 
         if (!TextUtils.isEmpty(shadowInfo.getNickname())) {
             ssEtNickname.setText(shadowInfo.getNickname());

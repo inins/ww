@@ -1,10 +1,12 @@
 package com.wang.social.im.mvp.ui.adapters.holders;
 
 import android.content.Context;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.frame.base.BaseAdapter;
+import com.frame.component.utils.UIUtil;
 import com.frame.utils.FrameUtils;
 import com.google.gson.Gson;
 import com.tencent.imsdk.TIMCustomElem;
@@ -14,7 +16,10 @@ import com.tencent.imsdk.TIMMessageStatus;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.enums.CustomElemType;
+import com.wang.social.im.mvp.model.entities.GameNotifyElemData;
 import com.wang.social.im.mvp.model.entities.UIMessage;
+
+import java.lang.annotation.ElementType;
 
 import butterknife.BindView;
 
@@ -51,6 +56,10 @@ public class NotifyViewHolder extends BaseMessageViewHolder<UIMessage> {
                 if (timElem instanceof TIMCustomElem) {
                     TIMCustomElem customElem = (TIMCustomElem) timElem;
                     CustomElemType elemType = CustomElemType.getElemType(customElem);
+                    if (elemType == CustomElemType.GAME_NOTIFY) { //游戏通知
+                        GameNotifyElemData elemData = (GameNotifyElemData) itemValue.getCustomMessageElemData(CustomElemType.GAME_NOTIFY, gson);
+                        showGameNotify(elemData);
+                    }
                 }
             }
         }
@@ -66,5 +75,24 @@ public class NotifyViewHolder extends BaseMessageViewHolder<UIMessage> {
     @Override
     protected void initStyle(UIMessage uiMessage) {
 
+    }
+
+    /**
+     * 游戏通知
+     *
+     * @param data
+     */
+    private void showGameNotify(GameNotifyElemData data) {
+        switch (data.getNotifyType()) {
+            case CREATE:
+                mnTvNotify.setText(UIUtil.getString(R.string.im_create_notify_format, data.getOperatorNickname()));
+                break;
+            case JOIN:
+                mnTvNotify.setText(UIUtil.getString(R.string.im_join_notify_format, data.getOperatorNickname()));
+                break;
+            case RESULT:
+                mnTvNotify.setVisibility(View.GONE);
+                break;
+        }
     }
 }

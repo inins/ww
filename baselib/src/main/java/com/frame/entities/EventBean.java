@@ -67,10 +67,15 @@ public class EventBean implements Serializable {
     //主工程搜索参数
     public static final int EVENT_APP_SEARCH = 0xffa501;
 
+    //有人加入游戏
+    public static final int EVENT_GAME_JOIN = 0xffa601;
+    //游戏结束
+    public static final int EVENT_GAME_RESULT = 0xffa602;
+
     //首页卡牌选择性别筛选条件
-    public static final int EVENT_HOME_CARD_GENDER_SELECT = 0xffa601;
+    public static final int EVENT_HOME_CARD_GENDER_SELECT = 0xffa701;
     //首页卡牌选择年龄筛选条件
-    public static final int EVENT_HOME_CARD_AGE_SELECT = 0xffa602;
+    public static final int EVENT_HOME_CARD_AGE_SELECT = 0xffa702;
 
     @IntDef({
             EVENTBUS_TAG_SELECTED,
@@ -97,6 +102,8 @@ public class EventBean implements Serializable {
             EVENT_FUNSHOW_LIST_TYPE_CHANGE,
             EVENT_LOCATION_SELECT,
             EVENT_APP_SEARCH,
+            EVENT_GAME_JOIN,
+            EVENT_GAME_RESULT,
             EVENT_HOME_CARD_GENDER_SELECT,
             EVENT_HOME_CARD_AGE_SELECT,
     })

@@ -16,7 +16,7 @@ public class ShadowInfoDTO implements Mapper<ShadowInfo> {
     private String nickname;
     private String avatar;
     private int state;
-    private int gender; //性别：0女1男2迷
+    private int sex; //性别：0女1男2迷
 
     @Override
     public ShadowInfo transform() {
@@ -24,7 +24,7 @@ public class ShadowInfoDTO implements Mapper<ShadowInfo> {
         shadow.setNickname(nickname == null ? "" : nickname);
         shadow.setPortrait(avatar == null ? "" : avatar);
         shadow.setSocialId(groupId == null ? "-1" : groupId);
-        switch (gender) {
+        switch (sex) {
             case 0:
                 shadow.setGender(Gender.FEMALE);
                 break;

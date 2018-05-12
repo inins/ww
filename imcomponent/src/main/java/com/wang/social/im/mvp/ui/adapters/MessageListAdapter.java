@@ -11,6 +11,8 @@ import com.wang.social.im.enums.ConversationType;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 import com.wang.social.im.mvp.ui.adapters.holders.BaseMessageViewHolder;
 import com.wang.social.im.mvp.ui.adapters.holders.EnvelopViewHolder;
+import com.wang.social.im.mvp.ui.adapters.holders.GameEmotionViewHolder;
+import com.wang.social.im.mvp.ui.adapters.holders.GameTextViewHolder;
 import com.wang.social.im.mvp.ui.adapters.holders.ImageViewHolder;
 import com.wang.social.im.mvp.ui.adapters.holders.LocationViewHolder;
 import com.wang.social.im.mvp.ui.adapters.holders.NotifyViewHolder;
@@ -62,54 +64,73 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
     @Override
     protected BaseViewHolder createViewHolder(Context context, ViewGroup parent, int viewType) {
         BaseMessageViewHolder viewHolder;
-        switch (viewType) {
-            case TYPE_RECEIVE_TEXT:
-                viewHolder = new TextViewHolder(context, parent, R.layout.im_item_msg_text_left);
-                break;
-            case TYPE_SEND_TEXT:
-                viewHolder = new TextViewHolder(context, parent, R.layout.im_item_msg_text_right);
-                break;
-            case TYPE_RECEIVE_IMAGE:
-                viewHolder = new ImageViewHolder(context, parent, R.layout.im_item_msg_image_left);
-                break;
-            case TYPE_SEND_IMAGE:
-                viewHolder = new ImageViewHolder(context, parent, R.layout.im_item_msg_image_right);
-                break;
-            case TYPE_RECEIVE_VOICE:
-                viewHolder = new SoundViewHolder(context, parent, R.layout.im_item_msg_sound_left);
-                break;
-            case TYPE_SEND_VOICE:
-                viewHolder = new SoundViewHolder(context, parent, R.layout.im_item_msg_sound_right);
-                break;
-            case TYPE_RECEIVE_RED_ENVELOP:
-                viewHolder = new EnvelopViewHolder(context, parent, R.layout.im_item_msg_envelop_left);
-                break;
-            case TYPE_SEND_RED_ENVELOP:
-                viewHolder = new EnvelopViewHolder(context, parent, R.layout.im_item_msg_envelop_right);
-                break;
-            case TYPE_RECEIVE_LOCATION:
-                viewHolder = new LocationViewHolder(context, parent, R.layout.im_item_msg_location_left);
-                break;
-            case TYPE_SEND_LOCATION:
-                viewHolder = new LocationViewHolder(context, parent, R.layout.im_item_msg_location_right);
-                break;
-            case TYPE_NOTIFY:
-                viewHolder = new NotifyViewHolder(context, parent);
-                break;
-            default:
-                viewHolder = new UnknownViewHolder(context, parent);
-                break;
-        }
-        //配置全局参数
-        if (mConversationType == ConversationType.PRIVATE) {
-            viewHolder.showHeader = true;
-            viewHolder.showNickname = false;
-        } else if (mConversationType == ConversationType.SOCIAL || mConversationType == ConversationType.TEAM) {
-            viewHolder.showHeader = true;
-            viewHolder.showNickname = true;
-        } else if (mConversationType == ConversationType.MIRROR) {
-            viewHolder.showHeader = false;
-            viewHolder.showNickname = true;
+        if (mConversationType == ConversationType.GAME) {
+            switch (viewType) {
+                case TYPE_SEND_TEXT:
+                case TYPE_RECEIVE_TEXT:
+                    viewHolder = new GameTextViewHolder(context, parent);
+                    break;
+                case TYPE_SEND_EMOTION:
+                case TYPE_RECEIVE_EMOTION:
+                    viewHolder = new GameEmotionViewHolder(context, parent);
+                    break;
+                case TYPE_NOTIFY:
+                    viewHolder = new NotifyViewHolder(context, parent);
+                    break;
+                default:
+                    viewHolder = new UnknownViewHolder(context, parent);
+                    break;
+            }
+        } else {
+            switch (viewType) {
+                case TYPE_RECEIVE_TEXT:
+                    viewHolder = new TextViewHolder(context, parent, R.layout.im_item_msg_text_left);
+                    break;
+                case TYPE_SEND_TEXT:
+                    viewHolder = new TextViewHolder(context, parent, R.layout.im_item_msg_text_right);
+                    break;
+                case TYPE_RECEIVE_IMAGE:
+                    viewHolder = new ImageViewHolder(context, parent, R.layout.im_item_msg_image_left);
+                    break;
+                case TYPE_SEND_IMAGE:
+                    viewHolder = new ImageViewHolder(context, parent, R.layout.im_item_msg_image_right);
+                    break;
+                case TYPE_RECEIVE_VOICE:
+                    viewHolder = new SoundViewHolder(context, parent, R.layout.im_item_msg_sound_left);
+                    break;
+                case TYPE_SEND_VOICE:
+                    viewHolder = new SoundViewHolder(context, parent, R.layout.im_item_msg_sound_right);
+                    break;
+                case TYPE_RECEIVE_RED_ENVELOP:
+                    viewHolder = new EnvelopViewHolder(context, parent, R.layout.im_item_msg_envelop_left);
+                    break;
+                case TYPE_SEND_RED_ENVELOP:
+                    viewHolder = new EnvelopViewHolder(context, parent, R.layout.im_item_msg_envelop_right);
+                    break;
+                case TYPE_RECEIVE_LOCATION:
+                    viewHolder = new LocationViewHolder(context, parent, R.layout.im_item_msg_location_left);
+                    break;
+                case TYPE_SEND_LOCATION:
+                    viewHolder = new LocationViewHolder(context, parent, R.layout.im_item_msg_location_right);
+                    break;
+                case TYPE_NOTIFY:
+                    viewHolder = new NotifyViewHolder(context, parent);
+                    break;
+                default:
+                    viewHolder = new UnknownViewHolder(context, parent);
+                    break;
+            }
+            //配置全局参数
+            if (mConversationType == ConversationType.PRIVATE) {
+                viewHolder.showHeader = true;
+                viewHolder.showNickname = false;
+            } else if (mConversationType == ConversationType.SOCIAL || mConversationType == ConversationType.TEAM) {
+                viewHolder.showHeader = true;
+                viewHolder.showNickname = true;
+            } else if (mConversationType == ConversationType.MIRROR) {
+                viewHolder.showHeader = false;
+                viewHolder.showNickname = true;
+            }
         }
         return viewHolder;
     }
@@ -177,6 +198,7 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
                     viewType = TYPE_RECEIVE_RED_ENVELOP;
                 }
                 break;
+            case GAME_NOTIFY:
             case NOTIFY:
                 viewType = TYPE_NOTIFY;
                 break;

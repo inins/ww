@@ -238,7 +238,7 @@ public class SocialAttributeActivity extends BasicAppActivity {
                         mAttribute.setGem(500);
                         break;
                 }
-                if (!mFromTextChange){
+                if (!mFromTextChange) {
                     saEtGem.setText("");
                 }
                 mFromTextChange = false;

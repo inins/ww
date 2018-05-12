@@ -1,4 +1,13 @@
 <resources>
+    <string name="im_gender">性别</string>
+    <string name="im_male">男</string>
+    <string name="im_female">女</string>
+    <string name="im_age">年龄</string>
+    <string name="im_gem">宝石</string>
+    <string name="im_gallery">官方图库</string>
+    <string name="im_shoot">拍摄</string>
+    <string name="im_album">相册</string>
+    <string name="im_complete">完成</string>
     <!-- Message -->
     <string name="im_chat_input_hint">输入消息...</string>
     <string name="im_voice_input">按住 说话</string>
@@ -20,6 +29,8 @@
     <string name="im_seconds">%d\&#034;</string>
     <string name="im_online_number">%d人在线</string>
     <string name="im_online_total_number">共%d人，%d人在线</string>
+    <string name="im_remark_setting">设置备注</string>
+    <string name="im_information_card">资料卡</string>
 
     <!-- Mirror -->
     <string name="im_mirror_title">镜像聊天</string>
@@ -38,6 +49,11 @@
     <string name="im_added">已添加</string>
     <string name="im_phone_book">手机通讯录</string>
     <string name="im_phone_book_tip">邀请熟人一起玩，告别孤独不再孤单</string>
+    
+    <!--摇钱树-->
+    <string name="im_myself">我自己&#160;:</string>
+    <string name="im_create_notify_format">%s创建了游戏</string>
+    <string name="im_join_notify_format">%加入游戏</string>
 
     <string name="im_toast_revoke_timeout">发送时间超过2分钟，不能被撤回</string>
     <string name="im_toast_contact_permission">请打开通讯录读取权限</string>

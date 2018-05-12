@@ -23,5 +23,9 @@ public enum ConversationType {
     /*
      * 镜子聊天
      */
-    MIRROR
+    MIRROR,
+    /*
+     * 摇钱树会话
+     */
+    GAME
 }
