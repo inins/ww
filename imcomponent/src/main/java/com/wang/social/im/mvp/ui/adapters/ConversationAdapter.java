@@ -21,8 +21,11 @@ public class ConversationAdapter extends BaseAdapter<UIConversation> {
     private static final int VIEW_HOLDER_FREE = 0;
     private static final int VIEW_HOLDER_OFFICIAL = 1;
 
-    public ConversationAdapter(List<UIConversation> conversations) {
+    private OnHandleListener mHandleListener;
+
+    public ConversationAdapter(List<UIConversation> conversations, OnHandleListener handleListener) {
         this.valueList = conversations;
+        this.mHandleListener = handleListener;
     }
 
     @Override
@@ -30,12 +33,34 @@ public class ConversationAdapter extends BaseAdapter<UIConversation> {
         if (viewType == VIEW_HOLDER_OFFICIAL) {
             return null;
         } else {
-            return new ConversationViewHolder(context, parent);
+            return new ConversationViewHolder(context, parent, mHandleListener);
         }
     }
 
     @Override
     public int getItemViewType(int position) {
         return VIEW_HOLDER_FREE;
+    }
+
+    /**
+     * 操作
+     */
+    public interface OnHandleListener {
+
+        /**
+         * 置顶/取消指定
+         *
+         * @param uiConversation
+         * @param position
+         */
+        void toggleStick(UIConversation uiConversation, int position);
+
+        /**
+         * 删除会话
+         *
+         * @param uiConversation
+         * @param position
+         */
+        void onDelete(UIConversation uiConversation, int position);
     }
 }

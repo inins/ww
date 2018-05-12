@@ -60,6 +60,7 @@ public class FriendShipHelper {
 
     /**
      * 根据好友ID查询好友信息
+     *
      * @param identify
      * @return
      */

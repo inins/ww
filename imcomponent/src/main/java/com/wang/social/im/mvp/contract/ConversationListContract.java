@@ -4,6 +4,7 @@ import com.frame.mvp.IModel;
 import com.frame.mvp.IView;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMMessage;
+import com.wang.social.im.mvp.model.entities.UIConversation;
 
 import java.util.List;
 
@@ -15,28 +16,38 @@ import java.util.List;
  */
 public interface ConversationListContract {
 
-    interface View extends IView{
+    interface View extends IView {
 
         /**
          * 初始化列表数据
+         *
          * @param conversations
          */
         void initList(List<TIMConversation> conversations);
 
         /**
          * 修改最后一条消息
+         *
          * @param message
          */
         void updateMessage(TIMMessage message);
 
         /**
          * 更新会话列表的消息
+         *
          * @param messages
          */
         void updateMessages(List<TIMMessage> messages);
+
+        /**
+         * 会话删除
+         *
+         * @param uiConversation
+         */
+        void onDeleted(UIConversation uiConversation);
     }
 
-    interface Model extends IModel{
+    interface Model extends IModel {
 
     }
 }

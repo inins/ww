@@ -1,10 +1,12 @@
 package com.wang.social.im.mvp.model.api;
 
 import com.frame.http.api.BaseJson;
+import com.wang.social.im.mvp.model.entities.IndexFriendInfo;
 import com.wang.social.im.mvp.model.entities.MemberInfo;
 import com.wang.social.im.mvp.model.entities.SimpleGroupInfo;
 import com.wang.social.im.mvp.model.entities.TeamInfo;
 import com.wang.social.im.mvp.model.entities.dto.CreateGroupResultDTO;
+import com.wang.social.im.mvp.model.entities.dto.IndexFriendInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.ListDataDTO;
 import com.wang.social.im.mvp.model.entities.dto.MemberInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.PayCheckInfoDTO;
@@ -14,6 +16,8 @@ import com.wang.social.im.mvp.model.entities.dto.SocialHomeDTO;
 import com.wang.social.im.mvp.model.entities.dto.TeamInfoDTO;
 
 import java.util.Map;
+
+import javax.annotation.PostConstruct;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
@@ -258,6 +262,7 @@ public interface GroupService {
 
     /**
      * 将用户踢出觅聊/趣聊
+     *
      * @param version
      * @param groupId
      * @param memberUid
@@ -265,4 +270,24 @@ public interface GroupService {
      */
     @POST("app/group/deleteGroupMember")
     Observable<BaseJson> kickOutMember(@Query("v") String version, @Query("groupId") String groupId, @Query("targetUserId") String memberUid);
+
+    /**
+     * 邀请好友，好友列表
+     *
+     * @return
+     */
+    @GET("app/userFriend/invateFriendList")
+    Observable<BaseJson<ListDataDTO<IndexFriendInfoDTO, IndexFriendInfo>>> inviteFriendList(@Query("v") String version, @Query("groupId") String groupId);
+
+    /**
+     * 发送群邀请
+     *
+     * @param version
+     * @param socialId
+     * @param users
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("app/group/invitation")
+    Observable<BaseJson> sendGroupInvite(@Field("v") String version, @Field("groupId") String socialId, @Field("userIds") String users);
 }

@@ -10,6 +10,7 @@ import com.wang.social.im.app.IMConstants;
 import com.wang.social.im.enums.ConversationType;
 import com.wang.social.im.helper.FriendShipHelper;
 import com.wang.social.im.helper.GroupHelper;
+import com.wang.social.im.helper.StickHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -28,6 +29,7 @@ import lombok.Setter;
  */
 public class UIConversation implements Comparable {
 
+    @Getter
     private TIMConversation mConversation;
     @Getter
     private String identify;
@@ -44,13 +46,18 @@ public class UIConversation implements Comparable {
         } else if (conversation.getType() == TIMConversationType.Group) {
             if (conversation.getPeer().startsWith(IMConstants.IM_IDENTITY_PREFIX_MIRROR)) {
                 conversationType = ConversationType.MIRROR;
-            } else {
+            } else if (conversation.getPeer().startsWith(IMConstants.IM_IDENTITY_PREFIX_GAME)){
+                conversationType = ConversationType.GAME;
+            }else {
                 //根据拉取的自定义字段判断是趣聊还是觅聊
-                int groupType = GroupHelper.getInstance().getGroupProfile(conversation.getPeer()).getGroupType();
-                if (groupType == GroupProfile.GROUP_TYPE_SOCIAL) {
-                    conversationType = ConversationType.SOCIAL;
-                } else if (groupType == GroupProfile.GROUP_TYPE_TEAM) {
-                    conversationType = ConversationType.TEAM;
+                GroupProfile profile = GroupHelper.getInstance().getGroupProfile(conversation.getPeer());
+                if (profile != null) {
+                    int groupType = profile.getGroupType();
+                    if (groupType == GroupProfile.GROUP_TYPE_SOCIAL) {
+                        conversationType = ConversationType.SOCIAL;
+                    } else if (groupType == GroupProfile.GROUP_TYPE_TEAM) {
+                        conversationType = ConversationType.TEAM;
+                    }
                 }
             }
         }
@@ -184,6 +191,13 @@ public class UIConversation implements Comparable {
         if (o instanceof UIConversation) {
             UIConversation conversation = (UIConversation) o;
             long timeGap = conversation.getLastMessageTime() - getLastMessageTime();
+            if (StickHelper.getInstance().isStick(conversation)) {
+                if (!StickHelper.getInstance().isStick(this)) {
+                    return 1;
+                }
+            } else if (StickHelper.getInstance().isStick(this)) {
+                return -1;
+            }
             if (timeGap > 0) return 1;
             else if (timeGap < 0) return -1;
             else return 0;

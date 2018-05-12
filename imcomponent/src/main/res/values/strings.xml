@@ -49,7 +49,7 @@
     <string name="im_added">已添加</string>
     <string name="im_phone_book">手机通讯录</string>
     <string name="im_phone_book_tip">邀请熟人一起玩，告别孤独不再孤单</string>
-    
+
     <!--摇钱树-->
     <string name="im_myself">我自己&#160;:</string>
     <string name="im_create_notify_format">%s创建了游戏</string>
