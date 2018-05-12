@@ -1,13 +1,11 @@
-package com.wang.social.funshow.mvp.ui.dialog;
+package com.frame.component.ui.dialog;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
-import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 
-import com.frame.component.ui.dialog.DialogSure;
+import com.frame.component.service.R;
 import com.frame.component.utils.SpannableStringUtil;
-import com.wang.social.funshow.R;
 
 public class DialogSureFunshowPay extends DialogSure {
     public DialogSureFunshowPay(Context context, CharSequence title) {

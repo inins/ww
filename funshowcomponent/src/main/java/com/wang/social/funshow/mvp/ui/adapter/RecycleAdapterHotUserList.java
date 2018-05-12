@@ -54,5 +54,10 @@ public class RecycleAdapterHotUserList extends BaseAdapter<TopUser> {
         @Override
         public void onRelease() {
         }
+
+        @Override
+        protected boolean useItemClickListener() {
+            return true;
+        }
     }
 }

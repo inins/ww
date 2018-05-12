@@ -29,7 +29,7 @@ import butterknife.BindView;
 public class RecycleAdapterHome extends BaseAdapter<FunpointAndTopic> {
 
     private final static int TYPE_SRC_FUNPOINT = R.layout.home_item_funpoint;
-    private final static int TYPE_SRC_TOPIC = R.layout.home_item_topic;
+    private final static int TYPE_SRC_TOPIC = R.layout.lay_item_topic;
 
     @Override
     protected BaseViewHolder createViewHolder(Context context, ViewGroup parent, int viewType) {

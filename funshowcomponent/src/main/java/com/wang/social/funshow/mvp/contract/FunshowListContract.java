@@ -1,6 +1,7 @@
 package com.wang.social.funshow.mvp.contract;
 
 import com.frame.component.entities.BaseListWrap;
+import com.frame.component.entities.funshow.FunshowBean;
 import com.frame.http.api.BaseJson;
 import com.frame.mvp.IModel;
 import com.frame.mvp.IView;
@@ -23,9 +24,9 @@ import retrofit2.http.Query;
 public interface FunshowListContract {
 
     interface View extends IView {
-        void reFreshList(List<Funshow> datas);
+        void reFreshList(List<FunshowBean> datas);
 
-        void appendList(List<Funshow> datas);
+        void appendList(List<FunshowBean> datas);
 
         void finishSpringView();
 

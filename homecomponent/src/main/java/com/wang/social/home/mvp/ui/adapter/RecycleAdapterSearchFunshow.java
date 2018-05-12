@@ -17,15 +17,15 @@ public class RecycleAdapterSearchFunshow extends BaseAdapter<TestEntity> {
 
     @Override
     protected BaseViewHolder createViewHolder(Context context, ViewGroup parent, int viewType) {
-        return new Holder(context, parent, R.layout.home_lay_funshow_item);
+        return new Holder(context, parent, R.layout.lay_item_funshow);
     }
 
     public class Holder extends BaseViewHolder<TestEntity> {
 
-        @BindView(R2.id.img_header)
-        ImageView imgHeader;
-        @BindView(R2.id.img_pic)
-        ImageView imgPic;
+//        @BindView(R2.id.img_header)
+//        ImageView imgHeader;
+//        @BindView(R2.id.img_pic)
+//        ImageView imgPic;
 
         public Holder(Context context, ViewGroup root, int layoutRes) {
             super(context, root, layoutRes);
@@ -41,8 +41,8 @@ public class RecycleAdapterSearchFunshow extends BaseAdapter<TestEntity> {
 //            textTag.setText(bean.getTagText());
 //            textCount.setText("发布" + bean.getPublishNum() + "条");
 
-         ImageLoaderHelper.loadImgTest(imgPic);
-         ImageLoaderHelper.loadCircleImgTest(imgHeader);
+//         ImageLoaderHelper.loadImgTest(imgPic);
+//         ImageLoaderHelper.loadCircleImgTest(imgHeader);
         }
 
         @Override

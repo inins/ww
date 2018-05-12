@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 
 import com.frame.base.delegate.AppDelegate;
+import com.frame.component.path.FunshowPath;
+import com.frame.component.router.ui.UIRouter;
 import com.frame.utils.FrameUtils;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
@@ -19,7 +21,7 @@ import timber.log.Timber;
  * ========================================
  */
 
-public class AppLifecycleImpl implements AppDelegate{
+public class AppLifecycleImpl implements AppDelegate {
     @Override
     public void attachBaseContext(Context base) {
 
@@ -27,12 +29,13 @@ public class AppLifecycleImpl implements AppDelegate{
 
     @Override
     public void onCreate(Application application) {
+        UIRouter.getInstance().registerUI(FunshowPath.HOST);
         if (LeakCanary.isInAnalyzerProcess(application)) {
             // This process is dedicated to LeakCanary for heap analysis.
             // You should not init your app in this process.
             return;
         }
-        if (BuildConfig.LOG_DEBUG){
+        if (BuildConfig.LOG_DEBUG) {
             Timber.plant(new Timber.DebugTree());
 
             ButterKnife.setDebug(true);
