@@ -4,5 +4,6 @@ import lombok.Data;
 
 @Data
 public class TopicTag {
-    private String name;
+    private int tagId;
+    private String tagName;
 }

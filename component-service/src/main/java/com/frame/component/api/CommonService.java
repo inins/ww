@@ -1,8 +1,7 @@
 package com.frame.component.api;
 
-import com.frame.component.entities.DiamondNum;
 import com.frame.component.entities.UserWrap;
-import com.frame.component.entities.dto.DiamondNumDTO;
+import com.frame.component.entities.dto.AccountBalanceDTO;
 import com.frame.component.entities.dto.QiNiuDTO;
 import com.frame.component.entities.user.UserBoard;
 import com.frame.http.api.BaseJson;
@@ -13,7 +12,9 @@ import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.QueryMap;
 
 /**
  * =========================================
@@ -89,9 +90,9 @@ public interface CommonService {
     /**
      * 获取用户自己的账户余额信息
      */
-    @FormUrlEncoded
-    @POST("/app/userInfo/findMyWallet")
-    Observable<BaseJson<DiamondNum>> findMyWallet(@FieldMap Map<String, Object> param);
+
+    @GET("/app/userWallet/accountBalance")
+    Observable<BaseJson<AccountBalanceDTO>> accountBalance(@QueryMap Map<String, Object> param);
 
     /**
      * 趣晒点赞

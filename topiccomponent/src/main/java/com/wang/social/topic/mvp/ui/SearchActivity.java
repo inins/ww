@@ -77,7 +77,8 @@ public class SearchActivity extends BaseAppActivity<SearchPresenter> implements 
                     }
                     mKeyword = mSearchET.getKey();
 
-                    mSearchET.setText("");
+                    // 清空搜索框
+//                    mSearchET.setText("");
                     mSpringView.callFreshDelay();
 //                    mPresenter.searchTopic(mKeyword, mTags, true);
                 }
@@ -89,7 +90,7 @@ public class SearchActivity extends BaseAppActivity<SearchPresenter> implements 
         mAdapter = new SearchResultAdapter(mRecyclerView, mPresenter.getResultList());
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(
-                new LinearLayoutManager(
+                new WrapContentLinearLayoutManager(
                         this,
                         LinearLayoutManager.VERTICAL,
                         false));

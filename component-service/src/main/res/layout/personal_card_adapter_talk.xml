@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="160dp"
+    android:layout_height="wrap_content">
+
+
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="160dp"
+        android:layout_height="86dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@color/common_blue" />
+
+    <TextView
+        android:id="@+id/name_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/common_text_blank"
+        android:textSize="14sp"
+        android:singleLine="true"
+        android:maxEms="7"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_view"
+        tools:text="青蛙旅行社青蛙旅行社" />
+
+    <TextView
+        android:id="@+id/number_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:singleLine="true"
+        android:textColor="#ff999999"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@+id/name_text_view"
+        app:layout_constraintStart_toEndOf="@+id/name_text_view"
+        tools:text="246人" />
+
+    <TextView
+        android:id="@+id/tags_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="#ff868382"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name_text_view"
+        tools:text="#美食 #甜品 #环游世界 ..." />
+
+</android.support.constraint.ConstraintLayout>

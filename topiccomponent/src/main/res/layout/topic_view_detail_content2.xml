@@ -12,7 +12,7 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:paddingTop="14dp"
-        android:paddingBottom="14dp">
+        android:paddingBottom="18dp">
 
         <ImageView
             android:id="@+id/avatar_image_view"
@@ -86,11 +86,21 @@
 
     </LinearLayout>
 
+    <com.frame.component.view.MusicBoard
+        android:id="@+id/music_board_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="14dp"
+        android:background="@drawable/topic_shape_rect_corner_stroke_gray">
+
+    </com.frame.component.view.MusicBoard>
+
 
     <FrameLayout
         android:id="@+id/content_layout"
         android:layout_width="match_parent"
-        android:layout_height="412dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="14dp"
         android:layout_marginEnd="14dp"
         android:layout_marginStart="14dp"
@@ -100,12 +110,5 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constellation_text_view" />
-
-    <View
-        android:id="@+id/topic_view3"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent" />
 
 </LinearLayout>

@@ -12,6 +12,7 @@ import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
 import com.wang.social.topic.mvp.contract.ReleaseTopicContract;
 import com.wang.social.topic.mvp.model.entities.Template;
+import com.wang.social.topic.utils.FileUtil;
 import com.wang.social.topic.utils.StringUtil;
 import com.wang.social.topic.utils.WebFontStyleUtil;
 
@@ -34,12 +35,14 @@ public class ReleaseTopicPresenter extends
     private final static int COMMIT_STATE_IDLE = 0;
     private final static int COMMIT_STATE_COVER_IMAGE = 1;
     private final static int COMMIT_STATE_CONTENT_IMG = 2;
-    private final static int COMMIT_STATE_TOPIC = 3;
+    private final static int COMMIT_STATE_CONTENT_AUDIO = 3;
+    private final static int COMMIT_STATE_TOPIC = 4;
 
     @IntDef( {
             COMMIT_STATE_IDLE,
             COMMIT_STATE_COVER_IMAGE,
             COMMIT_STATE_CONTENT_IMG,
+            COMMIT_STATE_CONTENT_AUDIO,
             COMMIT_STATE_TOPIC
     })
     @Retention(RetentionPolicy.SOURCE)
@@ -226,6 +229,7 @@ public class ReleaseTopicPresenter extends
         commitContentAttachment(mContent);
     }
     private String mLocalImgPath;
+    private String mLocalAudioPath;
 
     /**
      * 上传内容里面的附件（图片 音频 等）
@@ -240,19 +244,38 @@ public class ReleaseTopicPresenter extends
             return;
         }
 
+        // 是否有语音需要上传
+        mLocalAudioPath = StringUtil.findLocalAudio(content);
+        if (!TextUtils.isEmpty(mLocalAudioPath)) {
+            commitContentAudio();
+            return;
+        }
+
         setContent(content);
 
         addTopic();
     }
 
-    public void commitContentImg() {
+    private void commitContentImg() {
         Timber.i("上传内容图片 " + mLocalImgPath);
+        Timber.i("图片大小 : " + FileUtil.getFileSize(mLocalImgPath));
 
         setCommitState(COMMIT_STATE_CONTENT_IMG);
 
         mRootView.showLoading();
 
         netUploadCommit(mLocalImgPath);
+    }
+
+    private void commitContentAudio() {
+        Timber.i("上传语音 : " + mLocalAudioPath);
+        Timber.i("文件大小 : " + FileUtil.getFileSize(mLocalAudioPath));
+
+        setCommitState(COMMIT_STATE_CONTENT_AUDIO);
+
+        mRootView.showLoading();
+
+        netUploadCommit(mLocalAudioPath);
     }
 
     /**
@@ -325,9 +348,16 @@ public class ReleaseTopicPresenter extends
                 } else if (mCommitState == COMMIT_STATE_CONTENT_IMG) {
                     // 上传内容附件成功
                     Timber.i("上传内容图片成功 : " + url);
-                    Timber.i(mContent);
+//                    Timber.i(mContent);
                     mContent = mContent.replaceAll(mLocalImgPath, url);
-                    Timber.i(mContent);
+//                    Timber.i(mContent);
+
+                    commitContentAttachment(mContent);
+                } else if (mCommitState == COMMIT_STATE_CONTENT_AUDIO) {
+                    // 上传内容语音成功
+                    Timber.i("上传内容语音成功 : " + url);
+
+                    mContent = mContent.replace(mLocalAudioPath, url);
 
                     commitContentAttachment(mContent);
                 }

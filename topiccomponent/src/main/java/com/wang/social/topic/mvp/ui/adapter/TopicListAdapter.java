@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.SizeUtils;
@@ -91,7 +92,9 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
         // 简要
         holder.contentTV.setText(topic.getFirstStrff());
         // 图片
+        holder.imageView.setVisibility(View.INVISIBLE);
         if (!TextUtils.isEmpty(topic.getTopicImage())) {
+            holder.imageView.setVisibility(View.VISIBLE);
             FrameUtils.obtainAppComponentFromContext(mContext)
                     .imageLoader()
                     .loadImage(mContext,
@@ -102,7 +105,9 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
                                     .build());
         }
         // 用户头像
+        holder.avatarIV.setVisibility(View.INVISIBLE);
         if (!TextUtils.isEmpty(topic.getUserCover())) {
+            holder.avatarIV.setVisibility(View.VISIBLE);
             FrameUtils.obtainAppComponentFromContext(mContext)
                     .imageLoader()
                     .loadImage(mContext,
@@ -125,19 +130,19 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
             for (int i = 0; i < Math.min(topic.getTopicTag().size(), 3); i++) {
                 TopicTag tag = topic.getTopicTag().get(i);
                 if (null == tag) continue;
-                if (!TextUtils.isEmpty(tag.getName())) {
+                if (!TextUtils.isEmpty(tag.getTagName())) {
                     switch (i) {
                         case 0:
                             holder.tag1TV.setVisibility(View.VISIBLE);
-                            holder.tag1TV.setText(tag.getName());
+                            holder.tag1TV.setText(tag.getTagName());
                             break;
                         case 1:
                             holder.tag2TV.setVisibility(View.VISIBLE);
-                            holder.tag2TV.setText(tag.getName());
+                            holder.tag2TV.setText(tag.getTagName());
                             break;
                         case 2:
                             holder.tag3TV.setVisibility(View.VISIBLE);
-                            holder.tag3TV.setText(tag.getName());
+                            holder.tag3TV.setText(tag.getTagName());
                             break;
                     }
                 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.frame.utils.TimeUtils;
+import com.qiniu.android.utils.StringUtils;
 import com.wang.social.topic.R;
 
 import java.text.SimpleDateFormat;
@@ -89,11 +90,14 @@ public class StringUtil {
     }
 
     public static boolean isURL(String str){
-        if (TextUtils.isEmpty(str)) return false;
+        if (isEmpty(str)) return false;
         str = str.toLowerCase();
         return str.startsWith("http:");
     }
 
+    public static boolean isEmpty(String str) {
+        return null == str || str.length() <= 0;
+    }
 
 
     public final static String TAG_IMG = "<img";
@@ -140,5 +144,39 @@ public class StringUtil {
         }
 
         return temp;
+    }
+
+    private final static String TAG_AUDIO = "onclick=\"playAudio('";
+    private final static String TAG_AUDIO_END = "');\"";
+    public static String findLocalAudio(String content) {
+        String localAudio = findBetween(content, TAG_AUDIO, TAG_AUDIO_END, true);
+
+        if (isURL(localAudio)) {
+            return findLocalAudio(
+                    content.substring(content.indexOf(localAudio) +
+                            localAudio.length() + TAG_AUDIO_END.length()));
+        }
+
+        return localAudio;
+    }
+
+
+
+    public static String findBetween(String src, String start, String end, boolean mustEnd) {
+        if (null == src || src.length() <= 0) return "";
+
+        int startPos = src.indexOf(start);
+        if (startPos < 0) return "";
+
+        int endPos = src.indexOf(end);
+        if (endPos < 0) {
+            if (!mustEnd) {
+                endPos = src.length();
+            } else {
+                return "";
+            }
+        }
+
+        return src.substring(startPos + start.length(), endPos);
     }
 }

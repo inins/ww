@@ -26,6 +26,7 @@ import com.wang.social.topic.mvp.contract.TopicContract;
 import com.wang.social.topic.mvp.model.entities.Tag;
 import com.wang.social.topic.mvp.model.entities.TopicTopUser;
 import com.wang.social.topic.mvp.presenter.TopicPresenter;
+import com.wang.social.topic.mvp.ui.ReleaseTopicActivity;
 import com.wang.social.topic.mvp.ui.SearchActivity;
 import com.wang.social.topic.mvp.ui.TopUserActivity;
 import com.wang.social.topic.mvp.ui.widget.AppBarStateChangeListener;
@@ -150,7 +151,9 @@ public class TopicFragment extends BaseFragment<TopicPresenter> implements Topic
     public void search() {
 //        mPresenter.search();
         // 跳转到搜索页面
-        SearchActivity.start(getActivity());
+//        SearchActivity.start(getActivity());
+
+        ReleaseTopicActivity.start(getActivity());
     }
 
     /**
@@ -163,7 +166,7 @@ public class TopicFragment extends BaseFragment<TopicPresenter> implements Topic
         }
 
         mTabLayout.setupWithViewPager(mViewPager);
-        mViewPager.setAdapter(new FragmentPagerAdapter(getFragmentManager()) {
+        mViewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
                 return TopicListFragment.newInstance(position);

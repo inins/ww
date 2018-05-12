@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="mt_money_tree">摇钱树</string>
+    <string name="mt_game_record">游戏记录</string>
+    <string name="mt_enter">进入</string>
+    <string name="mt_joined">已参与</string>
+    <string name="mt_join_in">参与中</string>
+    <string name="mt_format_number_of_person">%1d人</string>
+    <string name="mt_game_time_colon">游戏时间：</string>
+    <string name="mt_game_number_of_person_colon">游戏人数：</string>
+    <string name="mt_game_price_colon">支付钻石：</string>
+    <string name="mt_people">人</string>
+    <string name="mt_unlimited">不限</string>
+    <string name="mt_gemstone">钻</string>
+    <string name="mt_minute">分钟</string>
+    <string name="mt_create_pay">创建并支付</string>
+    <string name="mt_all">全部</string>
+    <string name="mt_lose">输</string>
+    <string name="mt_win">赢</string>
+    <string name="mt_tie">平</string>
+    <string name="mt_cancel">取消</string>
+    <string name="mt_confirm">确定</string>
+    <string name="mt_time_define">自定义</string>
+    <string name="mt_time_minute_1">1分钟</string>
+    <string name="mt_time_minute_2">2分钟</string>
+    <string name="mt_time_minute_5">5分钟</string>
+    <string name="mt_time_minute_10">10分钟</string>
+    <string name="mt_pay_immediately">立即支付</string>
+    <string name="mt_recharge_immediately">立即充值</string>
+    <string name="mt_format_pay_title_pre">需要支付</string>
+    <string name="mt_format_pay_title_suf">钻进行游戏</string>
+    <string name="mt_format_pay_hint">您当前余额为%1d钻</string>
+    <string name="mt_format_game_room_diamond_num">累计%1d钻</string>
+    <string name="mt_shark_for_gemstone">摇一摇获得钻石</string>
+    <string name="mt_format_game_score">获得了%1d钻</string>
+    <string name="mt_me">我</string>
+    <string name="mt_game_over">本次游戏结束</string>
+    <string name="mt_format_game_over_time">游戏时间：%s</string>
+    <string name="mt_format_game_over_info">共 %1d 人参与 累计 %2d 钻</string>
+    <string name="mt_top_5">Top5 排行榜</string>
+    <string name="mt_game_over_my_score_1">你排名第</string>
+    <string name="mt_game_over_my_score_2">名，获得%1d钻！</string>
+    <string name="mt_member_of_game">参加本次游戏的人</string>
+</resources>

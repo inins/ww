@@ -19,6 +19,7 @@ import com.wang.social.topic.di.module.TopicModule;
 import com.wang.social.topic.mvp.contract.TopicContract;
 import com.wang.social.topic.mvp.model.entities.Tag;
 import com.wang.social.topic.mvp.presenter.TopicPresenter;
+import com.wang.social.topic.mvp.ui.WrapContentLinearLayoutManager;
 import com.wang.social.topic.mvp.ui.adapter.TopUserAdapter;
 
 import java.util.List;
@@ -64,7 +65,7 @@ public class TopUserFragment extends BaseFragment<TopicPresenter> implements Top
         mAdapter = new TopUserAdapter(mRecyclerView, mPresenter.getTopicTopUserList());
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(
-                new LinearLayoutManager(
+                new WrapContentLinearLayoutManager(
                 getActivity(),
                 LinearLayoutManager.VERTICAL, false));
 

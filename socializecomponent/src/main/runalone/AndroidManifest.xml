@@ -18,7 +18,7 @@
             android:name="com.wang.social.socialize.app.GlobalConfiguration"
             android:value="ConfigModule" />
 
-        <activity android:name=".app.MainActivity"
+        <activity android:name=".runalone.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

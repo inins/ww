@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="66dp"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:id="@+id/avatar_image_view"
+        android:layout_width="47dp"
+        android:layout_height="47dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@color/common_blue" />
+
+    <TextView
+        android:id="@+id/name_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textColor="#ff313131"
+        android:textSize="14sp"
+        tools:text="燥起来"
+        app:layout_constraintStart_toEndOf="@+id/avatar_image_view"
+        app:layout_constraintTop_toTopOf="@+id/avatar_image_view" />
+
+    <TextView
+        android:id="@+id/info_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textColor="#ff999999"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/avatar_image_view"
+        app:layout_constraintStart_toStartOf="@+id/name_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/name_text_view"
+        tools:text="5/12人" />
+
+    <ImageView
+        android:id="@+id/mt_imageview2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/common_ic_diamond_small"
+        app:layout_constraintBottom_toBottomOf="@+id/price_text_view"
+        app:layout_constraintEnd_toStartOf="@+id/price_text_view"
+        app:layout_constraintTop_toTopOf="@+id/price_text_view" />
+
+    <TextView
+        android:id="@+id/price_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:textColor="#ff313131"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="80" />
+
+    <ImageView
+        android:id="@+id/type_icon_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/info_text_view"
+        app:layout_constraintStart_toEndOf="@+id/info_text_view"
+        app:layout_constraintTop_toTopOf="@+id/info_text_view"
+        tools:src="@drawable/mt_ic_win"
+        tools:visibility="visible"/>
+
+</android.support.constraint.ConstraintLayout>

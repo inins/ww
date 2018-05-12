@@ -18,7 +18,7 @@ public class TopicDetailDTO implements Mapper<TopicDetail> {
     private String nickname;
     private Integer sex;
     private String backgroundImage;
-    private String backgroundMusicId;
+    private Integer backgroundMusicId;
     private String backgroundMusicName;
     private String backgroundMusicUrl;
     private Long birthday;
@@ -47,7 +47,7 @@ public class TopicDetailDTO implements Mapper<TopicDetail> {
         TopicDetail object = new TopicDetail();
 
         object.setBirthday(birthday == null ? 0L : birthday);
-        object.setBackgroundMusicId(StringUtil.assertNotNull(backgroundMusicId));
+        object.setBackgroundMusicId(assertNotNull(backgroundMusicId));
         object.setBackgroundMusicName(StringUtil.assertNotNull(backgroundMusicName));
         object.setBackgroundMusicUrl(StringUtil.assertNotNull(backgroundMusicUrl));
         object.setBackgroundImage(StringUtil.assertNotNull(backgroundImage));

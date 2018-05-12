@@ -25,7 +25,8 @@ public class WrapContentLinearLayoutManager extends LinearLayoutManager {
         try {
             super.onLayoutChildren(recycler, state);
         } catch (IndexOutOfBoundsException e) {
-            Timber.e("problem", "meet a IOOBE in RecyclerView");
+            e.printStackTrace();
+            Timber.e("meet a IOOBE in RecyclerView");
         }
     }
 

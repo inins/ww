@@ -244,7 +244,7 @@ public class CommentActivity extends BaseAppActivity<CommentPresenter> implement
         }
 
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this,
+        mRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL,
                 false));
         // 更新，加载更多
@@ -294,6 +294,11 @@ public class CommentActivity extends BaseAppActivity<CommentPresenter> implement
 
     @OnClick(R2.id.send_text_view)
     public void sendComment() {
+        if (mCommentET.getText().length() > 150) {
+            ToastUtil.showToastLong("评论不能超过150字");
+            return;
+        }
+
         if (mCommentET.getTag() instanceof Comment) {
             Comment comment = (Comment) mCommentET.getTag();
             // 回复
