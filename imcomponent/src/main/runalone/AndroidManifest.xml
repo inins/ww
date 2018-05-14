@@ -130,8 +130,9 @@
             android:exported="true"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-        <activity android:name=".mvp.ui.TeamHomeActivity"
-            android:exported="true"/>
+        <activity
+            android:name=".mvp.ui.TeamHomeActivity"
+            android:exported="true" />
         <activity
             android:name=".mvp.ui.ShadowSettingActivity"
             android:exported="true" />
@@ -161,7 +162,9 @@
             android:exported="true" />
         <activity
             android:name=".mvp.ui.AlertUserListActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
+        <activity android:name=".mvp.ui.HappyWoodActivity" />
+        <activity android:name=".mvp.ui.ShareListActivity"></activity>
     </application>
 
 </manifest>

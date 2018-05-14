@@ -98,6 +98,20 @@ public class CommonHelper {
             bundle.putString("targetId", targetId);
             UIRouter.getInstance().openUri(context, ImPath.TEAM_URL, bundle);
         }
+
+        /**
+         * 分享树
+         *
+         * @param context
+         * @param type
+         * @param objectId
+         */
+        public static void gotoShareWood(Context context, int type, String objectId) {
+            Bundle bundle = new Bundle();
+            bundle.putInt("type", type);
+            bundle.putString("objectId", objectId);
+            UIRouter.getInstance().openUri(context, ImPath.SHARE_WOOD_URL, bundle);
+        }
     }
 
     public static class TopicHelper {

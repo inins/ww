@@ -28,8 +28,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:toolbar_left_icon="@drawable/common_ic_back"
-        app:toolbar_right_icon="@drawable/im_ic_other_cv" />
+        app:toolbar_left_icon="@drawable/common_ic_back" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -53,11 +52,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="6dp"
+            android:layout_marginStart="6dp"
+            android:drawableEnd="@drawable/im_ic_expand"
             android:drawablePadding="3dp"
-            android:drawableRight="@drawable/im_ic_expand"
             android:textColor="@color/common_text_blank"
             android:textSize="18dp"
+            android:text="昵称"
             tools:text="路飞" />
     </LinearLayout>
 

@@ -20,8 +20,6 @@ import com.wang.social.im.mvp.model.entities.dto.TeamInfoDTO;
 
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
-
 import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
@@ -40,6 +38,8 @@ import retrofit2.http.Query;
  */
 public interface GroupService {
 
+    String HEADER_CONTENT_TYPE = "Content-Type:application/x-www-form-urlencoded; charset=utf-8";
+
     /**
      * 查询觅聊列表类型：全部
      */
@@ -53,7 +53,18 @@ public interface GroupService {
      */
     int TEAM_LIST_MEMBER_CREATE = 2;
 
-    String HEADER_CONTENT_TYPE = "Content-Type:application/x-www-form-urlencoded; charset=utf-8";
+    /**
+     * 分享树类型:话题
+     */
+    String SHARE_WOOD_TOPIC = "topic";
+    /**
+     * 分享树类型：趣晒
+     */
+    String SHARE_WOOD_TALK = "talk";
+    /**
+     * 分享树类型：群组
+     */
+    String SHARE_WOOD_GROUP = "group";
 
     /**
      * 获取趣聊详情
