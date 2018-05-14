@@ -24,7 +24,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
     public interface ClickListener {
         void onOpenReplyList(Comment comment);
+
         void onReply(Comment comment);
+
         void onSupport(Comment comment);
     }
 
@@ -60,14 +62,17 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         if (null == comment) return;
 
         // 头像
-        if (TextUtils.isEmpty(comment.getAvatar())) {
+        holder.avatarIV.setVisibility(View.INVISIBLE);
+        if (!TextUtils.isEmpty(comment.getAvatar())) {
+            holder.avatarIV.setVisibility(View.VISIBLE);
             FrameUtils.obtainAppComponentFromContext(mContext)
                     .imageLoader()
                     .loadImage(mContext,
                             ImageConfigImpl.builder()
-                            .imageView(holder.avatarIV)
-                            .url(comment.getAvatar())
-                            .build());
+                                    .imageView(holder.avatarIV)
+                                    .url(comment.getAvatar())
+                                    .isCircle(true)
+                                    .build());
         }
         // 创建日期
         holder.createDateTV.setText(StringUtil.formatCreateDate(mContext, comment.getCreateTime()));

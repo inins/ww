@@ -1,7 +1,6 @@
 package com.wang.social.funshow.mvp.ui.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
@@ -18,7 +17,7 @@ import android.widget.VideoView;
 
 import com.frame.utils.ToastUtil;
 import com.wang.social.funshow.R;
-import com.wang.social.funshow.utils.VideoCoverUtil;
+import com.frame.component.utils.VideoCoverUtil;
 
 import java.io.File;
 

@@ -1,8 +1,10 @@
 package com.wang.social.funshow.mvp.entities.funshow;
 
+import com.frame.component.entities.funshow.FunshowBean;
 import com.frame.utils.StrUtil;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
@@ -66,8 +68,47 @@ public class Funshow implements Serializable {
         return null;
     }
 
+    public FunshowBean tans2FunshowBean() {
+        FunshowBean funshowBean = new FunshowBean();
+
+        funshowBean.setId(talkId);
+        funshowBean.setUserId(userId);
+        funshowBean.setNickname(userName);
+        funshowBean.setCreateTime(createTime);
+        funshowBean.setContent(content);
+        funshowBean.setShowPic(getFirstImg() != null ? getFirstImg().getUrl() : "");
+        funshowBean.setPicNum(talkImageNum);
+        funshowBean.setFree(isFree());
+        funshowBean.setVideo(hasVideo());
+        funshowBean.setSupportTotal(talkSupportNum);
+        funshowBean.setCommentTotal(talkCommentNum);
+        funshowBean.setShareTotal(talkShareNum);
+        funshowBean.setSupport(isSupport());
+        funshowBean.setCityName(city);
+        funshowBean.setProvinceName(province);
+        funshowBean.setPrice(price);
+        funshowBean.setPay(!isShopping());
+
+        if (hasVideo()) {
+            funshowBean.setVideoUrl(resourceUrl.getUrl());
+        }
+        return funshowBean;
+    }
+
+    public static List<FunshowBean> tans2FunshowBeanList(List<Funshow> funshowList) {
+        List<FunshowBean> funshowBeans = new ArrayList<>();
+        if (!StrUtil.isEmpty(funshowList)) {
+            for (Funshow funshow : funshowList) {
+                funshowBeans.add(funshow.tans2FunshowBean());
+            }
+        }
+        return funshowBeans;
+    }
+
+    ///////////////////////////////
+
     public boolean isSupport() {
-        return isSupport == 1;
+        return isSupport != 0;
     }
 
     public void setIsSupport(boolean isSupport) {

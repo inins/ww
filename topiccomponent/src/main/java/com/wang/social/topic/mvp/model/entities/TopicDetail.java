@@ -20,7 +20,7 @@ public class TopicDetail {
      backgroundMusicId	String	话题背景音乐ID
      backgroundMusicName	String	话题背景音乐名
      backgroundMusicUrl	String	话题背景音乐URL
-     creatorId	int	创建者ID
+     userId	int	创建者ID
      birthday	Long	出生日期
      avatar	String	头像
      nickname	String	昵称
@@ -37,7 +37,7 @@ public class TopicDetail {
     private String nickname;
     private Integer sex;
     private String backgroundImage;
-    private String backgroundMusicId;
+    private Integer backgroundMusicId;
     private String backgroundMusicName;
     private String backgroundMusicUrl;
     private Long birthday;

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="288dp"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/shape_rect_corner_solid_white">
+
+    <TextView
+        android:id="@+id/title_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:textColor="#ff434343"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="需要支付38钻进行游戏" />
+
+    <TextView
+        android:id="@+id/hint_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:textColor="#ff999999"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_text_view"
+        tools:text="您当前余额为1654钻" />
+
+
+    <TextView
+        android:id="@+id/cancel_text_view"
+        android:layout_width="78dp"
+        android:layout_height="27dp"
+        android:layout_marginBottom="28dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/shape_rect_corner_solid_divider"
+        android:gravity="center"
+        android:textColor="@color/common_white"
+        android:textSize="13sp"
+        tools:text="取消"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hint_text_view" />
+
+    <TextView
+        android:id="@+id/pay_text_view"
+        android:layout_width="78dp"
+        android:layout_height="27dp"
+        android:layout_gravity="end"
+        android:layout_marginEnd="28dp"
+        android:background="@drawable/shape_rect_gradient_blue_corner"
+        android:gravity="center"
+        android:textColor="@color/common_white"
+        android:textSize="13sp"
+        tools:text="立即支付"
+        app:layout_constraintBottom_toBottomOf="@+id/cancel_text_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/cancel_text_view" />
+
+</android.support.constraint.ConstraintLayout>

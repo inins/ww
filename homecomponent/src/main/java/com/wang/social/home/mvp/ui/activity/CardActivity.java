@@ -56,7 +56,9 @@ public class CardActivity extends BasicAppActivity {
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
+        position = getIntent().getIntExtra("position", 0);
         appbar.bringToFront();
+
 
         pagerAdapter = new PagerAdapterCard(getSupportFragmentManager(), titles);
         pager.setAdapter(pagerAdapter);
@@ -73,6 +75,8 @@ public class CardActivity extends BasicAppActivity {
         popupWindow = new CardPopupWindow(this);
         popupWindow.setShadowView(shadow);
         popupWindow.setCheckable(textTab1);
+
+        pager.setCurrentItem(position, false);
     }
 
     @Override

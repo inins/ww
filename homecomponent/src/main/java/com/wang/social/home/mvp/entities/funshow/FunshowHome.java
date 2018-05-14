@@ -1,12 +1,14 @@
 package com.wang.social.home.mvp.entities.funshow;
 
+import com.frame.component.entities.funshow.FunshowBean;
+
 import lombok.Data;
 
 @Data
 public class FunshowHome {
 
     /**
-     * creatorId : 10008
+     * userId : 10008
      * createTime : 1522068104000
      * nickname : 洗白白
      * headImg : http://resouce.dongdongwedding.com/wan7405.jpg
@@ -63,5 +65,32 @@ public class FunshowHome {
 
     public boolean isVideo() {
         return mediaType == 2;
+    }
+
+    public boolean isPay() {
+        return talkPayed == 1;
+    }
+
+    public FunshowBean tans2FunshowBean() {
+        FunshowBean funshowBean = new FunshowBean();
+
+        funshowBean.setId(talkId);
+        funshowBean.setUserId(creatorId);
+        funshowBean.setNickname(nickname);
+        funshowBean.setCreateTime(createTime);
+        funshowBean.setContent(content);
+        funshowBean.setShowPic(url);
+        funshowBean.setPicNum(urls);
+        funshowBean.setFree(isFree());
+        funshowBean.setVideo(isVideo());
+        funshowBean.setSupportTotal(supportTotal);
+        funshowBean.setCommentTotal(commentTotal);
+        funshowBean.setShareTotal(shareTotal);
+        funshowBean.setSupport(isLiked());
+        funshowBean.setCityName(city);
+        funshowBean.setProvinceName(province);
+        funshowBean.setPrice(relateMoney);
+        funshowBean.setPay(isPay());
+        return funshowBean;
     }
 }

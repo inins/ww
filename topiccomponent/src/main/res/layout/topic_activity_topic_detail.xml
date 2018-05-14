@@ -12,7 +12,7 @@
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
-            android:layout_height="192dp"
+            android:layout_height="wrap_content"
             android:background="#FFFFFF"
             app:contentScrim="#FFFFFF"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
@@ -20,8 +20,9 @@
             <ImageView
                 android:id="@+id/background_image_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitXY" />
+                android:layout_height="192dp"
+                android:scaleType="centerCrop"
+                tools:src="@color/common_blue"/>
 
 
             <FrameLayout
@@ -47,9 +48,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="23dp"
                     android:layout_marginStart="14dp"
-                    android:layout_marginTop="71dp"
+                    android:layout_marginTop="61dp"
                     android:textColor="@color/common_text_blank"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    tools:text="纪录片意外走红B站：冷门纪录片要“征服”资本？" />
 
 
                 <LinearLayout
@@ -57,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="23dp"
                     android:layout_marginStart="14dp"
-                    android:layout_marginTop="14dp"
+                    android:layout_marginTop="10dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
@@ -67,14 +69,16 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="14dp"
                         android:textColor="@color/common_text_blank"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        tools:text="by #哔哩哔哩 #纪录片"/>
 
                     <com.wang.social.topic.mvp.ui.widget.GradualColorTextView
                         android:id="@+id/create_date_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/common_text_blank"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        tools:text="2018年04月03日"/>
 
                 </LinearLayout>
 
@@ -144,7 +148,7 @@
         android:background="#FFFFFF"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <include layout="@layout/topic_view_detail_content" />
+        <include layout="@layout/topic_view_detail_content2" />
 
     </android.support.v4.widget.NestedScrollView>
 

@@ -445,6 +445,13 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
                 if (mTagType == TAG_TYPE_PERSONAL) {
                     // 个人标签选择，直接调用添加个人标签接口
                     mPresenter.addPersonalTag();
+                } else if (mTagType == TAG_TYPE_TAG_LIST) {
+                    // 不需要确认，直接返回
+                    EventBean bean = new EventBean(EventBean.EVENTBUS_TAG_SELECTED_LIST);
+                    bean.put(NAME_SELECTED_LIST, mPresenter.getSelectedList());
+                    EventBus.getDefault().post(bean);
+
+                    quitFinish();
                 } else {
                     // 跳转到兴趣大杂烩
                     startConfirm(TagSelectionActivity.this, mPresenter.getSelectedList(), fromLogin, mTagType);
@@ -459,8 +466,8 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
                     // 提交个人标签
                     mPresenter.addPersonalTag();
                 } else if (TAG_TYPE_TAG_LIST == mTagType) { // 话题发布选择标签，直接返回标签列表文字
-//                    String ids = StringUtils.formatTagIds(mPresenter.getSelectedList());
-//                    String names = StringUtils.formatTagNames(mPresenter.getSelectedList());
+//                    String ids = TagUtils.formatTagIds(mPresenter.getSelectedList());
+//                    String names = TagUtils.formatTagNames(mPresenter.getSelectedList());
 
                     EventBean bean = new EventBean(EventBean.EVENTBUS_TAG_SELECTED_LIST);
                     bean.put(NAME_SELECTED_LIST, mPresenter.getSelectedList());

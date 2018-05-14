@@ -12,6 +12,7 @@ import android.view.View;
 import com.frame.base.BaseAdapter;
 import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.BaseListWrap;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.component.view.TitleView;
 import com.frame.di.component.AppComponent;
@@ -94,7 +95,6 @@ public class HotUserListActivity extends BasicAppActivity implements IView, Base
 
     @Override
     public void onItemClick(TopUser testEntity, int position) {
-
     }
 
     @Override

@@ -52,7 +52,7 @@ public class DetailTopicController extends BaseController {
     public DetailTopicController(View root, int userId) {
         super(root);
         this.userId = userId;
-        int layout = R.layout.home_item_topic;
+        int layout = R.layout.lay_item_topic;
         addLoadingLayout();
         registEventBus();
         onInitCtrl();

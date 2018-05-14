@@ -13,7 +13,7 @@ public class FunshowAddPost {
      * authority : 0
      * city : 成都市
      * content : 阿萨大大啊实打实大苏打
-     * creatorId : 10000
+     * userId : 10000
      * isAnonymous : 0
      * latitude : 30.566729
      * longitude : 104.063642

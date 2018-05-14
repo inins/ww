@@ -23,6 +23,7 @@ import com.wang.social.topic.mvp.contract.TopicListContract;
 import com.wang.social.topic.mvp.model.entities.Topic;
 import com.wang.social.topic.mvp.presenter.TopicListPresenter;
 import com.wang.social.topic.mvp.ui.TopicDetailActivity;
+import com.wang.social.topic.mvp.ui.WrapContentLinearLayoutManager;
 import com.wang.social.topic.mvp.ui.adapter.TopicListAdapter;
 import com.wang.social.topic.mvp.ui.widget.DFShopping;
 
@@ -51,9 +52,11 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
     public static final int FRAGMENT_NEW = 0;
     public static final int FRAGMENT_HOT = 1;
     public static final int FRAGMENT_LOW = 2;
-    @IntDef({ FRAGMENT_NEW, FRAGMENT_HOT, FRAGMENT_LOW })
+
+    @IntDef({FRAGMENT_NEW, FRAGMENT_HOT, FRAGMENT_LOW})
     @Retention(RetentionPolicy.SOURCE)
-    public @interface FragmentType {}
+    public @interface FragmentType {
+    }
 
     @BindView(R2.id.spring_view)
     SpringView mSpringView;
@@ -65,7 +68,8 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
     // onResume 调用后才开始加载
     boolean mIsLoaded = false;
     // 类型
-    @FragmentType int mFragmentType = FRAGMENT_NEW;
+    @FragmentType
+    int mFragmentType = FRAGMENT_NEW;
 
     @Override
     public void setupFragmentComponent(@NonNull AppComponent appComponent) {
@@ -112,7 +116,7 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
                     }
                 });
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mAdapter);
 
         // 刷新和加载更多
@@ -227,9 +231,13 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
                     mSpringView.callFreshDelay();
                 }
                 break;
+            case EventBean.EVENTBUS_TAG_UPDATED:
+                Timber.i("标签更新");
+
+                mSpringView.callFreshDelay();
+                break;
         }
     }
-
 
 
 }

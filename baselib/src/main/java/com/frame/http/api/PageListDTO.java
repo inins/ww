@@ -25,6 +25,7 @@ public class PageListDTO<T extends Mapper<R>, R> implements Mapper<PageList<R>> 
         PageList<R> listResult = new PageList<R>();
         listResult.setMaxPage(pages);
         listResult.setCurrentPage(current);
+        listResult.setCurrent(current);
         listResult.setOrderField(orderByField);
         List<R> listR = new ArrayList<>();
         if (list != null) {

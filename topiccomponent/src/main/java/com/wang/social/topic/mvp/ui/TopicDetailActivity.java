@@ -21,7 +21,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.frame.component.ui.acticity.BGMList.Music;
 import com.frame.component.ui.base.BaseAppActivity;
+import com.frame.component.view.MusicBoard;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
@@ -101,6 +103,9 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
     // 星座
     @BindView(R2.id.constellation_text_view)
     TextView mConstellationTV;
+    // 背景音乐
+    @BindView(R2.id.music_board_layout)
+    MusicBoard mMusicBoard;
     // 内容 WebView
     @BindView(R2.id.content_layout)
     FrameLayout mContentLayout;
@@ -226,7 +231,7 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
         mPresenter.getTopicDetails(mTopicId);
 //        mPresenter.test();
 
-//        NetFindMyWalletHelper.newInstance().findMyWallet(this);
+//        NetAccountBalanceHelper.newInstance().accountBalance(this);
     }
 
     private void resetView(boolean loaded) {
@@ -265,6 +270,8 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
         // 背景图
         if (TextUtils.isEmpty(detail.getBackgroundImage())) {
             // 没有背景图时候的配色方案
+            mBackgroundIV.setVisibility(View.GONE);
+            mGradualImageView.setVisibility(View.GONE);
             // 标签
             mTagTV.setGradual(true);
             mTagTV.setGradualColor(getResources().getColor(R.color.common_text_blank),
@@ -311,6 +318,7 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
             mGradualImageView.setGradual(true);
             mGradualImageView.setDrawable(R.drawable.common_ic_playing1, R.drawable.common_ic_playing2);
 
+            mBackgroundIV.setVisibility(View.VISIBLE);
             FrameUtils.obtainAppComponentFromContext(this)
                     .imageLoader()
                     .loadImage(this,
@@ -366,6 +374,17 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
         // 星座
         mConstellationTV.setText(TimeUtils.getZodiac(detail.getBirthday()));
 
+        // 背景音乐
+        if (!TextUtils.isEmpty(detail.getBackgroundMusicUrl())) {
+            Music music = new Music();
+            music.setMusicId(detail.getBackgroundMusicId());
+            music.setMusicName(detail.getBackgroundMusicName());
+            music.setUrl(detail.getBackgroundMusicUrl());
+            mMusicBoard.resetMusic(music);
+        } else {
+            mMusicBoard.setVisibility(View.GONE);
+        }
+
         // 页面内容
         if (null == mContentWV) {
             mContentWV = new WebView(getApplicationContext());
@@ -395,6 +414,20 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
                 }
 
                 public void onPageFinished(WebView view, String url) {
+                    if(android.os.Build.VERSION.SDK_INT >= 19) {
+                        mContentWV.loadUrl("javascript:(function(){"
+                                + "var objs = document.getElementsByTagName('img'); "
+                                + "for(var i=0;i<objs.length;i++) {"
+                                + // //webview图片自适应，android4.4之前都有用，4.4之后google优化后，无法支持，需要自己手动缩放
+                                " objs[i].style.width = '100%';" +
+                                "objs[i].style.height = 'auto';"
+                                + "}"
+                                + "})()"
+                        );
+                    } else{
+                        view.loadUrl("javascript:var imgs = document.getElementsByTagName('img');for(var i = 0; i<imgs.length; i++){imgs[i].style.width = '100%';imgs[i].style.height= 'auto';}");
+
+                    }
                     //LogUtils.showTagE(wv_content.getContentHeight() + "");
                     //wv_content.loadUrl("javascript:window.jo.run(document.documentElement.scrollHeight+'');");
                     mContentWV.loadUrl("javascript:App.resize(document.body.getBoundingClientRect().height)");
@@ -424,12 +457,13 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
             @Override
             public void run() {
                 //wv_content.getLayoutParams().height = (int) (height * getResources().getDisplayMetrics().density);
-                Timber.w("resizze : " + height);
+                Timber.w("resize : " + height);
                 mContentWV.setLayoutParams(
                         new FrameLayout.LayoutParams(
-                                getResources().getDisplayMetrics().widthPixels,
+//                                getResources().getDisplayMetrics().widthPixels,
+                                mContentLayout.getWidth(),
                                 (int) (height * getResources().getDisplayMetrics().density)
-                                        + SizeUtils.dp2px(320) + mBottomLayout.getHeight()));
+                                        + (SizeUtils.dp2px(14) * 2) + mBottomLayout.getHeight()));
             }
         });
     }
