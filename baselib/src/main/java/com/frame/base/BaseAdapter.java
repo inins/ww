@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.frame.mvp.IView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +16,8 @@ import java.util.List;
  * Created by CJ on 2016/10/27 0027.
  */
 public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    private Context context;
     /**
      * 装载每个Item的数据的列表
      */
@@ -23,6 +27,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        this.context = parent.getContext();
         return createViewHolder(parent.getContext(), parent, viewType);
     }
 
@@ -157,5 +162,19 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
      */
     public interface OnItemClickListener<T> {
         void onItemClick(T t, int position);
+    }
+
+    /**
+     * 获取context
+     */
+    public Context getContext() {
+        return context;
+    }
+
+    /**
+     * 获取IView用于绑定生命周期，获取失败返回null
+     */
+    public IView getIView() {
+        return getContext() instanceof IView ? (IView) getContext() : null;
     }
 }

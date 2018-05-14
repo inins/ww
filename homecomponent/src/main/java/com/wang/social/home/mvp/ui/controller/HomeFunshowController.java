@@ -14,6 +14,7 @@ import com.frame.component.helper.NetZanHelper;
 import com.frame.component.ui.base.BaseController;
 import com.frame.component.ui.dialog.MorePopupWindow;
 import com.frame.component.utils.ListUtil;
+import com.frame.component.view.FunshowView;
 import com.frame.component.view.LoadingLayout;
 import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelperEx;
@@ -34,32 +35,8 @@ import butterknife.BindView;
 
 public class HomeFunshowController extends BaseController {
 
-    @BindView(R2.id.img_header)
-    ImageView img_header;
-    @BindView(R2.id.img_pic)
-    ImageView imgPic;
-    @BindView(R2.id.img_more)
-    ImageView imgMore;
-    @BindView(R2.id.text_name)
-    TextView textName;
-    @BindView(R2.id.text_time)
-    TextView textTime;
-    @BindView(R2.id.text_title)
-    TextView textTitle;
-    @BindView(R2.id.img_player)
-    ImageView imgPlayer;
-    @BindView(R2.id.img_tag_pay)
-    ImageView imgTagPay;
-    @BindView(R2.id.text_pic_count)
-    TextView textPicCount;
-    @BindView(R2.id.text_position)
-    TextView textPosition;
-    @BindView(R2.id.text_zan)
-    TextView textZan;
-    @BindView(R2.id.text_comment)
-    TextView textComment;
-    @BindView(R2.id.text_share)
-    TextView textShare;
+    @BindView(R2.id.funshow_view)
+    FunshowView funshowView;
 
     private MorePopupWindow popupWindow;
 
@@ -109,7 +86,7 @@ public class HomeFunshowController extends BaseController {
 
     public HomeFunshowController(IView iView, View root) {
         super(iView, root);
-        int layout = R.layout.home_lay_funshow_item;
+        int layout = R.layout.lay_item_funshow;
         addLoadingLayout();
         registEventBus();
         onInitCtrl();
@@ -129,31 +106,16 @@ public class HomeFunshowController extends BaseController {
     private void setFunshowData(FunshowHome bean) {
         if (bean != null) {
             currentFunshow = bean;
-            ImageLoaderHelper.loadCircleImg(img_header, bean.getHeadImg());
-            textName.setText(bean.getNickname());
-            textTitle.setText(bean.getContent());
-            textPosition.setText(bean.getProvince() + bean.getCity());
-            textZan.setText(bean.getSupportTotal() + "");
-            textComment.setText(bean.getCommentTotal() + "");
-            textShare.setText(bean.getShareTotal() + "");
-            textPicCount.setText("1/" + bean.getUrls());
-            textTime.setText(TimeUtils.date2String(bean.getCreateTime(), "MM-dd HH:mm"));
-            imgTagPay.setVisibility(bean.isFree() ? View.VISIBLE : View.GONE);
-            textZan.setSelected(bean.isLiked());
-
-            imgPlayer.setVisibility(bean.isVideo() ? View.VISIBLE : View.GONE);
-            ImageLoaderHelper.loadImg(imgPic, bean.getUrl());
-
-            imgMore.setOnClickListener(view -> {
+            funshowView.setData(bean.tans2FunshowBean());
+            funshowView.setZanCallback((isZan, zanCount) -> {
+                bean.setIsLike(isZan);
+                bean.setSupportTotal(zanCount);
+            });
+            funshowView.getMoreBtn().setOnClickListener(view -> {
                 popupWindow.setOnDislikeClickListener(v -> {
                     nextFunshow();
                 });
                 popupWindow.showPopupWindow(view);
-            });
-
-            textZan.setOnClickListener(v -> {
-                IView iView = (getContext() instanceof IView) ? (IView) getContext() : null;
-                NetZanHelper.newInstance().funshowZan(iView, textZan, bean.getTalkId(), !textZan.isSelected(), null);
             });
             getRoot().setOnClickListener(v -> {
                 CommonHelper.FunshowHelper.startDetailActivity(getContext(), bean.getTalkId());

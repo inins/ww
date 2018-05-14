@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.frame.component.path.FunshowPath;
-import com.frame.component.path.HomePath;
+import com.frame.component.path.AppPath;
 import com.frame.component.path.ImPath;
 import com.frame.component.path.LoginPath;
 import com.frame.component.path.TopicPath;
@@ -41,11 +41,11 @@ public class CommonHelper {
 
     public static class HomeHelper {
         public static void startHomeActivity(Context context) {
-            UIRouter.getInstance().openUri(context, HomePath.HOME_URL, null);
+            UIRouter.getInstance().openUri(context, AppPath.HOME_URL, null);
         }
 
         public static void startSearchActivity(Context context) {
-            UIRouter.getInstance().openUri(context, HomePath.SEARCH_URL, null);
+            UIRouter.getInstance().openUri(context, AppPath.SEARCH_URL, null);
         }
     }
 

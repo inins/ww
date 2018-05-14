@@ -11,6 +11,7 @@ import android.widget.CheckedTextView;
 
 import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.di.component.AppComponent;
+import com.frame.mvp.IView;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
@@ -18,7 +19,7 @@ import com.wang.social.personal.mvp.ui.adapter.PagerAdapterFunshowTopic;
 
 import butterknife.BindView;
 
-public class FunshowTopicActivity extends BasicAppActivity {
+public class FunshowTopicActivity extends BasicAppActivity implements IView{
 
     @BindView(R2.id.appbar)
     AppBarLayout appbar;
@@ -64,5 +65,15 @@ public class FunshowTopicActivity extends BasicAppActivity {
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
+    }
+
+    @Override
+    public void showLoading() {
+        showLoadingDialog();
+    }
+
+    @Override
+    public void hideLoading() {
+        dismissLoadingDialog();
     }
 }

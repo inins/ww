@@ -2,6 +2,7 @@ package com.wang.social.funshow.mvp.presonter;
 
 
 import com.frame.component.entities.BaseListWrap;
+import com.frame.component.entities.funshow.FunshowBean;
 import com.frame.component.helper.AppDataHelper;
 import com.frame.di.scope.FragmentScope;
 import com.frame.http.api.ApiHelper;
@@ -47,7 +48,8 @@ public class FunshowListPresonter extends BasePresenter<FunshowListContract.Mode
                     @Override
                     public void onNext(BaseJson<BaseListWrap<Funshow>> basejson) {
                         BaseListWrap<Funshow> warp = basejson.getData();
-                        List<Funshow> list = warp.getList();
+//                        List<Funshow> list = warp.getList();
+                        List<FunshowBean> list = Funshow.tans2FunshowBeanList(warp.getList());
                         mRootView.reFreshList(list);
                         mRootView.finishSpringView();
                     }
@@ -67,7 +69,8 @@ public class FunshowListPresonter extends BasePresenter<FunshowListContract.Mode
                     @Override
                     public void onNext(BaseJson<BaseListWrap<Funshow>> basejson) {
                         BaseListWrap<Funshow> warp = basejson.getData();
-                        List<Funshow> list = warp.getList();
+//                        List<Funshow> list = warp.getList();
+                        List<FunshowBean> list = Funshow.tans2FunshowBeanList(warp.getList());
                         if (!StrUtil.isEmpty(list)) {
                             current = warp.getCurrent();
                             mRootView.appendList(list);

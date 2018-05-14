@@ -15,6 +15,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import com.frame.component.helper.ImageLoaderHelper;
 import com.wang.social.funshow.R;
 import com.frame.component.utils.VideoCoverUtil;
 
@@ -166,8 +167,7 @@ public class CtrlVideoView extends FrameLayout implements View.OnClickListener {
 
     public void setVideoURL(String url) {
         videoview.setVideoURI(Uri.parse(url));
-        Bitmap coverbitmap = VideoCoverUtil.createVideoThumbnail(url);
-        img_cover.setImageBitmap(coverbitmap);
+        ImageLoaderHelper.loadImg(img_cover, url);
     }
 
     public void start() {

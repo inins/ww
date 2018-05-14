@@ -1,5 +1,7 @@
 package com.frame.component.entities.funshow;
 
+import android.text.TextUtils;
+
 import lombok.Data;
 
 @Data
@@ -20,6 +22,10 @@ public class FunshowBean {
     private int picNum;
     //是否免费
     private boolean isFree;
+    //是否已经支付
+    private boolean isPay;
+    //查看需付费价格（宝石）
+    private int price;
     //是否是视频趣晒
     private boolean isVideo;
 
@@ -39,4 +45,17 @@ public class FunshowBean {
     //视频链接：非必需//如果是视频趣晒，并且又没有封面，则会去解析视频第一帧图像作为封面
     private String videoUrl;
 
+
+
+    //获取省+市
+    public String getPositionText() {
+        String positionText = "";
+        if (!TextUtils.isEmpty(provinceName)) {
+            positionText += provinceName;
+        }
+        if (!TextUtils.isEmpty(cityName)) {
+            positionText += cityName;
+        }
+        return positionText;
+    }
 }

@@ -1,6 +1,10 @@
 package com.wang.social.personal.mvp.entities.funshow;
 
 import com.frame.component.entities.funshow.FunshowBean;
+import com.frame.utils.StrUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import lombok.Data;
 
@@ -73,7 +77,7 @@ public class FunshowMe {
         return showPicMediaType == 3;
     }
 
-    public FunshowBean tans2FunshowBean(){
+    public FunshowBean tans2FunshowBean() {
         FunshowBean funshowBean = new FunshowBean();
 
         funshowBean.setId(id);
@@ -91,6 +95,18 @@ public class FunshowMe {
         funshowBean.setSupport(isSupportBool());
         funshowBean.setCityName(cityName);
         funshowBean.setProvinceName(provinceName);
+        funshowBean.setPrice(gemstone);
+        funshowBean.setPay(true);   //自己的趣晒不需要支付，默认为已经支付
         return funshowBean;
+    }
+
+    public static List<FunshowBean> tans2FunshowBeanList(List<FunshowMe> funshowMeList) {
+        List<FunshowBean> funshowBeans = new ArrayList<>();
+        if (!StrUtil.isEmpty(funshowMeList)) {
+            for (FunshowMe funshowMe : funshowMeList) {
+                funshowBeans.add(funshowMe.tans2FunshowBean());
+            }
+        }
+        return funshowBeans;
     }
 }

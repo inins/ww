@@ -11,9 +11,9 @@ import android.view.View;
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseFragment;
 import com.frame.component.common.ItemDecorationDivider;
-import com.frame.component.helper.NetLoginTestHelper;
+import com.frame.component.entities.funshow.FunshowBean;
 import com.frame.component.helper.NetPayStoneHelper;
-import com.frame.component.helper.NetShareHelper;
+import com.frame.component.ui.adapter.RecycleAdapterMeFunshow;
 import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.component.view.barview.BarView;
 import com.frame.di.component.AppComponent;
@@ -30,14 +30,10 @@ import com.wang.social.funshow.mvp.contract.FunshowListContract;
 import com.wang.social.funshow.mvp.entities.funshow.Funshow;
 import com.wang.social.funshow.mvp.entities.user.TopUser;
 import com.wang.social.funshow.mvp.presonter.FunshowListPresonter;
-import com.wang.social.funshow.mvp.ui.activity.FunshowAddActivity;
 import com.wang.social.funshow.mvp.ui.activity.FunshowDetailActivity;
 import com.wang.social.funshow.mvp.ui.activity.HotUserListActivity;
 import com.wang.social.funshow.mvp.ui.adapter.RecycleAdapterHome;
-import com.wang.social.funshow.mvp.ui.dialog.DialogSureFunshowPay;
-import com.wang.social.socialize.SocializeUtil;
-
-import org.greenrobot.eventbus.EventBus;
+import com.frame.component.ui.dialog.DialogSureFunshowPay;
 
 import java.util.List;
 
@@ -46,7 +42,7 @@ import butterknife.OnClick;
 
 /**
  */
-public class FunShowFragment extends BaseFragment<FunshowListPresonter> implements FunshowListContract.View, BaseAdapter.OnItemClickListener<Funshow> {
+public class FunShowFragment extends BaseFragment<FunshowListPresonter> implements FunshowListContract.View{
 
     @BindView(R2.id.barview)
     BarView barview;
@@ -55,7 +51,7 @@ public class FunShowFragment extends BaseFragment<FunshowListPresonter> implemen
     @BindView(R2.id.recycler_content)
     RecyclerView recycler;
 
-    private RecycleAdapterHome adapter;
+    private RecycleAdapterMeFunshow adapter;
 
     private int type = 0;
 
@@ -115,8 +111,7 @@ public class FunShowFragment extends BaseFragment<FunshowListPresonter> implemen
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        adapter = new RecycleAdapterHome();
-        adapter.setOnItemClickListener(this);
+        adapter = new RecycleAdapterMeFunshow();
         adapter.setOnDislikeClickListener((v, funshow) -> mPresenter.shatDownUser(funshow.getUserId()));
         recycler.setNestedScrollingEnabled(false);
         recycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
@@ -140,19 +135,19 @@ public class FunShowFragment extends BaseFragment<FunshowListPresonter> implemen
         mPresenter.netGetFunshowTopUserList();
     }
 
-    @Override
-    public void onItemClick(Funshow funshow, int position) {
-        if (funshow.isShopping()) {
-            DialogSureFunshowPay.showDialog(getContext(), funshow.getPrice(), () -> {
-                NetPayStoneHelper.newInstance().netPayFunshow(FunShowFragment.this, funshow.getTalkId(), funshow.getPrice(), () -> {
-                    FunshowDetailActivity.start(getContext(), funshow.getTalkId());
-                    adapter.refreshNeedPayById(funshow.getTalkId());
-                });
-            });
-        } else {
-            FunshowDetailActivity.start(getContext(), funshow.getTalkId());
-        }
-    }
+//    @Override
+//    public void onItemClick(Funshow funshow, int position) {
+//        if (funshow.isShopping()) {
+//            DialogSureFunshowPay.showDialog(getContext(), funshow.getPrice(), () -> {
+//                NetPayStoneHelper.newInstance().netPayFunshow(FunShowFragment.this, funshow.getTalkId(), funshow.getPrice(), () -> {
+//                    FunshowDetailActivity.start(getContext(), funshow.getTalkId());
+//                    adapter.refreshNeedPayById(funshow.getTalkId());
+//                });
+//            });
+//        } else {
+//            FunshowDetailActivity.start(getContext(), funshow.getTalkId());
+//        }
+//    }
 
     @OnClick({R2.id.barview})
     public void onViewClicked(View view) {
@@ -196,12 +191,12 @@ public class FunShowFragment extends BaseFragment<FunshowListPresonter> implemen
     }
 
     @Override
-    public void reFreshList(List<Funshow> datas) {
+    public void reFreshList(List<FunshowBean> datas) {
         adapter.refreshData(datas);
     }
 
     @Override
-    public void appendList(List<Funshow> datas) {
+    public void appendList(List<FunshowBean> datas) {
         adapter.addItem(datas);
 
     }

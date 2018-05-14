@@ -16,7 +16,6 @@ import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
-import com.wang.social.personal.mvp.ui.adapter.RecycleAdapterMeFunshow;
 import com.wang.social.personal.mvp.ui.adapter.RecycleAdapterMeTopic;
 
 import java.util.ArrayList;

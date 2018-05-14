@@ -10,7 +10,7 @@ import com.frame.base.BaseAdapter;
 import com.frame.base.BasicFragment;
 import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.BaseListWrap;
-import com.frame.component.entities.TestEntity;
+import com.frame.component.entities.funshow.FunshowBean;
 import com.frame.di.component.AppComponent;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
@@ -24,11 +24,9 @@ import com.liaoinstan.springview.widget.SpringView;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
 import com.wang.social.personal.mvp.entities.funshow.FunshowMe;
-import com.wang.social.personal.mvp.entities.user.UserRepresent;
 import com.wang.social.personal.mvp.model.api.UserService;
-import com.wang.social.personal.mvp.ui.adapter.RecycleAdapterMeFunshow;
+import com.frame.component.ui.adapter.RecycleAdapterMeFunshow;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -36,7 +34,7 @@ import butterknife.BindView;
 /**
  */
 
-public class MeFunshowFragment extends BasicFragment implements IView, BaseAdapter.OnItemClickListener<FunshowMe> {
+public class MeFunshowFragment extends BasicFragment implements IView {
 
     @BindView(R2.id.recycler)
     RecyclerView recycler;
@@ -60,7 +58,6 @@ public class MeFunshowFragment extends BasicFragment implements IView, BaseAdapt
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         adapter = new RecycleAdapterMeFunshow();
-        adapter.setOnItemClickListener(this);
         recycler.setNestedScrollingEnabled(false);
         recycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recycler.setAdapter(adapter);
@@ -88,10 +85,6 @@ public class MeFunshowFragment extends BasicFragment implements IView, BaseAdapt
     }
 
     @Override
-    public void onItemClick(FunshowMe testEntity, int position) {
-    }
-
-    @Override
     public void setupFragmentComponent(@NonNull AppComponent appComponent) {
     }
 
@@ -115,7 +108,7 @@ public class MeFunshowFragment extends BasicFragment implements IView, BaseAdapt
                     @Override
                     public void onNext(BaseJson<BaseListWrap<FunshowMe>> basejson) {
                         BaseListWrap<FunshowMe> warp = basejson.getData();
-                        List<FunshowMe> list = warp.getList();
+                        List<FunshowBean> list = FunshowMe.tans2FunshowBeanList(warp.getList());
                         if (!StrUtil.isEmpty(list)) {
                             current = warp.getCurrent();
                             if (isFresh) {

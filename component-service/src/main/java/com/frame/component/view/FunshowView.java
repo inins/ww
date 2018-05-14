@@ -22,8 +22,11 @@ import com.frame.component.service.R;
 import com.frame.component.service.R2;
 import com.frame.component.utils.FunShowUtil;
 import com.frame.component.utils.VideoCoverUtil;
+import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.mvp.IView;
+import com.frame.utils.FrameUtils;
 import com.frame.utils.ToastUtil;
+import com.frame.utils.Utils;
 
 import butterknife.BindView;
 
@@ -99,7 +102,6 @@ public class FunshowView extends FrameLayout implements View.OnClickListener {
         ImageLoaderHelper.loadCircleImg(imgHeader, bean.getAvatar());
         textName.setText(bean.getNickname());
         textTitle.setText(bean.getContent());
-        textPosition.setText(bean.getProvinceName() + bean.getCityName());
         textZan.setText(bean.getSupportTotal() + "");
         textComment.setText(bean.getCommentTotal() + "");
         textShare.setText(bean.getShareTotal() + "");
@@ -108,11 +110,12 @@ public class FunshowView extends FrameLayout implements View.OnClickListener {
         textZan.setSelected(bean.isSupport());
         imgTagPay.setVisibility(bean.isFree() ? View.VISIBLE : View.GONE);
         imgPlayer.setVisibility(bean.isVideo() ? View.VISIBLE : View.GONE);
+        textPosition.setText(bean.getPositionText());
+        textPosition.setVisibility(!TextUtils.isDigitsOnly(bean.getPositionText()) ? VISIBLE : GONE);
 
         if (TextUtils.isEmpty(bean.getShowPic()) && !TextUtils.isEmpty(bean.getVideoUrl())) {
             //如果没有封面，并且有视频链接，则自行解析视频第一帧作为封面
-            Bitmap coverbitmap = VideoCoverUtil.createVideoThumbnail(bean.getVideoUrl());
-            imgPic.setImageBitmap(coverbitmap);
+            ImageLoaderHelper.loadImg(imgPic, bean.getVideoUrl());
         } else {
             ImageLoaderHelper.loadImg(imgPic, bean.getShowPic());
         }

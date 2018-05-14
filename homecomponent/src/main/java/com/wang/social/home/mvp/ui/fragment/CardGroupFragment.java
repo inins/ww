@@ -45,9 +45,9 @@ public class CardGroupFragment extends BasicFragment implements RecycleAdapterCa
 
     @BindView(R2.id.recycler)
     RecyclerView recycler;
-    @BindView(R.id.btn_dislike)
+    @BindView(R2.id.btn_dislike)
     View btnDislike;
-    @BindView(R.id.btn_like)
+    @BindView(R2.id.btn_like)
     View btnLike;
 
     private RecycleAdapterCardGroup adapter;
