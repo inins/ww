@@ -7,6 +7,7 @@ import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
 import com.wang.social.im.mvp.contract.AlertUserListContract;
 import com.wang.social.im.mvp.contract.MemberListContract;
+import com.wang.social.im.mvp.model.entities.IndexMemberInfo;
 import com.wang.social.im.mvp.model.entities.ListData;
 import com.wang.social.im.mvp.model.entities.MemberInfo;
 
@@ -24,7 +25,7 @@ import io.reactivex.functions.Consumer;
  * ============================================
  */
 @ActivityScope
-public class AlertUserListPresenter extends BasePresenter<MemberListContract.Model, AlertUserListContract.View> {
+public class AlertUserListPresenter extends BasePresenter<AlertUserListContract.Model, AlertUserListContract.View> {
 
     @Inject
     ApiHelper mApiHelper;
@@ -32,15 +33,15 @@ public class AlertUserListPresenter extends BasePresenter<MemberListContract.Mod
     RxErrorHandler mErrorHandler;
 
     @Inject
-    public AlertUserListPresenter(MemberListContract.Model model, AlertUserListContract.View view) {
+    public AlertUserListPresenter(AlertUserListContract.Model model, AlertUserListContract.View view) {
         super(model, view);
     }
 
     public void getMemberList(String groupId) {
-        mApiHelper.execute(mRootView, mModel.getMembers(groupId),
-                new ErrorHandleSubscriber<ListData<MemberInfo>>() {
+        mApiHelper.execute(mRootView, mModel.getAlertMembers(groupId),
+                new ErrorHandleSubscriber<ListData<IndexMemberInfo>>() {
                     @Override
-                    public void onNext(ListData<MemberInfo> memberInfoListData) {
+                    public void onNext(ListData<IndexMemberInfo> memberInfoListData) {
                         mRootView.showMembers(memberInfoListData.getList());
                     }
                 }, new Consumer<Disposable>() {

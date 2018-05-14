@@ -9,6 +9,7 @@ import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
 import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
+import com.frame.utils.FrameUtils;
 import com.wang.social.im.R;
 import com.wang.social.im.mvp.model.entities.IndexMemberInfo;
 
@@ -38,6 +39,7 @@ public class AlertUserSearchAdapter extends BaseAdapter<IndexMemberInfo> {
 
         public ViewHolder(Context context, ViewGroup root) {
             super(context, root, R.layout.im_item_alert_user);
+            imageLoader = FrameUtils.obtainAppComponentFromContext(context).imageLoader();
         }
 
         @Override
@@ -51,6 +53,11 @@ public class AlertUserSearchAdapter extends BaseAdapter<IndexMemberInfo> {
                     .build());
 
             iauTvNickname.setText(itemValue.getNickname());
+        }
+
+        @Override
+        protected boolean useItemClickListener() {
+            return true;
         }
     }
 }

@@ -16,10 +16,13 @@ import com.frame.di.component.AppComponent;
 import com.frame.router.facade.annotation.Autowired;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
+import com.wang.social.im.di.component.DaggerAlertUserListComponent;
+import com.wang.social.im.di.modules.AlertUserListModule;
 import com.wang.social.im.mvp.contract.AlertUserListContract;
 import com.wang.social.im.mvp.model.entities.IndexMemberInfo;
 import com.wang.social.im.mvp.presenter.AlertUserListPresenter;
 import com.wang.social.im.mvp.ui.adapters.AlertUserAdapter;
+import com.wang.social.im.mvp.ui.fragments.AlertUserSearchFragment;
 
 import java.util.List;
 
@@ -43,7 +46,9 @@ public class AlertUserListActivity extends BaseAppActivity<AlertUserListPresente
     IndexableLayout aulUsers;
 
     @Autowired
-    private String groupId;
+    String groupId;
+
+    private AlertUserSearchFragment mSearchFragment;
 
     public static void start(Activity activity, int requestCode, String groupId) {
         Intent intent = new Intent();
@@ -60,7 +65,12 @@ public class AlertUserListActivity extends BaseAppActivity<AlertUserListPresente
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
-
+        DaggerAlertUserListComponent
+                .builder()
+                .appComponent(appComponent)
+                .alertUserListModule(new AlertUserListModule(this))
+                .build()
+                .inject(this);
     }
 
     @Override
@@ -70,10 +80,16 @@ public class AlertUserListActivity extends BaseAppActivity<AlertUserListPresente
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
+        groupId = "26";
         mPresenter.getMemberList(groupId);
     }
 
     private void init() {
+        mSearchFragment = (AlertUserSearchFragment) getSupportFragmentManager().findFragmentById(R.id.aul_search_fragment);
+        if (mSearchFragment != null) {
+            getSupportFragmentManager().beginTransaction().hide(mSearchFragment).commit();
+        }
+
         aulToolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
             @Override
             public void onButtonClick(SocialToolbar.ClickType clickType) {
@@ -94,6 +110,10 @@ public class AlertUserListActivity extends BaseAppActivity<AlertUserListPresente
 
     @Override
     public void showMembers(List<IndexMemberInfo> members) {
+        if (mSearchFragment != null){
+            mSearchFragment.setData(members);
+        }
+
         aulUsers.setLayoutManager(new LinearLayoutManager(this));
         AlertUserAdapter adapter = new AlertUserAdapter(this);
         adapter.setOnItemContentClickListener(this);
@@ -114,5 +134,17 @@ public class AlertUserListActivity extends BaseAppActivity<AlertUserListPresente
 
     @OnClick(R2.id.aul_tvb_search)
     public void onViewClicked() {
+        if (mSearchFragment != null) {
+            getSupportFragmentManager().beginTransaction().show(mSearchFragment).commit();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mSearchFragment != null && !mSearchFragment.isHidden()) {
+            getSupportFragmentManager().beginTransaction().hide(mSearchFragment).commit();
+        } else {
+            super.onBackPressed();
+        }
     }
 }

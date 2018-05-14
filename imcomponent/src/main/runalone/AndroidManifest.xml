@@ -157,7 +157,8 @@
         <activity
             android:name=".mvp.ui.InviteFriendActivity"
             android:exported="true" />
-        <activity android:name=".mvp.ui.AlertUserListActivity"></activity>
+        <activity android:name=".mvp.ui.AlertUserListActivity"
+            android:exported="true"></activity>
     </application>
 
 </manifest>
