@@ -491,6 +491,11 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
                 mSocial = data.getParcelableExtra(SocialChargeSettingActivity.EXTRA_SOCIAL);
             } else if (requestCode == REQUEST_CODE_LIMIT) {
                 mSocial = data.getParcelableExtra(SocialLimitActivity.EXTRA_SOCIAL);
+                if (mSocial.getAttr().isCharge()) {
+                    scIvPayLogo.setVisibility(View.VISIBLE);
+                } else {
+                    scIvPayLogo.setVisibility(View.GONE);
+                }
             }
         }
     }
@@ -506,7 +511,7 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
         scRlvTags.setAdapter(new HomeTagAdapter(tags));
     }
 
-    private void showShadow(ShadowInfo shadowInfo){
+    private void showShadow(ShadowInfo shadowInfo) {
         mImageLoader.loadImage(this, ImageConfigImpl.builder()
                 .placeholder(R.drawable.common_default_circle_placeholder)
                 .errorPic(R.drawable.common_default_circle_placeholder)

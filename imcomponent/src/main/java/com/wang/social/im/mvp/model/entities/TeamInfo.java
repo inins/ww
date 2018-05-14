@@ -30,6 +30,7 @@ public class TeamInfo implements Parcelable {
     private boolean joined;
     private boolean validation;
     private List<Tag> tags;
+    private MemberInfo selfProfile;
 
     @Override
     public int describeContents() {
@@ -47,6 +48,7 @@ public class TeamInfo implements Parcelable {
         dest.writeByte(this.joined ? (byte) 1 : (byte) 0);
         dest.writeByte(this.validation ? (byte) 1 : (byte) 0);
         dest.writeTypedList(this.tags);
+        dest.writeParcelable(this.selfProfile, flags);
     }
 
     protected TeamInfo(Parcel in) {
@@ -59,9 +61,10 @@ public class TeamInfo implements Parcelable {
         this.joined = in.readByte() != 0;
         this.validation = in.readByte() != 0;
         this.tags = in.createTypedArrayList(Tag.CREATOR);
+        this.selfProfile = in.readParcelable(MemberInfo.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<TeamInfo> CREATOR = new Parcelable.Creator<TeamInfo>() {
+    public static final Creator<TeamInfo> CREATOR = new Creator<TeamInfo>() {
         @Override
         public TeamInfo createFromParcel(Parcel source) {
             return new TeamInfo(source);

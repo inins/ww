@@ -56,7 +56,7 @@ public class CreateTeamActivity extends BaseAppActivity<CreateTeamPresenter> imp
     @BindView(R2.id.ct_tv_tags_tip)
     TextView ctTvTagsTip;
 
-    String socialId = "26";
+    String socialId = "54";
 
     private String mCoverPath;
     private ArrayList<Tag> mSelectTags;
@@ -209,6 +209,6 @@ public class CreateTeamActivity extends BaseAppActivity<CreateTeamPresenter> imp
 
     @Override
     public void onCreateComplete(CreateGroupResult result) {
-
+        finish();
     }
 }

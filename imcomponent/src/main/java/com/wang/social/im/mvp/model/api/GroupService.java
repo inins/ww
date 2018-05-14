@@ -15,6 +15,7 @@ import com.wang.social.im.mvp.model.entities.dto.PayCheckInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.SimpleGroupInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.SocialDTO;
 import com.wang.social.im.mvp.model.entities.dto.SocialHomeDTO;
+import com.wang.social.im.mvp.model.entities.dto.TeamHomeDTO;
 import com.wang.social.im.mvp.model.entities.dto.TeamInfoDTO;
 
 import java.util.Map;
@@ -302,4 +303,25 @@ public interface GroupService {
      */
     @GET("app/group/getGroupMemberList")
     Observable<BaseJson<ListDataDTO<IndexMemberInfoDTO, IndexMemberInfo>>> getAlertMembers(@Query("v") String version, @Query("groupId") String groupId);
+
+    /**
+     * 修改觅聊信息
+     *
+     * @param map
+     * @return
+     */
+    @Headers(HEADER_CONTENT_TYPE)
+    @FormUrlEncoded
+    @POST("app/group/updateMiGroupInfo")
+    Observable<BaseJson> updateTeamInfo(@FieldMap Map<String, Object> map);
+
+    /**
+     * 觅聊主页获取觅聊详情
+     *
+     * @param version
+     * @param socialId
+     * @return
+     */
+    @GET("app/group/getGroupCombinationInfo")
+    Observable<BaseJson<TeamHomeDTO>> getTeamHomeInfo(@Query("v") String version, @Query("groupId") String socialId);
 }

@@ -24,7 +24,8 @@
         <android.support.constraint.ConstraintLayout
             android:id="@+id/th_cl_content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/th_tv_title"
@@ -130,6 +131,7 @@
                 android:orientation="horizontal"
                 android:paddingEnd="@dimen/common_border_margin"
                 android:paddingStart="@dimen/common_border_margin"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/th_tv_setting">
@@ -160,6 +162,7 @@
                 android:layout_marginEnd="@dimen/common_border_margin"
                 android:layout_marginStart="@dimen/common_border_margin"
                 android:background="?attr/dividerHorizontal"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/th_ll_team_name" />
@@ -168,7 +171,6 @@
                 android:id="@+id/th_ll_notify_type"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:background="?attr/selectableItemBackground"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingEnd="@dimen/common_border_margin"
@@ -179,23 +181,17 @@
 
                 <TextView
                     style="@style/im_social_content_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/im_message_receive" />
-
-                <TextView
-                    android:id="@+id/th_tv_notify_type"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:drawableEnd="@drawable/common_ic_next"
-                    android:drawablePadding="5dp"
-                    android:ellipsize="end"
-                    android:gravity="right"
-                    android:lines="1"
-                    android:textColor="@color/common_text_blank"
-                    android:textSize="13dp"
-                    tools:text="只提示@" />
+                    android:text="@string/im_message_receive" />
+
+                <com.kyleduo.switchbutton.SwitchButton
+                    android:id="@+id/th_sb_notify"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:kswBackColor="@color/common_button_switch"
+                    app:kswThumbColor="@color/common_white" />
             </LinearLayout>
 
             <View
@@ -214,6 +210,8 @@
                 style="@style/im_social_content_text"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
                 android:drawableRight="@drawable/common_ic_next"
                 android:gravity="center_vertical"
                 android:paddingEnd="@dimen/common_border_margin"
@@ -239,6 +237,8 @@
                 style="@style/im_social_content_text"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
                 android:drawableRight="@drawable/common_ic_next"
                 android:gravity="center_vertical"
                 android:paddingEnd="@dimen/common_border_margin"
@@ -264,11 +264,14 @@
                 style="@style/im_social_content_text"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
                 android:drawableRight="@drawable/common_ic_next"
                 android:gravity="center_vertical"
                 android:paddingEnd="@dimen/common_border_margin"
                 android:paddingStart="@dimen/common_border_margin"
                 android:text="@string/im_team_charge"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/th_tv_background_chat" />
@@ -280,6 +283,7 @@
                 android:layout_marginEnd="@dimen/common_border_margin"
                 android:layout_marginStart="@dimen/common_border_margin"
                 android:background="?attr/dividerHorizontal"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/th_tv_charge_setting" />
@@ -293,6 +297,7 @@
                 android:orientation="horizontal"
                 android:paddingEnd="@dimen/common_border_margin"
                 android:paddingStart="@dimen/common_border_margin"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/th_line_charge_setting">
@@ -308,7 +313,7 @@
                     android:id="@+id/th_sb_apply"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:kswBackColor="#ebebeb"
+                    app:kswBackColor="@color/common_button_switch"
                     app:kswThumbColor="@color/common_white"
                     app:kswTintColor="@color/common_colorAccent" />
             </LinearLayout>
@@ -320,6 +325,7 @@
                 android:layout_marginEnd="@dimen/common_border_margin"
                 android:layout_marginStart="@dimen/common_border_margin"
                 android:background="?attr/dividerHorizontal"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/th_ll_apply" />

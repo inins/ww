@@ -130,7 +130,8 @@
             android:exported="true"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-        <activity android:name=".mvp.ui.TeamHomeActivity" />
+        <activity android:name=".mvp.ui.TeamHomeActivity"
+            android:exported="true"/>
         <activity
             android:name=".mvp.ui.ShadowSettingActivity"
             android:exported="true" />
@@ -150,6 +151,7 @@
             android:name=".mvp.ui.MemberListActivity"
             android:exported="true" />
         <activity android:name=".mvp.ui.SocialChargeSettingActivity" />
+        <activity android:name=".mvp.ui.TeamChargeSettingActivity" />
         <activity
             android:name=".mvp.ui.NewUsersActivity"
             android:exported="true" />
@@ -157,7 +159,8 @@
         <activity
             android:name=".mvp.ui.InviteFriendActivity"
             android:exported="true" />
-        <activity android:name=".mvp.ui.AlertUserListActivity"
+        <activity
+            android:name=".mvp.ui.AlertUserListActivity"
             android:exported="true"></activity>
     </application>
 
