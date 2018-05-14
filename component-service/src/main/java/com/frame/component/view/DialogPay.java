@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,11 +20,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.frame.component.entities.AccountBalance;
+import com.frame.component.entities.Topic;
 import com.frame.component.helper.NetAccountBalanceHelper;
 import com.frame.component.service.R;
+import com.frame.component.utils.SpannableStringUtil;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.mvp.IView;
+import com.frame.utils.FrameUtils;
 import com.frame.utils.ToastUtil;
+import com.frame.utils.Utils;
 
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
@@ -31,6 +37,34 @@ import io.reactivex.functions.Consumer;
 public class DialogPay extends DialogFragment {
     public interface DialogPayCallback {
         void onPay();
+    }
+
+    public static DialogPay showPayTopic(IView bindView,
+                                         FragmentManager manager,
+                                         Topic topic,
+                                         int balance,
+                                         DialogPayCallback callback) {
+        String[] strings = {
+                "查看该话题需支付",
+                Integer.toString(topic.getRelateMoney()),
+                "钻"};
+        int[] colors = {
+                ContextCompat.getColor(Utils.getContext(), R.color.common_text_blank),
+                ContextCompat.getColor(Utils.getContext(), R.color.common_blue_deep),
+                ContextCompat.getColor(Utils.getContext(), R.color.common_text_blank)
+        };
+        SpannableStringBuilder titleText = SpannableStringUtil.createV2(strings, colors);
+
+        return showPay(bindView,
+                manager,
+                titleText,
+                "您当前余额为%1d钻",
+                "再逛逛",
+                "立即支付",
+                "",
+                topic.getRelateMoney(),
+                balance,
+                callback);
     }
 
     /**
@@ -116,10 +150,14 @@ public class DialogPay extends DialogFragment {
     private int mPrice;
     // 余额
     private int mBalance;
+    private TextView mHintTV;
 
 
     public void setBalance(int balance) {
         mBalance = balance;
+        if (null != mHintTV && !TextUtils.isEmpty(mHintText)) {
+            mHintTV.setText(String.format(mHintText, balance));
+        }
     }
 
     public void setFragmentManager(FragmentManager fragmentManager) {
@@ -162,14 +200,14 @@ public class DialogPay extends DialogFragment {
         TextView titleTV = view.findViewById(R.id.title_text_view);
         titleTV.setText(mTitleText);
 
-        TextView hintTV = view.findViewById(R.id.hint_text_view);
+        mHintTV = view.findViewById(R.id.hint_text_view);
         String hint = mHintText;
         try {
             hint = String.format(mHintText, mBalance);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        hintTV.setText(hint);
+        mHintTV.setText(hint);
 
         TextView cancelText = view.findViewById(R.id.cancel_text_view);
         cancelText.setText(mCancelText);

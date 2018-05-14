@@ -4,13 +4,19 @@ import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableStringBuilder;
 
 import com.frame.base.BaseFragment;
-import com.frame.component.ui.acticity.tags.Tag;
+import com.frame.component.entities.Topic;
+import com.frame.component.ui.acticity.PersonalCard.ui.adapter.TopicListAdapter;
+import com.frame.component.utils.SpannableStringUtil;
+import com.frame.component.view.DialogPay;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
+import com.frame.mvp.IView;
 import com.frame.utils.ToastUtil;
 import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.container.AliHeader;
@@ -20,11 +26,9 @@ import com.wang.social.topic.R2;
 import com.wang.social.topic.di.component.DaggerTopicListComponent;
 import com.wang.social.topic.di.module.TopicListModule;
 import com.wang.social.topic.mvp.contract.TopicListContract;
-import com.wang.social.topic.mvp.model.entities.Topic;
 import com.wang.social.topic.mvp.presenter.TopicListPresenter;
 import com.wang.social.topic.mvp.ui.TopicDetailActivity;
 import com.wang.social.topic.mvp.ui.WrapContentLinearLayoutManager;
-import com.wang.social.topic.mvp.ui.adapter.TopicListAdapter;
 import com.wang.social.topic.mvp.ui.widget.DFShopping;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -35,8 +39,6 @@ import java.lang.annotation.RetentionPolicy;
 
 import butterknife.BindView;
 import timber.log.Timber;
-
-import static com.frame.component.ui.acticity.tags.TagSelectionActivity.EVENTBUS_TAG_ENTITY;
 
 public class TopicListFragment extends BaseFragment<TopicListPresenter> implements TopicListContract.View {
     public final static String KEY_TYPE = "TYPE";
@@ -91,30 +93,23 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
             mFragmentType = getArguments().getInt(KEY_TYPE, FRAGMENT_NEW);
         }
 
-        mAdapter = new TopicListAdapter(getContext(), new TopicListAdapter.DataProvider() {
+        mAdapter = new TopicListAdapter(this, getChildFragmentManager(), mRecyclerView, mPresenter.getTopicList());
+        mAdapter.setClickListener(new TopicListAdapter.ClickListener() {
             @Override
-            public Topic getTopic(int position) {
-                return mPresenter.getTopic(position);
+            public boolean autoTopicClick() {
+                return true;
             }
 
             @Override
-            public int getTopicCount() {
-                return mPresenter.getTopicCount();
+            public void onTopicClick(Topic topic) {
+
             }
-        },
-                new TopicListAdapter.ClickListener() {
-                    @Override
-                    public void onTopicClick(Topic topic) {
-                        if (topic.getIsShopping() == 1) {
-                            // 需要支付
-                            DFShopping.showDialog(getActivity().getSupportFragmentManager(),
-                                    getActivity(),
-                                    TopicListFragment.this, topic);
-                        } else {
-                            TopicDetailActivity.start(getActivity(), topic.getTopicId(), topic.getUserId());
-                        }
-                    }
-                });
+
+            @Override
+            public void onPayTopicSuccess(Topic topic) {
+
+            }
+        });
 
         mRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mAdapter);
@@ -165,6 +160,8 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
         }
     }
 
+
+
     @Override
     public void setData(@Nullable Object data) {
 
@@ -173,11 +170,6 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
     @Override
     public void onDestroy() {
         super.onDestroy();
-
-        if (null != mAdapter) {
-            mAdapter.onDestroy();
-            mAdapter = null;
-        }
     }
 
     @Override

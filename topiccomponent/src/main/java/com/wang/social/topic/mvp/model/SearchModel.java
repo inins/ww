@@ -1,16 +1,16 @@
 package com.wang.social.topic.mvp.model;
 
 import com.frame.component.common.NetParam;
+import com.frame.component.entities.Topic;
 import com.frame.di.scope.ActivityScope;
-import com.frame.di.scope.FragmentScope;
 import com.frame.http.api.BaseJson;
+import com.frame.http.api.PageListDTO;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.BaseModel;
-import com.wang.social.topic.BuildConfig;
 import com.wang.social.topic.mvp.contract.SearchContract;
 import com.wang.social.topic.mvp.model.api.TopicService;
 import com.wang.social.topic.mvp.model.entities.dto.SearchResultsDTO;
-import com.wang.social.topic.mvp.model.entities.dto.TopicRspDTO;
+import com.wang.social.topic.mvp.model.entities.dto.TopicDTO;
 
 import java.util.Map;
 
@@ -27,7 +27,7 @@ public class SearchModel extends BaseModel implements SearchContract.Model {
     }
 
     @Override
-    public Observable<BaseJson<SearchResultsDTO>> searchTopic(String keyword, String tagNames, int size, int current) {
+    public Observable<BaseJson<PageListDTO<TopicDTO, Topic>>> searchTopic(String keyword, String tagNames, int size, int current) {
         Map<String, Object> param = new NetParam()
                 .put("keyword",keyword)
                 .put("tagNames",tagNames)
