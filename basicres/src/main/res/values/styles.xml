@@ -37,7 +37,7 @@
     <style name="common_AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <!--<style name="common_ltxfont" parent="@android:style/TextAppearance.Small">-->
-        <!--<item name="android:fontFamily">@font/common_appfont</item>-->
+    <!--<item name="android:fontFamily">@font/common_appfont</item>-->
     <!--</style>-->
 
     <!--底部弹窗出场入场动画-->
@@ -86,6 +86,18 @@
         <item name="android:textColor">@color/common_text_blank</item>
         <item name="android:textColorHint">@color/common_text_hint</item>
         <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="common_TextMeItem">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
+        <item name="android:textColor">@color/common_text_blank</item>
+        <item name="android:textColorHint">@color/common_text_dark_light</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
     </style>
 
     <!--水平分割线-->

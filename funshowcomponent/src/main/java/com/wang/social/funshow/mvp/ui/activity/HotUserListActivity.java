@@ -49,11 +49,6 @@ public class HotUserListActivity extends BasicAppActivity implements IView, Base
     RecyclerView recycler;
     private RecycleAdapterHotUserList adapter;
 
-    @Inject
-    IRepositoryManager mRepositoryManager;
-    @Inject
-    RxErrorHandler mErrorHandler;
-
     public static void start(Context context) {
         Intent intent = new Intent(context, HotUserListActivity.class);
         context.startActivity(intent);
