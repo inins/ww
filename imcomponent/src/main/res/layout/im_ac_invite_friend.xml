@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <com.frame.component.view.TitleView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/common_border_margin"
+                android:paddingBottom="15dp"
+                android:paddingTop="?attr/actionBarSize"
+                app:personal_textNote="邀请好友一起畅聊~更多精彩等你开启"
+                app:personal_textTitle="邀请好友" />
+
+            <android.support.v7.widget.Toolbar
+                style="@style/common_AppTheme.AppBarOverlay"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/common_colorPrimary"
+                app:layout_collapseMode="pin"
+                app:navigationIcon="@drawable/common_ic_back">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/if_tv_invite"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="right"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:enabled="false"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/common_border_margin"
+                        android:paddingRight="@dimen/common_border_margin"
+                        android:src="@drawable/im_ic_search"
+                        android:text="@string/im_send_invite"
+                        android:textColor="@color/common_colorAccent" />
+                </FrameLayout>
+            </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <me.yokeyword.indexablerv.IndexableLayout
+        android:id="@+id/if_il_friends"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/common_white"
+        app:indexBar_selectedTextColor="@color/common_colorAccent"
+        app:indexBar_textColor="@color/common_text_blank"
+        app:indexBar_textSize="9sp"
+        app:indexBar_textSpace="5dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+</android.support.design.widget.CoordinatorLayout>

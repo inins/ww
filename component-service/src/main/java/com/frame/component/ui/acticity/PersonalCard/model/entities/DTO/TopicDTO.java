@@ -49,7 +49,7 @@ public class TopicDTO implements Mapper<Topic> {
         object.setCommentTotal(EntitiesUtil.assertNotNull(commentTotal));
         object.setShareTotal(EntitiesUtil.assertNotNull(shareTotal));
         object.setRelateState(EntitiesUtil.assertNotNull(relateState));
-        object.setGemstone(EntitiesUtil.assertNotNull(gemstone));
+        object.setRelateMoney(EntitiesUtil.assertNotNull(gemstone));
         object.setTags(null == tags ? new ArrayList<>() : tags);
         object.setShopping(EntitiesUtil.assertNotNull(shopping));
         object.setAvatar(EntitiesUtil.assertNotNull(avatar));

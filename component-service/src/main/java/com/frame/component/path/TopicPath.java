@@ -14,4 +14,8 @@ public interface TopicPath extends BasePath{
     // 话题发布
     String TOPIC_RELEASE = "topic_release";
     String TOPIC_RELEASE_URL = SCHEME + HOST + TOPIC_RELEASE;
+
+    // 话题详情
+    String TOPIC_DETAIL = "topic_detail";
+    String TOPIC_DETAIL_URL = SCHEME + HOST + TOPIC_DETAIL;
 }

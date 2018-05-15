@@ -2,7 +2,7 @@ package com.frame.component.ui.acticity.PersonalCard.contract;
 
 import com.frame.component.ui.acticity.PersonalCard.model.entities.DTO.UserInfoDTO;
 import com.frame.component.ui.acticity.PersonalCard.model.entities.DTO.UserStatisticsDTO;
-import com.frame.component.ui.acticity.PersonalCard.model.entities.UserInfo;
+import com.frame.component.ui.acticity.PersonalCard.model.entities.PersonalInfo;
 import com.frame.component.ui.acticity.PersonalCard.model.entities.UserStatistics;
 import com.frame.http.api.BaseJson;
 import com.frame.mvp.IModel;
@@ -12,7 +12,7 @@ import io.reactivex.Observable;
 
 public interface PersonalCardContract {
     interface View extends IView {
-        void onLoadUserInfoSuccess(UserInfo userInfo);
+        void onLoadUserInfoSuccess(PersonalInfo userInfo);
         void onLoadUserStatisticsSuccess(UserStatistics statistics);
     }
 

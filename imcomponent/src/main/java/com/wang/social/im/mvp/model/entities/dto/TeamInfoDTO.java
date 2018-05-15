@@ -16,31 +16,29 @@ import java.util.List;
  */
 public class TeamInfoDTO implements Mapper<TeamInfo> {
 
-    private String miGroupId;
+    private String groupId;
     private String groupName;
     private String groupCoverPlan;
     private int memberNum;
-    private int isFire; //1：不收费，0：收费
+    private int isFree; //1：不收费，0：收费
     private int validation; //是否验证（0（默认） 不需要 1需要）
     private int gemstone;
-    private int tagId;
-    private String tagName;
     private int isJoined;
     private List<TagDTO> tags;
 
     @Override
     public TeamInfo transform() {
         TeamInfo teamInfo = new TeamInfo();
-        teamInfo.setTeamId(miGroupId == null ? "-1": miGroupId);
+        teamInfo.setTeamId(groupId == null ? "-1" : groupId);
         teamInfo.setName(groupName == null ? "" : groupName);
         teamInfo.setCover(groupCoverPlan == null ? "" : groupCoverPlan);
         teamInfo.setMemberSize(memberNum);
-        teamInfo.setFree(isFire == 1);
+        teamInfo.setFree(isFree == 1);
         teamInfo.setJoinCost(gemstone);
         teamInfo.setJoined(isJoined == 1);
         teamInfo.setValidation(validation == 1);
         List<Tag> tagList = new ArrayList<>();
-        if (tags != null){
+        if (tags != null) {
             for (TagDTO tag : tags) {
                 tagList.add(tag.transform());
             }

@@ -1,7 +1,7 @@
 package com.frame.component.ui.acticity.PersonalCard.presenter;
 
 import com.frame.component.ui.acticity.PersonalCard.contract.PersonalCardContract;
-import com.frame.component.ui.acticity.PersonalCard.model.entities.UserInfo;
+import com.frame.component.ui.acticity.PersonalCard.model.entities.PersonalInfo;
 import com.frame.component.ui.acticity.PersonalCard.model.entities.UserStatistics;
 import com.frame.di.scope.ActivityScope;
 import com.frame.http.api.ApiHelper;
@@ -50,9 +50,9 @@ public class PersonalCardPresenter extends
     public void loadUserInfoAndPhotos(int userId) {
         mApiHelper.execute(mRootView,
                 mModel.getUserInfoAndPhotos(userId),
-                new ErrorHandleSubscriber<UserInfo>() {
+                new ErrorHandleSubscriber<PersonalInfo>() {
                     @Override
-                    public void onNext(UserInfo userInfo) {
+                    public void onNext(PersonalInfo userInfo) {
                         mRootView.onLoadUserInfoSuccess(userInfo);
                     }
                 },

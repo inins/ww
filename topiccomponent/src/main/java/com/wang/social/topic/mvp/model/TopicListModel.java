@@ -1,15 +1,15 @@
 package com.wang.social.topic.mvp.model;
 
 import com.frame.component.common.NetParam;
+import com.frame.component.entities.Topic;
 import com.frame.di.scope.FragmentScope;
 import com.frame.http.api.BaseJson;
+import com.frame.http.api.PageListDTO;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.BaseModel;
-import com.wang.social.topic.BuildConfig;
 import com.wang.social.topic.mvp.contract.TopicListContract;
 import com.wang.social.topic.mvp.model.api.TopicService;
-import com.wang.social.topic.mvp.model.entities.dto.TagsDTO;
-import com.wang.social.topic.mvp.model.entities.dto.TopicRspDTO;
+import com.wang.social.topic.mvp.model.entities.dto.TopicDTO;
 
 import java.util.Map;
 
@@ -26,7 +26,7 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
     }
 
     @Override
-    public Observable<BaseJson<TopicRspDTO>> getNewsList(String isCondition, int size, int current) {
+    public Observable<BaseJson<PageListDTO<TopicDTO, Topic>>> getNewsList(String isCondition, int size, int current) {
         Map<String, Object> param = new NetParam()
                 .put("isCondition", isCondition)
                 .put("size",size)
@@ -39,7 +39,7 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
     }
 
     @Override
-    public Observable<BaseJson<TopicRspDTO>> getHotList(int size, int current) {
+    public Observable<BaseJson<PageListDTO<TopicDTO, Topic>>> getHotList(int size, int current) {
         Map<String, Object> param = new NetParam()
                 .put("size",size)
                 .put("current",current)
@@ -51,7 +51,7 @@ public class TopicListModel extends BaseModel implements TopicListContract.Model
     }
 
     @Override
-    public Observable<BaseJson<TopicRspDTO>> getLowList(int size, int current) {
+    public Observable<BaseJson<PageListDTO<TopicDTO, Topic>>> getLowList(int size, int current) {
         Map<String, Object> param = new NetParam()
                 .put("size",size)
                 .put("current",current)

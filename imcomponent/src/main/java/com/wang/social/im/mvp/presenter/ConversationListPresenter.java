@@ -2,6 +2,7 @@ package com.wang.social.im.mvp.presenter;
 
 import com.frame.di.scope.FragmentScope;
 import com.frame.mvp.BasePresenter;
+import com.frame.utils.ToastUtil;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMManager;
@@ -12,12 +13,18 @@ import com.tencent.imsdk.ext.message.TIMConversationExt;
 import com.tencent.imsdk.ext.message.TIMManagerExt;
 import com.wang.social.im.app.IMConstants;
 import com.wang.social.im.mvp.contract.ConversationListContract;
+import com.wang.social.im.mvp.model.entities.UIConversation;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
@@ -73,9 +80,43 @@ public class ConversationListPresenter extends BasePresenter<ConversationListCon
         mRootView.initList(result);
     }
 
+    /**
+     * 新消息
+     *
+     * @param list
+     * @return
+     */
     @Override
     public boolean onNewMessages(List<TIMMessage> list) {
         mRootView.updateMessages(list);
         return false;
+    }
+
+    /**
+     * 删除会话
+     *
+     * @param uiConversation
+     */
+    public void deleteConversation(UIConversation uiConversation) {
+        Observable.just(uiConversation)
+                .subscribeOn(Schedulers.io())
+                .map(new Function<UIConversation, Boolean>() {
+                    @Override
+                    public Boolean apply(UIConversation uiConversation) throws Exception {
+                        return TIMManagerExt.getInstance().deleteConversation(uiConversation.getMConversation().getType(), uiConversation.getIdentify());
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean aBoolean) throws Exception {
+                        if (aBoolean) {
+                            mRootView.onDeleted(uiConversation);
+                        } else {
+                            ToastUtil.showToastShort("删除失败");
+                        }
+                    }
+                });
+
     }
 }

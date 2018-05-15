@@ -58,6 +58,28 @@ public class NetReportHelper {
                 });
     }
 
+    public void netReportPerson(IView view, int objectId, String comment, OnReportCallback callback) {
+        netReport(view, objectId, 0, comment, callback);
+    }
+
+    private void netReport(IView view, int objectId, int type, String comment, OnReportCallback callback) {
+        ApiHelperEx.execute(view, true,
+                ApiHelperEx.getService(CommonService.class).report(objectId, type, comment),
+                new ErrorHandleSubscriber<BaseJson<Object>>() {
+                    @Override
+                    public void onNext(BaseJson<Object> basejson) {
+                        ToastUtil.showToastShort("举报成功");
+                        if (callback != null) callback.success();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        ToastUtil.showToastShort(e.getMessage());
+                    }
+                });
+    }
+
+
     ////////////////////////////////////
 
     public interface OnReportCallback {

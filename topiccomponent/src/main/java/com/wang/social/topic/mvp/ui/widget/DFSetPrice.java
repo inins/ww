@@ -21,8 +21,6 @@ import android.widget.LinearLayout;
 
 import com.frame.utils.ToastUtil;
 import com.wang.social.topic.R;
-import com.wang.social.topic.mvp.model.entities.Topic;
-import com.wang.social.topic.mvp.ui.widget.richeditor.RichEditor;
 
 public class DFSetPrice extends DialogFragment {
     public interface PriceCallback {

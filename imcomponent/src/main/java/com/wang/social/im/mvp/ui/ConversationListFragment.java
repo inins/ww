@@ -10,7 +10,9 @@ import android.support.v7.widget.SimpleItemAnimator;
 
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseFragment;
+import com.frame.component.common.HVItemDecoration;
 import com.frame.component.helper.CommonHelper;
+import com.frame.component.utils.UIUtil;
 import com.frame.di.component.AppComponent;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
@@ -21,6 +23,8 @@ import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.di.component.DaggerConversationListComponent;
 import com.wang.social.im.di.modules.ConversationListModule;
+import com.wang.social.im.enums.ConversationType;
+import com.wang.social.im.helper.StickHelper;
 import com.wang.social.im.mvp.contract.ConversationListContract;
 import com.wang.social.im.mvp.model.entities.UIConversation;
 import com.wang.social.im.mvp.model.entities.UIMessage;
@@ -44,7 +48,7 @@ import butterknife.BindView;
  * Create by ChenJing on 2018-04-16 20:04
  * ============================================
  */
-public class ConversationListFragment extends BaseFragment<ConversationListPresenter> implements ConversationListContract.View, BaseAdapter.OnItemClickListener<UIConversation> {
+public class ConversationListFragment extends BaseFragment<ConversationListPresenter> implements ConversationListContract.View, BaseAdapter.OnItemClickListener<UIConversation>, ConversationAdapter.OnHandleListener {
 
     @BindView(R2.id.cvl_conversation_list)
     RecyclerView cvlConversationList;
@@ -90,9 +94,11 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
     private void initialView() {
         mLayoutManager = new LinearLayoutManager(mActivity);
         cvlConversationList.setLayoutManager(mLayoutManager);
-        cvlConversationList.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        HVItemDecoration itemDecoration = new HVItemDecoration(getContext(), HVItemDecoration.LINEAR_DIVIDER_VERTICAL);
+        itemDecoration.setLeftMargin(UIUtil.getDimen(R.dimen.common_border_margin));
+        cvlConversationList.addItemDecoration(itemDecoration);
         ((SimpleItemAnimator) cvlConversationList.getItemAnimator()).setSupportsChangeAnimations(false);
-        mAdapter = new ConversationAdapter(mConversations);
+        mAdapter = new ConversationAdapter(mConversations, this);
         mAdapter.setOnItemClickListener(this);
         cvlConversationList.setAdapter(mAdapter);
     }
@@ -168,6 +174,22 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
         refresh();
     }
 
+    @Override
+    public void onDeleted(UIConversation uiConversation) {
+        //从置顶列表中移除
+        StickHelper.getInstance().removeIfExit(uiConversation);
+        //从会话列表中移除
+        Iterator<UIConversation> iterator = mConversations.iterator();
+        while (iterator.hasNext()) {
+            UIConversation item = iterator.next();
+            if (item.equals(uiConversation)) {
+                iterator.remove();
+                break;
+            }
+        }
+        refresh();
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onNewMessage(TIMMessage message) {
         updateMessage(message);
@@ -197,11 +219,13 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
     }
 
     private void doUpdate(TIMMessage message) {
-        if (message.getConversation().getType() != TIMConversationType.C2C &&
-                message.getConversation().getType() != TIMConversationType.Group) {
+        if (message.getConversation().getType() != TIMConversationType.C2C && message.getConversation().getType() != TIMConversationType.Group) {
             return;
         }
         UIConversation uiConversation = new UIConversation(message.getConversation());
+        if (uiConversation.getConversationType() == ConversationType.MIRROR || uiConversation.getConversationType() == ConversationType.GAME) {
+            return;
+        }
         Iterator<UIConversation> iterator = mConversations.iterator();
         while (iterator.hasNext()) {
             UIConversation item = iterator.next();
@@ -230,5 +254,16 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
                 }
             }
         }
+    }
+
+    @Override
+    public void toggleStick(UIConversation uiConversation, int position) {
+        StickHelper.getInstance().toggleStick(uiConversation);
+        refresh();
+    }
+
+    @Override
+    public void onDelete(UIConversation uiConversation, int position) {
+        mPresenter.deleteConversation(uiConversation);
     }
 }

@@ -43,7 +43,7 @@ public class EnvelopDetailPresenter extends BasePresenter<EnvelopDetailContract.
         mApiHelper.execute(mRootView, mModel.getAdoptList(envelopId, currentPage), new ErrorHandleSubscriber<PageList<EnvelopAdoptInfo>>() {
             @Override
             public void onNext(PageList<EnvelopAdoptInfo> envelopAdoptInfoPageList) {
-                mRootView.showList(envelopAdoptInfoPageList.getList(), envelopAdoptInfoPageList.getMaxPage() - envelopAdoptInfoPageList.getCurrentPage() > 0);
+                mRootView.showList(envelopAdoptInfoPageList.getList(), envelopAdoptInfoPageList.getMaxPage() - envelopAdoptInfoPageList.getCurrent() > 0);
             }
 
             @Override

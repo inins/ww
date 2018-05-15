@@ -22,10 +22,10 @@ public class Topic {
     private int commentTotal;
     private int shareTotal;
     private int relateState;
-    private int gemstone;
+    private int relateMoney;
     private List<Tag> tags;
-    private boolean shopping;
-    private boolean support;
+    private boolean isShopping;
+    private boolean isSupport;
     private String avatar;
     private String nickname;
 }

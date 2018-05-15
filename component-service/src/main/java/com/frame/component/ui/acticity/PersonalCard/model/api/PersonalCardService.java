@@ -1,11 +1,14 @@
 package com.frame.component.ui.acticity.PersonalCard.model.api;
 
 import com.frame.component.entities.Topic;
+import com.frame.component.entities.funshow.FunshowBean;
 import com.frame.component.ui.acticity.PersonalCard.model.entities.DTO.FriendListDTO;
-import com.frame.component.ui.acticity.PersonalCard.model.entities.DTO.TalkBeanListDTO;
+import com.frame.component.ui.acticity.PersonalCard.model.entities.DTO.GroupBeanDTO;
+import com.frame.component.ui.acticity.PersonalCard.model.entities.DTO.TalkBeanDTO;
 import com.frame.component.ui.acticity.PersonalCard.model.entities.DTO.TopicDTO;
 import com.frame.component.ui.acticity.PersonalCard.model.entities.DTO.UserInfoDTO;
 import com.frame.component.ui.acticity.PersonalCard.model.entities.DTO.UserStatisticsDTO;
+import com.frame.component.ui.acticity.PersonalCard.model.entities.GroupBean;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.PageListDTO;
 
@@ -45,7 +48,7 @@ public interface PersonalCardService {
      * 趣聊列表-他人名片
      */
     @GET("app/group/list")
-    Observable<BaseJson<TalkBeanListDTO>> getGroupList(@QueryMap Map<String, Object> param);
+    Observable<BaseJson<PageListDTO<GroupBeanDTO, GroupBean>>> getGroupList(@QueryMap Map<String, Object> param);
 
 
     /**
@@ -53,4 +56,10 @@ public interface PersonalCardService {
      */
     @GET("app/topic/personalCardList")
     Observable<BaseJson<PageListDTO<TopicDTO, Topic>>> getFriendTopicList(@QueryMap Map<String, Object> param);
+
+    /**
+     * 趣晒列表 （他人名片）
+     */
+    @GET("app/talk/personalCardList")
+    Observable<BaseJson<PageListDTO<TalkBeanDTO, FunshowBean>>> getFriendTalkList(@QueryMap Map<String, Object> param);
 }

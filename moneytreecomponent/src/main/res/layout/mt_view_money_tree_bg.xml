@@ -12,26 +12,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="69dp"
-        android:layout_marginTop="187dp"
+        android:layout_marginTop="190dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/mt_money_tree_bottom" />
 
-    <ImageView
-        android:id="@+id/mt_imageview3"
+    <include
+        android:id="@+id/tree_layout"
+        layout="@layout/mt_view_money_tree_tree"
         android:layout_width="wrap_content"
-        android:layout_height="236dp"
-        android:layout_marginStart="33dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="38dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/mt_monty_tree" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/mt_imageview5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="123dp"
-        android:layout_marginTop="203dp"
+        android:layout_marginStart="118dp"
+        android:layout_marginTop="208dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/mt_money_tree_stone" />

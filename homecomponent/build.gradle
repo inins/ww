@@ -1,5 +1,5 @@
-    apply plugin: 'com.android.application'
-//apply plugin: 'com.component.build'
+//    apply plugin: 'com.android.application'
+apply plugin: 'com.component.build'
 apply plugin: 'com.jakewharton.butterknife'
 
 android {

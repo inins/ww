@@ -2,7 +2,7 @@ package com.frame.component.ui.acticity.PersonalCard.model.entities.DTO;
 
 import com.frame.component.ui.acticity.PersonalCard.model.entities.EntitiesUtil;
 import com.frame.component.ui.acticity.PersonalCard.model.entities.FriendList;
-import com.frame.component.ui.acticity.PersonalCard.model.entities.UserInfo;
+import com.frame.component.ui.acticity.PersonalCard.model.entities.PersonalInfo;
 import com.frame.http.api.Mapper;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ public class FriendListDTO implements Mapper<FriendList> {
     private Integer pages;
     private Integer size;
     private Integer isPermission;
-    private List<UserInfo> list;
+    private List<PersonalInfo> list;
 
     @Override
     public FriendList transform() {

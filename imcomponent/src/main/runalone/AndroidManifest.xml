@@ -98,9 +98,10 @@
         <activity
             android:name=".ui.ConversationListActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.GameConversationActivity"
-            android:screenOrientation="portrait"
-            android:exported="true"/>
+        <activity
+            android:name=".ui.GameConversationActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.ConversationActivity"
             android:screenOrientation="portrait"
@@ -129,7 +130,9 @@
             android:exported="true"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-        <activity android:name=".mvp.ui.TeamHomeActivity" />
+        <activity
+            android:name=".mvp.ui.TeamHomeActivity"
+            android:exported="true" />
         <activity
             android:name=".mvp.ui.ShadowSettingActivity"
             android:exported="true" />
@@ -149,10 +152,19 @@
             android:name=".mvp.ui.MemberListActivity"
             android:exported="true" />
         <activity android:name=".mvp.ui.SocialChargeSettingActivity" />
+        <activity android:name=".mvp.ui.TeamChargeSettingActivity" />
         <activity
             android:name=".mvp.ui.NewUsersActivity"
             android:exported="true" />
-        <activity android:name=".mvp.ui.SocialLimitActivity"></activity>
+        <activity android:name=".mvp.ui.SocialLimitActivity" />
+        <activity
+            android:name=".mvp.ui.InviteFriendActivity"
+            android:exported="true" />
+        <activity
+            android:name=".mvp.ui.AlertUserListActivity"
+            android:exported="true" />
+        <activity android:name=".mvp.ui.HappyWoodActivity" />
+        <activity android:name=".mvp.ui.ShareListActivity"></activity>
     </application>
 
 </manifest>

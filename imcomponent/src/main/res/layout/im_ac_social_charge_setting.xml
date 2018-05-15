@@ -22,7 +22,7 @@
         android:layout_marginStart="@dimen/common_border_margin"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/gcs_toolbar"
-        app:personal_textNote="趣聊-付费与免费"
+        app:personal_textNote="觅聊-付费与免费"
         app:personal_textTitle="@string/im_group_charge_setting" />
 
     <TextView

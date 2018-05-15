@@ -10,7 +10,8 @@ import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
-import com.frame.base.BasicActivity;
+import com.frame.component.entities.Topic;
+import com.frame.component.ui.acticity.PersonalCard.ui.adapter.TopicListAdapter;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.view.ConerEditText;
 import com.frame.di.component.AppComponent;
@@ -24,9 +25,7 @@ import com.wang.social.topic.di.component.DaggerSearchComponent;
 import com.wang.social.topic.di.module.SearchModule;
 import com.wang.social.topic.mvp.contract.SearchContract;
 import com.wang.social.topic.mvp.model.entities.SearchResult;
-import com.wang.social.topic.mvp.model.entities.Topic;
 import com.wang.social.topic.mvp.presenter.SearchPresenter;
-import com.wang.social.topic.mvp.ui.adapter.CommentAdapter;
 import com.wang.social.topic.mvp.ui.adapter.SearchResultAdapter;
 import com.wang.social.topic.mvp.ui.widget.DFShopping;
 
@@ -43,7 +42,7 @@ public class SearchActivity extends BaseAppActivity<SearchPresenter> implements 
     SpringView mSpringView;
     @BindView(R2.id.recycler_view)
     RecyclerView mRecyclerView;
-    private SearchResultAdapter mAdapter;
+    private TopicListAdapter mAdapter;
     // 输入框
     @BindView(R2.id.edit_search)
     ConerEditText mSearchET;
@@ -87,7 +86,7 @@ public class SearchActivity extends BaseAppActivity<SearchPresenter> implements 
             }
         });
 
-        mAdapter = new SearchResultAdapter(mRecyclerView, mPresenter.getResultList());
+        mAdapter = new TopicListAdapter(this, getSupportFragmentManager(), mRecyclerView, mPresenter.getResultList());
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(
                 new WrapContentLinearLayoutManager(
@@ -95,21 +94,20 @@ public class SearchActivity extends BaseAppActivity<SearchPresenter> implements 
                         LinearLayoutManager.VERTICAL,
                         false));
 
-        mAdapter.setClickListener(new SearchResultAdapter.ClickListener() {
+        mAdapter.setClickListener(new TopicListAdapter.ClickListener() {
             @Override
-            public void onClick(SearchResult result) {
-                if (result.getRelateState() == 0) {
-                    // 不需要付费，直接打开
-                    TopicDetailActivity.start(
-                            SearchActivity.this,
-                            result.getTopicId(),
-                            result.getCreatorId());
-                } else {
-                    // 需要支付
-                    DFShopping.showDialog(SearchActivity.this.getSupportFragmentManager(),
-                            SearchActivity.this,
-                            SearchActivity.this, new Topic());
-                }
+            public boolean autoTopicClick() {
+                return true;
+            }
+
+            @Override
+            public void onTopicClick(Topic topic) {
+
+            }
+
+            @Override
+            public void onPayTopicSuccess(Topic topic) {
+
             }
         });
 

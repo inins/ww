@@ -1,6 +1,7 @@
 package com.wang.social.im.mvp.ui.adapters.holders;
 
 import android.content.Context;
+import android.support.constraint.ConstraintLayout;
 import android.text.SpannableString;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,12 +10,18 @@ import android.widget.TextView;
 
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
+import com.frame.component.utils.UIUtil;
 import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
+import com.frame.http.imageloader.glide.RoundedCornersTransformation;
 import com.frame.utils.FrameUtils;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
+import com.wang.social.im.enums.ConversationType;
+import com.wang.social.im.helper.StickHelper;
 import com.wang.social.im.mvp.model.entities.UIConversation;
+import com.wang.social.im.mvp.ui.adapters.ConversationAdapter;
+import com.wang.social.im.view.SwipeMenuLayout;
 import com.wang.social.im.view.emotion.EmojiDisplay;
 
 import butterknife.BindView;
@@ -37,11 +44,20 @@ public class ConversationViewHolder extends BaseViewHolder<UIConversation> {
     TextView icvTvTime;
     @BindView(R2.id.icv_tv_unread)
     TextView icvTvUnread;
+    @BindView(R2.id.im_tvb_stick)
+    TextView imTvbStick;
+    @BindView(R2.id.im_tvb_delete)
+    TextView imTvbDelete;
+    @BindView(R2.id.icv_cl_content)
+    ConstraintLayout icvClContent;
 
     ImageLoader mImageLoader;
 
-    public ConversationViewHolder(Context context, ViewGroup root) {
+    private ConversationAdapter.OnHandleListener mHandleListener;
+
+    public ConversationViewHolder(Context context, ViewGroup root, ConversationAdapter.OnHandleListener onHandleListener) {
         super(context, root, R.layout.im_item_conversation);
+        mHandleListener = onHandleListener;
         mImageLoader = FrameUtils.obtainAppComponentFromContext(context).imageLoader();
     }
 
@@ -52,12 +68,19 @@ public class ConversationViewHolder extends BaseViewHolder<UIConversation> {
 
         icvTvName.setText(name);
 
+        int defaultPortrait = R.drawable.im_round_image_placeholder;
+        if (itemValue.getConversationType() == ConversationType.SOCIAL) {
+
+        } else if (itemValue.getConversationType() == ConversationType.TEAM) {
+
+        }
+
         mImageLoader.loadImage(getContext(), ImageConfigImpl.builder()
-                .errorPic(R.drawable.common_default_circle_placeholder)
-                .placeholder(R.drawable.common_default_circle_placeholder)
+                .errorPic(defaultPortrait)
+                .placeholder(defaultPortrait)
+                .transformation(new RoundedCornersTransformation(UIUtil.getDimen(R.dimen.im_cvs_portrait_size), 0, RoundedCornersTransformation.CornerType.ALL))
                 .imageView(icvIvPortrait)
                 .url(portrait)
-                .isCircle(true)
                 .build());
 
         String summary = itemValue.getLastMessageSummary();
@@ -74,11 +97,42 @@ public class ConversationViewHolder extends BaseViewHolder<UIConversation> {
         } else {
             icvTvUnread.setVisibility(View.GONE);
         }
-    }
 
-    @Override
-    protected boolean useItemClickListener() {
-        return true;
+        if (StickHelper.getInstance().isStick(itemValue)) {
+            imTvbStick.setText(R.string.im_cvs_unstick);
+        } else {
+            imTvbStick.setText(R.string.im_cvs_stick);
+        }
+
+        ((SwipeMenuLayout) itemView).quickClose();
+
+        imTvbStick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((SwipeMenuLayout) itemView).smoothClose();
+                if (mHandleListener != null) {
+                    mHandleListener.toggleStick(itemValue, position);
+                }
+            }
+        });
+        imTvbDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((SwipeMenuLayout) itemView).smoothClose();
+                if (mHandleListener != null) {
+                    mHandleListener.onDelete(itemValue, position);
+                }
+            }
+        });
+
+        icvClContent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(itemValue, position);
+                }
+            }
+        });
     }
 
     @Override

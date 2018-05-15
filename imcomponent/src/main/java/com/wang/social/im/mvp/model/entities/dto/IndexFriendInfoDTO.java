@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class IndexFriendInfoDTO implements Mapper<IndexFriendInfo> {
 
-    private String userId;
+    private String friendId;
     private String nickname;
     private String avatar;
     private int sex;
@@ -28,7 +28,7 @@ public class IndexFriendInfoDTO implements Mapper<IndexFriendInfo> {
     @Override
     public IndexFriendInfo transform() {
         IndexFriendInfo friend = new IndexFriendInfo();
-        friend.setFriendId(userId == null ? "-1" : userId);
+        friend.setFriendId(friendId == null ? "-1" : friendId);
         friend.setNickname(nickname == null ? "" : nickname);
         friend.setPortrait(avatar == null ? "" : avatar);
         friend.setGender(sex == 0 ? Gender.MALE : Gender.FEMALE);

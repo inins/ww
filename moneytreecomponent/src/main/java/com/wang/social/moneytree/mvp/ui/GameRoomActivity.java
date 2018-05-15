@@ -108,6 +108,7 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
     private ShakeUtils mShakeUtils;
     @Inject
     AppManager mAppManager;
+    private boolean mResumed = false;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -332,6 +333,7 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
 
     @Override
     public void onCountDownFinished() {
+        if (!mResumed) return;
 //        ToastUtil.showToastLong("游戏结束");
         // 游戏结束，加载结果
         mPresenter.loadGameEnd(mPresenter.getGameBeanGameId());
@@ -340,6 +342,7 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
     @Override
     protected void onResume() {
         super.onResume();
+        mResumed = true;
 
         if (null != mShakeUtils) {
             mShakeUtils.onResume();
@@ -349,6 +352,8 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
     @Override
     protected void onPause() {
         super.onPause();
+
+        mResumed = false;
 
         if (null != mShakeUtils) {
             mShakeUtils.onPause();

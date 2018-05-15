@@ -98,6 +98,20 @@ public class CommonHelper {
             bundle.putString("targetId", targetId);
             UIRouter.getInstance().openUri(context, ImPath.TEAM_URL, bundle);
         }
+
+        /**
+         * 分享树
+         *
+         * @param context
+         * @param type
+         * @param objectId
+         */
+        public static void gotoShareWood(Context context, int type, String objectId) {
+            Bundle bundle = new Bundle();
+            bundle.putInt("type", type);
+            bundle.putString("objectId", objectId);
+            UIRouter.getInstance().openUri(context, ImPath.SHARE_WOOD_URL, bundle);
+        }
     }
 
     public static class TopicHelper {
@@ -115,7 +129,10 @@ public class CommonHelper {
          */
         public static void startTopicDetail(Context context, int topicId) {
             //TODO:暂时没有，预留一个方法
-            ToastUtil.showToastShort("topicId:" + topicId);
+//            ToastUtil.showToastShort("topicId:" + topicId);
+            Bundle bundle = new Bundle();
+            bundle.putInt("NAME_TOPIC_ID", topicId);
+            UIRouter.getInstance().openUri(context, TopicPath.TOPIC_DETAIL_URL, bundle);
         }
     }
 }

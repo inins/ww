@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.service.R;
-import com.frame.component.ui.acticity.PersonalCard.model.entities.UserInfo;
+import com.frame.component.ui.acticity.PersonalCard.model.entities.PersonalInfo;
 import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.utils.TimeUtils;
 
@@ -20,9 +20,9 @@ import java.util.List;
 public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHolder> {
 
     private Context mContext;
-    private List<UserInfo> mList;
+    private List<PersonalInfo> mList;
 
-    public UserListAdapter(RecyclerView recyclerView, List<UserInfo> list) {
+    public UserListAdapter(RecyclerView recyclerView, List<PersonalInfo> list) {
         mContext = recyclerView.getContext().getApplicationContext();
         mList = list;
     }
@@ -40,7 +40,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
         if (null == mList) return;
         if (position < 0 || position >= mList.size()) return;
 
-        UserInfo user = mList.get(position);
+        PersonalInfo user = mList.get(position);
         if (null == user) return;
 
         ImageLoaderHelper.loadCircleImg(holder.avatarIV, user.getAvatar());

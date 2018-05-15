@@ -1,6 +1,7 @@
 package com.frame.component.ui.acticity.PersonalCard.ui.adapter;
 
 import android.content.Context;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -13,10 +14,13 @@ import android.widget.TextView;
 
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.frame.component.entities.Topic;
+import com.frame.component.helper.CommonHelper;
+import com.frame.component.helper.NetPayStoneHelper;
 import com.frame.component.helper.NetZanHelper;
 import com.frame.component.service.R;
 import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.component.ui.acticity.tags.TagAdapter;
+import com.frame.component.view.DialogPay;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.mvp.IView;
 import com.frame.utils.FrameUtils;
@@ -31,17 +35,31 @@ import java.util.Locale;
 public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.ViewHolder> {
 
     public interface ClickListener {
+        boolean autoTopicClick();
+
         void onTopicClick(Topic topic);
+
+        void onPayTopicSuccess(Topic topic);
+
+        ;
     }
 
     private IView mIView;
     private Context mContext;
+    private FragmentManager mFragmentManager;
     private List<Topic> mList;
     private ClickListener mClickListener;
 
     public TopicListAdapter(IView bindView, RecyclerView recyclerView, List<Topic> list) {
         mIView = bindView;
         mContext = recyclerView.getContext().getApplicationContext();
+        mList = list;
+    }
+
+    public TopicListAdapter(IView IView, FragmentManager fragmentManager, RecyclerView recyclerView, List<Topic> list) {
+        mIView = IView;
+        mContext = recyclerView.getContext().getApplicationContext();
+        mFragmentManager = fragmentManager;
         mList = list;
     }
 
@@ -170,10 +188,50 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
             @Override
             public void onClick(View v) {
                 if (null != mClickListener && v.getTag() instanceof Topic) {
-                    mClickListener.onTopicClick((Topic) v.getTag());
+                    Topic t = (Topic) v.getTag();
+
+                    if (mClickListener.autoTopicClick()) {
+                        // 是否需要支付
+                        if (t.getRelateState() == 1 && !t.isShopping()) {
+                            // 如果没有设置点击监听，则直接处理支付
+                            if (null != mFragmentManager) {
+                                DialogPay.showPayTopic(mIView, mFragmentManager,
+                                        t, -1, new DialogPay.DialogPayCallback() {
+                                            @Override
+                                            public void onPay() {
+                                                payTopic(t);
+                                            }
+                                        });
+                            }
+                        } else {
+                            // 直接打开话题详情
+                            CommonHelper.TopicHelper.startTopicDetail(mContext, t.getTopicId());
+                        }
+                    } else {
+                        mClickListener.onTopicClick(t);
+                    }
                 }
             }
         });
+    }
+
+    private void payTopic(Topic topic) {
+        NetPayStoneHelper.newInstance().netPayTopic(mIView, topic.getTopicId(), topic.getRelateMoney(),
+                new NetPayStoneHelper.OnStonePayCallback() {
+                    @Override
+                    public void success() {
+                        topic.setShopping(true);
+
+                        // 打开话题详情
+                        CommonHelper.TopicHelper.startTopicDetail(mContext, topic.getTopicId());
+
+                        if (null != mClickListener) {
+                            mClickListener.onPayTopicSuccess(topic);
+                        }
+
+                        notifyDataSetChanged();
+                    }
+                });
     }
 
     public String formatCreateDate(Context context, long mills) {
