@@ -1,10 +1,6 @@
 package com.frame.component.ui.acticity.PersonalCard.contract;
 
 import com.frame.component.ui.acticity.PersonalCard.model.entities.DTO.FriendListDTO;
-import com.frame.component.ui.acticity.PersonalCard.model.entities.DTO.UserInfoDTO;
-import com.frame.component.ui.acticity.PersonalCard.model.entities.DTO.UserStatisticsDTO;
-import com.frame.component.ui.acticity.PersonalCard.model.entities.UserInfo;
-import com.frame.component.ui.acticity.PersonalCard.model.entities.UserStatistics;
 import com.frame.http.api.BaseJson;
 import com.frame.mvp.IModel;
 import com.frame.mvp.IView;

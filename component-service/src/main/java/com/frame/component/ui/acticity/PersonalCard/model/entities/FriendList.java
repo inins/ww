@@ -11,5 +11,5 @@ public class FriendList {
     private int pages;
     private int size;
     private int isPermission;
-    private List<UserInfo> list;
+    private List<PersonalInfo> list;
 }

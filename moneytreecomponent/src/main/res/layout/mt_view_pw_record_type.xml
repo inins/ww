@@ -8,7 +8,7 @@
     android:paddingRight="5dp"
     android:paddingTop="6dp"
     android:paddingBottom="6dp"
-    android:background="@drawable/mt_game_tanchuang_kuang">
+    android:background="@drawable/common_popup_bubble_top_right">
 
     <TextView
         android:id="@+id/all_text_view"
@@ -16,8 +16,10 @@
         android:text="@string/mt_all"/>
 
     <View
-        android:layout_width="match_parent"
+        android:layout_width="67dp"
         android:layout_height="1dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
         android:background="@color/common_list_divider"/>
 
     <TextView
@@ -26,8 +28,10 @@
         android:text="@string/mt_lose"/>
 
     <View
-        android:layout_width="match_parent"
+        android:layout_width="67dp"
         android:layout_height="1dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
         android:background="@color/common_list_divider"/>
 
     <TextView
@@ -36,8 +40,10 @@
         android:text="@string/mt_win"/>
 
     <View
-        android:layout_width="match_parent"
+        android:layout_width="67dp"
         android:layout_height="1dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
         android:background="@color/common_list_divider"/>
 
     <TextView

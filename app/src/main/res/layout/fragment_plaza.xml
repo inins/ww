@@ -27,7 +27,7 @@
         android:layout_height="42dp"
         android:background="@color/common_white"
         android:layout_gravity="center_horizontal"
-        app:stl_customTabTextLayoutId="@layout/tab_text_blank_blue"
+        app:stl_customTabTextLayoutId="@layout/tab_text_blank_light"
         app:stl_customTabTextViewId="@id/custom_text"
         app:stl_dividerThickness="0dp"
         app:stl_indicatorColor="@color/common_blue"

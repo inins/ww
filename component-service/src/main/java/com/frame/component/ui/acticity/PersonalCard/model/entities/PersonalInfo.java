@@ -6,7 +6,7 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class UserInfo {
+public class PersonalInfo {
     private long birthday;
     private String province;
     private String cityName;
@@ -19,4 +19,7 @@ public class UserInfo {
     private String provinceName;
     private int userId;
     private List<Tag> tags;
+    // 是否是好友关系
+    // 0：非好友，大于0：好友
+    private int isFriend;
 }

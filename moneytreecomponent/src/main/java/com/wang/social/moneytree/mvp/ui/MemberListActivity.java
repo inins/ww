@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.frame.component.entities.User;
+import com.frame.component.ui.acticity.PersonalCard.PersonalCardActivity;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
@@ -75,6 +76,12 @@ public class MemberListActivity extends BaseAppActivity implements IView {
         });
 
         mAdapter = new MemberListAdapter(mRecyclerView, mList);
+        mAdapter.setClickListener(new MemberListAdapter.ClickListener() {
+            @Override
+            public void onMemeberClick(Member member) {
+                PersonalCardActivity.start(MemberListActivity.this, member.getUserId());
+            }
+        });
         mRecyclerView.setLayoutManager(
                 new LinearLayoutManager(
                         this, LinearLayoutManager.VERTICAL, false));

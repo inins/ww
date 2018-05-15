@@ -220,12 +220,16 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
                 new NetPayStoneHelper.OnStonePayCallback() {
                     @Override
                     public void success() {
+                        topic.setShopping(true);
+
                         // 打开话题详情
                         CommonHelper.TopicHelper.startTopicDetail(mContext, topic.getTopicId());
 
                         if (null != mClickListener) {
                             mClickListener.onPayTopicSuccess(topic);
                         }
+
+                        notifyDataSetChanged();
                     }
                 });
     }

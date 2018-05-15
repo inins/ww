@@ -1,14 +1,14 @@
 package com.frame.component.ui.acticity.PersonalCard.model.entities.DTO;
 
 import com.frame.component.ui.acticity.PersonalCard.model.entities.EntitiesUtil;
-import com.frame.component.ui.acticity.PersonalCard.model.entities.UserInfo;
+import com.frame.component.ui.acticity.PersonalCard.model.entities.PersonalInfo;
 import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.http.api.Mapper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserInfoDTO implements Mapper<UserInfo> {
+public class UserInfoDTO implements Mapper<PersonalInfo> {
     private Long birthday;
     private String province;
     private String cityName;
@@ -21,10 +21,11 @@ public class UserInfoDTO implements Mapper<UserInfo> {
     private String provinceName;
     private Integer userId;
     private List<Tag> tags;
+    private Integer isFirend;
 
     @Override
-    public UserInfo transform() {
-        UserInfo object = new UserInfo();
+    public PersonalInfo transform() {
+        PersonalInfo object = new PersonalInfo();
 
         object.setBirthday(EntitiesUtil.assertNotNull(birthday));
         object.setProvince(EntitiesUtil.assertNotNull(province));
@@ -38,6 +39,7 @@ public class UserInfoDTO implements Mapper<UserInfo> {
         object.setProvinceName(EntitiesUtil.assertNotNull(provinceName));
         object.setUserId(EntitiesUtil.assertNotNull(userId));
         object.setTags(null == tags ? new ArrayList<>() : tags);
+        object.setIsFriend(EntitiesUtil.assertNotNull(isFirend));
 
         return object;
     }

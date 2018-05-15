@@ -7,7 +7,7 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class TalkBean {
+public class GroupBean {
     private int id;
     private int pid;
     private String groupName;

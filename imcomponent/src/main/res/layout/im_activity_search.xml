@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?android:actionBarSize">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:layout_marginLeft="14dp"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/cancel_text_view"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="5dp">
+
+            <com.frame.component.view.ConerEditText
+                android:id="@+id/edit_search"
+                style="@style/common_EditNone"
+                android:layout_height="match_parent"
+                android:drawableLeft="@drawable/common_ic_home_search"
+                android:drawablePadding="5dp"
+                android:hint="请输入搜索关键字"
+                android:imeOptions="actionSearch"
+                android:inputType="textPersonName"
+                android:textSize="12sp" />
+
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:id="@+id/cancel_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/common_cancel"
+            android:textColor="@color/common_text_blank_dark"
+            android:textSize="17sp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp"/>
+
+    </RelativeLayout>
+
+
+    <com.ogaclejapan.smarttablayout.SmartTabLayout
+        android:id="@+id/smart_tab_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="6dp"
+        android:visibility="invisible"
+        app:stl_customTabTextLayoutId="@layout/tab_text_blank_light"
+        app:stl_customTabTextViewId="@id/name_text_view"
+        app:stl_dividerThickness="0dp"
+        app:stl_indicatorColor="@color/common_blue_deep"
+        app:stl_indicatorCornerRadius="2dp"
+        app:stl_indicatorInterpolation="smart"
+        app:stl_indicatorThickness="3dp"
+        app:stl_indicatorWidth="12dp"
+        app:stl_underlineColor="@android:color/transparent"
+        app:stl_underlineThickness="0px">
+
+    </com.ogaclejapan.smarttablayout.SmartTabLayout>
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    </android.support.v4.view.ViewPager>
+
+</LinearLayout>
