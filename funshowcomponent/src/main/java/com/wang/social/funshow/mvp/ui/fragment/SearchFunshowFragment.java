@@ -177,14 +177,14 @@ public class SearchFunshowFragment extends BasicFragment implements IView, BaseA
 //                            if (isFresh) {
 //                                loadingview.showLackView();
 //                            }
-//                            ToastUtil.toastLong("没有更多数据了");
+//                            ToastUtil.toastShort("没有更多数据了");
 //                        }
 //                        springView.onFinishFreshAndLoadDelay();
 //                    }
 //
 //                    @Override
 //                    public void onError(Throwable e) {
-//                        ToastUtil.toastLong(e.getMessage());
+//                        ToastUtil.toastShort(e.getMessage());
 //                        springView.onFinishFreshAndLoadDelay();
 //                    }
 //                });
@@ -201,7 +201,7 @@ public class SearchFunshowFragment extends BasicFragment implements IView, BaseA
 //
 //                    @Override
 //                    public void onError(Throwable e) {
-//                        ToastUtil.toastLong(e.getMessage());
+//                        ToastUtil.toastShort(e.getMessage());
 //                    }
 //                });
 //    }

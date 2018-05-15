@@ -334,7 +334,7 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
     @Override
     public void onCountDownFinished() {
         if (!mResumed) return;
-//        ToastUtil.toastLong("游戏结束");
+//        ToastUtil.toastShort("游戏结束");
         // 游戏结束，加载结果
         mPresenter.loadGameEnd(mPresenter.getGameBeanGameId());
     }

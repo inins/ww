@@ -32,7 +32,9 @@ import com.frame.component.ui.acticity.PersonalCard.ui.widget.DialogActionSheet;
 import com.frame.component.ui.acticity.PersonalCard.ui.widget.PWFriendMoreMenu;
 import com.frame.component.ui.acticity.tags.TagUtils;
 import com.frame.component.ui.base.BaseAppActivity;
+import com.frame.component.ui.dialog.DialogInput;
 import com.frame.component.ui.dialog.DialogSure;
+import com.frame.component.ui.dialog.DialogValiRequest;
 import com.frame.component.view.GradualImageView;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
@@ -40,6 +42,8 @@ import com.frame.utils.StatusBarUtil;
 import com.frame.utils.TimeUtils;
 import com.frame.utils.ToastUtil;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
+import com.wang.social.pictureselector.helper.PhotoHelper;
+import com.wang.social.pictureselector.helper.PhotoHelperEx;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -49,9 +53,13 @@ import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter> implements
         PersonalCardContract.View {
+
+    public final static int REQUEST_CODE_AVATAR_IMAGE = 10033;
+
     public final static int TYPE_UNKNOWN = -1;
     // 好友申请，底部显示 拒绝 同意
     public final static int TYPE_REQUEST_FRIEND = 1;
@@ -64,15 +72,21 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
             TYPE_BROWS
     })
     @Retention(RetentionPolicy.SOURCE)
-    @interface PersonCardType {}
+    @interface PersonCardType {
+    }
 
     public static void start(Context context, int userId) {
         start(context, userId, TYPE_UNKNOWN);
     }
 
     public static void start(Context context, int userId, @PersonCardType int type) {
+        startFromMsg(context, userId, -1, type);
+    }
+
+    public static void startFromMsg(Context context, int userId, int msgId, @PersonCardType int type) {
         Intent intent = new Intent(context, PersonalCardActivity.class);
         intent.putExtra("userid", userId);
+        intent.putExtra("msgId", msgId);
         intent.putExtra("type", type);
         context.startActivity(intent);
     }
@@ -138,8 +152,13 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
 
     // 用户id
     private int mUserId;
+    // 存储用户信息
     private PersonalInfo mPersonalInfo;
+    // ui类型
     private @PersonCardType int mType;
+    // 消息id
+    private int mMsgId;
+    private PhotoHelperEx mPhotoHelperEx;
 
 
     @Override
@@ -159,11 +178,14 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
         StatusBarUtil.setTranslucent(this);
+        StatusBarUtil.setTextDark(this);
 
         mUserId = getIntent().getIntExtra("userid", -1);
 //        mUserId = 10001;
         // 默认为浏览用户信息模式
         mType = getIntent().getIntExtra("type", TYPE_BROWS);
+        // 消息id
+        mMsgId = getIntent().getIntExtra("msgId", -1);
 
         mBackGIV.setDrawable(R.drawable.common_ic_back_white, R.drawable.common_ic_back);
         mBackGIV.setOnClickListener(new View.OnClickListener() {
@@ -196,6 +218,20 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
                     showReportTV(true);
                     showMoreLayout(true);
                 }
+            }
+        });
+
+        mPhotoHelperEx = PhotoHelperEx.newInstance(this, new PhotoHelper.OnPhotoCallback() {
+            @Override
+            public void onResult(String path) {
+
+                Timber.i("图片返回 : " + path);
+                String[] pathArray = PhotoHelper.format2Array(path);
+
+                if (null == pathArray) return;
+                if (pathArray.length <= 0) return;
+
+                mPresenter.setFriendAvatar(mUserId, pathArray[0]);
             }
         });
 
@@ -259,8 +295,8 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
     }
 
     @Override
-    public void toastLong(String msg) {
-        ToastUtil.showToastLong(msg);
+    public void toastShort(String msg) {
+        ToastUtil.showToastShort(msg);
     }
 
     /**
@@ -273,7 +309,7 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
         if (null == personalInfo) return;
 
         mPersonalInfo = personalInfo;
-//        personalInfo.setIsFriend(2);
+        personalInfo.setIsFriend(2);
 
         // 底部按钮背景
         mBottomLeftTV.setBackgroundResource(R.drawable.personal_card_btn_refuse);
@@ -328,6 +364,7 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
 
     /**
      * 设置底部按钮背景
+     *
      * @param resid 背景资源
      */
     private void setBottomButtonBg(int resid) {
@@ -359,11 +396,33 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
                 mBottomLeftTV.setVisibility(View.VISIBLE);
                 mBottomRightTV.setVisibility(View.VISIBLE);
                 mBottomLeftTV.setText("拒绝");
+                mBottomLeftTV.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mPresenter.rejectApply(mUserId, mMsgId);
+                    }
+                });
                 mBottomRightTV.setText("同意");
+                mBottomRightTV.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mPresenter.agreeApply(mUserId, mMsgId);
+                    }
+                });
             } else {
                 // 浏览模式，显示添加好友
                 mBottomMiddleTV.setVisibility(View.VISIBLE);
                 mBottomMiddleTV.setText("添加好友");
+                mBottomMiddleTV.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+//                        mPresenter.addFriendApply();
+                        DialogValiRequest.showDialog(PersonalCardActivity.this,
+                                content -> {
+                                    mPresenter.addFriendApply(mUserId, content);
+                                });
+                    }
+                });
             }
         }
 
@@ -424,7 +483,7 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
 
     @Override
     public void onDeleteFriendSuccess() {
-        toastLong("删除成功");
+        toastShort("删除成功");
 
         // 设置已经不是好友了
         mPersonalInfo.setIsFriend(0);
@@ -438,8 +497,48 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
     }
 
     @Override
+    public void onSetFriendRemarkSuccess(String remark) {
+        // 修改显示昵称
+        mNameTV.setText(remark);
+        mPersonalInfo.setNickname(remark);
+
+//        toastShort("设置成功");
+    }
+
+    /**
+     * 同意或拒绝添加好友请求成功
+     * @param type 类型（0：同意，1：拒绝）
+     */
+    @Override
+    public void onAgreeOrRejectApllySuccess(int type) {
+        if (type == 0) {
+            // 同意了，已经是好友
+            mPersonalInfo.setIsFriend(1);
+        } else {
+            // 拒绝，不是好友
+            mPersonalInfo.setIsFriend(0);
+        }
+
+        // 模式改为浏览模式
+        mType = TYPE_BROWS;
+
+        resetViewWithRelationship(mPersonalInfo);
+    }
+
+    @Override
+    public void onAddFriendApplySuccess() {
+        toastShort("申请已发送");
+    }
+
+    @Override
+    public void onSetFriendAvatarSuccess(String url) {
+        mPersonalInfo.setAvatar(url);
+        ImageLoaderHelper.loadCircleImg(mAvatarIV, url);
+    }
+
+    @Override
     public void onChangeMyBlackSuccess(boolean isBlack) {
-        toastLong("已拉黑");
+        toastShort("已拉黑");
 
         EventBean eventBean = new EventBean(EventBean.EVENTBUS_FRIEND_ADD_BLACK_LIST);
         eventBean.put("userid", mUserId);
@@ -483,6 +582,32 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
 
     private PWFriendMoreMenu mPWFriendMoreMenu;
 
+    private DialogInput mSetRemarkDialot;
+
+    private void showSetRemarkDialog() {
+        if (null == mSetRemarkDialot) {
+            mSetRemarkDialot = DialogInput.newInstance(PersonalCardActivity.this,
+                    "设置备注",
+                    "最多输入12个字",
+                    "",
+                    "取消",
+                    "设置",
+                    12);
+            mSetRemarkDialot.setOnInputListener(new DialogInput.OnInputListener() {
+                @Override
+                public void onInputText(String text) {
+                    // 设置备注
+                    mPresenter.setFriendRemard(mUserId, text);
+
+                    mSetRemarkDialot.dismiss();
+                }
+            });
+        }
+
+        mSetRemarkDialot.setText(mPersonalInfo.getNickname());
+        mSetRemarkDialot.show();
+    }
+
     @OnClick(R2.id.more_layout)
     public void more() {
         if (null == mPWFriendMoreMenu) {
@@ -490,11 +615,14 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
             mPWFriendMoreMenu.setCallback(new PWFriendMoreMenu.FriendMoreMenuCallback() {
                 @Override
                 public void onSetRemark() {
+                    showSetRemarkDialog();
                 }
 
                 @Override
                 public void onSetAvatar() {
-
+                    mPhotoHelperEx.setMaxSelectCount(1);
+                    mPhotoHelperEx.setClip(true);
+                    mPhotoHelperEx.showDefaultDialog();
                 }
 
                 @Override
@@ -517,7 +645,7 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
                 @Override
                 public void onAddBlackList() {
                     DialogSure.showDialog(PersonalCardActivity.this,
-                            "",
+                            "确认加入黑名单？",
                             new DialogSure.OnSureCallback() {
                                 @Override
                                 public void onOkClick() {
@@ -529,5 +657,12 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
         }
 
         mPWFriendMoreMenu.showPopupWindow(mMoreIV);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        mPhotoHelperEx.onActivityResult(requestCode, resultCode, data);
     }
 }

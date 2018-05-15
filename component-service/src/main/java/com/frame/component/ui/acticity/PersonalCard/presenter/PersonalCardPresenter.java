@@ -1,5 +1,6 @@
 package com.frame.component.ui.acticity.PersonalCard.presenter;
 
+import com.frame.component.helper.QiNiuManager;
 import com.frame.component.ui.acticity.PersonalCard.contract.PersonalCardContract;
 import com.frame.component.ui.acticity.PersonalCard.model.entities.PersonalInfo;
 import com.frame.component.ui.acticity.PersonalCard.model.entities.UserStatistics;
@@ -14,6 +15,7 @@ import javax.inject.Inject;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
+import timber.log.Timber;
 
 
 @ActivityScope
@@ -24,6 +26,8 @@ public class PersonalCardPresenter extends
     RxErrorHandler mErrorHandler;
     @Inject
     ApiHelper mApiHelper;
+    @Inject
+    QiNiuManager qiNiuManager;
 
 
     @Inject
@@ -76,6 +80,95 @@ public class PersonalCardPresenter extends
     }
 
     /**
+     * 好友列表-好友设置备注
+     * @param friendUserId 好友id
+     * @param comment 备注
+     */
+    public void setFriendRemard(int friendUserId, String comment) {
+        mApiHelper.executeForData(mRootView,
+                mModel.setFriendComment(friendUserId, comment),
+                new ErrorHandleSubscriber() {
+                    @Override
+                    public void onNext(Object o) {
+                        mRootView.onSetFriendRemarkSuccess(comment);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mRootView.toastShort(e.getMessage());
+                    }
+                },
+                new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                        mRootView.showLoading();
+                    }
+                },
+                new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mRootView.hideLoading();
+                    }
+                });
+    }
+
+    /**
+     * 好友列表-好友设置头像
+     * @param friendUserId 好友id
+     * @param avatarUrl 备注头像url
+     */
+    public void setFriendAvatar(int friendUserId, String avatarUrl) {
+        if (!avatarUrl.startsWith("http:")) {
+            mRootView.showLoading();
+            // 上传头像
+            qiNiuManager.uploadFile(mRootView, avatarUrl, new QiNiuManager.OnSingleUploadListener() {
+                @Override
+                public void onSuccess(String url) {
+                    Timber.i("上传头像成功 " + url);
+
+                    uploadFriendAvatar(friendUserId, url);
+                }
+
+                @Override
+                public void onFail() {
+                    // 上传附件失败
+                    mRootView.hideLoading();
+                }
+            });
+        } else {
+            uploadFriendAvatar(friendUserId, avatarUrl);
+        }
+    }
+
+    private void uploadFriendAvatar(int friendUserId, String avatarUrl) {
+        mApiHelper.executeForData(mRootView,
+                mModel.setFriendAvatar(friendUserId, avatarUrl),
+                new ErrorHandleSubscriber() {
+                    @Override
+                    public void onNext(Object o) {
+                        mRootView.onSetFriendAvatarSuccess(avatarUrl);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mRootView.toastShort(e.getMessage());
+                    }
+                },
+                new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                        mRootView.showLoading();
+                    }
+                },
+                new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mRootView.hideLoading();
+                    }
+                });
+    }
+
+    /**
      * 删除好友关系
      *
      * @param friendUserId 用户id
@@ -91,7 +184,19 @@ public class PersonalCardPresenter extends
 
                     @Override
                     public void onError(Throwable e) {
-                        mRootView.toastLong(e.getMessage());
+                        mRootView.toastShort(e.getMessage());
+                    }
+                },
+                new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                        mRootView.showLoading();
+                    }
+                },
+                new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mRootView.hideLoading();
                     }
                 });
     }
@@ -112,7 +217,16 @@ public class PersonalCardPresenter extends
 
                     @Override
                     public void onError(Throwable e) {
-                        mRootView.toastLong(e.getMessage());
+                        mRootView.toastShort(e.getMessage());
+                    }
+                },
+                disposable -> {
+                        mRootView.showLoading();
+                },
+                new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mRootView.hideLoading();
                     }
                 });
     }
@@ -123,18 +237,18 @@ public class PersonalCardPresenter extends
      * @param addUserId
      * @param reason
      */
-    public void addFirendApply(int addUserId, String reason) {
+    public void addFriendApply(int addUserId, String reason) {
         mApiHelper.executeForData(mRootView,
                 mModel.addFriendApply(addUserId, reason),
                 new ErrorHandleSubscriber() {
                     @Override
                     public void onNext(Object o) {
-
+                        mRootView.onAddFriendApplySuccess();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        mRootView.toastLong(e.getMessage());
+                        mRootView.toastShort(e.getMessage());
                     }
                 },
                 new Consumer<Disposable>() {
@@ -150,6 +264,50 @@ public class PersonalCardPresenter extends
                     }
                 });
     }
+
+    public void agreeApply(int friendUserId, int msgId) {
+        agreeOrRejectAdd(friendUserId, msgId, 0);
+    }
+
+    public void rejectApply(int friendUserId, int msgId) {
+        agreeOrRejectAdd(friendUserId, msgId, 1);
+    }
+
+    /**
+     * 同意、拒绝添加好友
+     * @param friendUserId 好友id
+     * @param msgId 消息id
+     * @param type 类型（0：同意，1：拒绝）
+     */
+    private void agreeOrRejectAdd(int friendUserId, int msgId, int type) {
+        mApiHelper.executeForData(mRootView,
+                mModel.agreeOrRejectAdd(friendUserId, msgId, type),
+                new ErrorHandleSubscriber() {
+                    @Override
+                    public void onNext(Object o) {
+                        mRootView.onAgreeOrRejectApllySuccess(type);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mRootView.toastShort(e.getMessage());
+                    }
+                },
+                new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                        mRootView.showLoading();
+                    }
+                },
+                new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mRootView.hideLoading();
+                    }
+                });
+    }
+
+
 
     @Override
     public void onDestroy() {

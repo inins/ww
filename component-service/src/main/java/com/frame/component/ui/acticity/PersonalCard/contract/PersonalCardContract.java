@@ -12,10 +12,14 @@ import io.reactivex.Observable;
 
 public interface PersonalCardContract {
     interface View extends IView {
-        void toastLong(String msg);
+        void toastShort(String msg);
         void onLoadUserInfoSuccess(PersonalInfo userInfo);
         void onLoadUserStatisticsSuccess(UserStatistics statistics);
         void onDeleteFriendSuccess();
+        void onSetFriendRemarkSuccess(String remark);
+        void onAgreeOrRejectApllySuccess(int type);
+        void onAddFriendApplySuccess();
+        void onSetFriendAvatarSuccess(String url);
 
         /**
          * 拉黑或取消拉黑成功
