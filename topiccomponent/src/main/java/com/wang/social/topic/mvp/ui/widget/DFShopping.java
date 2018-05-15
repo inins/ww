@@ -108,7 +108,7 @@ public class DFShopping extends DialogFragment {
 //                                @Override
 //                                public void onClick(View v) {
 //                                    //
-//                                    ToastUtil.showToastLong("去充值");
+//                                    ToastUtil.toastLong("去充值");
 //
 //                                    DFShopping.this.dismiss();
 //                                }

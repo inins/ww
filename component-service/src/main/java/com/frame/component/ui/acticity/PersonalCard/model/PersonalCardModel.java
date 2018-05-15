@@ -54,5 +54,82 @@ public class PersonalCardModel extends BaseModel implements PersonalCardContract
                 .getUserInfoAndPhotos(param);
     }
 
+    @Override
+    public Observable<BaseJson> addFriendApply(int addUserId, String reason) {
+        Map<String, Object> param = new NetParam()
+                .put("addUserId", addUserId)
+                .put("reason", reason)
+                .put("v", "2.0.0")
+                .build();
+        return mRepositoryManager
+                .obtainRetrofitService(PersonalCardService.class)
+                .addFriendApply(param);
+    }
+
+    @Override
+    public Observable<BaseJson> agreeOrRejectAdd(int friendUserId, int msgId, int type) {
+        Map<String, Object> param = new NetParam()
+                .put("friendUserId", friendUserId)
+                .put("msgId", msgId)
+                .put("type", type)
+                .put("v", "2.0.0")
+                .build();
+        return mRepositoryManager
+                .obtainRetrofitService(PersonalCardService.class)
+                .agreeOrRejectAdd(param);
+    }
+
+    @Override
+    public Observable<BaseJson> setFriendComment(int friendUserId, String comment) {
+        Map<String, Object> param = new NetParam()
+                .put("friendUserId", friendUserId)
+                .put("comment", comment)
+                .put("v", "2.0.0")
+                .build();
+        return mRepositoryManager
+                .obtainRetrofitService(PersonalCardService.class)
+                .setFriendComment(param);
+    }
+
+    @Override
+    public Observable<BaseJson> setFriendAvatar(int friendUserId, String avatarUrl) {
+        Map<String, Object> param = new NetParam()
+                .put("friendUserId", friendUserId)
+                .put("avatarUrl", avatarUrl)
+                .put("v", "2.0.0")
+                .build();
+        return mRepositoryManager
+                .obtainRetrofitService(PersonalCardService.class)
+                .setFriendAvatar(param);
+    }
+
+    @Override
+    public Observable<BaseJson> deleteFriend(int friendUserId) {
+        Map<String, Object> param = new NetParam()
+                .put("friendUserId", friendUserId)
+                .put("v", "2.0.0")
+                .build();
+        return mRepositoryManager
+                .obtainRetrofitService(PersonalCardService.class)
+                .deleteFriend(param);
+    }
+
+    /**
+     * 屏蔽或者取消屏蔽拉黑用户
+     * @param blackUserId 用户ID
+     * @param black 是否拉黑 (类型 1:拉黑 2：取消拉黑)
+     */
+    @Override
+    public Observable<BaseJson> changeMyBlack(int blackUserId, boolean black) {
+        Map<String, Object> param = new NetParam()
+                .put("blackUserId", blackUserId)
+                .put("type", black ? "1" : "2")
+                .put("v", "2.0.0")
+                .build();
+        return mRepositoryManager
+                .obtainRetrofitService(PersonalCardService.class)
+                .changeMyBlack(param);
+    }
+
 
 }

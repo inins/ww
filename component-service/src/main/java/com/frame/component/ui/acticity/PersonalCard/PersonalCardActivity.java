@@ -6,18 +6,14 @@ import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.frame.component.helper.ImageLoaderHelper;
-import com.frame.component.helper.NetReadHelper;
 import com.frame.component.helper.NetReportHelper;
 import com.frame.component.service.R;
 import com.frame.component.service.R2;
@@ -36,12 +32,16 @@ import com.frame.component.ui.acticity.PersonalCard.ui.widget.DialogActionSheet;
 import com.frame.component.ui.acticity.PersonalCard.ui.widget.PWFriendMoreMenu;
 import com.frame.component.ui.acticity.tags.TagUtils;
 import com.frame.component.ui.base.BaseAppActivity;
+import com.frame.component.ui.dialog.DialogSure;
 import com.frame.component.view.GradualImageView;
 import com.frame.di.component.AppComponent;
-import com.frame.utils.SizeUtils;
+import com.frame.entities.EventBean;
 import com.frame.utils.StatusBarUtil;
 import com.frame.utils.TimeUtils;
+import com.frame.utils.ToastUtil;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -162,7 +162,8 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
 
         mUserId = getIntent().getIntExtra("userid", -1);
 //        mUserId = 10001;
-        mType = getIntent().getIntExtra("type", TYPE_UNKNOWN);
+        // 默认为浏览用户信息模式
+        mType = getIntent().getIntExtra("type", TYPE_BROWS);
 
         mBackGIV.setDrawable(R.drawable.common_ic_back_white, R.drawable.common_ic_back);
         mBackGIV.setOnClickListener(new View.OnClickListener() {
@@ -257,9 +258,9 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
         dismissLoadingDialog();
     }
 
-    private void setBottomButtonBg(int resid) {
-        mBottomMiddleTV.setBackgroundResource(resid);
-        mBottomRightTV.setBackgroundResource(resid);
+    @Override
+    public void toastLong(String msg) {
+        ToastUtil.showToastLong(msg);
     }
 
     /**
@@ -314,8 +315,38 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
         // 签名
         mSignTV.setText(personalInfo.getAutograph());
 
+        resetViewWithRelationship(personalInfo);
 
+        // 显示
+        mGenderLayout.setVisibility(View.VISIBLE);
+        mXingZuoTV.setVisibility(View.VISIBLE);
+        mTabLayout.setVisibility(View.VISIBLE);
+
+        // 加载用户数据统计
+        mPresenter.loadUserStatistics(mUserId);
+    }
+
+    /**
+     * 设置底部按钮背景
+     * @param resid 背景资源
+     */
+    private void setBottomButtonBg(int resid) {
+        mBottomMiddleTV.setBackgroundResource(resid);
+        mBottomRightTV.setBackgroundResource(resid);
+    }
+
+    /**
+     * 根据好友关系来重置相关UI
+     */
+    private void resetViewWithRelationship(PersonalInfo personalInfo) {
+        // 底部栏可见
         mBottomLayout.setVisibility(View.VISIBLE);
+
+        // 先隐藏全部按钮
+        mBottomLeftTV.setVisibility(View.GONE);
+        mBottomMiddleTV.setVisibility(View.GONE);
+        mBottomRightTV.setVisibility(View.GONE);
+
         // 是否是好友
         if (personalInfo.getIsFriend() > 0) {
             // 已经是好友了，底部显示 开始聊天
@@ -339,14 +370,6 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
         // 右上角显示
         showMoreLayout(personalInfo.getIsFriend() > 0);
         showReportTV(personalInfo.getIsFriend() <= 0);
-
-        // 显示
-        mGenderLayout.setVisibility(View.VISIBLE);
-        mXingZuoTV.setVisibility(View.VISIBLE);
-        mTabLayout.setVisibility(View.VISIBLE);
-
-        // 加载用户数据统计
-        mPresenter.loadUserStatistics(mUserId);
     }
 
 
@@ -399,6 +422,30 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
         initTabLayout();
     }
 
+    @Override
+    public void onDeleteFriendSuccess() {
+        toastLong("删除成功");
+
+        // 设置已经不是好友了
+        mPersonalInfo.setIsFriend(0);
+
+        // 重置界面
+        resetViewWithRelationship(mPersonalInfo);
+
+        EventBean eventBean = new EventBean(EventBean.EVENTBUS_FRIEND_DELETE);
+        eventBean.put("userid", mUserId);
+        EventBus.getDefault().post(eventBean);
+    }
+
+    @Override
+    public void onChangeMyBlackSuccess(boolean isBlack) {
+        toastLong("已拉黑");
+
+        EventBean eventBean = new EventBean(EventBean.EVENTBUS_FRIEND_ADD_BLACK_LIST);
+        eventBean.put("userid", mUserId);
+        EventBus.getDefault().post(eventBean);
+    }
+
     @OnClick(R2.id.report_text_view)
     public void report() {
         doReport();
@@ -415,13 +462,21 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
                 .setActionSheetListener(new DialogActionSheet.ActionSheetListener() {
                     @Override
                     public void onItemSelected(int position, String text) {
-                        NetReportHelper.newInstance().netReportPerson(PersonalCardActivity.this,
-                                mUserId, text, new NetReportHelper.OnReportCallback() {
-                            @Override
-                            public void success() {
-
-                            }
-                        });
+                        // 提示确认是否删除
+                        DialogSure.showDialog(PersonalCardActivity.this,
+                                "确定要举报该用户？",
+                                new DialogSure.OnSureCallback() {
+                                    @Override
+                                    public void onOkClick() {
+                                        NetReportHelper.newInstance().netReportPerson(PersonalCardActivity.this,
+                                                mUserId, text, new NetReportHelper.OnReportCallback() {
+                                                    @Override
+                                                    public void success() {
+                                                        ToastUtil.showToastShort("举报成功");
+                                                    }
+                                                });
+                                    }
+                                });
                     }
                 });
     }
@@ -435,7 +490,6 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
             mPWFriendMoreMenu.setCallback(new PWFriendMoreMenu.FriendMoreMenuCallback() {
                 @Override
                 public void onSetRemark() {
-
                 }
 
                 @Override
@@ -450,12 +504,26 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
 
                 @Override
                 public void onDeleteFriend() {
-
+                    DialogSure.showDialog(PersonalCardActivity.this,
+                            "确认删除好友？",
+                            new DialogSure.OnSureCallback() {
+                                @Override
+                                public void onOkClick() {
+                                    mPresenter.deleteFriend(mUserId);
+                                }
+                            });
                 }
 
                 @Override
                 public void onAddBlackList() {
-
+                    DialogSure.showDialog(PersonalCardActivity.this,
+                            "",
+                            new DialogSure.OnSureCallback() {
+                                @Override
+                                public void onOkClick() {
+                                    mPresenter.changeMyBlack(mUserId, true);
+                                }
+                            });
                 }
             });
         }

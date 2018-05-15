@@ -47,6 +47,11 @@ public class PersonalCardPresenter extends
                 });
     }
 
+    /**
+     * 用户信息
+     *
+     * @param userId 用户id
+     */
     public void loadUserInfoAndPhotos(int userId) {
         mApiHelper.execute(mRootView,
                 mModel.getUserInfoAndPhotos(userId),
@@ -54,6 +59,82 @@ public class PersonalCardPresenter extends
                     @Override
                     public void onNext(PersonalInfo userInfo) {
                         mRootView.onLoadUserInfoSuccess(userInfo);
+                    }
+                },
+                new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                        mRootView.showLoading();
+                    }
+                },
+                new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mRootView.hideLoading();
+                    }
+                });
+    }
+
+    /**
+     * 删除好友关系
+     *
+     * @param friendUserId 用户id
+     */
+    public void deleteFriend(int friendUserId) {
+        mApiHelper.executeForData(mRootView,
+                mModel.deleteFriend(friendUserId),
+                new ErrorHandleSubscriber() {
+                    @Override
+                    public void onNext(Object o) {
+                        mRootView.onDeleteFriendSuccess();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mRootView.toastLong(e.getMessage());
+                    }
+                });
+    }
+
+    /**
+     * 拉黑或取消拉黑
+     * @param blackUserId 用户id
+     * @param black 是否拉黑
+     */
+    public void changeMyBlack(int blackUserId, boolean black) {
+        mApiHelper.executeForData(mRootView,
+                mModel.changeMyBlack(blackUserId, black),
+                new ErrorHandleSubscriber() {
+                    @Override
+                    public void onNext(Object o) {
+                        mRootView.onChangeMyBlackSuccess(!black);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mRootView.toastLong(e.getMessage());
+                    }
+                });
+    }
+
+    /**
+     * 申请添加好友
+     *
+     * @param addUserId
+     * @param reason
+     */
+    public void addFirendApply(int addUserId, String reason) {
+        mApiHelper.executeForData(mRootView,
+                mModel.addFriendApply(addUserId, reason),
+                new ErrorHandleSubscriber() {
+                    @Override
+                    public void onNext(Object o) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mRootView.toastLong(e.getMessage());
                     }
                 },
                 new Consumer<Disposable>() {

@@ -121,7 +121,7 @@ public class DialogCreateGame extends DialogFragment {
 //                }
 //
 //                if(time > MAX_TIME) {
-//                    ToastUtil.showToastLong(String.format("游戏时间不超过%1d分钟", MAX_TIME));
+//                    ToastUtil.toastLong(String.format("游戏时间不超过%1d分钟", MAX_TIME));
 //                    setTimeText(MAX_TIME);
 //                }
 //            }
@@ -148,7 +148,7 @@ public class DialogCreateGame extends DialogFragment {
 //                }
 //
 //                if(number < MIN_NUM) {
-//                    ToastUtil.showToastLong(String.format("游戏人数最低%1d人", MIN_NUM));
+//                    ToastUtil.toastLong(String.format("游戏人数最低%1d人", MIN_NUM));
 //                    setNumberText(MIN_NUM);
 //                }
 //            }

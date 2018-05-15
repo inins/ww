@@ -1,7 +1,10 @@
 package com.frame.component.ui.acticity.PersonalCard.contract;
 
 import com.frame.component.ui.acticity.PersonalCard.model.entities.DTO.FriendListDTO;
+import com.frame.component.ui.acticity.PersonalCard.model.entities.DTO.SearchUserInfoDTO;
+import com.frame.component.ui.acticity.PersonalCard.model.entities.PersonalInfo;
 import com.frame.http.api.BaseJson;
+import com.frame.http.api.PageListDTO;
 import com.frame.mvp.IModel;
 import com.frame.mvp.IView;
 
@@ -21,5 +24,15 @@ public interface FriendListContract {
          * @param size 每页条数
          */
         Observable<BaseJson<FriendListDTO>> getUserFriendList(int otherUserId, int current, int size);
+
+        /**
+         * 根据关键字、标签和手机号搜索用户
+         * @param key 关键字
+         * @param phone 手机号码
+         * @param size 每页条数
+         * @param current 当前页码
+         */
+        Observable<BaseJson<PageListDTO<SearchUserInfoDTO, PersonalInfo>>> searchUser(String key, String phone,
+                                                                                      int current, int size);
     }
 }
