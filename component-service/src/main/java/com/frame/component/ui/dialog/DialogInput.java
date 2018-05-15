@@ -1,4 +1,4 @@
-package com.wang.social.personal.mvp.ui.dialog;
+package com.frame.component.ui.dialog;
 
 import android.content.Context;
 import android.text.InputFilter;
@@ -6,9 +6,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.frame.component.ui.dialog.BaseDialogOkCancel;
-import com.wang.social.personal.R;
-import com.wang.social.personal.R2;
+import com.frame.component.service.R;
+import com.frame.component.service.R2;
 import com.frame.component.utils.viewutils.EditTextUtil;
 
 import butterknife.BindView;
@@ -30,23 +29,23 @@ public class DialogInput extends BaseDialogOkCancel {
     private String hint;
 
     public static DialogInput newDialogName(Context context) {
-        DialogInput dialogInput = new DialogInput(context, context.getResources().getString(R.string.personal_medetail_dialog_inputname_title)
-                , context.getResources().getString(R.string.personal_medetail_dialog_inputname_note)
-                , context.getResources().getString(R.string.personal_medetail_dialog_inputname_hint));
+        DialogInput dialogInput = new DialogInput(context, context.getResources().getString(R.string.dialog_inputname_title)
+                , context.getResources().getString(R.string.dialog_inputname_note)
+                , context.getResources().getString(R.string.dialog_inputname_hint));
         dialogInput.editInput.setFilters(new InputFilter[]{new InputFilter.LengthFilter(12)});
         return dialogInput;
     }
 
     public static DialogInput newDialogSign(Context context) {
-        DialogInput dialogInput = new DialogInput(context, context.getResources().getString(R.string.personal_medetail_dialog_inputsign_title)
-                , context.getResources().getString(R.string.personal_medetail_dialog_inputsign_note)
-                , context.getResources().getString(R.string.personal_medetail_dialog_inputsign_hint));
+        DialogInput dialogInput = new DialogInput(context, context.getResources().getString(R.string.dialog_inputsign_title)
+                , context.getResources().getString(R.string.dialog_inputsign_note)
+                , context.getResources().getString(R.string.dialog_inputsign_hint));
         dialogInput.editInput.setFilters(new InputFilter[]{new InputFilter.LengthFilter(15)});
         return dialogInput;
     }
 
     private DialogInput(Context context, String title, String note, String hint) {
-        super(context, "取消", "修改");
+        super(context, "personal_ic_pay_cancle", "修改");
         this.title = title;
         this.note = note;
         this.hint = hint;
@@ -54,7 +53,7 @@ public class DialogInput extends BaseDialogOkCancel {
 
     @Override
     protected int getContentView() {
-        return R.layout.personal_lay_dialog_input;
+        return R.layout.dialog_lay_dialog_input;
     }
 
     @Override

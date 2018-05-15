@@ -57,7 +57,7 @@
                 app:personal_textNote="@string/personal_account_deposit_note"
                 app:personal_textTitle="@string/personal_account_deposit_title" />
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -77,16 +77,16 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="20dp"
+                    android:layout_gravity="center"
                     android:gravity="center"
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/text_diamond"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/common_numfont"
-                        android:text="1600"
+                        android:text="0"
                         android:textColor="@color/common_white"
                         android:textSize="50sp" />
 
@@ -106,10 +106,11 @@
                         android:textSize="30sp" />
 
                     <TextView
+                        android:id="@+id/text_money"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/common_numfont"
-                        android:text="16"
+                        android:text="0"
                         android:textColor="@color/common_white"
                         android:textSize="50sp" />
 
@@ -127,7 +128,7 @@
 
                 <Space style="@style/common_Space_V" />
 
-            </LinearLayout>
+            </FrameLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -138,12 +139,12 @@
                 android:textSize="16sp" />
 
             <EditText
-                android:id="@+id/edit_phone"
+                android:id="@+id/edit_money"
                 style="@style/personal_EditNone"
                 android:layout_height="33dp"
                 android:gravity="bottom"
                 android:hint="@string/personal_account_deposit_amount_hint"
-                android:inputType="phone"
+                android:inputType="numberSigned"
                 android:paddingBottom="5dp"
                 android:paddingLeft="0dp" />
 
@@ -166,6 +167,7 @@
                 android:textSize="16sp" />
 
             <EditText
+                android:id="@+id/edit_aliaccount"
                 style="@style/personal_EditNone"
                 android:layout_height="33dp"
                 android:gravity="bottom"
@@ -185,6 +187,7 @@
                 android:textSize="16sp" />
 
             <EditText
+                android:id="@+id/edit_realname"
                 style="@style/personal_EditNone"
                 android:layout_height="33dp"
                 android:gravity="bottom"
@@ -196,16 +199,16 @@
             <View style="@style/common_Line_H" />
 
             <TextView
-                android:id="@+id/btn_recharge"
+                android:id="@+id/btn_go"
                 android:layout_width="230dp"
                 android:layout_height="36dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="40dp"
-                android:background="@drawable/common_shape_rect_gradient_blue_conerfull"
+                android:background="@drawable/common_enable_gradient_bluewhite_conerfull"
                 android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
                 android:onClick="onClick"
-                android:text="@string/personal_account_btn_recharge"
+                android:text="@string/personal_account_deposit_submit"
                 android:textColor="@color/common_white"
                 android:textSize="16sp" />
 

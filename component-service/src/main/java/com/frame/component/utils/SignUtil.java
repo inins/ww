@@ -96,18 +96,5 @@ public class SignUtil {
         return list;
     }
 
-    private static boolean isWeixinAvilible(Context context) {
-        final PackageManager packageManager = context.getPackageManager();//
-        List<PackageInfo> pinfo = packageManager.getInstalledPackages(0);//
-        if (pinfo != null) {
-            for (int i = 0; i < pinfo.size(); i++) {
-                String pn = pinfo.get(i).packageName;
-                if (pn.equals("com.tencent.mm")) {
-                    return true;
-                }
-            }
-        }
 
-        return false;
-    }
 }

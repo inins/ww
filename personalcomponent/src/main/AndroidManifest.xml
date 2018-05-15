@@ -12,6 +12,13 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+    <!--微信支付-->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
     <application
         android:allowBackup="true"
         android:label="@string/personal_app_name"
@@ -22,6 +29,14 @@
         <meta-data
             android:name="com.wang.social.personal.app.PersonalGlobalConfiguration"
             android:value="ConfigModule" />
+
+        <receiver
+            android:name="com.dongdongkeji.wangwangsocial.wxapi.AppRegister"
+            android:permission="com.tencent.mm.plugin.permission.SEND">
+            <intent-filter>
+                <action android:name="com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP" />
+            </intent-filter>
+        </receiver>
 
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
@@ -37,6 +52,11 @@
             android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize|stateHidden" >
         </activity>
+        <activity
+            android:name="com.dongdongkeji.wangwangsocial.wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:theme="@style/common_AppDialogStyle"
+            android:launchMode="singleTask" />
 
         <activity android:name=".mvp.ui.activity.MeDetailActivity" />
         <activity android:name=".mvp.ui.activity.MePhotoActivity" />

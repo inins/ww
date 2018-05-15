@@ -16,4 +16,11 @@
     <string name="tags_confirm">确定</string>
     <string name="tags_all">大量知识</string>
     <string name="com_text_length_format">最多输入%d个字</string>
+
+    <string name="dialog_inputsign_title">输入个性签名</string>
+    <string name="dialog_inputsign_note">最多输入15个字</string>
+    <string name="dialog_inputsign_hint">请输入个性签名</string>
+    <string name="dialog_inputname_title">输入新昵称</string>
+    <string name="dialog_inputname_note">最多输入12个字</string>
+    <string name="dialog_inputname_hint">输入新昵称</string>
 </resources>

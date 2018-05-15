@@ -123,7 +123,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal|bottom"
                     android:layout_margin="7dp"
-                    android:text="可提现钻石：750"
+                    android:text="价值：750.50 元"
                     android:textColor="@color/common_text_dark_light"
                     android:textSize="@dimen/personal_text_nomal" />
 

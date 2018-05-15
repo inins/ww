@@ -27,7 +27,7 @@
 
     <EditText
         android:id="@+id/edit_input"
-        style="@style/personal_EditNone"
+        style="@style/common_EditNone"
         android:layout_height="33dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"

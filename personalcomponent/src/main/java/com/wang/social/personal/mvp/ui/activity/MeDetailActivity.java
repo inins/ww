@@ -34,7 +34,7 @@ import com.wang.social.personal.mvp.presonter.MeDetailPresonter;
 import com.wang.social.personal.mvp.ui.dialog.DialogAddressPicker;
 import com.wang.social.personal.mvp.ui.dialog.DialogBottomGender;
 import com.wang.social.personal.mvp.ui.dialog.DialogDatePicker;
-import com.wang.social.personal.mvp.ui.dialog.DialogInput;
+import com.frame.component.ui.dialog.DialogInput;
 
 import javax.inject.Inject;
 

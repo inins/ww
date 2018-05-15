@@ -24,140 +24,38 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.widget.NestedScrollView
+    <com.liaoinstan.springview.widget.SpringView
+        android:id="@+id/spring"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp">
+            android:fillViewport="true">
 
-            <com.frame.component.view.TitleView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:personal_textNote="@string/personal_account_recharge_note"
-                app:personal_textTitle="@string/personal_account_recharge_title" />
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
 
-            <com.frame.component.view.AutoFitGridLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="20dp"
-                app:columnCount="2"
-                app:horizontalSpace="15dp"
-                app:verticalSpace="15dp">
-
-                <LinearLayout
+                <com.frame.component.view.TitleView
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:background="@drawable/personal_shape_rect_gradient_blue_coner"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    app:personal_textNote="@string/personal_account_recharge_note"
+                    app:personal_textTitle="@string/personal_account_recharge_title" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="210钻值"
-                        android:textColor="@color/common_white"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="¥ 3"
-                        android:textColor="@color/common_white"
-                        android:textSize="13sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:background="@drawable/personal_shape_rect_gradient_blue_coner"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/personal_recharge_hot"
-                        android:drawablePadding="5dp"
-                        android:text="840钻值"
-                        android:textColor="@color/common_white"
-                        android:textSize="16sp" />
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="¥ 12"
-                        android:textColor="@color/common_white"
-                        android:textSize="13sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:background="@drawable/personal_shape_rect_gradient_blue_coner"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="2100钻值"
-                        android:textColor="@color/common_white"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="¥ 30"
-                        android:textColor="@color/common_white"
-                        android:textSize="13sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:background="@drawable/personal_shape_rect_gradient_blue_coner"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="6160钻值"
-                        android:textColor="@color/common_white"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="¥ 88"
-                        android:textColor="@color/common_white"
-                        android:textSize="13sp" />
-
-                </LinearLayout>
-
-            </com.frame.component.view.AutoFitGridLayout>
-
-        </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </com.liaoinstan.springview.widget.SpringView>
 </android.support.design.widget.CoordinatorLayout>

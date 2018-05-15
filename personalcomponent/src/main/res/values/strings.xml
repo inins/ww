@@ -92,6 +92,7 @@
     <string name="personal_account_note">钻石可用于查看付费内容/参与游戏</string>
     <string name="personal_account_diamond_left">钻石数：</string>
     <string name="personal_account_diamond_right">兑换宝石</string>
+    <string name="personal_account_diamond_deposible">价值：</string>
     <string name="personal_account_stone_left">宝石数：</string>
     <string name="personal_account_stone_about">宝石相关</string>
     <string name="personal_account_btn_recharge">充值</string>
@@ -141,6 +142,8 @@
     <!--我的账户充值页面-->
     <string name="personal_account_recharge_title">充值</string>
     <string name="personal_account_recharge_note">钻石充值后仅能于本产品中使用</string>
+    <string name="personal_account_recharge_payway_ali">支付宝支付</string>
+    <string name="personal_account_recharge_payway_wx">微信支付</string>
 
     <!--好友黑名单页面-->
     <string name="personal_blacklist_title">好友黑名单</string>
@@ -216,4 +219,10 @@
     <string name="personal_represent_diamond">您已获得的钻石</string>
     <string name="personal_represent_user">下线用户</string>
     <string name="personal_represent_item_diamond">回馈钻石</string>
+
+    <!--支付结果页面-->
+    <string name="personal_account_payresult_cancel">充值取消!</string>
+    <string name="personal_account_payresult_success">充值成功!</string>
+    <string name="personal_account_payresult_faild">充值失败!</string>
+    <string name="personal_account_payresult_ok">知道了</string>
 </resources>

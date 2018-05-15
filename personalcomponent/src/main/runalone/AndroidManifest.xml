@@ -20,8 +20,8 @@
         android:label="@string/personal_app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        tools:replace="android:label"
-        android:theme="@style/common_AppTheme">
+        android:theme="@style/common_AppTheme"
+        tools:replace="android:label">
 
         <!-- Meta Data -->
         <meta-data
@@ -31,20 +31,31 @@
             android:name="com.wang.social.personal.app.PersonalGlobalConfiguration"
             android:value="ConfigModule" />
 
+        <receiver
+            android:name="com.dongdongkeji.wangwangsocial.wxapi.AppRegister"
+            android:permission="com.tencent.mm.plugin.permission.SEND">
+            <intent-filter>
+                <action android:name="com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP" />
+            </intent-filter>
+        </receiver>
+
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden" >
-        </activity>
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
         <activity
             android:name="com.alipay.sdk.app.H5AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden" >
-        </activity>
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+        <activity
+            android:name="com.dongdongkeji.wangwangsocial.wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:theme="@style/common_AppDialogStyle" />
 
         <activity android:name="com.wang.social.personal.ui.MainActivity">
             <intent-filter>
