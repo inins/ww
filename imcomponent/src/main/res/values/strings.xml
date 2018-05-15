@@ -59,4 +59,14 @@
 
     <string name="im_toast_revoke_timeout">发送时间超过2分钟，不能被撤回</string>
     <string name="im_toast_contact_permission">请打开通讯录读取权限</string>
+
+
+
+
+    <string name="im_personal_card_more_menu_set_remark">设置备注</string>
+    <string name="im_personal_card_more_menu_set_avatar">设置头像</string>
+    <string name="im_personal_card_more_menu_report">举报</string>
+    <string name="im_personal_card_more_menu_delete">删除</string>
+    <string name="im_personal_card_more_menu_add_black_list">加入黑名单</string>
+    <string name="im_personal_card_refuse">拒绝</string>
 </resources>

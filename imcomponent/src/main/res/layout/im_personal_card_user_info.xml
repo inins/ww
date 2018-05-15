@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/bg_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/im_personal_card_bg_unknown"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/avatar_image_view"
+        android:layout_width="67dp"
+        android:layout_height="67dp"
+        android:layout_marginTop="?android:actionBarSize"
+        tools:src="@color/common_red_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bg_image_view"/>
+
+    <LinearLayout
+        android:id="@+id/info_layout"
+        android:layout_width="345dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/im_personal_card_rect_unknown"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/avatar_image_view">
+
+        <TextView
+            android:id="@+id/name_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="21dp"
+            android:textColor="#ff434343"
+            android:textSize="16sp"
+            tools:text="阳芷的阳光" />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="10dp">
+
+            <LinearLayout
+                android:id="@+id/gender_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingBottom="2dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="2dp"
+                android:background="@drawable/common_shape_rect_redgray_conerfull"
+                android:visibility="invisible"
+                tools:visibility="visible">
+
+
+                <ImageView
+                    android:id="@+id/gender_image_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/common_ic_women" />
+
+                <TextView
+                    android:id="@+id/property_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:textColor="#ffffffff"
+                    android:textSize="12sp"
+                    tools:text="00后" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/xingzuo_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/common_shape_rect_dark_conerfull"
+                android:gravity="center"
+                android:layout_marginStart="12dp"
+                android:paddingBottom="2dp"
+                android:paddingLeft="6dp"
+                android:paddingRight="6dp"
+                android:paddingTop="2dp"
+                android:textColor="@color/common_white"
+                android:textSize="12sp"
+                android:visibility="invisible"
+                tools:visibility="visible"
+                tools:text="天秤座" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tags_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="44dp"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="10dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@color/common_text_dark"
+            android:textSize="12sp"
+            tools:text="#青春小说 #电子竞技 #深夜食堂 #人工智能 #青春小说 #电子竞技 #深夜食堂 #人工智能 " />
+
+        <TextView
+            android:id="@+id/sign_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="26dp"
+            android:layout_marginEnd="44dp"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/common_text_blank"
+            android:textSize="14sp"
+            tools:text="签名：那些你忘记的事儿我都替你记着呢那些你忘记的事儿我都替你记着呢那些你忘记的事儿我都替你记着呢那些你忘记的事儿我都替你记着呢那些你忘记的事儿我都替你记着呢我都替你记着呢那些你忘记的事儿我都替你记着呢那些你忘记的事儿我都替你记着呢那些你忘记的事儿我都替你记着呢" />
+
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>

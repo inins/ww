@@ -166,6 +166,9 @@
             android:exported="true" />
         <activity android:name=".mvp.ui.HappyWoodActivity" />
         <activity android:name=".mvp.ui.ShareListActivity"></activity>
+
+        <activity android:name=".mvp.ui.PersonalCard.PersonalCardActivity">
+        </activity>
     </application>
 
 </manifest>

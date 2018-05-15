@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.EditText;
 
 import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.NetLoginTestHelper;
@@ -14,10 +15,13 @@ import com.wang.social.im.R;
 import com.wang.social.im.helper.FriendShipHelper;
 import com.wang.social.im.helper.GroupHelper;
 import com.wang.social.im.mvp.model.entities.GroupProfile;
+import com.wang.social.im.mvp.ui.PersonalCard.PersonalCardActivity;
 import com.wang.social.im.mvp.ui.SearchActivity;
 
 public class MainActivity extends AppCompatActivity {
 
+    private EditText mUserIdET;
+    private int mUserId = 10001;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +64,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         findViewById(R.id.search).setOnClickListener(v -> SearchActivity.start(this));
+
+        mUserIdET = findViewById(R.id.user_id_edit_text);
+        mUserIdET.setText("10001");
+        try {
+            mUserId = Integer.parseInt(mUserIdET.getText().toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        findViewById(R.id.personal_card)
+                .setOnClickListener(v -> PersonalCardActivity.start(this, mUserId));
+
+        findViewById(R.id.search_button)
+                .setOnClickListener(v -> SearchActivity.start(this));
+
     }
 
     @Override
