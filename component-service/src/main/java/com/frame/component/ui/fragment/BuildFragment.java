@@ -1,12 +1,12 @@
-package com.wang.social.mvp.ui.fragment;
+package com.frame.component.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.frame.base.BasicFragment;
+import com.frame.component.service.R;
 import com.frame.di.component.AppComponent;
-import com.wang.social.R;
 
 /**
  * 建设中 fragment 占位

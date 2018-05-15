@@ -15,7 +15,7 @@ import com.frame.component.service.R2;
 import com.frame.component.ui.acticity.PersonalCard.model.api.PersonalCardService;
 import com.frame.component.ui.acticity.PersonalCard.model.entities.DTO.TalkBeanDTO;
 import com.frame.component.ui.acticity.PersonalCard.ui.adapter.TopicListAdapter;
-import com.frame.component.ui.adapter.RecycleAdapterMeFunshow;
+import com.frame.component.ui.adapter.RecycleAdapterCommonFunshow;
 import com.frame.di.component.AppComponent;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.BaseJson;
@@ -55,7 +55,7 @@ public class TalkListFragment extends BasicFragment implements IView {
     SpringView mSpringView;
     @BindView(R2.id.recycler_view)
     RecyclerView mRecyclerView;
-    private RecycleAdapterMeFunshow mAdapter;
+    private RecycleAdapterCommonFunshow mAdapter;
 
     private ApiHelper mApiHelper = new ApiHelper();
     private IRepositoryManager mRepositoryManager;
@@ -84,7 +84,7 @@ public class TalkListFragment extends BasicFragment implements IView {
             mUserId = getArguments().getInt("userid");
         }
 
-        mAdapter = new RecycleAdapterMeFunshow();
+        mAdapter = new RecycleAdapterCommonFunshow();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(mAdapter);
 

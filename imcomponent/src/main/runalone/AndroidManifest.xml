@@ -157,6 +157,7 @@
             android:name=".mvp.ui.NewUsersActivity"
             android:exported="true" />
         <activity android:name=".mvp.ui.SocialLimitActivity" />
+        <activity android:name=".mvp.ui.SearchActivity" />
         <activity
             android:name=".mvp.ui.InviteFriendActivity"
             android:exported="true" />

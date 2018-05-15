@@ -1,17 +1,27 @@
 package com.wang.social.im.mvp.ui;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
 import com.frame.base.BasicActivity;
+import com.frame.component.ui.fragment.BuildFragment;
 import com.frame.component.view.ConerEditText;
+import com.frame.component.view.LoadingLayout;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
+import com.frame.utils.KeyboardUtils;
+import com.frame.utils.ToastUtil;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 import butterknife.BindView;
@@ -19,21 +29,26 @@ import butterknife.BindView;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 
+import org.greenrobot.eventbus.EventBus;
+
 public class SearchActivity extends BasicActivity {
 
-
-    // 用户 趣聊 觅聊
-    @BindView(R2.id.smart_tab_layout)
-    SmartTabLayout mTabLayout;
-    @BindView(R2.id.view_pager)
-    ViewPager mViewPager;
-    // 输入框
+    @BindView(R2.id.loadingview)
+    LoadingLayout loadingview;
     @BindView(R2.id.edit_search)
-    ConerEditText mSearchET;
+    ConerEditText editSearch;
+    @BindView(R2.id.pager)
+    ViewPager pager;
+    @BindView(R2.id.tablayout)
+    SmartTabLayout tablayout;
+
+    public static void start(Context context) {
+        Intent intent = new Intent(context, SearchActivity.class);
+        context.startActivity(intent);
+    }
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
-
     }
 
     @Override
@@ -42,42 +57,54 @@ public class SearchActivity extends BasicActivity {
     }
 
     @Override
-    public void initData(@NonNull Bundle savedInstanceState) {mSearchET.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-        @Override
-        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-//                mTags = "";
-//                for (int i = 0; i < mSearchET.getTags().size(); i++) {
-//                    mTags += (i == 0 ? "" : ",") + mSearchET.getTags().get(i);
-//                }
-//                mKeyword = mSearchET.getKey();
-//
-//                // 清空搜索框
-////                    mSearchET.setText("");
-//                mSpringView.callFreshDelay();
-////                    mPresenter.searchTopic(mKeyword, mTags, true);
-            }
-
-            return false;
-        }
-    });
-
+    public void initData(@NonNull Bundle savedInstanceState) {
         initTabLayout();
+        editSearch.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                search();
+            }
+            return false;
+        });
+        loadingview.showLackView();
+        //延迟0.1秒后弹出软键盘
+        new Handler().postDelayed(() -> KeyboardUtils.showSoftInput(editSearch), 100);
     }
 
+    private void search() {
+        Log.e("text", "search");
+        String tags = editSearch.getTagsStr();
+        String key = editSearch.getKey();
+        if (!TextUtils.isEmpty(tags) || !TextUtils.isEmpty(key)) {
+            EventBean eventBean = new EventBean(EventBean.EVENT_APP_SEARCH);
+            eventBean.put("tags", tags);
+            eventBean.put("key", key);
+            EventBus.getDefault().post(eventBean);
+            loadingview.showOut();
+        } else {
+            ToastUtil.showToastShort("请输入搜索关键字");
+        }
+    }
 
-    private static String[] TAB_LAYOUT_TITLES = { "用户", "趣聊", "觅聊" };
+    @Override
+    public void finish() {
+        KeyboardUtils.hideSoftInput(this);
+        super.finish();
+    }
+
+    private static String[] TAB_LAYOUT_TITLES = {"用户", "趣聊", "觅聊"};
 
     private void initTabLayout() {
-        mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
+        pager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
                 switch (position) {
                     case 0:
+                        return BuildFragment.newInstance();
                     case 1:
+                        return BuildFragment.newInstance();
                     case 2:
+                        return BuildFragment.newInstance();
                 }
-
                 return null;
             }
 
@@ -91,6 +118,6 @@ public class SearchActivity extends BasicActivity {
                 return TAB_LAYOUT_TITLES[position];
             }
         });
-        mTabLayout.setViewPager(mViewPager);
+        tablayout.setViewPager(pager);
     }
 }
