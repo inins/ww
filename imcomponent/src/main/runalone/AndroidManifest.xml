@@ -164,7 +164,10 @@
             android:name=".mvp.ui.AlertUserListActivity"
             android:exported="true" />
         <activity android:name=".mvp.ui.HappyWoodActivity" />
-        <activity android:name=".mvp.ui.ShareListActivity"></activity>
+        <activity android:name=".mvp.ui.ShareListActivity" />
+        <activity
+            android:name=".mvp.ui.ScanActivity"
+            android:exported="true"></activity>
     </application>
 
 </manifest>

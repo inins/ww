@@ -68,6 +68,9 @@ dependencies {
     implementation rootProject.ext.dependencies["switch-button"]
     implementation rootProject.ext.dependencies["tablayout"]
     implementation rootProject.ext.dependencies["recyclerview-inidex"]
+    implementation 'com.google.zxing:core:3.3.0'
+    implementation 'cn.bingoogolapple:bga-qrcodecore:1.1.9@aar'
+    implementation 'cn.bingoogolapple:bga-zxing:1.1.9@aar'
     implementation project(':component-service')
     annotationProcessor project(':router-anno-compiler')
     implementation project(':pictureselectorcomponent')
