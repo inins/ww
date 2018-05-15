@@ -3,15 +3,11 @@ package com.wang.social.mvp.ui.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.view.ViewGroup;
 
 import com.frame.component.router.Router;
 import com.frame.component.service.funpoint.FunpointService;
 import com.frame.component.service.funshow.FunshowService;
-import com.frame.component.service.personal.PersonalService;
 import com.frame.component.service.topic.TopicService;
-import com.wang.social.mvp.ui.fragment.BuildFragment;
-import com.wang.social.mvp.ui.fragment.PlazaFragment;
 
 
 /**

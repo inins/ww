@@ -14,6 +14,7 @@ import com.frame.base.BaseAdapter;
 import com.frame.component.entities.funpoint.Funpoint;
 import com.frame.component.service.R2;
 import com.frame.component.ui.base.BasicAppActivity;
+import com.frame.component.ui.base.BasicAppNoDiActivity;
 import com.frame.component.view.ConerEditText;
 import com.frame.component.view.LoadingLayout;
 import com.frame.di.component.AppComponent;
@@ -31,7 +32,7 @@ import org.greenrobot.eventbus.EventBus;
 import butterknife.BindView;
 
 @RouteNode(path = "/search", desc = "搜索")
-public class SearchActivity extends BasicAppActivity implements IView, BaseAdapter.OnItemClickListener<Funpoint> {
+public class SearchActivity extends BasicAppNoDiActivity implements IView, BaseAdapter.OnItemClickListener<Funpoint> {
 
     @BindView(R.id.loadingview)
     LoadingLayout loadingview;
@@ -103,20 +104,6 @@ public class SearchActivity extends BasicAppActivity implements IView, BaseAdapt
     public void finish() {
         KeyboardUtils.hideSoftInput(this);
         super.finish();
-    }
-
-    @Override
-    public void setupActivityComponent(@NonNull AppComponent appComponent) {
-    }
-
-    @Override
-    public void showLoading() {
-        showLoadingDialog();
-    }
-
-    @Override
-    public void hideLoading() {
-        dismissLoadingDialog();
     }
 
 }

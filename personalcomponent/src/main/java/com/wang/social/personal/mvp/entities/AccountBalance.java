@@ -14,7 +14,7 @@ public class AccountBalance implements Serializable{
      * amountGemstone 宝石
      */
 
-    private int amount;
+    private float amount;
     private int userId;
     private int amountDiamond;
     private int amountGemstone;

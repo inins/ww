@@ -297,4 +297,30 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
             tag3TV = itemView.findViewById(R.id.topic_tag_3_text_view);
         }
     }
+
+
+    /**
+     * 获取数据集
+     */
+    public List<Topic> getResults() {
+        return mList;
+    }
+
+    /**
+     * 刷新数据
+     */
+    public void refreshData(List<Topic> valueList) {
+        mList.clear();
+        mList.addAll(valueList);
+        notifyDataSetChanged();
+    }
+
+    /**
+     * 添加数据
+     */
+    public void addItem(List<Topic> items) {
+        mList.addAll(items);
+        notifyItemInserted(this.mList.size() - items.size());
+        notifyItemRangeChanged(this.mList.size() - items.size(), this.mList.size() - 1);
+    }
 }

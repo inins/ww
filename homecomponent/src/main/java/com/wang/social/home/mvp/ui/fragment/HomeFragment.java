@@ -3,11 +3,19 @@ package com.wang.social.home.mvp.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 
+import com.app.hubert.guide.NewbieGuide;
+import com.app.hubert.guide.model.GuidePage;
+import com.app.hubert.guide.model.HighLight;
 import com.frame.base.BasicFragment;
+import com.frame.component.helper.GuidePageHelper;
 import com.frame.di.component.AppComponent;
 import com.frame.mvp.IView;
 import com.frame.utils.FocusUtil;
+import com.frame.utils.SizeUtils;
 import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
@@ -20,7 +28,11 @@ import com.wang.social.home.mvp.ui.controller.DetailBannerBoardController;
 import com.wang.social.home.mvp.ui.controller.HomeFunshowController;
 import com.wang.social.home.mvp.ui.controller.HomeNaviboardController;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
+
+import static com.app.hubert.guide.model.HighLight.Shape.ROUND_RECTANGLE;
 
 /**
  */
@@ -66,6 +78,17 @@ public class HomeFragment extends BasicFragment implements HomeContract.View {
                 contentController.loadmoreData();
             }
         });
+
+        NewbieGuide.with(this)
+                .setLabel("guide1")
+                .alwaysShow(true)
+                .addGuidePage(GuidePage.newInstance()
+                        .addHighLight(getView().findViewById(R.id.btn_samekind), ROUND_RECTANGLE, 30, 0)
+                        .addHighLight(getView().findViewById(R.id.btn_circle), ROUND_RECTANGLE, 30, 0)
+                        .setLayoutRes(R.layout.lay_guide_home)
+                        .setEnterAnimation(GuidePageHelper.getEnterAnimation())
+                        .setExitAnimation(GuidePageHelper.getExitAnimation()))
+                .show();
     }
 
     @Override

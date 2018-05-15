@@ -6,12 +6,13 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.frame.base.BaseAdapter;
 import com.frame.base.BasicFragment;
 import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.entities.funshow.FunshowBean;
+import com.frame.component.ui.adapter.RecycleAdapterCommonFunshow;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
@@ -25,7 +26,6 @@ import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
 import com.wang.social.personal.mvp.entities.funshow.FunshowMe;
 import com.wang.social.personal.mvp.model.api.UserService;
-import com.frame.component.ui.adapter.RecycleAdapterMeFunshow;
 
 import java.util.List;
 
@@ -41,7 +41,38 @@ public class MeFunshowFragment extends BasicFragment implements IView {
     @BindView(R2.id.spring)
     SpringView springView;
 
-    private RecycleAdapterMeFunshow adapter;
+    private RecycleAdapterCommonFunshow adapter;
+
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        switch (event.getEvent()) {
+            case EventBean.EVENT_FUNSHOW_UPDATE_ZAN: {
+                //在详情页点赞，收到通知刷新点赞状态及其点赞数量
+                int talkId = (int) event.get("talkId");
+                boolean isZan = (boolean) event.get("isZan");
+                int zanCount = (int) event.get("zanCount");
+                adapter.refreshZanById(talkId, isZan, zanCount);
+                break;
+            }
+            case EventBean.EVENT_FUNSHOW_DETAIL_ADD_EVA: {
+                //在详情页评论，收到通知刷新评论数量
+                int talkId = (int) event.get("talkId");
+                adapter.refreshCommentById(talkId);
+                break;
+            }
+            case EventBean.EVENT_FUNSHOW_DETAIL_ADD_SHARE: {
+                //在详情页分享，收到通知刷新分享数量
+                int talkId = (int) event.get("talkId");
+                adapter.refreshShareById(talkId);
+                break;
+            }
+        }
+    }
 
     public static MeFunshowFragment newInstance() {
         Bundle args = new Bundle();
@@ -57,7 +88,7 @@ public class MeFunshowFragment extends BasicFragment implements IView {
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        adapter = new RecycleAdapterMeFunshow();
+        adapter = new RecycleAdapterCommonFunshow();
         recycler.setNestedScrollingEnabled(false);
         recycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recycler.setAdapter(adapter);

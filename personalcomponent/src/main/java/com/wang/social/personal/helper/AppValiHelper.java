@@ -15,4 +15,16 @@ public class AppValiHelper {
             return null;
         }
     }
+
+    public static String deposit(int money, String account, String realName) {
+        if (money == 0) {
+            return "提现金额必须大于0";
+        } else if (TextUtils.isEmpty(account)) {
+            return "请输入支付宝账户";
+        } else if (TextUtils.isEmpty(realName)) {
+            return "请输入支付宝真实姓名";
+        } else {
+            return null;
+        }
+    }
 }

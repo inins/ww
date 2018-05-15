@@ -7,7 +7,8 @@
     <application
         android:name="com.frame.base.BaseApplication"
         android:allowBackup="true"
-        android:screenOrientation="portrait">
+        android:screenOrientation="portrait"
+        android:theme="@style/common_AppTheme">
 
         <meta-data
             android:name="com.wang.social.home.app.HomeGlobalConfiguration"

@@ -31,7 +31,7 @@ import com.frame.utils.ToastUtil;
 
 import butterknife.BindView;
 
-public class RecycleAdapterMeFunshow extends BaseAdapter<FunshowBean> {
+public class RecycleAdapterCommonFunshow extends BaseAdapter<FunshowBean> {
 
     @Override
     protected BaseViewHolder createViewHolder(Context context, ViewGroup parent, int viewType) {

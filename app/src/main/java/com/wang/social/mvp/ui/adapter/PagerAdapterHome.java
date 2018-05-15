@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import com.frame.component.router.Router;
 import com.frame.component.service.home.HomeService;
 import com.frame.component.service.personal.PersonalService;
-import com.wang.social.mvp.ui.fragment.BuildFragment;
+import com.frame.component.ui.fragment.BuildFragment;
 import com.wang.social.mvp.ui.fragment.PlazaFragment;
 
 
