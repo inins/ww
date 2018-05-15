@@ -31,8 +31,7 @@ import com.wang.social.im.R2;
 import com.wang.social.im.app.IMConstants;
 import com.wang.social.im.common.InputPositiveIntegerFilter;
 import com.wang.social.im.di.component.DaggerActivityComponent;
-import com.wang.social.im.mvp.model.SocialHomeModel;
-import com.wang.social.im.mvp.model.entities.SocialInfo;
+import com.wang.social.im.mvp.model.TeamHomeModel;
 import com.wang.social.im.mvp.model.entities.TeamInfo;
 
 import javax.inject.Inject;
@@ -117,7 +116,31 @@ public class TeamChargeSettingActivity extends BasicAppActivity {
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
-        gcsRbJoinFree.setChecked(true);
+        if (team != null) {
+            if (!team.isFree()) {
+                gcsRgJoin.check(gcsRbPayJoin.getId());
+
+                if (team.getJoinCost() == 100) {
+                    gcsRbGem100.setChecked(true);
+                } else if (team.getJoinCost() == 300) {
+                    gcsRbGem300.setChecked(true);
+                } else if (team.getJoinCost() == 500) {
+                    gcsRbGem500.setChecked(true);
+                } else {
+                    gcsEtGem.setText(String.valueOf(team.getJoinCost()));
+                }
+
+                gcsRbJoinFree.setEnabled(false);
+                gcsRbPayJoin.setEnabled(false);
+                gcsRbGem100.setEnabled(false);
+                gcsRbGem300.setEnabled(false);
+                gcsRbGem500.setEnabled(false);
+                gcsEtGem.setEnabled(false);
+            } else {
+                gcsRgJoin.check(gcsRbJoinFree.getId());
+            }
+            toggleGemInput();
+        }
     }
 
     @Override
@@ -140,6 +163,10 @@ public class TeamChargeSettingActivity extends BasicAppActivity {
                         onBackPressed();
                         break;
                     case RIGHT_TEXT:
+                        if (!gcsRbJoinFree.isEnabled()) {
+                            finish();
+                            return;
+                        }
                         if (!team.isFree()) {
                             if (team.getJoinCost() > IMConstants.SOCIAL_CHARGE_LIMIT_MAX || team.getJoinCost() < IMConstants.SOCIAL_CHARGE_LIMIT_MIN) {
                                 ToastUtil.showToastShort(UIUtil.getString(R.string.im_toast_social_gem_limit_tip));
@@ -234,33 +261,33 @@ public class TeamChargeSettingActivity extends BasicAppActivity {
     }
 
     private void updateChargeStatus() {
-//        new SocialHomeModel(mRepositoryManager)
-//                .updateSocialInfo(social)
-//                .subscribeOn(Schedulers.io())
-//                .doOnSubscribe(new Consumer<Disposable>() {
-//                    @Override
-//                    public void accept(Disposable disposable) throws Exception {
-//                        TeamChargeSettingActivity.this.disposable = disposable;
-//                        showLoadingDialog();
-//                    }
-//                })
-//                .subscribeOn(AndroidSchedulers.mainThread())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .doFinally(new Action() {
-//                    @Override
-//                    public void run() throws Exception {
-//                        dismissLoadingDialog();
-//                    }
-//                })
-//                .subscribe(new ErrorHandleSubscriber<BaseJson>() {
-//                    @Override
-//                    public void onNext(BaseJson baseJson) {
-//                        //修改完成
-//                        Intent intent = new Intent();
-//                        intent.putExtra(EXTRA_SOCIAL, team);
-//                        setResult(RESULT_OK, intent);
-//                        finish();
-//                    }
-//                });
+        new TeamHomeModel(mRepositoryManager)
+                .updateTeamInfo(team)
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe(new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                        TeamChargeSettingActivity.this.disposable = disposable;
+                        showLoadingDialog();
+                    }
+                })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doFinally(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        dismissLoadingDialog();
+                    }
+                })
+                .subscribe(new ErrorHandleSubscriber<BaseJson>() {
+                    @Override
+                    public void onNext(BaseJson baseJson) {
+                        //修改完成
+                        Intent intent = new Intent();
+                        intent.putExtra(EXTRA_TEAM, team);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
+                });
     }
 }

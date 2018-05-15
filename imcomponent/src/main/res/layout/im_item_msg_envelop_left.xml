@@ -61,7 +61,7 @@
 
         <TextView
             android:id="@+id/msg_tv_message"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:ellipsize="end"
@@ -76,12 +76,13 @@
 
         <TextView
             android:id="@+id/msg_tv_status"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textColor="#fefefe"
             android:textSize="11dp"
             app:layout_constraintBottom_toBottomOf="@id/msg_iv_diamond"
             app:layout_constraintLeft_toLeftOf="@id/msg_tv_message"
+            app:layout_constraintRight_toRightOf="@id/msg_tv_message"
             tools:text="领取红包" />
     </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>

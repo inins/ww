@@ -11,6 +11,9 @@ import com.frame.utils.ToastUtil;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMManager;
 import com.wang.social.im.R;
+import com.wang.social.im.helper.FriendShipHelper;
+import com.wang.social.im.helper.GroupHelper;
+import com.wang.social.im.mvp.model.entities.GroupProfile;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,12 +45,15 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onSuccess() {
-//                        Intent intent = new Intent(MainActivity.this, ConversationListActivity.class);
-//                        startActivity(intent);
-//                        finish();
-                        Intent intent = new Intent(MainActivity.this, GameConversationActivity.class);
+                        GroupHelper.getInstance();
+                        FriendShipHelper.getInstance();
+
+                        Intent intent = new Intent(MainActivity.this, ConversationListActivity.class);
                         startActivity(intent);
                         finish();
+//                        Intent intent = new Intent(MainActivity.this, GameConversationActivity.class);
+//                        startActivity(intent);
+//                        finish();
                     }
                 });
             }

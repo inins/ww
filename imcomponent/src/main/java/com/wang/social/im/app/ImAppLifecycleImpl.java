@@ -26,6 +26,7 @@ import com.tencent.imsdk.ext.sns.TIMFriendshipProxyListener;
 import com.tencent.imsdk.ext.sns.TIMUserConfigSnsExt;
 import com.wang.social.im.BuildConfig;
 import com.wang.social.im.enums.ConnectionStatus;
+import com.wang.social.im.helper.StickHelper;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -53,6 +54,9 @@ public class ImAppLifecycleImpl implements AppDelegate {
     public void onCreate(Application application) {
         //初始化IM相关配置，须在SDK登陆之前进行
         imSdkInit(application);
+
+        //将置顶列表初始化
+        StickHelper.getInstance();
     }
 
     @Override

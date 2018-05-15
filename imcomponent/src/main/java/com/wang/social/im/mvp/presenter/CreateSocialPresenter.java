@@ -138,7 +138,7 @@ public class CreateSocialPresenter extends BasePresenter<CreateSocialContract.Mo
                 new ErrorHandleSubscriber<CreateGroupResult>() {
                     @Override
                     public void onNext(CreateGroupResult createGroupResult) {
-
+                        mRootView.onCreateComplete(createGroupResult);
                     }
                 }, new Consumer<Disposable>() {
                     @Override

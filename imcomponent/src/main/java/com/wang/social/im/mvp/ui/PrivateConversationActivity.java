@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Gravity;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -146,8 +147,7 @@ public class PrivateConversationActivity extends BasicConversationActivity imple
             popupWindow.setItemClickListener(this);
         }
         if (!popupWindow.isShowing()) {
-            int showX = ScreenUtils.getScreenWidth() - getResources().getDimensionPixelSize(R.dimen.popup_auto_width) - SizeUtils.dp2px(5);
-            popupWindow.showAsDropDown(pcTvNickname, showX, -SizeUtils.dp2px(15));
+            popupWindow.showAsDropDown(pcTvNickname, 0, -SizeUtils.dp2px(5), Gravity.RIGHT);
         }
     }
 

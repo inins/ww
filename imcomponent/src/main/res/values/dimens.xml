@@ -22,7 +22,7 @@
     <dimen name="im_msg_handle_popup_width_narrow">50dp</dimen>
     <dimen name="im_msg_handle_popup_radius">3dp</dimen>
     <!--会话列表-->
-    <dimen name="im_cvs_portrait_size">38dp</dimen>
+    <dimen name="im_cvs_portrait_size">46dp</dimen>
     <dimen name="im_cvs_message_txt_size">11dp</dimen>
     <dimen name="im_cvs_unread_background_size">18dp</dimen>
     <!-- 红包 -->

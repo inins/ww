@@ -2,6 +2,8 @@ package com.wang.social.im.mvp.model.entities;
 
 import com.frame.component.entities.FriendInfo;
 
+import lombok.Getter;
+import lombok.Setter;
 import me.yokeyword.indexablerv.IndexableEntity;
 
 /**
@@ -11,6 +13,10 @@ import me.yokeyword.indexablerv.IndexableEntity;
  * ============================================
  */
 public class IndexFriendInfo extends FriendInfo implements IndexableEntity {
+
+    @Getter
+    @Setter
+    private boolean selected;
 
     @Override
     public String getFieldIndexBy() {

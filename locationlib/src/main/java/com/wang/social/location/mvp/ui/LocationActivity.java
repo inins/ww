@@ -98,12 +98,6 @@ public class LocationActivity extends BasicAppActivity implements LocationSource
     private LocationAdapter mAdapter;
     private int mPageNum = 1;
 
-    //FIXME:错误: 无法访问LocationSource，找不到com.amap.api.maps2d.LocationSource的类文件
-    public static void start(Context context) {
-        Intent intent = new Intent(context, LocationActivity.class);
-        context.startActivity(intent);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -418,6 +412,8 @@ public class LocationActivity extends BasicAppActivity implements LocationSource
                         locationInfo.setPlace(item.getTitle());
                         locationInfo.setAddress(item.getSnippet());
                         locationInfo.setAdCode(item.getAdCode());
+                        locationInfo.setLatitude(item.getLatLonPoint().getLatitude());
+                        locationInfo.setLongitude(item.getLatLonPoint().getLongitude());
                         locations.add(locationInfo);
                     }
                     if (refresh) {

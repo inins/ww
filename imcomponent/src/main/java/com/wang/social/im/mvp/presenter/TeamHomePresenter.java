@@ -1,7 +1,9 @@
 package com.wang.social.im.mvp.presenter;
 
 import com.frame.di.scope.ActivityScope;
+import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
+import com.frame.utils.ToastUtil;
 import com.wang.social.im.mvp.contract.TeamHomeContract;
 import com.wang.social.im.mvp.model.entities.TeamInfo;
 
@@ -18,7 +20,7 @@ import io.reactivex.functions.Consumer;
  * ============================================
  */
 @ActivityScope
-public class TeamHomePresenter extends GroupPresenter<TeamHomeContract.Model, TeamHomeContract.View>{
+public class TeamHomePresenter extends GroupPresenter<TeamHomeContract.Model, TeamHomeContract.View> {
 
     @Inject
     public TeamHomePresenter(TeamHomeContract.Model model, TeamHomeContract.View view) {
@@ -27,14 +29,51 @@ public class TeamHomePresenter extends GroupPresenter<TeamHomeContract.Model, Te
 
     /**
      * 获取觅聊详情
+     *
      * @param teamId
      */
-    public void getTeamInfo(String teamId){
+    public void getTeamInfo(String teamId) {
         mApiHelper.execute(mRootView, mModel.getTeamInfo(teamId),
                 new ErrorHandleSubscriber<TeamInfo>(mErrorHandler) {
                     @Override
                     public void onNext(TeamInfo teamInfo) {
                         mRootView.showTeamInfo(teamInfo);
+                    }
+                }, new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                        mRootView.showLoading();
+                    }
+                }, new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mRootView.hideLoading();
+                    }
+                });
+    }
+
+    public void getSelfProfile(String teamId) {
+        mApiHelper.execute(mRootView, mModel.getSelfProfile(teamId),
+                new ErrorHandleSubscriber<TeamInfo>(mErrorHandler) {
+                    @Override
+                    public void onNext(TeamInfo teamInfo) {
+                        if (teamInfo.getSelfProfile() != null) {
+                            mRootView.showProfile(teamInfo.getSelfProfile());
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 修改觅聊信息
+     *
+     * @param teamInfo
+     */
+    public void updateTeamInfo(TeamInfo teamInfo) {
+        mApiHelper.executeNone(mRootView, mModel.updateTeamInfo(teamInfo)
+                , new ErrorHandleSubscriber<BaseJson>() {
+                    @Override
+                    public void onNext(BaseJson baseJson) {
                     }
                 }, new Consumer<Disposable>() {
                     @Override

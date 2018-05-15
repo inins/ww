@@ -22,4 +22,8 @@ public interface ImPath extends BasePath {
     //趣聊页面
     String TEAM_PATH = "/team";
     String TEAM_URL = SCHEME + HOST + TEAM_PATH;
+
+    //分享树
+    String SHARE_WOOD_PATH = "/shareWood";
+    String SHARE_WOOD_URL = SCHEME + HOST + SHARE_WOOD_PATH;
 }

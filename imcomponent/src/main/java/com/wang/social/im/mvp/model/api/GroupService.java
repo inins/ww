@@ -1,16 +1,21 @@
 package com.wang.social.im.mvp.model.api;
 
 import com.frame.http.api.BaseJson;
+import com.wang.social.im.mvp.model.entities.IndexFriendInfo;
+import com.wang.social.im.mvp.model.entities.IndexMemberInfo;
 import com.wang.social.im.mvp.model.entities.MemberInfo;
 import com.wang.social.im.mvp.model.entities.SimpleGroupInfo;
 import com.wang.social.im.mvp.model.entities.TeamInfo;
 import com.wang.social.im.mvp.model.entities.dto.CreateGroupResultDTO;
+import com.wang.social.im.mvp.model.entities.dto.IndexFriendInfoDTO;
+import com.wang.social.im.mvp.model.entities.dto.IndexMemberInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.ListDataDTO;
 import com.wang.social.im.mvp.model.entities.dto.MemberInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.PayCheckInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.SimpleGroupInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.SocialDTO;
 import com.wang.social.im.mvp.model.entities.dto.SocialHomeDTO;
+import com.wang.social.im.mvp.model.entities.dto.TeamHomeDTO;
 import com.wang.social.im.mvp.model.entities.dto.TeamInfoDTO;
 
 import java.util.Map;
@@ -33,6 +38,8 @@ import retrofit2.http.Query;
  */
 public interface GroupService {
 
+    String HEADER_CONTENT_TYPE = "Content-Type:application/x-www-form-urlencoded; charset=utf-8";
+
     /**
      * 查询觅聊列表类型：全部
      */
@@ -46,7 +53,18 @@ public interface GroupService {
      */
     int TEAM_LIST_MEMBER_CREATE = 2;
 
-    String HEADER_CONTENT_TYPE = "Content-Type:application/x-www-form-urlencoded; charset=utf-8";
+    /**
+     * 分享树类型:话题
+     */
+    String SHARE_WOOD_TOPIC = "topic";
+    /**
+     * 分享树类型：趣晒
+     */
+    String SHARE_WOOD_TALK = "talk";
+    /**
+     * 分享树类型：群组
+     */
+    String SHARE_WOOD_GROUP = "group";
 
     /**
      * 获取趣聊详情
@@ -258,6 +276,7 @@ public interface GroupService {
 
     /**
      * 将用户踢出觅聊/趣聊
+     *
      * @param version
      * @param groupId
      * @param memberUid
@@ -265,4 +284,55 @@ public interface GroupService {
      */
     @POST("app/group/deleteGroupMember")
     Observable<BaseJson> kickOutMember(@Query("v") String version, @Query("groupId") String groupId, @Query("targetUserId") String memberUid);
+
+    /**
+     * 邀请好友，好友列表
+     *
+     * @return
+     */
+    @GET("app/userFriend/invateFriendList")
+    Observable<BaseJson<ListDataDTO<IndexFriendInfoDTO, IndexFriendInfo>>> inviteFriendList(@Query("v") String version, @Query("groupId") String groupId);
+
+    /**
+     * 发送群邀请
+     *
+     * @param version
+     * @param socialId
+     * @param users
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("app/group/invitation")
+    Observable<BaseJson> sendGroupInvite(@Field("v") String version, @Field("groupId") String socialId, @Field("userIds") String users);
+
+    /**
+     * 获取趣聊/觅聊成员列表
+     *
+     * @param version
+     * @param groupId
+     * @return
+     */
+    @GET("app/group/getGroupMemberList")
+    Observable<BaseJson<ListDataDTO<IndexMemberInfoDTO, IndexMemberInfo>>> getAlertMembers(@Query("v") String version, @Query("groupId") String groupId);
+
+    /**
+     * 修改觅聊信息
+     *
+     * @param map
+     * @return
+     */
+    @Headers(HEADER_CONTENT_TYPE)
+    @FormUrlEncoded
+    @POST("app/group/updateMiGroupInfo")
+    Observable<BaseJson> updateTeamInfo(@FieldMap Map<String, Object> map);
+
+    /**
+     * 觅聊主页获取觅聊详情
+     *
+     * @param version
+     * @param socialId
+     * @return
+     */
+    @GET("app/group/getGroupCombinationInfo")
+    Observable<BaseJson<TeamHomeDTO>> getTeamHomeInfo(@Query("v") String version, @Query("groupId") String socialId);
 }

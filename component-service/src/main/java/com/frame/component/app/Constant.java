@@ -34,4 +34,17 @@ public interface Constant {
      * 支付渠道：宝石支付
      */
     String PAY_CHANNEL_STONE = "gemstone";
+
+    /**
+     * 分享树类型：话题
+     */
+    int SHARE_TYPE_TOPIC = 1;
+    /**
+     * 分享树类型：趣晒
+     */
+    int SHARE_TYPE_TALK = 2;
+    /**
+     * 分享树类型：群组
+     */
+    int SHARE_TYPE_GROUP = 3;
 }

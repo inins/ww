@@ -1,10 +1,13 @@
 package com.frame.component.api;
 
+import com.frame.component.entities.ShareUserInfo;
 import com.frame.component.entities.UserWrap;
 import com.frame.component.entities.dto.AccountBalanceDTO;
 import com.frame.component.entities.dto.QiNiuDTO;
+import com.frame.component.entities.dto.ShareUserInfoDTO;
 import com.frame.component.entities.user.UserBoard;
 import com.frame.http.api.BaseJson;
+import com.frame.http.api.PageListDTO;
 
 import java.util.Map;
 
@@ -14,6 +17,7 @@ import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 /**

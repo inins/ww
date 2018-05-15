@@ -61,8 +61,8 @@
     <TextView
         android:id="@+id/hf_tv_friends"
         android:layout_width="0dp"
-        android:layout_height="30dp"
-        android:background="#29189aff"
+        android:layout_height="26dp"
+        android:background="#1c189aff"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/common_border_margin"
         android:textColor="@color/common_text_dark"

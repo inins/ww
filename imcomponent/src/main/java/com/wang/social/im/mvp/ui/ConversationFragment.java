@@ -445,12 +445,16 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
         mConversation.sendMessage(uiMessage.getTimMessage(), new TIMValueCallBack<TIMMessage>() {
             @Override
             public void onError(int i, String s) {
-                mAdapter.notifyDataSetChanged();
+                if (mAdapter != null) {
+                    mAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override
             public void onSuccess(TIMMessage timMessage) {
-                mAdapter.notifyDataSetChanged();
+                if (mAdapter != null) {
+                    mAdapter.notifyDataSetChanged();
+                }
             }
         });
         mAdapter.notifyDataSetChanged();
@@ -552,10 +556,11 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
 
     /**
      * 消息发生改变
+     *
      * @param uiMessage
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageChanged(UIMessage uiMessage){
+    public void onMessageChanged(UIMessage uiMessage) {
         refreshMessage(uiMessage);
     }
 

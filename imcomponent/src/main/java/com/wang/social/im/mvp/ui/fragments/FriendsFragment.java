@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.frame.base.BaseFragment;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.utils.UIUtil;
 import com.frame.di.component.AppComponent;
 import com.wang.social.im.R;
@@ -30,6 +31,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
+import me.yokeyword.indexablerv.IndexableAdapter;
 import me.yokeyword.indexablerv.IndexableHeaderAdapter;
 import me.yokeyword.indexablerv.IndexableLayout;
 
@@ -39,7 +41,7 @@ import me.yokeyword.indexablerv.IndexableLayout;
  * Create by ChenJing on 2018-05-07 19:50
  * ============================================
  */
-public class FriendsFragment extends BaseFragment<FriendsPresenter> implements FriendsContract.View {
+public class FriendsFragment extends BaseFragment<FriendsPresenter> implements FriendsContract.View, IndexableAdapter.OnItemContentClickListener<IndexFriendInfo> {
 
     @BindView(R2.id.ff_fl_friends)
     IndexableLayout ffFlFriends;
@@ -92,6 +94,7 @@ public class FriendsFragment extends BaseFragment<FriendsPresenter> implements F
     public void showFriends(List<IndexFriendInfo> friends) {
         ffFlFriends.setLayoutManager(new LinearLayoutManager(getContext()));
         FriendsAdapter adapter = new FriendsAdapter(getContext());
+        adapter.setOnItemContentClickListener(this);
         ffFlFriends.setAdapter(adapter);
         adapter.setDatas(friends);
         ffFlFriends.showAllLetter(false);
@@ -99,6 +102,11 @@ public class FriendsFragment extends BaseFragment<FriendsPresenter> implements F
         ffFlFriends.setCompareMode(IndexableLayout.MODE_FAST);
 
         ffFlFriends.addHeaderAdapter(new HeaderAdapter(Arrays.asList(""), friends.size()));
+    }
+
+    @Override
+    public void onItemClick(View v, int originalPosition, int currentPosition, IndexFriendInfo entity) {
+        CommonHelper.ImHelper.gotoPrivateConversation(getContext(), entity.getFriendId());
     }
 
     private class HeaderAdapter extends IndexableHeaderAdapter {
