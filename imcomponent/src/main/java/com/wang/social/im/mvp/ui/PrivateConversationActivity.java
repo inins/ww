@@ -164,19 +164,16 @@ public class PrivateConversationActivity extends BasicConversationActivity imple
 
     @Override
     public void onItemClick(AutoPopupWindow popupWindow, int resId) {
-        switch (resId) {
-            case R.string.im_remark_setting:
-                EditDialog editDialog = new EditDialog(this, pcTvNickname.getText().toString(), getString(R.string.im_remark_setting), 8, new EditDialog.OnInputCompleteListener() {
-                    @Override
-                    public void onComplete(Dialog dialog, String content) {
+        if (resId == R.string.im_remark_setting) {
+            EditDialog editDialog = new EditDialog(this, pcTvNickname.getText().toString(), getString(R.string.im_remark_setting), 8, new EditDialog.OnInputCompleteListener() {
+                @Override
+                public void onComplete(Dialog dialog, String content) {
 
-                    }
-                });
-                editDialog.show();
-                break;
-            case R.string.im_information_card:
+                }
+            });
+            editDialog.show();
+        } else if (resId == R.string.im_information_card) {
 
-                break;
         }
     }
 
