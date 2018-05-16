@@ -10,7 +10,7 @@ import com.wang.social.im.mvp.ui.PersonalCard.contract.FriendListContract;
 import com.wang.social.im.mvp.ui.PersonalCard.model.api.PersonalCardService;
 import com.wang.social.im.mvp.ui.PersonalCard.model.entities.DTO.FriendListDTO;
 import com.wang.social.im.mvp.ui.PersonalCard.model.entities.DTO.SearchUserInfoDTO;
-import com.wang.social.im.mvp.ui.PersonalCard.model.entities.EntitiesUtil;
+import com.frame.component.utils.EntitiesUtil;
 import com.frame.component.entities.PersonalInfo;
 
 import java.util.Map;

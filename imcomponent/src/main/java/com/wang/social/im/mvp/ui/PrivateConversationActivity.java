@@ -1,5 +1,6 @@
 package com.wang.social.im.mvp.ui;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,10 +14,13 @@ import android.widget.TextView;
 import com.frame.component.entities.AutoPopupItemModel;
 import com.frame.component.path.ImPath;
 import com.frame.component.ui.dialog.AutoPopupWindow;
+import com.frame.component.ui.dialog.EditDialog;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
+import com.frame.http.api.ApiHelper;
 import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
+import com.frame.mvp.IView;
 import com.frame.router.facade.annotation.Autowired;
 import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.SizeUtils;
@@ -43,7 +47,7 @@ import butterknife.OnClick;
  * ============================================
  */
 @RouteNode(path = ImPath.PRIVATE_PATH, desc = "个人聊天")
-public class PrivateConversationActivity extends BasicConversationActivity implements AutoPopupWindow.OnItemClickListener {
+public class PrivateConversationActivity extends BasicConversationActivity implements IView, AutoPopupWindow.OnItemClickListener {
 
     @BindView(R2.id.toolbar)
     SocialToolbar toolbar;
@@ -161,7 +165,25 @@ public class PrivateConversationActivity extends BasicConversationActivity imple
     @Override
     public void onItemClick(AutoPopupWindow popupWindow, int resId) {
         if (resId == R.string.im_remark_setting) {
+            EditDialog editDialog = new EditDialog(this, pcTvNickname.getText().toString(), getString(R.string.im_remark_setting), 8, new EditDialog.OnInputCompleteListener() {
+                @Override
+                public void onComplete(Dialog dialog, String content) {
+
+                }
+            });
+            editDialog.show();
         } else if (resId == R.string.im_information_card) {
+
         }
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
     }
 }

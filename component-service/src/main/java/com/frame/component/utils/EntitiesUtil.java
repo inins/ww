@@ -1,4 +1,4 @@
-package com.wang.social.im.mvp.ui.PersonalCard.model.entities;
+package com.frame.component.utils;
 
 public class EntitiesUtil {
     public static int assertNotNull(Integer v) {

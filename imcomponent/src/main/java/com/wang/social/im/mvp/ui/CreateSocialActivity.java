@@ -69,7 +69,7 @@ public class CreateSocialActivity extends BaseAppActivity<CreateSocialPresenter>
 
     private String mCoverPath;
     private ArrayList<Tag> mSelectTags;
-    private String mTags;
+    private String mTags = "";
     private ImageSelectHelper mImageSelectHelper;
 
     @Inject
@@ -146,10 +146,6 @@ public class CreateSocialActivity extends BaseAppActivity<CreateSocialPresenter>
                         }
                         if (TextUtils.isEmpty(mCoverPath)) {
                             ToastUtil.showToastShort(UIUtil.getString(R.string.im_toast_cover));
-                            return;
-                        }
-                        if (TextUtils.isEmpty(mTags)) {
-                            ToastUtil.showToastShort(UIUtil.getString(R.string.im_toast_tag));
                             return;
                         }
                         mPresenter.checkPayStatus(mAttr, mCoverPath, name, scSbTeam.isChecked(), mTags);

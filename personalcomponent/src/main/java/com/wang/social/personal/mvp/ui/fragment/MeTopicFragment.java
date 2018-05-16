@@ -10,7 +10,7 @@ import com.frame.base.BasicFragment;
 import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.entities.Topic;
-import com.frame.component.ui.acticity.PersonalCard.ui.adapter.TopicListAdapter;
+import com.frame.component.ui.adapter.TopicListAdapter;
 import com.frame.di.component.AppComponent;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;

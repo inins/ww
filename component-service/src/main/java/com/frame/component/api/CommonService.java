@@ -3,6 +3,8 @@ package com.frame.component.api;
 import com.frame.component.entities.ShareUserInfo;
 import com.frame.component.entities.UserWrap;
 import com.frame.component.entities.dto.AccountBalanceDTO;
+import com.frame.component.entities.dto.AddGroupApplyRspDTO;
+import com.frame.component.entities.dto.AddGroupRspDTO;
 import com.frame.component.entities.dto.QiNiuDTO;
 import com.frame.component.entities.dto.ShareUserInfoDTO;
 import com.frame.component.entities.user.UserBoard;
@@ -180,4 +182,22 @@ public interface CommonService {
     @FormUrlEncoded
     @POST("app/group/agreeOrRejectAdd?v=2.0.0")
     Observable<BaseJson> agreeGroupJoinApply(@Field("groupId") int groupId, @Field("msgId") int msgId, @Field("type") int type);
+
+
+
+    /**
+     * 创建加入趣聊、觅聊申请
+     */
+    @FormUrlEncoded
+    @POST("app/group/addGroupMemberApply")
+    Observable<BaseJson<AddGroupApplyRspDTO>> addGroupMemberApply(
+            @Field("v") String version, @Field("groupId") int groupId);
+
+    /**
+     * 尝试加入趣聊、觅聊
+     */
+    @FormUrlEncoded
+    @POST("app/group/addGroupMember")
+    Observable<BaseJson<AddGroupRspDTO>> addGroupMember(
+            @Field("v") String version, @Field("applyId") int applyId);
 }

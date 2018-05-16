@@ -3,7 +3,7 @@ package com.wang.social.im.mvp.ui.PersonalCard.model.entities.DTO;
 import com.frame.component.entities.Topic;
 import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.http.api.Mapper;
-import com.wang.social.im.mvp.ui.PersonalCard.model.entities.EntitiesUtil;
+import com.frame.component.utils.EntitiesUtil;
 
 import java.util.ArrayList;
 import java.util.List;

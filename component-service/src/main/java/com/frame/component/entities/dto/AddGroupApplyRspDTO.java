@@ -1,7 +1,7 @@
-package com.wang.social.im.mvp.model.entities.dto;
+package com.frame.component.entities.dto;
 
+import com.frame.component.entities.AddGroupApplyRsp;
 import com.frame.http.api.Mapper;
-import com.wang.social.im.mvp.model.entities.AddGroupApplyRsp;
 
 import lombok.Data;
 

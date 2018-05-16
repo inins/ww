@@ -11,7 +11,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
 import com.frame.component.entities.Topic;
-import com.frame.component.ui.acticity.PersonalCard.ui.adapter.TopicListAdapter;
+import com.frame.component.ui.adapter.TopicListAdapter;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.view.ConerEditText;
 import com.frame.di.component.AppComponent;
@@ -24,10 +24,7 @@ import com.wang.social.topic.R2;
 import com.wang.social.topic.di.component.DaggerSearchComponent;
 import com.wang.social.topic.di.module.SearchModule;
 import com.wang.social.topic.mvp.contract.SearchContract;
-import com.wang.social.topic.mvp.model.entities.SearchResult;
 import com.wang.social.topic.mvp.presenter.SearchPresenter;
-import com.wang.social.topic.mvp.ui.adapter.SearchResultAdapter;
-import com.wang.social.topic.mvp.ui.widget.DFShopping;
 
 import butterknife.BindView;
 import butterknife.OnClick;
