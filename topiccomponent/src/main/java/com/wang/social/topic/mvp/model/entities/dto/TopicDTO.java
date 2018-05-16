@@ -1,8 +1,8 @@
 package com.wang.social.topic.mvp.model.entities.dto;
 
 import com.frame.component.entities.Topic;
-import com.frame.component.ui.acticity.PersonalCard.model.entities.EntitiesUtil;
 import com.frame.component.ui.acticity.tags.Tag;
+import com.frame.component.utils.EntitiesUtil;
 import com.frame.http.api.Mapper;
 
 import java.util.ArrayList;

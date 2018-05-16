@@ -28,7 +28,7 @@ import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
 import com.wang.social.im.mvp.ui.PersonalCard.model.api.PersonalCardService;
 import com.wang.social.im.mvp.ui.PersonalCard.model.entities.DTO.GroupBeanDTO;
-import com.wang.social.im.mvp.ui.PersonalCard.model.entities.EntitiesUtil;
+import com.frame.component.utils.EntitiesUtil;
 import com.frame.component.entities.GroupBean;
 import com.frame.component.ui.adapter.TalkAdapter;
 import com.wang.social.im.mvp.ui.PersonalCard.ui.widget.ThumbnailDecoration;

@@ -14,21 +14,20 @@ import android.widget.TextView;
 
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.beloo.widget.chipslayoutmanager.SpacingItemDecoration;
-import com.frame.base.BasicActivity;
 import com.frame.component.app.Constant;
 import com.frame.component.helper.ImageLoaderHelper;
+import com.frame.component.helper.NetGroupHelper;
 import com.frame.component.helper.NetPayStoneHelper;
 import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.component.ui.base.BaseAppActivity;
+import com.frame.component.ui.dialog.DialogSure;
 import com.frame.component.ui.dialog.PayDialog;
 import com.frame.component.utils.UIUtil;
-import com.frame.component.view.DialogPay;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
-import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.http.imageloader.glide.RoundedCornersTransformation;
 import com.frame.integration.IRepositoryManager;
@@ -39,22 +38,17 @@ import com.frame.utils.ToastUtil;
 import com.frame.utils.Utils;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
-import com.wang.social.im.app.IMConstants;
-import com.wang.social.im.enums.MessageNotifyType;
 import com.wang.social.im.mvp.model.api.GroupService;
-import com.wang.social.im.mvp.model.entities.AddGroupApplyRsp;
-import com.wang.social.im.mvp.model.entities.AddGroupRsp;
+import com.frame.component.entities.AddGroupApplyRsp;
+import com.frame.component.entities.AddGroupRsp;
 import com.wang.social.im.mvp.model.entities.DistributionAge;
 import com.wang.social.im.mvp.model.entities.DistributionGroup;
 import com.wang.social.im.mvp.model.entities.DistributionSex;
-import com.wang.social.im.mvp.model.entities.MemberInfo;
-import com.wang.social.im.mvp.model.entities.ShadowInfo;
 import com.wang.social.im.mvp.model.entities.SocialInfo;
-import com.wang.social.im.mvp.model.entities.dto.AddGroupApplyRspDTO;
-import com.wang.social.im.mvp.model.entities.dto.AddGroupRspDTO;
+import com.frame.component.entities.dto.AddGroupApplyRspDTO;
+import com.frame.component.entities.dto.AddGroupRspDTO;
 import com.wang.social.im.mvp.model.entities.dto.DistributionGroupDTO;
 import com.wang.social.im.mvp.model.entities.dto.SocialDTO;
-import com.wang.social.im.mvp.model.entities.dto.SocialHomeDTO;
 import com.wang.social.im.mvp.ui.adapters.DistributionAgeAdapter;
 import com.wang.social.im.mvp.ui.adapters.DistributionSexAdapter;
 import com.wang.social.im.mvp.ui.adapters.HomeTagAdapter;
@@ -64,14 +58,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
 
 public class GroupInviteDetailActivity extends BaseAppActivity implements IView {
 
@@ -180,12 +169,18 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
 
         mRepositoryManager = FrameUtils.obtainAppComponentFromContext(Utils.getContext()).repoitoryManager();
 
-        scToolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
-            @Override
-            public void onButtonClick(SocialToolbar.ClickType clickType) {
-                if (clickType == SocialToolbar.ClickType.LEFT_ICON) {
-                    finish();
-                }
+        scToolbar.setOnButtonClickListener(clickType -> {
+            if (clickType == SocialToolbar.ClickType.LEFT_ICON) {
+                finish();
+            } else if (clickType == SocialToolbar.ClickType.RIGHT_TEXT) {
+                // 举报
+                DialogSure.showDialog(GroupInviteDetailActivity.this,
+                        "", new DialogSure.OnSureCallback() {
+                            @Override
+                            public void onOkClick() {
+
+                            }
+                        });
             }
         });
 
@@ -371,46 +366,28 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
      * @param groupId 群id
      */
     private void addGroupMemberApply(int groupId) {
-        mApiHelper.execute(this,
-                addGroupMemberApplyCommit(groupId),
-                new ErrorHandleSubscriber<AddGroupApplyRsp>() {
-                    @Override
-                    public void onNext(AddGroupApplyRsp rsp) {
-                        //applyId:11,	//订单申请ID
-                        //payState:0,    //0：不需要支付,1:需要调用支付接口
-                        //gemstone:100,  //所需宝石数
-                        //needValidation:true   //是否需要群主同意  true/false
+        NetGroupHelper.newInstance().addGroupMemberApply(this,
+                groupId,
+                rsp -> {
+                    //applyId:11,	//订单申请ID
+                    //payState:0,    //0：不需要支付,1:需要调用支付接口
+                    //gemstone:100,  //所需宝石数
+                    //needValidation:true   //是否需要群主同意  true/false
 
-                        if (rsp.getPayState() == 1) {
-                            // 需要支付
-                            String message = String.format("加入此趣聊需要支付%1d宝石", rsp.getGemstone());
-                            PayDialog payDialog = new PayDialog(GroupInviteDetailActivity.this,
-                                    () -> pay(rsp.getApplyId(), rsp.getGemstone()),
-                                    message,
-                                    String.valueOf(rsp.getGemstone()));
-                            payDialog.show();
-                        } else {
-                            // 加入群
-                            addGroupMember(rsp.getApplyId());
-                        }
+                    if (rsp.getPayState() == 1) {
+                        // 需要支付
+                        String message = String.format("加入此趣聊需要支付%1d宝石", rsp.getGemstone());
+                        PayDialog payDialog = new PayDialog(GroupInviteDetailActivity.this,
+                                () -> pay(rsp.getApplyId(), rsp.getGemstone()),
+                                message,
+                                String.valueOf(rsp.getGemstone()));
+                        payDialog.show();
+                    } else {
+                        // 加入群
+                        addGroupMember(rsp.getApplyId());
                     }
+                });
 
-                    @Override
-                    public void onError(Throwable e) {
-                        ToastUtil.showToastShort(e.getMessage());
-                    }
-                }, disposable -> showLoading()
-                , () -> hideLoading());
-    }
-
-    /**
-     * 加群申请
-     * @param groupId 群id
-     */
-    private Observable<BaseJson<AddGroupApplyRspDTO>> addGroupMemberApplyCommit(int groupId) {
-        return mRepositoryManager
-                .obtainRetrofitService(GroupService.class)
-                .addGroupMemberApply("2.0.0", Integer.toString(groupId));
     }
 
     /**
@@ -418,36 +395,22 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
      * @param applyId 申请id
      */
     private void addGroupMember(int applyId) {
-        mApiHelper.execute(this,
-                addGroupMemberCommit(applyId),
-                new ErrorHandleSubscriber<AddGroupRsp>() {
-                    @Override
-                    public void onNext(AddGroupRsp rsp) {
-                        // 隐藏底部栏
-                        mBottomLayout.setVisibility(View.GONE);
+        NetGroupHelper.newInstance().addGroupMember(this,
+                applyId,
+                rsp -> {
+                    // 隐藏底部栏
+                    mBottomLayout.setVisibility(View.GONE);
 
-                        // state:1,	//1:加入群成功  2：已经发送加群申请
-                        if (rsp.getState() == 1) {
-                            // 重新加载群统计
-                            loadDistribution(mGroupId);
+                    // state:1,	//1:加入群成功  2：已经发送加群申请
+                    if (rsp.getState() == 1) {
+                        // 重新加载群统计
+                        loadDistribution(mGroupId);
 
-                        } else if (rsp.getState() == 2) {
-                            // 提示
-                            ToastUtil.showToastLong("已经发送加群申请");
-                        }
+                    } else if (rsp.getState() == 2) {
+                        // 提示
+                        ToastUtil.showToastLong("已经发送加群申请");
                     }
-                }, disposable -> showLoading()
-                , () -> hideLoading());
-    }
-
-    /**
-     * 尝试加群
-     * @param applyId 申请id
-     */
-    private Observable<BaseJson<AddGroupRspDTO>> addGroupMemberCommit(int applyId) {
-        return mRepositoryManager
-                .obtainRetrofitService(GroupService.class)
-                .addGroupMember("2.0.0", Integer.toString(applyId));
+                });
     }
 
     /**

@@ -1,14 +1,13 @@
 package com.wang.social.im.mvp.model.api;
 
 import com.frame.http.api.BaseJson;
-import com.wang.social.im.mvp.model.entities.DistributionGroup;
 import com.wang.social.im.mvp.model.entities.IndexFriendInfo;
 import com.wang.social.im.mvp.model.entities.IndexMemberInfo;
 import com.wang.social.im.mvp.model.entities.MemberInfo;
 import com.wang.social.im.mvp.model.entities.SimpleGroupInfo;
 import com.wang.social.im.mvp.model.entities.TeamInfo;
-import com.wang.social.im.mvp.model.entities.dto.AddGroupApplyRspDTO;
-import com.wang.social.im.mvp.model.entities.dto.AddGroupRspDTO;
+import com.frame.component.entities.dto.AddGroupApplyRspDTO;
+import com.frame.component.entities.dto.AddGroupRspDTO;
 import com.wang.social.im.mvp.model.entities.dto.CreateGroupResultDTO;
 import com.wang.social.im.mvp.model.entities.dto.DistributionGroupDTO;
 import com.wang.social.im.mvp.model.entities.dto.IndexFriendInfoDTO;
@@ -349,22 +348,6 @@ public interface GroupService {
     @GET("app/group/distribution")
     Observable<BaseJson<DistributionGroupDTO>> getDistribution(@Query("v") String version,
                                                                @Query("groupId") String groupId);
-
-    /**
-     * 创建加入趣聊、觅聊申请
-     */
-    @FormUrlEncoded
-    @POST("app/group/addGroupMemberApply")
-    Observable<BaseJson<AddGroupApplyRspDTO>> addGroupMemberApply(
-            @Field("v") String version, @Field("groupId") String socialId);
-
-    /**
-     * 尝试加入趣聊、觅聊
-     */
-    @FormUrlEncoded
-    @POST("app/group/addGroupMember")
-    Observable<BaseJson<AddGroupRspDTO>> addGroupMember(
-            @Field("v") String version, @Field("applyId") String applyId);
 
     /**
      * 同意、拒绝邀请加入趣聊、觅聊（别人邀请我的）

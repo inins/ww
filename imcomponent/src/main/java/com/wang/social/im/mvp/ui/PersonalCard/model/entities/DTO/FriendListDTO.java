@@ -1,7 +1,7 @@
 package com.wang.social.im.mvp.ui.PersonalCard.model.entities.DTO;
 
 import com.frame.http.api.Mapper;
-import com.wang.social.im.mvp.ui.PersonalCard.model.entities.EntitiesUtil;
+import com.frame.component.utils.EntitiesUtil;
 import com.wang.social.im.mvp.ui.PersonalCard.model.entities.FriendList;
 import com.frame.component.entities.PersonalInfo;
 
