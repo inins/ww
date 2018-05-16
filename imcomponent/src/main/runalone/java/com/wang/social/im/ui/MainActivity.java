@@ -9,6 +9,7 @@ import android.widget.EditText;
 import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.NetLoginTestHelper;
 import com.frame.utils.ToastUtil;
+import com.squareup.haha.perflib.Main;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMManager;
 import com.wang.social.im.R;
@@ -91,13 +92,16 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        if (mMsgId > 0) {
             findViewById(R.id.group_invite)
-                    .setOnClickListener(v ->
-                            GroupInviteDetailActivity.startForInvite(this, mGroupId, 1));
-        } else {
-            GroupInviteDetailActivity.startForBrowse(this, mGroupId);
-        }
+                    .setOnClickListener(v -> {
+                        if (mMsgId > 0) {
+                            GroupInviteDetailActivity.startForInvite(MainActivity.this,
+                                    mGroupId, mMsgId);
+                        } else {
+                            GroupInviteDetailActivity.startForBrowse(MainActivity.this,
+                                    mGroupId);
+                        }
+                    });
 
     }
 

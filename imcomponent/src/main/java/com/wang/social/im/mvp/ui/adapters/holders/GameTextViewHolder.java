@@ -10,7 +10,6 @@ import com.frame.component.utils.UIUtil;
 import com.tencent.imsdk.TIMTextElem;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
-import com.wang.social.im.enums.ConversationType;
 import com.frame.component.enums.ConversationType;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 import com.wang.social.im.view.emotion.EmojiDisplay;

@@ -1,4 +1,4 @@
-package com.wang.social.im.mvp.model.entities;
+package com.frame.component.entities;
 
 import lombok.Data;
 
