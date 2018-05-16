@@ -162,13 +162,8 @@ public class PrivateConversationActivity extends BasicConversationActivity imple
 
     @Override
     public void onItemClick(AutoPopupWindow popupWindow, int resId) {
-        switch (resId) {
-            case R.string.im_remark_setting:
-
-                break;
-            case R.string.im_information_card:
-
-                break;
+        if (resId == R.string.im_remark_setting) {
+        } else if (resId == R.string.im_information_card) {
         }
     }
 }

@@ -11,6 +11,7 @@ import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.utils.FrameUtils;
 import com.wang.social.im.R;
+import com.wang.social.im.R2;
 import com.wang.social.im.mvp.model.entities.IndexMemberInfo;
 
 import butterknife.BindView;
@@ -30,9 +31,9 @@ public class AlertUserSearchAdapter extends BaseAdapter<IndexMemberInfo> {
 
     class ViewHolder extends BaseViewHolder<IndexMemberInfo> {
 
-        @BindView(R.id.iau_iv_portrait)
+        @BindView(R2.id.iau_iv_portrait)
         ImageView iauIvPortrait;
-        @BindView(R.id.iau_tv_nickname)
+        @BindView(R2.id.iau_tv_nickname)
         TextView iauTvNickname;
 
         ImageLoader imageLoader;

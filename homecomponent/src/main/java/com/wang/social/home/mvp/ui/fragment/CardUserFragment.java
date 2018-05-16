@@ -12,6 +12,7 @@ import android.view.View;
 
 import com.frame.base.BasicFragment;
 import com.frame.component.entities.BaseListWrap;
+import com.frame.component.helper.NetFriendHelper;
 import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.component.ui.dialog.DialogValiRequest;
 import com.frame.di.component.AppComponent;
@@ -99,10 +100,13 @@ public class CardUserFragment extends BasicFragment implements RecycleAdapterCar
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(recycler);
         callback.setOnSwipedListener((ItemTouchCardCallback.OnSwipedListener<CardUser>) (bean, direction) -> {
-            if (ItemTouchHelper.RIGHT == direction)
-                DialogValiRequest.showDialog(getContext(), content -> {
-                    ToastUtil.showToastShort(content);
+            if (ItemTouchHelper.RIGHT != direction) return;
+            DialogValiRequest.showDialog(getContext(), content -> {
+                //TODO:发起加好友请求
+                NetFriendHelper.newInstance().netSendFriendlyApply(CardUserFragment.this, bean.getUserId(), content, () -> {
+                    ToastUtil.showToastShort("请求已发送");
                 });
+            });
         });
 
         netGetCardUsers(true);

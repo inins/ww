@@ -1,5 +1,6 @@
 package com.wang.social.im.helper;
 
+import com.frame.component.api.CommonService;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
@@ -49,7 +50,7 @@ public class RepositoryHelper {
     public static void sendFriendlyApply(IView view, String userId, String reason, ImCallBack callBack) {
         mApiHelper.executeNone(view,
                 mRepositoryManager
-                        .obtainRetrofitService(ChainService.class)
+                        .obtainRetrofitService(CommonService.class)
                         .sendFriendlyApply("2.0.0", userId, reason),
                 new ErrorHandleSubscriber<BaseJson>() {
                     @Override

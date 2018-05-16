@@ -9,6 +9,7 @@ import com.frame.base.BaseAdapter;
 import com.frame.component.utils.UIUtil;
 import com.tencent.imsdk.TIMTextElem;
 import com.wang.social.im.R;
+import com.wang.social.im.R2;
 import com.wang.social.im.enums.ConversationType;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 import com.wang.social.im.view.emotion.EmojiDisplay;
@@ -23,9 +24,9 @@ import butterknife.BindView;
  */
 public class GameTextViewHolder extends BaseMessageViewHolder<UIMessage> {
 
-    @BindView(R.id.igt_tv_name)
+    @BindView(R2.id.igt_tv_name)
     TextView igtTvName;
-    @BindView(R.id.igt_tv_message)
+    @BindView(R2.id.igt_tv_message)
     TextView igtTvMessage;
 
     public GameTextViewHolder(Context context, ViewGroup root) {

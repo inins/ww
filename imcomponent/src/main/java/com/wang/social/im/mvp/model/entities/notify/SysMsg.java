@@ -1,5 +1,10 @@
 package com.wang.social.im.mvp.model.entities.notify;
 
+import com.frame.utils.StrUtil;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -50,4 +55,6 @@ public class SysMsg {
     private long updateTime;
     private Object extras;
     private int msgId;
+
+
 }

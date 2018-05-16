@@ -8,36 +8,33 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.frame.base.BaseAdapter;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
-import com.frame.mvp.IView;
 import com.frame.utils.TimeUtils;
 import com.wang.social.im.R;
+import com.wang.social.im.R2;
 import com.wang.social.im.mvp.model.entities.notify.FriendRequest;
-import com.wang.social.im.mvp.model.entities.notify.RequestBean;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
-public class FriendRequestDetailActivity extends BasicAppNoDiActivity {
+public class NotifyFriendRequestDetailActivity extends BasicAppNoDiActivity {
 
-    @BindView(R.id.img_header)
+    @BindView(R2.id.img_header)
     ImageView imgHeader;
-    @BindView(R.id.text_lable_gender)
+    @BindView(R2.id.text_lable_gender)
     TextView textLableGender;
-    @BindView(R.id.text_lable_astro)
+    @BindView(R2.id.text_lable_astro)
     TextView textLableAstro;
-    @BindView(R.id.text_name)
+    @BindView(R2.id.text_name)
     TextView textName;
-    @BindView(R.id.text_tag)
+    @BindView(R2.id.text_tag)
     TextView textTag;
-    @BindView(R.id.text_reason)
+    @BindView(R2.id.text_reason)
     TextView textReason;
     private FriendRequest friendRequest;
 
     public static void start(Context context, FriendRequest friendRequest) {
-        Intent intent = new Intent(context, FriendRequestDetailActivity.class);
+        Intent intent = new Intent(context, NotifyFriendRequestDetailActivity.class);
         intent.putExtra("friendRequest", friendRequest);
         context.startActivity(intent);
     }
@@ -61,6 +58,7 @@ public class FriendRequestDetailActivity extends BasicAppNoDiActivity {
             textLableGender.setText(TimeUtils.getBirthdaySpan(friendRequest.getBirthday()));
             textLableAstro.setText(TimeUtils.getAstro(friendRequest.getBirthday()));
             textTag.setText(friendRequest.getTagText());
+            textReason.setText(friendRequest.getReason());
         }
     }
 

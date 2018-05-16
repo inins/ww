@@ -108,10 +108,8 @@ public class WXPayEntryActivity extends AppCompatActivity implements IWXAPIEvent
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_ok:
-                finish();
-                break;
+        if (v.getId() == R.id.btn_ok) {
+            finish();
         }
     }
 

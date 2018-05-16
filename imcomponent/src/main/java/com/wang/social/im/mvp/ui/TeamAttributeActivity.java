@@ -124,16 +124,15 @@ public class TeamAttributeActivity extends BasicAppActivity {
         taRgGem.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.ta_rb_gem_100:
-                        mAttribute.setGem(100);
-                        break;
-                    case R.id.ta_rb_gem_300:
-                        mAttribute.setGem(300);
-                        break;
-                    case R.id.ta_rb_gem_500:
-                        mAttribute.setGem(500);
-                        break;
+                if (checkedId == R.id.ta_rb_gem_100) {
+                    mAttribute.setGem(100);
+
+                } else if (checkedId == R.id.ta_rb_gem_300) {
+                    mAttribute.setGem(300);
+
+                } else if (checkedId == R.id.ta_rb_gem_500) {
+                    mAttribute.setGem(500);
+
                 }
                 if (!mFromTextChange){
                     taEtGem.setText("");

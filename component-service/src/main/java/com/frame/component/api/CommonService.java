@@ -16,6 +16,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
@@ -28,6 +29,8 @@ import retrofit2.http.QueryMap;
  */
 
 public interface CommonService {
+
+    String HEADER_CONTENT_TYPE = "Content-Type:application/x-www-form-urlencoded; charset=utf-8";
 
     /**
      * 获取七牛云上传token
@@ -81,6 +84,7 @@ public interface CommonService {
     @FormUrlEncoded
     @POST("/app/common/report?v=2.0.0")
     Observable<BaseJson<Object>> report(@Field("objectId") int objectId, @Field("type") int type);
+
     Observable<BaseJson<Object>> report(@Field("objectId") int objectId, @Field("type") int type,
                                         @Field("comment") String comment);
 
@@ -137,4 +141,46 @@ public interface CommonService {
     @FormUrlEncoded
     @POST("/app/userInfo/getUserInfoAndPhotos?v=2.0.0")
     Observable<BaseJson<UserBoard>> getUserInfoAndPhotos(@Field("userId") int userId);
+
+    /**
+     * 发送好友申请
+     *
+     * @param version
+     * @param userId
+     * @param reason
+     * @return
+     */
+    @Headers(HEADER_CONTENT_TYPE)
+    @FormUrlEncoded
+    @POST("app/userFriend/addApply")
+    Observable<BaseJson> sendFriendlyApply(@Field("v") String version, @Field("addUserId") String userId, @Field("reason") String reason);
+
+    /**
+     * 同意、拒绝添加好友
+     * 类型（0：同意，1：拒绝）
+     */
+    @FormUrlEncoded
+    @POST("app/userFriend/agreeOrRejectAdd?v=2.0.0")
+    Observable<BaseJson> agreeFriendApply(@Field("friendUserId") int friendUserId, @Field("msgId") int msgId, @Field("type") int type);
+
+    /**
+     * 同意、拒绝加入趣聊、觅聊申请 （别人申请加入我的趣聊/觅聊的）
+     * groupId:趣聊/觅聊群id
+     * otherUserId:申请人用户id
+     * msgId:消息id
+     * type:类型（0：同意，1：拒绝）
+     */
+    @FormUrlEncoded
+    @POST("app/group/applyAddGroupOpera?v=2.0.0")
+    Observable<BaseJson> agreeGroupApply(@Field("groupId") int groupId, @Field("otherUserId") int otherUserId, @Field("msgId") int msgId, @Field("type") int type);
+
+    /**
+     * 同意、拒绝邀请加入趣聊、觅聊（别人邀请我的）
+     * groupId:趣聊/觅聊群id
+     * msgId:消息id
+     * type:类型（0：同意，1：拒绝）
+     */
+    @FormUrlEncoded
+    @POST("app/group/agreeOrRejectAdd?v=2.0.0")
+    Observable<BaseJson> agreeGroupJoinApply(@Field("groupId") int groupId, @Field("msgId") int msgId, @Field("type") int type);
 }

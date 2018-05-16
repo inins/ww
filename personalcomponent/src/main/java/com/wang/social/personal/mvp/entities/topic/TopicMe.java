@@ -91,7 +91,7 @@ public class TopicMe {
         topic.setCommentTotal(commentTotal);
         topic.setShareTotal(shareTotal);
         topic.setRelateState(relateState);
-        topic.setGemstone(gemstone);
+        topic.setRelateMoney(gemstone);
         topic.setTags(tans2TagList(tags));
         //topic.setShopping();
         topic.setSupport(isSupport());

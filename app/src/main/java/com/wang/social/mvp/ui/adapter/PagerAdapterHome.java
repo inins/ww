@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import com.frame.component.router.Router;
 import com.frame.component.service.home.HomeService;
+import com.frame.component.service.im.ImService;
 import com.frame.component.service.personal.PersonalService;
 import com.frame.component.ui.fragment.BuildFragment;
 import com.wang.social.mvp.ui.fragment.PlazaFragment;
@@ -47,7 +48,9 @@ public class PagerAdapterHome extends FragmentPagerAdapter {
                 HomeService homeService = (HomeService) Router.getInstance().getService(HomeService.class.getName());
                 return homeService.getHomeFragment();
             case 1:
-                return BuildFragment.newInstance();
+                ImService imService = (ImService) Router.getInstance().getService(ImService.class.getName());
+                return imService.getContactsFragment();
+//                return BuildFragment.newInstance();
             case 2:
                 return PlazaFragment.newInstance();
             case 3: {
