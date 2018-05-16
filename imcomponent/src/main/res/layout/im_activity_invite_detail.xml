@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_white">
+
+    <com.frame.component.view.SocialToolbar
+        android:id="@+id/sc_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:toolbar_left_icon="@drawable/common_ic_back"
+        app:toolbar_right_text="@string/common_report"
+        app:toolbar_right_text_color="@color/common_blue_deep"/>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/sc_toolbar"
+        android:layout_above="@+id/bottom_layout">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/content_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/sc_tv_title"
+                style="@style/im_title_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="海贼王" />
+
+            <ImageView
+                android:id="@+id/sc_iv_cover"
+                android:layout_width="0dp"
+                android:layout_height="173dp"
+                android:layout_marginEnd="@dimen/common_border_margin"
+                android:layout_marginStart="@dimen/common_border_margin"
+                android:layout_marginTop="25dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sc_tv_title"
+                tools:src="@drawable/im_image_message_placeholder" />
+
+            <ImageView
+                android:id="@+id/sc_iv_pay_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/common_ic_tag_pay"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/sc_iv_cover"
+                app:layout_constraintLeft_toLeftOf="@id/sc_iv_cover"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/sc_tv_tag"
+                style="@style/im_secondary_title_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="23dp"
+                android:text="@string/im_tag"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sc_iv_cover" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/sc_rlv_tags"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/common_border_margin"
+                android:layout_marginStart="@dimen/common_border_margin"
+                android:layout_marginTop="11dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sc_tv_tag" />
+
+            <TextView
+                android:id="@+id/sc_tv_social_intro"
+                style="@style/im_secondary_title_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/im_social_intro"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sc_rlv_tags" />
+
+            <ImageView
+                android:id="@+id/sc_iv_intro_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:paddingEnd="@dimen/common_border_margin"
+                android:paddingStart="10dp"
+                android:paddingTop="10dp"
+                android:src="@drawable/common_ic_edit"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/sc_tv_social_intro"
+                app:layout_constraintRight_toRightOf="parent" />
+
+            <TextView
+                android:id="@+id/sc_tv_intro"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/common_border_margin"
+                android:layout_marginStart="@dimen/common_border_margin"
+                android:layout_marginTop="10dp"
+                android:textColor="#434343"
+                android:textSize="16dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sc_iv_intro_edit"
+                tools:text="我想去种一点花，虽然没办法让他们看见彩虹，不过就这样吧" />
+
+            <TextView
+                android:id="@+id/sc_tv_teams"
+                style="@style/im_secondary_title_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/im_age_segment"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sc_tv_intro" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/age_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sc_tv_teams">>
+
+            </android.support.v7.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/sc_tv_gender"
+                style="@style/im_secondary_title_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/im_sex_segment"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/age_recycler_view" />
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/sex_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sc_tv_gender">
+
+            </android.support.v7.widget.RecyclerView>
+
+
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+    <FrameLayout
+        android:id="@+id/bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/refuse_text_view"
+            android:layout_width="134dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="24dp"
+            android:text="@string/im_personal_card_refuse"
+            android:textColor="@color/common_white"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:layout_gravity="start|center_vertical"
+            android:background="@drawable/common_bg_btn_gray_hover"/>
+
+        <TextView
+            android:id="@+id/agree_text_view"
+            android:layout_width="134dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="24dp"
+            android:text="@string/im_personal_card_agree"
+            android:textColor="@color/common_white"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:layout_gravity="end|center_vertical"
+            android:background="@drawable/common_shape_rect_gradient_blue_conerfull"/>
+
+
+        <LinearLayout
+            android:id="@+id/apply_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center_horizontal">
+            <TextView
+                android:id="@+id/apply_text_view"
+                android:layout_width="230dp"
+                android:layout_height="36dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:text="@string/im_personal_card_join"
+                android:textColor="@color/common_white"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:layout_gravity="end|center_vertical"
+                android:background="@drawable/common_shape_rect_gradient_blue_conerfull"/>
+
+            <TextView
+                android:id="@+id/apply_hint_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#ff999999"
+                android:textSize="12sp"
+                android:layout_marginBottom="15dp"
+                tools:text="加入此趣聊需要支付500宝石"
+                />
+
+        </LinearLayout>
+
+    </FrameLayout>
+</RelativeLayout>

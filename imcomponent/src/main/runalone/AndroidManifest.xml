@@ -169,6 +169,8 @@
 
         <activity android:name=".mvp.ui.PersonalCard.PersonalCardActivity">
         </activity>
+        <activity android:name=".mvp.ui.GroupInviteDetailActivity">
+        </activity>
     </application>
 
 </manifest>

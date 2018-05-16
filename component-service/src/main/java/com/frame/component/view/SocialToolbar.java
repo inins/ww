@@ -146,6 +146,10 @@ public class SocialToolbar extends Toolbar {
         tvRight.setTextColor(mRightTextColor);
     }
 
+    public TextView getTvRight() {
+        return tvRight;
+    }
+
     public void setOnButtonClickListener(OnButtonClickListener buttonClickListener) {
         this.buttonClickListener = buttonClickListener;
     }

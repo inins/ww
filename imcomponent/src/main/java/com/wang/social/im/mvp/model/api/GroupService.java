@@ -1,12 +1,16 @@
 package com.wang.social.im.mvp.model.api;
 
 import com.frame.http.api.BaseJson;
+import com.wang.social.im.mvp.model.entities.DistributionGroup;
 import com.wang.social.im.mvp.model.entities.IndexFriendInfo;
 import com.wang.social.im.mvp.model.entities.IndexMemberInfo;
 import com.wang.social.im.mvp.model.entities.MemberInfo;
 import com.wang.social.im.mvp.model.entities.SimpleGroupInfo;
 import com.wang.social.im.mvp.model.entities.TeamInfo;
+import com.wang.social.im.mvp.model.entities.dto.AddGroupApplyRspDTO;
+import com.wang.social.im.mvp.model.entities.dto.AddGroupRspDTO;
 import com.wang.social.im.mvp.model.entities.dto.CreateGroupResultDTO;
+import com.wang.social.im.mvp.model.entities.dto.DistributionGroupDTO;
 import com.wang.social.im.mvp.model.entities.dto.IndexFriendInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.IndexMemberInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.ListDataDTO;
@@ -335,4 +339,47 @@ public interface GroupService {
      */
     @GET("app/group/getGroupCombinationInfo")
     Observable<BaseJson<TeamHomeDTO>> getTeamHomeInfo(@Query("v") String version, @Query("groupId") String socialId);
+
+
+    /**
+     * 群名片 - 年龄/性别分布
+     * @param version version
+     * @param groupId 群id
+     */
+    @GET("app/group/distribution")
+    Observable<BaseJson<DistributionGroupDTO>> getDistribution(@Query("v") String version,
+                                                               @Query("groupId") String groupId);
+
+    /**
+     * 创建加入趣聊、觅聊申请
+     */
+    @FormUrlEncoded
+    @POST("app/group/addGroupMemberApply")
+    Observable<BaseJson<AddGroupApplyRspDTO>> addGroupMemberApply(
+            @Field("v") String version, @Field("groupId") String socialId);
+
+    /**
+     * 尝试加入趣聊、觅聊
+     */
+    @FormUrlEncoded
+    @POST("app/group/addGroupMember")
+    Observable<BaseJson<AddGroupRspDTO>> addGroupMember(
+            @Field("v") String version, @Field("applyId") String applyId);
+
+    /**
+     * 同意、拒绝邀请加入趣聊、觅聊（别人邀请我的）
+     * @param version version
+     * @param groupId 趣聊/觅聊群id
+     * @param msgId 消息id
+     * @param type 类型（0：同意，1：拒绝）
+     */
+    @FormUrlEncoded
+    @POST("app/group/agreeOrRejectAdd")
+    Observable<BaseJson> agreeOrRejectAdd(
+            @Field("v") String version,
+            @Field("groupId") int groupId,
+            @Field("msgId") int msgId,
+            @Field("type") int type);
+
+
 }
