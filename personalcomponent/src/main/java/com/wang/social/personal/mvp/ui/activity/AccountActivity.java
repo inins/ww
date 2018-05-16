@@ -47,6 +47,8 @@ public class AccountActivity extends BasicAppActivity implements IView {
     @BindView(R2.id.text_coulduse)
     TextView textCoulduse;
 
+    private AccountBalance accountBalance;
+
     public static void start(Context context) {
         Intent intent = new Intent(context, AccountActivity.class);
         context.startActivity(intent);
@@ -59,7 +61,7 @@ public class AccountActivity extends BasicAppActivity implements IView {
 
     @Override
     public void onCommonEvent(EventBean event) {
-        switch (event.getEvent()){
+        switch (event.getEvent()) {
             case EventBean.EVENT_ACCOUNT_EXCHANGE_STONE:
                 netGetAccountData();
                 break;
@@ -95,15 +97,16 @@ public class AccountActivity extends BasicAppActivity implements IView {
             AccountRechargeActivity.start(this);
 
         } else if (i == R.id.btn_deposit) {
-            AccountDepositActivity.start(this);
-
+            if (accountBalance != null)
+                AccountDepositActivity.start(this, accountBalance.getAmountDiamond(), accountBalance.getAmount());
         }
     }
 
     private void setAccountData(AccountBalance accountBalance) {
+        this.accountBalance = accountBalance;
         if (accountBalance != null) {
             textDiamondAll.setText(accountBalance.getAmountDiamond() + "");
-            textCoulduse.setText("可提现钻石：" + accountBalance.getAmount());
+            textCoulduse.setText(getString(R.string.personal_account_diamond_deposible) + accountBalance.getAmount() + " 元");
             textStoneAll.setText(accountBalance.getAmountGemstone() + "");
         }
     }

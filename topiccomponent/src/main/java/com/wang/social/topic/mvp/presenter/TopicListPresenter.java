@@ -1,13 +1,13 @@
 package com.wang.social.topic.mvp.presenter;
 
+import com.frame.component.entities.Topic;
 import com.frame.di.scope.FragmentScope;
 import com.frame.http.api.ApiHelper;
+import com.frame.http.api.PageList;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
 import com.wang.social.topic.mvp.contract.TopicListContract;
-import com.wang.social.topic.mvp.model.entities.Topic;
-import com.wang.social.topic.mvp.model.entities.TopicRsp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +53,10 @@ public class TopicListPresenter extends
         return null;
     }
 
+    public List<Topic> getTopicList() {
+        return mTopicList;
+    }
+
     public void setTagAll(boolean tagAll) {
         mTagAll = tagAll;
     }
@@ -68,13 +72,13 @@ public class TopicListPresenter extends
 
     private void initHandler() {
         if (null == mErrorHandleSubscriber) {
-            mErrorHandleSubscriber = new ErrorHandleSubscriber<TopicRsp>(mErrorHandler) {
+            mErrorHandleSubscriber = new ErrorHandleSubscriber<PageList<Topic>>(mErrorHandler) {
                 @Override
-                public void onNext(TopicRsp rsp) {
-                    if (null != rsp) {
-                        mCurrent = rsp.getCurrent();
+                public void onNext(PageList<Topic> pageList) {
+                    if (null != pageList) {
+                        mCurrent = pageList.getCurrent();
 
-                        mTopicList.addAll(rsp.getList());
+                        mTopicList.addAll(pageList.getList());
 
                         mRootView.onTopicLoadSuccess();
                     }
@@ -107,7 +111,7 @@ public class TopicListPresenter extends
         }
     }
 
-    private ErrorHandleSubscriber<TopicRsp> mErrorHandleSubscriber;
+    private ErrorHandleSubscriber<PageList<Topic>> mErrorHandleSubscriber;
     private Consumer<Disposable> mConsumer;
     private Action mAction;
 

@@ -16,12 +16,12 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.frame.component.entities.Topic;
 import com.frame.component.helper.NetAccountBalanceHelper;
 import com.frame.component.helper.NetPayStoneHelper;
 import com.frame.mvp.IView;
 import com.frame.utils.ToastUtil;
 import com.wang.social.topic.R;
-import com.wang.social.topic.mvp.model.entities.Topic;
 import com.wang.social.topic.mvp.ui.TopicDetailActivity;
 
 public class DFShopping extends DialogFragment {
@@ -79,7 +79,7 @@ public class DFShopping extends DialogFragment {
 
         if (null != mTopic) {
             TextView priceTV = mView.findViewById(R.id.price_text_view);
-            priceTV.setText(Integer.toString(mTopic.getPrice()));
+//            priceTV.setText(Integer.toString(mTopic.getPrice()));
         }
 
         mConfirmTV = mView.findViewById(R.id.ok_text_view);
@@ -100,39 +100,39 @@ public class DFShopping extends DialogFragment {
                 mWalletTV.setVisibility(View.VISIBLE);
                 mWalletTV.setText(String.format(getContext().getString(R.string.topic_balance_format), diamondNum));
 
-                if (diamondNum < mTopic.getPrice()) {
-                    mConfirmTV.setText(getContext().getResources().getString(R.string.topic_dialog_shopping_charge));
-
-                    mView.findViewById(R.id.ok_text_view)
-                            .setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    //
-                                    ToastUtil.showToastLong("去充值");
-
-                                    DFShopping.this.dismiss();
-                                }
-                            });
-                } else {
-                    mConfirmTV.setText(getContext().getResources().getString(R.string.topic_dialog_shopping_ok));
-
-                    mView.findViewById(R.id.ok_text_view)
-                            .setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    NetPayStoneHelper.newInstance()
-                                            .netPayTopic(mIView, mTopic.getTopicId(), mTopic.getPrice(),
-                                                    new NetPayStoneHelper.OnStonePayCallback() {
-                                                        @Override
-                                                        public void success() {
-                                                            TopicDetailActivity.start(mContext, mTopic.getTopicId(), mTopic.getUserId());
-                                                        }
-                                                    });
-
-                                    DFShopping.this.dismiss();
-                                }
-                            });
-                }
+//                if (diamondNum < mTopic.getPrice()) {
+//                    mConfirmTV.setText(getContext().getResources().getString(R.string.topic_dialog_shopping_charge));
+//
+//                    mView.findViewById(R.id.ok_text_view)
+//                            .setOnClickListener(new View.OnClickListener() {
+//                                @Override
+//                                public void onClick(View v) {
+//                                    //
+//                                    ToastUtil.showToastLong("去充值");
+//
+//                                    DFShopping.this.dismiss();
+//                                }
+//                            });
+//                } else {
+//                    mConfirmTV.setText(getContext().getResources().getString(R.string.topic_dialog_shopping_ok));
+//
+//                    mView.findViewById(R.id.ok_text_view)
+//                            .setOnClickListener(new View.OnClickListener() {
+//                                @Override
+//                                public void onClick(View v) {
+//                                    NetPayStoneHelper.newInstance()
+//                                            .netPayTopic(mIView, mTopic.getTopicId(), mTopic.getPrice(),
+//                                                    new NetPayStoneHelper.OnStonePayCallback() {
+//                                                        @Override
+//                                                        public void success() {
+//                                                            TopicDetailActivity.start(mContext, mTopic.getTopicId(), mTopic.getUserId());
+//                                                        }
+//                                                    });
+//
+//                                    DFShopping.this.dismiss();
+//                                }
+//                            });
+//                }
             }
         });
 

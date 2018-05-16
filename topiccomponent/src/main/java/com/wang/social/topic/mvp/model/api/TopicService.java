@@ -1,12 +1,13 @@
 package com.wang.social.topic.mvp.model.api;
 
+import com.frame.component.entities.Topic;
 import com.frame.http.api.BaseJson;
-import com.frame.component.ui.acticity.BGMList.MusicsDTO;
+import com.frame.http.api.PageListDTO;
 import com.wang.social.topic.mvp.model.entities.dto.CommentsDTO;
 import com.wang.social.topic.mvp.model.entities.dto.SearchResultsDTO;
 import com.wang.social.topic.mvp.model.entities.dto.TemplatesDTO;
+import com.wang.social.topic.mvp.model.entities.dto.TopicDTO;
 import com.wang.social.topic.mvp.model.entities.dto.TopicDetailDTO;
-import com.wang.social.topic.mvp.model.entities.dto.TopicRspDTO;
 import com.wang.social.topic.mvp.model.entities.dto.TopicTopUsersDTO;
 
 import java.util.Map;
@@ -15,7 +16,6 @@ import io.reactivex.Observable;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.QueryMap;
@@ -28,19 +28,19 @@ public interface TopicService {
      * 最新话题列表
      */
     @GET("app/topic/getNewsList")
-    Observable<BaseJson<TopicRspDTO>> getNewsList(@QueryMap Map<String, Object> param);
+    Observable<BaseJson<PageListDTO<TopicDTO, Topic>>> getNewsList(@QueryMap Map<String, Object> param);
 
     /**
      * 最热话题列表
      */
     @GET("app/topic/getHotList")
-    Observable<BaseJson<TopicRspDTO>> getHotList(@QueryMap Map<String, Object> param);
+    Observable<BaseJson<PageListDTO<TopicDTO, Topic>>> getHotList(@QueryMap Map<String, Object> param);
 
     /**
      * 无人问津话题列表
      */
     @GET("app/topic/getLowList")
-    Observable<BaseJson<TopicRspDTO>> getLowList(@QueryMap Map<String, Object> param);
+    Observable<BaseJson<PageListDTO<TopicDTO, Topic>>> getLowList(@QueryMap Map<String, Object> param);
 
 
     /**
@@ -98,7 +98,7 @@ public interface TopicService {
     @Headers(HEADER_CONTENT_TYPE)
     @FormUrlEncoded
     @POST("app/topic/searchTopic")
-    Observable<BaseJson<SearchResultsDTO>> searchTopic(@FieldMap Map<String, Object> param);
+    Observable<BaseJson<PageListDTO<TopicDTO, Topic>>> searchTopic(@FieldMap Map<String, Object> param);
 
     /**
      * 举报（用户/话题/趣聊/趣晒）

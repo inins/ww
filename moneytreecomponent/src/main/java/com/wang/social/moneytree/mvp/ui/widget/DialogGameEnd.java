@@ -122,6 +122,7 @@ public class DialogGameEnd extends DialogFragment {
         dialog.setContentView(view);
 
         dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
 
         Window window = dialog.getWindow();
         WindowManager.LayoutParams lp = window.getAttributes();

@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.frame.component.ui.acticity.PersonalCard.PersonalCardActivity;
 import com.frame.component.ui.acticity.tags.Tag;
+import com.frame.component.ui.acticity.tags.TagUtils;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.TimeUtils;
@@ -22,12 +24,21 @@ import com.wang.social.moneytree.mvp.model.entities.Member;
 
 public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.ViewHolder> {
 
+    public interface ClickListener {
+        void onMemeberClick(Member member);
+    }
+
     private Context mContext;
     private List<Member> mList;
+    private ClickListener mClickListener;
 
     public MemberListAdapter(RecyclerView recyclerView, List<Member> list) {
         mContext = recyclerView.getContext().getApplicationContext();
         mList = list;
+    }
+
+    public void setClickListener(ClickListener clickListener) {
+        mClickListener = clickListener;
     }
 
     @Override
@@ -81,11 +92,21 @@ public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.Vi
         }
 
         // 标签
-        String tags = "";
-        for (Tag tag : member.getTags()) {
-            tags += "#" + tag.getTagName() + "  ";
-        }
-        holder.mTagsTV.setText(tags);
+//        String tags = "";
+//        for (Tag tag : member.getTags()) {
+//            tags += "#" + tag.getTagName() + "  ";
+//        }
+        holder.mTagsTV.setText(TagUtils.formatTagNames(member.getTags()));
+
+        holder.rootView.setTag(member);
+        holder.rootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (null != mClickListener && v.getTag() instanceof Member) {
+                    mClickListener.onMemeberClick((Member) v.getTag());
+                }
+            }
+        });
     }
 
     private String getBirthYears(long mills) {
@@ -104,6 +125,7 @@ public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.Vi
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+        View rootView;
         ImageView mAvatarIV;
         TextView mNameTV;
         View mGenderLayout;
@@ -115,6 +137,7 @@ public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.Vi
         public ViewHolder(View itemView) {
             super(itemView);
 
+            rootView = itemView.findViewById(R.id.root_view);
             mAvatarIV = itemView.findViewById(R.id.avatar_image_view);
             mNameTV = itemView.findViewById(R.id.name_text_view);
             mGenderLayout = itemView.findViewById(R.id.gender_layout);

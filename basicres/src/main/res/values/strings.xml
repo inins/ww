@@ -28,4 +28,9 @@
 
     <string name="common_validialog">请输入验证信息</string>
     <string name="common_hint">请输入验证信息</string>
+
+    <string name="common_no_wx">请下载安装微信最新版本</string>
+
+    <string name="common_disagree">拒绝</string>
+    <string name="common_agree">同意</string>
 </resources>

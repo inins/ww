@@ -144,7 +144,10 @@ public class CommonHelper {
          */
         public static void startTopicDetail(Context context, int topicId) {
             //TODO:暂时没有，预留一个方法
-            ToastUtil.showToastShort("topicId:" + topicId);
+//            ToastUtil.showToastShort("topicId:" + topicId);
+            Bundle bundle = new Bundle();
+            bundle.putInt("NAME_TOPIC_ID", topicId);
+            UIRouter.getInstance().openUri(context, TopicPath.TOPIC_DETAIL_URL, bundle);
         }
     }
 }

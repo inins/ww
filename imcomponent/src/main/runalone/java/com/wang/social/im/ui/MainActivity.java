@@ -14,6 +14,7 @@ import com.wang.social.im.R;
 import com.wang.social.im.helper.FriendShipHelper;
 import com.wang.social.im.helper.GroupHelper;
 import com.wang.social.im.mvp.model.entities.GroupProfile;
+import com.wang.social.im.mvp.ui.SearchActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
+        findViewById(R.id.search).setOnClickListener(v -> SearchActivity.start(this));
     }
 
     @Override

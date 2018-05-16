@@ -27,6 +27,7 @@ import com.frame.component.view.MusicBoard;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
+import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.BarUtils;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.SizeUtils;
@@ -52,6 +53,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import timber.log.Timber;
 
+@RouteNode(path = "/topic_detail", desc = "话题详情")
 public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> implements TopicDetailContract.View {
     private static final String SETUP_HTML = "file:///android_asset/editor.html";
     public final static String NAME_TOPIC_ID = "NAME_TOPIC_ID";

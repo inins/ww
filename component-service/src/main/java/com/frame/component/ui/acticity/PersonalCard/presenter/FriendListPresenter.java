@@ -2,9 +2,7 @@ package com.frame.component.ui.acticity.PersonalCard.presenter;
 
 import com.frame.component.ui.acticity.PersonalCard.contract.FriendListContract;
 import com.frame.component.ui.acticity.PersonalCard.model.entities.FriendList;
-import com.frame.component.ui.acticity.PersonalCard.model.entities.UserInfo;
-import com.frame.component.ui.acticity.PersonalCard.model.entities.UserStatistics;
-import com.frame.di.scope.ActivityScope;
+import com.frame.component.ui.acticity.PersonalCard.model.entities.PersonalInfo;
 import com.frame.di.scope.FragmentScope;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.error.ErrorHandleSubscriber;
@@ -32,14 +30,14 @@ public class FriendListPresenter extends
 
     private int mSize = 10;
     private int mCurrent = 0;
-    private List<UserInfo> mUserInfoList = new ArrayList<>();
+    private List<PersonalInfo> mUserInfoList = new ArrayList<>();
 
     @Inject
     public FriendListPresenter(FriendListContract.Model model, FriendListContract.View view) {
         super(model, view);
     }
 
-    public List<UserInfo> getUserInfoList() {
+    public List<PersonalInfo> getUserInfoList() {
         return mUserInfoList;
     }
 

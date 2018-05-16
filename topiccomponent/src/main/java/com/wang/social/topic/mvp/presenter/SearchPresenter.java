@@ -1,17 +1,15 @@
 package com.wang.social.topic.mvp.presenter;
 
+import com.frame.component.entities.Topic;
 import com.frame.di.scope.ActivityScope;
-import com.frame.di.scope.FragmentScope;
 import com.frame.http.api.ApiHelper;
+import com.frame.http.api.PageList;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
 import com.wang.social.topic.mvp.contract.SearchContract;
-import com.wang.social.topic.mvp.model.entities.Comments;
 import com.wang.social.topic.mvp.model.entities.SearchResult;
 import com.wang.social.topic.mvp.model.entities.SearchResults;
-import com.wang.social.topic.mvp.model.entities.Topic;
-import com.wang.social.topic.mvp.model.entities.TopicRsp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +30,7 @@ public class SearchPresenter extends
     @Inject
     ApiHelper mApiHelper;
 
-    private List<SearchResult> mResultList = new ArrayList<>();
+    private List<Topic> mResultList = new ArrayList<>();
 
     // 每页条数
     private int mSize = 10;
@@ -44,7 +42,7 @@ public class SearchPresenter extends
         super(model, view);
     }
 
-    public List<SearchResult> getResultList() {
+    public List<Topic> getResultList() {
         return mResultList;
     }
 
@@ -56,14 +54,16 @@ public class SearchPresenter extends
 
         mApiHelper.execute(mRootView,
                 mModel.searchTopic(keyword, tagNames, mSize, mCurrent + 1),
-                new ErrorHandleSubscriber<SearchResults>(mErrorHandler) {
+                new ErrorHandleSubscriber<PageList<Topic>>(mErrorHandler) {
                     @Override
-                    public void onNext(SearchResults results) {
-                        if (results.getList().size() > 0) {
-                            mCurrent = results.getCurrent();
-                        }
+                    public void onNext(PageList<Topic> pageList) {
+                        if (null != pageList) {
+                            mCurrent = pageList.getCurrent();
 
-                        mResultList.addAll(results.getList());
+                            if (null != pageList.getList()) {
+                                mResultList.addAll(pageList.getList());
+                            }
+                        }
 
                         mRootView.onSearchSuccess();
                     }

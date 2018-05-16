@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.frame.component.service.R;
-import com.frame.component.ui.acticity.PersonalCard.model.entities.TalkBean;
+import com.frame.component.ui.acticity.PersonalCard.model.entities.GroupBean;
 import com.frame.component.ui.acticity.tags.TagUtils;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.utils.FrameUtils;
@@ -22,9 +22,9 @@ import java.util.List;
 public class TalkAdapter extends RecyclerView.Adapter<TalkAdapter.ViewHolder> {
 
     private Context mContext;
-    private List<TalkBean> mList;
+    private List<GroupBean> mList;
 
-    public TalkAdapter(RecyclerView recyclerView, List<TalkBean> list) {
+    public TalkAdapter(RecyclerView recyclerView, List<GroupBean> list) {
         mContext = recyclerView.getContext().getApplicationContext();
         mList = list;
     }
@@ -42,26 +42,26 @@ public class TalkAdapter extends RecyclerView.Adapter<TalkAdapter.ViewHolder> {
         if (null == mList) return;
         if (position < 0 || position >= mList.size()) return;
 
-        TalkBean talkBean = mList.get(position);
+        GroupBean groupBean = mList.get(position);
 
-        if (null == talkBean) return;
+        if (null == groupBean) return;
 
-        if (!TextUtils.isEmpty(talkBean.getGroupCoverPlan())) {
+        if (!TextUtils.isEmpty(groupBean.getGroupCoverPlan())) {
             FrameUtils.obtainAppComponentFromContext(mContext)
                     .imageLoader()
                     .loadImage(mContext,
                             ImageConfigImpl.builder()
                                     .imageView(holder.coverIV)
-                                    .url(talkBean.getGroupCoverPlan())
+                                    .url(groupBean.getGroupCoverPlan())
                                     .transformation(new RoundedCorners(SizeUtils.dp2px(12)))
                                     .build());
         } else {
             holder.coverIV.setVisibility(View.INVISIBLE);
         }
 
-        holder.nameTV.setText(talkBean.getGroupName());
-        holder.numberTV.setText("" + talkBean.getGroupMemberNum() + "人");
-        holder.tagsTV.setText(TagUtils.formatTagNames(talkBean.getTags()));
+        holder.nameTV.setText(groupBean.getGroupName());
+        holder.numberTV.setText("" + groupBean.getGroupMemberNum() + "人");
+        holder.tagsTV.setText(TagUtils.formatTagNames(groupBean.getTags()));
     }
 
     @Override

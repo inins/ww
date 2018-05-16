@@ -101,9 +101,9 @@ dependencies {
     implementation project(':socializecomponent')
 }
 
-if (!project.isRunAlone) {
+//if (!project.isRunAlone) {
     combuild {
         applicationName = 'com.frame.base.BaseApplication'
         isRegisterCompoAuto = true
     }
-}
+//}

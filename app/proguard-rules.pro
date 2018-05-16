@@ -152,6 +152,8 @@ public static java.lang.String TABLENAME;
 -keep class com.ta.utdid2.** { *;}
 -keep class com.ut.device.** { *;}
 #微信支付
+-keep class com.tencent.mm.opensdk.** {*;}
+-keep class com.tencent.wxop.** {*;}
 -keep class com.tencent.mm.sdk.** {*;}
 #glide 4.1
 -keep public class * extends com.bumptech.glide.AppGlideModule

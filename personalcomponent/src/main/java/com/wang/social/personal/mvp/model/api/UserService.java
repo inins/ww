@@ -7,6 +7,7 @@ import com.wang.social.personal.mvp.entities.AccountBalance;
 import com.wang.social.personal.mvp.entities.CommonEntity;
 import com.wang.social.personal.mvp.entities.QiniuTokenWrap;
 import com.frame.component.entities.UserWrap;
+import com.wang.social.personal.mvp.entities.deposit.DepositRecord;
 import com.wang.social.personal.mvp.entities.funshow.FunshowMe;
 import com.wang.social.personal.mvp.entities.income.DiamondStoneIncome;
 import com.wang.social.personal.mvp.entities.lable.LableWrap;
@@ -14,6 +15,8 @@ import com.wang.social.personal.mvp.entities.photo.OffiPic;
 import com.frame.component.entities.photo.Photo;
 import com.wang.social.personal.mvp.entities.photo.PhotoListWrap;
 import com.wang.social.personal.mvp.entities.privates.PrivateDetail;
+import com.wang.social.personal.mvp.entities.recharge.PayInfo;
+import com.wang.social.personal.mvp.entities.recharge.Recharge;
 import com.wang.social.personal.mvp.entities.thirdlogin.BindHistory;
 import com.wang.social.personal.mvp.entities.topic.TopicMe;
 import com.wang.social.personal.mvp.entities.user.QrcodeInfo;
@@ -187,4 +190,21 @@ public interface UserService {
     @FormUrlEncoded
     @POST("/app/topic/getMyTopicList?v=2.0.0")
     Observable<BaseJson<BaseListWrap<TopicMe>>> getTopicList(@Field("current") int current, @Field("size") int size);
+
+    @GET("/app/userWallet/packageList?v=2.0.0&platform=android")
+    Observable<BaseJson<BaseListWrap<Recharge>>> getPayList();
+
+    //用户充值
+    @FormUrlEncoded
+    @POST("/app/order/recharge")
+    Observable<BaseJson<PayInfo>> pay(@FieldMap Map<String, Object> param);
+
+    //提现
+    @FormUrlEncoded
+    @POST("/app/userWallet/applyWithdraw?v=2.0.0")
+    Observable<BaseJson<Object>> deposit(@Field("money") int money, @Field("alipay") String alipay, @Field("realName") String realName);
+
+    //提现记录
+    @GET("/app/userWallet/withdrawList?v=2.0.0")
+    Observable<BaseJson<BaseListWrap<DepositRecord>>> depositRecode(@Query("current") int current, @Query("size") int size);
 }

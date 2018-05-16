@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_white"
+    android:fitsSystemWindows="true">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:theme="@style/common_AppTheme.AppBarOverlay"
+        app:elevation="0dp">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/transparent"
+            app:contentInsetStart="0dp"
+            app:popupTheme="@style/common_AppTheme.PopupOverlay">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="18dp"
+                    app:cardElevation="5dp">
+
+                    <com.frame.component.view.ConerEditText
+                        android:id="@+id/edit_search"
+                        style="@style/common_EditNone"
+                        android:layout_height="match_parent"
+                        android:drawableLeft="@drawable/common_ic_home_search"
+                        android:drawablePadding="5dp"
+                        android:hint="请输入搜索关键字"
+                        android:imeOptions="actionSearch"
+                        android:inputType="textPersonName"
+                        android:textSize="12sp">
+
+                        <requestFocus />
+                    </com.frame.component.view.ConerEditText>
+
+                </android.support.v7.widget.CardView>
+
+                <TextView
+                    android:id="@+id/btn_right"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right"
+                    android:drawablePadding="8dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:onClick="onClick"
+                    android:text="@string/common_cancel"
+                    android:textColor="@color/common_text_blank_dark"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <com.frame.component.view.LoadingLayout
+        android:id="@+id/loadingview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_fail="@layout/lay_lack_search"
+        app:layout_lack="@layout/lay_lack_search"
+        app:layout_loading="@layout/layout_loading">
+
+
+        <com.ogaclejapan.smarttablayout.SmartTabLayout
+            android:id="@+id/tablayout"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_gravity="center_horizontal"
+            app:stl_customTabTextLayoutId="@layout/tab_text_blank_light"
+            app:stl_customTabTextViewId="@id/name_text_view"
+            app:stl_distributeEvenly="true"
+            app:stl_dividerThickness="0dp"
+            app:stl_indicatorColor="@color/common_blue_deep"
+            app:stl_indicatorCornerRadius="2dp"
+            app:stl_indicatorInterpolation="smart"
+            app:stl_indicatorThickness="3dp"
+            app:stl_indicatorWidth="12dp"
+            app:stl_underlineColor="@android:color/transparent"
+            app:stl_underlineThickness="0px">
+
+        </com.ogaclejapan.smarttablayout.SmartTabLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="42dp" />
+
+    </com.frame.component.view.LoadingLayout>
+</android.support.design.widget.CoordinatorLayout>

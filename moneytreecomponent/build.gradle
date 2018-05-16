@@ -99,6 +99,7 @@ dependencies {
     annotationProcessor project(':router-anno-compiler')
 
     implementation project(':springlibrary')
+    implementation project(':socializecomponent')
 }
 
 if (!isRunAlone.toBoolean()) {

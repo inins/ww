@@ -175,8 +175,17 @@ public class TopicListFragment extends BasicFragment implements IView, TopicList
     }
 
     @Override
+    public boolean autoTopicClick() {
+        return true;
+    }
+
+    @Override
     public void onTopicClick(Topic topic) {
-        // 跳转到详情
-        ToastUtil.showToastLong("话题详情");
+
+    }
+
+    @Override
+    public void onPayTopicSuccess(Topic topic) {
+
     }
 }
