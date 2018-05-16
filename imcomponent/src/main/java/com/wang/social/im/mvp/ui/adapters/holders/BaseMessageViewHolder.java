@@ -12,7 +12,7 @@ import com.frame.http.imageloader.ImageLoader;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.ScreenUtils;
 import com.frame.utils.TimeUtils;
-import com.wang.social.im.enums.ConversationType;
+import com.frame.component.enums.ConversationType;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 
 import java.text.SimpleDateFormat;

@@ -19,15 +19,13 @@ import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.router.facade.annotation.Autowired;
 import com.frame.router.facade.annotation.RouteNode;
-import com.frame.utils.ScreenUtils;
 import com.frame.utils.SizeUtils;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.di.component.DaggerActivityComponent;
-import com.wang.social.im.enums.ConversationType;
+import com.frame.component.enums.ConversationType;
 import com.wang.social.im.helper.FriendShipHelper;
 import com.wang.social.im.mvp.model.entities.FriendProfile;
-import com.wang.social.im.mvp.ui.fragments.ContactsFragment;
 
 import java.util.ArrayList;
 import java.util.List;

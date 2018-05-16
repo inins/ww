@@ -3,9 +3,12 @@ package com.wang.social.im.mvp.ui.adapters.socials;
 import android.animation.ObjectAnimator;
 import android.support.constraint.ConstraintLayout;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.frame.component.enums.ConversationType;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.utils.UIUtil;
 import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
@@ -13,6 +16,7 @@ import com.frame.http.imageloader.glide.RoundedCornersTransformation;
 import com.frame.utils.FrameUtils;
 import com.wang.social.im.R;
 import com.wang.social.im.mvp.model.entities.SocialListLevelTwo;
+import com.wang.social.im.view.expand.model.ExpandableListItem;
 import com.wang.social.im.view.expand.viewholder.AbstractExpandableAdapterItem;
 
 /**
@@ -26,6 +30,7 @@ public class LevelTwoItem extends AbstractExpandableAdapterItem {
     private ConstraintLayout clContent;
     private ImageView ivAvatar, ivArrow;
     private TextView tvName, tvMemberCount;
+    private FrameLayout flExpand;
 
     ImageLoader mImageLoader;
 
@@ -55,18 +60,30 @@ public class LevelTwoItem extends AbstractExpandableAdapterItem {
     public void onBindViews(View root) {
         mImageLoader = FrameUtils.obtainAppComponentFromContext(root.getContext()).imageLoader();
 
-        root.setOnClickListener(new View.OnClickListener() {
+        clContent = root.findViewById(R.id.llt_cl_content);
+        ivAvatar = root.findViewById(R.id.llt_iv_avatar);
+        ivArrow = root.findViewById(R.id.llt_arrow);
+        tvName = root.findViewById(R.id.llt_tv_name);
+        tvMemberCount = root.findViewById(R.id.llt_tv_member_count);
+        flExpand = root.findViewById(R.id.llt_fl_expand);
+
+        flExpand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 doExpandOrUnexpand();
             }
         });
 
-        clContent = root.findViewById(R.id.llt_cl_content);
-        ivAvatar = root.findViewById(R.id.llt_iv_avatar);
-        ivArrow = root.findViewById(R.id.llt_arrow);
-        tvName = root.findViewById(R.id.llt_tv_name);
-        tvMemberCount = root.findViewById(R.id.llt_tv_member_count);
+        root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ExpandableListItem item = getExpandableListItem();
+                if (item instanceof SocialListLevelTwo) {
+                    SocialListLevelTwo levelTwo = (SocialListLevelTwo) item;
+                    CommonHelper.ImHelper.gotoGroupConversation(root.getContext(), levelTwo.getId(), ConversationType.SOCIAL);
+                }
+            }
+        });
     }
 
     @Override

@@ -54,6 +54,9 @@ public class StickHelper {
      * @return
      */
     public boolean isStick(UIConversation uiConversation) {
+        if (uiConversation.getConversationType() == null) {
+            return false;
+        }
         for (Stick stick : mSticks) {
             if (stick.getCvTypeOrdinal() == uiConversation.getConversationType().ordinal() &&
                     stick.getIdentity().equals(uiConversation.getIdentify())) {

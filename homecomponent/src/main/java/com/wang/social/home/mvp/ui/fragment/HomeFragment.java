@@ -32,6 +32,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 
+import static com.app.hubert.guide.model.HighLight.Shape.CIRCLE;
 import static com.app.hubert.guide.model.HighLight.Shape.ROUND_RECTANGLE;
 
 /**
@@ -85,7 +86,9 @@ public class HomeFragment extends BasicFragment implements HomeContract.View {
                 .addGuidePage(GuidePage.newInstance()
                         .addHighLight(getView().findViewById(R.id.btn_samekind), ROUND_RECTANGLE, 30, 0)
                         .addHighLight(getView().findViewById(R.id.btn_circle), ROUND_RECTANGLE, 30, 0)
-                        .setLayoutRes(R.layout.lay_guide_home)
+                        .addHighLight(getView().findViewById(R.id.img_find_tag), CIRCLE)
+                        .setLayoutRes(R.layout.lay_guide_home, R.id.btn_go)
+                        .setEverywhereCancelable(false)
                         .setEnterAnimation(GuidePageHelper.getEnterAnimation())
                         .setExitAnimation(GuidePageHelper.getExitAnimation()))
                 .show();

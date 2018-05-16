@@ -1,5 +1,7 @@
 package com.wang.social.im.mvp.ui;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -44,6 +46,11 @@ public class NewUsersActivity extends BasicAppActivity implements IView, BaseAda
     ApiHelper mApiHelper;
     @Inject
     IRepositoryManager mRepositoryManager;
+
+    public static void start(Context context) {
+        Intent intent = new Intent(context, NewUsersActivity.class);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

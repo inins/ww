@@ -19,7 +19,7 @@ import com.tencent.imsdk.ext.group.TIMGroupDetailInfo;
 import com.tencent.imsdk.ext.group.TIMGroupManagerExt;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
-import com.wang.social.im.enums.ConversationType;
+import com.frame.component.enums.ConversationType;
 import com.wang.social.im.helper.GroupHelper;
 import com.wang.social.im.mvp.model.entities.GroupProfile;
 

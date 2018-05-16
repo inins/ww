@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -92,16 +93,22 @@ public class FriendsFragment extends BaseFragment<FriendsPresenter> implements F
 
     @Override
     public void showFriends(List<IndexFriendInfo> friends) {
-        ffFlFriends.setLayoutManager(new LinearLayoutManager(getContext()));
-        FriendsAdapter adapter = new FriendsAdapter(getContext());
-        adapter.setOnItemContentClickListener(this);
-        ffFlFriends.setAdapter(adapter);
-        adapter.setDatas(friends);
-        ffFlFriends.showAllLetter(false);
-        ffFlFriends.setOverlayStyle_MaterialDesign(ContextCompat.getColor(getContext(), R.color.common_colorAccent));
-        ffFlFriends.setCompareMode(IndexableLayout.MODE_FAST);
+        if (friends.isEmpty()) {
+            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+            transaction.add(R.id.ff_fragment, NobodyFragment.newInstance(), NobodyFragment.class.getName());
+            transaction.commitAllowingStateLoss();
+        } else {
+            ffFlFriends.setLayoutManager(new LinearLayoutManager(getContext()));
+            FriendsAdapter adapter = new FriendsAdapter(getContext());
+            adapter.setOnItemContentClickListener(this);
+            ffFlFriends.setAdapter(adapter);
+            adapter.setDatas(friends);
+            ffFlFriends.showAllLetter(false);
+            ffFlFriends.setOverlayStyle_MaterialDesign(ContextCompat.getColor(getContext(), R.color.common_colorAccent));
+            ffFlFriends.setCompareMode(IndexableLayout.MODE_FAST);
 
-        ffFlFriends.addHeaderAdapter(new HeaderAdapter(Arrays.asList(""), friends.size()));
+            ffFlFriends.addHeaderAdapter(new HeaderAdapter(Arrays.asList(""), friends.size()));
+        }
     }
 
     @Override

@@ -17,7 +17,7 @@ import com.frame.http.imageloader.glide.RoundedCornersTransformation;
 import com.frame.utils.FrameUtils;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
-import com.wang.social.im.enums.ConversationType;
+import com.frame.component.enums.ConversationType;
 import com.wang.social.im.helper.StickHelper;
 import com.wang.social.im.mvp.model.entities.UIConversation;
 import com.wang.social.im.mvp.ui.adapters.ConversationAdapter;
@@ -78,7 +78,7 @@ public class ConversationViewHolder extends BaseViewHolder<UIConversation> {
         mImageLoader.loadImage(getContext(), ImageConfigImpl.builder()
                 .errorPic(defaultPortrait)
                 .placeholder(defaultPortrait)
-                .transformation(new RoundedCornersTransformation(UIUtil.getDimen(R.dimen.im_cvs_portrait_size), 0, RoundedCornersTransformation.CornerType.ALL))
+                .transformation(new RoundedCornersTransformation(UIUtil.getDimen(R.dimen.im_round_image_radius), 0, RoundedCornersTransformation.CornerType.ALL))
                 .imageView(icvIvPortrait)
                 .url(portrait)
                 .build());

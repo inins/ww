@@ -14,7 +14,7 @@ import com.tencent.imsdk.TIMMessageStatus;
 import com.tencent.imsdk.TIMTextElem;
 import com.tencent.imsdk.TIMUserProfile;
 import com.wang.social.im.R;
-import com.wang.social.im.enums.ConversationType;
+import com.frame.component.enums.ConversationType;
 import com.wang.social.im.enums.CustomElemType;
 import com.wang.social.im.enums.MessageScope;
 import com.wang.social.im.enums.MessageType;

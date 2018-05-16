@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 import com.frame.utils.KeyboardUtils;
 import com.tencent.imsdk.TIMConversationType;
 import com.wang.social.im.R;
-import com.wang.social.im.enums.ConversationType;
+import com.frame.component.enums.ConversationType;
 import com.wang.social.im.view.emotion.EmotionAdapter;
 import com.wang.social.im.view.emotion.SimpleCommonUtils;
 import com.wang.social.im.view.emotion.widget.EmoticonsEditText;

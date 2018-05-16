@@ -60,6 +60,40 @@
     <string name="im_toast_revoke_timeout">发送时间超过2分钟，不能被撤回</string>
     <string name="im_toast_contact_permission">请打开通讯录读取权限</string>
 
+    <!--通知-->
+    <string name="im_notify_official_title">往往官方号</string>
+    <string name="im_notify_official_note">欢迎使用客服系统</string>
+    <string name="im_notify_sysmsg">系统消息</string>
+    <string name="im_notify_friend_request">好友申请</string>
+    <string name="im_notify_findchat_request">加入觅聊申请</string>
+    <string name="im_notify_funchat_request">趣聊邀请</string>
+    <string name="im_notify_zan">点赞</string>
+    <string name="im_notify_eva">评论</string>
+    <string name="im_notify_aite">\@我的</string>
+
+    <!--系统消息-->
+    <string name="im_notify_sysmsg_title">系统消息</string>
+    <!--好友申请-->
+    <string name="im_notify_friend_request_title">好友申请</string>
+    <string name="im_notify_friend_request_agree">同意</string>
+    <string name="im_notify_friend_request_agreed">已同意</string>
+    <string name="im_notify_friend_request_reason">留言：</string>
+
+    <!--加入觅聊申请-->
+    <string name="im_notify_findchat_request_title">加入觅聊申请</string>
+    <string name="im_notify_findchat_request_reason">申请加入觅聊：</string>
+
+    <!--好友申请详情-->
+    <string name="im_notify_friend_request_detail_title">申请详情</string>
+    <string name="im_notify_friend_request_detail_reason_title">交友留言：</string>
+    <string name="im_notify_friend_request_detail_report">举报用户</string>
+
+    <string name="im_drawer_open">Open</string>
+    <string name="im_drawer_close">Close</string>
+
+    <string name="im_ex_no_menu_view">No view for menu provided. You must either call .withMenuView(View) or pass a valid resource id to .withMenuLayout(int)</string>
+    <string name="im_ex_bad_content_view">Your content view must contain exactly one child. Make sure you call inject() after setContentView().</string>
+
 
 
 

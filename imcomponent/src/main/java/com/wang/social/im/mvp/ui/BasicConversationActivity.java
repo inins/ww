@@ -7,7 +7,7 @@ import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.utils.ScreenUtils;
 import com.frame.utils.SizeUtils;
 import com.wang.social.im.R;
-import com.wang.social.im.enums.ConversationType;
+import com.frame.component.enums.ConversationType;
 
 /**
  * ============================================

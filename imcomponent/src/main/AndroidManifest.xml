@@ -76,5 +76,9 @@
             android:name=".mvp.ui.EnvelopDetailActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".mvp.ui.SearchActivity" />
+        <activity android:name=".mvp.ui.SysMsgListActivity" />
+        <activity android:name=".mvp.ui.FriendRequestListActivity" />
+        <activity android:name=".mvp.ui.FriendRequestDetailActivity" />
+        <activity android:name=".mvp.ui.FindChatRequestListActivity" />
     </application>
 </manifest>

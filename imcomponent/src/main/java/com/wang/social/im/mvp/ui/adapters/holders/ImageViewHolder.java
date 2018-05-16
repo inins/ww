@@ -21,7 +21,7 @@ import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageStatus;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
-import com.wang.social.im.enums.ConversationType;
+import com.frame.component.enums.ConversationType;
 import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 

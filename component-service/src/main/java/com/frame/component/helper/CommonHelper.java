@@ -3,6 +3,7 @@ package com.frame.component.helper;
 import android.content.Context;
 import android.os.Bundle;
 
+import com.frame.component.enums.ConversationType;
 import com.frame.component.path.FunshowPath;
 import com.frame.component.path.AppPath;
 import com.frame.component.path.ImPath;
@@ -97,6 +98,20 @@ public class CommonHelper {
             Bundle bundle = new Bundle();
             bundle.putString("targetId", targetId);
             UIRouter.getInstance().openUri(context, ImPath.TEAM_URL, bundle);
+        }
+
+        /**
+         * 趣聊/觅聊会话界面
+         *
+         * @param context
+         * @param targetId
+         * @param conversationType
+         */
+        public static void gotoGroupConversation(Context context, String targetId, ConversationType conversationType) {
+            Bundle bundle = new Bundle();
+            bundle.putString("targetId", targetId);
+            bundle.putInt("typeOrdinal", conversationType.ordinal());
+            UIRouter.getInstance().openUri(context, ImPath.GROUP_URL, bundle);
         }
 
         /**
