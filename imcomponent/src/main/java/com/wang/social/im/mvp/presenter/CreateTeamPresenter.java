@@ -49,7 +49,7 @@ public class CreateTeamPresenter extends BasePresenter<CreateTeamContract.Model,
      * @param attr
      */
     public void checkCreateStatus(String socialId, String name, String cover, String tag, TeamAttribute attr) {
-        mApiHelper.execute(mRootView, mModel.checkCreateTeamStatus(socialId),
+        mApiHelper.execute(mRootView, mModel.checkCreateTeamStatus(socialId, tag),
                 new ErrorHandleSubscriber<PayCheckInfo>() {
                     @Override
                     public void onNext(PayCheckInfo payCheckInfo) {

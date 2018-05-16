@@ -32,10 +32,10 @@ public class CreateTeamModel extends BaseModel implements CreateTeamContract.Mod
     }
 
     @Override
-    public Observable<BaseJson<PayCheckInfoDTO>> checkCreateTeamStatus(String socialId) {
+    public Observable<BaseJson<PayCheckInfoDTO>> checkCreateTeamStatus(String socialId, String tagId) {
         return mRepositoryManager
                 .obtainRetrofitService(GroupService.class)
-                .checkCreateTeamStatus("2.0.0", socialId);
+                .checkCreateTeamStatus("2.0.0", socialId, tagId);
     }
 
     @Override

@@ -29,7 +29,7 @@ public class RepositoryHelper {
         mRepositoryManager = FrameUtils.obtainAppComponentFromContext(Utils.getContext()).repoitoryManager();
     }
 
-    public static void getInstance() {
+    public static RepositoryHelper getInstance() {
         if (mInstance == null) {
             synchronized (RepositoryHelper.class) {
                 if (mInstance == null) {
@@ -37,6 +37,7 @@ public class RepositoryHelper {
                 }
             }
         }
+        return mInstance;
     }
 
     /**
@@ -46,7 +47,7 @@ public class RepositoryHelper {
      * @param reason
      * @param callBack
      */
-    public static void sendFriendlyApply(IView view, String userId, String reason, ImCallBack callBack) {
+    public void sendFriendlyApply(IView view, String userId, String reason, ImCallBack callBack) {
         mApiHelper.executeNone(view,
                 mRepositoryManager
                         .obtainRetrofitService(ChainService.class)
@@ -63,5 +64,9 @@ public class RepositoryHelper {
                         callBack.onFail(e);
                     }
                 });
+    }
+
+    public void setFriendRemark(IView view, String userId, String remark, ImCallBack callBack){
+//        mApiHelper.executeNone(view, mRepositoryManager.obtainRetrofitService());
     }
 }
