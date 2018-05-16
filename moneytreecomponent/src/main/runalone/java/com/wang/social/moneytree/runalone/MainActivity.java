@@ -8,7 +8,6 @@ import android.widget.EditText;
 
 import com.frame.base.BasicActivity;
 import com.frame.component.helper.NetLoginTestHelper;
-import com.frame.component.ui.acticity.PersonalCard.PersonalCardActivity;
 import com.frame.component.utils.SpannableStringUtil;
 import com.frame.component.view.DialogPay;
 import com.frame.di.component.AppComponent;
@@ -62,7 +61,7 @@ public class MainActivity extends BasicActivity implements IView {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        PersonalCardActivity.start(this, userid, type);
+//        PersonalCardActivity.start(this, userid, type);
     }
 
     @OnClick(R2.id.confirm_button)

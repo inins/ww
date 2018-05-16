@@ -44,6 +44,23 @@ public class DialogInput extends BaseDialogOkCancel {
         return dialogInput;
     }
 
+    public static DialogInput newInstance(Context context,
+                                          String title, String note, String hint,
+                                          String cancel, String ok, int max) {
+        DialogInput dialogInput = new DialogInput(context, title, note, hint, cancel, ok);
+        dialogInput.editInput.setFilters(new InputFilter[]{new InputFilter.LengthFilter(max)});
+        return dialogInput;
+    }
+
+    private DialogInput(Context context,
+                        String title, String note, String hint,
+                        String cancel, String ok) {
+        super(context, cancel, ok);
+        this.title = title;
+        this.note = note;
+        this.hint = hint;
+    }
+
     private DialogInput(Context context, String title, String note, String hint) {
         super(context, "personal_ic_pay_cancle", "修改");
         this.title = title;

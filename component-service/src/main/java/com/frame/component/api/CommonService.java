@@ -81,6 +81,8 @@ public interface CommonService {
     @FormUrlEncoded
     @POST("/app/common/report?v=2.0.0")
     Observable<BaseJson<Object>> report(@Field("objectId") int objectId, @Field("type") int type);
+    @FormUrlEncoded
+    @POST("/app/common/report?v=2.0.0")
     Observable<BaseJson<Object>> report(@Field("objectId") int objectId, @Field("type") int type,
                                         @Field("comment") String comment);
 

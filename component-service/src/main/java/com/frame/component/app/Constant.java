@@ -31,6 +31,10 @@ public interface Constant {
      */
     String PAY_OBJECT_TYPE_SHADOW = "changeShadow";
     /**
+     * 付费加群
+     */
+    String PAY_OBJECT_TYPE_ADD_GROUP = "addgroup";
+    /**
      * 支付渠道：宝石支付
      */
     String PAY_CHANNEL_STONE = "gemstone";

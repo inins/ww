@@ -24,7 +24,5 @@
         <activity android:name="com.frame.component.ui.acticity.tags.TagSelectionActivity"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name="com.frame.component.ui.acticity.PersonalCard.PersonalCardActivity"
-            android:screenOrientation="portrait"/>
     </application>
 </manifest>

@@ -6,15 +6,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-
-import com.frame.component.entities.User;
-import com.frame.component.ui.acticity.PersonalCard.PersonalCardActivity;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.mvp.IView;
-import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
 import com.wang.social.moneytree.R;
@@ -78,8 +74,8 @@ public class MemberListActivity extends BaseAppActivity implements IView {
         mAdapter = new MemberListAdapter(mRecyclerView, mList);
         mAdapter.setClickListener(new MemberListAdapter.ClickListener() {
             @Override
-            public void onMemeberClick(Member member) {
-                PersonalCardActivity.start(MemberListActivity.this, member.getUserId());
+            public void onMemberClick(Member member) {
+//                PersonalCardActivity.start(MemberListActivity.this, member.getUserId());
             }
         });
         mRecyclerView.setLayoutManager(

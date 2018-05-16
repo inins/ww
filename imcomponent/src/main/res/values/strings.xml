@@ -93,4 +93,17 @@
 
     <string name="im_ex_no_menu_view">No view for menu provided. You must either call .withMenuView(View) or pass a valid resource id to .withMenuLayout(int)</string>
     <string name="im_ex_bad_content_view">Your content view must contain exactly one child. Make sure you call inject() after setContentView().</string>
+
+
+
+
+    <string name="im_personal_card_more_menu_set_remark">设置备注</string>
+    <string name="im_personal_card_more_menu_set_avatar">设置头像</string>
+    <string name="im_personal_card_more_menu_report">举报</string>
+    <string name="im_personal_card_more_menu_delete">删除</string>
+    <string name="im_personal_card_more_menu_add_black_list">加入黑名单</string>
+    <string name="im_personal_card_refuse">拒绝</string>
+    <string name="im_personal_card_agree">同意</string>
+    <string name="im_personal_card_join">立即加入</string>
+    <string name="im_personal_card_join_hint">加入此趣聊需要支付%1d宝石</string>
 </resources>

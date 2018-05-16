@@ -149,13 +149,13 @@ public class HotUserListActivity extends BasicAppActivity implements IView, Base
 //                            current++;
 //                            adapter.addItem(list);
 //                        } else {
-//                            ToastUtil.showToastLong("没有更多数据了");
+//                            ToastUtil.toastShort("没有更多数据了");
 //                        }
 //                    }
 //
 //                    @Override
 //                    public void onError(Throwable e) {
-//                        ToastUtil.showToastLong(e.getMessage());
+//                        ToastUtil.toastShort(e.getMessage());
 //                    }
 //                }, null, () -> {
 //                    springView.onFinishFreshAndLoadDelay();
