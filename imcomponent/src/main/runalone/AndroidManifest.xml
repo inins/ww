@@ -170,6 +170,8 @@
         </activity>
         <activity android:name=".mvp.ui.GroupInviteDetailActivity">
         </activity>
+        <activity android:name=".mvp.ui.GroupMiInviteDetailActivity">
+        </activity>
         <activity android:name=".mvp.ui.HappyWoodActivity" />
         <activity android:name=".mvp.ui.NotifySysMsgListActivity" />
         <activity android:name=".mvp.ui.NofityFriendRequestListActivity" />

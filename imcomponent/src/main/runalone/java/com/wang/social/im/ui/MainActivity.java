@@ -16,6 +16,7 @@ import com.wang.social.im.R;
 import com.wang.social.im.helper.FriendShipHelper;
 import com.wang.social.im.helper.GroupHelper;
 import com.wang.social.im.mvp.ui.GroupInviteDetailActivity;
+import com.wang.social.im.mvp.ui.GroupMiInviteDetailActivity;
 import com.wang.social.im.mvp.ui.PersonalCard.PersonalCardActivity;
 import com.wang.social.im.mvp.ui.SearchActivity;
 
@@ -108,6 +109,31 @@ public class MainActivity extends AppCompatActivity {
                                 mGroupId);
                     }
                 });
+
+
+        findViewById(R.id.mi_group_invite)
+                .setOnClickListener(
+                        v -> {
+                            try {
+                                mGroupId = Integer.parseInt(mGroupIdET.getText().toString());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            try {
+                                mMsgId = Integer.parseInt(mMsgIdET.getText().toString());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            if (mMsgId > 0) {
+                                GroupMiInviteDetailActivity.start(MainActivity.this,
+                                        mGroupId, mMsgId);
+                            } else {
+                                GroupMiInviteDetailActivity.start(MainActivity.this,
+                                        mGroupId);
+                            }
+
+                        }
+                );
 
     }
 

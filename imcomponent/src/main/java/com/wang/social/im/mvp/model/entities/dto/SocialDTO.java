@@ -31,6 +31,7 @@ public class SocialDTO implements Mapper<SocialInfo> {
     private String ageRange; //年代区间  90,00
     private int isCreateMi;
     private List<TagDTO> tags;
+    private int memberNum;
 
     @Override
     public SocialInfo transform() {
@@ -39,6 +40,7 @@ public class SocialDTO implements Mapper<SocialInfo> {
         social.setName(groupName == null ? "" : groupName);
         social.setCover(groupCoverPlan == null ? "" : groupCoverPlan);
         social.setDesc(groupDesc == null ? "" : groupDesc);
+        social.setMemberNum(memberNum);
         SocialAttribute attr = new SocialAttribute();
         attr.setOpen(isOpen == 1);
         attr.setCharge(isFree == 0);

@@ -35,13 +35,13 @@ public class AppLifecycleImpl implements AppDelegate{
             // You should not init your app in this process.
             return;
         }
-        if (BuildConfig.LOG_DEBUG){
+        if (true){
             Timber.plant(new Timber.DebugTree());
 
             ButterKnife.setDebug(true);
         }
         //LeakCanary检查内存泄漏
-        FrameUtils.obtainAppComponentFromContext(application).extras().put(RefWatcher.class.getName(), BuildConfig.USE_CANARY ? LeakCanary.install(application) : RefWatcher.DISABLED);
+        FrameUtils.obtainAppComponentFromContext(application).extras().put(RefWatcher.class.getName(), true ? LeakCanary.install(application) : RefWatcher.DISABLED);
     }
 
     @Override

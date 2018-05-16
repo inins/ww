@@ -133,4 +133,6 @@
 
     <string name="im_age_segment">年龄分部</string>
     <string name="im_sex_segment">性别分布</string>
+    <string name="im_remark_desc">备注说明</string>
+    <string name="im_remark_desc_content">同意加入该觅聊后，会自动加入上级趣聊群</string>
 </resources>

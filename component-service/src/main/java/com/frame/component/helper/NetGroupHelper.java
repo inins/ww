@@ -8,6 +8,7 @@ import com.frame.component.entities.AddGroupApplyRsp;
 import com.frame.component.entities.AddGroupRsp;
 import com.frame.component.entities.dto.AddGroupApplyRspDTO;
 import com.frame.component.entities.dto.AddGroupRspDTO;
+import com.frame.component.service.R;
 import com.frame.component.ui.dialog.DialogValiRequest;
 import com.frame.component.ui.dialog.PayDialog;
 import com.frame.http.api.ApiHelperEx;
@@ -22,6 +23,8 @@ import com.frame.utils.ToastUtil;
 
 public class NetGroupHelper {
 
+    private boolean mIsMi;
+
     private NetGroupHelper() {
     }
 
@@ -29,7 +32,12 @@ public class NetGroupHelper {
         return new NetGroupHelper();
     }
 
-    public void addGroup(Context context, IView view , int groupId, AddGroupHelperCallback callback) {
+    public void addMiGroup(Context context, IView view, int groupId, AddGroupHelperCallback callback) {
+        mIsMi = true;
+        addGroup(context, view, groupId, callback);
+    }
+
+    public void addGroup(Context context, IView view, int groupId, AddGroupHelperCallback callback) {
         netAddGroupMemberApply(view, groupId, addGroupApplyRsp -> {
             //applyId:11,	//订单申请ID
             //payState:0,    //0：不需要支付,1:需要调用支付接口
@@ -41,22 +49,22 @@ public class NetGroupHelper {
                 DialogValiRequest.showDialog(
                         context,
                         content -> {
-                            netAddGroupMember(context, view,
+                            addGroupMember(context, view,
                                     content,
                                     addGroupApplyRsp,
                                     addGroupRsp -> {
-                                        successToast(addGroupApplyRsp.isNeedValidation());
+                                        successToast(context, addGroupApplyRsp.isNeedValidation());
                                         if (null != callback) {
                                             callback.success(addGroupApplyRsp.isNeedValidation());
                                         }
                                     });
                         });
             } else {
-                netAddGroupMember(context, view,
+                addGroupMember(context, view,
                         Integer.toString(addGroupApplyRsp.getApplyId()),
                         addGroupApplyRsp,
                         addGroupRsp -> {
-                            successToast(addGroupApplyRsp.isNeedValidation());
+                            successToast(context, addGroupApplyRsp.isNeedValidation());
                             if (null != callback) {
                                 callback.success(addGroupApplyRsp.isNeedValidation());
                             }
@@ -65,20 +73,29 @@ public class NetGroupHelper {
         });
     }
 
-    private void successToast(boolean isNeedValidation) {
+    private void successToast(Context context, boolean isNeedValidation) {
         if (isNeedValidation) {
-            ToastUtil.showToastLong("申请成功，请等待群主验证");
+            ToastUtil.showToastLong(context.getResources()
+                    .getString(R.string.group_add_success_need_validate));
         } else {
             // 不需要要群主验证，已经成功加入群
-            ToastUtil.showToastLong("成功加入该群");
+            ToastUtil.showToastLong(context.getResources()
+                    .getString(R.string.group_add_success));
         }
     }
 
-    private void netAddGroupMember(Context context, IView view, String applyDesc,
-                                   AddGroupApplyRsp addGroupApplyRsp, AddGroupMemberCallback callback) {
+    private void addGroupMember(Context context, IView view, String applyDesc,
+                                AddGroupApplyRsp addGroupApplyRsp, AddGroupMemberCallback callback) {
         if (addGroupApplyRsp.getPayState() == 1) {
             // 需要支付
-            String message = String.format("加入此趣聊需要支付%1d宝石", addGroupApplyRsp.getGemstone());
+            String format = "";
+            if (mIsMi) {
+                context.getResources().getString(R.string.group_mi_add_format_pay_hint);
+            } else {
+                context.getResources().getString(R.string.group_add_format_pay_hint);
+            }
+            String message = String.format(
+                    format, addGroupApplyRsp.getGemstone());
             PayDialog payDialog = new PayDialog(context,
                     () -> pay(
                             view,
@@ -92,7 +109,7 @@ public class NetGroupHelper {
         } else {
             // 加入群
             netAddGroupMember(
-                    view ,
+                    view,
                     addGroupApplyRsp.getApplyId(),
                     applyDesc,
                     callback);
@@ -101,17 +118,18 @@ public class NetGroupHelper {
 
     /**
      * 加群支付
+     *
      * @param applyId 申请id
-     * @param price 支付价格
+     * @param price   支付价格
      */
-    private void pay(IView view , int applyId, String applyDesc, int price, AddGroupMemberCallback callback) {
+    private void pay(IView view, int applyId, String applyDesc, int price, AddGroupMemberCallback callback) {
         NetPayStoneHelper.newInstance().stonePay(
                 view,
                 price,
                 Constant.PAY_OBJECT_TYPE_ADD_GROUP,
                 Integer.toString(applyId),
                 () -> {
-                    netAddGroupMember(view ,
+                    netAddGroupMember(view,
                             applyId,
                             applyDesc,
                             callback);

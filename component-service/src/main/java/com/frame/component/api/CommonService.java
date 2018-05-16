@@ -200,6 +200,7 @@ public interface CommonService {
     /**
      * 尝试加入趣聊、觅聊
      */
+    @Headers(HEADER_CONTENT_TYPE)
     @FormUrlEncoded
     @POST("app/group/addGroupMember")
     Observable<BaseJson<AddGroupRspDTO>> addGroupMember(
