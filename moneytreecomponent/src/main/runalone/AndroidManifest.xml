@@ -18,6 +18,8 @@
             android:value="ConfigModule" />
 
         <activity android:name=".runalone.MainActivity">
+        </activity>
+        <activity android:name=".runalone.TestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.EditText;
 
 import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.NetLoginTestHelper;
@@ -13,11 +14,18 @@ import com.tencent.imsdk.TIMManager;
 import com.wang.social.im.R;
 import com.wang.social.im.helper.FriendShipHelper;
 import com.wang.social.im.helper.GroupHelper;
-import com.wang.social.im.mvp.model.entities.GroupProfile;
+import com.wang.social.im.mvp.ui.GroupInviteDetailActivity;
+import com.wang.social.im.mvp.ui.PersonalCard.PersonalCardActivity;
 import com.wang.social.im.mvp.ui.SearchActivity;
 
 public class MainActivity extends AppCompatActivity {
 
+    private EditText mUserIdET;
+    private int mUserId = 10001;
+    private int mGroupId;
+    private int mMsgId;
+    private EditText mGroupIdET;
+    private EditText mMsgIdET;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +68,37 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         findViewById(R.id.search).setOnClickListener(v -> SearchActivity.start(this));
+
+        mUserIdET = findViewById(R.id.user_id_edit_text);
+        mUserIdET.setText("10001");
+        try {
+            mUserId = Integer.parseInt(mUserIdET.getText().toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        findViewById(R.id.personal_card)
+                .setOnClickListener(v -> PersonalCardActivity.start(this, mUserId));
+
+        mGroupIdET = findViewById(R.id.group_id_edit_text);
+        mMsgIdET = findViewById(R.id.msg_id_edit_text);
+        mGroupIdET.setText("26");
+        mGroupId = 26;
+        try {
+            mGroupId = Integer.parseInt(mGroupIdET.getText().toString());
+            mMsgId = Integer.parseInt(mMsgIdET.getText().toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (mMsgId > 0) {
+            findViewById(R.id.group_invite)
+                    .setOnClickListener(v ->
+                            GroupInviteDetailActivity.startForInvite(this, mGroupId, 1));
+        } else {
+            GroupInviteDetailActivity.startForBrowse(this, mGroupId);
+        }
+
     }
 
     @Override

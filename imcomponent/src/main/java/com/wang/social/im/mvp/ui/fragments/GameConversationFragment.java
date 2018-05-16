@@ -22,7 +22,7 @@ import com.wang.social.im.R2;
 import com.wang.social.im.app.IMConstants;
 import com.wang.social.im.di.component.DaggerGameConversationComponent;
 import com.wang.social.im.di.modules.GameConversationModule;
-import com.wang.social.im.enums.ConversationType;
+import com.frame.component.enums.ConversationType;
 import com.wang.social.im.mvp.contract.GameConversationContract;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 import com.wang.social.im.mvp.presenter.GameConversationPresenter;

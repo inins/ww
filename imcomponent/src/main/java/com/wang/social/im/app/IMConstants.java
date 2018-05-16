@@ -65,6 +65,14 @@ public interface IMConstants {
      * IM会话标识前缀：摇钱树
      */
     String IM_IDENTITY_PREFIX_GAME = "YQS";
+    /**
+     * IM会话标识前缀：趣聊
+     */
+    String IM_IDENTITY_PREFIX_SOCIAL = "QU";
+    /**
+     * IM会话标识前缀：觅聊
+     */
+    String IM_IDENTITY_PREFIX_TEAM = "MI";
 
     /**
      * 群类型：私有群

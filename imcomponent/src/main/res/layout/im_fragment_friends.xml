@@ -8,14 +8,14 @@
         android:id="@+id/ff_fl_friends"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:indexBar_selectedTextColor="@color/common_colorAccent"
         app:indexBar_textColor="@color/common_text_blank"
         app:indexBar_textSize="9sp"
-        app:indexBar_textSpace="5dp"/>
+        app:indexBar_textSpace="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.v4.widget.ContentLoadingProgressBar
         android:id="@+id/ff_progress"
@@ -26,4 +26,9 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/ff_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </android.support.constraint.ConstraintLayout>

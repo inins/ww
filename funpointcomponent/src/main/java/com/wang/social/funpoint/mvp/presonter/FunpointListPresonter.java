@@ -85,7 +85,7 @@ public class FunpointListPresonter extends BasePresenter<FunpointListContract.Mo
 //
 //                    @Override
 //                    public void onError(Throwable e) {
-//                        ToastUtil.showToastLong(e.getMessage());
+//                        ToastUtil.toastShort(e.getMessage());
 //                    }
 //                });
     }

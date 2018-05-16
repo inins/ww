@@ -9,8 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.frame.component.ui.acticity.PersonalCard.PersonalCardActivity;
-import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.component.ui.acticity.tags.TagUtils;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.utils.FrameUtils;
@@ -25,7 +23,7 @@ import com.wang.social.moneytree.mvp.model.entities.Member;
 public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.ViewHolder> {
 
     public interface ClickListener {
-        void onMemeberClick(Member member);
+        void onMemberClick(Member member);
     }
 
     private Context mContext;
@@ -103,7 +101,7 @@ public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.Vi
             @Override
             public void onClick(View v) {
                 if (null != mClickListener && v.getTag() instanceof Member) {
-                    mClickListener.onMemeberClick((Member) v.getTag());
+                    mClickListener.onMemberClick((Member) v.getTag());
                 }
             }
         });

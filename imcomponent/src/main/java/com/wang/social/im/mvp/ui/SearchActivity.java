@@ -28,6 +28,8 @@ import butterknife.BindView;
 
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
+import com.wang.social.im.mvp.ui.PersonalCard.ui.fragment.FriendListFragment;
+import com.wang.social.im.mvp.ui.PersonalCard.ui.fragment.GroupListFragment;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -99,11 +101,14 @@ public class SearchActivity extends BasicActivity {
             public Fragment getItem(int position) {
                 switch (position) {
                     case 0:
-                        return BuildFragment.newInstance();
+//                        return BuildFragment.newInstance();
+                        return FriendListFragment.newSearchInstance();
                     case 1:
-                        return BuildFragment.newInstance();
+//                        return BuildFragment.newInstance();
+                        return GroupListFragment.newSearchGroup();
                     case 2:
-                        return BuildFragment.newInstance();
+//                        return BuildFragment.newInstance();
+                        return GroupListFragment.newSearchMi();
                 }
                 return null;
             }

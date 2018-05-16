@@ -1,6 +1,8 @@
 package com.wang.social.im.mvp.presenter;
 
 import com.frame.di.scope.FragmentScope;
+import com.frame.http.api.ApiHelper;
+import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.mvp.BasePresenter;
 import com.frame.utils.ToastUtil;
 import com.tencent.imsdk.TIMConversation;
@@ -13,6 +15,8 @@ import com.tencent.imsdk.ext.message.TIMConversationExt;
 import com.tencent.imsdk.ext.message.TIMManagerExt;
 import com.wang.social.im.app.IMConstants;
 import com.wang.social.im.mvp.contract.ConversationListContract;
+import com.wang.social.im.mvp.model.entities.IndexFriendInfo;
+import com.wang.social.im.mvp.model.entities.ListData;
 import com.wang.social.im.mvp.model.entities.UIConversation;
 
 import java.util.ArrayList;
@@ -22,6 +26,8 @@ import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
@@ -35,6 +41,9 @@ import timber.log.Timber;
  */
 @FragmentScope
 public class ConversationListPresenter extends BasePresenter<ConversationListContract.Model, ConversationListContract.View> implements TIMMessageListener {
+
+    @Inject
+    ApiHelper mApiHelper;
 
     @Inject
     public ConversationListPresenter(ConversationListContract.Model model, ConversationListContract.View view) {
@@ -117,6 +126,35 @@ public class ConversationListPresenter extends BasePresenter<ConversationListCon
                         }
                     }
                 });
+    }
 
+    public void getFriendsList() {
+        mApiHelper.execute(mRootView, mModel.getFriendList(),
+                new ErrorHandleSubscriber<ListData<IndexFriendInfo>>() {
+                    @Override
+                    public void onNext(ListData<IndexFriendInfo> friendInfoListData) {
+                        if (friendInfoListData.getList().isEmpty()) {
+                            mRootView.showNobody();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        if (e instanceof NullPointerException) {
+                            mRootView.showNobody();
+                        }
+                    }
+                }, new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                        mRootView.showLoading();
+                    }
+                }, new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mRootView.hideLoading();
+                    }
+                });
     }
 }

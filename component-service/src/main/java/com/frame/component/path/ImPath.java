@@ -15,6 +15,10 @@ public interface ImPath extends BasePath {
     String PRIVATE_PATH = "/private";
     String PRIVATE_URL = SCHEME + HOST + PRIVATE_PATH;
 
+    //趣聊/觅聊页面
+    String GROUP_PATH = "/group";
+    String GROUP_URL = SCHEME + HOST + GROUP_PATH;
+
     //趣聊页面
     String SOCIAL_PATH = "/social";
     String SOCIAL_URL = SCHEME + HOST + SOCIAL_PATH;

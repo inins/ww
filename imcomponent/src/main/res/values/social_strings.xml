@@ -129,4 +129,8 @@
     <string name="im_toast_gender">请选择性别</string>
     <string name="im_toast_portrait">请设置头像</string>
     <string name="im_toast_group_desc">请输入简介内容</string>
+
+
+    <string name="im_age_segment">年龄分部</string>
+    <string name="im_sex_segment">性别分布</string>
 </resources>

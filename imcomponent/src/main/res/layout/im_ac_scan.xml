@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <cn.bingoogolapple.qrcode.zxing.ZXingView
+        android:id="@+id/sc_zing"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:qrcv_animTime="1000"
+        app:qrcv_borderColor="@android:color/white"
+        app:qrcv_borderSize="1dp"
+        app:qrcv_cornerColor="#e7e7e7"
+        app:qrcv_cornerLength="20dp"
+        app:qrcv_cornerSize="3dp"
+        app:qrcv_isCenterVertical="true"
+        app:qrcv_maskColor="#66000000"
+        app:qrcv_rectWidth="200dp"
+        app:qrcv_scanLineColor="#ededed"
+        app:qrcv_scanLineSize="1dp"
+        app:qrcv_topOffset="90dp" />
+
+    <com.frame.component.view.SocialToolbar
+        android:id="@+id/sc_toolbar"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:toolbar_left_icon="@drawable/common_ic_back_white"
+        app:toolbar_right_text="相册"
+        app:toolbar_right_text_color="@color/common_white" />
+
+    <LinearLayout
+        android:id="@+id/sc_ll_mask"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#80000000"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingTop="13dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="请使用往往社交二维码"
+            android:textColor="@color/common_white"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="点击屏幕继续扫描"
+            android:textColor="#99ffffff"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="88dp"
+        android:text="请将往往二维码对准框内"
+        android:textColor="#99ffffff"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/sc_zing"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+</android.support.constraint.ConstraintLayout>

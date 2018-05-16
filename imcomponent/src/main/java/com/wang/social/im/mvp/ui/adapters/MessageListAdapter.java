@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
 import com.wang.social.im.R;
-import com.wang.social.im.enums.ConversationType;
+import com.frame.component.enums.ConversationType;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 import com.wang.social.im.mvp.ui.adapters.holders.BaseMessageViewHolder;
 import com.wang.social.im.mvp.ui.adapters.holders.EnvelopViewHolder;

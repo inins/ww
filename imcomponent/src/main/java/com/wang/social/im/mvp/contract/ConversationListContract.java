@@ -1,12 +1,18 @@
 package com.wang.social.im.mvp.contract;
 
+import com.frame.http.api.BaseJson;
 import com.frame.mvp.IModel;
 import com.frame.mvp.IView;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMMessage;
+import com.wang.social.im.mvp.model.entities.IndexFriendInfo;
 import com.wang.social.im.mvp.model.entities.UIConversation;
+import com.wang.social.im.mvp.model.entities.dto.IndexFriendInfoDTO;
+import com.wang.social.im.mvp.model.entities.dto.ListDataDTO;
 
 import java.util.List;
+
+import io.reactivex.Observable;
 
 /**
  * ============================================
@@ -45,9 +51,20 @@ public interface ConversationListContract {
          * @param uiConversation
          */
         void onDeleted(UIConversation uiConversation);
+
+        /**
+         * 显示没有好友时的状态
+         */
+        void showNobody();
     }
 
     interface Model extends IModel {
 
+        /**
+         * 获取好友列表
+         *
+         * @return
+         */
+        Observable<BaseJson<ListDataDTO<IndexFriendInfoDTO, IndexFriendInfo>>> getFriendList();
     }
 }

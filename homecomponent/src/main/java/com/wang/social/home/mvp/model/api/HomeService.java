@@ -36,13 +36,13 @@ public interface HomeService {
     /**
      * 首页卡牌，有趣的同类
      */
-    @GET("/app/interest/searchUser?v=2.0.0")
+    @GET("/app/interest/chatListSearchUser?v=2.0.0")
     Observable<BaseJson<BaseListWrap<CardUser>>> getCardUsers(@Query("sex") Integer sex, @Query("ageRange") String ageRange, @Query("current") int current, @Query("size") int size);
 
     /**
      * 首页卡牌，有趣的圈子
      */
-    @GET("/app/interest/searchGroup?v=2.0.0")
+    @GET("/app/interest/chatListSearchGroup?v=2.0.0")
     Observable<BaseJson<BaseListWrap<CardGroup>>> getCardGroups(@Query("current") int current, @Query("size") int size);
 
     /**

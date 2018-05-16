@@ -9,11 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import com.frame.base.BasicFragment;
 import com.frame.component.common.NetParam;
 import com.frame.component.entities.Topic;
-import com.frame.component.service.R;
-import com.frame.component.service.R2;
-import com.frame.component.ui.acticity.PersonalCard.model.api.PersonalCardService;
-import com.frame.component.ui.acticity.PersonalCard.model.entities.DTO.TopicDTO;
-import com.frame.component.ui.acticity.PersonalCard.ui.adapter.TopicListAdapter;
+import com.frame.component.ui.adapter.TopicListAdapter;
 import com.frame.di.component.AppComponent;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.BaseJson;
@@ -28,6 +24,8 @@ import com.frame.utils.Utils;
 import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
+import com.wang.social.im.mvp.ui.PersonalCard.model.api.PersonalCardService;
+import com.wang.social.im.mvp.ui.PersonalCard.model.entities.DTO.TopicDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +36,8 @@ import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
+import com.wang.social.im.R;
+import com.wang.social.im.R2;
 
 public class SearchUserListFragment extends BasicFragment implements IView, TopicListAdapter.ClickListener {
 
@@ -70,7 +70,7 @@ public class SearchUserListFragment extends BasicFragment implements IView, Topi
 
     @Override
     public int initView(@Nullable Bundle savedInstanceState) {
-        return R.layout.personal_card_fragment_list_side_14;
+        return R.layout.im_personal_card_fragment_list_side_14;
     }
 
     @Override

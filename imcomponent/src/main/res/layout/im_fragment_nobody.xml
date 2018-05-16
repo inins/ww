@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_white">
+
+    <TextView
+        android:id="@+id/fn_tv_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
+        android:text="@string/im_contacts_tip"
+        android:textColor="@color/common_text_blank"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/fn_tvb_look_contacts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="23dp"
+        android:drawablePadding="5dp"
+        android:drawableStart="@drawable/im_ic_contacts"
+        android:text="@string/im_look_contacts"
+        android:gravity="center_vertical"
+        android:textColor="@color/common_colorAccent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fn_tv_tip" />
+
+    <View
+        android:id="@+id/fn_contacts_line"
+        android:layout_width="match_parent"
+        android:layout_height="7dp"
+        android:layout_marginTop="25dp"
+        android:background="#f2f2f2"
+        app:layout_constraintTop_toBottomOf="@id/fn_tvb_look_contacts" />
+
+    <TextView
+        android:id="@+id/fn_recommend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="推荐还是得有的，可能是你感兴趣的人"
+        android:textColor="@color/common_text_dark"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fn_contacts_line" />
+
+    <com.frame.component.view.barview.BarView
+        android:id="@+id/fn_knowledge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/common_border_margin"
+        android:layout_marginStart="@dimen/common_border_margin"
+        android:layout_marginTop="18dp"
+        app:layout_constraintTop_toBottomOf="@id/fn_recommend"
+        app:note="发布话题20条以上"
+        app:title="知识魔" />
+
+    <com.frame.component.view.barview.BarView
+        android:id="@+id/fn_post"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/common_border_margin"
+        android:layout_marginStart="@dimen/common_border_margin"
+        android:layout_marginTop="18dp"
+        app:layout_constraintTop_toBottomOf="@id/fn_knowledge"
+        app:note="发布趣晒20条以上"
+        app:title="趣晒魔" />
+
+    <com.frame.component.view.barview.BarView
+        android:id="@+id/fn_new_users"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/common_border_margin"
+        android:layout_marginStart="@dimen/common_border_margin"
+        android:layout_marginTop="18dp"
+        app:layout_constraintTop_toBottomOf="@id/fn_post"
+        app:note="初来乍到多多指教"
+        app:title="新用户" />
+</android.support.constraint.ConstraintLayout>

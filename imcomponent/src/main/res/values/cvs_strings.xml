@@ -10,4 +10,7 @@
     <string name="im_cvs_unread_max">99+</string>
     <string name="im_cvs_stick">置顶</string>
     <string name="im_cvs_unstick">取消置顶</string>
+
+    <string name="im_contacts_tip">已经有通讯录中的小伙伴在玩往往了\n快去看看她/他们都是谁</string>
+    <string name="im_look_contacts">查看通讯录好友</string>
 </resources>

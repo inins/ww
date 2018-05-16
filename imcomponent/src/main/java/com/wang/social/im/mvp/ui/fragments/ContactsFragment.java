@@ -23,6 +23,7 @@ import com.wang.social.im.R2;
 import com.wang.social.im.mvp.ui.ConversationListFragment;
 import com.wang.social.im.mvp.ui.CreateSocialActivity;
 import com.wang.social.im.mvp.ui.PhoneBookActivity;
+import com.wang.social.im.mvp.ui.ScanActivity;
 import com.wang.social.im.mvp.ui.adapters.FragmentAdapter;
 import com.wang.social.im.view.NoScrollViewPager;
 
@@ -152,7 +153,7 @@ public class ContactsFragment extends BasicFragment implements AutoPopupWindow.O
         if (resId == R.string.im_create_social) {
             CreateSocialActivity.start(getContext());
         } else if (resId == R.string.im_scan) {
-
+            ScanActivity.start(getActivity());
         } else if (resId == R.string.im_contacts) {
             PhoneBookActivity.start(getActivity());
         }

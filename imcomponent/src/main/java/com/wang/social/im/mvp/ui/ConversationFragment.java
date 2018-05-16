@@ -48,7 +48,7 @@ import com.wang.social.im.R2;
 import com.wang.social.im.di.component.DaggerConversationComponent;
 import com.wang.social.im.di.modules.ConversationModule;
 import com.wang.social.im.enums.ConnectionStatus;
-import com.wang.social.im.enums.ConversationType;
+import com.frame.component.enums.ConversationType;
 import com.wang.social.im.mvp.contract.ConversationContract;
 import com.wang.social.im.mvp.model.entities.EnvelopInfo;
 import com.wang.social.im.mvp.model.entities.UIMessage;
