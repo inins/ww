@@ -344,76 +344,6 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
     }
 
     /**
-     * 加群支付
-     * @param applyId 申请id
-     * @param price 支付价格
-     */
-    private void pay(int applyId, int price) {
-        NetPayStoneHelper.newInstance().stonePay(this,
-                price,
-                Constant.PAY_OBJECT_TYPE_ADD_GROUP,
-                Integer.toString(applyId),
-                new NetPayStoneHelper.OnStonePayCallback() {
-            @Override
-            public void success() {
-                addGroupMember(applyId);
-            }
-        });
-    }
-
-    /**
-     * 加群申请（加群先申请，然后再尝试加群，需要调用两个接口）
-     * @param groupId 群id
-     */
-    private void addGroupMemberApply(int groupId) {
-        NetGroupHelper.newInstance().addGroupMemberApply(this,
-                groupId,
-                rsp -> {
-                    //applyId:11,	//订单申请ID
-                    //payState:0,    //0：不需要支付,1:需要调用支付接口
-                    //gemstone:100,  //所需宝石数
-                    //needValidation:true   //是否需要群主同意  true/false
-
-                    if (rsp.getPayState() == 1) {
-                        // 需要支付
-                        String message = String.format("加入此趣聊需要支付%1d宝石", rsp.getGemstone());
-                        PayDialog payDialog = new PayDialog(GroupInviteDetailActivity.this,
-                                () -> pay(rsp.getApplyId(), rsp.getGemstone()),
-                                message,
-                                String.valueOf(rsp.getGemstone()));
-                        payDialog.show();
-                    } else {
-                        // 加入群
-                        addGroupMember(rsp.getApplyId());
-                    }
-                });
-
-    }
-
-    /**
-     * 尝试加群
-     * @param applyId 申请id
-     */
-    private void addGroupMember(int applyId) {
-        NetGroupHelper.newInstance().addGroupMember(this,
-                applyId,
-                rsp -> {
-                    // 隐藏底部栏
-                    mBottomLayout.setVisibility(View.GONE);
-
-                    // state:1,	//1:加入群成功  2：已经发送加群申请
-                    if (rsp.getState() == 1) {
-                        // 重新加载群统计
-                        loadDistribution(mGroupId);
-
-                    } else if (rsp.getState() == 2) {
-                        // 提示
-                        ToastUtil.showToastLong("已经发送加群申请");
-                    }
-                });
-    }
-
-    /**
      * 同意入群
      */
     private void agreeAdd(int groupId, int msgId) {
@@ -491,6 +421,18 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
 
     @OnClick(R2.id.apply_text_view)
     public void apply() {
-        addGroupMemberApply(mGroupId);
+        NetGroupHelper.newInstance().addGroup(
+                this,
+                this,
+                mGroupId,
+                isNeedValidation -> {
+                    // 隐藏底部栏
+                    mBottomLayout.setVisibility(View.GONE);
+
+                    if (!isNeedValidation) {
+                        // 重新加载群统计
+                        loadDistribution(mGroupId);
+                    }
+                });
     }
 }
