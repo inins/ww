@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import com.frame.base.BaseAdapter;
 import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.BaseListWrap;
+import com.frame.component.helper.NetFriendHelper;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
 import com.frame.component.view.TitleView;
 import com.frame.http.api.ApiHelperEx;
@@ -25,14 +26,15 @@ import com.liaoinstan.springview.widget.SpringView;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.mvp.model.api.NotifyService;
-import com.wang.social.im.mvp.model.entities.notify.SysMsg;
-import com.wang.social.im.mvp.ui.adapters.RecycleAdapterSysMsg;
+import com.wang.social.im.mvp.model.entities.notify.FriendRequest;
+import com.wang.social.im.mvp.model.entities.notify.RequestBean;
+import com.wang.social.im.mvp.ui.adapters.RecycleAdapterFriendRequest;
 
 import java.util.List;
 
 import butterknife.BindView;
 
-public class SysMsgListActivity extends BasicAppNoDiActivity implements IView, BaseAdapter.OnItemClickListener<SysMsg> {
+public class NofityFriendRequestListActivity extends BasicAppNoDiActivity implements IView, BaseAdapter.OnItemClickListener<RequestBean> {
 
     @BindView(R2.id.spring)
     SpringView springView;
@@ -40,10 +42,11 @@ public class SysMsgListActivity extends BasicAppNoDiActivity implements IView, B
     RecyclerView recycler;
     @BindView(R2.id.titleview)
     TitleView titleview;
-    private RecycleAdapterSysMsg adapter;
+    private RecycleAdapterFriendRequest adapter;
+    private List<FriendRequest> friendRequests;
 
     public static void start(Context context) {
-        Intent intent = new Intent(context, SysMsgListActivity.class);
+        Intent intent = new Intent(context, NofityFriendRequestListActivity.class);
         context.startActivity(intent);
     }
 
@@ -55,10 +58,16 @@ public class SysMsgListActivity extends BasicAppNoDiActivity implements IView, B
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
         FocusUtil.focusToTop(toolbar);
-        titleview.setTitle(getString(R.string.im_notify_sysmsg_title));
+        titleview.setTitle(getString(R.string.im_notify_friend_request_title));
 
-        adapter = new RecycleAdapterSysMsg();
+        adapter = new RecycleAdapterFriendRequest();
+        adapter.setGroup(false);
         adapter.setOnItemClickListener(this);
+        adapter.setOnAgreeClickListener((bean, position) -> {
+            NetFriendHelper.newInstance().netAgreeFriendApply(NofityFriendRequestListActivity.this,bean.getUserId(),bean.getMsgId(),true,()->{
+                netGetSysMsgList(true);
+            });
+        });
         recycler.setNestedScrollingEnabled(false);
         recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recycler.setAdapter(adapter);
@@ -81,7 +90,8 @@ public class SysMsgListActivity extends BasicAppNoDiActivity implements IView, B
     }
 
     @Override
-    public void onItemClick(SysMsg testEntity, int position) {
+    public void onItemClick(RequestBean bean, int position) {
+        NotifyFriendRequestDetailActivity.start(this, friendRequests.get(position));
     }
 
     //////////////////////分页查询////////////////////
@@ -91,12 +101,14 @@ public class SysMsgListActivity extends BasicAppNoDiActivity implements IView, B
     private void netGetSysMsgList(boolean isFresh) {
         if (isFresh) current = 0;
         ApiHelperEx.execute(this, false,
-                ApiHelperEx.getService(NotifyService.class).getSysMsgList(current + 1, size),
-                new ErrorHandleSubscriber<BaseJson<BaseListWrap<SysMsg>>>() {
+                ApiHelperEx.getService(NotifyService.class).getFriendRequestList(current + 1, size),
+                new ErrorHandleSubscriber<BaseJson<BaseListWrap<FriendRequest>>>() {
                     @Override
-                    public void onNext(BaseJson<BaseListWrap<SysMsg>> basejson) {
-                        BaseListWrap<SysMsg> warp = basejson.getData();
-                        List<SysMsg> list = warp != null ? warp.getList() : null;
+                    public void onNext(BaseJson<BaseListWrap<FriendRequest>> basejson) {
+                        BaseListWrap<FriendRequest> warp = basejson.getData();
+//                        List<FriendRequest> list = warp != null ? warp.getList() : null;
+                        friendRequests = warp.getList();
+                        List<RequestBean> list = FriendRequest.tans2RequestBeanList(warp.getList());
                         if (!StrUtil.isEmpty(list)) {
                             current = warp.getCurrent();
                             if (isFresh) {

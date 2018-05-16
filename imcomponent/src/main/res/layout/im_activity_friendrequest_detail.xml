@@ -162,10 +162,10 @@
                 android:layout_marginTop="3dp"
                 android:hint="无"
                 android:minLines="3"
-                android:text="你好呀，我是以后的谁谁！！"
                 android:textColor="@color/common_text_blank"
                 android:textColorHint="@color/common_text_light"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                tools:text="你好呀，我是以后的谁谁！！" />
 
         </LinearLayout>
 

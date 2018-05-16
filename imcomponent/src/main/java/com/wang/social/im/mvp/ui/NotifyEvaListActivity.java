@@ -25,15 +25,16 @@ import com.liaoinstan.springview.widget.SpringView;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.mvp.model.api.NotifyService;
-import com.wang.social.im.mvp.model.entities.notify.FriendRequest;
-import com.wang.social.im.mvp.model.entities.notify.RequestBean;
-import com.wang.social.im.mvp.ui.adapters.RecycleAdapterFriendRequest;
+import com.wang.social.im.mvp.model.entities.notify.CommonMsg;
+import com.wang.social.im.mvp.model.entities.notify.EvaMsg;
+import com.wang.social.im.mvp.model.entities.notify.ZanMsg;
+import com.wang.social.im.mvp.ui.adapters.RecycleAdapterCommonMsg;
 
 import java.util.List;
 
 import butterknife.BindView;
 
-public class FriendRequestListActivity extends BasicAppNoDiActivity implements IView, BaseAdapter.OnItemClickListener<RequestBean> {
+public class NotifyEvaListActivity extends BasicAppNoDiActivity implements IView, BaseAdapter.OnItemClickListener<CommonMsg> {
 
     @BindView(R2.id.spring)
     SpringView springView;
@@ -41,11 +42,10 @@ public class FriendRequestListActivity extends BasicAppNoDiActivity implements I
     RecyclerView recycler;
     @BindView(R2.id.titleview)
     TitleView titleview;
-    private RecycleAdapterFriendRequest adapter;
-    private List<FriendRequest> friendRequests;
+    private RecycleAdapterCommonMsg adapter;
 
     public static void start(Context context) {
-        Intent intent = new Intent(context, FriendRequestListActivity.class);
+        Intent intent = new Intent(context, NotifyEvaListActivity.class);
         context.startActivity(intent);
     }
 
@@ -57,14 +57,10 @@ public class FriendRequestListActivity extends BasicAppNoDiActivity implements I
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
         FocusUtil.focusToTop(toolbar);
-        titleview.setTitle(getString(R.string.im_notify_friend_request_title));
+        titleview.setTitle(getString(R.string.im_notify_eva_title));
 
-        adapter = new RecycleAdapterFriendRequest();
-        adapter.setGroup(false);
+        adapter = new RecycleAdapterCommonMsg();
         adapter.setOnItemClickListener(this);
-        adapter.setOnAgreeClickListener((bean, position) -> {
-
-        });
         recycler.setNestedScrollingEnabled(false);
         recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recycler.setAdapter(adapter);
@@ -87,8 +83,7 @@ public class FriendRequestListActivity extends BasicAppNoDiActivity implements I
     }
 
     @Override
-    public void onItemClick(RequestBean bean, int position) {
-        FriendRequestDetailActivity.start(this, friendRequests.get(position));
+    public void onItemClick(CommonMsg bean, int position) {
     }
 
     //////////////////////分页查询////////////////////
@@ -98,14 +93,12 @@ public class FriendRequestListActivity extends BasicAppNoDiActivity implements I
     private void netGetSysMsgList(boolean isFresh) {
         if (isFresh) current = 0;
         ApiHelperEx.execute(this, false,
-                ApiHelperEx.getService(NotifyService.class).getFriendRequestList(current + 1, size),
-                new ErrorHandleSubscriber<BaseJson<BaseListWrap<FriendRequest>>>() {
+                ApiHelperEx.getService(NotifyService.class).getEvaMsgList(current + 1, size),
+                new ErrorHandleSubscriber<BaseJson<BaseListWrap<EvaMsg>>>() {
                     @Override
-                    public void onNext(BaseJson<BaseListWrap<FriendRequest>> basejson) {
-                        BaseListWrap<FriendRequest> warp = basejson.getData();
-//                        List<FriendRequest> list = warp != null ? warp.getList() : null;
-                        friendRequests = warp.getList();
-                        List<RequestBean> list = FriendRequest.tans2RequestBeanList(warp.getList());
+                    public void onNext(BaseJson<BaseListWrap<EvaMsg>> basejson) {
+                        BaseListWrap<EvaMsg> warp = basejson.getData();
+                        List<CommonMsg> list = EvaMsg.tans2CommonMsgList(warp.getList());
                         if (!StrUtil.isEmpty(list)) {
                             current = warp.getCurrent();
                             if (isFresh) {

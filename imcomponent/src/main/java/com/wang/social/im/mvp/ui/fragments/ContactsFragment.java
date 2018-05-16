@@ -32,6 +32,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.Optional;
 
 /**
  * ============================================
@@ -42,10 +43,10 @@ import butterknife.OnClick;
  */
 public class ContactsFragment extends BasicFragment implements AutoPopupWindow.OnItemClickListener {
 
-    @BindView(R2.id.fc_iv_more)
-    ImageView fcIvMore;
     @BindView(R2.id.fc_iv_search)
     ImageView fcIvSearch;
+    @BindView(R2.id.fc_iv_more)
+    ImageView fcIvMore;
     @BindView(R2.id.fc_tab_layout)
     SmartTabLayout fcTabLayout;
     @BindView(R2.id.fc_viewpager)

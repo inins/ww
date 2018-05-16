@@ -106,4 +106,19 @@
     <string name="im_personal_card_agree">同意</string>
     <string name="im_personal_card_join">立即加入</string>
     <string name="im_personal_card_join_hint">加入此趣聊需要支付%1d宝石</string>
+
+    <!--觅聊邀请-->
+    <string name="im_notify_funchat_request_title">趣聊邀请</string>
+    <string name="im_notify_funchat_request_note">邀请你加入！</string>
+    <string name="im_notify_funchat_request_join">加入</string>
+    <string name="im_notify_funchat_request_joined">已加入</string>
+
+    <!--点赞消息-->
+    <string name="im_notify_zan_title">点赞</string>
+
+    <!--评论消息-->
+    <string name="im_notify_eva_title">评论</string>
+
+    <!--@消息-->
+    <string name="im_notify_aite_title">\@我的</string>
 </resources>

@@ -186,19 +186,18 @@ public class ShadowSettingActivity extends BaseAppActivity<ShadowSettingPresente
                 ToastUtil.showToastShort(UIUtil.getString(R.string.im_toast_portrait));
                 return;
             }
-            switch (genderCheckId) {
-                case R.id.ss_rb_female:
-                    shadowInfo.setGender(Gender.FEMALE);
-                    break;
-                case R.id.ss_rb_male:
-                    shadowInfo.setGender(Gender.MALE);
-                    break;
-                case R.id.ss_rb_secret:
-                    shadowInfo.setGender(Gender.SECRET);
-                    break;
-                default:
-                    ToastUtil.showToastShort(UIUtil.getString(R.string.im_toast_gender));
-                    return;
+            if (genderCheckId == R.id.ss_rb_female) {
+                shadowInfo.setGender(Gender.FEMALE);
+
+            } else if (genderCheckId == R.id.ss_rb_male) {
+                shadowInfo.setGender(Gender.MALE);
+
+            } else if (genderCheckId == R.id.ss_rb_secret) {
+                shadowInfo.setGender(Gender.SECRET);
+
+            } else {
+                ToastUtil.showToastShort(UIUtil.getString(R.string.im_toast_gender));
+                return;
             }
             mPresenter.updateShadowInfo(shadowInfo);
         }

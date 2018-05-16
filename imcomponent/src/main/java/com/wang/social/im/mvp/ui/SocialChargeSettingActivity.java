@@ -189,13 +189,12 @@ public class SocialChargeSettingActivity extends BasicAppActivity {
         gcsRgJoin.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.gcs_rb_join_free:
-                        social.getAttr().setCharge(false);
-                        break;
-                    case R.id.gcs_rb_pay_join:
-                        social.getAttr().setCharge(true);
-                        break;
+                if (checkedId == R.id.gcs_rb_join_free) {
+                    social.getAttr().setCharge(false);
+
+                } else if (checkedId == R.id.gcs_rb_pay_join) {
+                    social.getAttr().setCharge(true);
+
                 }
                 toggleGemInput();
             }
@@ -204,16 +203,15 @@ public class SocialChargeSettingActivity extends BasicAppActivity {
         gcsRgGem.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.gcs_rb_gem_100:
-                        social.getAttr().setGem(100);
-                        break;
-                    case R.id.gcs_rb_gem_300:
-                        social.getAttr().setGem(300);
-                        break;
-                    case R.id.gcs_rb_gem_500:
-                        social.getAttr().setGem(500);
-                        break;
+                if (checkedId == R.id.gcs_rb_gem_100) {
+                    social.getAttr().setGem(100);
+
+                } else if (checkedId == R.id.gcs_rb_gem_300) {
+                    social.getAttr().setGem(300);
+
+                } else if (checkedId == R.id.gcs_rb_gem_500) {
+                    social.getAttr().setGem(500);
+
                 }
                 if (!mFromTextChange) {
                     gcsEtGem.setText("");

@@ -12,18 +12,51 @@ import lombok.Data;
 public class GroupRequest {
 
 
+    /**
+     * msgId : 22
+     * pass : 0
+     * groupId : 4
+     * groupName : gougou
+     * userId : 10000
+     * nickname : 飘飘飘香
+     * avatar : http://resouce.dongdongwedding.com/wangwang_2017-10-01_aae4ffd4-fa63-4984-8519-8ee0500d8258.jpg
+     * sex : 1
+     * birthday : 725904000000
+     * constellation : 射手座
+     * tags : [{"id":2,"tagId":3,"tagName":"电影","isIndexShow":0},{"id":3,"tagId":4,"tagName":"电视剧","isIndexShow":1},{"id":6,"tagId":6,"tagName":"直播","isIndexShow":0},{"id":4,"tagId":5,"tagName":"综艺","isIndexShow":0}]
+     * reason : 伸手党
+     * createTime : 1525228106000
+     */
+
+    private int msgId;
+    private int pass;
+    private int groupId;
+    private String groupName;
+    private int userId;
+    private String nickname;
+    private String avatar;
+    private int sex;
+    private long birthday;
+    private String constellation;
+    private String reason;
+    private long createTime;
+    private List<Tag> tags;
+
+    public boolean isAgreed() {
+        return pass == 1;
+    }
 
     public RequestBean trans2RequestBean() {
         RequestBean requestBean = new RequestBean();
-//        requestBean.setMsgId(msgId);
-//        requestBean.setUserId(userId);
-//        requestBean.setAgree(isAgreed());
-//        requestBean.setNickname(nickname);
-//        requestBean.setAvatar(avatar);
-//        requestBean.setSex(sex);
-//        requestBean.setBirthday(birthday);
-//        requestBean.setReason(reason);
-//        requestBean.setCreateTime(createTime);
+        requestBean.setMsgId(msgId);
+        requestBean.setUserId(userId);
+        requestBean.setAgree(isAgreed());
+        requestBean.setNickname(nickname);
+        requestBean.setAvatar(avatar);
+        requestBean.setSex(sex);
+        requestBean.setBirthday(birthday);
+        requestBean.setReason(reason);
+        requestBean.setCreateTime(createTime);
         return requestBean;
     }
 

@@ -3,21 +3,21 @@ package com.wang.social.im.mvp.ui.fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.frame.base.BasicFragment;
 import com.frame.di.component.AppComponent;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.mvp.ui.FindChatRequestListActivity;
-import com.wang.social.im.mvp.ui.FriendRequestListActivity;
-import com.wang.social.im.mvp.ui.SysMsgListActivity;
+import com.wang.social.im.mvp.ui.NofityFriendRequestListActivity;
+import com.wang.social.im.mvp.ui.NotifyAiteListActivity;
+import com.wang.social.im.mvp.ui.NotifyEvaListActivity;
+import com.wang.social.im.mvp.ui.NotifyFunChatRequestListActivity;
+import com.wang.social.im.mvp.ui.NotifySysMsgListActivity;
+import com.wang.social.im.mvp.ui.NotifyZanListActivity;
 
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 /**
  * ============================================
@@ -61,19 +61,19 @@ public class NotifyFragment extends BasicFragment {
         if (id == R.id.lay_official) {
 
         } else if (id == R.id.text_sysmsg) {
-            SysMsgListActivity.start(getContext());
+            NotifySysMsgListActivity.start(getContext());
         } else if (id == R.id.text_friend) {
-            FriendRequestListActivity.start(getContext());
+            NofityFriendRequestListActivity.start(getContext());
         } else if (id == R.id.text_findchat) {
             FindChatRequestListActivity.start(getContext());
         } else if (id == R.id.text_funchat) {
-
+            NotifyFunChatRequestListActivity.start(getContext());
         } else if (id == R.id.text_zan) {
-
+            NotifyZanListActivity.start(getContext());
         } else if (id == R.id.text_eva) {
-
+            NotifyEvaListActivity.start(getContext());
         } else if (id == R.id.text_aite) {
-
+            NotifyAiteListActivity.start(getContext());
         }
     }
 }

@@ -18,6 +18,7 @@ import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMManager;
 import com.wang.social.im.R;
+import com.wang.social.im.R2;
 import com.wang.social.im.app.IMConstants;
 import com.wang.social.im.di.component.DaggerGameConversationComponent;
 import com.wang.social.im.di.modules.GameConversationModule;
@@ -41,11 +42,11 @@ import butterknife.BindView;
  */
 public class GameConversationFragment extends BaseFragment<GameConversationPresenter> implements GameConversationContract.View, GameInputView.IGInputViewListener {
 
-    @BindView(R.id.fgc_messages)
+    @BindView(R2.id.fgc_messages)
     RecyclerView fgcMessages;
-    @BindView(R.id.fgc_loader)
+    @BindView(R2.id.fgc_loader)
     SpringView fgcLoader;
-    @BindView(R.id.fgc_input)
+    @BindView(R2.id.fgc_input)
     GameInputView fgcInput;
 
     private String mIdentity;

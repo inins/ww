@@ -38,18 +38,19 @@ public interface ChainService {
     @GET("app/userFriend/friendList")
     Observable<BaseJson<ListDataDTO<IndexFriendInfoDTO, IndexFriendInfo>>> getFriendList(@Query("v") String version);
 
-    /**
-     * 发送好友申请
-     *
-     * @param version
-     * @param userId
-     * @param reason
-     * @return
-     */
-    @Headers(HEADER_CONTENT_TYPE)
-    @FormUrlEncoded
-    @POST("app/userFriend/addApply")
-    Observable<BaseJson> sendFriendlyApply(@Field("v") String version, @Field("addUserId") String userId, @Field("reason") String reason);
+    //这个接口多处工程调用，已经转移到CommonService
+//    /**
+//     * 发送好友申请
+//     *
+//     * @param version
+//     * @param userId
+//     * @param reason
+//     * @return
+//     */
+//    @Headers(HEADER_CONTENT_TYPE)
+//    @FormUrlEncoded
+//    @POST("app/userFriend/addApply")
+//    Observable<BaseJson> sendFriendlyApply(@Field("v") String version, @Field("addUserId") String userId, @Field("reason") String reason);
 
     /**
      * 新用户

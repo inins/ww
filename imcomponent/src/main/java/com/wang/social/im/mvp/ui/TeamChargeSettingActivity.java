@@ -185,13 +185,12 @@ public class TeamChargeSettingActivity extends BasicAppActivity {
         gcsRgJoin.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.gcs_rb_join_free:
-                        team.setFree(true);
-                        break;
-                    case R.id.gcs_rb_pay_join:
-                        team.setFree(false);
-                        break;
+                if (checkedId == R.id.gcs_rb_join_free) {
+                    team.setFree(true);
+
+                } else if (checkedId == R.id.gcs_rb_pay_join) {
+                    team.setFree(false);
+
                 }
                 toggleGemInput();
             }
@@ -200,16 +199,15 @@ public class TeamChargeSettingActivity extends BasicAppActivity {
         gcsRgGem.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.sa_rb_gem_100:
-                        team.setJoinCost(100);
-                        break;
-                    case R.id.sa_rb_gem_300:
-                        team.setJoinCost(300);
-                        break;
-                    case R.id.sa_rb_gem_500:
-                        team.setJoinCost(500);
-                        break;
+                if (checkedId == R.id.sa_rb_gem_100) {
+                    team.setJoinCost(100);
+
+                } else if (checkedId == R.id.sa_rb_gem_300) {
+                    team.setJoinCost(300);
+
+                } else if (checkedId == R.id.sa_rb_gem_500) {
+                    team.setJoinCost(500);
+
                 }
                 if (!mFromTextChange) {
                     gcsEtGem.setText("");

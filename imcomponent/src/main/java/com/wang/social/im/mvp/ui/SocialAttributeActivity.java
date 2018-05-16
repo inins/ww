@@ -79,15 +79,15 @@ public class SocialAttributeActivity extends BasicAppActivity {
     RadioButton saRbGem300;
     @BindView(R2.id.sa_rb_gem_500)
     RadioButton saRbGem500;
-    @BindView(R.id.sa_cb_age_unlimited)
+    @BindView(R2.id.sa_cb_age_unlimited)
     AppCompatCheckBox saCbAgeUnlimited;
-    @BindView(R.id.sa_cb_90)
+    @BindView(R2.id.sa_cb_90)
     AppCompatCheckBox saCb90;
-    @BindView(R.id.sa_cb_95)
+    @BindView(R2.id.sa_cb_95)
     AppCompatCheckBox saCb95;
-    @BindView(R.id.sa_cb_00)
+    @BindView(R2.id.sa_cb_00)
     AppCompatCheckBox saCb00;
-    @BindView(R.id.sa_cb_age_other)
+    @BindView(R2.id.sa_cb_age_other)
     AppCompatCheckBox saCbAgeOther;
 
     private SocialAttribute mAttribute;
@@ -212,13 +212,12 @@ public class SocialAttributeActivity extends BasicAppActivity {
         saRgJoin.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.sa_rb_join_free:
-                        mAttribute.setCharge(false);
-                        break;
-                    case R.id.sa_rb_pay_join:
-                        mAttribute.setCharge(true);
-                        break;
+                if (checkedId == R.id.sa_rb_join_free) {
+                    mAttribute.setCharge(false);
+
+                } else if (checkedId == R.id.sa_rb_pay_join) {
+                    mAttribute.setCharge(true);
+
                 }
                 toggleGemInput();
             }
@@ -227,16 +226,15 @@ public class SocialAttributeActivity extends BasicAppActivity {
         saRgGem.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.sa_rb_gem_100:
-                        mAttribute.setGem(100);
-                        break;
-                    case R.id.sa_rb_gem_300:
-                        mAttribute.setGem(300);
-                        break;
-                    case R.id.sa_rb_gem_500:
-                        mAttribute.setGem(500);
-                        break;
+                if (checkedId == R.id.sa_rb_gem_100) {
+                    mAttribute.setGem(100);
+
+                } else if (checkedId == R.id.sa_rb_gem_300) {
+                    mAttribute.setGem(300);
+
+                } else if (checkedId == R.id.sa_rb_gem_500) {
+                    mAttribute.setGem(500);
+
                 }
                 if (!mFromTextChange) {
                     saEtGem.setText("");
@@ -282,16 +280,15 @@ public class SocialAttributeActivity extends BasicAppActivity {
         saRgGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.sa_rb_gender_unlimited:
-                        mAttribute.setGenderLimit(SocialAttribute.GenderLimit.UNLIMITED);
-                        break;
-                    case R.id.sa_rb_male:
-                        mAttribute.setGenderLimit(SocialAttribute.GenderLimit.MALE);
-                        break;
-                    case R.id.sa_rb_female:
-                        mAttribute.setGenderLimit(SocialAttribute.GenderLimit.FEMALE);
-                        break;
+                if (checkedId == R.id.sa_rb_gender_unlimited) {
+                    mAttribute.setGenderLimit(SocialAttribute.GenderLimit.UNLIMITED);
+
+                } else if (checkedId == R.id.sa_rb_male) {
+                    mAttribute.setGenderLimit(SocialAttribute.GenderLimit.MALE);
+
+                } else if (checkedId == R.id.sa_rb_female) {
+                    mAttribute.setGenderLimit(SocialAttribute.GenderLimit.FEMALE);
+
                 }
             }
         });
