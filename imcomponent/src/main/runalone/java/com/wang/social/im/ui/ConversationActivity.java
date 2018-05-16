@@ -9,7 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import com.frame.base.BasicActivity;
 import com.frame.di.component.AppComponent;
 import com.wang.social.im.R;
-import com.wang.social.im.enums.ConversationType;
+import com.frame.component.enums.ConversationType;
 import com.wang.social.im.mvp.ui.ConversationFragment;
 
 public class ConversationActivity extends BasicActivity {

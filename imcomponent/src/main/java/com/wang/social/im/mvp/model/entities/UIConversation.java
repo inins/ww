@@ -7,7 +7,7 @@ import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.ext.message.TIMConversationExt;
 import com.wang.social.im.app.IMConstants;
-import com.wang.social.im.enums.ConversationType;
+import com.frame.component.enums.ConversationType;
 import com.wang.social.im.helper.FriendShipHelper;
 import com.wang.social.im.helper.GroupHelper;
 import com.wang.social.im.helper.StickHelper;
@@ -46,19 +46,12 @@ public class UIConversation implements Comparable {
         } else if (conversation.getType() == TIMConversationType.Group) {
             if (conversation.getPeer().startsWith(IMConstants.IM_IDENTITY_PREFIX_MIRROR)) {
                 conversationType = ConversationType.MIRROR;
-            } else if (conversation.getPeer().startsWith(IMConstants.IM_IDENTITY_PREFIX_GAME)){
+            } else if (conversation.getPeer().startsWith(IMConstants.IM_IDENTITY_PREFIX_GAME)) {
                 conversationType = ConversationType.GAME;
-            }else {
-                //根据拉取的自定义字段判断是趣聊还是觅聊
-                GroupProfile profile = GroupHelper.getInstance().getGroupProfile(conversation.getPeer());
-                if (profile != null) {
-                    int groupType = profile.getGroupType();
-                    if (groupType == GroupProfile.GROUP_TYPE_SOCIAL) {
-                        conversationType = ConversationType.SOCIAL;
-                    } else if (groupType == GroupProfile.GROUP_TYPE_TEAM) {
-                        conversationType = ConversationType.TEAM;
-                    }
-                }
+            } else if (conversation.getPeer().startsWith(IMConstants.IM_IDENTITY_PREFIX_SOCIAL)) {
+                conversationType = ConversationType.SOCIAL;
+            } else if (conversation.getPeer().startsWith(IMConstants.IM_IDENTITY_PREFIX_TEAM)) {
+                conversationType = ConversationType.TEAM;
             }
         }
         identify = conversation.getPeer();

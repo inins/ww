@@ -3,7 +3,6 @@ package com.wang.social.im.mvp.ui;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
@@ -23,7 +22,7 @@ import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.di.component.DaggerConversationListComponent;
 import com.wang.social.im.di.modules.ConversationListModule;
-import com.wang.social.im.enums.ConversationType;
+import com.frame.component.enums.ConversationType;
 import com.wang.social.im.helper.StickHelper;
 import com.wang.social.im.mvp.contract.ConversationListContract;
 import com.wang.social.im.mvp.model.entities.UIConversation;
@@ -207,10 +206,8 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
                 CommonHelper.ImHelper.gotoPrivateConversation(getContext(), conversation.getIdentify());
                 break;
             case SOCIAL:
-                CommonHelper.ImHelper.gotoSocialConversation(getContext(), conversation.getIdentify());
-                break;
             case TEAM:
-                CommonHelper.ImHelper.gotoTeamConversation(getContext(), conversation.getIdentify());
+                CommonHelper.ImHelper.gotoGroupConversation(getContext(), conversation.getIdentify(), conversation.getConversationType());
                 break;
             case MIRROR:
                 MirrorConversationActivity.start(getContext(), conversation.getIdentify());

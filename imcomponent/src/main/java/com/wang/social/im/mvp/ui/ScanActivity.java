@@ -25,8 +25,6 @@ import cn.bingoogolapple.qrcode.core.QRCodeView;
 import cn.bingoogolapple.qrcode.zxing.QRCodeDecoder;
 import cn.bingoogolapple.qrcode.zxing.ZXingView;
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
@@ -34,6 +32,9 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
+/**
+ * 二维码扫描
+ */
 public class ScanActivity extends BasicAppActivity implements QRCodeView.Delegate {
 
     private static final int REQUEST_CODE_ALBUM = 100;
@@ -128,7 +129,7 @@ public class ScanActivity extends BasicAppActivity implements QRCodeView.Delegat
         } else {
             if (scZing != null) {
                 scZing.stopSpot();
-                scZing.setVisibility(View.VISIBLE);
+                scLlMask.setVisibility(View.VISIBLE);
             }
         }
     }

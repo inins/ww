@@ -1,4 +1,4 @@
-package com.wang.social.im.enums;
+package com.frame.component.enums;
 
 /**
  * ======================================

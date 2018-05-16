@@ -167,7 +167,8 @@
         <activity android:name=".mvp.ui.ShareListActivity" />
         <activity
             android:name=".mvp.ui.ScanActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
+        <activity android:name=".mvp.ui.GroupConversationActivity"></activity>
     </application>
 
 </manifest>

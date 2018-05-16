@@ -67,5 +67,10 @@ public class SocialListTeamAdapter extends BaseAdapter<TeamInfo> {
             sltTvName.setText(itemValue.getName());
             sltTvMemberCount.setText(UIUtil.getString(R.string.im_member_count_format, itemValue.getMemberSize()));
         }
+
+        @Override
+        protected boolean useItemClickListener() {
+            return true;
+        }
     }
 }

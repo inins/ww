@@ -46,14 +46,22 @@
             app:layout_constraintTop_toBottomOf="@id/llt_tv_name"
             tools:text="345人" />
 
-        <ImageView
-            android:id="@+id/llt_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/common_ic_next"
+        <FrameLayout
+            android:id="@+id/llt_fl_expand"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:clickable="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/llt_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/common_ic_next" />
+        </FrameLayout>
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>
