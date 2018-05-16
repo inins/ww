@@ -3,7 +3,10 @@ package com.wang.social.im.mvp.model.api;
 import com.frame.component.entities.UserInfo;
 import com.frame.component.entities.dto.UserInfoDTO;
 import com.frame.http.api.BaseJson;
+import com.frame.http.api.BaseListJson;
+import com.wang.social.im.mvp.model.entities.ContactCheckResult;
 import com.wang.social.im.mvp.model.entities.IndexFriendInfo;
+import com.wang.social.im.mvp.model.entities.dto.ContactCheckResultDTO;
 import com.wang.social.im.mvp.model.entities.dto.IndexFriendInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.ListDataDTO;
 
@@ -57,4 +60,15 @@ public interface ChainService {
      */
     @GET("app/chatList/newUserList")
     Observable<BaseJson<ListDataDTO<UserInfoDTO, UserInfo>>> getNewUsers(@Query("v") String version);
+
+    /**
+     * 检查通讯录用户是否已经注册
+     *
+     * @param version
+     * @param phones
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("app/userInfo/comparisonUserPhone")
+    Observable<BaseJson<ListDataDTO<ContactCheckResultDTO, ContactCheckResult>>> checkPhoneBook(@Field("v") String version, @Field("phones") String phones);
 }

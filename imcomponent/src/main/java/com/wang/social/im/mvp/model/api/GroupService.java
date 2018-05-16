@@ -175,7 +175,7 @@ public interface GroupService {
      * @return
      */
     @POST("app/group/createMiGroupApply")
-    Observable<BaseJson<PayCheckInfoDTO>> checkCreateTeamStatus(@Query("v") String version, @Query("groupId") String socialId);
+    Observable<BaseJson<PayCheckInfoDTO>> checkCreateTeamStatus(@Query("v") String version, @Query("groupId") String socialId, @Query("tagIds") String tagId);
 
     /**
      * 创建觅聊

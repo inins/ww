@@ -35,7 +35,7 @@ public interface CreateTeamContract {
          * @param socialId
          * @return
          */
-        Observable<BaseJson<PayCheckInfoDTO>> checkCreateTeamStatus(String socialId);
+        Observable<BaseJson<PayCheckInfoDTO>> checkCreateTeamStatus(String socialId, String tagId);
 
         /**
          * 创建觅聊

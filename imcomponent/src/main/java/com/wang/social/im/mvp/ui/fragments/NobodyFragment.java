@@ -84,17 +84,14 @@ public class NobodyFragment extends BaseFragment<NobodyPresenter> implements Nob
 
     @OnClick({R2.id.fn_tvb_look_contacts, R2.id.fn_knowledge, R2.id.fn_post, R2.id.fn_new_users})
     public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.fn_tvb_look_contacts:
-                PhoneBookActivity.start(getActivity());
-                break;
-            case R.id.fn_knowledge:
-                break;
-            case R.id.fn_post:
-                break;
-            case R.id.fn_new_users:
-                NewUsersActivity.start(getContext());
-                break;
+        if (view.getId() == R.id.fn_tvb_look_contacts) {
+            PhoneBookActivity.start(getActivity());
+        } else if (view.getId() == R.id.fn_knowledge) {
+
+        } else if (view.getId() == R.id.fn_post) {
+
+        } else if (view.getId() == R.id.fn_new_users) {
+            NewUsersActivity.start(getContext());
         }
     }
 

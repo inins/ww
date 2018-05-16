@@ -11,11 +11,13 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.frame.component.ui.base.BaseAppActivity;
+import com.frame.component.ui.dialog.DialogValiRequest;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.utils.ToastUtil;
@@ -134,6 +136,17 @@ public class PhoneBookActivity extends BaseAppActivity<PhoneBookPresenter> imple
             intent.setData(Uri.parse("smsto:" + contact.getPhoneNumber()));
             intent.putExtra("sms_body", IMConstants.CONTENT_INVITE_JOIN_APP);
             startActivity(intent);
+        } else {
+            DialogValiRequest.showDialog(this, new DialogValiRequest.OnSureCallback() {
+                @Override
+                public void onOkClick(String content) {
+                    if (TextUtils.isEmpty(content)) {
+                        ToastUtil.showToastShort("请输入申请理由");
+                        return;
+                    }
+                    mPresenter.friendRequest(contact.getUserId(), content);
+                }
+            });
         }
     }
 
