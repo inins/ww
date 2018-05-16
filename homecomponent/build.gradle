@@ -90,12 +90,13 @@ dependencies {
     implementation project(':component-service')
     annotationProcessor project(':router-anno-compiler')
     //SpringView
-//    compile 'com.liaoinstan.springview:library:1.3.1'
+    //    compile 'com.liaoinstan.springview:library:1.3.1'
     implementation project(':springlibrary')
     //代替tablayout
     implementation 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
     //支持flow布局的RecyclerView布局管理器
     compile 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'
+    implementation project(':pictureselectorcomponent')
 }
 
 //if (!project.isRunAlone) {

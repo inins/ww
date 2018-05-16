@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.frame.component.helper.ImageLoaderHelper;
+import com.frame.component.helper.NetFriendHelper;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
 import com.frame.utils.TimeUtils;
 import com.wang.social.im.R;
@@ -67,9 +68,13 @@ public class NotifyFriendRequestDetailActivity extends BasicAppNoDiActivity {
         if (id == R.id.lay_nameboard) {
 
         } else if (id == R.id.btn_agree) {
-
+            NetFriendHelper.newInstance().netAgreeFriendApply(this, friendRequest.getUserId(), friendRequest.getMsgId(), true, () -> {
+                finish();
+            });
         } else if (id == R.id.btn_disagree) {
-
+            NetFriendHelper.newInstance().netAgreeFriendApply(this, friendRequest.getUserId(), friendRequest.getMsgId(), false, () -> {
+                finish();
+            });
         } else if (id == R.id.btn_report) {
 
         }
