@@ -161,6 +161,7 @@ public class ScanActivity extends BasicAppActivity implements QRCodeView.Delegat
     @SuppressLint("CheckResult")
     private void resultCode(String path) {
         Observable.just(path)
+                .subscribeOn(Schedulers.io())
                 .doOnSubscribe(new Consumer<Disposable>() {
                     @Override
                     public void accept(Disposable disposable) throws Exception {
@@ -168,18 +169,23 @@ public class ScanActivity extends BasicAppActivity implements QRCodeView.Delegat
                         showLoadingDialog();
                     }
                 })
-                .subscribeOn(Schedulers.io())
                 .map(new Function<String, String>() {
                     @Override
                     public String apply(String s) throws Exception {
                         return QRCodeDecoder.syncDecodeQRCode(path);
                     }
                 })
+                .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doFinally(new Action() {
                     @Override
                     public void run() throws Exception {
-                        hideLoadingDialog();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                hideLoadingDialog();
+                            }
+                        });
                     }
                 })
                 .subscribe(new Consumer<String>() {

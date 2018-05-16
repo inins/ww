@@ -8,6 +8,8 @@ import com.wang.social.im.mvp.contract.FriendsContract;
 import com.wang.social.im.mvp.model.entities.IndexFriendInfo;
 import com.wang.social.im.mvp.model.entities.ListData;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 
 import io.reactivex.disposables.Disposable;
@@ -37,6 +39,14 @@ public class FriendsPresenter extends BasePresenter<FriendsContract.Model, Frien
                     @Override
                     public void onNext(ListData<IndexFriendInfo> friendInfoListData) {
                         mRootView.showFriends(friendInfoListData.getList());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        if (e instanceof NullPointerException){
+                            mRootView.showFriends(new ArrayList<>());
+                        }
                     }
                 }, new Consumer<Disposable>() {
                     @Override

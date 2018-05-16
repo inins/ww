@@ -3,6 +3,7 @@ package com.wang.social.im.mvp.ui;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
@@ -29,6 +30,7 @@ import com.wang.social.im.mvp.model.entities.UIConversation;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 import com.wang.social.im.mvp.presenter.ConversationListPresenter;
 import com.wang.social.im.mvp.ui.adapters.ConversationAdapter;
+import com.wang.social.im.mvp.ui.fragments.NobodyFragment;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -88,6 +90,8 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
         initialView();
 
         mPresenter.getConversationList();
+
+        mPresenter.getFriendsList();
     }
 
     private void initialView() {
@@ -187,6 +191,15 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
             }
         }
         refresh();
+    }
+
+    @Override
+    public void showNobody() {
+        if (mConversations.isEmpty()) {
+            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+            transaction.add(R.id.cvl_fragment, NobodyFragment.newInstance(), NobodyFragment.class.getName());
+            transaction.commitAllowingStateLoss();
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
