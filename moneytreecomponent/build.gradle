@@ -15,7 +15,7 @@ android {
 
     defaultConfig {
         if (isRunAlone.toBoolean()) {
-//            applicationId "com.dongdongkeji.wangwangsocial"
+            applicationId "com.dongdongkeji.wangwangsocial"
 
             manifestPlaceholders = [qqappid: "1106099147"]
         }

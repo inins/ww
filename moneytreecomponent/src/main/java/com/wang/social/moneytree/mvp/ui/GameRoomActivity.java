@@ -22,6 +22,7 @@ import com.frame.di.component.AppComponent;
 import com.frame.integration.AppManager;
 import com.frame.utils.StatusBarUtil;
 import com.frame.utils.ToastUtil;
+import com.umeng.socialize.UMShareAPI;
 import com.wang.social.moneytree.R;
 import com.wang.social.moneytree.R2;
 import com.wang.social.moneytree.di.component.DaggerGameRoomComponent;
@@ -42,6 +43,7 @@ import com.wang.social.moneytree.mvp.ui.widget.DialogShaked;
 import com.wang.social.moneytree.mvp.ui.widget.MoneyTreeView;
 import com.wang.social.moneytree.utils.Keys;
 import com.wang.social.moneytree.utils.ShakeUtils;
+import com.wang.social.socialize.SocializeUtil;
 
 import javax.inject.Inject;
 
@@ -430,5 +432,29 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
     @Override
     public void onMemberMore() {
         MemberListActivity.start(this, mPresenter.getGameBeanGameId());
+    }
+
+    @OnClick(R2.id.share_image_view)
+    public void share() {
+        SocializeUtil.shareWithWW(getSupportFragmentManager(),
+                null,
+                "http://www.wangsocial.com/",
+                "往往",
+                "有点2的社交软件",
+                "http://resouce.dongdongwedding.com/activity_cashcow_moneyTree.png",
+                new SocializeUtil.WWShareListener() {
+                    @Override
+                    public void onWWShare(String url, String title, String content, String imageUrl) {
+                        showToastLong("往往分享");
+                    }
+                });
+    }
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 }

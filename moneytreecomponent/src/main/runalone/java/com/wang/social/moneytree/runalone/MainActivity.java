@@ -1,5 +1,6 @@
 package com.wang.social.moneytree.runalone;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -12,9 +13,11 @@ import com.frame.component.utils.SpannableStringUtil;
 import com.frame.component.view.DialogPay;
 import com.frame.di.component.AppComponent;
 import com.frame.mvp.IView;
+import com.umeng.socialize.UMShareAPI;
 import com.wang.social.moneytree.R;
 import com.wang.social.moneytree.R2;
 import com.wang.social.moneytree.mvp.ui.GameListActivity;
+import com.wang.social.socialize.SocializeUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -92,6 +95,17 @@ public class MainActivity extends BasicActivity implements IView {
 
                     }
                 });
+
+    }
+
+    @OnClick(R2.id.share_button)
+    public void share() {
+        SocializeUtil.shareWeb(getSupportFragmentManager(),
+                null,
+                "http://www.wangsocial.com/",
+                "往往",
+                "有点2的社交软件",
+                "http://resouce.dongdongwedding.com/activity_cashcow_moneyTree.png");
     }
 
     @Override
@@ -102,5 +116,12 @@ public class MainActivity extends BasicActivity implements IView {
     @Override
     public void hideLoading() {
 
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 }

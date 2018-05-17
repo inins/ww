@@ -6,6 +6,7 @@
     <string name="socialize_qq_contacts">QQ好友</string>
     <string name="socialize_qq_zone">QQ空间</string>
     <string name="socialize_sina_weibo">微博</string>
+    <string name="socialize_ww_friend">往往好友</string>
     <string name="socialize_wx_not_install">未安装微信，请尝试其他登录方式</string>
     <string name="socialize_qq_not_install">未安装QQ，请尝试其他登录方式</string>
     <string name="socialize_wb_not_install">未安装微博，请尝试其他登录方式</string>

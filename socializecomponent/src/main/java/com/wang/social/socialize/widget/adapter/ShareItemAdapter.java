@@ -48,14 +48,13 @@ public class ShareItemAdapter extends RecyclerView.Adapter<ShareItemAdapter.View
         holder.nameTV.setText(dataProvider.getNameRes(position));
         holder.iconIV.setBackgroundResource(dataProvider.getIconRes(position));
 
-        holder.rootView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != clickListener) {
-                    clickListener.onClick(position);
+        holder.rootView.setOnClickListener(
+                v -> {
+                    if (null != clickListener) {
+                        clickListener.onClick(position);
+                    }
                 }
-            }
-        });
+        );
     }
 
     @Override

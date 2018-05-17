@@ -57,6 +57,7 @@ public class SocializeUtil {
     public final static int SHARE_PLATFORM_QQ = 2;          // QQ好友
     public final static int SHARE_PLATFORM_QQ_ZONE = 3;     // QQ空间
     public final static int SHARE_PLATFORM_SINA_WEIBO = 4;  // 新浪微博
+    public final static int SHARE_PLATFORM_WW_FRIEND = 5;   // 往往好友
 
     @IntDef({
             SHARE_PLATFORM_UNKNOWN,
@@ -68,6 +69,10 @@ public class SocializeUtil {
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface SharePlatform {
+    }
+
+    public interface WWShareListener {
+        void onWWShare(String url, String title, String content, String imageUrl);
     }
 
     public interface LoginListener {
@@ -487,6 +492,14 @@ public class SocializeUtil {
         DialogShare.shareWeb(fragmentManager, url, title, content, imageUrl);
     }
 
+    public static void shareWithWW(FragmentManager fragmentManager, ShareListener listener,
+                                   String url, String title, String content, String imageUrl,
+                                   WWShareListener wwShareListener) {
+        shareListener = listener;
+
+        DialogShare.shareWithWW(fragmentManager, url, title, content, imageUrl, wwShareListener);
+    }
+
     /**
      * 分享网页链接
      *
@@ -501,7 +514,7 @@ public class SocializeUtil {
                                   String url, String title, String content, String imageUrl) {
         // 先判断是否安装了对应的客户端
         boolean installed = UMShareAPI.get(activity).isInstall(activity, toUMShareMedia(platform));
-        ;
+
         String msg = "";
         // 先判断是否安装了客户端
         switch (platform) {
@@ -515,6 +528,8 @@ public class SocializeUtil {
                 break;
             case SHARE_PLATFORM_SINA_WEIBO:
                 msg = activity.getString(R.string.socialize_share_wb_not_install);
+                break;
+            case SHARE_PLATFORM_WW_FRIEND:
                 break;
         }
 
