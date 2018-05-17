@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.frame.component.ui.acticity.WebActivity;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.utils.SpannableStringUtil;
 import com.frame.component.view.DialogPay;
@@ -21,6 +22,7 @@ import com.frame.di.component.AppComponent;
 import com.frame.integration.AppManager;
 import com.frame.utils.StatusBarUtil;
 import com.frame.utils.ToastUtil;
+import com.umeng.socialize.UMShareAPI;
 import com.wang.social.moneytree.R;
 import com.wang.social.moneytree.R2;
 import com.wang.social.moneytree.di.component.DaggerGameRoomComponent;
@@ -37,7 +39,11 @@ import com.wang.social.moneytree.mvp.ui.adapter.GameRoomMemberListAdapter;
 import com.wang.social.moneytree.mvp.ui.adapter.GameScoreAdapter;
 import com.wang.social.moneytree.mvp.ui.widget.CountDownTextView;
 import com.wang.social.moneytree.mvp.ui.widget.DialogGameEnd;
+import com.wang.social.moneytree.mvp.ui.widget.DialogShaked;
+import com.wang.social.moneytree.mvp.ui.widget.MoneyTreeView;
+import com.wang.social.moneytree.utils.Keys;
 import com.wang.social.moneytree.utils.ShakeUtils;
+import com.wang.social.socialize.SocializeUtil;
 
 import javax.inject.Inject;
 
@@ -45,15 +51,19 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import timber.log.Timber;
 
+import static com.wang.social.moneytree.utils.Keys.NAME_GAME_BEAN;
+import static com.wang.social.moneytree.utils.Keys.NAME_GAME_RECORD;
+import static com.wang.social.moneytree.utils.Keys.NAME_GAME_TYPE;
+import static com.wang.social.moneytree.utils.Keys.TYPE_FROM_SQUARE;
+
 public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
         implements GameRoomContract.View, CountDownTextView.CountDownListener,
         ShakeUtils.OnShakeListener, DialogGameEnd.GameOverListener,
         GameRoomMemberListAdapter.ClickListener {
-    public final static String NAME_GAME_BEAN = "NAME_GAME_BEAN";
-    public final static String NAME_GAME_RECORD = "NAME_GAME_RECORD";
 
-    public static void startGame(Context context, GameBean gameBean) {
+    public static void startGame(Context context, GameBean gameBean, @Keys.GameType int type) {
         Intent intent = new Intent(context, GameRoomActivity.class);
+        intent.putExtra(NAME_GAME_TYPE, type);
         intent.putExtra(NAME_GAME_BEAN, gameBean);
         context.startActivity(intent);
     }
@@ -104,11 +114,18 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
     // 摇一摇提示
     @BindView(R2.id.shake_text_view)
     TextView mShakeHintTV;
+    @BindView(R2.id.money_tree_layout)
+    MoneyTreeView mMoneyTreeView;
 
     private ShakeUtils mShakeUtils;
     @Inject
     AppManager mAppManager;
     private boolean mResumed = false;
+
+    // 是否已经摇过了
+    private boolean mShaked = false;
+
+    private @Keys.GameType int mType;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -131,7 +148,8 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
 
         mShakeUtils = new ShakeUtils(this);
         mShakeUtils.setOnShakeListener(this);
-
+        // 从哪里创建的游戏
+        mType = getIntent().getIntExtra(NAME_GAME_TYPE, TYPE_FROM_SQUARE);
         // 游戏信息
         mPresenter.setGameBean(getIntent().getParcelableExtra(NAME_GAME_BEAN));
         // 游戏记录信息
@@ -142,6 +160,28 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
             public void onButtonClick(SocialToolbar.ClickType clickType) {
                 if (clickType == SocialToolbar.ClickType.LEFT_ICON) {
                     finish();                }
+            }
+        });
+
+        mMoneyTreeView.setAnimCallback(new MoneyTreeView.AnimCallback() {
+            @Override
+            public void onAnimEnd() {
+                if (null != mPresenter.getGameBean() && !mShaked) {
+                    mShaked = true;
+                    DialogShaked.show(getSupportFragmentManager())
+                    .setCallback(new DialogShaked.Callback() {
+                        @Override
+                        public void onResume() {
+                            mShakeHintTV.setVisibility(View.INVISIBLE);
+                        }
+
+                        @Override
+                        public void onDestroy() {
+                            mShakeHintTV.setText(getString(R.string.mt_shaked_hint));
+                            mShakeHintTV.setVisibility(View.VISIBLE);
+                        }
+                    });
+                }
             }
         });
 
@@ -176,13 +216,18 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
         ToastUtil.showToastLong(msg);
     }
 
+    /**
+     * 游戏记录加载完成
+     */
     @Override
     public void onGetRecordDetailSuccess(GameRecordDetail recordDetail) {
         // 隐藏
         mCountDownLayout.setVisibility(View.GONE);
         mJoinNumLayout.setVisibility(View.GONE);
         mGoChatIV.setVisibility(View.INVISIBLE);
+        mGoChatIV.setClickable(false);
         mGameRuleIV.setVisibility(View.INVISIBLE);
+        mGameRuleIV.setClickable(false);
         mJoinGameIV.setVisibility(View.GONE);
         mShakeHintTV.setVisibility(View.GONE);
 
@@ -197,14 +242,26 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
         mContentLayout.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * 游戏结果加载完成
+     */
     @Override
     public void onLoadGameEndSuccess(GameEnd gameEnd) {
         // 显示对话框
         DialogGameEnd.show(getSupportFragmentManager(), gameEnd, this);
     }
 
+    /**
+     * 游戏房间信息加载完成
+     */
     @Override
     public void onGetRoomMsgSuccess(RoomMsg roomMsg) {
+        // 如果不是从群里创建的游戏，则不显示 进入聊天
+        if (mType != Keys.TYPE_FROM_GROUP) {
+            mGoChatIV.setVisibility(View.INVISIBLE);
+            mGoChatIV.setClickable(false);
+        }
+
         // 房间名
         mTitleTV.setText(roomMsg.getRoomName());
         // 倒计时
@@ -311,7 +368,8 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
      */
     @OnClick(R2.id.go_chat_image_view)
     public void goToChat() {
-
+        mAppManager.killActivity(GameListActivity.class);
+        finish();
     }
 
     /**
@@ -319,7 +377,8 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
      */
     @OnClick(R2.id.game_rule_image_view)
     public void goToGameRule() {
-
+        WebActivity.start(this,
+                "http://wangsocial.com/share/v_2.0/test/contentShared/cashcow/rule.html");
     }
 
     /**
@@ -373,5 +432,29 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
     @Override
     public void onMemberMore() {
         MemberListActivity.start(this, mPresenter.getGameBeanGameId());
+    }
+
+    @OnClick(R2.id.share_image_view)
+    public void share() {
+        SocializeUtil.shareWithWW(getSupportFragmentManager(),
+                null,
+                "http://www.wangsocial.com/",
+                "往往",
+                "有点2的社交软件",
+                "http://resouce.dongdongwedding.com/activity_cashcow_moneyTree.png",
+                new SocializeUtil.WWShareListener() {
+                    @Override
+                    public void onWWShare(String url, String title, String content, String imageUrl) {
+                        showToastLong("往往分享");
+                    }
+                });
+    }
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 }

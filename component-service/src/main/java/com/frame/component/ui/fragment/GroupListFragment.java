@@ -1,6 +1,5 @@
-package com.wang.social.im.mvp.ui.PersonalCard.ui.fragment;
+package com.frame.component.ui.fragment;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
@@ -9,7 +8,12 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.frame.base.BasicFragment;
+import com.frame.component.api.CommonService;
+import com.frame.component.common.GridSpacingItemDecoration;
 import com.frame.component.common.NetParam;
+import com.frame.component.entities.dto.GroupBeanDTO;
+import com.frame.component.service.R;
+import com.frame.component.service.R2;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelper;
@@ -17,7 +21,6 @@ import com.frame.http.api.BaseJson;
 import com.frame.http.api.PageList;
 import com.frame.http.api.PageListDTO;
 import com.frame.http.api.error.ErrorHandleSubscriber;
-import com.frame.http.api.error.RxErrorHandler;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.IView;
 import com.frame.utils.FrameUtils;
@@ -26,12 +29,9 @@ import com.frame.utils.Utils;
 import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
-import com.wang.social.im.mvp.ui.PersonalCard.model.api.PersonalCardService;
-import com.wang.social.im.mvp.ui.PersonalCard.model.entities.DTO.GroupBeanDTO;
 import com.frame.component.utils.EntitiesUtil;
 import com.frame.component.entities.GroupBean;
 import com.frame.component.ui.adapter.TalkAdapter;
-import com.wang.social.im.mvp.ui.PersonalCard.ui.widget.ThumbnailDecoration;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -41,11 +41,6 @@ import java.util.Map;
 
 import butterknife.BindView;
 import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
-import com.wang.social.im.R;
-import com.wang.social.im.R2;
 
 public class GroupListFragment extends BasicFragment implements IView {
 
@@ -62,7 +57,8 @@ public class GroupListFragment extends BasicFragment implements IView {
             TYPE_SEARCH_MI
     })
     @Retention(RetentionPolicy.SOURCE)
-    @interface GroupListType {};
+    @interface GroupListType {
+    }
 
     public static GroupListFragment newInstance(int userId) {
         GroupListFragment fragment = new GroupListFragment();
@@ -97,12 +93,12 @@ public class GroupListFragment extends BasicFragment implements IView {
     private int mUserId;
     private ApiHelper mApiHelper = new ApiHelper();
     private IRepositoryManager mRepositoryManager;
-    private RxErrorHandler mErrorHandler;
     private int mCurrent = 0;
-    private int mSize = 10;
+    private static final int mSize = 10;
     private List<GroupBean> mList = new ArrayList<>();
 
-    private @GroupListType int mType = TYPE_GROUP_LIST;
+    private @GroupListType
+    int mType = TYPE_GROUP_LIST;
     private String mKey;
 
     @Override
@@ -112,13 +108,12 @@ public class GroupListFragment extends BasicFragment implements IView {
 
     @Override
     public int initView(@Nullable Bundle savedInstanceState) {
-        return R.layout.im_personal_card_fragment_list;
+        return R.layout.layout_spring_recycler;
     }
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         mRepositoryManager = FrameUtils.obtainAppComponentFromContext(Utils.getContext()).repoitoryManager();
-        mErrorHandler = FrameUtils.obtainAppComponentFromContext(Utils.getContext()).rxErrorHandler();
 
         if (null != getArguments()) {
             mUserId = getArguments().getInt("userid");
@@ -126,11 +121,11 @@ public class GroupListFragment extends BasicFragment implements IView {
         }
 
         mAdapter = new TalkAdapter(mRecyclerView, mList);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2,
+                GridLayoutManager.VERTICAL, false));
         mRecyclerView.addItemDecoration(
-                new ThumbnailDecoration(SizeUtils.dp2px(10),
-                        Color.TRANSPARENT,
-                        true));
+                new GridSpacingItemDecoration(2, SizeUtils.dp2px(14),
+                        GridLayoutManager.VERTICAL, true));
         mRecyclerView.setAdapter(mAdapter);
 
         // 更新，加载更多
@@ -177,6 +172,7 @@ public class GroupListFragment extends BasicFragment implements IView {
 
     /**
      * 用户趣聊列表
+     *
      * @param refresh 是否刷新
      */
     private void loadGroupList(boolean refresh) {
@@ -187,8 +183,12 @@ public class GroupListFragment extends BasicFragment implements IView {
                 new ErrorHandleSubscriber<PageList<GroupBean>>() {
                     @Override
                     public void onNext(PageList<GroupBean> list) {
-                        if (null != list && null != list.getList()) {
-                            mList.addAll(list.getList());
+                        if (null != list) {
+                            mCurrent = list.getCurrent();
+
+                            if (null != list.getList()) {
+                                mList.addAll(list.getList());
+                            }
                         }
 
                         if (null != mAdapter) {
@@ -196,18 +196,9 @@ public class GroupListFragment extends BasicFragment implements IView {
                         }
                     }
                 },
-                new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-
-                    }
+                disposable -> {
                 },
-                new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mSpringView.onFinishFreshAndLoadDelay();
-                    }
-                });
+                () -> mSpringView.onFinishFreshAndLoadDelay());
     }
 
     private Observable<BaseJson<PageListDTO<GroupBeanDTO, GroupBean>>> getGroupList(int queryUserId, int current, int size) {
@@ -218,13 +209,14 @@ public class GroupListFragment extends BasicFragment implements IView {
                 .put("v", "2.0.0")
                 .build();
         return mRepositoryManager
-                .obtainRetrofitService(PersonalCardService.class)
+                .obtainRetrofitService(CommonService.class)
                 .getGroupList(param);
     }
 
     /**
-     *  聊天列表-搜索已加入的趣聊
-     * @param key 关键字
+     * 聊天列表-搜索已加入的趣聊
+     *
+     * @param key     关键字
      * @param refresh 是否刷新
      */
     private void chatListSearchGroup(String key, boolean refresh) {
@@ -244,18 +236,9 @@ public class GroupListFragment extends BasicFragment implements IView {
                         }
                     }
                 },
-                new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-
-                    }
+                disposable -> {
                 },
-                new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mSpringView.onFinishFreshAndLoadDelay();
-                    }
-                });
+                () -> mSpringView.onFinishFreshAndLoadDelay());
     }
 
     private Observable<BaseJson<PageListDTO<GroupBeanDTO, GroupBean>>> chatListSearchGroup(String key,
@@ -267,21 +250,22 @@ public class GroupListFragment extends BasicFragment implements IView {
                 .put("v", "2.0.0")
                 .build();
         return mRepositoryManager
-                .obtainRetrofitService(PersonalCardService.class)
+                .obtainRetrofitService(CommonService.class)
                 .chatListSearchGroup(param);
     }
 
 
     /**
      * 聊天列表-搜索已加入的觅聊
-     * @param key 关键字
+     *
+     * @param key     关键字
      * @param refresh 是否刷新
      */
     private void chatListSearchMiList(String key, boolean refresh) {
         refreshList(refresh);
 
         mApiHelper.execute(this,
-                chatListSearchGroup(key, mCurrent + 1, mSize),
+                chatListSearchMiList(key, mCurrent + 1, mSize),
                 new ErrorHandleSubscriber<PageList<GroupBean>>() {
                     @Override
                     public void onNext(PageList<GroupBean> list) {
@@ -294,22 +278,13 @@ public class GroupListFragment extends BasicFragment implements IView {
                         }
                     }
                 },
-                new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-
-                    }
+                disposable -> {
                 },
-                new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mSpringView.onFinishFreshAndLoadDelay();
-                    }
-                });
+                () -> mSpringView.onFinishFreshAndLoadDelay());
     }
 
     private Observable<BaseJson<PageListDTO<GroupBeanDTO, GroupBean>>> chatListSearchMiList(String key,
-                                                                                            int current, int size) {
+                         int current, int size) {
         Map<String, Object> param = new NetParam()
                 .put("key", EntitiesUtil.assertNotNull(key))
                 .put("current", current)
@@ -317,7 +292,7 @@ public class GroupListFragment extends BasicFragment implements IView {
                 .put("v", "2.0.0")
                 .build();
         return mRepositoryManager
-                .obtainRetrofitService(PersonalCardService.class)
+                .obtainRetrofitService(CommonService.class)
                 .chatListSearchMiList(param);
     }
 
@@ -334,7 +309,6 @@ public class GroupListFragment extends BasicFragment implements IView {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mErrorHandler = null;
         mApiHelper = null;
     }
 
@@ -349,8 +323,8 @@ public class GroupListFragment extends BasicFragment implements IView {
 
         switch (event.getEvent()) {
             case EventBean.EVENT_APP_SEARCH:
-                mKey = (String)event.get("key");
-                String tags = (String)event.get("tags");
+                mKey = (String) event.get("key");
+//                String tags = (String) event.get("tags");
 
                 mSpringView.callFreshDelay();
 

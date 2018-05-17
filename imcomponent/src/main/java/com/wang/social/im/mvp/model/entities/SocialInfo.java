@@ -33,6 +33,7 @@ public class SocialInfo implements Parcelable {
     private ShadowInfo shadowInfo;
     //我在趣聊中的信息
     private MemberInfo memberInfo;
+    private int memberNum;
 
     @Override
     public int describeContents() {
@@ -51,6 +52,7 @@ public class SocialInfo implements Parcelable {
         dest.writeTypedList(this.tags);
         dest.writeParcelable(this.shadowInfo, flags);
         dest.writeParcelable(this.memberInfo, flags);
+        dest.writeInt(this.memberNum);
     }
 
     protected SocialInfo(Parcel in) {
@@ -64,6 +66,7 @@ public class SocialInfo implements Parcelable {
         this.tags = in.createTypedArrayList(Tag.CREATOR);
         this.shadowInfo = in.readParcelable(ShadowInfo.class.getClassLoader());
         this.memberInfo = in.readParcelable(MemberInfo.class.getClassLoader());
+        this.memberNum = in.readInt();
     }
 
     public static final Parcelable.Creator<SocialInfo> CREATOR = new Parcelable.Creator<SocialInfo>() {

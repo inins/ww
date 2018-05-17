@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.frame.base.BasicFragment;
+import com.frame.component.api.CommonService;
 import com.frame.component.common.NetParam;
 import com.frame.component.entities.Topic;
 import com.frame.component.ui.adapter.TopicListAdapter;
@@ -25,7 +26,7 @@ import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
 import com.wang.social.im.mvp.ui.PersonalCard.model.api.PersonalCardService;
-import com.wang.social.im.mvp.ui.PersonalCard.model.entities.DTO.TopicDTO;
+import com.frame.component.entities.dto.TopicDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +71,7 @@ public class SearchUserListFragment extends BasicFragment implements IView, Topi
 
     @Override
     public int initView(@Nullable Bundle savedInstanceState) {
-        return R.layout.im_personal_card_fragment_list_side_14;
+        return R.layout.layout_spring_recycler_side_14;
     }
 
     @Override
@@ -152,7 +153,7 @@ public class SearchUserListFragment extends BasicFragment implements IView, Topi
                 .put("v", "2.0.0")
                 .build();
         return mRepositoryManager
-                .obtainRetrofitService(PersonalCardService.class)
+                .obtainRetrofitService(CommonService.class)
                 .getFriendTopicList(param);
     }
 

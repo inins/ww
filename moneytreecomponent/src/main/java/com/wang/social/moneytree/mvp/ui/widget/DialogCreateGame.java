@@ -102,12 +102,12 @@ public class DialogCreateGame extends DialogFragment {
 
 //        mTimeET.addTextChangedListener(new TextWatcher() {
 //            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//            public void beforeTextChanged(CharSequence s, int startFromGroup, int count, int after) {
 //
 //            }
 //
 //            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//            public void onTextChanged(CharSequence s, int startFromGroup, int before, int count) {
 //
 //            }
 //
@@ -129,12 +129,12 @@ public class DialogCreateGame extends DialogFragment {
 //
 //        mNumberET.addTextChangedListener(new TextWatcher() {
 //            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//            public void beforeTextChanged(CharSequence s, int startFromGroup, int count, int after) {
 //
 //            }
 //
 //            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//            public void onTextChanged(CharSequence s, int startFromGroup, int before, int count) {
 //
 //            }
 //

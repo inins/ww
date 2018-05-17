@@ -1,18 +1,13 @@
 package com.wang.social.im.mvp.ui.PersonalCard.model.api;
 
 import com.frame.component.entities.Topic;
-import com.frame.component.entities.funshow.FunshowBean;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.PageListDTO;
-import com.wang.social.im.mvp.ui.PersonalCard.model.entities.DTO.FriendListDTO;
-import com.wang.social.im.mvp.ui.PersonalCard.model.entities.DTO.GroupBeanDTO;
-import com.wang.social.im.mvp.ui.PersonalCard.model.entities.DTO.SearchUserInfoDTO;
-import com.wang.social.im.mvp.ui.PersonalCard.model.entities.DTO.TalkBeanDTO;
-import com.wang.social.im.mvp.ui.PersonalCard.model.entities.DTO.TopicDTO;
+import com.frame.component.entities.dto.GroupBeanDTO;
+import com.frame.component.entities.dto.TopicDTO;
 import com.wang.social.im.mvp.ui.PersonalCard.model.entities.DTO.UserInfoDTO;
 import com.wang.social.im.mvp.ui.PersonalCard.model.entities.DTO.UserStatisticsDTO;
 import com.frame.component.entities.GroupBean;
-import com.frame.component.entities.PersonalInfo;
 
 import java.util.Map;
 
@@ -25,7 +20,6 @@ import retrofit2.http.POST;
 import retrofit2.http.QueryMap;
 
 public interface PersonalCardService {
-
     String HEADER_CONTENT_TYPE = "Content-Type:application/x-www-form-urlencoded; charset=utf-8";
 
     /**
@@ -42,30 +36,6 @@ public interface PersonalCardService {
     @POST("app/userInfo/getUserStatistics")
     Observable<BaseJson<UserStatisticsDTO>> getUserStatistics(@FieldMap Map<String, Object> param);
 
-    /**
-     * 好友列表-他人名片查看
-     */
-    @GET("app/userFriend/othersFriendList")
-    Observable<BaseJson<FriendListDTO>> getUserFriendList(@QueryMap Map<String, Object> param);
-
-    /**
-     * 趣聊列表-他人名片
-     */
-    @GET("app/group/list")
-    Observable<BaseJson<PageListDTO<GroupBeanDTO, GroupBean>>> getGroupList(@QueryMap Map<String, Object> param);
-
-
-    /**
-     * 话题列表 （他人名片）
-     */
-    @GET("app/topic/personalCardList")
-    Observable<BaseJson<PageListDTO<TopicDTO, Topic>>> getFriendTopicList(@QueryMap Map<String, Object> param);
-
-    /**
-     * 趣晒列表 （他人名片）
-     */
-    @GET("app/talk/personalCardList")
-    Observable<BaseJson<PageListDTO<TalkBeanDTO, FunshowBean>>> getFriendTalkList(@QueryMap Map<String, Object> param);
 
 
     /**
@@ -112,27 +82,6 @@ public interface PersonalCardService {
     @POST("app/userInfo/changeMyBlack")
     Observable<BaseJson> changeMyBlack(@FieldMap Map<String, Object> param);
 
-
-    /**
-     * 聊天列表-搜索已添加的好友
-     */
-    @GET("app/chatList/searchUserList")
-    Observable<BaseJson<PageListDTO<SearchUserInfoDTO, PersonalInfo>>>
-    chatListSearchUser(@QueryMap Map<String, Object> param);
-
-    /**
-     * 聊天列表-搜索已加入的趣聊
-     */
-    @GET("app/chatList/searchGroupList")
-    Observable<BaseJson<PageListDTO<GroupBeanDTO, GroupBean>>>
-    chatListSearchGroup(@QueryMap Map<String, Object> param);
-
-    /**
-     * 聊天列表-搜索已加入的觅聊
-     */
-    @GET("app/chatList/searchMiList")
-    Observable<BaseJson<PageListDTO<GroupBeanDTO, GroupBean>>>
-    chatListSearchMiList(@QueryMap Map<String, Object> param);
 
 
 }

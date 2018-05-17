@@ -13,11 +13,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.helper.NetReportHelper;
 import com.frame.component.ui.acticity.tags.TagUtils;
 import com.frame.component.ui.base.BaseAppActivity;
+import com.frame.component.ui.dialog.DialogActionSheet;
 import com.frame.component.ui.dialog.DialogInput;
 import com.frame.component.ui.dialog.DialogSure;
 import com.frame.component.ui.dialog.DialogValiRequest;
@@ -34,12 +34,11 @@ import com.wang.social.im.mvp.ui.PersonalCard.di.PersonalCardModule;
 import com.frame.component.entities.PersonalInfo;
 import com.wang.social.im.mvp.ui.PersonalCard.model.entities.UserStatistics;
 import com.wang.social.im.mvp.ui.PersonalCard.presenter.PersonalCardPresenter;
-import com.wang.social.im.mvp.ui.PersonalCard.ui.fragment.FriendListFragment;
-import com.wang.social.im.mvp.ui.PersonalCard.ui.fragment.GroupListFragment;
-import com.wang.social.im.mvp.ui.PersonalCard.ui.fragment.TalkListFragment;
-import com.wang.social.im.mvp.ui.PersonalCard.ui.fragment.TopicListFragment;
+import com.frame.component.ui.fragment.FriendListFragment;
+import com.frame.component.ui.fragment.GroupListFragment;
+import com.frame.component.ui.fragment.TalkListFragment;
+import com.frame.component.ui.fragment.TopicListFragment;
 import com.wang.social.im.mvp.ui.PersonalCard.ui.widget.AppBarStateChangeListener;
-import com.frame.component.ui.dialog.DialogActionSheet;
 import com.wang.social.im.mvp.ui.PersonalCard.ui.widget.PWFriendMoreMenu;
 import com.wang.social.pictureselector.helper.PhotoHelper;
 import com.wang.social.pictureselector.helper.PhotoHelperEx;
@@ -60,7 +59,8 @@ import com.wang.social.im.R2;
 public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter> implements
         PersonalCardContract.View {
 
-    public final static int REQUEST_CODE_AVATAR_IMAGE = 10033;
+    public final static int REQUEST_AVATAR_IMAGE = 10033;
+    public final static int REQUEST_REPORT_IMAGE = 10034;
 
     public final static int TYPE_UNKNOWN = -1;
     // 好友申请，底部显示 拒绝 同意
@@ -162,6 +162,8 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
     // 消息id
     private int mMsgId;
     private PhotoHelperEx mPhotoHelperEx;
+    private int mRequestImageType;
+    private String mReportComment;
 
 
     @Override
@@ -181,7 +183,6 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
         StatusBarUtil.setTranslucent(this);
-        StatusBarUtil.setTextDark(this);
 
         mUserId = getIntent().getIntExtra("userid", -1);
 //        mUserId = 10001;
@@ -210,12 +211,14 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
                 if (state == State.EXPANDED) {
                     //展开状态
-                    StatusBarUtil.setTextLight(PersonalCardActivity.this);
+                    StatusBarUtil.setStatusBarColor(PersonalCardActivity.this,
+                            android.R.color.transparent);
                 } else if (state == State.COLLAPSED) {
                     //折叠状态
                     showReportTV(false);
                     showMoreLayout(false);
-                    StatusBarUtil.setTextDark(PersonalCardActivity.this);
+                    StatusBarUtil.setStatusBarColor(PersonalCardActivity.this,
+                            R.color.common_text_dark_light);
                 } else {
                     //中间状态
                     showReportTV(true);
@@ -224,19 +227,25 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
             }
         });
 
-        mPhotoHelperEx = PhotoHelperEx.newInstance(this, new PhotoHelper.OnPhotoCallback() {
-            @Override
-            public void onResult(String path) {
+        mPhotoHelperEx = PhotoHelperEx.newInstance(this,
+                path -> {
+                    Timber.i("图片返回 : " + path);
+                    if (mRequestImageType == REQUEST_AVATAR_IMAGE) {
+                        String[] pathArray = PhotoHelper.format2Array(path);
 
-                Timber.i("图片返回 : " + path);
-                String[] pathArray = PhotoHelper.format2Array(path);
+                        if (pathArray.length <= 0) return;
 
-                if (null == pathArray) return;
-                if (pathArray.length <= 0) return;
-
-                mPresenter.setFriendAvatar(mUserId, pathArray[0]);
-            }
-        });
+                        mPresenter.setFriendAvatar(mUserId, pathArray[0]);
+                    } else if (mRequestImageType == REQUEST_REPORT_IMAGE) {
+                        String[] pathArray = PhotoHelper.format2Array(path);
+                        String picUrl = "";
+                        for (int i = 0; i < pathArray.length; i++) {
+                            picUrl += (i <= 0 ? "" : ",") + pathArray[i];
+                        }
+                        // 弹出确认举报对话框
+                        confirmReport(mReportComment, picUrl);
+                    }
+                });
 
         mPresenter.loadUserInfoAndPhotos(mUserId);
 //        mPresenter.loadUserStatistics(mUserId);
@@ -392,12 +401,6 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
             // 已经是好友了，底部显示 开始聊天
             mBottomMiddleTV.setVisibility(View.VISIBLE);
             mBottomMiddleTV.setText("开始聊天");
-            mBottomMiddleTV.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    CommonHelper.ImHelper.gotoPrivateConversation(PersonalCardActivity.this, String.valueOf(mUserId));
-                }
-            });
         } else {
             // 还不是好友，可能是 好友申请 或者 添加好友
             if (mType == TYPE_REQUEST_FRIEND) {
@@ -405,33 +408,16 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
                 mBottomLeftTV.setVisibility(View.VISIBLE);
                 mBottomRightTV.setVisibility(View.VISIBLE);
                 mBottomLeftTV.setText("拒绝");
-                mBottomLeftTV.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mPresenter.rejectApply(mUserId, mMsgId);
-                    }
-                });
+                mBottomLeftTV.setOnClickListener(v -> mPresenter.rejectApply(mUserId, mMsgId));
                 mBottomRightTV.setText("同意");
-                mBottomRightTV.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mPresenter.agreeApply(mUserId, mMsgId);
-                    }
-                });
+                mBottomRightTV.setOnClickListener(v -> mPresenter.agreeApply(mUserId, mMsgId));
             } else {
                 // 浏览模式，显示添加好友
                 mBottomMiddleTV.setVisibility(View.VISIBLE);
                 mBottomMiddleTV.setText("添加好友");
-                mBottomMiddleTV.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-//                        mPresenter.addFriendApply();
-                        DialogValiRequest.showDialog(PersonalCardActivity.this,
-                                content -> {
-                                    mPresenter.addFriendApply(mUserId, content);
-                                });
-                    }
-                });
+                mBottomMiddleTV.setOnClickListener(
+                        v -> DialogValiRequest.showDialog(PersonalCardActivity.this,
+                                content -> mPresenter.addFriendApply(mUserId, content)));
             }
         }
 
@@ -568,54 +554,56 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
         };
 
         DialogActionSheet.show(getSupportFragmentManager(), reports)
-                .setActionSheetListener(new DialogActionSheet.ActionSheetListener() {
-                    @Override
-                    public void onItemSelected(int position, String text) {
-                        // 提示确认是否删除
-                        DialogSure.showDialog(PersonalCardActivity.this,
-                                "确定要举报该用户？",
-                                new DialogSure.OnSureCallback() {
-                                    @Override
-                                    public void onOkClick() {
-                                        NetReportHelper.newInstance().netReportPerson(PersonalCardActivity.this,
-                                                mUserId, text, null, new NetReportHelper.OnReportCallback() {
-                                                    @Override
-                                                    public void success() {
-                                                        ToastUtil.showToastShort("举报成功");
-                                                    }
-                                                });
-                                    }
-                                });
-                    }
-                });
+                .setActionSheetListener(
+                        (position, text) -> {
+                            // 记录文字信息
+                            mReportComment = text;
+                            // 弹出图片选择
+                            mRequestImageType = REQUEST_REPORT_IMAGE;
+                            mPhotoHelperEx.setMaxSelectCount(5);
+                            mPhotoHelperEx.showDefaultDialog();
+                        }
+                );
+    }
+
+    private void confirmReport(String comment, String picUrl) {
+        // 提示确认是否删除
+        DialogSure.showDialog(PersonalCardActivity.this,
+                "确定要举报该用户？",
+                () -> NetReportHelper.newInstance()
+                        .netReportPerson(
+                                PersonalCardActivity.this,
+                                mUserId,
+                                comment,
+                                picUrl,
+                                () -> ToastUtil.showToastShort("举报成功")));
     }
 
     private PWFriendMoreMenu mPWFriendMoreMenu;
 
-    private DialogInput mSetRemarkDialot;
+    private DialogInput mSetRemarkDialog;
 
     private void showSetRemarkDialog() {
-        if (null == mSetRemarkDialot) {
-            mSetRemarkDialot = DialogInput.newInstance(PersonalCardActivity.this,
+        if (null == mSetRemarkDialog) {
+            mSetRemarkDialog = DialogInput.newInstance(PersonalCardActivity.this,
                     "设置备注",
                     "最多输入12个字",
                     "",
                     "取消",
                     "设置",
                     12);
-            mSetRemarkDialot.setOnInputListener(new DialogInput.OnInputListener() {
-                @Override
-                public void onInputText(String text) {
-                    // 设置备注
-                    mPresenter.setFriendRemard(mUserId, text);
+            mSetRemarkDialog.setOnInputListener(
+                    text -> {
+                        // 设置备注
+                        mPresenter.setFriendRemard(mUserId, text);
 
-                    mSetRemarkDialot.dismiss();
-                }
-            });
+                        mSetRemarkDialog.dismiss();
+                    }
+            );
         }
 
-        mSetRemarkDialot.setText(mPersonalInfo.getNickname());
-        mSetRemarkDialot.show();
+        mSetRemarkDialog.setText(mPersonalInfo.getNickname());
+        mSetRemarkDialog.show();
     }
 
     @OnClick(R2.id.more_layout)
@@ -630,6 +618,7 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
 
                 @Override
                 public void onSetAvatar() {
+                    mRequestImageType = REQUEST_AVATAR_IMAGE;
                     mPhotoHelperEx.setMaxSelectCount(1);
                     mPhotoHelperEx.setClip(true);
                     mPhotoHelperEx.showDefaultDialog();
@@ -644,24 +633,14 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
                 public void onDeleteFriend() {
                     DialogSure.showDialog(PersonalCardActivity.this,
                             "确认删除好友？",
-                            new DialogSure.OnSureCallback() {
-                                @Override
-                                public void onOkClick() {
-                                    mPresenter.deleteFriend(mUserId);
-                                }
-                            });
+                            () -> mPresenter.deleteFriend(mUserId));
                 }
 
                 @Override
                 public void onAddBlackList() {
                     DialogSure.showDialog(PersonalCardActivity.this,
                             "确认加入黑名单？",
-                            new DialogSure.OnSureCallback() {
-                                @Override
-                                public void onOkClick() {
-                                    mPresenter.changeMyBlack(mUserId, true);
-                                }
-                            });
+                            () -> mPresenter.changeMyBlack(mUserId, true));
                 }
             });
         }

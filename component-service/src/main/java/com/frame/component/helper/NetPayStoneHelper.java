@@ -64,6 +64,7 @@ public class NetPayStoneHelper {
      *                   {@link com.frame.component.app.Constant#PAY_OBJECT_TYPE_CREATE_SOCIAL}
      *                   {@link com.frame.component.app.Constant#PAY_OBJECT_TYPE_TALK}
      *                   {@link com.frame.component.app.Constant#PAY_OBJECT_TYPE_TOPIC}
+     *                   {@link com.frame.component..app.Constant#PAY_OBJECT_TYPE_ADD_GROUP}
      * @param objectId   支付对象ID
      * @param callback
      */

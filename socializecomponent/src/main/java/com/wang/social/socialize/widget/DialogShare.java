@@ -26,11 +26,25 @@ public class DialogShare extends DialogFragment {
 
     public static void shareWeb(FragmentManager fragmentManager,
                                 String url, String title, String content, String imageUrl) {
+        share(fragmentManager, url, title, content, imageUrl, false, null);
+    }
+
+    public static void shareWithWW(FragmentManager fragmentManager,
+                                   String url, String title, String content, String imageUrl,
+                                   SocializeUtil.WWShareListener wwShareListener) {
+        share(fragmentManager, url, title, content, imageUrl, true, wwShareListener);
+    }
+
+    private static void share(FragmentManager fragmentManager,
+                              String url, String title, String content, String imageUrl,
+                              boolean showWW, SocializeUtil.WWShareListener wwShareListener) {
         new DialogShare()
                 .setShareUrl(url)
                 .setShareTitle(title)
                 .setShareContent(content)
                 .setShareImageUrl(imageUrl)
+                .setShowWW(showWW)
+                .setWWShareListener(wwShareListener)
                 .show(fragmentManager, TAG);
     }
 
@@ -39,7 +53,8 @@ public class DialogShare extends DialogFragment {
             R.string.socialize_wx_friends,
             R.string.socialize_qq_contacts,
             R.string.socialize_qq_zone,
-            R.string.socialize_sina_weibo
+            R.string.socialize_sina_weibo,
+            R.string.socialize_ww_friend
     };
 
     public final static int[] ICON_RES = {
@@ -47,7 +62,8 @@ public class DialogShare extends DialogFragment {
             R.drawable.socialize_quan,
             R.drawable.socialize_qq_friend,
             R.drawable.socialize_qzone,
-            R.drawable.socialize_weibo
+            R.drawable.socialize_weibo,
+            R.drawable.socialize_ww
     };
 
     private ShareItemAdapter.DataProvider dataProvider = new ShareItemAdapter.DataProvider() {
@@ -68,24 +84,30 @@ public class DialogShare extends DialogFragment {
 
         @Override
         public int getItemCount() {
-            return Math.min(NAME_RES.length, ICON_RES.length);
+            return Math.min(NAME_RES.length, ICON_RES.length) - (mShowWW ? 0 : 1);
         }
     };
 
-    private ShareItemAdapter.ClickListener clickListener = new ShareItemAdapter.ClickListener() {
-        @Override
-        public void onClick(int position) {
+    private String shareUrl;
+    private String shareTitle;
+    private String shareContent;
+    private String shareImageUrl;
+    private SocializeUtil.WWShareListener mWWShareListener;
+
+    private boolean mShowWW = false;
+
+    private ShareItemAdapter.ClickListener clickListener = position -> {
+        if (position == SocializeUtil.SHARE_PLATFORM_WW_FRIEND) {
+            if (null != mWWShareListener) {
+                mWWShareListener.onWWShare(getShareUrl(), getShareTitle(), getShareContent(), getShareImageUrl());
+            }
+        } else {
             SocializeUtil.umShareWeb(getActivity(), position,
                     getShareUrl(), getShareTitle(), getShareContent(), getShareImageUrl());
-
-            dismiss();
         }
-    };
 
-    String shareUrl;
-    String shareTitle;
-    String shareContent;
-    String shareImageUrl;
+        dismiss();
+    };
 
     public String getShareUrl() {
         return shareUrl;
@@ -101,6 +123,18 @@ public class DialogShare extends DialogFragment {
 
     public String getShareImageUrl() {
         return shareImageUrl;
+    }
+
+    public DialogShare setWWShareListener(SocializeUtil.WWShareListener WWShareListener) {
+        mWWShareListener = WWShareListener;
+
+        return this;
+    }
+
+    public DialogShare setShowWW(boolean showWW) {
+        mShowWW = showWW;
+
+        return this;
     }
 
     public DialogShare setShareUrl(String shareUrl) {
@@ -158,12 +192,7 @@ public class DialogShare extends DialogFragment {
         if (null == view) return;
 
         view.findViewById(R.id.cancel_text_view)
-                .setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dismiss();
-                    }
-                });
+                .setOnClickListener(v -> dismiss());
 
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);

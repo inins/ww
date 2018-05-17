@@ -13,7 +13,6 @@ import com.wang.social.moneytree.mvp.model.entities.NewGame;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 
 import javax.inject.Inject;
 
@@ -68,7 +67,7 @@ public class GameListPresenter extends
 
                     @Override
                     public void onError(Throwable e) {
-                        mRootView.showToastLong(e.getMessage());
+                        mRootView.showToastShort(e.getMessage());
                     }
                 }, new Consumer<Disposable>() {
                     @Override
@@ -104,7 +103,7 @@ public class GameListPresenter extends
                     }
                     @Override
                     public void onError(Throwable e) {
-                        mRootView.showToastLong(e.getMessage());
+                        mRootView.showToastShort(e.getMessage());
                         mRootView.hideLoading();
                     }
                 }, new Consumer<Disposable>() {
@@ -130,7 +129,7 @@ public class GameListPresenter extends
                     }
                     @Override
                     public void onError(Throwable e) {
-                        mRootView.showToastLong(e.getMessage());
+                        mRootView.showToastShort(e.getMessage());
                     }
                 }, new Consumer<Disposable>() {
                     @Override

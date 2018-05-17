@@ -1,4 +1,4 @@
-package com.wang.social.socialize.app;
+package com.wang.social.socialize.runalone;
 
 import android.content.Intent;
 import android.os.Bundle;

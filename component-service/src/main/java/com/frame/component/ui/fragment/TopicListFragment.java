@@ -1,4 +1,4 @@
-package com.wang.social.im.mvp.ui.PersonalCard.ui.fragment;
+package com.frame.component.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,17 +7,18 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.frame.base.BasicFragment;
+import com.frame.component.api.CommonService;
 import com.frame.component.common.NetParam;
 import com.frame.component.entities.Topic;
-import com.frame.component.entities.funshow.FunshowBean;
-import com.frame.component.ui.adapter.RecycleAdapterCommonFunshow;
+import com.frame.component.entities.dto.TopicDTO;
+import com.frame.component.service.R;
+import com.frame.component.service.R2;
 import com.frame.di.component.AppComponent;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.PageList;
 import com.frame.http.api.PageListDTO;
 import com.frame.http.api.error.ErrorHandleSubscriber;
-import com.frame.http.api.error.RxErrorHandler;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.IView;
 import com.frame.utils.FrameUtils;
@@ -25,8 +26,7 @@ import com.frame.utils.Utils;
 import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
-import com.wang.social.im.mvp.ui.PersonalCard.model.api.PersonalCardService;
-import com.wang.social.im.mvp.ui.PersonalCard.model.entities.DTO.TalkBeanDTO;
+import com.frame.component.ui.adapter.TopicListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,16 +34,16 @@ import java.util.Map;
 
 import butterknife.BindView;
 import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
-import com.wang.social.im.R;
-import com.wang.social.im.R2;
+import retrofit2.http.GET;
 
-public class TalkListFragment extends BasicFragment implements IView {
+/**
+ * 话题列表
+ * 话题列表 （他人名片）
+ */
+public class TopicListFragment extends BasicFragment implements IView, TopicListAdapter.ClickListener {
 
-    public static TalkListFragment newInstance(int userid) {
-        TalkListFragment fragment = new TalkListFragment();
+    public static TopicListFragment newInstance(int userid) {
+        TopicListFragment fragment = new TopicListFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("userid", userid);
         fragment.setArguments(bundle);
@@ -54,13 +54,12 @@ public class TalkListFragment extends BasicFragment implements IView {
     SpringView mSpringView;
     @BindView(R2.id.recycler_view)
     RecyclerView mRecyclerView;
-    private RecycleAdapterCommonFunshow mAdapter;
+    private TopicListAdapter mAdapter;
 
     private ApiHelper mApiHelper = new ApiHelper();
     private IRepositoryManager mRepositoryManager;
-    private RxErrorHandler mErrorHandler;
     private int mCurrent = 0;
-    private int mSize = 10;
+    private static final int mSize = 10;
     private List<Topic> mList = new ArrayList<>();
     private int mUserId;
 
@@ -71,19 +70,18 @@ public class TalkListFragment extends BasicFragment implements IView {
 
     @Override
     public int initView(@Nullable Bundle savedInstanceState) {
-        return R.layout.im_personal_card_fragment_list;
+        return R.layout.layout_spring_recycler_side_14;
     }
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         mRepositoryManager = FrameUtils.obtainAppComponentFromContext(Utils.getContext()).repoitoryManager();
-        mErrorHandler = FrameUtils.obtainAppComponentFromContext(Utils.getContext()).rxErrorHandler();
 
         if (getArguments() != null) {
             mUserId = getArguments().getInt("userid");
         }
 
-        mAdapter = new RecycleAdapterCommonFunshow();
+        mAdapter = new TopicListAdapter(this, mRecyclerView, mList);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(mAdapter);
 
@@ -93,12 +91,12 @@ public class TalkListFragment extends BasicFragment implements IView {
         mSpringView.setListener(new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
-                loadTalkList(true);
+                getFriendTopicList(true);
             }
 
             @Override
             public void onLoadmore() {
-                loadTalkList(false);
+                getFriendTopicList(false);
             }
         });
         mSpringView.callFreshDelay();
@@ -109,25 +107,20 @@ public class TalkListFragment extends BasicFragment implements IView {
 
     }
 
-    private void loadTalkList(boolean refresh) {
+    private void getFriendTopicList(boolean refresh) {
         if (refresh) {
             mCurrent = 0;
             mList.clear();
         }
         mApiHelper.execute(this,
-                getTalkList(mUserId, mCurrent + 1, mSize),
-                new ErrorHandleSubscriber<PageList<FunshowBean>>() {
+                netGetFriendTopicList(mUserId, mCurrent + 1, mSize),
+                new ErrorHandleSubscriber<PageList<Topic>>() {
                     @Override
-                    public void onNext(PageList<FunshowBean> list) {
-                        if (null != list && null != list.getList()) {
-                            if (list.getList().size() > 0) {
-                                mCurrent = list.getCurrent();
-                            }
-
-                            if (refresh) {
-                                mAdapter.refreshData(list.getList());
-                            } else {
-                                mAdapter.addItem(list.getList());
+                    public void onNext(PageList<Topic> pageList) {
+                        if (null != pageList) {
+                            mCurrent = pageList.getCurrent();
+                            if (null != pageList.getList()) {
+                                mList.addAll(pageList.getList());
                             }
                         }
 
@@ -136,21 +129,15 @@ public class TalkListFragment extends BasicFragment implements IView {
                         }
                     }
                 },
-                new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-
-                    }
-                },
-                new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mSpringView.onFinishFreshAndLoadDelay();
-                    }
-                });
+                disposable -> {},
+                () -> mSpringView.onFinishFreshAndLoadDelay());
     }
 
-    private Observable<BaseJson<PageListDTO<TalkBeanDTO, FunshowBean>>> getTalkList(int queryUserId, int current, int size) {
+    /**
+     * 话题列表 （他人名片）
+     */
+    @GET("app/topic/personalCardList")
+    private Observable<BaseJson<PageListDTO<TopicDTO, Topic>>> netGetFriendTopicList(int queryUserId, int current, int size) {
         Map<String, Object> param = new NetParam()
                 .put("queryUserId", queryUserId)
                 .put("current", current)
@@ -158,8 +145,8 @@ public class TalkListFragment extends BasicFragment implements IView {
                 .put("v", "2.0.0")
                 .build();
         return mRepositoryManager
-                .obtainRetrofitService(PersonalCardService.class)
-                .getFriendTalkList(param);
+                .obtainRetrofitService(CommonService.class)
+                .getFriendTopicList(param);
     }
 
     @Override
@@ -175,7 +162,21 @@ public class TalkListFragment extends BasicFragment implements IView {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mErrorHandler = null;
         mApiHelper = null;
+    }
+
+    @Override
+    public boolean autoTopicClick() {
+        return true;
+    }
+
+    @Override
+    public void onTopicClick(Topic topic) {
+
+    }
+
+    @Override
+    public void onPayTopicSuccess(Topic topic) {
+
     }
 }

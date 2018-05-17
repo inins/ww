@@ -3,6 +3,7 @@ package com.wang.social.moneytree.mvp.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,18 +30,34 @@ import com.wang.social.moneytree.mvp.model.entities.NewGame;
 import com.wang.social.moneytree.mvp.presenter.GameListPresenter;
 import com.wang.social.moneytree.mvp.ui.adapter.GameListAdapter;
 import com.wang.social.moneytree.mvp.ui.widget.DialogCreateGame;
+import com.wang.social.moneytree.utils.Keys;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.wang.social.moneytree.utils.Keys.NAME_GAME_TYPE;
+import static com.wang.social.moneytree.utils.Keys.NAME_GROUP_ID;
+import static com.wang.social.moneytree.utils.Keys.TYPE_FROM_GROUP;
+import static com.wang.social.moneytree.utils.Keys.TYPE_FROM_SQUARE;
+
 public class GameListActivity extends BaseAppActivity<GameListPresenter>
         implements GameListContract.View, DialogCreateGame.CreateGameCallback,
         GameListAdapter.ClickListener {
-    public final static String NAME_GROUP_ID = "NAME_GROUP_ID";
 
-    public static void start(Context context, int groupId) {
+
+    public static void startFromGroup(Context context, int groupId) {
         Intent intent = new Intent(context, GameListActivity.class);
+        intent.putExtra(NAME_GAME_TYPE, TYPE_FROM_GROUP);
         intent.putExtra(NAME_GROUP_ID, groupId);
+        context.startActivity(intent);
+    }
+
+    public static void startFromSquare(Context context) {
+        Intent intent = new Intent(context, GameListActivity.class);
+        intent.putExtra(NAME_GAME_TYPE, TYPE_FROM_SQUARE);
         context.startActivity(intent);
     }
 
@@ -55,8 +72,9 @@ public class GameListActivity extends BaseAppActivity<GameListPresenter>
     private DialogCreateGame mDialogCreateGame;
     // 群ID (在群中创建时必传)
     private int mGroupId;
-    // 创建类型（1：通过群，2：用户）
-    private int mType;
+    // 创建类型（1：通过群，2：活动与游戏）
+    private @Keys.GameType
+    int mType;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -74,11 +92,11 @@ public class GameListActivity extends BaseAppActivity<GameListPresenter>
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
-        StatusBarUtil.setTranslucent(this);
-        StatusBarUtil.setTextDark(this);
+//        StatusBarUtil.setTranslucent(this);
+//        StatusBarUtil.setTextDark(this);
 
+        mType = getIntent().getIntExtra(NAME_GAME_TYPE, TYPE_FROM_SQUARE);
         mGroupId = getIntent().getIntExtra(NAME_GROUP_ID, -1);
-        mType = mGroupId == -1 ? 2 : 1;
 
         mToolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
             @Override
@@ -126,8 +144,8 @@ public class GameListActivity extends BaseAppActivity<GameListPresenter>
     }
 
     @Override
-    public void showToastLong(String msg) {
-        ToastUtil.showToastLong(msg);
+    public void showToastShort(String msg) {
+        ToastUtil.showToastShort(msg);
     }
 
     @Override
@@ -232,6 +250,6 @@ public class GameListActivity extends BaseAppActivity<GameListPresenter>
 
     @Override
     public void onEnterGameRoom(GameBean gameBean) {
-        GameRoomActivity.startGame(this, gameBean);
+        GameRoomActivity.startGame(this, gameBean, mType);
     }
 }

@@ -1,5 +1,6 @@
 package com.wang.social.moneytree.runalone;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -12,10 +13,12 @@ import com.frame.component.utils.SpannableStringUtil;
 import com.frame.component.view.DialogPay;
 import com.frame.di.component.AppComponent;
 import com.frame.mvp.IView;
+import com.umeng.socialize.UMShareAPI;
 import com.wang.social.moneytree.R;
 import com.wang.social.moneytree.R2;
 import com.wang.social.moneytree.mvp.ui.GameListActivity;
-import com.wang.social.moneytree.mvp.ui.widget.CountDownTextView;
+import com.wang.social.pictureselector.ActivityPicturePreview;
+import com.wang.social.socialize.SocializeUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -27,10 +30,6 @@ public class MainActivity extends BasicActivity implements IView {
     EditText mNameET;
     @BindView(R2.id.password_edit_text)
     EditText mPasswordET;
-    @BindView(R2.id.user_id_edit_text)
-    EditText mUserIdET;
-    @BindView(R2.id.type_edit_text)
-    EditText mTypeET;
 
 
     @Override
@@ -45,28 +44,27 @@ public class MainActivity extends BasicActivity implements IView {
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
-        mUserIdET.setText("10001");
-        mUserIdET.setSelection(mUserIdET.getText().length());
-        mTypeET.setText("1");
-        mTypeET.setSelection(mTypeET.getText().length());
     }
 
-    @OnClick(R2.id.personal_card_button)
-    public void personalCard() {
-        int type = 1;
-        int userid = 10001;
-        try {
-            userid = Integer.parseInt(mUserIdET.getText().toString());
-            type = Integer.parseInt(mTypeET.getText().toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-//        PersonalCardActivity.start(this, userid, type);
+    @OnClick(R2.id.pics_button)
+    public void pics() {
+        String[] pics = {
+                "https://a.cdnsbn.com/images/products/l/20857459814.jpg",
+                "https://a.cdnsbn.com/images/products/l/10005703602.jpg",
+                "https://a.cdnsbn.com/images/products/l/12834780402.jpg",
+                "https://b.cdnsbn.com/images/products/l/15403480402.jpg",
+                "https://b.cdnsbn.com/images/products/l/05766096301.jpg",
+                "https://c.cdnsbn.com/images/products/l/04010986801.jpg",
+                "https://c.cdnsbn.com/images/products/l/16588798103.jpg",
+                "https://c.cdnsbn.com/images/products/l/11440582501.jpg",
+                "https://d.cdnsbn.com/images/products/l/07983430803.jpg"
+        };
+        ActivityPicturePreview.startBrowse(this, pics.length / 2, pics);
     }
 
     @OnClick(R2.id.confirm_button)
     public void confirm() {
-        int groupId = 1;
+        int groupId = 0;
 
         try {
             groupId = Integer.parseInt(mEditText.getText().toString());
@@ -74,7 +72,11 @@ public class MainActivity extends BasicActivity implements IView {
             e.printStackTrace();
         }
 
-        GameListActivity.start(this, groupId);
+        if (groupId > 0) {
+            GameListActivity.startFromGroup(this, groupId);
+        } else {
+            GameListActivity.startFromSquare(this);
+        }
     }
 
     @OnClick(R2.id.login_button)
@@ -110,6 +112,17 @@ public class MainActivity extends BasicActivity implements IView {
 
                     }
                 });
+
+    }
+
+    @OnClick(R2.id.share_button)
+    public void share() {
+        SocializeUtil.shareWeb(getSupportFragmentManager(),
+                null,
+                "http://www.wangsocial.com/",
+                "往往",
+                "有点2的社交软件",
+                "http://resouce.dongdongwedding.com/activity_cashcow_moneyTree.png");
     }
 
     @Override
@@ -120,5 +133,12 @@ public class MainActivity extends BasicActivity implements IView {
     @Override
     public void hideLoading() {
 
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 }

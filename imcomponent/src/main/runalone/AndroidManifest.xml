@@ -164,9 +164,14 @@
         <activity
             android:name=".mvp.ui.AlertUserListActivity"
             android:exported="true" />
-        <activity android:name=".mvp.ui.ShareListActivity" />
-        <activity android:name=".mvp.ui.PersonalCard.PersonalCardActivity"></activity>
-        <activity android:name=".mvp.ui.GroupInviteDetailActivity"></activity>
+        <activity android:name=".mvp.ui.ShareListActivity"></activity>
+
+        <activity android:name=".mvp.ui.PersonalCard.PersonalCardActivity">
+        </activity>
+        <activity android:name=".mvp.ui.GroupInviteDetailActivity">
+        </activity>
+        <activity android:name=".mvp.ui.GroupMiInviteDetailActivity">
+        </activity>
         <activity android:name=".mvp.ui.HappyWoodActivity" />
         <activity android:name=".mvp.ui.NotifySysMsgListActivity" />
         <activity android:name=".mvp.ui.NofityFriendRequestListActivity" />

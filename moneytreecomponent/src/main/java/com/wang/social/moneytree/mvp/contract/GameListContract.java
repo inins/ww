@@ -11,7 +11,7 @@ import io.reactivex.Observable;
 
 public interface GameListContract {
     interface View extends IView {
-        void showToastLong(String msg);
+        void showToastShort(String msg);
 
         void onLoadGameListSuccess();
         void onLoadGameListCompleted();

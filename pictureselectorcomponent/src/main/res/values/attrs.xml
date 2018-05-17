@@ -8,4 +8,11 @@
         <attr name="ps_TextColor" format="color|reference"/>
         <attr name="ps_TextSize" format="dimension|reference"/>
     </declare-styleable>
+
+    <declare-styleable name="ps_DotIndicator">
+        <attr name="ps_diImage" format="reference" />
+        <attr name="ps_diImageSelected" format="reference" />
+        <attr name="ps_diPadding" format="dimension|reference" />
+        <attr name="ps_diNum" format="integer" />
+    </declare-styleable>
 </resources>

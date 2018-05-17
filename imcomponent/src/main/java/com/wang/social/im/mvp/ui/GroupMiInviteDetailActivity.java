@@ -3,10 +3,8 @@ package com.wang.social.im.mvp.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,14 +12,11 @@ import android.widget.TextView;
 
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.beloo.widget.chipslayoutmanager.SpacingItemDecoration;
-import com.frame.component.app.Constant;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.helper.NetGroupHelper;
-import com.frame.component.helper.NetPayStoneHelper;
 import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.ui.dialog.DialogSure;
-import com.frame.component.ui.dialog.PayDialog;
 import com.frame.component.utils.UIUtil;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
@@ -39,61 +34,25 @@ import com.frame.utils.Utils;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.mvp.model.api.GroupService;
-import com.frame.component.entities.AddGroupApplyRsp;
-import com.frame.component.entities.AddGroupRsp;
-import com.wang.social.im.mvp.model.entities.DistributionAge;
-import com.wang.social.im.mvp.model.entities.DistributionGroup;
-import com.wang.social.im.mvp.model.entities.DistributionSex;
 import com.wang.social.im.mvp.model.entities.SocialInfo;
-import com.frame.component.entities.dto.AddGroupApplyRspDTO;
-import com.frame.component.entities.dto.AddGroupRspDTO;
-import com.wang.social.im.mvp.model.entities.dto.DistributionGroupDTO;
-import com.wang.social.im.mvp.model.entities.dto.SocialDTO;
-import com.wang.social.im.mvp.ui.adapters.DistributionAgeAdapter;
-import com.wang.social.im.mvp.ui.adapters.DistributionSexAdapter;
+import com.wang.social.im.mvp.model.entities.TeamInfo;
+import com.wang.social.im.mvp.model.entities.dto.TeamInfoDTO;
 import com.wang.social.im.mvp.ui.adapters.HomeTagAdapter;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.Observable;
 
-public class GroupInviteDetailActivity extends BaseAppActivity implements IView {
+public class GroupMiInviteDetailActivity extends BaseAppActivity implements IView {
 
-    public final static int TYPE_BROWSE = 0;
-    public final static int TYPE_INVITE = 1;
-
-    @IntDef({
-            TYPE_BROWSE,
-            TYPE_INVITE
-    })
-    @Retention(RetentionPolicy.SOURCE)
-    @interface GroupInviteType {
+    public static void start(Context context, int groupId) {
+        start(context, groupId, -1);
     }
 
-    /**
-     * 邀请入群
-     * 底部显示 拒绝 同意
-     */
-    public static void startForInvite(Context context, int groupId, int msgId) {
-        start(context, TYPE_INVITE, groupId, msgId);
-    }
-
-    /**
-     * 浏览信息
-     * 底部显示 立即加入
-     */
-    public static void startForBrowse(Context context, int groupId) {
-        start(context, TYPE_BROWSE, groupId, -1);
-    }
-
-    private static void start(Context context, int type, int groupId, int msgId) {
-        Intent intent = new Intent(context, GroupInviteDetailActivity.class);
-        intent.putExtra("type", type);
+    public static void start(Context context, int groupId, int msgId) {
+        Intent intent = new Intent(context, GroupMiInviteDetailActivity.class);
         intent.putExtra("groupid", groupId);
         intent.putExtra("msgid", msgId);
         context.startActivity(intent);
@@ -132,33 +91,13 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
     // 同意按钮
     @BindView(R2.id.agree_text_view)
     TextView mAgreeTV;
-    // 申请入群按钮
-    @BindView(R2.id.apply_layout)
-    View mApplyLayout;
-    // 申请入群提示
-    @BindView(R2.id.apply_hint_text_view)
-    TextView mApplyHintTV;
-    // 年龄分布
-    @BindView(R2.id.age_recycler_view)
-    RecyclerView mAgeRV;
-    DistributionAgeAdapter mAgeAdapter;
-    // 性别分布
-    @BindView(R2.id.sex_recycler_view)
-    RecyclerView mSexRV;
-    DistributionSexAdapter mSexAdapter;
+
 
     private ApiHelper mApiHelper = new ApiHelper();
     private IRepositoryManager mRepositoryManager;
-    private SocialInfo mSocial;
-    private @GroupInviteType
-    int mType;
+    private TeamInfo mTeamInfo;
     private int mGroupId;
     private int mMsgId;
-
-    // 年龄分布
-    private List<DistributionAge> mAgeList = new ArrayList<>();
-    // 性别分布
-    private List<DistributionSex> mSexList = new ArrayList<>();
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -167,13 +106,12 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
 
     @Override
     public int initView(@NonNull Bundle savedInstanceState) {
-        return R.layout.im_activity_invite_detail;
+        return R.layout.im_activity_mi_invite_detail;
     }
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
-        mType = getIntent().getIntExtra("type", TYPE_BROWSE);
-        mGroupId = getIntent().getIntExtra("groupid", -1);
+        mGroupId = getIntent().getIntExtra("groupid", 2);
         mMsgId = getIntent().getIntExtra("msgid", -1);
 
         mRepositoryManager = FrameUtils.obtainAppComponentFromContext(Utils.getContext()).repoitoryManager();
@@ -183,7 +121,7 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
                 finish();
             } else if (clickType == SocialToolbar.ClickType.RIGHT_TEXT) {
                 // 举报
-                DialogSure.showDialog(GroupInviteDetailActivity.this,
+                DialogSure.showDialog(GroupMiInviteDetailActivity.this,
                         "", new DialogSure.OnSureCallback() {
                             @Override
                             public void onOkClick() {
@@ -197,28 +135,7 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
             scToolbar.getTvRight().setVisibility(View.GONE);
         }
 
-        initDistributionAge();
-        initDistributionSex();
-
-        loadSocialInfo(mGroupId);
-    }
-
-    /**
-     * 年龄分布UI
-     */
-    private void initDistributionAge() {
-        mAgeAdapter = new DistributionAgeAdapter(this, mAgeList);
-        mAgeRV.setLayoutManager(new GridLayoutManager(this, 4));
-        mAgeRV.setAdapter(mAgeAdapter);
-    }
-
-    /**
-     * 性别分布UI
-     */
-    private void initDistributionSex() {
-        mSexAdapter = new DistributionSexAdapter(this, mSexList);
-        mSexRV.setLayoutManager(new GridLayoutManager(this, 4));
-        mSexRV.setAdapter(mSexAdapter);
+        getTeamInfo(mGroupId);
     }
 
     private void resetMemberCount(int count) {
@@ -230,8 +147,8 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
     /**
      * 加载信息成功后重置ui显示
      */
-    public void showSocialInfo(SocialInfo socialInfo) {
-        mSocial = socialInfo;
+    public void showTeamInfo(TeamInfo teamInfo) {
+        mTeamInfo = teamInfo;
 
         mContentLayout.setVisibility(View.VISIBLE);
 
@@ -240,9 +157,9 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
         }
 
         // 群名称
-        scTvTitle.setText(socialInfo.getName());
+        scTvTitle.setText(mTeamInfo.getName());
         // 群成员数量
-        resetMemberCount(socialInfo.getMemberNum());
+        resetMemberCount(mTeamInfo.getMemberSize());
 
         // 封面图片
         ImageLoaderHelper.getImageLoader()
@@ -251,39 +168,23 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
                         .errorPic(R.drawable.im_round_image_placeholder)
                         .transformation(new RoundedCornersTransformation(UIUtil.getDimen(R.dimen.im_round_image_radius), 0, RoundedCornersTransformation.CornerType.ALL))
                         .imageView(scIvCover)
-                        .url(socialInfo.getCover())
+                        .url(mTeamInfo.getCover())
                         .build());
 
         // 是否付费
-        if (socialInfo.getAttr().isCharge()) {
+        if (!mTeamInfo.isFree()) {
             scIvPayLogo.setVisibility(View.VISIBLE);
         }
 
         // 标签
-        showTags(socialInfo.getTags());
+        showTags(mTeamInfo.getTags());
 
-        // 群简介
-        scTvIntro.setText(socialInfo.getDesc());
+        // 备注说明
 
         // 底部栏
         mBottomLayout.setVisibility(View.VISIBLE);
-        if (mType == TYPE_INVITE) {
-            mRefuseTV.setVisibility(View.VISIBLE);
-            mAgreeTV.setVisibility(View.VISIBLE);
-            mApplyLayout.setVisibility(View.GONE);
-        } else {
-            // 显示申请加入
-            mApplyLayout.setVisibility(View.VISIBLE);
-            mRefuseTV.setVisibility(View.GONE);
-            mAgreeTV.setVisibility(View.GONE);
-            if (socialInfo.getAttr().getGem() > 0) {
-                mApplyHintTV.setText(
-                        String.format(getString(R.string.im_personal_card_join_hint),
-                                socialInfo.getAttr().getGem()));
-            } else {
-                mApplyHintTV.setVisibility(View.GONE);
-            }
-        }
+        mRefuseTV.setVisibility(View.VISIBLE);
+        mAgreeTV.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -301,69 +202,29 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
     }
 
     /**
-     * 获取趣聊信息
+     * 获取觅聊详情
      *
-     * @param socialId 群id
+     * @param groupId 群id
      */
-    public void loadSocialInfo(int socialId) {
+    public void getTeamInfo(int groupId) {
         mApiHelper.execute(this,
-                getSocialInfo(Integer.toString(socialId)),
-                new ErrorHandleSubscriber<SocialInfo>() {
+                netGetTeamInfo(Integer.toString(groupId)),
+                new ErrorHandleSubscriber<TeamInfo>() {
                     @Override
-                    public void onNext(SocialInfo socialInfo) {
-                        showSocialInfo(socialInfo);
-
-                        loadDistribution(socialId);
+                    public void onNext(TeamInfo teamInfo) {
+                        showTeamInfo(teamInfo);
                     }
                 }, disposable -> showLoading()
                 , () -> hideLoading());
     }
 
     /**
-     * 加载群信息
+     * 获取觅聊详情
      */
-    private Observable<BaseJson<SocialDTO>> getSocialInfo(String socialId) {
+    private Observable<BaseJson<TeamInfoDTO>> netGetTeamInfo(String socialId) {
         return mRepositoryManager
                 .obtainRetrofitService(GroupService.class)
-                .getSocialInfo("2.0.0", socialId);
-    }
-
-    /**
-     * 获取年龄和性别分布
-     *
-     * @param groupId 群id
-     */
-    public void loadDistribution(int groupId) {
-        mApiHelper.execute(this,
-                getDistribution(Integer.toString(groupId)),
-                new ErrorHandleSubscriber<DistributionGroup>() {
-                    @Override
-                    public void onNext(DistributionGroup group) {
-                        if (null != group.getAge()) {
-                            mAgeList.addAll(group.getAge());
-                            if (null != mAgeAdapter) {
-                                mAgeAdapter.resetCount(group.getAge());
-                                mAgeAdapter.notifyDataSetChanged();
-                            }
-                        }
-                        if (null != group.getSex()) {
-                            if (null != group.getSex()) {
-                                mSexList.addAll(group.getSex());
-
-                                if (null != mSexAdapter) {
-                                    mSexAdapter.resetCount(group.getSex());
-                                    mSexAdapter.notifyDataSetChanged();
-                                }
-                            }
-                        }
-                    }
-                });
-    }
-
-    private Observable<BaseJson<DistributionGroupDTO>> getDistribution(String groupId) {
-        return mRepositoryManager
-                .obtainRetrofitService(GroupService.class)
-                .getDistribution("2.0.0", groupId);
+                .getTeamInfo("2.0.0", socialId);
     }
 
     /**
@@ -377,8 +238,6 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
                     public void onNext(Object o) {
                         //  入群后隐藏底部
                         mBottomLayout.setVisibility(View.GONE);
-                        // 重新加载统计信息
-                        loadDistribution(mGroupId);
                     }
 
                     @Override
@@ -442,23 +301,4 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
         agreeAdd(mGroupId, mMsgId);
     }
 
-    @OnClick(R2.id.apply_text_view)
-    public void apply() {
-        NetGroupHelper.newInstance().addGroup(
-                this,
-                this,
-                mGroupId,
-                isNeedValidation -> {
-                    // 隐藏底部栏
-                    mBottomLayout.setVisibility(View.GONE);
-
-                    if (!isNeedValidation) {
-                        // 重新加载群统计
-                        loadDistribution(mGroupId);
-                        // 人数增加
-                        mSocial.setMemberNum(mSocial.getMemberNum() + 1);
-                        resetMemberCount(mSocial.getMemberNum());
-                    }
-                });
-    }
 }
