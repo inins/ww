@@ -17,6 +17,7 @@ import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.helper.NetReportHelper;
 import com.frame.component.ui.acticity.tags.TagUtils;
 import com.frame.component.ui.base.BaseAppActivity;
+import com.frame.component.ui.dialog.DialogActionSheet;
 import com.frame.component.ui.dialog.DialogInput;
 import com.frame.component.ui.dialog.DialogSure;
 import com.frame.component.ui.dialog.DialogValiRequest;
@@ -38,7 +39,6 @@ import com.frame.component.ui.fragment.GroupListFragment;
 import com.frame.component.ui.fragment.TalkListFragment;
 import com.frame.component.ui.fragment.TopicListFragment;
 import com.wang.social.im.mvp.ui.PersonalCard.ui.widget.AppBarStateChangeListener;
-import com.wang.social.im.mvp.ui.PersonalCard.ui.widget.DialogActionSheet;
 import com.wang.social.im.mvp.ui.PersonalCard.ui.widget.PWFriendMoreMenu;
 import com.wang.social.pictureselector.helper.PhotoHelper;
 import com.wang.social.pictureselector.helper.PhotoHelperEx;
@@ -573,7 +573,9 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
                 () -> NetReportHelper.newInstance()
                         .netReportPerson(
                                 PersonalCardActivity.this,
-                                mUserId, comment,
+                                mUserId,
+                                comment,
+                                picUrl,
                                 () -> ToastUtil.showToastShort("举报成功")));
     }
 
