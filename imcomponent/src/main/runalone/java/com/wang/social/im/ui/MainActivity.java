@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private int mMsgId;
     private EditText mGroupIdET;
     private EditText mMsgIdET;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,23 +86,28 @@ public class MainActivity extends AppCompatActivity {
         mMsgIdET = findViewById(R.id.msg_id_edit_text);
         mGroupIdET.setText("26");
         mGroupId = 26;
-        try {
-            mGroupId = Integer.parseInt(mGroupIdET.getText().toString());
-            mMsgId = Integer.parseInt(mMsgIdET.getText().toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-            findViewById(R.id.group_invite)
-                    .setOnClickListener(v -> {
-                        if (mMsgId > 0) {
-                            GroupInviteDetailActivity.startForInvite(MainActivity.this,
-                                    mGroupId, mMsgId);
-                        } else {
-                            GroupInviteDetailActivity.startForBrowse(MainActivity.this,
-                                    mGroupId);
-                        }
-                    });
+        findViewById(R.id.group_invite)
+                .setOnClickListener(v -> {
+                    try {
+                        mGroupId = Integer.parseInt(mGroupIdET.getText().toString());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        mMsgId = Integer.parseInt(mMsgIdET.getText().toString());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    if (mMsgId > 0) {
+                        GroupInviteDetailActivity.startForInvite(MainActivity.this,
+                                mGroupId, mMsgId);
+                    } else {
+                        GroupInviteDetailActivity.startForBrowse(MainActivity.this,
+                                mGroupId);
+                    }
+                });
 
     }
 

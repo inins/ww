@@ -50,7 +50,7 @@ public class SocialDTO implements Mapper<SocialInfo> {
         } else if (gender == 1) {
             attr.setGenderLimit(SocialAttribute.GenderLimit.FEMALE);
         }
-        if (TextUtils.isEmpty(ageRange)) {
+        if (!TextUtils.isEmpty(ageRange)) {
             String[] limit = ageRange.split(",");
             for (String age : limit) {
                 if (age.equals("90")) {

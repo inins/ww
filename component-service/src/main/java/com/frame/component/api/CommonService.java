@@ -203,5 +203,7 @@ public interface CommonService {
     @FormUrlEncoded
     @POST("app/group/addGroupMember")
     Observable<BaseJson<AddGroupRspDTO>> addGroupMember(
-            @Field("v") String version, @Field("applyId") int applyId);
+            @Field("v") String version,
+            @Field("applyId") int applyId,
+            @Field("applyDesc") String applyDesc);
 }
