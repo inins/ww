@@ -1,5 +1,6 @@
 package com.frame.component.helper;
 
+import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.frame.component.api.Api;
@@ -10,9 +11,11 @@ import com.frame.component.utils.UrlUtil;
 import com.frame.http.api.BaseJson;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.IView;
+import com.frame.utils.FrameUtils;
 import com.frame.utils.RxLifecycleUtils;
 import com.frame.utils.StrUtil;
 import com.frame.utils.TimeUtils;
+import com.frame.utils.Utils;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UploadManager;
 
@@ -46,6 +49,14 @@ public class QiNiuManager {
     @Inject
     public QiNiuManager(IRepositoryManager repositoryManager) {
         this.mRepositoryManager = repositoryManager;
+    }
+
+    private QiNiuManager() {
+        this.mRepositoryManager = FrameUtils.obtainAppComponentFromContext(Utils.getContext()).repoitoryManager();
+    }
+
+    public static QiNiuManager newInstance() {
+        return new QiNiuManager();
     }
 
     /**

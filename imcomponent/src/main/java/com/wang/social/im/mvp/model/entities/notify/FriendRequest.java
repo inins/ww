@@ -15,7 +15,7 @@ public class FriendRequest implements Serializable{
 
     /**
      * msgId : 72
-     * pass : 0
+     * pass : 0     0 未处理 1通过 2过期 3拒绝
      * userId : 10034
      * nickname : 哄哄你
      * avatar : http://resouce.dongdongwedding.com/Data/wangwang/iOS-2018-04-27-6H2H1lIk.png
@@ -25,6 +25,7 @@ public class FriendRequest implements Serializable{
      * tags : []
      * reason : 12312321
      * createTime : 1526006791000
+     *
      */
 
     private int msgId;
@@ -43,15 +44,11 @@ public class FriendRequest implements Serializable{
         return sex == 0;
     }
 
-    public boolean isAgreed() {
-        return pass == 1;
-    }
-
     public RequestBean trans2RequestBean() {
         RequestBean requestBean = new RequestBean();
         requestBean.setMsgId(msgId);
         requestBean.setUserId(userId);
-        requestBean.setAgree(isAgreed());
+        requestBean.setStatus(pass);
         requestBean.setNickname(nickname);
         requestBean.setAvatar(avatar);
         requestBean.setSex(sex);

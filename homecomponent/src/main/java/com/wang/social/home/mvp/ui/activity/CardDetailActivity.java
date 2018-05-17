@@ -9,26 +9,40 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.TextView;
 
+import com.frame.component.helper.NetFriendHelper;
+import com.frame.component.helper.NetReportHelper;
+import com.frame.component.helper.QiNiuManager;
 import com.frame.component.helper.ToolbarTansColorHelper;
 import com.frame.component.ui.base.BasicAppActivity;
+import com.frame.component.ui.base.BasicAppNoDiActivity;
+import com.frame.component.ui.dialog.DialogActionSheet;
 import com.frame.component.ui.dialog.DialogSure;
 import com.frame.component.ui.dialog.DialogValiRequest;
 import com.frame.component.view.ObservableNestedScrollView;
+import com.frame.component.view.bundleimgview.BundleImgEntity;
 import com.frame.di.component.AppComponent;
+import com.frame.utils.FrameUtils;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.StatusBarUtil;
+import com.frame.utils.StrUtil;
 import com.frame.utils.ToastUtil;
+import com.frame.utils.Utils;
 import com.wang.social.home.R;
 import com.wang.social.home.R2;
 import com.wang.social.home.mvp.entities.card.CardUser;
 import com.wang.social.home.mvp.ui.controller.DetailBannerBoardController;
 import com.wang.social.home.mvp.ui.controller.DetailFunshowController;
 import com.wang.social.home.mvp.ui.controller.DetailTopicController;
+import com.wang.social.home.mvp.ui.fragment.CardUserFragment;
+import com.wang.social.pictureselector.helper.PhotoHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CardDetailActivity extends BasicAppActivity {
+public class CardDetailActivity extends BasicAppNoDiActivity {
 
     @BindView(R2.id.scroll_view)
     ObservableNestedScrollView scrollView;
@@ -36,6 +50,8 @@ public class CardDetailActivity extends BasicAppActivity {
     TextView btnRight;
     @BindView(R2.id.btn_go)
     TextView btnGo;
+
+    private PhotoHelper photoHelper;
 
     private DetailBannerBoardController bannerBoardController;
     private DetailFunshowController funshowController;
@@ -64,6 +80,7 @@ public class CardDetailActivity extends BasicAppActivity {
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
+        photoHelper = new PhotoHelper(this);
         userId = getIntent().getIntExtra("userId", 0);
         cardUser = (CardUser) getIntent().getSerializableExtra("cardUser");
         toolbar.bringToFront();
@@ -97,15 +114,40 @@ public class CardDetailActivity extends BasicAppActivity {
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.btn_right) {
-            DialogSure.showDialog(this, "确定要举报该用户？", () -> {
-                ToastUtil.showToastShort("举报成功");
-                finish();
-            });
+            String[] strings = {"语言谩骂/骚扰信息", "存在欺诈骗钱行为", "发布不适当内容"};
+            DialogActionSheet.show(getSupportFragmentManager(), strings)
+                    .setActionSheetListener((position, text) -> {
+                        photoHelper.setOnPhotoCallback(path -> {
+                            QiNiuManager.newInstance().uploadFile(CardDetailActivity.this, path, new QiNiuManager.OnSingleUploadListener() {
+                                @Override
+                                public void onSuccess(String url) {
+                                    NetReportHelper.newInstance().netReportPerson(CardDetailActivity.this, userId, text, url, () -> {
+                                        finish();
+                                    });
+                                }
+
+                                @Override
+                                public void onFail() {
+                                    ToastUtil.showToastShort("上传失败");
+                                }
+                            });
+                        });
+                        photoHelper.startPhoto();
+                    });
         } else if (i == R.id.btn_go) {
             DialogValiRequest.showDialog(this, content -> {
-                ToastUtil.showToastShort(content);
+                //TODO:发起加好友请求
+                NetFriendHelper.newInstance().netSendFriendlyApply(CardDetailActivity.this, userId, content, () -> {
+                    ToastUtil.showToastShort("请求已发送");
+                });
             });
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        photoHelper.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -114,10 +156,5 @@ public class CardDetailActivity extends BasicAppActivity {
         bannerBoardController.onDestory();
         funshowController.onDestory();
         topicController.onDestory();
-    }
-
-    @Override
-    public void setupActivityComponent(@NonNull AppComponent appComponent) {
-
     }
 }

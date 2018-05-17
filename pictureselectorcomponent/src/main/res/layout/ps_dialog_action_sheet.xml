@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/ps_shape_rect_corner_solid_white">
+        android:background="@drawable/shape_rect_corner_solid_white">
 
         <TextView
             android:id="@+id/title_tv"
@@ -42,10 +42,10 @@
         android:layout_width="match_parent"
         android:layout_height="53dp"
         android:minHeight="53dp"
-        android:background="@drawable/ps_shape_rect_corner_solid_white"
+        android:background="@drawable/shape_rect_corner_solid_white"
         android:gravity="center"
         android:textColor="@color/common_text_blank"
-        android:text="@string/ps_cancel"
+        android:text="@string/common_cancel"
         android:textSize="19sp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"/>

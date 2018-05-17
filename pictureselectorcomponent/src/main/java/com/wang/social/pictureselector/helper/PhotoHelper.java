@@ -20,6 +20,10 @@ public class PhotoHelper {
     protected OnPhotoCallback callback;
     private CropHelper cropHelper;
 
+    public PhotoHelper(Activity activity) {
+        this(activity, null);
+    }
+
     public PhotoHelper(Activity activity, OnPhotoCallback callback) {
         this.activity = activity;
         this.callback = callback;
@@ -30,7 +34,7 @@ public class PhotoHelper {
                     Intent intent = new Intent(activity, ActivityPictureClip.class);
                     intent.putExtra(PictureSelector.NAME_FILE_PATH, path);
                     activity.startActivityForResult(intent, PHOTO_CROP);
-                }else {
+                } else {
                     if (callback != null) callback.onResult(path);
                 }
             }
@@ -102,5 +106,9 @@ public class PhotoHelper {
 
     public void setClip(boolean clip) {
         isClip = clip;
+    }
+
+    public void setOnPhotoCallback(OnPhotoCallback callback) {
+        this.callback = callback;
     }
 }

@@ -39,7 +39,7 @@ import com.wang.social.im.mvp.ui.PersonalCard.ui.fragment.GroupListFragment;
 import com.wang.social.im.mvp.ui.PersonalCard.ui.fragment.TalkListFragment;
 import com.wang.social.im.mvp.ui.PersonalCard.ui.fragment.TopicListFragment;
 import com.wang.social.im.mvp.ui.PersonalCard.ui.widget.AppBarStateChangeListener;
-import com.wang.social.im.mvp.ui.PersonalCard.ui.widget.DialogActionSheet;
+import com.frame.component.ui.dialog.DialogActionSheet;
 import com.wang.social.im.mvp.ui.PersonalCard.ui.widget.PWFriendMoreMenu;
 import com.wang.social.pictureselector.helper.PhotoHelper;
 import com.wang.social.pictureselector.helper.PhotoHelperEx;
@@ -578,7 +578,7 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
                                     @Override
                                     public void onOkClick() {
                                         NetReportHelper.newInstance().netReportPerson(PersonalCardActivity.this,
-                                                mUserId, text, new NetReportHelper.OnReportCallback() {
+                                                mUserId, text, null, new NetReportHelper.OnReportCallback() {
                                                     @Override
                                                     public void success() {
                                                         ToastUtil.showToastShort("举报成功");

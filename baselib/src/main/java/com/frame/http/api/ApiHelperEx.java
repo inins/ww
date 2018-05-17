@@ -50,19 +50,6 @@ public class ApiHelperEx {
      * 同时将showLoading和hideLoading独立出来由needLoading参数进行控制
      */
     public static <T> void execute(IView bindView, boolean needLoading, Observable<T> observable, Observer<T> observer, Runnable doStart, Runnable doFinally) {
-//        execute(bindView, observable, observer, new Consumer<Disposable>() {
-//            @Override
-//            public void accept(Disposable disposable) throws Exception {
-//                if (needLoading && bindView != null) bindView.showLoading();
-//                if (doStart != null) doStart.run();
-//            }
-//        }, new Action() {
-//            @Override
-//            public void run() throws Exception {
-//                if (needLoading && bindView != null) bindView.hideLoading();
-//                if (doFinally != null) doFinally.run();
-//            }
-//        });
         execute(bindView, observable, observer, disposable -> {
                     if (needLoading && bindView != null) bindView.showLoading();
                     if (doStart != null) doStart.run();

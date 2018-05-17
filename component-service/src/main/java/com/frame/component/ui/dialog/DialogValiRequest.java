@@ -37,6 +37,7 @@ public class DialogValiRequest extends BaseDialogOkCancel {
     @Override
     protected void intViewOnCreate(View root) {
         super.intViewOnCreate(root);
+        setCanceledOnTouchOutside(false);
         editContent.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {

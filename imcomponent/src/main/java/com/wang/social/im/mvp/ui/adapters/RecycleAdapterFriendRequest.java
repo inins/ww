@@ -51,8 +51,8 @@ public class RecycleAdapterFriendRequest extends BaseAdapter<RequestBean> {
             textLableGender.setText(TimeUtils.getBirthdaySpan(bean.getBirthday()));
             textLableAstro.setText(TimeUtils.getAstro(bean.getBirthday()));
             textTag.setText(getContext().getResources().getString(isGroup ? R.string.im_notify_findchat_request_reason : R.string.im_notify_friend_request_reason) + bean.getReason());
-            textDo.setEnabled(!bean.isAgree());
-            textDo.setText(bean.isAgree() ? R.string.im_notify_friend_request_agreed : R.string.im_notify_friend_request_agree);
+            textDo.setEnabled(!bean.isDeal());
+            textDo.setText(bean.getStatusText());
             textDo.setOnClickListener(v -> {
                 if (onAgreeClickListener != null) onAgreeClickListener.onAgreeClick(bean, position);
             });

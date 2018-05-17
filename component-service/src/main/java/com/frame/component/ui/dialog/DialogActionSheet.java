@@ -1,4 +1,4 @@
-package com.wang.social.im.mvp.ui.PersonalCard.ui.widget;
+package com.frame.component.ui.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -18,8 +18,9 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.frame.component.service.R;
 import com.frame.utils.SizeUtils;
-import com.wang.social.im.R;
 
 public class DialogActionSheet extends DialogFragment implements View.OnClickListener {
 
@@ -58,8 +59,7 @@ public class DialogActionSheet extends DialogFragment implements View.OnClickLis
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getActivity()).inflate(
-                R.layout.im_personal_card_dialog_action_sheet, null, false);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.im_personal_card_dialog_action_sheet, null, false);
 
         mContentLayout = view.findViewById(R.id.content_layout);
         mCancelTV = view.findViewById(R.id.cancel_text_view);
@@ -69,8 +69,7 @@ public class DialogActionSheet extends DialogFragment implements View.OnClickLis
             for (int i = 0; i < mList.length; i++) {
                 if (i > 0) {
                     LinearLayout divider = new LinearLayout(view.getContext());
-                    divider.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                            SizeUtils.dp2px(1)));
+                    divider.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, SizeUtils.dp2px(1)));
                     divider.setBackgroundColor(getResources().getColor(R.color.common_list_divider));
                     mContentLayout.addView(divider);
                 }
@@ -79,8 +78,7 @@ public class DialogActionSheet extends DialogFragment implements View.OnClickLis
                 TextView textView = new TextView(getContext());
 
                 int height = mCancelTV.getMinHeight();
-                textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                        height));
+                textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height));
 
                 textView.setTextSize(mCancelTV.getTextSize() / scale);
                 textView.setTextColor(mCancelTV.getTextColors());
@@ -97,11 +95,11 @@ public class DialogActionSheet extends DialogFragment implements View.OnClickLis
         }
 
         mCancelTV.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        DialogActionSheet.this.dismiss();
-                    }
-                });
+            @Override
+            public void onClick(View v) {
+                DialogActionSheet.this.dismiss();
+            }
+        });
 
         Dialog dialog = new Dialog(getActivity(), 0);
         dialog.setContentView(view);
@@ -114,13 +112,10 @@ public class DialogActionSheet extends DialogFragment implements View.OnClickLis
         lp.gravity = Gravity.BOTTOM; // 紧贴底部
         window.setAttributes(lp);
 
-        WindowManager windowManager = (WindowManager) getActivity()
-                .getSystemService(Context.WINDOW_SERVICE);
+        WindowManager windowManager = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
         Display display = windowManager.getDefaultDisplay();
         // 调整dialog背景大小
-        view.setLayoutParams(new FrameLayout.LayoutParams(
-                (int) (display.getWidth() * 0.85),
-                LinearLayout.LayoutParams.MATCH_PARENT));
+        view.setLayoutParams(new FrameLayout.LayoutParams((int) (display.getWidth() * 0.85), LinearLayout.LayoutParams.MATCH_PARENT));
 
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
@@ -140,9 +135,8 @@ public class DialogActionSheet extends DialogFragment implements View.OnClickLis
     @Override
     public void onClick(View v) {
         if (null != mActionSheetListener && v instanceof TextView) {
-            mActionSheetListener.onItemSelected((int)v.getTag(), ((TextView)v).getText().toString());
+            mActionSheetListener.onItemSelected((int) v.getTag(), ((TextView) v).getText().toString());
         }
-
         dismiss();
     }
 }

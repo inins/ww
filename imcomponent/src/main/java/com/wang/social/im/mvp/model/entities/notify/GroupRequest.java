@@ -42,15 +42,12 @@ public class GroupRequest {
     private long createTime;
     private List<Tag> tags;
 
-    public boolean isAgreed() {
-        return pass == 1;
-    }
 
     public RequestBean trans2RequestBean() {
         RequestBean requestBean = new RequestBean();
         requestBean.setMsgId(msgId);
         requestBean.setUserId(userId);
-        requestBean.setAgree(isAgreed());
+        requestBean.setStatus(pass);
         requestBean.setNickname(nickname);
         requestBean.setAvatar(avatar);
         requestBean.setSex(sex);

@@ -183,7 +183,7 @@ public class CardUserFragment extends BasicFragment implements RecycleAdapterCar
                                 adapter.addItem(list);
                             }
                         } else {
-                            ToastUtil.showToastLong("没有更多数据了");
+                            //ToastUtil.showToastLong("没有更多数据了");
                         }
                     }
 
