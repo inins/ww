@@ -43,7 +43,7 @@ public class GroupHelper {
         return mInstance;
     }
 
-    private void refresh() {
+    public void refresh() {
         for (String key : groups.keySet()) {
             groups.get(key).clear();
         }

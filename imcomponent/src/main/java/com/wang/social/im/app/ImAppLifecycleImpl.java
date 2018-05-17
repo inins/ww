@@ -27,6 +27,7 @@ import com.tencent.imsdk.ext.sns.TIMUserConfigSnsExt;
 import com.wang.social.im.BuildConfig;
 import com.wang.social.im.enums.ConnectionStatus;
 import com.wang.social.im.helper.FriendShipHelper;
+import com.wang.social.im.helper.GroupHelper;
 import com.wang.social.im.helper.StickHelper;
 
 import org.greenrobot.eventbus.EventBus;
@@ -203,31 +204,37 @@ public class ImAppLifecycleImpl implements AppDelegate {
         @Override
         public void onMemberJoin(String s, List<TIMGroupMemberInfo> list) {
             Timber.tag(TAG).d("onMemberJoin");
+            GroupHelper.getInstance().refresh();
         }
 
         @Override
         public void onMemberQuit(String s, List<String> list) {
             Timber.tag(TAG).d("onMemberQuit");
+            GroupHelper.getInstance().refresh();
         }
 
         @Override
         public void onMemberUpdate(String s, List<TIMGroupMemberInfo> list) {
             Timber.tag(TAG).d("onMemberUpdate");
+            GroupHelper.getInstance().refresh();
         }
 
         @Override
         public void onGroupAdd(TIMGroupCacheInfo timGroupCacheInfo) {
             Timber.tag(TAG).d("onGroupAdd");
+            GroupHelper.getInstance().refresh();
         }
 
         @Override
         public void onGroupDelete(String s) {
             Timber.tag(TAG).d("onGroupDelete");
+            GroupHelper.getInstance().refresh();
         }
 
         @Override
         public void onGroupUpdate(TIMGroupCacheInfo timGroupCacheInfo) {
             Timber.tag(TAG).d("onGroupUpdate");
+            GroupHelper.getInstance().refresh();
         }
     }
 
