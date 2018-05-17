@@ -31,6 +31,7 @@ import com.wang.social.im.di.modules.ShadowSettingModule;
 import com.wang.social.im.mvp.contract.ShadowSettingContract;
 import com.wang.social.im.mvp.model.entities.ShadowInfo;
 import com.wang.social.im.mvp.presenter.ShadowSettingPresenter;
+import com.wang.social.im.widget.RulesDialog;
 import com.wang.social.pictureselector.helper.PhotoHelper;
 import com.wang.social.pictureselector.helper.PhotoHelperEx;
 
@@ -115,7 +116,7 @@ public class ShadowSettingActivity extends BaseAppActivity<ShadowSettingPresente
                     .url(shadowInfo.getPortrait())
                     .transformation(new RoundedCornersTransformation(UIUtil.getDimen(R.dimen.im_round_image_radius), 0, RoundedCornersTransformation.CornerType.ALL))
                     .build());
-        }else {
+        } else {
             ssIvPortrait.setImageResource(R.drawable.im_round_image_placeholder);
         }
         if (shadowInfo.getGender() != null) {
@@ -157,6 +158,8 @@ public class ShadowSettingActivity extends BaseAppActivity<ShadowSettingPresente
                 }
             }
         });
+
+
     }
 
     @Override
@@ -169,7 +172,7 @@ public class ShadowSettingActivity extends BaseAppActivity<ShadowSettingPresente
         dismissLoadingDialog();
     }
 
-    @OnClick({R2.id.ss_iv_portrait, R2.id.ss_tv_sure})
+    @OnClick({R2.id.ss_iv_portrait, R2.id.ss_tv_sure, R2.id.ss_tv_shadow})
     public void onViewClicked(View view) {
         if (view.getId() == R.id.ss_iv_portrait) {
             mPhotoHelper = PhotoHelperEx.newInstance(this, this);
@@ -200,6 +203,8 @@ public class ShadowSettingActivity extends BaseAppActivity<ShadowSettingPresente
                 return;
             }
             mPresenter.updateShadowInfo(shadowInfo);
+        } else if (view.getId() == R.id.ss_tv_shadow) {
+            new RulesDialog(this, getString(R.string.im_shadow_rules_title), "http://www.baidu.com").show();
         }
     }
 
