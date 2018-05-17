@@ -28,16 +28,24 @@ public class FunPointPresenter extends BasePresenter<FunPointContract.Model, Fun
         super(model, view);
     }
 
-    private void getFunPoints(String teamId, boolean refresh){
+    private void getFunPoints(String teamId, boolean refresh) {
         mCurrentPage++;
-        ApiHelperEx.execute(mRootView, false, mModel.getFunPointList(teamId),
+        ApiHelperEx.execute(mRootView, false, mModel.getFunPointList(teamId, mCurrentPage, 20),
                 new ErrorHandleSubscriber<BaseJson<BaseListWrap<Funpoint>>>() {
                     @Override
                     public void onNext(BaseJson<BaseListWrap<Funpoint>> baseListWrapBaseJson) {
-                        if (baseListWrapBaseJson.getData() != null && baseListWrapBaseJson.getData().getList() != null &&
-                                baseListWrapBaseJson.getData().getList().size() > 0) {
-                            mRootView.showFunPoint(baseListWrapBaseJson.getData().getList().get(0));
+                        BaseListWrap listWrap = baseListWrapBaseJson.getData();
+                        if (listWrap != null && listWrap != null && listWrap.getList().size() > 0) {
+                            mRootView.showFunPoints(baseListWrapBaseJson.getData().getList(), listWrap.getCurrent() < listWrap.getPages());
                         }
+                        mRootView.hideLoading();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        mCurrentPage--;
+                        mRootView.hideLoading();
                     }
                 });
     }
