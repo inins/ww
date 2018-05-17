@@ -79,6 +79,7 @@ public class TeamFunPointPopup extends PopupWindow {
                 if (mMoreClickListener != null) {
                     mMoreClickListener.onMoreClick();
                 }
+                dismiss();
             }
         });
     }

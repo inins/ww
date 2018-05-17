@@ -6,6 +6,7 @@ import com.frame.component.common.AppConstant;
 import com.frame.utils.FileUtils;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.Utils;
+import com.wang.social.im.app.IMConstants;
 
 import java.io.File;
 import java.io.IOException;
@@ -67,6 +68,7 @@ public class ImHelper {
 
     /**
      * 获取年龄段
+     *
      * @param birthdayMills
      * @return
      */
@@ -83,5 +85,17 @@ public class ImHelper {
         } else {
             return "其他";
         }
+    }
+
+    /**
+     * 将IM的ID转换成往往ID
+     * @param imId
+     * @return
+     */
+    public static String imId2WangId(String imId) {
+        return imId.replace(IMConstants.IM_IDENTITY_PREFIX_GAME, "")
+                .replace(IMConstants.IM_IDENTITY_PREFIX_MIRROR, "")
+                .replace(IMConstants.IM_IDENTITY_PREFIX_SOCIAL, "")
+                .replace(IMConstants.IM_IDENTITY_PREFIX_TEAM, "");
     }
 }

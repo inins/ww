@@ -1,5 +1,7 @@
 package com.wang.social.im.mvp.model.api;
 
+import com.frame.component.entities.BaseListWrap;
+import com.frame.component.entities.funpoint.Funpoint;
 import com.frame.http.api.BaseJson;
 import com.wang.social.im.mvp.model.entities.IndexFriendInfo;
 import com.wang.social.im.mvp.model.entities.IndexMemberInfo;
@@ -364,5 +366,9 @@ public interface GroupService {
             @Field("msgId") int msgId,
             @Field("type") int type);
 
-
+    /**
+     * 获取觅聊下的趣点列表
+     */
+    @GET("/app/news/miNewsList?v=2.0.0")
+    Observable<BaseJson<BaseListWrap<Funpoint>>> getFunPointList(@Query("miId") String teamId, @Query("current") int current, @Query("size") int size);
 }

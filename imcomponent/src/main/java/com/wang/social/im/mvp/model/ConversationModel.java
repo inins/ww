@@ -1,11 +1,14 @@
 package com.wang.social.im.mvp.model;
 
+import com.frame.component.entities.BaseListWrap;
+import com.frame.component.entities.funpoint.Funpoint;
 import com.frame.di.scope.FragmentScope;
 import com.frame.http.api.BaseJson;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.BaseModel;
 import com.wang.social.im.mvp.contract.ConversationContract;
 import com.wang.social.im.mvp.model.api.EnvelopService;
+import com.wang.social.im.mvp.model.api.GroupService;
 import com.wang.social.im.mvp.model.entities.dto.EnvelopInfoDTO;
 
 import javax.inject.Inject;
@@ -19,7 +22,7 @@ import io.reactivex.Observable;
  * ======================================
  */
 @FragmentScope
-public class ConversationModel extends BaseModel implements ConversationContract.Model{
+public class ConversationModel extends BaseModel implements ConversationContract.Model {
 
     @Inject
     public ConversationModel(IRepositoryManager repositoryManager) {
@@ -31,5 +34,12 @@ public class ConversationModel extends BaseModel implements ConversationContract
         return mRepositoryManager
                 .obtainRetrofitService(EnvelopService.class)
                 .getEnvelopInfo("2.0.0", envelopId);
+    }
+
+    @Override
+    public Observable<BaseJson<BaseListWrap<Funpoint>>> getFunPointList(String teamId) {
+        return mRepositoryManager
+                .obtainRetrofitService(GroupService.class)
+                .getFunPointList(teamId, 1, 1);
     }
 }

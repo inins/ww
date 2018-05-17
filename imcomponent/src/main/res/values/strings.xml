@@ -95,8 +95,6 @@
     <string name="im_ex_bad_content_view">Your content view must contain exactly one child. Make sure you call inject() after setContentView().</string>
 
 
-
-
     <string name="im_personal_card_more_menu_set_remark">设置备注</string>
     <string name="im_personal_card_more_menu_set_avatar">设置头像</string>
     <string name="im_personal_card_more_menu_report">举报</string>
