@@ -11,7 +11,7 @@ import com.tencent.imsdk.TIMUserProfile;
  * Create by ChenJing on 2018-04-17 13:32
  * ============================================
  */
-public class FriendProfile implements ProfileSummary{
+public class FriendProfile implements ProfileSummary {
 
     private TIMUserProfile profile;
 
@@ -21,7 +21,7 @@ public class FriendProfile implements ProfileSummary{
 
     @Override
     public String getPortrait() {
-        if (!TextUtils.isEmpty(profile.getFaceUrl())){
+        if (!TextUtils.isEmpty(profile.getFaceUrl())) {
             return profile.getFaceUrl();
         }
         return "";
@@ -29,7 +29,10 @@ public class FriendProfile implements ProfileSummary{
 
     @Override
     public String getName() {
-        if (!TextUtils.isEmpty(profile.getNickName())){
+        if (!TextUtils.isEmpty(profile.getRemark())) {
+            return profile.getRemark();
+        }
+        if (!TextUtils.isEmpty(profile.getNickName())) {
             return profile.getNickName();
         }
         return "";
@@ -37,7 +40,7 @@ public class FriendProfile implements ProfileSummary{
 
     @Override
     public String getDescription() {
-        if (!TextUtils.isEmpty(profile.getSelfSignature())){
+        if (!TextUtils.isEmpty(profile.getSelfSignature())) {
             return profile.getSelfSignature();
         }
         return "";

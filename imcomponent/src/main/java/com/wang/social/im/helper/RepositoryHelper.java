@@ -1,6 +1,7 @@
 package com.wang.social.im.helper;
 
 import com.frame.component.api.CommonService;
+import com.frame.component.common.NetParam;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
@@ -10,6 +11,13 @@ import com.frame.utils.FrameUtils;
 import com.frame.utils.Utils;
 import com.wang.social.im.interfaces.ImCallBack;
 import com.wang.social.im.mvp.model.api.ChainService;
+import com.wang.social.im.mvp.ui.PersonalCard.model.api.PersonalCardService;
+
+import java.util.Map;
+
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 
 /**
  * ============================================
@@ -43,6 +51,7 @@ public class RepositoryHelper {
 
     /**
      * 发送好友请求
+     *
      * @param view
      * @param userId
      * @param reason
@@ -61,13 +70,51 @@ public class RepositoryHelper {
 
                     @Override
                     public void onError(Throwable e) {
-                        super.onError(e);
-                        callBack.onFail(e);
+                        if (!callBack.onFail(e)) {
+                            super.onError(e);
+                        }
                     }
                 });
     }
 
-    public void setFriendRemark(IView view, String userId, String remark, ImCallBack callBack){
-//        mApiHelper.executeNone(view, mRepositoryManager.obtainRetrofitService());
+    /**
+     * 设置好友备注
+     * @param view
+     * @param userId
+     * @param remark
+     * @param callBack
+     */
+    public void setFriendRemark(IView view, String userId, String remark, ImCallBack callBack) {
+        Map<String, Object> param = NetParam.newInstance()
+                .put("v", "2.0.0")
+                .put("friendUserId", userId)
+                .put("comment", remark)
+                .build();
+        mApiHelper.executeNone(view, mRepositoryManager
+                        .obtainRetrofitService(PersonalCardService.class)
+                        .setFriendComment(param),
+                new ErrorHandleSubscriber<BaseJson>() {
+                    @Override
+                    public void onNext(BaseJson baseJson) {
+                        callBack.onSuccess(baseJson);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (!callBack.onFail(e)) {
+                            super.onError(e);
+                        }
+                    }
+                }, new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                        view.showLoading();
+                    }
+                }, new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        view.hideLoading();
+                    }
+                });
     }
 }

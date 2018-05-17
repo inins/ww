@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.helper.NetReportHelper;
 import com.frame.component.ui.acticity.tags.TagUtils;
@@ -52,6 +53,7 @@ import java.util.Calendar;
 import butterknife.BindView;
 import butterknife.OnClick;
 import timber.log.Timber;
+
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 
@@ -155,7 +157,8 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
     // 存储用户信息
     private PersonalInfo mPersonalInfo;
     // ui类型
-    private @PersonCardType int mType;
+    private @PersonCardType
+    int mType;
     // 消息id
     private int mMsgId;
     private PhotoHelperEx mPhotoHelperEx;
@@ -389,6 +392,12 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
             // 已经是好友了，底部显示 开始聊天
             mBottomMiddleTV.setVisibility(View.VISIBLE);
             mBottomMiddleTV.setText("开始聊天");
+            mBottomMiddleTV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CommonHelper.ImHelper.gotoPrivateConversation(PersonalCardActivity.this, String.valueOf(mUserId));
+                }
+            });
         } else {
             // 还不是好友，可能是 好友申请 或者 添加好友
             if (mType == TYPE_REQUEST_FRIEND) {
@@ -507,6 +516,7 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
 
     /**
      * 同意或拒绝添加好友请求成功
+     *
      * @param type 类型（0：同意，1：拒绝）
      */
     @Override

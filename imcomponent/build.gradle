@@ -25,21 +25,21 @@ android {
             }
         }
     }
-//    if (isRunAlone.toBoolean()) {
-//        buildTypes {
-//            debug {
-//                buildConfigField "boolean", "LOG_DEBUG", "true"
-//                buildConfigField "boolean", "USE_CANARY", "true"
-//
-//                minifyEnabled false
-//                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//
-//                ndk {
-//                    abiFilters "armeabi", "armeabi-v7a", "arm64-v8a"
-//                }
-//            }
-//        }
-//    }
+    if (isRunAlone.toBoolean()) {
+        buildTypes {
+            debug {
+                buildConfigField "boolean", "LOG_DEBUG", "true"
+                buildConfigField "boolean", "USE_CANARY", "true"
+
+                minifyEnabled false
+                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+                ndk {
+                    abiFilters "armeabi", "armeabi-v7a", "arm64-v8a"
+                }
+            }
+        }
+    }
 
     resourcePrefix "im_"
 }

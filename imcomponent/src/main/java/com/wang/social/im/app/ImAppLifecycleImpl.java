@@ -26,6 +26,7 @@ import com.tencent.imsdk.ext.sns.TIMFriendshipProxyListener;
 import com.tencent.imsdk.ext.sns.TIMUserConfigSnsExt;
 import com.wang.social.im.BuildConfig;
 import com.wang.social.im.enums.ConnectionStatus;
+import com.wang.social.im.helper.FriendShipHelper;
 import com.wang.social.im.helper.StickHelper;
 
 import org.greenrobot.eventbus.EventBus;
@@ -171,21 +172,25 @@ public class ImAppLifecycleImpl implements AppDelegate {
         @Override
         public void OnAddFriends(List<TIMUserProfile> list) {
             Timber.tag(TAG).d("OnAddFriends");
+            FriendShipHelper.getInstance().refresh();
         }
 
         @Override
         public void OnDelFriends(List<String> list) {
             Timber.tag(TAG).d("OnDelFriends");
+            FriendShipHelper.getInstance().refresh();
         }
 
         @Override
         public void OnFriendProfileUpdate(List<TIMUserProfile> list) {
             Timber.tag(TAG).d("OnFriendProfileUpdate");
+            FriendShipHelper.getInstance().refresh();
         }
 
         @Override
         public void OnAddFriendReqs(List<TIMSNSChangeInfo> list) {
             Timber.tag(TAG).d("OnAddFriendReqs");
+            FriendShipHelper.getInstance().refresh();
         }
     }
 

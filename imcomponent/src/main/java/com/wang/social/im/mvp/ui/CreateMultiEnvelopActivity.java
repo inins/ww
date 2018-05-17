@@ -184,6 +184,10 @@ public class CreateMultiEnvelopActivity extends BaseAppActivity<CreateEnvelopPre
                 ToastUtil.showToastShort(UIUtil.getString(R.string.im_envelop_toast_limit, IMConstants.MULTI_ENVELOP_DIAMOND_LIMIT));
                 return;
             }
+            if ((isSpell && inputDiamond / inputCount < 1) || (!isSpell && inputDiamond < 1)) {
+                ToastUtil.showToastShort(UIUtil.getString(R.string.im_envelop_toast_low_limit));
+                return;
+            }
             String message = cmrEtMessage.getText().toString();
             if (TextUtils.isEmpty(message)) {
                 message = getString(R.string.im_envelop_message_default);

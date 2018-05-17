@@ -1,5 +1,6 @@
 package com.wang.social.im.mvp.ui;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -89,5 +90,14 @@ public class GroupConversationActivity extends BaseAppActivity<GroupConversation
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.gc_fl_content, fragment, fragment.getClass().getName());
         transaction.commitAllowingStateLoss();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.gc_fl_content);
+        if (fragment != null) {
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
     }
 }

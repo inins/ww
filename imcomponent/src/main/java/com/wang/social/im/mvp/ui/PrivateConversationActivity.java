@@ -24,20 +24,29 @@ import com.frame.mvp.IView;
 import com.frame.router.facade.annotation.Autowired;
 import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.SizeUtils;
+import com.frame.utils.ToastUtil;
+import com.tencent.imsdk.TIMFriendshipManager;
+import com.tencent.imsdk.TIMManager;
+import com.tencent.imsdk.TIMUserProfile;
+import com.tencent.imsdk.TIMValueCallBack;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.di.component.DaggerActivityComponent;
 import com.frame.component.enums.ConversationType;
 import com.wang.social.im.helper.FriendShipHelper;
+import com.wang.social.im.helper.RepositoryHelper;
+import com.wang.social.im.interfaces.ImCallBack;
 import com.wang.social.im.mvp.model.entities.FriendProfile;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 /**
  * ============================================
@@ -168,7 +177,14 @@ public class PrivateConversationActivity extends BasicConversationActivity imple
             EditDialog editDialog = new EditDialog(this, pcTvNickname.getText().toString(), getString(R.string.im_remark_setting), 8, new EditDialog.OnInputCompleteListener() {
                 @Override
                 public void onComplete(Dialog dialog, String content) {
-
+                    dialog.dismiss();
+                    RepositoryHelper.getInstance().setFriendRemark(PrivateConversationActivity.this, targetId, content, new ImCallBack() {
+                        @Override
+                        public void onSuccess(Object object) {
+                            ToastUtil.showToastShort("设置成功");
+                            pcTvNickname.setText(content);
+                        }
+                    });
                 }
             });
             editDialog.show();

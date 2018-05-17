@@ -20,11 +20,13 @@ import io.reactivex.Observable;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.QueryMap;
 
 public interface PersonalCardService {
 
+    String HEADER_CONTENT_TYPE = "Content-Type:application/x-www-form-urlencoded; charset=utf-8";
 
     /**
      * 获取用户个人信息和相册
@@ -69,6 +71,7 @@ public interface PersonalCardService {
     /**
      * 添加好友申请
      */
+    @Headers(HEADER_CONTENT_TYPE)
     @FormUrlEncoded
     @POST("app/userFriend/addApply")
     Observable<BaseJson> addFriendApply(@FieldMap Map<String, Object> param);
@@ -83,6 +86,7 @@ public interface PersonalCardService {
     /**
      * 好友列表-好友设置备注
      */
+    @Headers(HEADER_CONTENT_TYPE)
     @FormUrlEncoded
     @POST("app/userFriend/setComment")
     Observable<BaseJson> setFriendComment(@FieldMap Map<String, Object> param);

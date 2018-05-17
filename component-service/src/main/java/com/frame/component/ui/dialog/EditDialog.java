@@ -86,6 +86,12 @@ public class EditDialog extends BaseDialog {
         }});
     }
 
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        deEtContent.setSelection(deEtContent.getText().length());
+    }
+
     @OnClick({R2.id.de_tv_cancel, R2.id.de_tv_sure})
     public void onViewClicked(View view) {
         if (view.getId() == R.id.de_tv_sure) {

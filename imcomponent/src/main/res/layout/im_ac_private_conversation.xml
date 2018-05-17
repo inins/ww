@@ -57,7 +57,6 @@
             android:drawablePadding="3dp"
             android:textColor="@color/common_text_blank"
             android:textSize="18dp"
-            android:text="昵称"
             tools:text="路飞" />
     </LinearLayout>
 

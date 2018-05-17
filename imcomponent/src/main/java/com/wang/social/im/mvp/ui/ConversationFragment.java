@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,6 +22,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.frame.base.BaseFragment;
+import com.frame.component.enums.ConversationType;
 import com.frame.component.helper.sound.AudioPlayManager;
 import com.frame.component.helper.sound.AudioRecordManager;
 import com.frame.component.ui.dialog.DialogLoading;
@@ -48,7 +50,6 @@ import com.wang.social.im.R2;
 import com.wang.social.im.di.component.DaggerConversationComponent;
 import com.wang.social.im.di.modules.ConversationModule;
 import com.wang.social.im.enums.ConnectionStatus;
-import com.frame.component.enums.ConversationType;
 import com.wang.social.im.mvp.contract.ConversationContract;
 import com.wang.social.im.mvp.model.entities.EnvelopInfo;
 import com.wang.social.im.mvp.model.entities.UIMessage;
@@ -59,6 +60,7 @@ import com.wang.social.im.view.IMInputView;
 import com.wang.social.im.view.plugin.PluginModule;
 import com.wang.social.im.widget.EnvelopDialog;
 import com.wang.social.im.widget.MessageHandlePopup;
+import com.wang.social.im.widget.TeamFunPointPopup;
 import com.wang.social.location.mvp.model.entities.LocationInfo;
 import com.wang.social.location.mvp.ui.LocationActivity;
 import com.wang.social.location.mvp.ui.LocationShowActivity;
@@ -73,6 +75,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 import io.reactivex.functions.Consumer;
 
 /**
@@ -95,6 +100,8 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     RecyclerView fcMessageList;
     @BindView(R2.id.fc_input)
     IMInputView fcInput;
+    @BindView(R2.id.fc_fun_point)
+    ImageView fcFunPoint;
 
     private WeakReference<DialogLoading> mLoading;
 
@@ -267,6 +274,17 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
                     break;
             }
         }
+    }
+
+    @OnClick(R2.id.fc_fun_point)
+    public void onViewClicked() {
+        TeamFunPointPopup window = new TeamFunPointPopup(getContext(), "", "", new TeamFunPointPopup.OnMoreClickListener() {
+            @Override
+            public void onMoreClick() {
+
+            }
+        });
+        window.showAsDropDown(fcFunPoint, -SizeUtils.dp2px(192), -SizeUtils.dp2px(169));
     }
 
     @Override
