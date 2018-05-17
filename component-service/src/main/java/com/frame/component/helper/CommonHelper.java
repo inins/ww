@@ -107,10 +107,11 @@ public class CommonHelper {
          * @param targetId
          * @param conversationType
          */
-        public static void gotoGroupConversation(Context context, String targetId, ConversationType conversationType) {
+        public static void gotoGroupConversation(Context context, String targetId, ConversationType conversationType, boolean fromMirror) {
             Bundle bundle = new Bundle();
             bundle.putString("targetId", targetId);
             bundle.putInt("typeOrdinal", conversationType.ordinal());
+            bundle.putBoolean("fromMirror", fromMirror);
             UIRouter.getInstance().openUri(context, ImPath.GROUP_URL, bundle);
         }
 

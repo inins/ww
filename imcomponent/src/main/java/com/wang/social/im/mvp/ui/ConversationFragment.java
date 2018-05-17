@@ -289,7 +289,7 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
         TeamFunPointPopup window = new TeamFunPointPopup(getContext(), mFunPoint.getImgUrl(), mFunPoint.getNewsTitle(), new TeamFunPointPopup.OnMoreClickListener() {
             @Override
             public void onMoreClick() {
-
+                TeamFunPointActivity.start(getContext(), ImHelper.imId2WangId(mTargetId));
             }
         });
         window.showAsDropDown(fcFunPoint, -SizeUtils.dp2px(192), -SizeUtils.dp2px(169));

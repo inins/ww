@@ -23,7 +23,7 @@
                 android:paddingTop="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
                 app:personal_textNote="趣点咨询不错过"
-                tools:personal_textTitle="乐高" />
+                app:personal_textTitle="乐高" />
 
             <android.support.v7.widget.Toolbar
                 style="@style/common_AppTheme.AppBarOverlay"

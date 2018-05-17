@@ -220,7 +220,7 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
                 break;
             case SOCIAL:
             case TEAM:
-                CommonHelper.ImHelper.gotoGroupConversation(getContext(), conversation.getIdentify(), conversation.getConversationType());
+                CommonHelper.ImHelper.gotoGroupConversation(getContext(), conversation.getIdentify(), conversation.getConversationType(), false);
                 break;
             case MIRROR:
                 MirrorConversationActivity.start(getContext(), conversation.getIdentify());

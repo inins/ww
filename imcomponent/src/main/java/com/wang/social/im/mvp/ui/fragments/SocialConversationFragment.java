@@ -83,22 +83,25 @@ public class SocialConversationFragment extends BaseConversationFragment {
         GroupProfile profile = GroupHelper.getInstance().getGroupProfile(targetId);
         if (profile != null) {
             scTvTitle.setText(profile.getName());
-            TIMGroupManagerExt.getInstance().getGroupDetailInfo(Arrays.asList(targetId), new TIMValueCallBack<List<TIMGroupDetailInfo>>() {
-                @Override
-                public void onError(int i, String s) {
+        }
+        TIMGroupManagerExt.getInstance().getGroupDetailInfo(Arrays.asList(targetId), new TIMValueCallBack<List<TIMGroupDetailInfo>>() {
+            @Override
+            public void onError(int i, String s) {
 
-                }
+            }
 
-                @Override
-                public void onSuccess(List<TIMGroupDetailInfo> timGroupDetailInfos) {
-                    for (TIMGroupDetailInfo info : timGroupDetailInfos) {
-                        if (info.getGroupId().equals(targetId) && scTvOnline != null) {
-                            scTvOnline.setText(UIUtil.getString(R.string.im_online_number, info.getOnlineMemberNum()));
+            @Override
+            public void onSuccess(List<TIMGroupDetailInfo> timGroupDetailInfos) {
+                for (TIMGroupDetailInfo info : timGroupDetailInfos) {
+                    if (info.getGroupId().equals(targetId) && scTvOnline != null) {
+                        if (scTvTitle.getText().toString().isEmpty()) {
+                            scTvTitle.setText(info.getGroupName());
                         }
+                        scTvOnline.setText(UIUtil.getString(R.string.im_online_number, info.getOnlineMemberNum()));
                     }
                 }
-            });
-        }
+            }
+        });
 
         ConversationFragment conversationFragment = ConversationFragment.newInstance(ConversationType.SOCIAL, targetId);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();

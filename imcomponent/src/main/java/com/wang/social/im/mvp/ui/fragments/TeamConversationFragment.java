@@ -1,14 +1,17 @@
 package com.wang.social.im.mvp.ui.fragments;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.frame.component.enums.ConversationType;
 import com.frame.component.utils.UIUtil;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
@@ -18,12 +21,11 @@ import com.tencent.imsdk.ext.group.TIMGroupDetailInfo;
 import com.tencent.imsdk.ext.group.TIMGroupManagerExt;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
-import com.frame.component.enums.ConversationType;
 import com.wang.social.im.app.IMConstants;
 import com.wang.social.im.helper.GroupHelper;
 import com.wang.social.im.mvp.model.entities.GroupProfile;
 import com.wang.social.im.mvp.ui.ConversationFragment;
-import com.wang.social.im.mvp.ui.MirrorConversationActivity;
+import com.wang.social.im.mvp.ui.GroupConversationActivity;
 
 import java.util.Arrays;
 import java.util.List;
@@ -46,6 +48,8 @@ public class TeamConversationFragment extends BaseConversationFragment {
     TextView tcTvOnline;
     @BindView(R2.id.background)
     ImageView ivBackground;
+    @BindView(R2.id.tc_fl_toolbar)
+    FrameLayout flToolbar;
 
     private String targetId;
 
@@ -65,7 +69,7 @@ public class TeamConversationFragment extends BaseConversationFragment {
         super.onCreate(savedInstanceState);
         targetId = getArguments().getString("targetId");
 
-        BarUtils.setTranslucentForImageViewInFragment(getActivity(), 0, toolbar);
+        BarUtils.setTranslucentForImageView(getActivity(), 0, null);
     }
 
     @Override
@@ -80,6 +84,10 @@ public class TeamConversationFragment extends BaseConversationFragment {
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+            flToolbar.setPadding(0, BarUtils.getStatusBarHeight(getContext()), 0, 0);
+        }
+
         setListener();
 
         initBackground(ConversationType.TEAM, targetId, ivBackground);
@@ -87,22 +95,25 @@ public class TeamConversationFragment extends BaseConversationFragment {
         GroupProfile profile = GroupHelper.getInstance().getGroupProfile(targetId);
         if (profile != null) {
             tcTvTitle.setText(profile.getName());
-            TIMGroupManagerExt.getInstance().getGroupDetailInfo(Arrays.asList(targetId), new TIMValueCallBack<List<TIMGroupDetailInfo>>() {
-                @Override
-                public void onError(int i, String s) {
+        }
+        TIMGroupManagerExt.getInstance().getGroupDetailInfo(Arrays.asList(targetId), new TIMValueCallBack<List<TIMGroupDetailInfo>>() {
+            @Override
+            public void onError(int i, String s) {
 
-                }
+            }
 
-                @Override
-                public void onSuccess(List<TIMGroupDetailInfo> timGroupDetailInfos) {
-                    for (TIMGroupDetailInfo info : timGroupDetailInfos) {
-                        if (info.getGroupId().equals(targetId) && tcTvOnline != null) {
-                            tcTvOnline.setText(UIUtil.getString(R.string.im_online_total_number, info.getMemberNum(), info.getOnlineMemberNum()));
+            @Override
+            public void onSuccess(List<TIMGroupDetailInfo> timGroupDetailInfos) {
+                for (TIMGroupDetailInfo info : timGroupDetailInfos) {
+                    if (info.getGroupId().equals(targetId) && tcTvOnline != null) {
+                        if (tcTvTitle.getText().toString().isEmpty()) {
+                            tcTvTitle.setText(info.getGroupName());
                         }
+                        tcTvOnline.setText(UIUtil.getString(R.string.im_online_total_number, info.getMemberNum(), info.getOnlineMemberNum()));
                     }
                 }
-            });
-        }
+            }
+        });
 
         ConversationFragment conversationFragment = ConversationFragment.newInstance(ConversationType.TEAM, targetId);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
@@ -124,8 +135,8 @@ public class TeamConversationFragment extends BaseConversationFragment {
                         getActivity().onBackPressed();
                         break;
                     case RIGHT_ICON:
-                        MirrorConversationActivity.start(getActivity(), targetId);
-                        getActivity().finish();
+                        String mirrorId = targetId.replace(IMConstants.IM_IDENTITY_PREFIX_TEAM, IMConstants.IM_IDENTITY_PREFIX_MIRROR);
+                        ((GroupConversationActivity) getActivity()).gotoMirror(mirrorId);
                         break;
                 }
             }

@@ -20,8 +20,10 @@ import com.tencent.imsdk.ext.group.TIMGroupManagerExt;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.frame.component.enums.ConversationType;
+import com.wang.social.im.app.IMConstants;
 import com.wang.social.im.helper.GroupHelper;
 import com.wang.social.im.mvp.model.entities.GroupProfile;
+import com.wang.social.im.utils.ActivitySwitcher;
 
 import java.util.Arrays;
 import java.util.List;
@@ -42,6 +44,8 @@ public class MirrorConversationActivity extends BasicConversationActivity {
     @Autowired
     String targetId;
 
+    private boolean mCreate;
+
     public static void start(Context context, String targetId) {
         Intent intent = new Intent(context, MirrorConversationActivity.class);
         intent.putExtra("targetId", targetId);
@@ -52,6 +56,10 @@ public class MirrorConversationActivity extends BasicConversationActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         BarUtils.setTranslucentForImageView(this, 0, mcIvTeam);
+
+        if (savedInstanceState == null) {
+            mCreate = true;
+        }
     }
 
     @Override
@@ -93,8 +101,22 @@ public class MirrorConversationActivity extends BasicConversationActivity {
 
     @OnClick(R2.id.mc_iv_team)
     public void onViewClicked() {
-        CommonHelper.ImHelper.gotoTeamConversation(this, targetId);
-        finish();
+        String teamId = targetId.replace(IMConstants.IM_IDENTITY_PREFIX_MIRROR, IMConstants.IM_IDENTITY_PREFIX_TEAM);
+        Intent intent = new Intent(this, GroupConversationActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        Bundle bundle = new Bundle();
+        bundle.putString("targetId", teamId);
+        bundle.putInt("typeOrdinal", ConversationType.TEAM.ordinal());
+        bundle.putBoolean("fromMirror", true);
+        intent.putExtras(bundle);
+        ActivitySwitcher.animationOut(findViewById(R.id.mc_root), getWindowManager(), new ActivitySwitcher.AnimationFinishedListener() {
+            @Override
+            public void onAnimationFinished() {
+                startActivity(intent);
+                finish();
+                overridePendingTransition(0, 0);
+            }
+        });
     }
 
     @Override
@@ -104,5 +126,14 @@ public class MirrorConversationActivity extends BasicConversationActivity {
         if (fragment != null) {
             fragment.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        if (mCreate) {
+            ActivitySwitcher.animationIn(findViewById(R.id.mc_root), getWindowManager());
+        }
+        mCreate = false;
+        super.onResume();
     }
 }

@@ -56,7 +56,7 @@ public class TeamsItem extends AbstractExpandableAdapterItem {
             adapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener<TeamInfo>() {
                 @Override
                 public void onItemClick(TeamInfo teamInfo, int position) {
-                    CommonHelper.ImHelper.gotoGroupConversation(rlvTeams.getContext(), teamInfo.getTeamId(), ConversationType.TEAM);
+                    CommonHelper.ImHelper.gotoGroupConversation(rlvTeams.getContext(), teamInfo.getTeamId(), ConversationType.TEAM, false);
                 }
             });
         }

@@ -80,7 +80,7 @@ public class LevelTwoItem extends AbstractExpandableAdapterItem {
                 ExpandableListItem item = getExpandableListItem();
                 if (item instanceof SocialListLevelTwo) {
                     SocialListLevelTwo levelTwo = (SocialListLevelTwo) item;
-                    CommonHelper.ImHelper.gotoGroupConversation(root.getContext(), levelTwo.getId(), ConversationType.SOCIAL);
+                    CommonHelper.ImHelper.gotoGroupConversation(root.getContext(), levelTwo.getId(), ConversationType.SOCIAL, false);
                 }
             }
         });

@@ -26,7 +26,7 @@ public interface FunPointContract {
          * @param data
          * @param hasMore
          */
-        void showFunPoints(List<Funpoint> data, boolean hasMore);
+        void showFunPoints(List<Funpoint> data, boolean isRefresh, boolean hasMore);
     }
 
     interface Model extends IModel {
