@@ -12,9 +12,9 @@ import com.frame.base.BaseAdapter;
 import com.frame.base.BaseFragment;
 import com.frame.component.common.GridSpacingItemDecoration;
 import com.frame.component.entities.Tag;
-import com.frame.component.helper.NetLoginTestHelper;
 import com.frame.component.ui.acticity.WebActivity;
 import com.frame.component.ui.acticity.tags.TagSelectionActivity;
+import com.frame.component.ui.adapter.RecycleAdapterFunpoint;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.utils.SizeUtils;
@@ -24,13 +24,11 @@ import com.liaoinstan.springview.widget.SpringView;
 import com.wang.social.funpoint.R;
 import com.wang.social.funpoint.R2;
 import com.wang.social.funpoint.di.component.DaggerFunPointListFragmentComponent;
-import com.wang.social.funpoint.di.component.DaggerSingleFragmentComponent;
 import com.wang.social.funpoint.di.module.FunpointListModule;
 import com.wang.social.funpoint.mvp.contract.FunpointListContract;
 import com.frame.component.entities.funpoint.Funpoint;
 import com.wang.social.funpoint.mvp.presonter.FunpointListPresonter;
 import com.wang.social.funpoint.mvp.ui.activity.SearchActivity;
-import com.wang.social.funpoint.mvp.ui.adapter.RecycleAdapterHome;
 import com.wang.social.funpoint.mvp.ui.adapter.RecycleAdapterLable;
 
 import java.util.List;
@@ -55,7 +53,7 @@ public class FunPointFragment extends BaseFragment<FunpointListPresonter> implem
     View btnSearch;
 
     private RecycleAdapterLable adapterLable;
-    private RecycleAdapterHome adapterHome;
+    private RecycleAdapterFunpoint adapterHome;
 
     public static FunPointFragment newInstance() {
         Bundle args = new Bundle();
@@ -96,7 +94,7 @@ public class FunPointFragment extends BaseFragment<FunpointListPresonter> implem
         recyclerLable.setAdapter(adapterLable);
         recyclerLable.addItemDecoration(new GridSpacingItemDecoration(1, SizeUtils.dp2px(5), GridLayoutManager.HORIZONTAL, false));
 
-        adapterHome = new RecycleAdapterHome();
+        adapterHome = new RecycleAdapterFunpoint();
         adapterHome.setOnItemClickListener(this);
         recyclerContent.setNestedScrollingEnabled(false);
         recyclerContent.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));

@@ -181,6 +181,7 @@
         <activity android:name=".mvp.ui.NotifyEvaListActivity" />
         <activity android:name=".mvp.ui.NotifyAiteListActivity" />
         <activity android:name=".mvp.ui.TeamFunPointActivity"></activity>
+        <activity android:name=".mvp.ui.QrcodeGroupActivity" />
     </application>
 
 </manifest>

@@ -8,12 +8,18 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.frame.component.api.CommonService;
+import com.frame.component.entities.user.UserBoard;
+import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.di.component.AppComponent;
+import com.frame.http.api.ApiHelperEx;
+import com.frame.http.api.BaseJson;
+import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.imageloader.ImageLoader;
-import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.mvp.IView;
 import com.frame.utils.StatusBarUtil;
+import com.frame.utils.TimeUtils;
 import com.frame.utils.ToastUtil;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
@@ -35,6 +41,10 @@ public class QrcodeActivity extends BasicAppActivity implements IView {
     TextView textDetail;
     @BindView(R2.id.img_qrcode)
     ImageView imgQrcode;
+    @BindView(R2.id.text_lable_gender)
+    TextView textLableGender;
+    @BindView(R2.id.text_lable_astro)
+    TextView textLableAstro;
 
     @Inject
     ImageLoader mImageLoader;
@@ -63,19 +73,15 @@ public class QrcodeActivity extends BasicAppActivity implements IView {
         netGetUserInfo(userId);
     }
 
-    private void setUserData(QrcodeInfo qrcodeInfo) {
-        if (qrcodeInfo != null) {
-            mImageLoader.loadImage(this, ImageConfigImpl.builder()
-                    .imageView(imgHeader)
-                    .isCircle(true)
-                    .url(qrcodeInfo.getUserAvatar())
-                    .build());
-            mImageLoader.loadImage(this, ImageConfigImpl.builder()
-                    .imageView(imgQrcode)
-                    .url(qrcodeInfo.getQrcodeImg())
-                    .build());
-            textName.setText(qrcodeInfo.getNickName());
-
+    private void setUserData(UserBoard user) {
+        if (user != null) {
+            ImageLoaderHelper.loadCircleImg(imgHeader,user.getAvatar());
+            ImageLoaderHelper.loadImg(imgQrcode,user.getAvatar());
+            textName.setText(user.getNickname());
+            textDetail.setText(user.getTagTextDot());
+            textLableGender.setSelected(!user.isMale());
+            textLableGender.setText(TimeUtils.getBirthdaySpan(user.getBirthday()));
+            textLableAstro.setText(TimeUtils.getAstro(user.getBirthday()));
         }
     }
 
@@ -106,17 +112,20 @@ public class QrcodeActivity extends BasicAppActivity implements IView {
 
     /////////////////////////////////
 
-    private void netGetUserInfo(int userId) {
-        netUserHelper.getUserInfoByUserId(this, userId, new NetUserHelper.OnUserApiCallBack() {
-            @Override
-            public void onSuccess(QrcodeInfo qrcodeInfo) {
-                setUserData(qrcodeInfo);
-            }
+    public void netGetUserInfo(int userId) {
+        ApiHelperEx.execute(this, true,
+                ApiHelperEx.getService(CommonService.class).getUserInfoAndPhotos(userId),
+                new ErrorHandleSubscriber<BaseJson<UserBoard>>() {
+                    @Override
+                    public void onNext(BaseJson<UserBoard> basejson) {
+                        UserBoard user = basejson.getData();
+                        setUserData(user);
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                ToastUtil.showToastLong(e.getMessage());
-            }
-        });
+                    @Override
+                    public void onError(Throwable e) {
+                        ToastUtil.showToastLong(e.getMessage());
+                    }
+                });
     }
 }

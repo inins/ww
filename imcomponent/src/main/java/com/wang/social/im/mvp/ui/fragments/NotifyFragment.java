@@ -16,6 +16,7 @@ import com.wang.social.im.mvp.ui.NotifyEvaListActivity;
 import com.wang.social.im.mvp.ui.NotifyFunChatRequestListActivity;
 import com.wang.social.im.mvp.ui.NotifySysMsgListActivity;
 import com.wang.social.im.mvp.ui.NotifyZanListActivity;
+import com.wang.social.im.mvp.ui.QrcodeGroupActivity;
 
 import butterknife.OnClick;
 
@@ -59,7 +60,7 @@ public class NotifyFragment extends BasicFragment {
     public void onViewClicked(View view) {
         int id = view.getId();
         if (id == R.id.lay_official) {
-
+//            QrcodeGroupActivity.start(getContext());
         } else if (id == R.id.text_sysmsg) {
             NotifySysMsgListActivity.start(getContext());
         } else if (id == R.id.text_friend) {
