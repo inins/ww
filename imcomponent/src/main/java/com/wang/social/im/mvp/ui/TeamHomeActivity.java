@@ -19,8 +19,10 @@ import android.widget.TextView;
 
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.beloo.widget.chipslayoutmanager.SpacingItemDecoration;
+import com.frame.component.common.AppConstant;
 import com.frame.component.entities.AutoPopupItemModel;
 import com.frame.component.enums.ConversationType;
+import com.frame.component.helper.AppDataHelper;
 import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.ui.dialog.AutoPopupWindow;
@@ -61,7 +63,7 @@ import butterknife.OnClick;
 /**
  * 觅聊详情
  */
-public class TeamHomeActivity extends BaseAppActivity<TeamHomePresenter> implements TeamHomeContract.View, AutoPopupWindow.OnItemClickListener {
+public class TeamHomeActivity extends BaseAppActivity<TeamHomePresenter> implements TeamHomeContract.View {
 
     private static final int REQUEST_CODE_CHARGE = 1000;
 
@@ -275,16 +277,6 @@ public class TeamHomeActivity extends BaseAppActivity<TeamHomePresenter> impleme
                     case LEFT_ICON:
                         onBackPressed();
                         break;
-                    case RIGHT_ICON:
-                        if (popupWindow == null) {
-                            popupWindow = new AutoPopupWindow(TeamHomeActivity.this, getMenuItems(), AutoPopupWindow.POINT_TO_RIGHT);
-                            popupWindow.setItemClickListener(TeamHomeActivity.this);
-                        }
-                        if (!popupWindow.isShowing()) {
-                            int showX = ScreenUtils.getScreenWidth() - getResources().getDimensionPixelSize(R.dimen.popup_auto_width) - SizeUtils.dp2px(7);
-                            popupWindow.showAsDropDown(thToolbar.getIvRight(), showX, -SizeUtils.dp2px(20));
-                        }
-                        break;
                 }
             }
         });
@@ -379,28 +371,5 @@ public class TeamHomeActivity extends BaseAppActivity<TeamHomePresenter> impleme
                     break;
             }
         }
-    }
-
-    @Override
-    public void onItemClick(AutoPopupWindow popupWindow, int resId) {
-        popupWindow.dismiss();
-        if (resId == R.string.common_share) {
-
-        } else if (resId == R.string.common_report) {
-            showReportDialog();
-        }
-    }
-
-    private List<AutoPopupItemModel> getMenuItems() {
-        List<AutoPopupItemModel> items = new ArrayList<>();
-        AutoPopupItemModel share = new AutoPopupItemModel(0, R.string.common_share);
-        AutoPopupItemModel report = new AutoPopupItemModel(0, R.string.common_report);
-        items.add(share);
-        items.add(report);
-        return items;
-    }
-
-    private void showReportDialog() {
-
     }
 }

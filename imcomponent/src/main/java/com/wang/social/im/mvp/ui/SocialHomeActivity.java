@@ -20,8 +20,10 @@ import android.widget.TextView;
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.beloo.widget.chipslayoutmanager.SpacingItemDecoration;
 import com.frame.component.app.Constant;
+import com.frame.component.common.AppConstant;
 import com.frame.component.entities.AutoPopupItemModel;
 import com.frame.component.enums.ConversationType;
+import com.frame.component.helper.AppDataHelper;
 import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.ui.dialog.AutoPopupWindow;
@@ -574,7 +576,16 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
     public void onItemClick(AutoPopupWindow popupWindow, int resId) {
         popupWindow.dismiss();
         if (resId == R.string.common_share) {
-
+            if (mSocial == null) {
+                return;
+            }
+            String shareUrl = AppConstant.Url.SHARE_SOCIAL_URL + "?groupId=" + socialId + "&userId=" + AppDataHelper.getUser().getUserId();
+            SocializeUtil.shareWithWW(getSupportFragmentManager(), null, shareUrl, AppConstant.Url.SHARE_SOCIAL_TITLE, mSocial.getName(), mSocial.getCover(), new SocializeUtil.WWShareListener() {
+                @Override
+                public void onWWShare(String url, String title, String content, String imageUrl) {
+                    InviteFriendActivity.start(SocialHomeActivity.this, socialId);
+                }
+            });
         } else if (resId == R.string.common_report) {
             showReportDialog();
         }

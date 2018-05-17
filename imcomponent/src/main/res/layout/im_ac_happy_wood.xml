@@ -58,7 +58,7 @@
                 android:ellipsize="end"
                 android:gravity="right|bottom"
                 android:lines="1"
-                android:text="234"
+                android:text="0"
                 android:textColor="@color/common_white"
                 android:textSize="45dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -99,11 +99,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="25dp"
                     android:layout_marginStart="25dp"
+                    android:text="0"
                     android:textColor="@color/common_white"
                     android:textSize="17dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    tools:text="100" />
+                    app:layout_constraintLeft_toLeftOf="parent" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -141,11 +141,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="25dp"
                     android:layout_marginStart="25dp"
+                    android:text="0"
                     android:textColor="@color/common_white"
                     android:textSize="17dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    tools:text="100" />
+                    app:layout_constraintLeft_toLeftOf="parent" />
 
                 <ImageView
                     android:layout_width="wrap_content"
