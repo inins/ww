@@ -75,7 +75,7 @@ public class MemberListActivity extends BaseAppActivity implements IView {
         mAdapter.setClickListener(new MemberListAdapter.ClickListener() {
             @Override
             public void onMemberClick(Member member) {
-//                PersonalCardActivity.start(MemberListActivity.this, member.getUserId());
+//                PersonalCardActivity.startFromGroup(MemberListActivity.this, member.getUserId());
             }
         });
         mRecyclerView.setLayoutManager(

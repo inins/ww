@@ -15,7 +15,6 @@ import com.frame.mvp.IView;
 import com.wang.social.moneytree.R;
 import com.wang.social.moneytree.R2;
 import com.wang.social.moneytree.mvp.ui.GameListActivity;
-import com.wang.social.moneytree.mvp.ui.widget.CountDownTextView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -45,7 +44,7 @@ public class MainActivity extends BasicActivity implements IView {
 
     @OnClick(R2.id.confirm_button)
     public void confirm() {
-        int groupId = 1;
+        int groupId = 0;
 
         try {
             groupId = Integer.parseInt(mEditText.getText().toString());
@@ -53,7 +52,11 @@ public class MainActivity extends BasicActivity implements IView {
             e.printStackTrace();
         }
 
-        GameListActivity.start(this, groupId);
+        if (groupId > 0) {
+            GameListActivity.startFromGroup(this, groupId);
+        } else {
+            GameListActivity.startFromSquare(this);
+        }
     }
 
     @OnClick(R2.id.login_button)

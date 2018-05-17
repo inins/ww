@@ -10,7 +10,6 @@ import android.view.View;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
-import com.frame.utils.ToastUtil;
 import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
@@ -63,14 +62,12 @@ public class GameRecordListActivity extends BaseAppActivity<GameRecordListPresen
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
-        mToolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
-            @Override
-            public void onButtonClick(SocialToolbar.ClickType clickType) {
-                if (clickType == SocialToolbar.ClickType.LEFT_ICON) {
+        mToolbar.setOnButtonClickListener(
+                clickType -> {
+                    if (clickType == SocialToolbar.ClickType.LEFT_ICON) {
                     finish();
-                }
-            }
-        });
+                }}
+        );
 
         mAdapter = new GameRecordListAdapter(mRecyclerView, mPresenter.getRecordList());
         mAdapter.setClickListener(this);

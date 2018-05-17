@@ -544,47 +544,43 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
         };
 
         DialogActionSheet.show(getSupportFragmentManager(), reports)
-                .setActionSheetListener(new DialogActionSheet.ActionSheetListener() {
-                    @Override
-                    public void onItemSelected(int position, String text) {
-                        // 提示确认是否删除
-                        DialogSure.showDialog(PersonalCardActivity.this,
-                                "确定要举报该用户？",
-                                () -> NetReportHelper.newInstance()
-                                        .netReportPerson(
-                                                PersonalCardActivity.this,
-                                                mUserId, text,
-                                                () -> ToastUtil.showToastShort("举报成功")));
-                    }
-                });
+                .setActionSheetListener(
+                        (position, text) -> // 提示确认是否删除
+                                DialogSure.showDialog(PersonalCardActivity.this,
+                                        "确定要举报该用户？",
+                                        () -> NetReportHelper.newInstance()
+                                                .netReportPerson(
+                                                        PersonalCardActivity.this,
+                                                        mUserId, text,
+                                                        () -> ToastUtil.showToastShort("举报成功")))
+                );
     }
 
     private PWFriendMoreMenu mPWFriendMoreMenu;
 
-    private DialogInput mSetRemarkDialot;
+    private DialogInput mSetRemarkDialog;
 
     private void showSetRemarkDialog() {
-        if (null == mSetRemarkDialot) {
-            mSetRemarkDialot = DialogInput.newInstance(PersonalCardActivity.this,
+        if (null == mSetRemarkDialog) {
+            mSetRemarkDialog = DialogInput.newInstance(PersonalCardActivity.this,
                     "设置备注",
                     "最多输入12个字",
                     "",
                     "取消",
                     "设置",
                     12);
-            mSetRemarkDialot.setOnInputListener(new DialogInput.OnInputListener() {
-                @Override
-                public void onInputText(String text) {
-                    // 设置备注
-                    mPresenter.setFriendRemard(mUserId, text);
+            mSetRemarkDialog.setOnInputListener(
+                    text -> {
+                        // 设置备注
+                        mPresenter.setFriendRemard(mUserId, text);
 
-                    mSetRemarkDialot.dismiss();
-                }
-            });
+                        mSetRemarkDialog.dismiss();
+                    }
+            );
         }
 
-        mSetRemarkDialot.setText(mPersonalInfo.getNickname());
-        mSetRemarkDialot.show();
+        mSetRemarkDialog.setText(mPersonalInfo.getNickname());
+        mSetRemarkDialog.show();
     }
 
     @OnClick(R2.id.more_layout)
@@ -613,24 +609,14 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
                 public void onDeleteFriend() {
                     DialogSure.showDialog(PersonalCardActivity.this,
                             "确认删除好友？",
-                            new DialogSure.OnSureCallback() {
-                                @Override
-                                public void onOkClick() {
-                                    mPresenter.deleteFriend(mUserId);
-                                }
-                            });
+                            () -> mPresenter.deleteFriend(mUserId));
                 }
 
                 @Override
                 public void onAddBlackList() {
                     DialogSure.showDialog(PersonalCardActivity.this,
                             "确认加入黑名单？",
-                            new DialogSure.OnSureCallback() {
-                                @Override
-                                public void onOkClick() {
-                                    mPresenter.changeMyBlack(mUserId, true);
-                                }
-                            });
+                            () -> mPresenter.changeMyBlack(mUserId, true));
                 }
             });
         }

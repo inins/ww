@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.frame.component.ui.acticity.WebActivity;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.utils.SpannableStringUtil;
 import com.frame.component.view.DialogPay;
@@ -39,6 +40,7 @@ import com.wang.social.moneytree.mvp.ui.widget.CountDownTextView;
 import com.wang.social.moneytree.mvp.ui.widget.DialogGameEnd;
 import com.wang.social.moneytree.mvp.ui.widget.DialogShaked;
 import com.wang.social.moneytree.mvp.ui.widget.MoneyTreeView;
+import com.wang.social.moneytree.utils.Keys;
 import com.wang.social.moneytree.utils.ShakeUtils;
 
 import javax.inject.Inject;
@@ -47,15 +49,19 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import timber.log.Timber;
 
+import static com.wang.social.moneytree.utils.Keys.NAME_GAME_BEAN;
+import static com.wang.social.moneytree.utils.Keys.NAME_GAME_RECORD;
+import static com.wang.social.moneytree.utils.Keys.NAME_GAME_TYPE;
+import static com.wang.social.moneytree.utils.Keys.TYPE_FROM_SQUARE;
+
 public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
         implements GameRoomContract.View, CountDownTextView.CountDownListener,
         ShakeUtils.OnShakeListener, DialogGameEnd.GameOverListener,
         GameRoomMemberListAdapter.ClickListener {
-    public final static String NAME_GAME_BEAN = "NAME_GAME_BEAN";
-    public final static String NAME_GAME_RECORD = "NAME_GAME_RECORD";
 
-    public static void startGame(Context context, GameBean gameBean) {
+    public static void startGame(Context context, GameBean gameBean, @Keys.GameType int type) {
         Intent intent = new Intent(context, GameRoomActivity.class);
+        intent.putExtra(NAME_GAME_TYPE, type);
         intent.putExtra(NAME_GAME_BEAN, gameBean);
         context.startActivity(intent);
     }
@@ -117,6 +123,8 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
     // 是否已经摇过了
     private boolean mShaked = false;
 
+    private @Keys.GameType int mType;
+
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
         DaggerGameRoomComponent.builder()
@@ -138,7 +146,8 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
 
         mShakeUtils = new ShakeUtils(this);
         mShakeUtils.setOnShakeListener(this);
-
+        // 从哪里创建的游戏
+        mType = getIntent().getIntExtra(NAME_GAME_TYPE, TYPE_FROM_SQUARE);
         // 游戏信息
         mPresenter.setGameBean(getIntent().getParcelableExtra(NAME_GAME_BEAN));
         // 游戏记录信息
@@ -205,13 +214,18 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
         ToastUtil.showToastLong(msg);
     }
 
+    /**
+     * 游戏记录加载完成
+     */
     @Override
     public void onGetRecordDetailSuccess(GameRecordDetail recordDetail) {
         // 隐藏
         mCountDownLayout.setVisibility(View.GONE);
         mJoinNumLayout.setVisibility(View.GONE);
         mGoChatIV.setVisibility(View.INVISIBLE);
+        mGoChatIV.setClickable(false);
         mGameRuleIV.setVisibility(View.INVISIBLE);
+        mGameRuleIV.setClickable(false);
         mJoinGameIV.setVisibility(View.GONE);
         mShakeHintTV.setVisibility(View.GONE);
 
@@ -226,14 +240,26 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
         mContentLayout.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * 游戏结果加载完成
+     */
     @Override
     public void onLoadGameEndSuccess(GameEnd gameEnd) {
         // 显示对话框
         DialogGameEnd.show(getSupportFragmentManager(), gameEnd, this);
     }
 
+    /**
+     * 游戏房间信息加载完成
+     */
     @Override
     public void onGetRoomMsgSuccess(RoomMsg roomMsg) {
+        // 如果不是从群里创建的游戏，则不显示 进入聊天
+        if (mType != Keys.TYPE_FROM_GROUP) {
+            mGoChatIV.setVisibility(View.INVISIBLE);
+            mGoChatIV.setClickable(false);
+        }
+
         // 房间名
         mTitleTV.setText(roomMsg.getRoomName());
         // 倒计时
@@ -340,7 +366,8 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
      */
     @OnClick(R2.id.go_chat_image_view)
     public void goToChat() {
-
+        mAppManager.killActivity(GameListActivity.class);
+        finish();
     }
 
     /**
@@ -348,7 +375,8 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
      */
     @OnClick(R2.id.game_rule_image_view)
     public void goToGameRule() {
-
+        WebActivity.start(this,
+                "http://wangsocial.com/share/v_2.0/test/contentShared/cashcow/rule.html");
     }
 
     /**
