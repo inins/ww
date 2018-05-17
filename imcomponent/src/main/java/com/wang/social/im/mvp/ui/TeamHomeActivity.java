@@ -48,6 +48,7 @@ import com.wang.social.im.mvp.model.entities.TeamInfo;
 import com.wang.social.im.mvp.presenter.TeamHomePresenter;
 import com.wang.social.im.mvp.ui.adapters.HomeMemberAdapter;
 import com.wang.social.im.mvp.ui.adapters.HomeTagAdapter;
+import com.wang.social.socialize.SocializeUtil;
 
 import java.util.ArrayList;
 import java.util.List;

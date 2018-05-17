@@ -1,5 +1,7 @@
 package com.wang.social.im.mvp.ui;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,7 +10,6 @@ import android.widget.TextView;
 import com.frame.component.app.Constant;
 import com.frame.component.path.ImPath;
 import com.frame.component.ui.base.BaseAppActivity;
-import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.router.facade.annotation.Autowired;
@@ -28,7 +29,6 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -55,9 +55,17 @@ public class HappyWoodActivity extends BaseAppActivity<HappyWoodPresenter> imple
 
     private String mType;
 
+    public static void start(Context context, String objectId, int type) {
+        Intent intent = new Intent(context, HappyWoodActivity.class);
+        intent.putExtra("objectId", objectId);
+        intent.putExtra("type", type);
+        context.startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        init();
     }
 
     @Override
@@ -78,19 +86,35 @@ public class HappyWoodActivity extends BaseAppActivity<HappyWoodPresenter> imple
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
         switch (type) {
-            case Constant.SHARE_TYPE_GROUP:
+            case Constant.SHARE_WOOD_TYPE_GROUP:
                 mType = GroupService.SHARE_WOOD_GROUP;
                 break;
-            case Constant.SHARE_TYPE_TALK:
+            case Constant.SHARE_WOOD_TYPE_TALK:
                 mType = GroupService.SHARE_WOOD_TALK;
                 break;
-            case Constant.SHARE_TYPE_TOPIC:
+            case Constant.SHARE_WOOD_TYPE_TOPIC:
                 mType = GroupService.SHARE_WOOD_TOPIC;
                 break;
         }
 
         mPresenter.getShareInfo(mType, objectId);
         mPresenter.getTreeData(mType, objectId);
+    }
+
+    private void init() {
+        hwToolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
+            @Override
+            public void onButtonClick(SocialToolbar.ClickType clickType) {
+                switch (clickType) {
+                    case LEFT_ICON:
+                        onBackPressed();
+                        break;
+                    case RIGHT_TEXT:
+
+                        break;
+                }
+            }
+        });
     }
 
     @OnClick(R2.id.hw_ivb_list)

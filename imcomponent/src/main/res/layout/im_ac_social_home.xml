@@ -293,7 +293,7 @@
                 android:id="@+id/sc_line_name_card"
                 android:layout_width="0dp"
                 android:layout_height="7dp"
-                android:background="?attr/dividerHorizontal"
+                android:background="@color/common_divider_coarse"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/sc_ll_nickname" />
@@ -343,10 +343,35 @@
                 android:id="@+id/sc_line_shadow"
                 android:layout_width="0dp"
                 android:layout_height="7dp"
-                android:background="?attr/dividerHorizontal"
+                android:background="@color/common_divider_coarse"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/sc_ll_shadow" />
+
+            <TextView
+                android:id="@+id/sc_tv_wood"
+                android:layout_width="0dp"
+                android:layout_height="78dp"
+                android:background="?selectableItemBackground"
+                android:drawableRight="@drawable/common_ic_next"
+                android:gravity="center_vertical"
+                android:paddingRight="@dimen/common_border_margin"
+                android:paddingStart="@dimen/common_border_margin"
+                android:text="@string/im_happy_wood"
+                android:textColor="@color/common_text_blank"
+                android:textSize="18dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sc_line_shadow" />
+
+            <View
+                android:id="@+id/sc_line_wood"
+                android:layout_width="0dp"
+                android:layout_height="7dp"
+                android:background="@color/common_divider_coarse"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sc_tv_wood" />
 
             <TextView
                 android:id="@+id/sc_tv_setting"
@@ -355,7 +380,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/im_setting"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sc_line_shadow" />
+                app:layout_constraintTop_toBottomOf="@id/sc_line_wood" />
 
             <LinearLayout
                 android:id="@+id/sc_ll_social_name"

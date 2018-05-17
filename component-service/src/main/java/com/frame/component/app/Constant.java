@@ -42,13 +42,13 @@ public interface Constant {
     /**
      * 分享树类型：话题
      */
-    int SHARE_TYPE_TOPIC = 1;
+    int SHARE_WOOD_TYPE_TOPIC = 1;
     /**
      * 分享树类型：趣晒
      */
-    int SHARE_TYPE_TALK = 2;
+    int SHARE_WOOD_TYPE_TALK = 2;
     /**
      * 分享树类型：群组
      */
-    int SHARE_TYPE_GROUP = 3;
+    int SHARE_WOOD_TYPE_GROUP = 3;
 }

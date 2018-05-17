@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.beloo.widget.chipslayoutmanager.SpacingItemDecoration;
+import com.frame.component.app.Constant;
 import com.frame.component.entities.AutoPopupItemModel;
 import com.frame.component.enums.ConversationType;
 import com.frame.component.ui.acticity.tags.Tag;
@@ -38,7 +39,6 @@ import com.frame.utils.ToastUtil;
 import com.kyleduo.switchbutton.SwitchButton;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
-import com.wang.social.im.app.IMConstants;
 import com.wang.social.im.di.component.DaggerSocialHomeComponent;
 import com.wang.social.im.di.modules.SocialHomeModule;
 import com.wang.social.im.enums.MessageNotifyType;
@@ -52,8 +52,8 @@ import com.wang.social.im.mvp.presenter.SocialHomePresenter;
 import com.wang.social.im.mvp.ui.adapters.HomeMemberAdapter;
 import com.wang.social.im.mvp.ui.adapters.HomeTagAdapter;
 import com.wang.social.im.mvp.ui.adapters.SocialHomeTeamsAdapter;
-import com.wang.social.im.mvp.ui.fragments.ContactsFragment;
 import com.wang.social.pictureselector.helper.PhotoHelperEx;
+import com.wang.social.socialize.SocializeUtil;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -311,7 +311,7 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
         dismissLoadingDialog();
     }
 
-    @OnClick({R2.id.sc_iv_qrcode, R2.id.sc_iv_intro_edit, R2.id.sc_tv_member_dynamic, R2.id.sc_ll_portrait, R2.id.sc_ll_nickname, R2.id.sc_ll_shadow, R2.id.sc_ll_social_name, R2.id.sc_tv_background_chat, R2.id.sc_tv_clear_message, R2.id.sc_tv_charge_setting, R2.id.sc_tv_join_limit, R2.id.sc_tvb_handle})
+    @OnClick({R2.id.sc_iv_qrcode, R2.id.sc_iv_intro_edit, R2.id.sc_tv_member_dynamic, R2.id.sc_ll_portrait, R2.id.sc_ll_nickname, R2.id.sc_ll_shadow, R2.id.sc_ll_social_name, R2.id.sc_tv_background_chat, R2.id.sc_tv_clear_message, R2.id.sc_tv_charge_setting, R2.id.sc_tv_join_limit, R2.id.sc_tvb_handle, R2.id.sc_tv_wood})
     public void onViewClicked(View view) {
         if (view.getId() == R.id.sc_iv_qrcode) {//二维码
 
@@ -388,6 +388,8 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
             } else {
                 mPresenter.exitGroup(socialId);
             }
+        } else if (view.getId() == R.id.sc_tv_wood) {
+            HappyWoodActivity.start(this, socialId, Constant.SHARE_WOOD_TYPE_GROUP);
         }
     }
 
