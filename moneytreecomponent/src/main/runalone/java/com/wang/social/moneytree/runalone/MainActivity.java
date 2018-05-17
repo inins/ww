@@ -17,6 +17,7 @@ import com.umeng.socialize.UMShareAPI;
 import com.wang.social.moneytree.R;
 import com.wang.social.moneytree.R2;
 import com.wang.social.moneytree.mvp.ui.GameListActivity;
+import com.wang.social.pictureselector.ActivityPicturePreview;
 import com.wang.social.socialize.SocializeUtil;
 
 import butterknife.BindView;
@@ -43,6 +44,22 @@ public class MainActivity extends BasicActivity implements IView {
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
+    }
+
+    @OnClick(R2.id.pics_button)
+    public void pics() {
+        String[] pics = {
+                "https://a.cdnsbn.com/images/products/l/20857459814.jpg",
+                "https://a.cdnsbn.com/images/products/l/10005703602.jpg",
+                "https://a.cdnsbn.com/images/products/l/12834780402.jpg",
+                "https://b.cdnsbn.com/images/products/l/15403480402.jpg",
+                "https://b.cdnsbn.com/images/products/l/05766096301.jpg",
+                "https://c.cdnsbn.com/images/products/l/04010986801.jpg",
+                "https://c.cdnsbn.com/images/products/l/16588798103.jpg",
+                "https://c.cdnsbn.com/images/products/l/11440582501.jpg",
+                "https://d.cdnsbn.com/images/products/l/07983430803.jpg"
+        };
+        ActivityPicturePreview.startBrowse(this, pics.length / 2, pics);
     }
 
     @OnClick(R2.id.confirm_button)

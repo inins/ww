@@ -1,4 +1,4 @@
-package com.wang.social.im.mvp.ui.PersonalCard.ui.fragment;
+package com.frame.component.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,8 +7,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.frame.base.BasicFragment;
+import com.frame.component.api.CommonService;
 import com.frame.component.common.NetParam;
 import com.frame.component.entities.Topic;
+import com.frame.component.entities.dto.TopicDTO;
+import com.frame.component.service.R;
+import com.frame.component.service.R2;
 import com.frame.di.component.AppComponent;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.BaseJson;
@@ -22,8 +26,6 @@ import com.frame.utils.Utils;
 import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
-import com.wang.social.im.mvp.ui.PersonalCard.model.api.PersonalCardService;
-import com.wang.social.im.mvp.ui.PersonalCard.model.entities.DTO.TopicDTO;
 import com.frame.component.ui.adapter.TopicListAdapter;
 
 import java.util.ArrayList;
@@ -32,9 +34,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import io.reactivex.Observable;
-
-import com.wang.social.im.R;
-import com.wang.social.im.R2;
+import retrofit2.http.GET;
 
 /**
  * 话题列表
@@ -91,12 +91,12 @@ public class TopicListFragment extends BasicFragment implements IView, TopicList
         mSpringView.setListener(new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
-                loadTopicList(true);
+                getFriendTopicList(true);
             }
 
             @Override
             public void onLoadmore() {
-                loadTopicList(false);
+                getFriendTopicList(false);
             }
         });
         mSpringView.callFreshDelay();
@@ -107,13 +107,13 @@ public class TopicListFragment extends BasicFragment implements IView, TopicList
 
     }
 
-    private void loadTopicList(boolean refresh) {
+    private void getFriendTopicList(boolean refresh) {
         if (refresh) {
             mCurrent = 0;
             mList.clear();
         }
         mApiHelper.execute(this,
-                getFriendTopicList(mUserId, mCurrent + 1, mSize),
+                netGetFriendTopicList(mUserId, mCurrent + 1, mSize),
                 new ErrorHandleSubscriber<PageList<Topic>>() {
                     @Override
                     public void onNext(PageList<Topic> pageList) {
@@ -133,7 +133,11 @@ public class TopicListFragment extends BasicFragment implements IView, TopicList
                 () -> mSpringView.onFinishFreshAndLoadDelay());
     }
 
-    private Observable<BaseJson<PageListDTO<TopicDTO, Topic>>> getFriendTopicList(int queryUserId, int current, int size) {
+    /**
+     * 话题列表 （他人名片）
+     */
+    @GET("app/topic/personalCardList")
+    private Observable<BaseJson<PageListDTO<TopicDTO, Topic>>> netGetFriendTopicList(int queryUserId, int current, int size) {
         Map<String, Object> param = new NetParam()
                 .put("queryUserId", queryUserId)
                 .put("current", current)
@@ -141,7 +145,7 @@ public class TopicListFragment extends BasicFragment implements IView, TopicList
                 .put("v", "2.0.0")
                 .build();
         return mRepositoryManager
-                .obtainRetrofitService(PersonalCardService.class)
+                .obtainRetrofitService(CommonService.class)
                 .getFriendTopicList(param);
     }
 

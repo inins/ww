@@ -1,4 +1,4 @@
-package com.wang.social.im.mvp.ui.PersonalCard.model.entities.DTO;
+package com.frame.component.entities.dto;
 
 import com.frame.component.entities.Topic;
 import com.frame.component.ui.acticity.tags.Tag;

@@ -3,6 +3,7 @@ package com.frame.component.api;
 import com.frame.component.entities.GroupBean;
 import com.frame.component.entities.PersonalInfo;
 import com.frame.component.entities.ShareUserInfo;
+import com.frame.component.entities.Topic;
 import com.frame.component.entities.UserWrap;
 import com.frame.component.entities.dto.AccountBalanceDTO;
 import com.frame.component.entities.dto.AddGroupApplyRspDTO;
@@ -13,6 +14,7 @@ import com.frame.component.entities.dto.QiNiuDTO;
 import com.frame.component.entities.dto.SearchUserInfoDTO;
 import com.frame.component.entities.dto.ShareUserInfoDTO;
 import com.frame.component.entities.dto.TalkBeanDTO;
+import com.frame.component.entities.dto.TopicDTO;
 import com.frame.component.entities.funshow.FunshowBean;
 import com.frame.component.entities.user.UserBoard;
 import com.frame.http.api.BaseJson;
@@ -259,4 +261,12 @@ public interface CommonService {
      */
     @GET("app/group/list")
     Observable<BaseJson<PageListDTO<GroupBeanDTO, GroupBean>>> getGroupList(@QueryMap Map<String, Object> param);
+
+
+    /**
+     * 话题列表 （他人名片）
+     */
+    @GET("app/topic/personalCardList")
+    Observable<BaseJson<PageListDTO<TopicDTO, Topic>>> getFriendTopicList(@QueryMap Map<String, Object> param);
+
 }

@@ -32,6 +32,13 @@ public class PictureSelector {
     public static final String NAME_FILE_PATH = "NAME_FILE_PATH";
     public static final String NAME_FILE_PATH_LIST = "NAME_FILE_PATH_LIST";
     public final static String NAME_CURRENT  = "CURRENT";
+    public final static String NAME_TYPE = "NAME_TYPE";
+
+
+    // 浏览图片，底部需要显示下载按钮
+    public final static int TYPE_BROWSE = 1;
+    // 确认模式，底部显示按钮
+    public final static int TYPE_CONFIRM = 2;
 
     public static final int REQUEST_CODE_CLIP = 10101;
 

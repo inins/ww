@@ -36,7 +36,7 @@ import com.wang.social.im.mvp.ui.PersonalCard.presenter.PersonalCardPresenter;
 import com.frame.component.ui.fragment.FriendListFragment;
 import com.frame.component.ui.fragment.GroupListFragment;
 import com.frame.component.ui.fragment.TalkListFragment;
-import com.wang.social.im.mvp.ui.PersonalCard.ui.fragment.TopicListFragment;
+import com.frame.component.ui.fragment.TopicListFragment;
 import com.wang.social.im.mvp.ui.PersonalCard.ui.widget.AppBarStateChangeListener;
 import com.wang.social.im.mvp.ui.PersonalCard.ui.widget.DialogActionSheet;
 import com.wang.social.im.mvp.ui.PersonalCard.ui.widget.PWFriendMoreMenu;
