@@ -19,8 +19,11 @@ import android.widget.TextView;
 
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.beloo.widget.chipslayoutmanager.SpacingItemDecoration;
+import com.frame.component.entities.AutoPopupItemModel;
+import com.frame.component.enums.ConversationType;
 import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.component.ui.base.BaseAppActivity;
+import com.frame.component.ui.dialog.AutoPopupWindow;
 import com.frame.component.ui.dialog.EditDialog;
 import com.frame.component.utils.UIUtil;
 import com.frame.component.view.SocialToolbar;
@@ -38,6 +41,7 @@ import com.wang.social.im.R2;
 import com.wang.social.im.di.component.DaggerTeamHomeComponent;
 import com.wang.social.im.di.modules.TeamHomeModule;
 import com.wang.social.im.enums.MessageNotifyType;
+import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.mvp.contract.TeamHomeContract;
 import com.wang.social.im.mvp.model.entities.MemberInfo;
 import com.wang.social.im.mvp.model.entities.TeamInfo;
@@ -45,6 +49,7 @@ import com.wang.social.im.mvp.presenter.TeamHomePresenter;
 import com.wang.social.im.mvp.ui.adapters.HomeMemberAdapter;
 import com.wang.social.im.mvp.ui.adapters.HomeTagAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -55,7 +60,7 @@ import butterknife.OnClick;
 /**
  * 觅聊详情
  */
-public class TeamHomeActivity extends BaseAppActivity<TeamHomePresenter> implements TeamHomeContract.View {
+public class TeamHomeActivity extends BaseAppActivity<TeamHomePresenter> implements TeamHomeContract.View, AutoPopupWindow.OnItemClickListener {
 
     private static final int REQUEST_CODE_CHARGE = 1000;
 
@@ -120,10 +125,13 @@ public class TeamHomeActivity extends BaseAppActivity<TeamHomePresenter> impleme
     ImageLoader mImageLoader;
 
     private TeamInfo mTeam;
+    private MemberInfo mSelfProfile;
 
     //记录是否是通过用户点击修改状态
-    private boolean applyFromCode = true;
-    private boolean notifyFromCode = true;
+    private boolean applyFromCode = false;
+    private boolean notifyFromCode = false;
+
+    private AutoPopupWindow popupWindow;
 
     public static void start(Context context, String teamId) {
         Intent intent = new Intent(context, TeamHomeActivity.class);
@@ -155,7 +163,6 @@ public class TeamHomeActivity extends BaseAppActivity<TeamHomePresenter> impleme
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
-        teamId = "56";
         mPresenter.getTeamInfo(teamId);
         mPresenter.getSelfProfile(teamId);
         mPresenter.getMemberList(teamId);
@@ -187,6 +194,9 @@ public class TeamHomeActivity extends BaseAppActivity<TeamHomePresenter> impleme
         thClContent.setVisibility(View.VISIBLE);
 
         mTeam = teamInfo;
+        if (mSelfProfile != null) {
+            mTeam.setSelfProfile(mSelfProfile);
+        }
 
         thTvTitle.setText(teamInfo.getName());
         thTvTeamName.setText(teamInfo.getName());
@@ -201,11 +211,22 @@ public class TeamHomeActivity extends BaseAppActivity<TeamHomePresenter> impleme
             thIvPayLogo.setVisibility(View.VISIBLE);
         }
         showTags(teamInfo.getTags());
+        if (teamInfo.isValidation()) {
+            applyFromCode = true;
+        }
         thSbApply.setChecked(teamInfo.isValidation());
     }
 
     @Override
     public void showProfile(MemberInfo memberInfo) {
+        if (mTeam != null) {
+            mTeam.setSelfProfile(memberInfo);
+        } else {
+            mSelfProfile = memberInfo;
+        }
+        if (memberInfo.getNotifyType() == MessageNotifyType.ALL) {
+            notifyFromCode = true;
+        }
         thSbNotify.setChecked(memberInfo.getNotifyType() == MessageNotifyType.ALL);
         if (memberInfo.getRole() == MemberInfo.ROLE_MASTER) {
             thTvbHandle.setText(R.string.im_dissolve_team);
@@ -243,6 +264,27 @@ public class TeamHomeActivity extends BaseAppActivity<TeamHomePresenter> impleme
                     mPresenter.updateTeamInfo(mTeam);
                 }
                 applyFromCode = false;
+            }
+        });
+
+        thToolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
+            @Override
+            public void onButtonClick(SocialToolbar.ClickType clickType) {
+                switch (clickType) {
+                    case LEFT_ICON:
+                        onBackPressed();
+                        break;
+                    case RIGHT_ICON:
+                        if (popupWindow == null) {
+                            popupWindow = new AutoPopupWindow(TeamHomeActivity.this, getMenuItems(), AutoPopupWindow.POINT_TO_RIGHT);
+                            popupWindow.setItemClickListener(TeamHomeActivity.this);
+                        }
+                        if (!popupWindow.isShowing()) {
+                            int showX = ScreenUtils.getScreenWidth() - getResources().getDimensionPixelSize(R.dimen.popup_auto_width) - SizeUtils.dp2px(7);
+                            popupWindow.showAsDropDown(thToolbar.getIvRight(), showX, -SizeUtils.dp2px(20));
+                        }
+                        break;
+                }
             }
         });
     }
@@ -296,7 +338,7 @@ public class TeamHomeActivity extends BaseAppActivity<TeamHomePresenter> impleme
             });
             editDialog.show();
         } else if (view.getId() == R.id.th_tv_clear_message) {//清除聊天内容
-            mPresenter.clearMessages(teamId);
+            mPresenter.clearMessages(ImHelper.wangId2ImId(teamId, ConversationType.TEAM));
         } else if (view.getId() == R.id.th_tv_background_chat) {//背景图片
 
         } else if (view.getId() == R.id.th_tv_charge_setting) {//收费设置
@@ -336,5 +378,28 @@ public class TeamHomeActivity extends BaseAppActivity<TeamHomePresenter> impleme
                     break;
             }
         }
+    }
+
+    @Override
+    public void onItemClick(AutoPopupWindow popupWindow, int resId) {
+        popupWindow.dismiss();
+        if (resId == R.string.common_share) {
+
+        } else if (resId == R.string.common_report) {
+            showReportDialog();
+        }
+    }
+
+    private List<AutoPopupItemModel> getMenuItems() {
+        List<AutoPopupItemModel> items = new ArrayList<>();
+        AutoPopupItemModel share = new AutoPopupItemModel(0, R.string.common_share);
+        AutoPopupItemModel report = new AutoPopupItemModel(0, R.string.common_report);
+        items.add(share);
+        items.add(report);
+        return items;
+    }
+
+    private void showReportDialog() {
+
     }
 }

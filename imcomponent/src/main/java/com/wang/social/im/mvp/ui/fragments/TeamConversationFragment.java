@@ -7,6 +7,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,14 +26,19 @@ import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.app.IMConstants;
 import com.wang.social.im.helper.GroupHelper;
+import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.mvp.model.entities.GroupProfile;
 import com.wang.social.im.mvp.ui.ConversationFragment;
 import com.wang.social.im.mvp.ui.GroupConversationActivity;
+import com.wang.social.im.mvp.ui.TeamHomeActivity;
 
 import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 
 /**
  * ============================================
@@ -141,6 +149,11 @@ public class TeamConversationFragment extends BaseConversationFragment {
                 }
             }
         });
+    }
+
+    @OnClick(R2.id.tc_ll_info)
+    public void onViewClicked() {
+        TeamHomeActivity.start(getContext(), ImHelper.imId2WangId(targetId));
     }
 
     @Override

@@ -80,7 +80,7 @@ public class SocialToolbar extends Toolbar {
             tvRight.setText(mRightText);
             tvRight.setTextColor(mRightTextColor);
         }
-        if (!TextUtils.isEmpty(mTitleText)){
+        if (!TextUtils.isEmpty(mTitleText)) {
             tvTitle.setVisibility(VISIBLE);
             tvTitle.setText(mTitleText);
             tvTitle.setTextColor(mTitleTextColor);
@@ -148,6 +148,10 @@ public class SocialToolbar extends Toolbar {
 
     public TextView getTvRight() {
         return tvRight;
+    }
+
+    public ImageView getIvRight() {
+        return ivRight;
     }
 
     public void setOnButtonClickListener(OnButtonClickListener buttonClickListener) {

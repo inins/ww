@@ -44,6 +44,7 @@
             app:toolbar_right_icon="@drawable/im_ic_mirror" />
 
         <LinearLayout
+            android:id="@+id/tc_ll_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

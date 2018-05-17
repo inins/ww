@@ -22,6 +22,8 @@ import com.wang.social.im.mvp.contract.GroupContract;
 import com.wang.social.im.mvp.model.entities.ListData;
 import com.wang.social.im.mvp.model.entities.MemberInfo;
 
+import java.util.Iterator;
+
 import javax.inject.Inject;
 
 import io.reactivex.disposables.Disposable;
@@ -57,6 +59,14 @@ public class GroupPresenter<M extends GroupContract.GroupModel, V extends GroupC
                 new ErrorHandleSubscriber<ListData<MemberInfo>>(mErrorHandler) {
                     @Override
                     public void onNext(ListData<MemberInfo> memberInfoListData) {
+                        //将群主移到第一位
+                        for (MemberInfo memberInfo : memberInfoListData.getList()) {
+                            if (memberInfo.getRole() == MemberInfo.ROLE_MASTER) {
+                                memberInfoListData.getList().remove(memberInfo);
+                                memberInfoListData.getList().add(0, memberInfo);
+                                break;
+                            }
+                        }
                         mRootView.showMembers(memberInfoListData.getList());
                     }
                 });

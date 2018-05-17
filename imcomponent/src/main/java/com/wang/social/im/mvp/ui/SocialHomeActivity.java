@@ -19,8 +19,11 @@ import android.widget.TextView;
 
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.beloo.widget.chipslayoutmanager.SpacingItemDecoration;
+import com.frame.component.entities.AutoPopupItemModel;
+import com.frame.component.enums.ConversationType;
 import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.component.ui.base.BaseAppActivity;
+import com.frame.component.ui.dialog.AutoPopupWindow;
 import com.frame.component.ui.dialog.EditDialog;
 import com.frame.component.utils.UIUtil;
 import com.frame.component.view.SocialToolbar;
@@ -35,9 +38,11 @@ import com.frame.utils.ToastUtil;
 import com.kyleduo.switchbutton.SwitchButton;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
+import com.wang.social.im.app.IMConstants;
 import com.wang.social.im.di.component.DaggerSocialHomeComponent;
 import com.wang.social.im.di.modules.SocialHomeModule;
 import com.wang.social.im.enums.MessageNotifyType;
+import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.mvp.contract.SocialHomeContract;
 import com.wang.social.im.mvp.model.entities.MemberInfo;
 import com.wang.social.im.mvp.model.entities.ShadowInfo;
@@ -47,11 +52,13 @@ import com.wang.social.im.mvp.presenter.SocialHomePresenter;
 import com.wang.social.im.mvp.ui.adapters.HomeMemberAdapter;
 import com.wang.social.im.mvp.ui.adapters.HomeTagAdapter;
 import com.wang.social.im.mvp.ui.adapters.SocialHomeTeamsAdapter;
+import com.wang.social.im.mvp.ui.fragments.ContactsFragment;
 import com.wang.social.pictureselector.helper.PhotoHelperEx;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -64,7 +71,7 @@ import butterknife.OnClick;
  * <p>
  * Create by ChenJing on 4.28
  */
-public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> implements SocialHomeContract.View {
+public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> implements SocialHomeContract.View, AutoPopupWindow.OnItemClickListener {
 
     private static final String EXTRA_SOCIAL_ID = "socialId";
 
@@ -185,9 +192,11 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
     private SocialInfo mSocial;
 
     //记录是否是通过用户点击修改状态
-    private boolean createTeamFromCode = true;
-    private boolean openFromCode = true;
-    private boolean notifyFromCode = true;
+    private boolean createTeamFromCode = false;
+    private boolean openFromCode = false;
+    private boolean notifyFromCode = false;
+
+    private AutoPopupWindow popupWindow;
 
     public static void start(Context context, String socialId) {
         Intent intent = new Intent(context, SocialHomeActivity.class);
@@ -219,7 +228,6 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
-        socialId = "26";
         mPresenter.getSocialInfo(socialId);
     }
 
@@ -258,6 +266,26 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
                     mPresenter.updateSocialInfo(mSocial);
                 }
                 openFromCode = false;
+            }
+        });
+        scToolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
+            @Override
+            public void onButtonClick(SocialToolbar.ClickType clickType) {
+                switch (clickType) {
+                    case LEFT_ICON:
+                        onBackPressed();
+                        break;
+                    case RIGHT_ICON:
+                        if (popupWindow == null) {
+                            popupWindow = new AutoPopupWindow(SocialHomeActivity.this, getMenuItems(), AutoPopupWindow.POINT_TO_RIGHT);
+                            popupWindow.setItemClickListener(SocialHomeActivity.this);
+                        }
+                        if (!popupWindow.isShowing()) {
+                            int showX = ScreenUtils.getScreenWidth() - getResources().getDimensionPixelSize(R.dimen.popup_auto_width) - SizeUtils.dp2px(7);
+                            popupWindow.showAsDropDown(scToolbar.getIvRight(), showX, -SizeUtils.dp2px(20));
+                        }
+                        break;
+                }
             }
         });
     }
@@ -349,7 +377,7 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
         } else if (view.getId() == R.id.sc_tv_background_chat) {//聊天背景
 
         } else if (view.getId() == R.id.sc_tv_clear_message) {//清空消息
-            mPresenter.clearMessages(socialId);
+            mPresenter.clearMessages(ImHelper.wangId2ImId(socialId, ConversationType.SOCIAL));
         } else if (view.getId() == R.id.sc_tv_charge_setting) {//收费设置
             SocialChargeSettingActivity.start(this, mSocial, REQUEST_CODE_CHARGE);
         } else if (view.getId() == R.id.sc_tv_join_limit) {//加入限制
@@ -399,6 +427,9 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
             scTvNickname.setText(selfInfo.getNickname());
 
             //消息提醒
+            if (selfInfo.getNotifyType() == MessageNotifyType.ALL) {
+                notifyFromCode = true;
+            }
             scSbNotifyType.setChecked(selfInfo.getNotifyType() == MessageNotifyType.ALL);
 
             //设置按钮
@@ -430,7 +461,13 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
 
         scTvSocialName.setText(socialInfo.getName());
 
+        if (socialInfo.getAttr().isOpen()) {
+            openFromCode = true;
+        }
         scSbPublic.setChecked(socialInfo.getAttr().isOpen());
+        if (socialInfo.isCreateTeam()) {
+            createTeamFromCode = true;
+        }
         scSbCreateTeam.setChecked(socialInfo.isCreateTeam());
     }
 
@@ -520,6 +557,29 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
                 .isCircle(true)
                 .build());
         scTvShadowNickname.setText(shadowInfo.getNickname());
+    }
+
+    private List<AutoPopupItemModel> getMenuItems() {
+        List<AutoPopupItemModel> items = new ArrayList<>();
+        AutoPopupItemModel share = new AutoPopupItemModel(0, R.string.common_share);
+        AutoPopupItemModel report = new AutoPopupItemModel(0, R.string.common_report);
+        items.add(share);
+        items.add(report);
+        return items;
+    }
+
+    @Override
+    public void onItemClick(AutoPopupWindow popupWindow, int resId) {
+        popupWindow.dismiss();
+        if (resId == R.string.common_share) {
+
+        } else if (resId == R.string.common_report) {
+            showReportDialog();
+        }
+    }
+
+    private void showReportDialog() {
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
