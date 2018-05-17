@@ -82,6 +82,11 @@ public class FragmentPicturePreview extends Fragment {
 
         if (null != files && files.length > 0) {
             previewAdapter = new PreviewAdapter(getContext(), files);
+
+            if (mType == TYPE_BROWSE) {
+                previewAdapter.setClickListener(() -> getActivity().finish());
+            }
+
             viewPager.setAdapter(previewAdapter);
 
             viewPager.setCurrentItem(mCurrent);

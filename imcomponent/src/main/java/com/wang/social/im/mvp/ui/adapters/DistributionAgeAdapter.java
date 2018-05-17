@@ -58,7 +58,9 @@ public class DistributionAgeAdapter extends RecyclerView.Adapter<DistributionAge
         if (count > 0) {
             holder.cp.setProgress(age.getCount() * 100 / count);
         }
-        holder.tv.setText(String.format("%1s后-%2d人", age.getAgeRange(), age.getCount()));
+        String ageTag = age.getAgeRange().equals("other") ? "" : age.getAgeRange();
+        holder.tv.setText("" + ageTag + "后-" + age.getCount() + "人");
+//        holder.tv.setText(String.format("%1s后-%2d人", age.getAgeRange(), age.getCount()));
     }
 
     @Override

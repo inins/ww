@@ -8,22 +8,33 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.frame.utils.ToastUtil;
 import com.wang.social.pictureselector.R;
 import com.wang.social.pictureselector.model.SelectorSpec;
 import com.wang.social.pictureselector.ui.widget.ClipZoomImageView;
+
+import timber.log.Timber;
 
 /**
  * Created by King on 2018/3/30.
  */
 
 public class PreviewAdapter extends PagerAdapter {
+    public interface ClickListener {
+        void onClicked();
+    }
 
     private Context context;
     private String[] files;
+    private ClickListener mClickListener;
 
     public PreviewAdapter(Context context, String[] files) {
         this.context = context;
         this.files = files;
+    }
+
+    public void setClickListener(ClickListener clickListener) {
+        mClickListener = clickListener;
     }
 
     @Override
@@ -48,6 +59,11 @@ public class PreviewAdapter extends PagerAdapter {
         View view = LayoutInflater.from(context)
                 .inflate(R.layout.ps_preview_image_layout, container, false);
         ClipZoomImageView imageView = view.findViewById(R.id.image_view);
+        imageView.setSingleTapListener(() -> {
+            if (null != mClickListener) {
+                mClickListener.onClicked();
+            }
+        });
         SelectorSpec.getInstance()
                 .getImageEngine()
                 .loadImage(context, filepath, null, imageView);

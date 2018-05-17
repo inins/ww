@@ -61,6 +61,10 @@ public class NetReportHelper {
         netReport(view, objectId, 0, comment, picUrls, callback);
     }
 
+    public void netReportGroupWithUpload(IView view, int objectId, String comment, String[] picUrls, OnReportCallback callback) {
+        netReport(view, objectId, 1, comment, picUrls, callback);
+    }
+
     private void netReport(IView view, int objectId, int type, String comment, String[] picUrls, OnReportCallback callback) {
         // 需要上传图片的话 先上传图片
         if (null != picUrls && picUrls.length > 0) {
