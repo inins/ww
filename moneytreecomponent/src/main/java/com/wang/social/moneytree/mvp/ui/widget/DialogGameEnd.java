@@ -88,18 +88,22 @@ public class DialogGameEnd extends DialogFragment {
                     mGameEnd.getJoinNum(), mGameEnd.getDiamond()));
             // 排名和钻石
             TextView myTV = view.findViewById(R.id.my_score_text_view);
-            String[] strings = {
-                    getString(R.string.mt_game_over_my_score_1),
-                    Integer.toString(mGameEnd.getRanking()),
-                    String.format(getString(R.string.mt_game_over_my_score_2),
-                            mGameEnd.getMyGetDiamond())};
-            int[] colors = {
-                    ContextCompat.getColor(getContext(), R.color.common_white),
-                    0xFFF4FF46,
-                    ContextCompat.getColor(getContext(), R.color.common_white)
-            };
-            SpannableStringBuilder myScoreText = SpannableStringUtil.createV2(strings, colors);
-            myTV.setText(myScoreText);
+            if (mGameEnd.getRanking() <= 0) {
+                myTV.setVisibility(View.GONE);
+            } else {
+                String[] strings = {
+                        getString(R.string.mt_game_over_my_score_1),
+                        Integer.toString(mGameEnd.getRanking()),
+                        String.format(getString(R.string.mt_game_over_my_score_2),
+                                mGameEnd.getMyGetDiamond())};
+                int[] colors = {
+                        ContextCompat.getColor(getContext(), R.color.common_white),
+                        0xFFF4FF46,
+                        ContextCompat.getColor(getContext(), R.color.common_white)
+                };
+                SpannableStringBuilder myScoreText = SpannableStringUtil.createV2(strings, colors);
+                myTV.setText(myScoreText);
+            }
             //  TOP 5
             RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),

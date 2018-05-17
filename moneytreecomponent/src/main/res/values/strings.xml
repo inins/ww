@@ -41,4 +41,5 @@
     <string name="mt_game_over_my_score_1">你排名第</string>
     <string name="mt_game_over_my_score_2">名，获得%1d钻！</string>
     <string name="mt_member_of_game">参加本次游戏的人</string>
+    <string name="mt_shaked_hint">恭喜你摇到钻石，游戏结束会揭晓结果，请耐心等待吧！</string>
 </resources>

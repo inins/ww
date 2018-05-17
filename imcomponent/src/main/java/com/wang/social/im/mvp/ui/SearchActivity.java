@@ -10,12 +10,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
-import android.widget.TextView;
 
 import com.frame.base.BasicActivity;
-import com.frame.component.ui.fragment.BuildFragment;
 import com.frame.component.view.ConerEditText;
 import com.frame.component.view.LoadingLayout;
 import com.frame.di.component.AppComponent;
@@ -28,8 +25,8 @@ import butterknife.BindView;
 
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
-import com.wang.social.im.mvp.ui.PersonalCard.ui.fragment.FriendListFragment;
-import com.wang.social.im.mvp.ui.PersonalCard.ui.fragment.GroupListFragment;
+import com.frame.component.ui.fragment.FriendListFragment;
+import com.frame.component.ui.fragment.GroupListFragment;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -102,7 +99,7 @@ public class SearchActivity extends BasicActivity {
                 switch (position) {
                     case 0:
 //                        return BuildFragment.newInstance();
-                        return FriendListFragment.newSearchInstance();
+                        return FriendListFragment.newGroupSearch();
                     case 1:
 //                        return BuildFragment.newInstance();
                         return GroupListFragment.newSearchGroup();

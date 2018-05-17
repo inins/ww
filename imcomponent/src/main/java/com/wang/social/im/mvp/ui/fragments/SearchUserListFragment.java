@@ -70,7 +70,7 @@ public class SearchUserListFragment extends BasicFragment implements IView, Topi
 
     @Override
     public int initView(@Nullable Bundle savedInstanceState) {
-        return R.layout.im_personal_card_fragment_list_side_14;
+        return R.layout.layout_spring_recycler_side_14;
     }
 
     @Override

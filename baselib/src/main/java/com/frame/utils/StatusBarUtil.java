@@ -97,6 +97,13 @@ public class StatusBarUtil {
             MIUISetStatusBarLightMode(window, dark);
         }
     }
+    public static void FlymeAndMIUIText(Activity activity, Window window, boolean dark) {
+        if (!FlymeSetStatusBarLightMode(window, dark)) {
+            if (!MIUISetStatusBarLightMode(window, dark)) {
+                setBarFollow(activity);
+            }
+        }
+    }
 
     /**
      * 设置状态栏图标为深色和魅族特定的文字风格

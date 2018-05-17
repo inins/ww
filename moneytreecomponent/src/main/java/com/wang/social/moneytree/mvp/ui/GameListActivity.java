@@ -126,8 +126,8 @@ public class GameListActivity extends BaseAppActivity<GameListPresenter>
     }
 
     @Override
-    public void showToastLong(String msg) {
-        ToastUtil.showToastLong(msg);
+    public void showToastShort(String msg) {
+        ToastUtil.showToastShort(msg);
     }
 
     @Override

@@ -15,7 +15,6 @@ import com.frame.http.api.BaseJson;
 import com.frame.http.api.PageList;
 import com.frame.http.api.PageListDTO;
 import com.frame.http.api.error.ErrorHandleSubscriber;
-import com.frame.http.api.error.RxErrorHandler;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.IView;
 import com.frame.utils.FrameUtils;
@@ -33,13 +32,14 @@ import java.util.Map;
 
 import butterknife.BindView;
 import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
 
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 
+/**
+ * 话题列表
+ * 话题列表 （他人名片）
+ */
 public class TopicListFragment extends BasicFragment implements IView, TopicListAdapter.ClickListener {
 
     public static TopicListFragment newInstance(int userid) {
@@ -58,9 +58,8 @@ public class TopicListFragment extends BasicFragment implements IView, TopicList
 
     private ApiHelper mApiHelper = new ApiHelper();
     private IRepositoryManager mRepositoryManager;
-    private RxErrorHandler mErrorHandler;
     private int mCurrent = 0;
-    private int mSize = 10;
+    private static final int mSize = 10;
     private List<Topic> mList = new ArrayList<>();
     private int mUserId;
 
@@ -71,13 +70,12 @@ public class TopicListFragment extends BasicFragment implements IView, TopicList
 
     @Override
     public int initView(@Nullable Bundle savedInstanceState) {
-        return R.layout.im_personal_card_fragment_list_side_14;
+        return R.layout.layout_spring_recycler_side_14;
     }
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         mRepositoryManager = FrameUtils.obtainAppComponentFromContext(Utils.getContext()).repoitoryManager();
-        mErrorHandler = FrameUtils.obtainAppComponentFromContext(Utils.getContext()).rxErrorHandler();
 
         if (getArguments() != null) {
             mUserId = getArguments().getInt("userid");
@@ -115,7 +113,7 @@ public class TopicListFragment extends BasicFragment implements IView, TopicList
             mList.clear();
         }
         mApiHelper.execute(this,
-                getTopicList(mUserId, mCurrent + 1, mSize),
+                getFriendTopicList(mUserId, mCurrent + 1, mSize),
                 new ErrorHandleSubscriber<PageList<Topic>>() {
                     @Override
                     public void onNext(PageList<Topic> pageList) {
@@ -131,21 +129,11 @@ public class TopicListFragment extends BasicFragment implements IView, TopicList
                         }
                     }
                 },
-                new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-
-                    }
-                },
-                new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mSpringView.onFinishFreshAndLoadDelay();
-                    }
-                });
+                disposable -> {},
+                () -> mSpringView.onFinishFreshAndLoadDelay());
     }
 
-    private Observable<BaseJson<PageListDTO<TopicDTO, Topic>>> getTopicList(int queryUserId, int current, int size) {
+    private Observable<BaseJson<PageListDTO<TopicDTO, Topic>>> getFriendTopicList(int queryUserId, int current, int size) {
         Map<String, Object> param = new NetParam()
                 .put("queryUserId", queryUserId)
                 .put("current", current)
@@ -170,7 +158,6 @@ public class TopicListFragment extends BasicFragment implements IView, TopicList
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mErrorHandler = null;
         mApiHelper = null;
     }
 

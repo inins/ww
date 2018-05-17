@@ -1,4 +1,4 @@
-package com.wang.social.im.mvp.ui.PersonalCard.ui.fragment;
+package com.frame.component.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,9 +7,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.frame.base.BasicFragment;
+import com.frame.component.api.CommonService;
 import com.frame.component.common.NetParam;
 import com.frame.component.entities.Topic;
+import com.frame.component.entities.dto.TalkBeanDTO;
 import com.frame.component.entities.funshow.FunshowBean;
+import com.frame.component.service.R;
+import com.frame.component.service.R2;
 import com.frame.component.ui.adapter.RecycleAdapterCommonFunshow;
 import com.frame.di.component.AppComponent;
 import com.frame.http.api.ApiHelper;
@@ -17,16 +21,12 @@ import com.frame.http.api.BaseJson;
 import com.frame.http.api.PageList;
 import com.frame.http.api.PageListDTO;
 import com.frame.http.api.error.ErrorHandleSubscriber;
-import com.frame.http.api.error.RxErrorHandler;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.IView;
 import com.frame.utils.FrameUtils;
-import com.frame.utils.Utils;
 import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
-import com.wang.social.im.mvp.ui.PersonalCard.model.api.PersonalCardService;
-import com.wang.social.im.mvp.ui.PersonalCard.model.entities.DTO.TalkBeanDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,11 +34,6 @@ import java.util.Map;
 
 import butterknife.BindView;
 import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
-import com.wang.social.im.R;
-import com.wang.social.im.R2;
 
 public class TalkListFragment extends BasicFragment implements IView {
 
@@ -56,11 +51,10 @@ public class TalkListFragment extends BasicFragment implements IView {
     RecyclerView mRecyclerView;
     private RecycleAdapterCommonFunshow mAdapter;
 
-    private ApiHelper mApiHelper = new ApiHelper();
+    private ApiHelper mApiHelper;
     private IRepositoryManager mRepositoryManager;
-    private RxErrorHandler mErrorHandler;
     private int mCurrent = 0;
-    private int mSize = 10;
+    private final static int mSize = 10;
     private List<Topic> mList = new ArrayList<>();
     private int mUserId;
 
@@ -71,13 +65,13 @@ public class TalkListFragment extends BasicFragment implements IView {
 
     @Override
     public int initView(@Nullable Bundle savedInstanceState) {
-        return R.layout.im_personal_card_fragment_list;
+        return R.layout.layout_spring_recycler;
     }
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        mRepositoryManager = FrameUtils.obtainAppComponentFromContext(Utils.getContext()).repoitoryManager();
-        mErrorHandler = FrameUtils.obtainAppComponentFromContext(Utils.getContext()).rxErrorHandler();
+        mApiHelper = FrameUtils.obtainAppComponentFromContext(getContext()).apiHelper();
+        mRepositoryManager = FrameUtils.obtainAppComponentFromContext(getContext()).repoitoryManager();
 
         if (getArguments() != null) {
             mUserId = getArguments().getInt("userid");
@@ -119,10 +113,8 @@ public class TalkListFragment extends BasicFragment implements IView {
                 new ErrorHandleSubscriber<PageList<FunshowBean>>() {
                     @Override
                     public void onNext(PageList<FunshowBean> list) {
-                        if (null != list && null != list.getList()) {
-                            if (list.getList().size() > 0) {
-                                mCurrent = list.getCurrent();
-                            }
+                        if (null != list) {
+                            mCurrent = list.getCurrent();
 
                             if (refresh) {
                                 mAdapter.refreshData(list.getList());
@@ -136,18 +128,8 @@ public class TalkListFragment extends BasicFragment implements IView {
                         }
                     }
                 },
-                new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-
-                    }
-                },
-                new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mSpringView.onFinishFreshAndLoadDelay();
-                    }
-                });
+                disposable -> {},
+                () -> mSpringView.onFinishFreshAndLoadDelay());
     }
 
     private Observable<BaseJson<PageListDTO<TalkBeanDTO, FunshowBean>>> getTalkList(int queryUserId, int current, int size) {
@@ -158,7 +140,7 @@ public class TalkListFragment extends BasicFragment implements IView {
                 .put("v", "2.0.0")
                 .build();
         return mRepositoryManager
-                .obtainRetrofitService(PersonalCardService.class)
+                .obtainRetrofitService(CommonService.class)
                 .getFriendTalkList(param);
     }
 
@@ -175,7 +157,6 @@ public class TalkListFragment extends BasicFragment implements IView {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mErrorHandler = null;
         mApiHelper = null;
     }
 }

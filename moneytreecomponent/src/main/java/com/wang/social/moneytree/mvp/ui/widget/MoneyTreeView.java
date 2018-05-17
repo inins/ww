@@ -15,8 +15,13 @@ import com.wang.social.moneytree.R;
 
 public class MoneyTreeView extends FrameLayout implements View.OnClickListener {
 
+    public interface AnimCallback {
+        void onAnimEnd();
+    }
+
     ConstraintLayout mTreeView;
     private boolean mAnimPlaying = false;
+    private AnimCallback mAnimCallback;
 
     public MoneyTreeView(@NonNull Context context) {
         this(context, null);
@@ -30,6 +35,10 @@ public class MoneyTreeView extends FrameLayout implements View.OnClickListener {
         super(context, attrs, defStyleAttr);
 
         init(context);
+    }
+
+    public void setAnimCallback(AnimCallback animCallback) {
+        mAnimCallback = animCallback;
     }
 
     private void init(Context context) {
@@ -73,6 +82,10 @@ public class MoneyTreeView extends FrameLayout implements View.OnClickListener {
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             mAnimPlaying = false;
+
+                            if (null != mAnimCallback) {
+                                mAnimCallback.onAnimEnd();
+                            }
                         }
 
                         @Override

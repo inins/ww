@@ -37,6 +37,8 @@ import com.wang.social.moneytree.mvp.ui.adapter.GameRoomMemberListAdapter;
 import com.wang.social.moneytree.mvp.ui.adapter.GameScoreAdapter;
 import com.wang.social.moneytree.mvp.ui.widget.CountDownTextView;
 import com.wang.social.moneytree.mvp.ui.widget.DialogGameEnd;
+import com.wang.social.moneytree.mvp.ui.widget.DialogShaked;
+import com.wang.social.moneytree.mvp.ui.widget.MoneyTreeView;
 import com.wang.social.moneytree.utils.ShakeUtils;
 
 import javax.inject.Inject;
@@ -104,11 +106,16 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
     // 摇一摇提示
     @BindView(R2.id.shake_text_view)
     TextView mShakeHintTV;
+    @BindView(R2.id.money_tree_layout)
+    MoneyTreeView mMoneyTreeView;
 
     private ShakeUtils mShakeUtils;
     @Inject
     AppManager mAppManager;
     private boolean mResumed = false;
+
+    // 是否已经摇过了
+    private boolean mShaked = false;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -142,6 +149,28 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
             public void onButtonClick(SocialToolbar.ClickType clickType) {
                 if (clickType == SocialToolbar.ClickType.LEFT_ICON) {
                     finish();                }
+            }
+        });
+
+        mMoneyTreeView.setAnimCallback(new MoneyTreeView.AnimCallback() {
+            @Override
+            public void onAnimEnd() {
+                if (null != mPresenter.getGameBean() && !mShaked) {
+                    mShaked = true;
+                    DialogShaked.show(getSupportFragmentManager())
+                    .setCallback(new DialogShaked.Callback() {
+                        @Override
+                        public void onResume() {
+                            mShakeHintTV.setVisibility(View.INVISIBLE);
+                        }
+
+                        @Override
+                        public void onDestroy() {
+                            mShakeHintTV.setText(getString(R.string.mt_shaked_hint));
+                            mShakeHintTV.setVisibility(View.VISIBLE);
+                        }
+                    });
+                }
             }
         });
 

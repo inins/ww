@@ -27,10 +27,6 @@ public class MainActivity extends BasicActivity implements IView {
     EditText mNameET;
     @BindView(R2.id.password_edit_text)
     EditText mPasswordET;
-    @BindView(R2.id.user_id_edit_text)
-    EditText mUserIdET;
-    @BindView(R2.id.type_edit_text)
-    EditText mTypeET;
 
 
     @Override
@@ -45,23 +41,6 @@ public class MainActivity extends BasicActivity implements IView {
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
-        mUserIdET.setText("10001");
-        mUserIdET.setSelection(mUserIdET.getText().length());
-        mTypeET.setText("1");
-        mTypeET.setSelection(mTypeET.getText().length());
-    }
-
-    @OnClick(R2.id.personal_card_button)
-    public void personalCard() {
-        int type = 1;
-        int userid = 10001;
-        try {
-            userid = Integer.parseInt(mUserIdET.getText().toString());
-            type = Integer.parseInt(mTypeET.getText().toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-//        PersonalCardActivity.start(this, userid, type);
     }
 
     @OnClick(R2.id.confirm_button)

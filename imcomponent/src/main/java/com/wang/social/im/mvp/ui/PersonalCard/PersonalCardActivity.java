@@ -33,9 +33,9 @@ import com.wang.social.im.mvp.ui.PersonalCard.di.PersonalCardModule;
 import com.frame.component.entities.PersonalInfo;
 import com.wang.social.im.mvp.ui.PersonalCard.model.entities.UserStatistics;
 import com.wang.social.im.mvp.ui.PersonalCard.presenter.PersonalCardPresenter;
-import com.wang.social.im.mvp.ui.PersonalCard.ui.fragment.FriendListFragment;
-import com.wang.social.im.mvp.ui.PersonalCard.ui.fragment.GroupListFragment;
-import com.wang.social.im.mvp.ui.PersonalCard.ui.fragment.TalkListFragment;
+import com.frame.component.ui.fragment.FriendListFragment;
+import com.frame.component.ui.fragment.GroupListFragment;
+import com.frame.component.ui.fragment.TalkListFragment;
 import com.wang.social.im.mvp.ui.PersonalCard.ui.fragment.TopicListFragment;
 import com.wang.social.im.mvp.ui.PersonalCard.ui.widget.AppBarStateChangeListener;
 import com.wang.social.im.mvp.ui.PersonalCard.ui.widget.DialogActionSheet;
@@ -52,6 +52,7 @@ import java.util.Calendar;
 import butterknife.BindView;
 import butterknife.OnClick;
 import timber.log.Timber;
+
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 
@@ -155,7 +156,8 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
     // 存储用户信息
     private PersonalInfo mPersonalInfo;
     // ui类型
-    private @PersonCardType int mType;
+    private @PersonCardType
+    int mType;
     // 消息id
     private int mMsgId;
     private PhotoHelperEx mPhotoHelperEx;
@@ -178,7 +180,6 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
         StatusBarUtil.setTranslucent(this);
-        StatusBarUtil.setTextDark(this);
 
         mUserId = getIntent().getIntExtra("userid", -1);
 //        mUserId = 10001;
@@ -207,12 +208,14 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
                 if (state == State.EXPANDED) {
                     //展开状态
-                    StatusBarUtil.setTextLight(PersonalCardActivity.this);
+                    StatusBarUtil.setStatusBarColor(PersonalCardActivity.this,
+                            android.R.color.transparent);
                 } else if (state == State.COLLAPSED) {
                     //折叠状态
                     showReportTV(false);
                     showMoreLayout(false);
-                    StatusBarUtil.setTextDark(PersonalCardActivity.this);
+                    StatusBarUtil.setStatusBarColor(PersonalCardActivity.this,
+                            R.color.common_text_dark_light);
                 } else {
                     //中间状态
                     showReportTV(true);
@@ -228,7 +231,6 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
                 Timber.i("图片返回 : " + path);
                 String[] pathArray = PhotoHelper.format2Array(path);
 
-                if (null == pathArray) return;
                 if (pathArray.length <= 0) return;
 
                 mPresenter.setFriendAvatar(mUserId, pathArray[0]);
@@ -396,33 +398,16 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
                 mBottomLeftTV.setVisibility(View.VISIBLE);
                 mBottomRightTV.setVisibility(View.VISIBLE);
                 mBottomLeftTV.setText("拒绝");
-                mBottomLeftTV.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mPresenter.rejectApply(mUserId, mMsgId);
-                    }
-                });
+                mBottomLeftTV.setOnClickListener(v -> mPresenter.rejectApply(mUserId, mMsgId));
                 mBottomRightTV.setText("同意");
-                mBottomRightTV.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mPresenter.agreeApply(mUserId, mMsgId);
-                    }
-                });
+                mBottomRightTV.setOnClickListener(v -> mPresenter.agreeApply(mUserId, mMsgId));
             } else {
                 // 浏览模式，显示添加好友
                 mBottomMiddleTV.setVisibility(View.VISIBLE);
                 mBottomMiddleTV.setText("添加好友");
-                mBottomMiddleTV.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-//                        mPresenter.addFriendApply();
-                        DialogValiRequest.showDialog(PersonalCardActivity.this,
-                                content -> {
-                                    mPresenter.addFriendApply(mUserId, content);
-                                });
-                    }
-                });
+                mBottomMiddleTV.setOnClickListener(
+                        v -> DialogValiRequest.showDialog(PersonalCardActivity.this,
+                                content -> mPresenter.addFriendApply(mUserId, content)));
             }
         }
 
@@ -507,6 +492,7 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
 
     /**
      * 同意或拒绝添加好友请求成功
+     *
      * @param type 类型（0：同意，1：拒绝）
      */
     @Override
@@ -564,18 +550,11 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
                         // 提示确认是否删除
                         DialogSure.showDialog(PersonalCardActivity.this,
                                 "确定要举报该用户？",
-                                new DialogSure.OnSureCallback() {
-                                    @Override
-                                    public void onOkClick() {
-                                        NetReportHelper.newInstance().netReportPerson(PersonalCardActivity.this,
-                                                mUserId, text, new NetReportHelper.OnReportCallback() {
-                                                    @Override
-                                                    public void success() {
-                                                        ToastUtil.showToastShort("举报成功");
-                                                    }
-                                                });
-                                    }
-                                });
+                                () -> NetReportHelper.newInstance()
+                                        .netReportPerson(
+                                                PersonalCardActivity.this,
+                                                mUserId, text,
+                                                () -> ToastUtil.showToastShort("举报成功")));
                     }
                 });
     }
