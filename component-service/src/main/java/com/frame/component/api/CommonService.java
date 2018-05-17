@@ -100,6 +100,9 @@ public interface CommonService {
     @POST("/app/common/report?v=2.0.0")
     Observable<BaseJson<Object>> report(@Field("objectId") int objectId, @Field("type") int type,
                                         @Field("comment") String comment);
+
+    @FormUrlEncoded
+    @POST("/app/common/report?v=2.0.0")
     Observable<BaseJson<Object>> report(@Field("objectId") int objectId, @Field("type") int type, @Field("comment") String comment, @Field("picUrl") String picUrl);
 
     /**

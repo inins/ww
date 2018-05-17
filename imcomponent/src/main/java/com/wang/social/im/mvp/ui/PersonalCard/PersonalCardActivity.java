@@ -237,13 +237,8 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
 
                         mPresenter.setFriendAvatar(mUserId, pathArray[0]);
                     } else if (mRequestImageType == REQUEST_REPORT_IMAGE) {
-                        String[] pathArray = PhotoHelper.format2Array(path);
-                        String picUrl = "";
-                        for (int i = 0; i < pathArray.length; i++) {
-                            picUrl += (i <= 0 ? "" : ",") + pathArray[i];
-                        }
                         // 弹出确认举报对话框
-                        confirmReport(mReportComment, picUrl);
+                        confirmReport(mReportComment, PhotoHelper.format2Array(path));
                     }
                 });
 
@@ -566,16 +561,16 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
                 );
     }
 
-    private void confirmReport(String comment, String picUrl) {
+    private void confirmReport(String comment, String[] picUrls) {
         // 提示确认是否删除
         DialogSure.showDialog(PersonalCardActivity.this,
                 "确定要举报该用户？",
                 () -> NetReportHelper.newInstance()
-                        .netReportPerson(
+                        .netReportPersonWithUpload(
                                 PersonalCardActivity.this,
                                 mUserId,
                                 comment,
-                                picUrl,
+                                picUrls,
                                 () -> ToastUtil.showToastShort("举报成功")));
     }
 
