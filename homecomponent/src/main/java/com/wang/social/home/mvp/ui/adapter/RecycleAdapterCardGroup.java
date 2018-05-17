@@ -15,6 +15,7 @@ import com.wang.social.home.R;
 import com.wang.social.home.R2;
 import com.wang.social.home.mvp.entities.card.CardGroup;
 import com.wang.social.home.mvp.entities.card.CardUser;
+import com.wang.social.home.mvp.ui.holder.BaseCardViewHolder;
 
 import butterknife.BindView;
 
@@ -25,7 +26,7 @@ public class RecycleAdapterCardGroup extends BaseAdapter<CardGroup> {
         return new Holder(context, parent, R.layout.home_item_card_group);
     }
 
-    public class Holder extends BaseViewHolder<CardGroup> {
+    public class Holder extends BaseCardViewHolder<CardGroup> {
         @BindView(R2.id.text_name)
         public TextView textName;
         @BindView(R2.id.text_lable_count)
@@ -43,6 +44,8 @@ public class RecycleAdapterCardGroup extends BaseAdapter<CardGroup> {
 
         public Holder(Context context, ViewGroup root, int layoutRes) {
             super(context, root, layoutRes);
+            setLikeView(imgLike);
+            setDisLikeView(imgDislike);
         }
 
         @Override
@@ -61,14 +64,6 @@ public class RecycleAdapterCardGroup extends BaseAdapter<CardGroup> {
 
         @Override
         public void onRelease() {
-        }
-
-        public void setLikeAlpha(double value) {
-            imgLike.setAlpha((float) value);
-        }
-
-        public void setDisLikeAlpha(double value) {
-            imgDislike.setAlpha((float) value);
         }
     }
 

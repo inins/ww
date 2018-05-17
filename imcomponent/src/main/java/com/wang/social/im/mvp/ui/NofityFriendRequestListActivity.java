@@ -64,7 +64,7 @@ public class NofityFriendRequestListActivity extends BasicAppNoDiActivity implem
         adapter.setGroup(false);
         adapter.setOnItemClickListener(this);
         adapter.setOnAgreeClickListener((bean, position) -> {
-            NetFriendHelper.newInstance().netAgreeFriendApply(NofityFriendRequestListActivity.this,bean.getUserId(),bean.getMsgId(),true,()->{
+            NetFriendHelper.newInstance().netAgreeFriendApply(NofityFriendRequestListActivity.this, bean.getUserId(), bean.getMsgId(), true, () -> {
                 netGetSysMsgList(true);
             });
         });
@@ -91,7 +91,9 @@ public class NofityFriendRequestListActivity extends BasicAppNoDiActivity implem
 
     @Override
     public void onItemClick(RequestBean bean, int position) {
-        NotifyFriendRequestDetailActivity.start(this, friendRequests.get(position));
+        if (!bean.isDeal()) {
+            NotifyFriendRequestDetailActivity.start(this, friendRequests.get(position));
+        }
     }
 
     //////////////////////分页查询////////////////////

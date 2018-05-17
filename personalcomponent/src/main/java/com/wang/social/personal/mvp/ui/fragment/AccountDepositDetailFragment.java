@@ -129,7 +129,7 @@ public class AccountDepositDetailFragment extends BasicFragment implements IView
                     @Override
                     public void onNext(BaseJson<BaseListWrap<DiamondStoneIncome>> basejson) {
                         BaseListWrap<DiamondStoneIncome> wrap = basejson.getData();
-                        List<DiamondStoneIncome> list = wrap.getList();
+                        List<DiamondStoneIncome> list = wrap != null ? wrap.getList() : null;
                         if (!StrUtil.isEmpty(list)) {
                             if (isReFresh) adapter.refreshData(list);
                             else adapter.addItem(list);

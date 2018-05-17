@@ -10,11 +10,16 @@ import android.widget.TextView;
 
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.helper.NetFriendHelper;
+import com.frame.component.helper.NetReportHelper;
+import com.frame.component.helper.QiNiuManager;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
+import com.frame.component.ui.dialog.DialogActionSheet;
 import com.frame.utils.TimeUtils;
+import com.frame.utils.ToastUtil;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.mvp.model.entities.notify.FriendRequest;
+import com.wang.social.pictureselector.helper.PhotoHelper;
 
 import butterknife.BindView;
 
@@ -33,6 +38,7 @@ public class NotifyFriendRequestDetailActivity extends BasicAppNoDiActivity {
     @BindView(R2.id.text_reason)
     TextView textReason;
     private FriendRequest friendRequest;
+    private PhotoHelper photoHelper;
 
     public static void start(Context context, FriendRequest friendRequest) {
         Intent intent = new Intent(context, NotifyFriendRequestDetailActivity.class);
@@ -48,6 +54,7 @@ public class NotifyFriendRequestDetailActivity extends BasicAppNoDiActivity {
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
         friendRequest = (FriendRequest) getIntent().getSerializableExtra("friendRequest");
+        photoHelper = new PhotoHelper(this);
         setFriendData();
     }
 
@@ -76,7 +83,33 @@ public class NotifyFriendRequestDetailActivity extends BasicAppNoDiActivity {
                 finish();
             });
         } else if (id == R.id.btn_report) {
+            String[] strings = {"语言谩骂/骚扰信息", "存在欺诈骗钱行为", "发布不适当内容"};
+            DialogActionSheet.show(getSupportFragmentManager(), strings)
+                    .setActionSheetListener((position, text) -> {
+                        photoHelper.setOnPhotoCallback(path -> {
+                            QiNiuManager.newInstance().uploadFile(NotifyFriendRequestDetailActivity.this, path, new QiNiuManager.OnSingleUploadListener() {
+                                @Override
+                                public void onSuccess(String url) {
+                                    NetReportHelper.newInstance().netReportPerson(NotifyFriendRequestDetailActivity.this, friendRequest.getUserId()
+                                            , text, url, () -> {
+                                        finish();
+                                    });
+                                }
 
+                                @Override
+                                public void onFail() {
+                                    ToastUtil.showToastShort("上传失败");
+                                }
+                            });
+                        });
+                        photoHelper.startPhoto();
+                    });
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        photoHelper.onActivityResult(requestCode, resultCode, data);
     }
 }

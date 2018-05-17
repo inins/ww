@@ -52,6 +52,7 @@ import java.util.Calendar;
 import butterknife.BindView;
 import butterknife.OnClick;
 import timber.log.Timber;
+
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 
@@ -155,7 +156,8 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
     // 存储用户信息
     private PersonalInfo mPersonalInfo;
     // ui类型
-    private @PersonCardType int mType;
+    private @PersonCardType
+    int mType;
     // 消息id
     private int mMsgId;
     private PhotoHelperEx mPhotoHelperEx;
@@ -507,6 +509,7 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
 
     /**
      * 同意或拒绝添加好友请求成功
+     *
      * @param type 类型（0：同意，1：拒绝）
      */
     @Override
@@ -568,7 +571,7 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
                                     @Override
                                     public void onOkClick() {
                                         NetReportHelper.newInstance().netReportPerson(PersonalCardActivity.this,
-                                                mUserId, text, new NetReportHelper.OnReportCallback() {
+                                                mUserId, text, null, new NetReportHelper.OnReportCallback() {
                                                     @Override
                                                     public void success() {
                                                         ToastUtil.showToastShort("举报成功");

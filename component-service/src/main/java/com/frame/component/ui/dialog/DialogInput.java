@@ -62,7 +62,7 @@ public class DialogInput extends BaseDialogOkCancel {
     }
 
     private DialogInput(Context context, String title, String note, String hint) {
-        super(context, "personal_ic_pay_cancle", "修改");
+        super(context, "取消", "修改");
         this.title = title;
         this.note = note;
         this.hint = hint;

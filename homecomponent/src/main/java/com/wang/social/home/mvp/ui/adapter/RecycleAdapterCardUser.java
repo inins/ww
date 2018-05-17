@@ -13,6 +13,7 @@ import com.frame.utils.TimeUtils;
 import com.wang.social.home.R;
 import com.wang.social.home.R2;
 import com.wang.social.home.mvp.entities.card.CardUser;
+import com.wang.social.home.mvp.ui.holder.BaseCardViewHolder;
 
 import butterknife.BindView;
 
@@ -23,7 +24,7 @@ public class RecycleAdapterCardUser extends BaseAdapter<CardUser> {
         return new Holder(context, parent, R.layout.home_item_card_user);
     }
 
-    public class Holder extends BaseViewHolder<CardUser> {
+    public class Holder extends BaseCardViewHolder<CardUser> {
         @BindView(R2.id.text_name)
         public TextView textName;
         @BindView(R2.id.text_lable_gender)
@@ -45,6 +46,8 @@ public class RecycleAdapterCardUser extends BaseAdapter<CardUser> {
 
         public Holder(Context context, ViewGroup root, int layoutRes) {
             super(context, root, layoutRes);
+            setLikeView(imgLike);
+            setDisLikeView(imgDislike);
         }
 
         @Override
@@ -70,14 +73,6 @@ public class RecycleAdapterCardUser extends BaseAdapter<CardUser> {
 
         @Override
         public void onRelease() {
-        }
-
-        public void setLikeAlpha(double value) {
-            imgLike.setAlpha((float) value);
-        }
-
-        public void setDisLikeAlpha(double value) {
-            imgDislike.setAlpha((float) value);
         }
     }
 
