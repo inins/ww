@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.wang.social.home.common.CardLayoutManager.CardConfig;
 import com.wang.social.home.mvp.ui.adapter.RecycleAdapterCardUser;
+import com.wang.social.home.mvp.ui.holder.BaseCardViewHolder;
 
 import java.util.List;
 
@@ -71,13 +72,13 @@ public class ItemTouchCardCallback extends ItemTouchHelper.SimpleCallback {
 
         //item复位
         viewHolder.itemView.setRotation(0);
-        if (viewHolder instanceof RecycleAdapterCardUser.Holder) {
-            ((RecycleAdapterCardUser.Holder) viewHolder).setLikeAlpha(0);
-            ((RecycleAdapterCardUser.Holder) viewHolder).setDisLikeAlpha(0);
+        if (viewHolder instanceof BaseCardViewHolder) {
+            ((BaseCardViewHolder) viewHolder).setLikeAlpha(0);
+            ((BaseCardViewHolder) viewHolder).setDisLikeAlpha(0);
         }
 
         if (onSwipedListener != null)
-            onSwipedListener.onSwiped(next, direction);
+            onSwipedListener.onSwiped(remove, direction);
     }
 
     @Override
@@ -107,11 +108,11 @@ public class ItemTouchCardCallback extends ItemTouchHelper.SimpleCallback {
                 double fractionX = dX / getThreshold(viewHolder);
                 child.setRotation((float) fractionX * MAX_ROTATION);
                 //根据X移动距离进行like和dislike的渐变
-                if (viewHolder instanceof RecycleAdapterCardUser.Holder) {
+                if (viewHolder instanceof BaseCardViewHolder) {
                     if (dX > 0)
-                        ((RecycleAdapterCardUser.Holder) viewHolder).setLikeAlpha(Math.abs(fractionX));
+                        ((BaseCardViewHolder) viewHolder).setLikeAlpha(Math.abs(fractionX));
                     else
-                        ((RecycleAdapterCardUser.Holder) viewHolder).setDisLikeAlpha(Math.abs(fractionX));
+                        ((BaseCardViewHolder) viewHolder).setDisLikeAlpha(Math.abs(fractionX));
                 }
             } else if (level == viewCount - 1) {
                 //最后一个

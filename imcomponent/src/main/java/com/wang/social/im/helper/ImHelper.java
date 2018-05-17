@@ -3,9 +3,11 @@ package com.wang.social.im.helper;
 import android.text.TextUtils;
 
 import com.frame.component.common.AppConstant;
+import com.frame.component.enums.ConversationType;
 import com.frame.utils.FileUtils;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.Utils;
+import com.wang.social.im.app.IMConstants;
 
 import java.io.File;
 import java.io.IOException;
@@ -67,6 +69,7 @@ public class ImHelper {
 
     /**
      * 获取年龄段
+     *
      * @param birthdayMills
      * @return
      */
@@ -82,6 +85,41 @@ public class ImHelper {
             return "90后";
         } else {
             return "其他";
+        }
+    }
+
+    /**
+     * 将IM的ID转换成往往ID
+     *
+     * @param imId
+     * @return
+     */
+    public static String imId2WangId(String imId) {
+        return imId.replace(IMConstants.IM_IDENTITY_PREFIX_GAME, "")
+                .replace(IMConstants.IM_IDENTITY_PREFIX_MIRROR, "")
+                .replace(IMConstants.IM_IDENTITY_PREFIX_SOCIAL, "")
+                .replace(IMConstants.IM_IDENTITY_PREFIX_TEAM, "");
+    }
+
+    /**
+     * 往往ID转换成IM的ID
+     *
+     * @param wangId
+     * @param type
+     * @return
+     */
+    public static String wangId2ImId(String wangId, ConversationType type) {
+        switch (type) {
+            case GAME:
+                return IMConstants.IM_IDENTITY_PREFIX_GAME + wangId;
+            case MIRROR:
+                return IMConstants.IM_IDENTITY_PREFIX_MIRROR + wangId;
+            case TEAM:
+                return IMConstants.IM_IDENTITY_PREFIX_TEAM + wangId;
+            case SOCIAL:
+                return IMConstants.IM_IDENTITY_PREFIX_SOCIAL + wangId;
+            default:
+                return wangId;
         }
     }
 }

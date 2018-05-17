@@ -179,6 +179,7 @@ public class PersonalFragment extends BasicFragment implements PersonalFragmentI
             WebActivity.start(getContext(), AppConstant.Url.eva);
         } else if (v.getId() == R.id.btn_me_represent) {
             RepresentActivity.start(getContext());
+            CommonHelper.HomeHelper.startSearchActivity(getContext());
         } else if (v.getId() == R.id.lay_funshow) {
             FunshowTopicActivity.startFunshow(getContext());
         } else if (v.getId() == R.id.lay_topic) {

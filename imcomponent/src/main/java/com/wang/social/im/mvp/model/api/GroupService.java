@@ -1,5 +1,7 @@
 package com.wang.social.im.mvp.model.api;
 
+import com.frame.component.entities.BaseListWrap;
+import com.frame.component.entities.funpoint.Funpoint;
 import com.frame.http.api.BaseJson;
 import com.wang.social.im.mvp.model.entities.IndexFriendInfo;
 import com.wang.social.im.mvp.model.entities.IndexMemberInfo;
@@ -78,6 +80,12 @@ public interface GroupService {
      */
     @GET("app/group/getGroupInfo")
     Observable<BaseJson<SocialDTO>> getSocialInfo(@Query("v") String version, @Query("groupId") String socialId);
+
+    /**
+     * 获取趣聊二维码
+     */
+    @GET("app/group/getGroupQrcodeBygroupId")
+    Observable<BaseJson> getGroupQrcodeBygroupId(@Query("v") String version, @Query("groupId") String socialId);
 
     /**
      * 趣聊主页获取趣聊详情
@@ -364,5 +372,9 @@ public interface GroupService {
             @Field("msgId") int msgId,
             @Field("type") int type);
 
-
+    /**
+     * 获取觅聊下的趣点列表
+     */
+    @GET("/app/news/miNewsList?v=2.0.0")
+    Observable<BaseJson<BaseListWrap<Funpoint>>> getFunPointList(@Query("miId") String teamId, @Query("current") int current, @Query("size") int size);
 }

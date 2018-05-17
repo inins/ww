@@ -1,5 +1,6 @@
 package com.wang.social.home.mvp.ui.controller;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -8,6 +9,7 @@ import com.frame.component.helper.CommonHelper;
 import com.frame.component.ui.base.BaseController;
 import com.frame.component.utils.viewutils.FontUtils;
 import com.frame.mvp.IView;
+import com.frame.utils.ToastUtil;
 import com.wang.social.home.R;
 import com.wang.social.home.R2;
 import com.wang.social.home.mvp.ui.activity.CardActivity;

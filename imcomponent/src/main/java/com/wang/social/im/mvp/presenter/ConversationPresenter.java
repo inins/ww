@@ -2,8 +2,12 @@ package com.wang.social.im.mvp.presenter;
 
 import android.support.annotation.NonNull;
 
+import com.frame.component.entities.BaseListWrap;
+import com.frame.component.entities.funpoint.Funpoint;
 import com.frame.di.scope.FragmentScope;
 import com.frame.http.api.ApiHelper;
+import com.frame.http.api.ApiHelperEx;
+import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
@@ -271,9 +275,9 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
                     mRootView.showEnvelopDialog(uiMessage, envelopInfo);
                     TIMMessageExt messageExt = new TIMMessageExt(uiMessage.getTimMessage());
                     //检查红包状态
-                    if (envelopInfo.getGotDiamond() > 0){
+                    if (envelopInfo.getGotDiamond() > 0) {
                         messageExt.setCustomInt(EnvelopMessageCacheInfo.STATUS_ADOPTED);
-                    }else {
+                    } else {
                         switch (envelopInfo.getStatus()) {
                             case LIVING:
                                 messageExt.setCustomInt(EnvelopMessageCacheInfo.STATUS_INITIAL);
@@ -300,6 +304,24 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
                 }
             });
         }
+    }
+
+    /**
+     * 获取趣点信息
+     *
+     * @param teamId
+     */
+    public void getFunPoint(String teamId) {
+        ApiHelperEx.execute(mRootView, false, mModel.getFunPointList(teamId),
+                new ErrorHandleSubscriber<BaseJson<BaseListWrap<Funpoint>>>() {
+                    @Override
+                    public void onNext(BaseJson<BaseListWrap<Funpoint>> baseListWrapBaseJson) {
+                        if (baseListWrapBaseJson.getData() != null && baseListWrapBaseJson.getData().getList() != null &&
+                                baseListWrapBaseJson.getData().getList().size() > 0) {
+                            mRootView.showFunPoint(baseListWrapBaseJson.getData().getList().get(0));
+                        }
+                    }
+                });
     }
 
     /**

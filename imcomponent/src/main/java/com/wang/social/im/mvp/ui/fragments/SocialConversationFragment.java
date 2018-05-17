@@ -6,9 +6,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.frame.component.enums.ConversationType;
 import com.frame.component.utils.UIUtil;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
@@ -17,16 +21,21 @@ import com.tencent.imsdk.ext.group.TIMGroupDetailInfo;
 import com.tencent.imsdk.ext.group.TIMGroupManagerExt;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
-import com.frame.component.enums.ConversationType;
 import com.wang.social.im.app.IMConstants;
 import com.wang.social.im.helper.GroupHelper;
+import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.mvp.model.entities.GroupProfile;
 import com.wang.social.im.mvp.ui.ConversationFragment;
+import com.wang.social.im.mvp.ui.SocialHomeActivity;
+import com.wang.social.im.mvp.ui.TeamHomeActivity;
 
 import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 
 /**
  * ============================================
@@ -83,22 +92,25 @@ public class SocialConversationFragment extends BaseConversationFragment {
         GroupProfile profile = GroupHelper.getInstance().getGroupProfile(targetId);
         if (profile != null) {
             scTvTitle.setText(profile.getName());
-            TIMGroupManagerExt.getInstance().getGroupDetailInfo(Arrays.asList(targetId), new TIMValueCallBack<List<TIMGroupDetailInfo>>() {
-                @Override
-                public void onError(int i, String s) {
+        }
+        TIMGroupManagerExt.getInstance().getGroupDetailInfo(Arrays.asList(targetId), new TIMValueCallBack<List<TIMGroupDetailInfo>>() {
+            @Override
+            public void onError(int i, String s) {
 
-                }
+            }
 
-                @Override
-                public void onSuccess(List<TIMGroupDetailInfo> timGroupDetailInfos) {
-                    for (TIMGroupDetailInfo info : timGroupDetailInfos) {
-                        if (info.getGroupId().equals(targetId) && scTvOnline != null) {
-                            scTvOnline.setText(UIUtil.getString(R.string.im_online_number, info.getOnlineMemberNum()));
+            @Override
+            public void onSuccess(List<TIMGroupDetailInfo> timGroupDetailInfos) {
+                for (TIMGroupDetailInfo info : timGroupDetailInfos) {
+                    if (info.getGroupId().equals(targetId) && scTvOnline != null) {
+                        if (scTvTitle.getText().toString().isEmpty()) {
+                            scTvTitle.setText(info.getGroupName());
                         }
+                        scTvOnline.setText(UIUtil.getString(R.string.im_online_number, info.getOnlineMemberNum()));
                     }
                 }
-            });
-        }
+            }
+        });
 
         ConversationFragment conversationFragment = ConversationFragment.newInstance(ConversationType.SOCIAL, targetId);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
@@ -122,6 +134,11 @@ public class SocialConversationFragment extends BaseConversationFragment {
                 }
             }
         });
+    }
+
+    @OnClick(R2.id.sc_ll_info)
+    public void onViewClicked() {
+        SocialHomeActivity.start(getContext(), ImHelper.imId2WangId(targetId));
     }
 
     @Override

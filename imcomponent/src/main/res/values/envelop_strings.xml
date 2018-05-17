@@ -38,4 +38,5 @@
     <string name="im_envelop_equal_info">%d个红包共%d钻</string>
 
     <string name="im_envelop_toast_limit">每个红包钻石数不能大于%d</string>
+    <string name="im_envelop_toast_low_limit">每个红包至少一个钻石</string>
 </resources>

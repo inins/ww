@@ -75,6 +75,9 @@ public class HomeMemberAdapter extends BaseAdapter<MemberInfo> {
                         .errorPic(R.drawable.common_default_circle_placeholder)
                         .build());
             }
+            if (position == 0){
+                ghmTvMaster.setVisibility(View.VISIBLE);
+            }
         }
 
         @Override

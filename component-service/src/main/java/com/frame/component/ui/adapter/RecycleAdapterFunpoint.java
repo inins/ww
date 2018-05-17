@@ -1,4 +1,4 @@
-package com.wang.social.funpoint.mvp.ui.adapter;
+package com.frame.component.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.CardView;
@@ -11,19 +11,19 @@ import android.widget.TextView;
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
 import com.frame.component.helper.ImageLoaderHelper;
+import com.frame.component.service.R;
+import com.frame.component.service.R2;
 import com.frame.component.utils.viewutils.FontUtils;
 import com.frame.utils.StrUtil;
-import com.wang.social.funpoint.R;
-import com.wang.social.funpoint.R2;
 import com.frame.component.entities.funpoint.Funpoint;
 
 import butterknife.BindView;
 
-public class RecycleAdapterHome extends BaseAdapter<Funpoint> {
+public class RecycleAdapterFunpoint extends BaseAdapter<Funpoint> {
 
     @Override
     protected BaseViewHolder createViewHolder(Context context, ViewGroup parent, int viewType) {
-        return new Holder(context, parent, R.layout.funpoint_item_home);
+        return new Holder(context, parent, R.layout.lay_item_funpoint);
     }
 
     public class Holder extends BaseViewHolder<Funpoint> {

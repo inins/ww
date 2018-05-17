@@ -74,4 +74,8 @@ public class FriendShipHelper {
         }
         return null;
     }
+
+    public void onAdd(){
+
+    }
 }

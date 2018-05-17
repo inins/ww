@@ -38,33 +38,19 @@ public class NetReportHelper {
      * 举报趣晒
      */
     public void netReportFunshow(IView view, int talkId, OnReportCallback callback) {
-        netReport(view, talkId, 2, callback);
+        netReport(view, talkId, 2, null, null, callback);
     }
 
-    private void netReport(IView view, int objectId, int type, OnReportCallback callback) {
+    /**
+     * 举报用户
+     */
+    public void netReportPerson(IView view, int objectId, String comment, String picUrl, OnReportCallback callback) {
+        netReport(view, objectId, 0, comment, picUrl, callback);
+    }
+
+    private void netReport(IView view, int objectId, int type, String comment, String picUrl, OnReportCallback callback) {
         ApiHelperEx.execute(view, true,
-                ApiHelperEx.getService(CommonService.class).report(objectId, type),
-                new ErrorHandleSubscriber<BaseJson<Object>>() {
-                    @Override
-                    public void onNext(BaseJson<Object> basejson) {
-                        ToastUtil.showToastShort("举报成功");
-                        if (callback != null) callback.success();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        ToastUtil.showToastShort(e.getMessage());
-                    }
-                });
-    }
-
-    public void netReportPerson(IView view, int objectId, String comment, OnReportCallback callback) {
-        netReport(view, objectId, 0, comment, callback);
-    }
-
-    private void netReport(IView view, int objectId, int type, String comment, OnReportCallback callback) {
-        ApiHelperEx.execute(view, true,
-                ApiHelperEx.getService(CommonService.class).report(objectId, type, comment),
+                ApiHelperEx.getService(CommonService.class).report(objectId, type, comment, picUrl),
                 new ErrorHandleSubscriber<BaseJson<Object>>() {
                     @Override
                     public void onNext(BaseJson<Object> basejson) {

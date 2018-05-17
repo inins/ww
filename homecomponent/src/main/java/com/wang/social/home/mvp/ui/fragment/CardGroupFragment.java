@@ -12,6 +12,7 @@ import android.view.View;
 
 import com.frame.base.BasicFragment;
 import com.frame.component.entities.BaseListWrap;
+import com.frame.component.helper.NetGroupHelper;
 import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.component.ui.dialog.DialogValiRequest;
 import com.frame.di.component.AppComponent;
@@ -79,10 +80,10 @@ public class CardGroupFragment extends BasicFragment implements RecycleAdapterCa
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(recycler);
         callback.setOnSwipedListener((ItemTouchCardCallback.OnSwipedListener<CardGroup>) (bean, direction) -> {
-            if (ItemTouchHelper.RIGHT == direction)
-                DialogValiRequest.showDialog(getContext(), content -> {
-                    ToastUtil.showToastShort(content);
-                });
+            if (ItemTouchHelper.RIGHT != direction) return;
+            NetGroupHelper.newInstance().addGroup(getContext(), CardGroupFragment.this, bean.getGroupId(), isNeedValidation -> {
+                ToastUtil.showToastShort("加群成功");
+            });
         });
 
         netGetCardUsers(true);
@@ -123,6 +124,7 @@ public class CardGroupFragment extends BasicFragment implements RecycleAdapterCa
             ((BasicAppActivity) getActivity()).dismissLoadingDialog();
         }
     }
+
     //////////////////////分页查询////////////////////
     private int current = 1;
 
@@ -145,7 +147,7 @@ public class CardGroupFragment extends BasicFragment implements RecycleAdapterCa
                                 adapter.addItem(list);
                             }
                         } else {
-                            ToastUtil.showToastLong("没有更多数据了");
+                            //ToastUtil.showToastLong("没有更多数据了");
                         }
                     }
 

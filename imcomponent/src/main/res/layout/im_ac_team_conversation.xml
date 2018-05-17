@@ -28,57 +28,55 @@
         android:scaleType="fitXY"
         android:src="@drawable/im_bg_team_toolbar" />
 
-    <!--<FrameLayout
+    <FrameLayout
         android:id="@+id/tc_fl_toolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">-->
+        app:layout_constraintTop_toTopOf="parent">
 
-    <com.frame.component.view.SocialToolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:toolbar_left_icon="@drawable/common_ic_back_white"
-        app:toolbar_right_icon="@drawable/im_ic_mirror" />
+        <com.frame.component.view.SocialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:toolbar_left_icon="@drawable/common_ic_back_white"
+            app:toolbar_right_icon="@drawable/im_ic_mirror" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="@id/toolbar"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/toolbar">
-
-        <TextView
-            android:id="@+id/tc_tv_title"
+        <LinearLayout
+            android:id="@+id/tc_ll_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:ellipsize="end"
-            android:lines="1"
-            android:maxWidth="230dp"
-            android:textColor="@color/common_white"
-            android:textSize="17dp"
-            tools:text="海贼王" />
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@id/toolbar"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/toolbar">
 
-        <TextView
-            android:id="@+id/tc_tv_online"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="3dp"
-            android:textColor="@color/common_white"
-            android:textSize="9dp"
-            tools:text="共50人，23人在线" />
-    </LinearLayout>
-    <!--</FrameLayout>-->
+            <TextView
+                android:id="@+id/tc_tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:ellipsize="end"
+                android:lines="1"
+                android:maxWidth="230dp"
+                android:textColor="@color/common_white"
+                android:textSize="17dp"
+                tools:text="海贼王" />
+
+            <TextView
+                android:id="@+id/tc_tv_online"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="3dp"
+                android:textColor="@color/common_white"
+                android:textSize="9dp"
+                tools:text="共50人，23人在线" />
+        </LinearLayout>
+    </FrameLayout>
 
     <FrameLayout
         android:id="@+id/tc_fl_conversation"

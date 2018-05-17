@@ -1,163 +1,169 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:background="@color/common_white">
+    android:layout_height="match_parent">
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/lay_official"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:foreground="?attr/selectableItemBackground">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
+        tools:background="@color/common_white">
 
-        <ImageView
-            android:id="@+id/img_official"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="8dp"
-            android:src="@drawable/im_ic_notify_official"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/lay_official"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:foreground="?attr/selectableItemBackground">
+
+            <ImageView
+                android:id="@+id/img_official"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/im_ic_notify_official"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_official_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/im_notify_official_title"
+                android:textColor="@color/common_text_blank"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/text_official_note"
+                app:layout_constraintStart_toEndOf="@+id/img_official"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_official_note"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="@string/im_notify_official_note"
+                android:textColor="@color/common_text_dark"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/text_official_title"
+                app:layout_constraintTop_toBottomOf="@+id/text_official_title" />
+
+            <TextView
+                android:id="@+id/text_official_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="8dp"
+                android:text="昨天 12:22"
+                android:textColor="@color/common_text_dark"
+                android:textSize="10sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <View
+            style="@style/common_Line_H"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp" />
 
         <TextView
-            android:id="@+id/text_official_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/im_notify_official_title"
-            android:textColor="@color/common_text_blank"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/text_official_note"
-            app:layout_constraintStart_toEndOf="@+id/img_official"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:id="@+id/text_sysmsg"
+            style="@style/common_TextMeItem"
+            android:drawableLeft="@drawable/im_ic_notify_sysmsg"
+            android:drawablePadding="10dp"
+            android:drawableRight="@drawable/common_ic_next"
+            android:text="@string/im_notify_sysmsg" />
+
+        <View
+            style="@style/common_Line_H"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp" />
 
         <TextView
-            android:id="@+id/text_official_note"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="@string/im_notify_official_note"
-            android:textColor="@color/common_text_dark"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/text_official_title"
-            app:layout_constraintTop_toBottomOf="@+id/text_official_title" />
+            android:id="@+id/text_friend"
+            style="@style/common_TextMeItem"
+            android:drawableLeft="@drawable/im_ic_notify_friend"
+            android:drawablePadding="10dp"
+            android:drawableRight="@drawable/common_ic_next"
+            android:text="@string/im_notify_friend_request" />
+
+        <View
+            style="@style/common_Line_H"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp" />
 
         <TextView
-            android:id="@+id/text_official_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="15dp"
-            android:layout_marginTop="8dp"
-            android:text="昨天 12:22"
-            android:textColor="@color/common_text_dark"
-            android:textSize="10sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:id="@+id/text_findchat"
+            style="@style/common_TextMeItem"
+            android:drawableLeft="@drawable/im_ic_notify_findchat"
+            android:drawablePadding="10dp"
+            android:drawableRight="@drawable/common_ic_next"
+            android:text="@string/im_notify_findchat_request" />
 
-    </android.support.constraint.ConstraintLayout>
+        <View
+            style="@style/common_Line_H"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp" />
 
-    <View
-        style="@style/common_Line_H"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp" />
+        <TextView
+            android:id="@+id/text_funchat"
+            style="@style/common_TextMeItem"
+            android:drawableLeft="@drawable/im_ic_notify_funchat"
+            android:drawablePadding="10dp"
+            android:drawableRight="@drawable/common_ic_next"
+            android:text="@string/im_notify_funchat_request" />
 
-    <TextView
-        android:id="@+id/text_sysmsg"
-        style="@style/common_TextMeItem"
-        android:drawableLeft="@drawable/im_ic_notify_sysmsg"
-        android:drawablePadding="10dp"
-        android:drawableRight="@drawable/common_ic_next"
-        android:text="@string/im_notify_sysmsg" />
+        <View
+            style="@style/common_Line_H"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp" />
 
-    <View
-        style="@style/common_Line_H"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp" />
+        <TextView
+            android:id="@+id/text_zan"
+            style="@style/common_TextMeItem"
+            android:drawableLeft="@drawable/im_ic_notify_zan"
+            android:drawablePadding="10dp"
+            android:drawableRight="@drawable/common_ic_next"
+            android:text="@string/im_notify_zan" />
 
-    <TextView
-        android:id="@+id/text_friend"
-        style="@style/common_TextMeItem"
-        android:drawableLeft="@drawable/im_ic_notify_friend"
-        android:drawablePadding="10dp"
-        android:drawableRight="@drawable/common_ic_next"
-        android:text="@string/im_notify_friend_request" />
+        <View
+            style="@style/common_Line_H"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp" />
 
-    <View
-        style="@style/common_Line_H"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp" />
+        <TextView
+            android:id="@+id/text_eva"
+            style="@style/common_TextMeItem"
+            android:drawableLeft="@drawable/im_ic_notify_eva"
+            android:drawablePadding="10dp"
+            android:drawableRight="@drawable/common_ic_next"
+            android:text="@string/im_notify_eva" />
 
-    <TextView
-        android:id="@+id/text_findchat"
-        style="@style/common_TextMeItem"
-        android:drawableLeft="@drawable/im_ic_notify_findchat"
-        android:drawablePadding="10dp"
-        android:drawableRight="@drawable/common_ic_next"
-        android:text="@string/im_notify_findchat_request" />
+        <View
+            style="@style/common_Line_H"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp" />
 
-    <View
-        style="@style/common_Line_H"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp" />
+        <TextView
+            android:id="@+id/text_aite"
+            style="@style/common_TextMeItem"
+            android:drawableLeft="@drawable/im_ic_notify_aite"
+            android:drawablePadding="10dp"
+            android:drawableRight="@drawable/common_ic_next"
+            android:text="@string/im_notify_aite" />
 
-    <TextView
-        android:id="@+id/text_funchat"
-        style="@style/common_TextMeItem"
-        android:drawableLeft="@drawable/im_ic_notify_funchat"
-        android:drawablePadding="10dp"
-        android:drawableRight="@drawable/common_ic_next"
-        android:text="@string/im_notify_funchat_request" />
+        <View
+            style="@style/common_Line_H"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp" />
 
-    <View
-        style="@style/common_Line_H"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp" />
-
-    <TextView
-        android:id="@+id/text_zan"
-        style="@style/common_TextMeItem"
-        android:drawableLeft="@drawable/im_ic_notify_zan"
-        android:drawablePadding="10dp"
-        android:drawableRight="@drawable/common_ic_next"
-        android:text="@string/im_notify_zan" />
-
-    <View
-        style="@style/common_Line_H"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp" />
-
-    <TextView
-        android:id="@+id/text_eva"
-        style="@style/common_TextMeItem"
-        android:drawableLeft="@drawable/im_ic_notify_eva"
-        android:drawablePadding="10dp"
-        android:drawableRight="@drawable/common_ic_next"
-        android:text="@string/im_notify_eva" />
-
-    <View
-        style="@style/common_Line_H"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp" />
-
-    <TextView
-        android:id="@+id/text_aite"
-        style="@style/common_TextMeItem"
-        android:drawableLeft="@drawable/im_ic_notify_aite"
-        android:drawablePadding="10dp"
-        android:drawableRight="@drawable/common_ic_next"
-        android:text="@string/im_notify_aite" />
-
-    <View
-        style="@style/common_Line_H"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp" />
-
-</LinearLayout>
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

@@ -88,6 +88,9 @@ public class FindChatRequestListActivity extends BasicAppNoDiActivity implements
 
     @Override
     public void onItemClick(RequestBean bean, int position) {
+        if (!bean.isDeal()) {
+
+        }
     }
 
     //////////////////////分页查询////////////////////

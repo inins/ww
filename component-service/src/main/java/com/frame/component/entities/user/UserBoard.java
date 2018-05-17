@@ -1,5 +1,6 @@
 package com.frame.component.entities.user;
 
+import com.frame.component.api.Api;
 import com.frame.component.entities.Tag;
 import com.frame.component.entities.photo.Photo;
 import com.frame.component.view.bannerview.Image;
@@ -45,7 +46,7 @@ public class UserBoard {
         return sex == 0;
     }
 
-    public String getTagText() {
+    public String getTagTextDot() {
         if (StrUtil.isEmpty(tags)) return "";
         String tagText = "";
         for (Tag tag : tags) {
@@ -62,5 +63,13 @@ public class UserBoard {
             }
         }
         return images;
+    }
+
+    public String getQrcodeImg() {
+        return Api.DOMAIN + Api.USER_QRCODE + "?v=2.0.0&userId=" + userId;
+    }
+
+    public String getTagText() {
+        return Tag.getTagText(tags);
     }
 }

@@ -1,21 +1,23 @@
 package com.wang.social.im.mvp.ui;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.os.Bundle;
 
+import com.frame.component.enums.ConversationType;
 import com.frame.component.path.ImPath;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.di.component.AppComponent;
 import com.frame.router.facade.annotation.Autowired;
 import com.frame.router.facade.annotation.RouteNode;
 import com.wang.social.im.R;
-import com.frame.component.enums.ConversationType;
 import com.wang.social.im.mvp.contract.GroupConversationContract;
 import com.wang.social.im.mvp.presenter.GroupConversationPresenter;
 import com.wang.social.im.mvp.ui.fragments.SocialConversationFragment;
 import com.wang.social.im.mvp.ui.fragments.TeamConversationFragment;
+import com.wang.social.im.utils.ActivitySwitcher;
 import com.wang.social.im.view.drawer.SlidingRootNav;
 import com.wang.social.im.view.drawer.SlidingRootNavBuilder;
 
@@ -29,12 +31,19 @@ public class GroupConversationActivity extends BaseAppActivity<GroupConversation
     String targetId;
     @Autowired
     int typeOrdinal;
+    @Autowired
+    boolean fromMirror;
 
     private SlidingRootNav mRootNav;
+
+    private boolean mCreate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState == null) {
+            mCreate = true;
+        }
     }
 
     @Override
@@ -89,5 +98,42 @@ public class GroupConversationActivity extends BaseAppActivity<GroupConversation
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.gc_fl_content, fragment, fragment.getClass().getName());
         transaction.commitAllowingStateLoss();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.gc_fl_content);
+        if (fragment != null) {
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    public void gotoMirror(String id) {
+        Intent intent = new Intent(this, MirrorConversationActivity.class);
+        intent.putExtra("targetId", id);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        ActivitySwitcher.animationOut(findViewById(R.id.im_root_layout), getWindowManager(), new ActivitySwitcher.AnimationFinishedListener() {
+            @Override
+            public void onAnimationFinished() {
+                startActivity(intent);
+                finish();
+                overridePendingTransition(0, 0);
+            }
+        });
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+    }
+
+    @Override
+    protected void onResume() {
+        if (mCreate && fromMirror) {
+            ActivitySwitcher.animationIn(findViewById(R.id.im_root_layout), getWindowManager());
+        }
+        mCreate = false;
+        super.onResume();
     }
 }

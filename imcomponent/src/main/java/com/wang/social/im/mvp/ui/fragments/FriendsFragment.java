@@ -1,5 +1,6 @@
 package com.wang.social.im.mvp.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,6 +26,7 @@ import com.wang.social.im.di.modules.FriendsModule;
 import com.wang.social.im.mvp.contract.FriendsContract;
 import com.wang.social.im.mvp.model.entities.IndexFriendInfo;
 import com.wang.social.im.mvp.presenter.FriendsPresenter;
+import com.wang.social.im.mvp.ui.PersonalCard.PersonalCardActivity;
 import com.wang.social.im.mvp.ui.SocialListActivity;
 import com.wang.social.im.mvp.ui.adapters.FriendsAdapter;
 
@@ -113,7 +115,7 @@ public class FriendsFragment extends BaseFragment<FriendsPresenter> implements F
 
     @Override
     public void onItemClick(View v, int originalPosition, int currentPosition, IndexFriendInfo entity) {
-        CommonHelper.ImHelper.gotoPrivateConversation(getContext(), entity.getFriendId());
+        PersonalCardActivity.start(getContext(), Integer.valueOf(entity.getFriendId()));
     }
 
     private class HeaderAdapter extends IndexableHeaderAdapter {

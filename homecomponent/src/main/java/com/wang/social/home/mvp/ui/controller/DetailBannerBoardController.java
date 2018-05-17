@@ -10,7 +10,6 @@ import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.ui.base.BaseController;
 import com.frame.component.view.ConerTextView;
 import com.frame.component.view.bannerview.BannerView;
-import com.frame.component.view.bannerview.Image;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
@@ -19,8 +18,6 @@ import com.frame.utils.ToastUtil;
 import com.wang.social.home.R;
 import com.wang.social.home.R2;
 import com.wang.social.home.mvp.entities.card.CardUser;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 
@@ -76,7 +73,7 @@ public class DetailBannerBoardController extends BaseController {
             textLableAstro.setText(TimeUtils.getAstro(user.getBirthday()));
             textPosition.setText(user.getCityName());
             textSign.setText(user.getAutograph());
-            connertextLable.setTagText(user.getTagText());
+            connertextLable.setTagText(user.getTagTextDot());
             banner.setDatas(user.getBannerImageList());
         }
     }
