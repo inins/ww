@@ -59,7 +59,8 @@ import com.wang.social.im.R2;
 public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter> implements
         PersonalCardContract.View {
 
-    public final static int REQUEST_CODE_AVATAR_IMAGE = 10033;
+    public final static int REQUEST_AVATAR_IMAGE = 10033;
+    public final static int REQUEST_REPORT_IMAGE = 10034;
 
     public final static int TYPE_UNKNOWN = -1;
     // 好友申请，底部显示 拒绝 同意
@@ -161,6 +162,8 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
     // 消息id
     private int mMsgId;
     private PhotoHelperEx mPhotoHelperEx;
+    private int mRequestImageType;
+    private String mReportComment;
 
 
     @Override
@@ -224,18 +227,25 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
             }
         });
 
-        mPhotoHelperEx = PhotoHelperEx.newInstance(this, new PhotoHelper.OnPhotoCallback() {
-            @Override
-            public void onResult(String path) {
+        mPhotoHelperEx = PhotoHelperEx.newInstance(this,
+                path -> {
+                    Timber.i("图片返回 : " + path);
+                    if (mRequestImageType == REQUEST_AVATAR_IMAGE) {
+                        String[] pathArray = PhotoHelper.format2Array(path);
 
-                Timber.i("图片返回 : " + path);
-                String[] pathArray = PhotoHelper.format2Array(path);
+                        if (pathArray.length <= 0) return;
 
-                if (pathArray.length <= 0) return;
-
-                mPresenter.setFriendAvatar(mUserId, pathArray[0]);
-            }
-        });
+                        mPresenter.setFriendAvatar(mUserId, pathArray[0]);
+                    } else if (mRequestImageType == REQUEST_REPORT_IMAGE) {
+                        String[] pathArray = PhotoHelper.format2Array(path);
+                        String picUrl = "";
+                        for (int i = 0; i < pathArray.length; i++) {
+                            picUrl += (i <= 0 ? "" : ",") + pathArray[i];
+                        }
+                        // 弹出确认举报对话框
+                        confirmReport(mReportComment, picUrl);
+                    }
+                });
 
         mPresenter.loadUserInfoAndPhotos(mUserId);
 //        mPresenter.loadUserStatistics(mUserId);
@@ -545,15 +555,26 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
 
         DialogActionSheet.show(getSupportFragmentManager(), reports)
                 .setActionSheetListener(
-                        (position, text) -> // 提示确认是否删除
-                                DialogSure.showDialog(PersonalCardActivity.this,
-                                        "确定要举报该用户？",
-                                        () -> NetReportHelper.newInstance()
-                                                .netReportPerson(
-                                                        PersonalCardActivity.this,
-                                                        mUserId, text,
-                                                        () -> ToastUtil.showToastShort("举报成功")))
+                        (position, text) -> {
+                            // 记录文字信息
+                            mReportComment = text;
+                            // 弹出图片选择
+                            mRequestImageType = REQUEST_REPORT_IMAGE;
+                            mPhotoHelperEx.setMaxSelectCount(5);
+                            mPhotoHelperEx.showDefaultDialog();
+                        }
                 );
+    }
+
+    private void confirmReport(String comment, String picUrl) {
+        // 提示确认是否删除
+        DialogSure.showDialog(PersonalCardActivity.this,
+                "确定要举报该用户？",
+                () -> NetReportHelper.newInstance()
+                        .netReportPerson(
+                                PersonalCardActivity.this,
+                                mUserId, comment,
+                                () -> ToastUtil.showToastShort("举报成功")));
     }
 
     private PWFriendMoreMenu mPWFriendMoreMenu;
@@ -595,6 +616,7 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
 
                 @Override
                 public void onSetAvatar() {
+                    mRequestImageType = REQUEST_AVATAR_IMAGE;
                     mPhotoHelperEx.setMaxSelectCount(1);
                     mPhotoHelperEx.setClip(true);
                     mPhotoHelperEx.showDefaultDialog();
