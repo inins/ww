@@ -95,8 +95,6 @@
     <string name="im_ex_bad_content_view">Your content view must contain exactly one child. Make sure you call inject() after setContentView().</string>
 
 
-
-
     <string name="im_personal_card_more_menu_set_remark">设置备注</string>
     <string name="im_personal_card_more_menu_set_avatar">设置头像</string>
     <string name="im_personal_card_more_menu_report">举报</string>
@@ -121,4 +119,8 @@
 
     <!--@消息-->
     <string name="im_notify_aite_title">\@我的</string>
+
+    <!--群二维码-->
+    <string name="im_qrcode_title">趣聊二维码</string>
+    <string name="im_qrcode_notice">扫描上面二维码，添加往往好友</string>
 </resources>

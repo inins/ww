@@ -1,11 +1,14 @@
 package com.frame.component.entities;
 
+import com.frame.utils.StrUtil;
+
 import java.io.Serializable;
+import java.util.List;
 
 import lombok.Data;
 
 @Data
-public class Tag implements Serializable{
+public class Tag implements Serializable {
 
     /**
      * id : 4
@@ -19,4 +22,13 @@ public class Tag implements Serializable{
     private String tagName;
     private int isIndexShow;
 
+
+    public static String getTagText(List<Tag> tags) {
+        if (StrUtil.isEmpty(tags)) return "";
+        String tagText = "";
+        for (Tag tag : tags) {
+            tagText += "#" + tag.getTagName() + " ";
+        }
+        return tagText.trim();
+    }
 }

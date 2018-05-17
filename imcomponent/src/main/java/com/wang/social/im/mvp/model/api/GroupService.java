@@ -80,6 +80,12 @@ public interface GroupService {
     Observable<BaseJson<SocialDTO>> getSocialInfo(@Query("v") String version, @Query("groupId") String socialId);
 
     /**
+     * 获取趣聊二维码
+     */
+    @GET("app/group/getGroupQrcodeBygroupId")
+    Observable<BaseJson> getGroupQrcodeBygroupId(@Query("v") String version, @Query("groupId") String socialId);
+
+    /**
      * 趣聊主页获取趣聊详情
      *
      * @param version
