@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.widget.TextView;
 
 import com.frame.component.app.Constant;
+import com.frame.component.common.AppConstant;
 import com.frame.component.path.ImPath;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.view.SocialToolbar;
@@ -24,6 +25,7 @@ import com.wang.social.im.mvp.model.entities.ShareInfo;
 import com.wang.social.im.mvp.model.entities.ShareModel;
 import com.wang.social.im.mvp.presenter.HappyWoodPresenter;
 import com.wang.social.im.view.ShareView;
+import com.wang.social.im.widget.RulesDialog;
 
 import java.util.List;
 import java.util.Map;
@@ -110,7 +112,7 @@ public class HappyWoodActivity extends BaseAppActivity<HappyWoodPresenter> imple
                         onBackPressed();
                         break;
                     case RIGHT_TEXT:
-
+                        new RulesDialog(HappyWoodActivity.this, getString(R.string.im_happy_wood), AppConstant.Url.sharedTree).show();
                         break;
                 }
             }

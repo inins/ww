@@ -1,5 +1,6 @@
 package com.wang.social.im.mvp.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,6 +10,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.frame.component.common.AppConstant;
+import com.frame.component.ui.acticity.WebActivity;
 import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.component.ui.acticity.tags.TagSelectionActivity;
 import com.frame.component.ui.base.BaseAppActivity;
@@ -19,6 +22,7 @@ import com.frame.entities.EventBean;
 import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.http.imageloader.glide.RoundedCornersTransformation;
+import com.frame.router.facade.annotation.Autowired;
 import com.frame.utils.ToastUtil;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
@@ -56,7 +60,8 @@ public class CreateTeamActivity extends BaseAppActivity<CreateTeamPresenter> imp
     @BindView(R2.id.ct_tv_tags_tip)
     TextView ctTvTagsTip;
 
-    String socialId = "54";
+    @Autowired
+    String socialId;
 
     private String mCoverPath;
     private ArrayList<Tag> mSelectTags;
@@ -67,6 +72,12 @@ public class CreateTeamActivity extends BaseAppActivity<CreateTeamPresenter> imp
 
     @Inject
     ImageLoader mImageLoader;
+
+    public static void start(Context context, String socialId) {
+        Intent intent = new Intent(context, CreateTeamActivity.class);
+        intent.putExtra("socialId", socialId);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,7 +155,7 @@ public class CreateTeamActivity extends BaseAppActivity<CreateTeamPresenter> imp
     @OnClick({R2.id.ct_tv_what, R2.id.ct_cl_attribute, R2.id.ct_cl_tags, R2.id.ct_iv_cover})
     public void onViewClicked(View view) {
         if (view.getId() == R.id.ct_tv_what) { //什么是觅聊
-
+            WebActivity.start(this, AppConstant.Url.REFERRAL_TEAM);
         } else if (view.getId() == R.id.ct_cl_attribute) { //觅聊属性
             TeamAttributeActivity.start(this, REQUEST_CODE_ATTR, mAttribute);
         } else if (view.getId() == R.id.ct_cl_tags) { //觅聊标签

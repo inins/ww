@@ -20,6 +20,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.frame.component.common.AppConstant;
+import com.frame.component.ui.acticity.WebActivity;
 import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.component.utils.UIUtil;
 import com.frame.component.view.SocialToolbar;
@@ -30,6 +32,7 @@ import com.wang.social.im.R2;
 import com.wang.social.im.app.IMConstants;
 import com.wang.social.im.common.InputPositiveIntegerFilter;
 import com.wang.social.im.mvp.model.entities.SocialAttribute;
+import com.wang.social.im.widget.RulesDialog;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -368,9 +371,9 @@ public class SocialAttributeActivity extends BasicAppActivity {
             mAttribute.setOpen(!mAttribute.isOpen());
             toggleOpen();
         } else if (view.getId() == R.id.sa_tv_lin_rule) {//快活林规则
-
+            new RulesDialog(this, getString(R.string.im_happy_wood), AppConstant.Url.sharedTree).show();
         } else if (view.getId() == R.id.sa_tv_notice) {//付费须知
-
+            WebActivity.start(this, AppConstant.Url.fanNotice);
         }
     }
 
