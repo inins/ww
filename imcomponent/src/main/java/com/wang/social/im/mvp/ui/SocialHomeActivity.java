@@ -298,7 +298,12 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
             }
         });
         mPhotoHelperEx = PhotoHelperEx.newInstance(this, path -> {
-
+            // 弹出确认举报对话框
+            GroupPersonReportHelper.confirmReportGroup(this, this,
+                    "确定举报该趣聊？",
+                    Integer.valueOf(socialId),
+                    mReportComment,
+                    PhotoHelper.format2Array(path));
         });
     }
 
@@ -537,6 +542,9 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
         if (mPhotoHelper != null) {
             mPhotoHelper.onActivityResult(requestCode, resultCode, data);
         }
+        if (mPhotoHelperEx != null){
+            mPhotoHelperEx.onActivityResult(requestCode, resultCode, data);
+        }
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_CODE_CHARGE) {
                 mSocial = data.getParcelableExtra(SocialChargeSettingActivity.EXTRA_SOCIAL);
@@ -603,7 +611,10 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
 
     private void showReportDialog() {
         GroupPersonReportHelper.doReport(getSupportFragmentManager(), (position, text) -> {
-
+            mReportComment = text;
+            // 弹出图片选择
+            mPhotoHelperEx.setMaxSelectCount(5);
+            mPhotoHelperEx.showDefaultDialog();
         });
     }
 

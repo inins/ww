@@ -123,7 +123,7 @@ public class GameConversationPresenter extends BasePresenter<GameConversationCon
                     TIMMessage message = list.get(i);
                     UIMessage uiMessage = UIMessage.obtain(message);
                     if (uiMessage.getMessageType() == MessageType.GAME_NOTIFY) {
-                        GameNotifyElemData elemData = (GameNotifyElemData) uiMessage.getCustomMessageElemData(CustomElemType.GAME_NOTIFY, gson);
+                        GameNotifyElemData elemData = (GameNotifyElemData) uiMessage.getCustomMessageElemData(CustomElemType.GAME_NOTIFY, GameNotifyElemData.class, gson);
                         if (elemData.getNotifyType() == GameNotifyType.JOIN) {
                             EventBean event = new EventBean(EventBean.EVENT_GAME_JOIN);
                             event.put("joinNumber", elemData.getJoinPersonNum());
@@ -171,7 +171,7 @@ public class GameConversationPresenter extends BasePresenter<GameConversationCon
                     TIMMessage message = timMessages.get(i);
                     UIMessage uiMessage = UIMessage.obtain(message);
                     if (uiMessage.getMessageType() == MessageType.GAME_NOTIFY) {
-                        GameNotifyElemData elemData = (GameNotifyElemData) uiMessage.getCustomMessageElemData(CustomElemType.GAME_NOTIFY, gson);
+                        GameNotifyElemData elemData = (GameNotifyElemData) uiMessage.getCustomMessageElemData(CustomElemType.GAME_NOTIFY, GameNotifyElemData.class, gson);
                         if (elemData.getNotifyType() == GameNotifyType.RESULT) {
                             continue;
                         }

@@ -7,7 +7,11 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
+import com.frame.utils.SizeUtils;
+import com.frame.utils.ToastUtil;
 import com.wang.social.im.R;
 import com.wang.social.im.view.emotion.adapter.EmoticonsAdapter;
 import com.wang.social.im.view.emotion.adapter.PageSetAdapter;
@@ -75,9 +79,9 @@ public class SimpleCommonUtils {
 
         addEmojiPageSetEntity(pageSetAdapter, context, emoticonClickListener);
 
-        PageSetEntity pageSetEntity = new PageSetEntity.Builder().setIconUri(R.drawable.emoji_0x1f3e0)
-                .setShowIndicator(true)
-                .build();
+        addFaceOne(pageSetAdapter, context, emoticonClickListener);
+
+        addFaceTwo(pageSetAdapter, context, emoticonClickListener);
 
         return pageSetAdapter;
     }
@@ -127,6 +131,83 @@ public class SimpleCommonUtils {
         pageSetAdapter.add(emojiPageSetEntity);
     }
 
+    /**
+     * 插入emoji表情集
+     *
+     * @param pageSetAdapter
+     * @param context
+     * @param faceClickListener
+     */
+    public static void addFaceOne(PageSetAdapter pageSetAdapter, Context context, final EmoticonClickListener faceClickListener) {
+        ArrayList<EmojiBean> emojiArray = new ArrayList<>();
+        Collections.addAll(emojiArray, DefEmoticons.sFaceArray);
+        EmoticonPageSetEntity emojiPageSetEntity =
+                new EmoticonPageSetEntity.Builder()
+                        .setLine(2)
+                        .setRow(5)
+                        .setItemHeight(SizeUtils.dp2px(50))
+                        .setEmoticonList(emojiArray)
+                        .setIPageViewInstantiateItem(getEmoticonPageViewInstantiateItem(EmoticonsAdapter.class, null, new EmoticonDisplayListener<Object>() {
+
+                            @Override
+                            public void onBindView(int position, ViewGroup parent, EmoticonsAdapter.ViewHolder viewHolder, Object o, boolean isDelBtn) {
+                                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) viewHolder.iv_emoticon.getLayoutParams();
+                                lp.width = SizeUtils.dp2px(40);
+                                lp.height = SizeUtils.dp2px(40);
+                                viewHolder.iv_emoticon.setImageResource(((EmojiBean) o).icon);
+                                viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        if (faceClickListener != null) {
+                                            faceClickListener.onEmoticonClick(o, Constants.EMOTICON_CLICK_BIGIMAGE, false);
+                                        }
+                                    }
+                                });
+                            }
+                        }))
+                        .setIconUri(ImageBase.Scheme.DRAWABLE.toUri("im_ww_emoji_001"))
+                        .build();
+        pageSetAdapter.add(emojiPageSetEntity);
+    }
+
+    /**
+     * 插入emoji表情集
+     *
+     * @param pageSetAdapter
+     * @param context
+     * @param faceClickListener
+     */
+    public static void addFaceTwo(PageSetAdapter pageSetAdapter, Context context, final EmoticonClickListener faceClickListener) {
+        ArrayList<EmojiBean> emojiArray = new ArrayList<>();
+        Collections.addAll(emojiArray, DefEmoticons.sFaceTwoArray);
+        EmoticonPageSetEntity emojiPageSetEntity =
+                new EmoticonPageSetEntity.Builder()
+                        .setLine(2)
+                        .setRow(5)
+                        .setItemHeight(SizeUtils.dp2px(50))
+                        .setEmoticonList(emojiArray)
+                        .setIPageViewInstantiateItem(getEmoticonPageViewInstantiateItem(EmoticonsAdapter.class, null, new EmoticonDisplayListener<Object>() {
+
+                            @Override
+                            public void onBindView(int position, ViewGroup parent, EmoticonsAdapter.ViewHolder viewHolder, Object o, boolean isDelBtn) {
+                                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) viewHolder.iv_emoticon.getLayoutParams();
+                                lp.width = SizeUtils.dp2px(50);
+                                lp.height = SizeUtils.dp2px(50);
+                                viewHolder.iv_emoticon.setImageResource(((EmojiBean) o).icon);
+                                viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        if (faceClickListener != null) {
+                                            faceClickListener.onEmoticonClick(o, Constants.EMOTICON_CLICK_BIGIMAGE, false);
+                                        }
+                                    }
+                                });
+                            }
+                        }))
+                        .setIconUri(ImageBase.Scheme.DRAWABLE.toUri("im_ww_emoji_101"))
+                        .build();
+        pageSetAdapter.add(emojiPageSetEntity);
+    }
 
     @SuppressWarnings("unchecked")
     public static Object newInstance(Class _Class, Object... args) throws Exception {

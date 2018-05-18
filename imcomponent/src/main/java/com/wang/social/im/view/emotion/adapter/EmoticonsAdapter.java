@@ -15,6 +15,8 @@ import com.wang.social.im.view.emotion.listener.EmoticonDisplayListener;
 
 import java.util.ArrayList;
 
+import timber.log.Timber;
+
 public class EmoticonsAdapter<T> extends BaseAdapter {
 
     protected final int DEF_HEIGHTMAXTATIO = 2;
@@ -39,7 +41,7 @@ public class EmoticonsAdapter<T> extends BaseAdapter {
         this.mOnEmoticonClickListener = onEmoticonClickListener;
         this.mItemHeightMaxRatio = DEF_HEIGHTMAXTATIO;
         this.mDelbtnPosition = -1;
-        this.mDefalutItemHeight = this.mItemHeight = (int) context.getResources().getDimension(R.dimen.im_emotion_item_size);
+        this.mDefalutItemHeight = this.mItemHeight = emoticonPageEntity.getItemHeight() == 0 ? (int) context.getResources().getDimension(R.dimen.im_emotion_item_size) : emoticonPageEntity.getItemHeight();
         this.mData.addAll(emoticonPageEntity.getEmoticonList());
         checkDelBtn(emoticonPageEntity);
     }

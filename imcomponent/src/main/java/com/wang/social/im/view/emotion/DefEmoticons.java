@@ -1,8 +1,11 @@
 package com.wang.social.im.view.emotion;
 
 import com.wang.social.im.R.drawable;
+
 public class DefEmoticons {
     public static final EmojiBean[] sEmojiArray;
+    public static final EmojiBean[] sFaceArray;
+    public static final EmojiBean[] sFaceTwoArray;
 
     public DefEmoticons() {
     }
@@ -89,5 +92,85 @@ public class DefEmoticons {
                 new EmojiBean(drawable.emoji_0x1f3e0, EmojiParse.fromCodePoint(127968)),
                 new EmojiBean(drawable.emoji_0x1f697, EmojiParse.fromCodePoint(128663)),
                 new EmojiBean(drawable.emoji_0x1f559, EmojiParse.fromCodePoint(128345))};
+
+        sFaceArray = new EmojiBean[]{
+                new EmojiBean(drawable.im_ww_emoji_001, "1"),
+                new EmojiBean(drawable.im_ww_emoji_002, "2"),
+                new EmojiBean(drawable.im_ww_emoji_003, "3"),
+                new EmojiBean(drawable.im_ww_emoji_004, "4"),
+                new EmojiBean(drawable.im_ww_emoji_005, "5"),
+                new EmojiBean(drawable.im_ww_emoji_006, "6"),
+                new EmojiBean(drawable.im_ww_emoji_007, "7"),
+                new EmojiBean(drawable.im_ww_emoji_008, "8"),
+                new EmojiBean(drawable.im_ww_emoji_009, "9"),
+                new EmojiBean(drawable.im_ww_emoji_010, "10"),
+                new EmojiBean(drawable.im_ww_emoji_011, "11"),
+                new EmojiBean(drawable.im_ww_emoji_012, "12"),
+                new EmojiBean(drawable.im_ww_emoji_013, "13"),
+                new EmojiBean(drawable.im_ww_emoji_014, "14"),
+                new EmojiBean(drawable.im_ww_emoji_015, "15"),
+                new EmojiBean(drawable.im_ww_emoji_016, "16"),
+                new EmojiBean(drawable.im_ww_emoji_017, "17"),
+                new EmojiBean(drawable.im_ww_emoji_018, "18"),
+                new EmojiBean(drawable.im_ww_emoji_019, "19"),
+                new EmojiBean(drawable.im_ww_emoji_020, "20"),
+                new EmojiBean(drawable.im_ww_emoji_021, "21"),
+                new EmojiBean(drawable.im_ww_emoji_022, "22"),
+                new EmojiBean(drawable.im_ww_emoji_023, "23"),
+                new EmojiBean(drawable.im_ww_emoji_024, "24"),
+                new EmojiBean(drawable.im_ww_emoji_025, "25"),
+                new EmojiBean(drawable.im_ww_emoji_026, "26"),
+                new EmojiBean(drawable.im_ww_emoji_027, "27"),
+                new EmojiBean(drawable.im_ww_emoji_028, "28"),
+                new EmojiBean(drawable.im_ww_emoji_029, "29"),
+                new EmojiBean(drawable.im_ww_emoji_030, "30"),
+                new EmojiBean(drawable.im_ww_emoji_031, "31"),
+                new EmojiBean(drawable.im_ww_emoji_032, "32"),
+                new EmojiBean(drawable.im_ww_emoji_033, "33"),
+                new EmojiBean(drawable.im_ww_emoji_034, "34"),
+                new EmojiBean(drawable.im_ww_emoji_035, "35"),
+                new EmojiBean(drawable.im_ww_emoji_036, "36"),
+                new EmojiBean(drawable.im_ww_emoji_037, "37"),
+                new EmojiBean(drawable.im_ww_emoji_038, "38"),
+                new EmojiBean(drawable.im_ww_emoji_039, "39"),
+                new EmojiBean(drawable.im_ww_emoji_040, "40"),
+                new EmojiBean(drawable.im_ww_emoji_041, "41"),
+                new EmojiBean(drawable.im_ww_emoji_042, "42"),
+                new EmojiBean(drawable.im_ww_emoji_043, "43"),
+                new EmojiBean(drawable.im_ww_emoji_044, "44"),
+                new EmojiBean(drawable.im_ww_emoji_045, "45"),
+                new EmojiBean(drawable.im_ww_emoji_046, "46"),
+                new EmojiBean(drawable.im_ww_emoji_047, "47"),
+                new EmojiBean(drawable.im_ww_emoji_048, "48"),
+                new EmojiBean(drawable.im_ww_emoji_049, "49"),
+                new EmojiBean(drawable.im_ww_emoji_050, "50"),
+                new EmojiBean(drawable.im_ww_emoji_051, "51"),
+                new EmojiBean(drawable.im_ww_emoji_052, "52")};
+
+        sFaceTwoArray = new EmojiBean[]{
+                new EmojiBean(drawable.im_ww_emoji_101, "101"),
+                new EmojiBean(drawable.im_ww_emoji_102, "102"),
+                new EmojiBean(drawable.im_ww_emoji_103, "103"),
+                new EmojiBean(drawable.im_ww_emoji_104, "104"),
+                new EmojiBean(drawable.im_ww_emoji_105, "105"),
+                new EmojiBean(drawable.im_ww_emoji_106, "106"),
+                new EmojiBean(drawable.im_ww_emoji_107, "107"),
+                new EmojiBean(drawable.im_ww_emoji_108, "108"),
+                new EmojiBean(drawable.im_ww_emoji_109, "109"),
+                new EmojiBean(drawable.im_ww_emoji_110, "110"),
+                new EmojiBean(drawable.im_ww_emoji_111, "111"),
+                new EmojiBean(drawable.im_ww_emoji_112, "112"),
+                new EmojiBean(drawable.im_ww_emoji_113, "113"),
+                new EmojiBean(drawable.im_ww_emoji_114, "114"),
+                new EmojiBean(drawable.im_ww_emoji_115, "115"),
+                new EmojiBean(drawable.im_ww_emoji_116, "116"),
+                new EmojiBean(drawable.im_ww_emoji_117, "117"),
+                new EmojiBean(drawable.im_ww_emoji_118, "118"),
+                new EmojiBean(drawable.im_ww_emoji_119, "119"),
+                new EmojiBean(drawable.im_ww_emoji_120, "120"),
+                new EmojiBean(drawable.im_ww_emoji_121, "121"),
+                new EmojiBean(drawable.im_ww_emoji_122, "122"),
+                new EmojiBean(drawable.im_ww_emoji_123, "123"),
+                new EmojiBean(drawable.im_ww_emoji_124, "124")};
     }
 }

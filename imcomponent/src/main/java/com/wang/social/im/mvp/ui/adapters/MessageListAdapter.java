@@ -11,8 +11,10 @@ import com.frame.component.enums.ConversationType;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 import com.wang.social.im.mvp.ui.adapters.holders.BaseMessageViewHolder;
 import com.wang.social.im.mvp.ui.adapters.holders.EnvelopViewHolder;
+import com.wang.social.im.mvp.ui.adapters.holders.FaceViewHolder;
 import com.wang.social.im.mvp.ui.adapters.holders.GameEmotionViewHolder;
 import com.wang.social.im.mvp.ui.adapters.holders.GameTextViewHolder;
+import com.wang.social.im.mvp.ui.adapters.holders.GameViewHolder;
 import com.wang.social.im.mvp.ui.adapters.holders.ImageViewHolder;
 import com.wang.social.im.mvp.ui.adapters.holders.LocationViewHolder;
 import com.wang.social.im.mvp.ui.adapters.holders.NotifyViewHolder;
@@ -47,10 +49,13 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
     //红包消息
     private final int TYPE_RECEIVE_RED_ENVELOP = 10;
     private final int TYPE_SEND_RED_ENVELOP = 11;
+    //游戏消息
+    private final int TYPE_RECEIVE_GAME = 12;
+    private final int TYPE_SEND_GAME = 13;
     //通知消息
-    private final int TYPE_NOTIFY = 12;
+    private final int TYPE_NOTIFY = 101;
     //未知消息
-    private final int TYPE_UNKNOWN = 13;
+    private final int TYPE_UNKNOWN = 102;
 
     private ConversationType mConversationType;
 
@@ -95,6 +100,12 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
                 case TYPE_SEND_IMAGE:
                     viewHolder = new ImageViewHolder(context, parent, R.layout.im_item_msg_image_right);
                     break;
+                case TYPE_RECEIVE_EMOTION:
+                    viewHolder = new FaceViewHolder(context, parent, R.layout.im_item_msg_face_left);
+                    break;
+                case TYPE_SEND_EMOTION:
+                    viewHolder = new FaceViewHolder(context, parent, R.layout.im_item_msg_face_right);
+                    break;
                 case TYPE_RECEIVE_VOICE:
                     viewHolder = new SoundViewHolder(context, parent, R.layout.im_item_msg_sound_left);
                     break;
@@ -112,6 +123,12 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
                     break;
                 case TYPE_SEND_LOCATION:
                     viewHolder = new LocationViewHolder(context, parent, R.layout.im_item_msg_location_right);
+                    break;
+                case TYPE_RECEIVE_GAME:
+                    viewHolder = new GameViewHolder(context, parent, R.layout.im_item_msg_game_left);
+                    break;
+                case TYPE_SEND_GAME:
+                    viewHolder = new GameViewHolder(context, parent, R.layout.im_item_msg_game_right);
                     break;
                 case TYPE_NOTIFY:
                     viewHolder = new NotifyViewHolder(context, parent);
@@ -196,6 +213,13 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
                     viewType = TYPE_SEND_RED_ENVELOP;
                 } else {
                     viewType = TYPE_RECEIVE_RED_ENVELOP;
+                }
+                break;
+            case GAME_TREE:
+                if (message.getTimMessage().isSelf()) {
+                    viewType = TYPE_SEND_GAME;
+                } else {
+                    viewType = TYPE_RECEIVE_GAME;
                 }
                 break;
             case GAME_NOTIFY:

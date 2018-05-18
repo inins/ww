@@ -57,7 +57,7 @@ public class NotifyViewHolder extends BaseMessageViewHolder<UIMessage> {
                     TIMCustomElem customElem = (TIMCustomElem) timElem;
                     CustomElemType elemType = CustomElemType.getElemType(customElem);
                     if (elemType == CustomElemType.GAME_NOTIFY) { //游戏通知
-                        GameNotifyElemData elemData = (GameNotifyElemData) itemValue.getCustomMessageElemData(CustomElemType.GAME_NOTIFY, gson);
+                        GameNotifyElemData elemData = (GameNotifyElemData) itemValue.getCustomMessageElemData(CustomElemType.GAME_NOTIFY, GameNotifyElemData.class, gson);
                         showGameNotify(elemData);
                     }
                 }

@@ -35,6 +35,10 @@ public class EmoticonPageEntity<T> extends PageEntity<EmoticonPageEntity> {
      * 删除按钮
      */
     private DelBtnStatus mDelBtnStatus;
+    /**
+     * 每行高度
+     */
+    private int itemHeight;
 
     public List<T> getEmoticonList() {
         return mEmoticonList;
@@ -66,6 +70,14 @@ public class EmoticonPageEntity<T> extends PageEntity<EmoticonPageEntity> {
 
     public void setDelBtnStatus(DelBtnStatus delBtnStatus) {
         this.mDelBtnStatus = delBtnStatus;
+    }
+
+    public void setItemHeight(int itemHeight) {
+        this.itemHeight = itemHeight;
+    }
+
+    public int getItemHeight() {
+        return itemHeight;
     }
 
     public EmoticonPageEntity() { }
