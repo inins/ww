@@ -103,7 +103,6 @@ public class AccountDepositRecordActivity extends BasicAppNoDiActivity {
                         setData(warp.getTotalMoney());
                         List<DepositRecord> list = warp.getList();
                         if (!StrUtil.isEmpty(list)) {
-                            loadingLayout.showOut();
                             current = warp.getCurrent();
                             if (isFresh) {
                                 adapter.refreshData(list);
@@ -112,6 +111,10 @@ public class AccountDepositRecordActivity extends BasicAppNoDiActivity {
                             }
                         } else {
                             ToastUtil.showToastLong("没有更多数据了");
+                        }
+                        if (adapter.getItemCount() != 0) {
+                            loadingLayout.showOut();
+                        } else {
                             loadingLayout.showLackView();
                         }
                         springView.onFinishFreshAndLoadDelay();
@@ -124,7 +127,7 @@ public class AccountDepositRecordActivity extends BasicAppNoDiActivity {
                         loadingLayout.showFailView();
                     }
                 }, () -> {
-                    loadingLayout.showLoadingView();
+                    if (isFresh) loadingLayout.showLoadingView();
                 }, null);
     }
 }

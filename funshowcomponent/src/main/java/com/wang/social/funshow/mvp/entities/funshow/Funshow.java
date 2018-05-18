@@ -76,6 +76,7 @@ public class Funshow implements Serializable {
         funshowBean.setNickname(userName);
         funshowBean.setCreateTime(createTime);
         funshowBean.setContent(content);
+        funshowBean.setAvatar(userCover);
         funshowBean.setShowPic(getFirstImg() != null ? getFirstImg().getUrl() : "");
         funshowBean.setPicNum(talkImageNum);
         funshowBean.setFree(isFree());

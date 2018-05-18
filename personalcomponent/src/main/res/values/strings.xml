@@ -216,9 +216,9 @@
     <string name="personal_represent_note">代言收益齐分享，社交也能变现！</string>
     <string name="personal_represent_rule">代言收益规则</string>
     <string name="personal_represent_code">您的邀请码</string>
-    <string name="personal_represent_diamond">您已获得的钻石</string>
+    <string name="personal_represent_diamond">您已获得的宝石</string>
     <string name="personal_represent_user">下线用户</string>
-    <string name="personal_represent_item_diamond">回馈钻石</string>
+    <string name="personal_represent_item_diamond">回馈宝石</string>
 
     <!--支付结果页面-->
     <string name="personal_account_payresult_cancel">充值取消!</string>

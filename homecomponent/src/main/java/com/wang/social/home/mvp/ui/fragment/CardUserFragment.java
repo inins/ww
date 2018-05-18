@@ -1,15 +1,23 @@
 package com.wang.social.home.mvp.ui.fragment;
 
+import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.frame.base.BasicFragment;
 import com.frame.component.common.NetParam;
@@ -17,13 +25,16 @@ import com.frame.component.entities.BaseCardListWrap;
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.helper.NetFriendHelper;
 import com.frame.component.ui.base.BasicAppActivity;
+import com.frame.component.ui.base.BasicNoDiFragment;
 import com.frame.component.ui.dialog.DialogValiRequest;
+import com.frame.component.utils.viewutils.MotionEventHelper;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.mvp.IView;
+import com.frame.utils.ScreenUtils;
 import com.frame.utils.StrUtil;
 import com.frame.utils.ToastUtil;
 import com.wang.social.home.R;
@@ -46,7 +57,7 @@ import butterknife.BindView;
  * 建设中 fragment 占位
  */
 
-public class CardUserFragment extends BasicFragment implements RecycleAdapterCardUser.OnCardClickListener, View.OnClickListener, IView {
+public class CardUserFragment extends BasicNoDiFragment implements RecycleAdapterCardUser.OnCardGestureListener, View.OnClickListener, IView {
 
     @BindView(R2.id.recycler)
     RecyclerView recycler;
@@ -98,12 +109,12 @@ public class CardUserFragment extends BasicFragment implements RecycleAdapterCar
 
         //初始化recycle卡片view
         adapter = new RecycleAdapterCardUser();
-        adapter.setOnCardClickListener(this);
+        adapter.setOnCardGestureListener(this);
         recycler.setLayoutManager(new CardLayoutManager());
         recycler.setAdapter(adapter);
         //设置拖拽手势
         final ItemTouchCardCallback callback = new ItemTouchCardCallback(recycler, adapter.getData());
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+        itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(recycler);
         callback.setOnSwipedListener((ItemTouchCardCallback.OnSwipedListener<CardUser>) (bean, direction) -> {
             //如果是右滑，则提示好友请求
@@ -125,22 +136,32 @@ public class CardUserFragment extends BasicFragment implements RecycleAdapterCar
         netGetCardUsers(true);
     }
 
+    private ItemTouchHelper itemTouchHelper;
+
     @Override
     public void setData(@Nullable Object data) {
     }
 
     @Override
     public void onClick(View v) {
+        int screenWidth = ScreenUtils.getScreenWidth();
+        int screenHeight = ScreenUtils.getScreenHeight();
         int id = v.getId();
         if (id == R.id.btn_dislike) {
-            ToastUtil.showToastShort("dislike");
+            //模拟左滑触摸轨迹
+            Point start = new Point(screenWidth * 3 / 4, screenHeight / 2);
+            Point end = new Point(200, screenHeight / 2 - 300);
+            MotionEventHelper.createTrack(start, end, 300, recycler);
         } else if (id == R.id.btn_like) {
-            ToastUtil.showToastShort("like");
+            //模拟右滑触摸轨迹
+            Point start = new Point(screenWidth * 1 / 4, screenHeight / 2);
+            Point end = new Point(screenWidth - 200, screenHeight / 2 - 300);
+            MotionEventHelper.createTrack(start, end, 300, recycler);
         }
     }
 
     @Override
-    public void onItemClick(CardUser bean, int position, RecycleAdapterCardUser.Holder holder) {
+    public void onItemClick(CardUser bean, RecycleAdapterCardUser.Holder holder) {
         Intent intent = new Intent(getContext(), CardDetailActivity.class);
         intent.putExtra("userId", bean.getUserId());
         intent.putExtra("cardUser", bean);
@@ -149,30 +170,17 @@ public class CardUserFragment extends BasicFragment implements RecycleAdapterCar
                 Pair.create(holder.textName, "share_name"),
                 Pair.create(holder.textLableGender, "share_gender"),
                 Pair.create(holder.textLableAstro, "share_astro")
-//                Pair.create(holder.layBoard, "share_board")
-//                Pair.create(holder.itemView, "share_root")
-//                Pair.create(holder.textPosition, "share_position"),
-//                Pair.create(holder.textTag, "share_lable")
+                //Pair.create(holder.layBoard, "share_board")
+                //Pair.create(holder.itemView, "share_root")
+                //Pair.create(holder.textPosition, "share_position"),
+                //Pair.create(holder.textTag, "share_lable")
         );
         startActivity(intent, options.toBundle());
     }
 
     @Override
-    public void setupFragmentComponent(@NonNull AppComponent appComponent) {
-    }
-
-    @Override
-    public void showLoading() {
-        if (getActivity() instanceof BasicAppActivity) {
-            ((BasicAppActivity) getActivity()).showLoadingDialog();
-        }
-    }
-
-    @Override
-    public void hideLoading() {
-        if (getActivity() instanceof BasicAppActivity) {
-            ((BasicAppActivity) getActivity()).dismissLoadingDialog();
-        }
+    public void onItemScroll(CardUser bean, RecycleAdapterCardUser.Holder holder) {
+        itemTouchHelper.startSwipe(holder);
     }
 
     //////////////////////分页查询////////////////////
