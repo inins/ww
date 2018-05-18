@@ -8,6 +8,9 @@ import com.frame.component.router.Router;
 import com.frame.component.service.funpoint.FunpointService;
 import com.frame.component.service.funshow.FunshowService;
 import com.frame.component.ui.fragment.BuildFragment;
+import com.frame.component.ui.fragment.FriendListFragment;
+import com.frame.component.ui.fragment.GroupListFragment;
+import com.frame.component.ui.fragment.TopicListFragment;
 
 
 /**
@@ -43,11 +46,14 @@ public class PagerAdapterSearch extends FragmentPagerAdapter {
                 FunshowService funshowService = (FunshowService) Router.getInstance().getService(FunshowService.class.getName());
                 return funshowService.getSearchFunshowFragment();
             case 2:
-                return BuildFragment.newInstance();
+//                return BuildFragment.newInstance();
+                return TopicListFragment.newTopicSearch();
             case 3:
-                return BuildFragment.newInstance();
+//                return BuildFragment.newInstance();
+                return GroupListFragment.newSearchAll();
             case 4:
-                return BuildFragment.newInstance();
+//                return BuildFragment.newInstance();
+                return FriendListFragment.newSearchAll();
             default:
                 return null;
         }

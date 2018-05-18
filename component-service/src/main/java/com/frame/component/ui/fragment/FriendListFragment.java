@@ -85,6 +85,15 @@ public class FriendListFragment extends BasicFragment implements
         return fragment;
     }
 
+    public static FriendListFragment newSearchAll() {
+        FriendListFragment fragment = new FriendListFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putInt("type", TYPE_SEARCH_ALL);
+
+        return fragment;
+    }
+
     private ApiHelper mApiHelper;
     private IRepositoryManager mRepositoryManager;
     // 用户id
