@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
 
 import com.frame.component.enums.ConversationType;
 import com.frame.component.path.ImPath;
@@ -13,6 +14,7 @@ import com.frame.di.component.AppComponent;
 import com.frame.router.facade.annotation.Autowired;
 import com.frame.router.facade.annotation.RouteNode;
 import com.wang.social.im.R;
+import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.mvp.contract.GroupConversationContract;
 import com.wang.social.im.mvp.presenter.GroupConversationPresenter;
 import com.wang.social.im.mvp.ui.fragments.SocialConversationFragment;
@@ -76,6 +78,13 @@ public class GroupConversationActivity extends BaseAppActivity<GroupConversation
         if (conversationType != ConversationType.SOCIAL) {
             mRootNav.setMenuLocked(true);
         }
+
+        findViewById(R.id.tv_create_team).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CreateTeamActivity.start(GroupConversationActivity.this, ImHelper.imId2WangId(targetId));
+            }
+        });
     }
 
     @Override

@@ -27,6 +27,7 @@ import com.frame.component.helper.AppDataHelper;
 import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.ui.dialog.AutoPopupWindow;
+import com.frame.component.ui.dialog.DialogActionSheet;
 import com.frame.component.ui.dialog.EditDialog;
 import com.frame.component.utils.UIUtil;
 import com.frame.component.view.SocialToolbar;
@@ -44,6 +45,7 @@ import com.wang.social.im.R2;
 import com.wang.social.im.di.component.DaggerSocialHomeComponent;
 import com.wang.social.im.di.modules.SocialHomeModule;
 import com.wang.social.im.enums.MessageNotifyType;
+import com.wang.social.im.helper.GroupPersonReportHelper;
 import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.mvp.contract.SocialHomeContract;
 import com.wang.social.im.mvp.model.entities.MemberInfo;
@@ -54,6 +56,7 @@ import com.wang.social.im.mvp.presenter.SocialHomePresenter;
 import com.wang.social.im.mvp.ui.adapters.HomeMemberAdapter;
 import com.wang.social.im.mvp.ui.adapters.HomeTagAdapter;
 import com.wang.social.im.mvp.ui.adapters.SocialHomeTeamsAdapter;
+import com.wang.social.pictureselector.helper.PhotoHelper;
 import com.wang.social.pictureselector.helper.PhotoHelperEx;
 import com.wang.social.socialize.SocializeUtil;
 
@@ -189,6 +192,7 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
     String socialId;
     @Inject
     ImageLoader mImageLoader;
+
     PhotoHelperEx mPhotoHelper;
 
     private SocialInfo mSocial;
@@ -199,6 +203,9 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
     private boolean notifyFromCode = false;
 
     private AutoPopupWindow popupWindow;
+    //举报
+    private PhotoHelperEx mPhotoHelperEx;
+    private String mReportComment;
 
     public static void start(Context context, String socialId) {
         Intent intent = new Intent(context, SocialHomeActivity.class);
@@ -289,6 +296,9 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
                         break;
                 }
             }
+        });
+        mPhotoHelperEx = PhotoHelperEx.newInstance(this, path -> {
+
         });
     }
 
@@ -592,7 +602,9 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
     }
 
     private void showReportDialog() {
+        GroupPersonReportHelper.doReport(getSupportFragmentManager(), (position, text) -> {
 
+        });
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
