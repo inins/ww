@@ -70,6 +70,8 @@ public class EventBean implements Serializable {
 
     //主工程搜索参数
     public static final int EVENT_APP_SEARCH = 0xffa501;
+    // IM搜索
+    public static final int EVENT_IM_SEARCH = 0xffa502;
 
     //有人加入游戏
     public static final int EVENT_GAME_JOIN = 0xffa601;
@@ -108,6 +110,7 @@ public class EventBean implements Serializable {
             EVENT_FUNSHOW_LIST_TYPE_CHANGE,
             EVENT_LOCATION_SELECT,
             EVENT_APP_SEARCH,
+            EVENT_IM_SEARCH,
             EVENT_GAME_JOIN,
             EVENT_GAME_RESULT,
             EVENT_HOME_CARD_GENDER_SELECT,

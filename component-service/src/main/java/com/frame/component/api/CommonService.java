@@ -284,4 +284,19 @@ public interface CommonService {
     @POST("app/topic/searchTopic")
     Observable<BaseJson<PageListDTO<TopicDTO, Topic>>> searchTopic(@FieldMap Map<String, Object> param);
 
+    /**
+     * 搜索趣聊
+     */
+    @Headers(HEADER_CONTENT_TYPE)
+    @FormUrlEncoded
+    @POST("app/group/searchGroup")
+    Observable<BaseJson<PageListDTO<GroupBeanDTO, GroupBean>>> searchGroup(@QueryMap Map<String, Object> param);
+
+    /**
+     * 搜索用户
+     */
+    @Headers(HEADER_CONTENT_TYPE)
+    @FormUrlEncoded
+    @POST("app/userInfo/searchUser")
+    Observable<BaseJson<PageListDTO<SearchUserInfoDTO, PersonalInfo>>> searchUser(@QueryMap Map<String, Object> param);
 }
