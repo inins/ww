@@ -1,8 +1,8 @@
 package com.frame.component.api;
 
 import com.frame.component.entities.GroupBean;
+import com.frame.component.entities.dto.NewMoneyTreeGameDTO;
 import com.frame.component.entities.PersonalInfo;
-import com.frame.component.entities.ShareUserInfo;
 import com.frame.component.entities.Topic;
 import com.frame.component.entities.UserWrap;
 import com.frame.component.entities.dto.AccountBalanceDTO;
@@ -12,7 +12,6 @@ import com.frame.component.entities.dto.GroupBeanDTO;
 import com.frame.component.entities.dto.PersonalInfoDTO;
 import com.frame.component.entities.dto.QiNiuDTO;
 import com.frame.component.entities.dto.SearchUserInfoDTO;
-import com.frame.component.entities.dto.ShareUserInfoDTO;
 import com.frame.component.entities.dto.TalkBeanDTO;
 import com.frame.component.entities.dto.TopicDTO;
 import com.frame.component.entities.funshow.FunshowBean;
@@ -29,7 +28,6 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
-import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 /**
@@ -290,7 +288,7 @@ public interface CommonService {
     @Headers(HEADER_CONTENT_TYPE)
     @FormUrlEncoded
     @POST("app/group/searchGroup")
-    Observable<BaseJson<PageListDTO<GroupBeanDTO, GroupBean>>> searchGroup(@QueryMap Map<String, Object> param);
+    Observable<BaseJson<PageListDTO<GroupBeanDTO, GroupBean>>> searchGroup(@FieldMap Map<String, Object> param);
 
     /**
      * 搜索用户
@@ -298,5 +296,21 @@ public interface CommonService {
     @Headers(HEADER_CONTENT_TYPE)
     @FormUrlEncoded
     @POST("app/userInfo/searchUser")
-    Observable<BaseJson<PageListDTO<SearchUserInfoDTO, PersonalInfo>>> searchUser(@QueryMap Map<String, Object> param);
+    Observable<BaseJson<PageListDTO<SearchUserInfoDTO, PersonalInfo>>> searchUser(@FieldMap Map<String, Object> param);
+
+
+    /**
+     * 创建游戏
+     */
+    @FormUrlEncoded
+    @POST("app/moneyTree/createGame")
+    Observable<BaseJson<NewMoneyTreeGameDTO>> createGame(@FieldMap Map<String, Object> param);
+
+
+    /**
+     * 游戏支付
+     */
+    @FormUrlEncoded
+    @POST("app/moneyTree/pay")
+    Observable<BaseJson> gamePay(@FieldMap Map<String, Object> param);
 }

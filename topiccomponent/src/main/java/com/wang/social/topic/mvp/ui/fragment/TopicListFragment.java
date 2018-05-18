@@ -11,6 +11,7 @@ import com.frame.component.entities.Topic;
 import com.frame.component.ui.adapter.TopicListAdapter;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
+import com.frame.mvp.IView;
 import com.frame.utils.ToastUtil;
 import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.container.AliHeader;
@@ -85,23 +86,26 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
             mFragmentType = getArguments().getInt(KEY_TYPE, FRAGMENT_NEW);
         }
 
-        mAdapter = new TopicListAdapter(this, getChildFragmentManager(), mRecyclerView, mPresenter.getTopicList());
-        mAdapter.setClickListener(new TopicListAdapter.ClickListener() {
-            @Override
-            public boolean autoTopicClick() {
-                return true;
-            }
-
-            @Override
-            public void onTopicClick(Topic topic) {
-
-            }
-
-            @Override
-            public void onPayTopicSuccess(Topic topic) {
-
-            }
-        });
+        mAdapter = new TopicListAdapter(getActivity() instanceof IView ? (IView)getActivity() : this,
+                getActivity(),
+                getChildFragmentManager(),
+                mPresenter.getTopicList());
+//        mAdapter.setClickListener(new TopicListAdapter.ClickListener() {
+//            @Override
+//            public boolean autoTopicClick() {
+//                return true;
+//            }
+//
+//            @Override
+//            public void onTopicClick(Topic topic) {
+//
+//            }
+//
+//            @Override
+//            public void onPayTopicSuccess(Topic topic) {
+//
+//            }
+//        });
 
         mRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mAdapter);

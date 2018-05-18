@@ -38,19 +38,22 @@ import java.util.Map;
 
 import butterknife.BindView;
 import io.reactivex.Observable;
-import retrofit2.http.GET;
 
 /**
  * 话题列表
  * 话题列表 （他人名片）
  */
-public class TopicListFragment extends BasicFragment implements IView, TopicListAdapter.ClickListener {
+public class TopicListFragment extends BasicFragment implements IView {
     // 个人话题搜索(默认)
     public final static int TYPE_PERSON_TOPIC_SEARCH = 0;
-    // 话题搜索
-    public final static int TYPE_TOPIC_SEARCH = 1;
+    // 广场话题搜索
+    public final static int TYPE_SQUARE_SEARCH = 1;
+    // 话题页面话题搜索
+    public final static int TYPE_TOPIC_SEARCH = 2;
+
     @IntDef({
             TYPE_PERSON_TOPIC_SEARCH,
+            TYPE_SQUARE_SEARCH,
             TYPE_TOPIC_SEARCH
     })
     @Retention(RetentionPolicy.SOURCE)
@@ -59,6 +62,12 @@ public class TopicListFragment extends BasicFragment implements IView, TopicList
     public static TopicListFragment newInstance(int userid) {
         TopicListFragment fragment = new TopicListFragment();
         fragment.setArguments(getBundle(userid, TYPE_PERSON_TOPIC_SEARCH));
+        return fragment;
+    }
+
+    public static TopicListFragment newSquareSearch() {
+        TopicListFragment fragment = new TopicListFragment();
+        fragment.setArguments(getBundle(-1, TYPE_SQUARE_SEARCH));
         return fragment;
     }
 
@@ -111,7 +120,7 @@ public class TopicListFragment extends BasicFragment implements IView, TopicList
             mType = getArguments().getInt("type");
         }
 
-        mAdapter = new TopicListAdapter(this, mRecyclerView, mList);
+        mAdapter = new TopicListAdapter(this, getActivity(), getChildFragmentManager(), mList);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(
                 getContext(), LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(mAdapter);
@@ -139,7 +148,7 @@ public class TopicListFragment extends BasicFragment implements IView, TopicList
     }
 
     private void loadData(boolean refresh) {
-        if (mType == TYPE_TOPIC_SEARCH) {
+        if (mType != TYPE_PERSON_TOPIC_SEARCH) {
             searchTopic(mKeys, mTags, refresh);
         } else {
             getFriendTopicList(refresh);
@@ -204,6 +213,9 @@ public class TopicListFragment extends BasicFragment implements IView, TopicList
                 .getFriendTopicList(param);
     }
 
+    /**
+     * 话题搜索
+     */
     private void searchTopic(String keyword, String tagNames, boolean refresh) {
         refreshList(refresh);
 
@@ -232,6 +244,13 @@ public class TopicListFragment extends BasicFragment implements IView, TopicList
                 .searchTopic(param);
     }
 
+    public void doSearch(String keyword, String tagNames) {
+        mKeys = keyword;
+        mTags = tagNames;
+
+        mSpringView.callFreshDelay();
+    }
+
 
     @Override
     public void showLoading() {
@@ -250,23 +269,6 @@ public class TopicListFragment extends BasicFragment implements IView, TopicList
     }
 
     @Override
-    public boolean autoTopicClick() {
-        return true;
-    }
-
-    @Override
-    public void onTopicClick(Topic topic) {
-
-    }
-
-    @Override
-    public void onPayTopicSuccess(Topic topic) {
-
-    }
-
-
-
-    @Override
     public boolean useEventBus() {
         return true;
     }
@@ -277,6 +279,8 @@ public class TopicListFragment extends BasicFragment implements IView, TopicList
 
         switch (event.getEvent()) {
             case EventBean.EVENT_APP_SEARCH:
+                if (mType != TYPE_SQUARE_SEARCH) break;
+
                 mKeys = (String) event.get("key");
                 mTags = (String) event.get("tags");
 

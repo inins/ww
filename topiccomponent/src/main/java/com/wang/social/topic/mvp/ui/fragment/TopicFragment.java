@@ -18,6 +18,7 @@ import com.frame.component.view.barview.BarView;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.utils.ToastUtil;
+import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.wang.social.topic.R;
 import com.wang.social.topic.R2;
 import com.wang.social.topic.di.component.DaggerTopicComponent;
@@ -52,7 +53,7 @@ public class TopicFragment extends BaseFragment<TopicPresenter> implements Topic
     TextView mSelectedTag3TV;
     // 最新 最热 无人问津 话题列表类型 Tab
     @BindView(R2.id.tab_layout)
-    TabLayout mTabLayout;
+    SmartTabLayout mTabLayout;
     // TabLayout 后面的搜索图标，TabLayout停靠顶部时显示
     @BindView(R2.id.tab_layout_search_image_view)
     GradualImageView mTabLayoutSearchIV;
@@ -147,25 +148,42 @@ public class TopicFragment extends BaseFragment<TopicPresenter> implements Topic
     /**
      * 搜索
      */
-    @OnClick({R2.id.search_layout, R2.id.tab_layout_search_image_view})
+    @OnClick({R2.id.btn_search, R2.id.tab_layout_search_image_view})
     public void search() {
 //        mPresenter.search();
         // 跳转到搜索页面
-//        SearchActivity.start(getActivity());
+        SearchActivity.start(getActivity());
 
-        ReleaseTopicActivity.start(getActivity());
+//        ReleaseTopicActivity.start(getActivity());
     }
 
     /**
      * 初始化话题列表
      */
     private void initTopicList() {
-        mTabLayout.removeAllTabs();
-        for (int resId : TAB_TITLES) {
-            mTabLayout.addTab(mTabLayout.newTab().setText(getString(resId)));
-        }
+//        mTabLayout.removeAllTabs();
+//        for (int resId : TAB_TITLES) {
+//            mTabLayout.addTab(mTabLayout.newTab().setText(getString(resId)));
+//        }
+//
+//        mTabLayout.setupWithViewPager(mViewPager);
+//        mViewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
+//            @Override
+//            public Fragment getItem(int position) {
+//                return TopicListFragment.newInstance(position);
+//            }
+//
+//            @Override
+//            public int getCount() {
+//                return TAB_TITLES.length;
+//            }
+//
+//            @Override
+//            public CharSequence getPageTitle(int position) {
+//                return getString(TAB_TITLES[position]);
+//            }
+//        });
 
-        mTabLayout.setupWithViewPager(mViewPager);
         mViewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
@@ -182,6 +200,7 @@ public class TopicFragment extends BaseFragment<TopicPresenter> implements Topic
                 return getString(TAB_TITLES[position]);
             }
         });
+        mTabLayout.setViewPager(mViewPager);
     }
 
     @Override

@@ -64,10 +64,12 @@ public class TopicDTO implements Mapper<Topic> {
         object.setSupportTotal(EntitiesUtil.assertNotNull(topicSupportNum));
         object.setCreateTime(EntitiesUtil.assertNotNull(createTime));
         object.setCommentTotal(EntitiesUtil.assertNotNull(topicCommentNum));
+        // 是否收费（0免费 1收费）
         object.setRelateState(EntitiesUtil.assertNotNull(isFree));
         object.setRelateMoney(EntitiesUtil.assertNotNull(price));
         object.setTags(null == topicTag ? new ArrayList<>() : topicTag);
-        object.setShopping(isShopping != 0);
+        // 是否需要购买（0 无需购买 1 购买）
+        object.setShopping(isShopping == 0);
         object.setAvatar(EntitiesUtil.assertNotNull(userCover));
         object.setNickname(EntitiesUtil.assertNotNull(userName));
 

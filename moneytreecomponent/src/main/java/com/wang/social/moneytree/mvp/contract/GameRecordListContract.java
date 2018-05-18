@@ -3,10 +3,7 @@ package com.wang.social.moneytree.mvp.contract;
 import com.frame.http.api.BaseJson;
 import com.frame.mvp.IModel;
 import com.frame.mvp.IView;
-import com.wang.social.moneytree.mvp.model.entities.NewGame;
-import com.wang.social.moneytree.mvp.model.entities.dto.GameBeansDTO;
 import com.wang.social.moneytree.mvp.model.entities.dto.GameRecordsDTO;
-import com.wang.social.moneytree.mvp.model.entities.dto.NewGameDTO;
 
 import io.reactivex.Observable;
 

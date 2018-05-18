@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.frame.component.router.Router;
 import com.frame.component.service.funpoint.FunpointService;
 import com.frame.component.service.funshow.FunshowService;
-import com.frame.component.ui.fragment.BuildFragment;
 import com.frame.component.ui.fragment.FriendListFragment;
 import com.frame.component.ui.fragment.GroupListFragment;
 import com.frame.component.ui.fragment.TopicListFragment;
@@ -47,7 +46,7 @@ public class PagerAdapterSearch extends FragmentPagerAdapter {
                 return funshowService.getSearchFunshowFragment();
             case 2:
 //                return BuildFragment.newInstance();
-                return TopicListFragment.newTopicSearch();
+                return TopicListFragment.newSquareSearch();
             case 3:
 //                return BuildFragment.newInstance();
                 return GroupListFragment.newSearchAll();

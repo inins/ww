@@ -1,13 +1,13 @@
-package com.wang.social.moneytree.mvp.model.entities.dto;
+package com.frame.component.entities.dto;
 
+import com.frame.component.entities.NewMoneyTreeGame;
+import com.frame.component.utils.EntitiesUtil;
 import com.frame.http.api.Mapper;
-import com.wang.social.moneytree.mvp.model.entities.EntitiesUtil;
-import com.wang.social.moneytree.mvp.model.entities.NewGame;
 
 import lombok.Data;
 
 @Data
-public class NewGameDTO implements Mapper<NewGame> {
+public class NewMoneyTreeGameDTO implements Mapper<NewMoneyTreeGame> {
     private Integer applyId;
     private Integer diamond;
     private Integer payState;
@@ -17,8 +17,8 @@ public class NewGameDTO implements Mapper<NewGame> {
     private Integer balance;
 
     @Override
-    public NewGame transform() {
-        NewGame o = new NewGame();
+    public NewMoneyTreeGame transform() {
+        NewMoneyTreeGame o = new NewMoneyTreeGame();
 
         o.setApplyId(EntitiesUtil.assertNotNull(applyId));
         o.setDiamond(EntitiesUtil.assertNotNull(diamond));

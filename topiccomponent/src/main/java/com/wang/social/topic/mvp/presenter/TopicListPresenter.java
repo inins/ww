@@ -44,25 +44,12 @@ public class TopicListPresenter extends
         super(model, view);
     }
 
-    public Topic getTopic(int position) {
-
-        if (position >= 0 && position < mTopicList.size()) {
-            return mTopicList.get(position);
-        }
-
-        return null;
-    }
-
     public List<Topic> getTopicList() {
         return mTopicList;
     }
 
     public void setTagAll(boolean tagAll) {
         mTagAll = tagAll;
-    }
-
-    public int getTopicCount() {
-        return mTopicList.size();
     }
 
     public void clearTopicList() {
@@ -92,21 +79,13 @@ public class TopicListPresenter extends
         }
 
         if (null == mConsumer) {
-            mConsumer = new Consumer<Disposable>() {
-                @Override
-                public void accept(Disposable disposable) throws Exception {
-                    mRootView.showLoading();
-                }
-            };
+            mConsumer = disposable -> mRootView.showLoading();
         }
 
         if (null == mAction) {
-            mAction = new Action() {
-                @Override
-                public void run() throws Exception {
-                    mRootView.onTopicLoadCompleted();
-                    mRootView.hideLoading();
-                }
+            mAction = () -> {
+                mRootView.onTopicLoadCompleted();
+                mRootView.hideLoading();
             };
         }
     }

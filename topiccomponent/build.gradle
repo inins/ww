@@ -100,6 +100,8 @@ dependencies {
     implementation project(':component-service')
     annotationProcessor project(':router-anno-compiler')
     implementation 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'
+    //代替tablayout
+    implementation 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
 
     implementation project(':springlibrary')
     implementation project(':pictureselectorcomponent')

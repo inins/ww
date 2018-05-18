@@ -6,11 +6,8 @@ import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
 import com.wang.social.moneytree.mvp.contract.GameRecordListContract;
-import com.wang.social.moneytree.mvp.model.entities.GameBean;
-import com.wang.social.moneytree.mvp.model.entities.GameBeans;
 import com.wang.social.moneytree.mvp.model.entities.GameRecord;
 import com.wang.social.moneytree.mvp.model.entities.GameRecords;
-import com.wang.social.moneytree.mvp.model.entities.NewGame;
 
 import java.util.ArrayList;
 import java.util.List;

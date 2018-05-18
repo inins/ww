@@ -1,7 +1,9 @@
 package com.frame.component.ui.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -29,23 +31,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import timber.log.Timber;
+
 public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.ViewHolder> {
-
-    public interface ClickListener {
-        boolean autoTopicClick();
-
-        void onTopicClick(Topic topic);
-
-        void onPayTopicSuccess(Topic topic);
-
-        ;
-    }
 
     private IView mIView;
     private Context mContext;
+    private Activity mActivity;
     private FragmentManager mFragmentManager;
     private List<Topic> mList;
-    private ClickListener mClickListener;
 
     public TopicListAdapter(IView bindView, RecyclerView recyclerView, List<Topic> list) {
         mIView = bindView;
@@ -53,15 +47,12 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
         mList = list;
     }
 
-    public TopicListAdapter(IView IView, FragmentManager fragmentManager, RecyclerView recyclerView, List<Topic> list) {
+    public TopicListAdapter(IView IView, Activity activity, FragmentManager fragmentManager, List<Topic> list) {
         mIView = IView;
-        mContext = recyclerView.getContext().getApplicationContext();
+        mActivity = activity;
+        mContext = activity.getApplicationContext();
         mFragmentManager = fragmentManager;
         mList = list;
-    }
-
-    public void setClickListener(ClickListener clickListener) {
-        mClickListener = clickListener;
     }
 
     @Override
@@ -95,17 +86,19 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
         // 简要
         holder.contentTV.setText(topic.getFirstStrff());
         // 图片
-        holder.imageView.setVisibility(View.INVISIBLE);
         if (!TextUtils.isEmpty(topic.getBackgroundImage())) {
-            holder.imageView.setVisibility(View.VISIBLE);
+            holder.imageCV.setVisibility(View.VISIBLE);
             FrameUtils.obtainAppComponentFromContext(mContext)
                     .imageLoader()
                     .loadImage(mContext,
                             ImageConfigImpl.builder()
                                     .imageView(holder.imageView)
                                     .url(topic.getBackgroundImage())
+                                    .placeholder(R.drawable.default_rect)
                                     .transformation(new RoundedCorners(SizeUtils.dp2px(8)))
                                     .build());
+        } else {
+            holder.imageCV.setVisibility(View.GONE);
         }
         // 用户头像
         holder.avatarIV.setVisibility(View.INVISIBLE);
@@ -137,14 +130,11 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
 
                     NetZanHelper.newInstance()
                             .topicZan(mIView, holder.praiseTV, t.getTopicId(), !t.isSupport(),
-                                    new NetZanHelper.OnZanCallback() {
-                                        @Override
-                                        public void onSuccess(boolean isZan, int zanCount) {
-                                            t.setSupportTotal(zanCount);
-                                            t.setSupport(isZan);
+                                    (boolean isZan, int zanCount) -> {
+                                        t.setSupportTotal(zanCount);
+                                        t.setSupport(isZan);
 
-                                            notifyDataSetChanged();
-                                        }
+                                        notifyDataSetChanged();
                                     });
                 }
             }
@@ -181,31 +171,26 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
 
         // 点击
         holder.rootView.setTag(topic);
-        holder.rootView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mClickListener && v.getTag() instanceof Topic) {
-                    Topic t = (Topic) v.getTag();
-
-                    if (mClickListener.autoTopicClick()) {
-                        // 是否需要支付
-                        if (t.getRelateState() == 1 && !t.isShopping()) {
-                            // 如果没有设置点击监听，则直接处理支付
-                            if (null != mFragmentManager) {
-                                DialogPay.showPayTopic(mIView, mFragmentManager,
-                                        t, -1, new DialogPay.DialogPayCallback() {
-                                            @Override
-                                            public void onPay() {
-                                                payTopic(t);
-                                            }
-                                        });
-                            }
-                        } else {
-                            // 直接打开话题详情
-                            CommonHelper.TopicHelper.startTopicDetail(mContext, t.getTopicId());
-                        }
+        holder.rootView.setOnClickListener(v -> {
+            if (v.getTag() instanceof Topic) {
+                Topic t = (Topic) v.getTag();
+                // 是否需要支付
+                if (t.getRelateState() == 1 && !t.isShopping()) {
+                    // 处理支付
+                    if (null != mFragmentManager) {
+                        DialogPay.showPayTopic(mIView, mFragmentManager,
+                                t,
+                                -1,
+                                () -> payTopic(t));
                     } else {
-                        mClickListener.onTopicClick(t);
+                        Timber.i("fragmentmanager is null");
+                    }
+                } else {
+                    // 直接打开话题详情
+                    if (null != mActivity) {
+                        CommonHelper.TopicHelper.startTopicDetail(mActivity, t.getTopicId());
+                    } else {
+                        Timber.e("activity is null");
                     }
                 }
             }
@@ -213,22 +198,19 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
     }
 
     private void payTopic(Topic topic) {
-        NetPayStoneHelper.newInstance().netPayTopic(mIView, topic.getTopicId(), topic.getRelateMoney(),
-                new NetPayStoneHelper.OnStonePayCallback() {
-                    @Override
-                    public void success() {
-                        topic.setShopping(true);
+        NetPayStoneHelper.newInstance()
+                .netPayTopic(mIView,
+                        topic.getTopicId(),
+                        topic.getRelateMoney(),
+                        () -> {
+                            Timber.i("支付成功，打开详情");
+                            topic.setShopping(true);
 
-                        // 打开话题详情
-                        CommonHelper.TopicHelper.startTopicDetail(mContext, topic.getTopicId());
+                            // 打开话题详情
+                            CommonHelper.TopicHelper.startTopicDetail(mContext, topic.getTopicId());
 
-                        if (null != mClickListener) {
-                            mClickListener.onPayTopicSuccess(topic);
-                        }
-
-                        notifyDataSetChanged();
-                    }
-                });
+                            notifyDataSetChanged();
+                        });
     }
 
     public String formatCreateDate(Context context, long mills) {
@@ -260,6 +242,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
         TextView contentTV;
         ImageView avatarIV;
         TextView userNameTV;
+        CardView imageCV;
         ImageView imageView;
         ImageView praiseIV;
         TextView praiseTV;
@@ -282,6 +265,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
             contentTV = itemView.findViewById(R.id.content_text_view);
             avatarIV = itemView.findViewById(R.id.avatar_image_view);
             userNameTV = itemView.findViewById(R.id.user_name_text_view);
+            imageCV = itemView.findViewById(R.id.card_pic);
             imageView = itemView.findViewById(R.id.image_view);
             praiseIV = itemView.findViewById(R.id.praise_image_view);
             praiseTV = itemView.findViewById(R.id.praise_text_view);

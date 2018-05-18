@@ -12,8 +12,10 @@ import android.support.v4.content.ContextCompat;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -61,7 +63,7 @@ public class DialogPay extends DialogFragment {
                 "您当前余额为%1d钻",
                 "再逛逛",
                 "立即支付",
-                "",
+                "去充值",
                 topic.getRelateMoney(),
                 balance,
                 callback);
@@ -69,17 +71,18 @@ public class DialogPay extends DialogFragment {
 
     /**
      * 显示付费对话框(自身调用 NetAccountBalanceHelper )
-     * @param bindView IView
-     * @param manager FramgentManager
-     * @param titleText 标题
-     * @param hintText 提示 （您当前余额为%1d钻）
-     * @param cancelText 取消文字
-     * @param payText 支付
+     *
+     * @param bindView     IView
+     * @param manager      FramgentManager
+     * @param titleText    标题
+     * @param hintText     提示 （您当前余额为%1d钻）
+     * @param cancelText   取消文字
+     * @param payText      支付
      * @param rechargeText 去充值
-     * @param price 价格
-     * @Param balance 余额，当余额为 < 0 时，会调用 accountBalance 查询余额
-     * @param callback 回调
+     * @param price        价格
+     * @param callback     回调
      * @return
+     * @Param balance 余额，当余额为 < 0 时，会调用 accountBalance 查询余额
      */
     public static DialogPay showPay(IView bindView,
                                     FragmentManager manager,
@@ -97,6 +100,7 @@ public class DialogPay extends DialogFragment {
         dialog.setCallback(callback);
         dialog.setPrice(price);
         if (balance < 0) {
+            // 获取钱包信息
             NetAccountBalanceHelper.newInstance()
                     .accountBalance(bindView,
                             new ErrorHandleSubscriber<AccountBalance>() {
@@ -110,17 +114,9 @@ public class DialogPay extends DialogFragment {
                                 public void onError(Throwable e) {
                                     ToastUtil.showToastLong(e.getMessage());
                                 }
-                            }, new Consumer<Disposable>() {
-                                @Override
-                                public void accept(Disposable disposable) throws Exception {
-                                    bindView.showLoading();
-                                }
-                            }, new Action() {
-                                @Override
-                                public void run() throws Exception {
-                                    bindView.hideLoading();
-                                }
-                            }
+                            },
+                            disposable -> bindView.showLoading(),
+                            () -> bindView.hideLoading()
                     );
         } else {
             dialog.setBalance(balance);
@@ -221,39 +217,37 @@ public class DialogPay extends DialogFragment {
         }
 
         // 取消
-        cancelText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogPay.this.dismiss();
-            }
-        });
+        cancelText.setOnClickListener(v -> DialogPay.this.dismiss());
 
-        payText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mCallback) {
-                    if (mPrice > mBalance) {
-                        ToastUtil.showToastLong("去充值");
-                    } else {
-                        mCallback.onPay();
-                    }
+        payText.setOnClickListener(v -> {
+            if (null != mCallback) {
+                if (mPrice > mBalance) {
+                    ToastUtil.showToastLong("去充值");
+                } else {
+                    mCallback.onPay();
                 }
-
-                DialogPay.this.dismiss();
             }
+
+            DialogPay.this.dismiss();
         });
 
         Dialog dialog = new Dialog(getActivity(), 0);
         dialog.setContentView(view);
 
         dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(true);
+
+        Window window = dialog.getWindow();
+        WindowManager.LayoutParams lp = window.getAttributes();
+        lp.gravity = Gravity.CENTER;
+        window.setAttributes(lp);
 
         WindowManager windowManager = (WindowManager) getActivity()
                 .getSystemService(Context.WINDOW_SERVICE);
         Display display = windowManager.getDefaultDisplay();
         // 调整dialog背景大小
         view.setLayoutParams(new FrameLayout.LayoutParams(
-                (int) (display.getWidth() * 0.85),
+                LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT));
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 

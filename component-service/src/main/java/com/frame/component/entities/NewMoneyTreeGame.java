@@ -1,9 +1,9 @@
-package com.wang.social.moneytree.mvp.model.entities;
+package com.frame.component.entities;
 
 import lombok.Data;
 
 @Data
-public class NewGame {
+public class NewMoneyTreeGame {
     private int applyId;
     private int diamond;
     private int payState;

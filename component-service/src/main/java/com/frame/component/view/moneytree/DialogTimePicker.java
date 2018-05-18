@@ -1,4 +1,4 @@
-package com.wang.social.moneytree.mvp.ui.widget;
+package com.frame.component.view.moneytree;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -14,16 +14,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import com.frame.component.service.R;
 import com.frame.component.view.WheelPicker;
-import com.frame.utils.ToastUtil;
-import com.wang.social.moneytree.R;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class DialogTimePicker extends DialogFragment {
 

@@ -8,7 +8,6 @@ import com.wang.social.moneytree.mvp.model.entities.dto.GameBeansDTO;
 import com.wang.social.moneytree.mvp.model.entities.dto.GameRecordsDTO;
 import com.wang.social.moneytree.mvp.model.entities.dto.JoinGameDTO;
 import com.wang.social.moneytree.mvp.model.entities.dto.RoomMsgDTO;
-import com.wang.social.moneytree.mvp.model.entities.dto.NewGameDTO;
 
 import java.util.Map;
 
@@ -22,20 +21,6 @@ import retrofit2.http.QueryMap;
 public interface MoneyTreeService {
 
     String HEADER_CONTENT_TYPE = "Content-Type:application/x-www-form-urlencoded; charset=utf-8";
-
-    /**
-     * 创建游戏
-     */
-    @FormUrlEncoded
-    @POST("app/moneyTree/createGame")
-    Observable<BaseJson<NewGameDTO>> createGame(@FieldMap Map<String, Object> param);
-
-    /**
-     * 游戏支付
-     */
-    @FormUrlEncoded
-    @POST("app/moneyTree/pay")
-    Observable<BaseJson> gamePay(@FieldMap Map<String, Object> param);
 
     /**
      * 游戏列表
