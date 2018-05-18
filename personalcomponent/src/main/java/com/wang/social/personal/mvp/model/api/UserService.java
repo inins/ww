@@ -8,7 +8,6 @@ import com.wang.social.personal.mvp.entities.CommonEntity;
 import com.wang.social.personal.mvp.entities.QiniuTokenWrap;
 import com.frame.component.entities.UserWrap;
 import com.wang.social.personal.mvp.entities.deposit.DepositRecord;
-import com.wang.social.personal.mvp.entities.funshow.FunshowMe;
 import com.wang.social.personal.mvp.entities.income.DiamondStoneIncome;
 import com.wang.social.personal.mvp.entities.lable.LableWrap;
 import com.wang.social.personal.mvp.entities.photo.OffiPic;
@@ -18,7 +17,6 @@ import com.wang.social.personal.mvp.entities.privates.PrivateDetail;
 import com.wang.social.personal.mvp.entities.recharge.PayInfo;
 import com.wang.social.personal.mvp.entities.recharge.Recharge;
 import com.wang.social.personal.mvp.entities.thirdlogin.BindHistory;
-import com.wang.social.personal.mvp.entities.topic.TopicMe;
 import com.wang.social.personal.mvp.entities.user.QrcodeInfo;
 import com.wang.social.personal.mvp.entities.user.UserRepresent;
 import com.wang.social.personal.mvp.entities.user.UserStatistic;
@@ -180,16 +178,6 @@ public interface UserService {
     //代言收益用户列表
     @GET("/app/userWallet/getUserShareByUserId?v=2.0.0")
     Observable<BaseJson<BaseListWrap<UserRepresent>>> getRepresentUserList(@Query("current") int current, @Query("size") int size);
-
-    //用户趣晒列表
-    @FormUrlEncoded
-    @POST("/app/talk/getMyTalkList?v=2.0.0")
-    Observable<BaseJson<BaseListWrap<FunshowMe>>> getFunshowList(@Field("current") int current, @Field("size") int size);
-
-    //用户话题列表
-    @FormUrlEncoded
-    @POST("/app/topic/getMyTopicList?v=2.0.0")
-    Observable<BaseJson<BaseListWrap<TopicMe>>> getTopicList(@Field("current") int current, @Field("size") int size);
 
     @GET("/app/userWallet/packageList?v=2.0.0&platform=android")
     Observable<BaseJson<BaseListWrap<Recharge>>> getPayList();

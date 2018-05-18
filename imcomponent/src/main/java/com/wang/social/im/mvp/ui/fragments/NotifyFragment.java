@@ -60,7 +60,7 @@ public class NotifyFragment extends BasicFragment {
     public void onViewClicked(View view) {
         int id = view.getId();
         if (id == R.id.lay_official) {
-//            QrcodeGroupActivity.start(getContext());
+            QrcodeGroupActivity.start(getContext(), 26);
         } else if (id == R.id.text_sysmsg) {
             NotifySysMsgListActivity.start(getContext());
         } else if (id == R.id.text_friend) {

@@ -1,32 +1,39 @@
-package com.wang.social.home.mvp.entities.funshow;
+package com.wang.social.funshow.mvp.entities.funshow;
 
 import com.frame.component.entities.funshow.FunshowBean;
+import com.frame.utils.StrUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import lombok.Data;
 
 @Data
-public class FunshowHome {
+public class FunshowSearch {
+
 
     /**
-     * userId : 10008
-     * createTime : 1522068104000
-     * nickname : 洗白白
-     * headImg : http://resouce.dongdongwedding.com/wan7405.jpg
-     * talkId : 496
-     * content : 草泥马
-     * address : 天府大道北段思拓国际托福雅思SAT培训中心
-     * mediaType : 3
-     * readTotal : 0
+     * creatorId : 10013
+     * createTime : 1524817294000
+     * nickname : 小白
+     * headImg : http://resouce.dongdongwedding.com/FisxstkH-zOZjTyxO1Ej_8svMSBU
+     * talkId : 49
+     * content : 测试收费11111111111
+     * province : 四川省
+     * city : 成都市
+     * address : 天府大道北段1700号新世纪环球中心E1-1012号
+     * mediaType : 1
+     * readTotal : 3
      * commentTotal : 0
      * supportTotal : 0
      * shareTotal : 0
-     * relateState : 0
-     * relateMoney : 0
+     * relateState : 1
+     * gemstone : 500
      * talkLiked : 0
      * talkPayed : 0
      * isAnonymous : 0
-     * url : http://resouce.dongdongwedding.com/wangwance9ca.jpg
-     * urls : http://resouce.dongdonggw20140.jpg
+     * url : http://resouce.dongdongwedding.com/Data/wangwang/iOS-2018-04-27-Ye4iRALr.png
+     * urls : 18
      */
 
     private int creatorId;
@@ -35,16 +42,16 @@ public class FunshowHome {
     private String headImg;
     private int talkId;
     private String content;
-    private String address;
     private String province;
     private String city;
+    private String address;
     private int mediaType;
     private int readTotal;
     private int commentTotal;
     private int supportTotal;
     private int shareTotal;
     private int relateState;
-    private int relateMoney;
+    private int gemstone;
     private int talkLiked;
     private int talkPayed;
     private String isAnonymous;
@@ -90,8 +97,18 @@ public class FunshowHome {
         funshowBean.setSupport(isLiked());
         funshowBean.setCityName(city);
         funshowBean.setProvinceName(province);
-        funshowBean.setPrice(relateMoney);
+        funshowBean.setPrice(gemstone);
         funshowBean.setPay(isPay());
         return funshowBean;
+    }
+
+    public static List<FunshowBean> tans2FunshowBeanList(List<FunshowSearch> list) {
+        List<FunshowBean> toList = new ArrayList<>();
+        if (!StrUtil.isEmpty(list)) {
+            for (FunshowSearch bean : list) {
+                toList.add(bean.tans2FunshowBean());
+            }
+        }
+        return toList;
     }
 }

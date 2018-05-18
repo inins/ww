@@ -55,12 +55,13 @@ public class CardLayoutManager extends RecyclerView.LayoutManager {
             //第几层,举例子，count =7， 最后一个TopView（6）是第0层，
             int level = itemCount - position - 1;
 
+            view.setRotation(0);
             if (level == 0) {
                 //第一个
                 view.setTranslationY(0);
                 view.setScaleY(1);
                 view.setScaleX(1);
-            } else if (level == viewCount - 1) {
+            } else if (level == viewCount - 1 && viewCount >= CardConfig.MAX_SHOW_COUNT) {
                 //最后一个
                 //Y方向位移及缩小等同于上一级
                 view.setTranslationY(CardConfig.TRANS_Y_GAP * (level - 1));

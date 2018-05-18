@@ -6,15 +6,16 @@ import android.widget.ImageView;
 
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
-import com.frame.component.entities.funpoint.Funpoint;
+import com.frame.component.entities.funshow.FunshowBean;
 import com.frame.component.helper.ImageLoaderHelper;
+import com.frame.component.view.FunshowView;
 import com.wang.social.funshow.R;
 import com.wang.social.funshow.R2;
 import com.wang.social.funshow.mvp.entities.funshow.Funshow;
 
 import butterknife.BindView;
 
-public class RecycleAdapterSearch extends BaseAdapter<Funshow> {
+public class RecycleAdapterSearch extends BaseAdapter<FunshowBean> {
 
     private String tags;
     private String key;
@@ -24,21 +25,18 @@ public class RecycleAdapterSearch extends BaseAdapter<Funshow> {
         return new Holder(context, parent, R.layout.funshow_item_home);
     }
 
-    public class Holder extends BaseViewHolder<Funshow> {
+    public class Holder extends BaseViewHolder<FunshowBean> {
 
-        @BindView(R2.id.img_header)
-        ImageView imgHeader;
-        @BindView(R2.id.img_pic)
-        ImageView imgPic;
+        @BindView(R2.id.funshow_view)
+        FunshowView funshowView;
 
         public Holder(Context context, ViewGroup root, int layoutRes) {
             super(context, root, layoutRes);
         }
 
         @Override
-        protected void bindData(Funshow bean, int position, OnItemClickListener onItemClickListener) {
-            ImageLoaderHelper.loadCircleImgTest(imgHeader);
-            ImageLoaderHelper.loadImgTest(imgPic);
+        protected void bindData(FunshowBean bean, int position, OnItemClickListener onItemClickListener) {
+            funshowView.setData(bean);
         }
 
         @Override

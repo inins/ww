@@ -14,12 +14,15 @@ import com.frame.component.helper.NetReportHelper;
 import com.frame.component.helper.QiNiuManager;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
 import com.frame.component.ui.dialog.DialogActionSheet;
+import com.frame.entities.EventBean;
 import com.frame.utils.TimeUtils;
 import com.frame.utils.ToastUtil;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.mvp.model.entities.notify.FriendRequest;
 import com.wang.social.pictureselector.helper.PhotoHelper;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 
@@ -76,10 +79,12 @@ public class NotifyFriendRequestDetailActivity extends BasicAppNoDiActivity {
 
         } else if (id == R.id.btn_agree) {
             NetFriendHelper.newInstance().netAgreeFriendApply(this, friendRequest.getUserId(), friendRequest.getMsgId(), true, () -> {
+                EventBus.getDefault().post(new EventBean(EventBean.EVENT_NOTIFY_DETAIL_DEAL).put("isAgree", true));
                 finish();
             });
         } else if (id == R.id.btn_disagree) {
             NetFriendHelper.newInstance().netAgreeFriendApply(this, friendRequest.getUserId(), friendRequest.getMsgId(), false, () -> {
+                EventBus.getDefault().post(new EventBean(EventBean.EVENT_NOTIFY_DETAIL_DEAL).put("isAgree", false));
                 finish();
             });
         } else if (id == R.id.btn_report) {
@@ -92,8 +97,8 @@ public class NotifyFriendRequestDetailActivity extends BasicAppNoDiActivity {
                                 public void onSuccess(String url) {
                                     NetReportHelper.newInstance().netReportPerson(NotifyFriendRequestDetailActivity.this, friendRequest.getUserId()
                                             , text, url, () -> {
-                                        finish();
-                                    });
+                                                finish();
+                                            });
                                 }
 
                                 @Override

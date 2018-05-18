@@ -66,8 +66,7 @@ public class ItemTouchCardCallback extends ItemTouchHelper.SimpleCallback {
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
         //★实现循环的要点
         Object remove = mDatas.remove(viewHolder.getLayoutPosition());
-        mDatas.add(0, remove);
-        Object next = mDatas.get(mDatas.size() - 1);
+//        mDatas.add(0, remove);
         mAdapter.notifyDataSetChanged();
 
         //item复位
@@ -114,7 +113,7 @@ public class ItemTouchCardCallback extends ItemTouchHelper.SimpleCallback {
                     else
                         ((BaseCardViewHolder) viewHolder).setDisLikeAlpha(Math.abs(fractionX));
                 }
-            } else if (level == viewCount - 1) {
+            } else if (level == viewCount - 1 && viewCount >= CardConfig.MAX_SHOW_COUNT) {
                 //最后一个
                 //Y方向位移及缩小等同于上一级
                 child.setScaleY(1 - CardConfig.SCALE_GAP * (level - 1));

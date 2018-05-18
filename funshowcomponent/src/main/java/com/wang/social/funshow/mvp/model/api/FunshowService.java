@@ -6,6 +6,7 @@ import com.wang.social.funshow.mvp.entities.eva.Comment;
 import com.wang.social.funshow.mvp.entities.eva.CommentReply;
 import com.wang.social.funshow.mvp.entities.funshow.Funshow;
 import com.wang.social.funshow.mvp.entities.funshow.FunshowDetail;
+import com.wang.social.funshow.mvp.entities.funshow.FunshowSearch;
 import com.wang.social.funshow.mvp.entities.post.FunshowAddPost;
 import com.wang.social.funshow.mvp.entities.user.Friend;
 import com.wang.social.funshow.mvp.entities.user.TopUser;
@@ -82,6 +83,13 @@ public interface FunshowService {
      */
     @POST("/app/talk/saveTalk?v=2.0.0")
     Observable<BaseJson<Object>> addFunshow(@Body FunshowAddPost postBean);
+
+
+    /**
+     * 搜索趣晒
+     */
+    @GET("/app/talk/searchTalk?v=2.0.0")
+    Observable<BaseJson<BaseListWrap<FunshowSearch>>> searchFunshow(@Query("keyword") String keyword, @Query("current") int current, @Query("size") int size);
 
 
 }

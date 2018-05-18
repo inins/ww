@@ -1,6 +1,7 @@
 package com.frame.component.ui.dialog;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 import com.frame.component.common.SimpleTextWatcher;
 import com.frame.component.service.R;
 import com.frame.component.service.R2;
+import com.frame.utils.ToastUtil;
 
 import butterknife.BindView;
 
@@ -58,7 +60,11 @@ public class DialogValiRequest extends BaseDialogOkCancel {
     public static void showDialog(Context context, OnSureCallback callback) {
         DialogValiRequest dialogSure = new DialogValiRequest(context);
         dialogSure.setOkClickListener(view -> {
-            if (callback != null) callback.onOkClick(dialogSure.getContent());
+            if (!TextUtils.isEmpty(dialogSure.getContent())) {
+                if (callback != null) callback.onOkClick(dialogSure.getContent());
+            } else {
+                ToastUtil.showToastShort("请输入验证信息");
+            }
             dialogSure.dismiss();
         });
         dialogSure.show();

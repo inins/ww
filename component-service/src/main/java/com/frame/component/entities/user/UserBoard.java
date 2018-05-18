@@ -34,6 +34,7 @@ public class UserBoard {
     private String cityName;
     private String city;
     private int sex;
+    private int isFirend;
     private String nickname;
     private String autograph;
     private String avatar;
@@ -44,6 +45,10 @@ public class UserBoard {
 
     public boolean isMale() {
         return sex == 0;
+    }
+
+    public boolean isFriend() {
+        return isFirend == 1;
     }
 
     public String getTagTextDot() {

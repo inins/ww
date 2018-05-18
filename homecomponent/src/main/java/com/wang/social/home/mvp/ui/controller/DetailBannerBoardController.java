@@ -18,6 +18,7 @@ import com.frame.utils.ToastUtil;
 import com.wang.social.home.R;
 import com.wang.social.home.R2;
 import com.wang.social.home.mvp.entities.card.CardUser;
+import com.wang.social.home.mvp.ui.activity.CardDetailActivity;
 
 import butterknife.BindView;
 
@@ -75,6 +76,10 @@ public class DetailBannerBoardController extends BaseController {
             textSign.setText(user.getAutograph());
             connertextLable.setTagText(user.getTagTextDot());
             banner.setDatas(user.getBannerImageList());
+            //设置添加按钮可见性
+            if (getContext() instanceof CardDetailActivity) {
+                ((CardDetailActivity) getContext()).setAddBtnVisible(!user.isFriend());
+            }
         }
     }
 
@@ -102,4 +107,5 @@ public class DetailBannerBoardController extends BaseController {
                     }
                 });
     }
+
 }

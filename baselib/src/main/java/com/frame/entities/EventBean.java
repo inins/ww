@@ -45,6 +45,8 @@ public class EventBean implements Serializable {
     public static final int EVENT_TAB_USER = 0xffa205;
     //个人中心兑换宝石
     public static final int EVENT_ACCOUNT_EXCHANGE_STONE = 0xffa206;
+    //个人中心充值成功
+    public static final int EVENT_ACCOUNT_RECHARGE_SUCCESS = 0xffa207;
 
     //趣晒控制器通知点赞数量，评论数量，分享数量
     public static final int EVENT_CTRL_FUNSHOW_DETAIL_DATA = 0xffa301;
@@ -83,6 +85,9 @@ public class EventBean implements Serializable {
     //首页卡牌选择年龄筛选条件
     public static final int EVENT_HOME_CARD_AGE_SELECT = 0xffa702;
 
+    //通知好友申请详情，处理好友申请
+    public static final int EVENT_NOTIFY_DETAIL_DEAL = 0xffa801;
+
     @IntDef({
             EVENTBUS_TAG_SELECTED,
             EVENTBUS_TAG_UNSELECT,
@@ -99,6 +104,7 @@ public class EventBean implements Serializable {
             EVENT_PRIVATE_UPDATE,
             EVENT_TAB_USER,
             EVENT_ACCOUNT_EXCHANGE_STONE,
+            EVENT_ACCOUNT_RECHARGE_SUCCESS,
             EVENT_CTRL_FUNSHOW_DETAIL_DATA,
             EVENT_FUNSHOW_DETAIL_ADD_EVA,
             EVENT_FUNSHOW_DETAIL_ADD_SHARE,
@@ -115,6 +121,7 @@ public class EventBean implements Serializable {
             EVENT_GAME_RESULT,
             EVENT_HOME_CARD_GENDER_SELECT,
             EVENT_HOME_CARD_AGE_SELECT,
+            EVENT_NOTIFY_DETAIL_DEAL,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface EventBeanType {

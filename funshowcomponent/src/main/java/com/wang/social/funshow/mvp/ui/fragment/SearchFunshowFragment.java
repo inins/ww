@@ -12,8 +12,10 @@ import com.frame.base.BasicFragment;
 import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.entities.funpoint.Funpoint;
+import com.frame.component.entities.funshow.FunshowBean;
 import com.frame.component.ui.acticity.WebActivity;
 import com.frame.component.ui.base.BasicAppActivity;
+import com.frame.component.ui.base.BasicNoDiFragment;
 import com.frame.component.view.LoadingLayout;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
@@ -30,6 +32,8 @@ import com.wang.social.funshow.R;
 import com.wang.social.funshow.R2;
 import com.wang.social.funshow.di.component.DaggerSingleFragmentComponent;
 import com.wang.social.funshow.mvp.entities.funshow.Funshow;
+import com.wang.social.funshow.mvp.entities.funshow.FunshowSearch;
+import com.wang.social.funshow.mvp.model.api.FunshowService;
 import com.wang.social.funshow.mvp.ui.adapter.RecycleAdapterSearch;
 
 import java.util.ArrayList;
@@ -41,7 +45,7 @@ import butterknife.BindView;
  * 建设中 fragment 占位
  */
 
-public class SearchFunshowFragment extends BasicFragment implements IView, BaseAdapter.OnItemClickListener<Funshow> {
+public class SearchFunshowFragment extends BasicNoDiFragment implements IView, BaseAdapter.OnItemClickListener<FunshowBean> {
 
     @BindView(R2.id.recycler)
     RecyclerView recycler;
@@ -108,44 +112,15 @@ public class SearchFunshowFragment extends BasicFragment implements IView, BaseA
     }
 
     @Override
-    public void onItemClick(Funshow bean, int position) {
+    public void onItemClick(FunshowBean bean, int position) {
     }
 
     private void search(boolean isFresh) {
         if (!TextUtils.isEmpty(adapter.getTags()) || !TextUtils.isEmpty(adapter.getKey())) {
-//            netGetSearchList(adapter.getTags(), adapter.getKey(), isFresh);
-            adapter.refreshData(new ArrayList<Funshow>(){{
-                add(new Funshow());
-                add(new Funshow());
-                add(new Funshow());
-            }});
-            loadingview.showOut();
+            netGetSearchList(adapter.getKey(), isFresh);
         } else {
             ToastUtil.showToastShort("请输入搜索关键字");
         }
-    }
-
-    @Override
-    public void showLoading() {
-        if (getActivity() instanceof BasicAppActivity) {
-            ((BasicAppActivity) getActivity()).showLoadingDialog();
-        }
-    }
-
-    @Override
-    public void hideLoading() {
-        if (getActivity() instanceof BasicAppActivity) {
-            ((BasicAppActivity) getActivity()).dismissLoadingDialog();
-        }
-    }
-
-    @Override
-    public void setupFragmentComponent(@NonNull AppComponent appComponent) {
-        DaggerSingleFragmentComponent
-                .builder()
-                .appComponent(appComponent)
-                .build()
-                .inject(this);
     }
 
     @Override
@@ -153,56 +128,41 @@ public class SearchFunshowFragment extends BasicFragment implements IView, BaseA
     }
 
     //////////////////////分页查询////////////////////
-//    private int current = 1;
-//    private int size = 20;
-//
-//    private void netGetSearchList(String tags, String key, boolean isFresh) {
-//        if (isFresh) current = 0;
-//        ApiHelperEx.execute(this, true,
-//                ApiHelperEx.getService(FunpointService.class).getSearchFunpointList(tags, key, current + 1, size),
-//                new ErrorHandleSubscriber<BaseJson<BaseListWrap<Funpoint>>>() {
-//                    @Override
-//                    public void onNext(BaseJson<BaseListWrap<Funpoint>> basejson) {
-//                        BaseListWrap<Funpoint> warp = basejson.getData();
-//                        List<Funpoint> list = warp.getList();
-//                        if (!StrUtil.isEmpty(list)) {
-//                            loadingview.showOut();
-//                            current = warp.getCurrent();
-//                            if (isFresh) {
-//                                adapter.refreshData(list);
-//                            } else {
-//                                adapter.addItem(list);
-//                            }
-//                        } else {
-//                            if (isFresh) {
-//                                loadingview.showLackView();
-//                            }
-//                            ToastUtil.toastShort("没有更多数据了");
-//                        }
-//                        springView.onFinishFreshAndLoadDelay();
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        ToastUtil.toastShort(e.getMessage());
-//                        springView.onFinishFreshAndLoadDelay();
-//                    }
-//                });
-//    }
-//
-//    public void netReadFunpoint(int newsId) {
-//        ApiHelperEx.execute(null, false,
-//                ApiHelperEx.getService(FunpointService.class).readFunpoint(newsId),
-//                new ErrorHandleSubscriber<BaseJson<Object>>() {
-//                    @Override
-//                    public void onNext(BaseJson<Object> basejson) {
-//                        adapter.reFreshReadCountById(newsId);
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        ToastUtil.toastShort(e.getMessage());
-//                    }
-//                });
-//    }
+    private int current = 1;
+    private int size = 20;
+
+    private void netGetSearchList(String key, boolean isFresh) {
+        if (isFresh) current = 0;
+        ApiHelperEx.execute(this, true,
+                ApiHelperEx.getService(FunshowService.class).searchFunshow(key, current + 1, size),
+                new ErrorHandleSubscriber<BaseJson<BaseListWrap<FunshowSearch>>>() {
+                    @Override
+                    public void onNext(BaseJson<BaseListWrap<FunshowSearch>> basejson) {
+                        BaseListWrap<FunshowSearch> warp = basejson.getData();
+                        //List<FunshowSearch> list = warp.getList();
+                        List<FunshowBean> list = FunshowSearch.tans2FunshowBeanList(warp.getList());
+                        if (!StrUtil.isEmpty(list)) {
+                            loadingview.showOut();
+                            current = warp.getCurrent();
+                            if (isFresh) {
+                                adapter.refreshData(list);
+                            } else {
+                                adapter.addItem(list);
+                            }
+                        } else {
+                            if (isFresh) {
+                                loadingview.showLackView();
+                            }
+                            ToastUtil.showToastShort("没有更多数据了");
+                        }
+                        springView.onFinishFreshAndLoadDelay();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        ToastUtil.showToastShort(e.getMessage());
+                        springView.onFinishFreshAndLoadDelay();
+                    }
+                });
+    }
 }

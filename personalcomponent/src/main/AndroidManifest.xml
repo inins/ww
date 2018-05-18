@@ -79,6 +79,5 @@
         <activity android:name=".mvp.ui.activity.LableActivity" />
         <activity android:name=".mvp.ui.activity.QrcodeActivity" />
         <activity android:name=".mvp.ui.activity.RepresentActivity" />
-        <activity android:name=".mvp.ui.activity.FunshowTopicActivity" />
     </application>
 </manifest>

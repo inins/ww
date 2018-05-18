@@ -11,6 +11,7 @@ import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.helper.NetZanHelper;
 import com.frame.component.ui.base.BaseController;
+import com.frame.component.view.FunshowView;
 import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
@@ -31,24 +32,26 @@ import butterknife.BindView;
 
 public class DetailFunshowController extends BaseController {
 
-    @BindView(R2.id.img_pic)
-    ImageView imgPic;
-    @BindView(R2.id.text_title)
-    TextView textTitle;
-    @BindView(R2.id.img_player)
-    ImageView imgPlayer;
-    @BindView(R2.id.img_tag_pay)
-    ImageView imgTagPay;
-    @BindView(R2.id.text_pic_count)
-    TextView textPicCount;
-    @BindView(R2.id.text_position)
-    TextView textPosition;
-    @BindView(R2.id.text_zan)
-    TextView textZan;
-    @BindView(R2.id.text_comment)
-    TextView textComment;
-    @BindView(R2.id.text_share)
-    TextView textShare;
+    //    @BindView(R2.id.img_pic)
+//    ImageView imgPic;
+//    @BindView(R2.id.text_title)
+//    TextView textTitle;
+//    @BindView(R2.id.img_player)
+//    ImageView imgPlayer;
+//    @BindView(R2.id.img_tag_pay)
+//    ImageView imgTagPay;
+//    @BindView(R2.id.text_pic_count)
+//    TextView textPicCount;
+//    @BindView(R2.id.text_position)
+//    TextView textPosition;
+//    @BindView(R2.id.text_zan)
+//    TextView textZan;
+//    @BindView(R2.id.text_comment)
+//    TextView textComment;
+//    @BindView(R2.id.text_share)
+//    TextView textShare;
+    @BindView(R2.id.funshow_view)
+    FunshowView funshowView;
 
     private int userId;
     private FunshowHome currentFunshow;
@@ -111,25 +114,26 @@ public class DetailFunshowController extends BaseController {
     private void setFunshowData(FunshowHome bean) {
         if (bean != null) {
             currentFunshow = bean;
-            textTitle.setText(bean.getContent());
-            textPosition.setText(bean.getProvince() + bean.getCity());
-            textZan.setText(bean.getSupportTotal() + "");
-            textComment.setText(bean.getCommentTotal() + "");
-            textShare.setText(bean.getShareTotal() + "");
-            textPicCount.setText("1/" + bean.getUrls());
-            imgTagPay.setVisibility(bean.isFree() ? View.VISIBLE : View.GONE);
-            textZan.setSelected(bean.isLiked());
-
-            imgPlayer.setVisibility(bean.isVideo() ? View.VISIBLE : View.GONE);
-            ImageLoaderHelper.loadImg(imgPic, bean.getUrl());
-
-            textZan.setOnClickListener(v -> {
-                IView iView = (getContext() instanceof IView) ? (IView) getContext() : null;
-                NetZanHelper.newInstance().funshowZan(iView, textZan, bean.getTalkId(), !textZan.isSelected(), null);
-            });
-            getRoot().setOnClickListener(v -> {
-                CommonHelper.FunshowHelper.startDetailActivity(getContext(),bean.getTalkId());
-            });
+            funshowView.setData(bean.tans2FunshowBean());
+//            textTitle.setText(bean.getContent());
+//            textPosition.setText(bean.getProvince() + bean.getCity());
+//            textZan.setText(bean.getSupportTotal() + "");
+//            textComment.setText(bean.getCommentTotal() + "");
+//            textShare.setText(bean.getShareTotal() + "");
+//            textPicCount.setText("1/" + bean.getUrls());
+//            imgTagPay.setVisibility(bean.isFree() ? View.VISIBLE : View.GONE);
+//            textZan.setSelected(bean.isLiked());
+//
+//            imgPlayer.setVisibility(bean.isVideo() ? View.VISIBLE : View.GONE);
+//            ImageLoaderHelper.loadImg(imgPic, bean.getUrl());
+//
+//            textZan.setOnClickListener(v -> {
+//                IView iView = (getContext() instanceof IView) ? (IView) getContext() : null;
+//                NetZanHelper.newInstance().funshowZan(iView, textZan, bean.getTalkId(), !textZan.isSelected(), null);
+//            });
+//            getRoot().setOnClickListener(v -> {
+//                CommonHelper.FunshowHelper.startDetailActivity(getContext(),bean.getTalkId());
+//            });
         }
     }
 

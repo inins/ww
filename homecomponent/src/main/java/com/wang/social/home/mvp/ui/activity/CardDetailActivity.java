@@ -111,6 +111,10 @@ public class CardDetailActivity extends BasicAppNoDiActivity {
         });
     }
 
+    public void setAddBtnVisible(boolean visible) {
+        btnGo.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.btn_right) {
@@ -136,7 +140,6 @@ public class CardDetailActivity extends BasicAppNoDiActivity {
                     });
         } else if (i == R.id.btn_go) {
             DialogValiRequest.showDialog(this, content -> {
-                //TODO:发起加好友请求
                 NetFriendHelper.newInstance().netSendFriendlyApply(CardDetailActivity.this, userId, content, () -> {
                     ToastUtil.showToastShort("请求已发送");
                 });

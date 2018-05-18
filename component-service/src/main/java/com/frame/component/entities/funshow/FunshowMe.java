@@ -1,6 +1,5 @@
-package com.wang.social.personal.mvp.entities.funshow;
+package com.frame.component.entities.funshow;
 
-import com.frame.component.entities.funshow.FunshowBean;
 import com.frame.utils.StrUtil;
 
 import java.util.ArrayList;
