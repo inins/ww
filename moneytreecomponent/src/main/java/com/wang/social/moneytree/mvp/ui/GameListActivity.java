@@ -4,14 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.SpannableStringBuilder;
 
 import com.frame.component.ui.base.BaseAppActivity;
-import com.frame.component.utils.SpannableStringUtil;
-import com.frame.component.view.DialogPay;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.router.facade.annotation.RouteNode;
@@ -66,7 +62,6 @@ public class GameListActivity extends BaseAppActivity<GameListPresenter>
     RecyclerView mRecyclerView;
     GameListAdapter mAdapter;
 
-    private DialogCreateGame mDialogCreateGame;
     // 群ID (在群中创建时必传)
     private int mGroupId;
     // 创建类型（1：通过群，2：活动与游戏）
@@ -95,14 +90,11 @@ public class GameListActivity extends BaseAppActivity<GameListPresenter>
         mType = getIntent().getIntExtra(NAME_GAME_TYPE, TYPE_FROM_SQUARE);
         mGroupId = getIntent().getIntExtra(NAME_GROUP_ID, -1);
 
-        mToolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
-            @Override
-            public void onButtonClick(SocialToolbar.ClickType clickType) {
-                if (clickType == SocialToolbar.ClickType.LEFT_ICON) {
-                    finish();
-                } else if (clickType == SocialToolbar.ClickType.RIGHT_TEXT) {
-                    GameRecordListActivity.start(GameListActivity.this);
-                }
+        mToolbar.setOnButtonClickListener(clickType -> {
+            if (clickType == SocialToolbar.ClickType.LEFT_ICON) {
+                finish();
+            } else if (clickType == SocialToolbar.ClickType.RIGHT_TEXT) {
+                GameRecordListActivity.start(GameListActivity.this);
             }
         });
 

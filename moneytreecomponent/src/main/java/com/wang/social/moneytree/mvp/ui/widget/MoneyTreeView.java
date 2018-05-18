@@ -9,9 +9,16 @@ import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+
 import com.wang.social.moneytree.R;
+
+import java.util.Random;
+
+import timber.log.Timber;
 
 public class MoneyTreeView extends FrameLayout implements View.OnClickListener {
 
@@ -19,9 +26,11 @@ public class MoneyTreeView extends FrameLayout implements View.OnClickListener {
         void onAnimEnd();
     }
 
-    ConstraintLayout mTreeView;
+    private ConstraintLayout mTreeView;
+    private ImageView mGroundDiamondIV;
     private boolean mAnimPlaying = false;
     private AnimCallback mAnimCallback;
+    private boolean mFirstClick = true;
 
     public MoneyTreeView(@NonNull Context context) {
         this(context, null);
@@ -46,6 +55,8 @@ public class MoneyTreeView extends FrameLayout implements View.OnClickListener {
                 .inflate(R.layout.mt_view_money_tree_bg, this, true);
 
         mTreeView = view.findViewById(R.id.tree_layout);
+        mGroundDiamondIV = view.findViewById(R.id.ground_diamond_image_view);
+        mGroundDiamondIV.setVisibility(INVISIBLE);
 
         setOnClickListener(this);
     }
@@ -53,6 +64,25 @@ public class MoneyTreeView extends FrameLayout implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         startAnim();
+    }
+
+    private void flyDiamond(ImageView v) {
+        if (!mFirstClick) return;
+        mFirstClick = false;
+
+        FlyDiamond diamond = new FlyDiamond(getContext());
+        diamond.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+        diamond.setImageDrawable(v.getDrawable());
+        diamond.setX(v.getX() + v.getWidth());
+        diamond.setY(v.getY());
+        diamond.set((int)mGroundDiamondIV.getX(), (int)mGroundDiamondIV.getY());
+        addView(diamond);
+        diamond.startFly();
+        diamond.setListener(flyDiamond -> {
+            removeView(diamond);
+            mGroundDiamondIV.setVisibility(VISIBLE);
+        });
     }
 
     public void startAnim() {
@@ -66,12 +96,29 @@ public class MoneyTreeView extends FrameLayout implements View.OnClickListener {
         animator.setInterpolator(new OvershootInterpolator());
         animator.setDuration(1000);
         animator.start();
+
+        int diamondCount = 0;
         for (int i = 1; i < mTreeView.getChildCount(); i++) {
-            if (mTreeView.getChildAt(i).getTag() == null || "diamond".equals(mTreeView.getChildAt(i).getTag())) {
+            if (mTreeView.getChildAt(i).getTag() != null && mTreeView.getChildAt(i).getTag().equals("diamond")) {
+                diamondCount++;
+            }
+        }
+
+        int diamondIndex = new Random().nextInt(diamondCount) + 1;
+
+        Timber.i("钻石 " + diamondIndex);
+
+        for (int i = 1; i < mTreeView.getChildCount(); i++) {
+            if (mTreeView.getChildAt(i).getTag() == null ||
+                    "diamond".equals(mTreeView.getChildAt(i).getTag())) {
                 ObjectAnimator moneyAnimator = ObjectAnimator.ofFloat(mTreeView.getChildAt(i), "rotation",
                         -20f, 20f, -10f, 10f, -5f, 0f);
                 //moneyAnimator.setInterpolator(new OvershootInterpolator());
                 moneyAnimator.setDuration(1500);
+
+                if (i == diamondIndex) {
+                    flyDiamond((ImageView)mTreeView.getChildAt(i));
+                }
 
                 if (i == mTreeView.getChildCount() - 1) {
                     moneyAnimator.addListener(new Animator.AnimatorListener() {

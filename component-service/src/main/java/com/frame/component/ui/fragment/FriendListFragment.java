@@ -330,6 +330,7 @@ public class FriendListFragment extends BasicFragment implements
 
         switch (event.getEvent()) {
             case EventBean.EVENT_APP_SEARCH:
+                if (mType != TYPE_SEARCH_ALL) break;
                 mKey = (String) event.get("key");
                 mTags = (String)event.get("tags");
 
@@ -337,6 +338,7 @@ public class FriendListFragment extends BasicFragment implements
 
                 break;
             case EventBean.EVENT_IM_SEARCH:
+                if (mType != TYPE_GROUP_SEARCH) break;
                 mKey = (String) event.get("key");
 //                String tags = (String)event.get("tags");
 //
