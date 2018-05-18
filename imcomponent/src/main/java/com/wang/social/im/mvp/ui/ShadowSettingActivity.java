@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 
+import com.frame.component.common.AppConstant;
 import com.frame.component.enums.Gender;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.ui.dialog.PayDialog;
@@ -158,8 +159,6 @@ public class ShadowSettingActivity extends BaseAppActivity<ShadowSettingPresente
                 }
             }
         });
-
-
     }
 
     @Override
@@ -204,7 +203,7 @@ public class ShadowSettingActivity extends BaseAppActivity<ShadowSettingPresente
             }
             mPresenter.updateShadowInfo(shadowInfo);
         } else if (view.getId() == R.id.ss_tv_shadow) {
-            new RulesDialog(this, getString(R.string.im_shadow_rules_title), "http://www.baidu.com").show();
+            new RulesDialog(this, getString(R.string.im_shadow_rules_title), AppConstant.Url.REFERRAL_SHADOW).show();
         }
     }
 

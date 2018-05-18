@@ -48,6 +48,9 @@ public class AppConstant {
         public static final String wwAbout = Api.WEB_BASE_URL + "about/common/wwAbout.html";
         //意见反馈：为什么希望得到你的意见
         public static final String proposal = Api.WEB_BASE_URL + "about/common/proposal.html";
+        //分身说明
+        public static final String REFERRAL_SHADOW = Api.WEB_BASE_URL + "about/common/Avatar.html";
+
 
         //##################################
         //#########android（文案）##########

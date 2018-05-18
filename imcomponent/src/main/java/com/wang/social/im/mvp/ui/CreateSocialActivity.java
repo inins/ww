@@ -165,7 +165,7 @@ public class CreateSocialActivity extends BaseAppActivity<CreateSocialPresenter>
         dismissLoadingDialog();
     }
 
-    @OnClick({R2.id.sc_cl_attribute, R2.id.sc_cl_tags, R2.id.sc_tv_create_tip, R2.id.sc_iv_cover})
+    @OnClick({R2.id.sc_cl_attribute, R2.id.sc_cl_tags, R2.id.sc_iv_cover})
     public void onViewClicked(View view) {
         if (view.getId() == R.id.sc_cl_attribute) {
             SocialAttributeActivity.start(this, REQUEST_CODE_ATTR, mAttr);
@@ -174,8 +174,6 @@ public class CreateSocialActivity extends BaseAppActivity<CreateSocialPresenter>
             mImageSelectHelper.showDialog();
         } else if (view.getId() == R.id.sc_cl_tags) {
             TagSelectionActivity.startForTagList(this, mSelectTags, 5);
-        } else if (view.getId() == R.id.sc_tv_create_tip) {
-
         }
     }
 
