@@ -1,22 +1,18 @@
 package com.wang.social.home.mvp.ui.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
 import com.frame.base.BasicFragment;
-import com.frame.component.entities.BaseListWrap;
+import com.frame.component.common.NetParam;
+import com.frame.component.entities.BaseCardListWrap;
 import com.frame.component.helper.NetGroupHelper;
 import com.frame.component.ui.base.BasicAppActivity;
-import com.frame.component.ui.dialog.DialogValiRequest;
 import com.frame.di.component.AppComponent;
-import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
@@ -28,13 +24,12 @@ import com.wang.social.home.R2;
 import com.wang.social.home.common.CardLayoutManager;
 import com.wang.social.home.common.ItemTouchCardCallback;
 import com.wang.social.home.mvp.entities.card.CardGroup;
-import com.wang.social.home.mvp.entities.card.CardUser;
 import com.wang.social.home.mvp.model.api.HomeService;
-import com.wang.social.home.mvp.ui.activity.CardDetailActivity;
 import com.wang.social.home.mvp.ui.adapter.RecycleAdapterCardGroup;
-import com.wang.social.home.mvp.ui.adapter.RecycleAdapterCardUser;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 
@@ -80,13 +75,21 @@ public class CardGroupFragment extends BasicFragment implements RecycleAdapterCa
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(recycler);
         callback.setOnSwipedListener((ItemTouchCardCallback.OnSwipedListener<CardGroup>) (bean, direction) -> {
-            if (ItemTouchHelper.RIGHT != direction) return;
-            NetGroupHelper.newInstance().addGroup(getContext(), CardGroupFragment.this, bean.getGroupId(), isNeedValidation -> {
-                ToastUtil.showToastShort("加群成功");
-            });
+            //如果是右滑，则提示好友请求
+            if (ItemTouchHelper.RIGHT == direction) {
+                NetGroupHelper.newInstance().addGroup(getContext(), CardGroupFragment.this, bean.getGroupId(), isNeedValidation -> {
+                    ToastUtil.showToastShort("加群成功");
+                });
+            }
+            //如果剩余卡片小于等于5 张，则开始请求下一页数据
+            if (adapter.getItemCount() == 5) {
+                netGetCardGroups(false);
+            } else if (adapter.getItemCount() == 0) {
+                ToastUtil.showToastLong("没有更多数据了");
+            }
         });
 
-        netGetCardUsers(true);
+        netGetCardGroups(true);
     }
 
     @Override
@@ -126,28 +129,38 @@ public class CardGroupFragment extends BasicFragment implements RecycleAdapterCa
     }
 
     //////////////////////分页查询////////////////////
-    private int current = 1;
+    private int current = 0;
+    private int size = 6;
+    private String orderByField;
+    private String strategy;
+    private String asc;
 
-    private int size = 20;
-
-    private void netGetCardUsers(boolean isFresh) {
-        if (isFresh) current = 0;
-        ApiHelperEx.execute(this, true,
-                ApiHelperEx.getService(HomeService.class).getCardGroups(current + 1, size),
-                new ErrorHandleSubscriber<BaseJson<BaseListWrap<CardGroup>>>() {
+    private void netGetCardGroups(boolean needLoading) {
+        Map<String, Object> map = NetParam.newInstance()
+                .put("current", current + 1)
+                .put("size", size)
+                .put("orderByField", orderByField)
+                .put("strategy", strategy)
+                .put("asc", asc)
+                .build();
+        ApiHelperEx.execute(this, needLoading,
+                ApiHelperEx.getService(HomeService.class).getCardGroups(map),
+                new ErrorHandleSubscriber<BaseJson<BaseCardListWrap<CardGroup>>>() {
                     @Override
-                    public void onNext(BaseJson<BaseListWrap<CardGroup>> basejson) {
-                        BaseListWrap<CardGroup> warp = basejson.getData();
+                    public void onNext(BaseJson<BaseCardListWrap<CardGroup>> basejson) {
+                        BaseCardListWrap<CardGroup> warp = basejson.getData();
                         List<CardGroup> list = warp.getList();
+                        current = warp.getCurrent();
+                        orderByField = warp.getOrderByField();
+                        strategy = warp.getStrategy();
+                        asc = warp.getAsc();
+
                         if (!StrUtil.isEmpty(list)) {
-                            current = warp.getCurrent();
-                            if (isFresh) {
-                                adapter.refreshItem(list);
-                            } else {
-                                adapter.addItem(list);
-                            }
+                            Collections.reverse(list);
+                            List<CardGroup> results = adapter.getData();
+                            results.addAll(0, list);
+                            adapter.notifyDataSetChanged();
                         } else {
-                            //ToastUtil.showToastLong("没有更多数据了");
                         }
                     }
 

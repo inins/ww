@@ -1,4 +1,4 @@
-package com.wang.social.personal.mvp.entities.topic;
+package com.frame.component.entities.topic;
 
 import com.frame.component.entities.Tag;
 import com.frame.component.entities.Topic;

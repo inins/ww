@@ -89,7 +89,7 @@ public class WXPayEntryActivity extends AppCompatActivity implements IWXAPIEvent
     }
 
     private void setPayData() {
-//        EventBus.getDefault().post(new EventBean(EventBean.EVENT_PAYRESULT));
+        EventBus.getDefault().post(new EventBean(EventBean.EVENT_ACCOUNT_RECHARGE_SUCCESS));
         switch (type) {
             case 0:
                 text_payresult.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.personal_ic_pay_success, 0, 0);

@@ -65,6 +65,9 @@ public class AccountActivity extends BasicAppActivity implements IView {
             case EventBean.EVENT_ACCOUNT_EXCHANGE_STONE:
                 netGetAccountData();
                 break;
+            case EventBean.EVENT_ACCOUNT_RECHARGE_SUCCESS:
+                netGetAccountData();
+                break;
         }
     }
 

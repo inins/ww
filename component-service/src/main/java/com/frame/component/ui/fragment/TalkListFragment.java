@@ -16,6 +16,7 @@ import com.frame.component.service.R;
 import com.frame.component.service.R2;
 import com.frame.component.ui.adapter.RecycleAdapterCommonFunshow;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.PageList;
@@ -87,12 +88,12 @@ public class TalkListFragment extends BasicFragment implements IView {
         mSpringView.setListener(new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
-                loadTalkList(true);
+                getFriendTalkList(true);
             }
 
             @Override
             public void onLoadmore() {
-                loadTalkList(false);
+                getFriendTalkList(false);
             }
         });
         mSpringView.callFreshDelay();
@@ -103,13 +104,17 @@ public class TalkListFragment extends BasicFragment implements IView {
 
     }
 
-    private void loadTalkList(boolean refresh) {
+    /**
+     * 搜索用户趣聊列表
+     * @param refresh 是否刷新
+     */
+    private void getFriendTalkList(boolean refresh) {
         if (refresh) {
             mCurrent = 0;
             mList.clear();
         }
         mApiHelper.execute(this,
-                getTalkList(mUserId, mCurrent + 1, mSize),
+                netGetFriendTalkList(mUserId, mCurrent + 1, mSize),
                 new ErrorHandleSubscriber<PageList<FunshowBean>>() {
                     @Override
                     public void onNext(PageList<FunshowBean> list) {
@@ -132,7 +137,7 @@ public class TalkListFragment extends BasicFragment implements IView {
                 () -> mSpringView.onFinishFreshAndLoadDelay());
     }
 
-    private Observable<BaseJson<PageListDTO<TalkBeanDTO, FunshowBean>>> getTalkList(int queryUserId, int current, int size) {
+    private Observable<BaseJson<PageListDTO<TalkBeanDTO, FunshowBean>>> netGetFriendTalkList(int queryUserId, int current, int size) {
         Map<String, Object> param = new NetParam()
                 .put("queryUserId", queryUserId)
                 .put("current", current)
@@ -143,6 +148,8 @@ public class TalkListFragment extends BasicFragment implements IView {
                 .obtainRetrofitService(CommonService.class)
                 .getFriendTalkList(param);
     }
+
+
 
     @Override
     public void showLoading() {

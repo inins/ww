@@ -204,9 +204,9 @@ public class GroupMiInviteDetailActivity extends BaseAppActivity implements IVie
         // 备注说明
 
         // 底部栏
-        mBottomLayout.setVisibility(View.VISIBLE);
-        mRefuseTV.setVisibility(View.VISIBLE);
-        mAgreeTV.setVisibility(View.VISIBLE);
+        mBottomLayout.setVisibility(View.GONE);
+        mRefuseTV.setVisibility(View.GONE);
+        mAgreeTV.setVisibility(View.GONE);
     }
 
     /**

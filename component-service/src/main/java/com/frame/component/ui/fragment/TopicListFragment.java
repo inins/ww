@@ -15,6 +15,7 @@ import com.frame.component.entities.dto.TopicDTO;
 import com.frame.component.service.R;
 import com.frame.component.service.R2;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.PageList;
@@ -131,7 +132,10 @@ public class TopicListFragment extends BasicFragment implements IView, TopicList
                 loadData(false);
             }
         });
-        mSpringView.callFreshDelay();
+
+        if (mType <= TYPE_PERSON_TOPIC_SEARCH) {
+            mSpringView.callFreshDelay();
+        }
     }
 
     private void loadData(boolean refresh) {
@@ -258,5 +262,27 @@ public class TopicListFragment extends BasicFragment implements IView, TopicList
     @Override
     public void onPayTopicSuccess(Topic topic) {
 
+    }
+
+
+
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        super.onCommonEvent(event);
+
+        switch (event.getEvent()) {
+            case EventBean.EVENT_APP_SEARCH:
+                mKeys = (String) event.get("key");
+                mTags = (String) event.get("tags");
+
+                mSpringView.callFreshDelay();
+
+                break;
+        }
     }
 }

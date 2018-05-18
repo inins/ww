@@ -122,7 +122,7 @@
 
     <!--群二维码-->
     <string name="im_qrcode_title">趣聊二维码</string>
-    <string name="im_qrcode_notice">扫描上面二维码，添加往往好友</string>
+    <string name="im_qrcode_notice">扫描上面二维码，添加往往趣聊</string>
 
     <string name="im_toast_revoke_timeout">发送时间超过2分钟，不能被撤回</string>
     <string name="im_toast_contact_permission">请打开通讯录读取权限</string>

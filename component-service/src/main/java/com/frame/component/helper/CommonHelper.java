@@ -172,7 +172,30 @@ public class CommonHelper {
          * @param msgId 消息id
          */
         private static void startGroupInvite(Context context, int type, int groupId, int msgId) {
+            Bundle bundle = new Bundle();
+            bundle.putInt("type", type);
+            bundle.putInt("groupid", groupId);
+            bundle.putInt("msgid", msgId);
+            UIRouter.getInstance().openUri(context, ImPath.GROUP_INVITE_URL, bundle);
+        }
 
+        /**
+         * 从趣聊邀请消息中启动趣聊名片
+         * @param context context
+         * @param groupId 群id
+         * @param msgId 消息id
+         */
+        public static void startGroupInviteFromMsg(Context context, int groupId, int msgId) {
+            startGroupInvite(context, 1, groupId, msgId);
+        }
+
+        /**
+         * 浏览趣聊详情，底部显示立即加入
+         * @param context context
+         * @param groupId 群id
+         */
+        public static void startGroupInviteBrowse(Context context, int groupId) {
+            startGroupInvite(context, 0, groupId, -1);
         }
     }
 

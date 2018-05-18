@@ -11,8 +11,10 @@ import android.widget.TextView;
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
 import com.frame.component.helper.ImageLoaderHelper;
+import com.frame.component.helper.NetReadHelper;
 import com.frame.component.service.R;
 import com.frame.component.service.R2;
+import com.frame.component.ui.acticity.WebActivity;
 import com.frame.component.utils.viewutils.FontUtils;
 import com.frame.utils.StrUtil;
 import com.frame.component.entities.funpoint.Funpoint;
@@ -47,16 +49,19 @@ public class RecycleAdapterFunpoint extends BaseAdapter<Funpoint> {
             textTitle.setText(bean.getNewsTitle());
             cardPic.setVisibility(!TextUtils.isEmpty(bean.getImgUrl()) ? View.VISIBLE : View.GONE);
             textNote.setText(bean.getNoteStr());
+
+            itemView.setOnClickListener(v -> {
+                NetReadHelper.newInstance().netReadFunpoint(bean.getNewsId(), () -> {
+                    reFreshReadCountById(bean.getNewsId());
+                });
+                WebActivity.start(getContext(), bean.getUrl());
+            });
         }
 
         @Override
         public void onRelease() {
         }
 
-        @Override
-        protected boolean useItemClickListener() {
-            return true;
-        }
     }
 
     /////////////////////

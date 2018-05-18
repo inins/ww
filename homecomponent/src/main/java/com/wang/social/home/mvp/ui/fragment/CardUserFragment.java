@@ -8,9 +8,12 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.View;
 
 import com.frame.base.BasicFragment;
+import com.frame.component.common.NetParam;
+import com.frame.component.entities.BaseCardListWrap;
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.helper.NetFriendHelper;
 import com.frame.component.ui.base.BasicAppActivity;
@@ -32,7 +35,10 @@ import com.wang.social.home.mvp.model.api.HomeService;
 import com.wang.social.home.mvp.ui.activity.CardDetailActivity;
 import com.wang.social.home.mvp.ui.adapter.RecycleAdapterCardUser;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 
@@ -51,8 +57,8 @@ public class CardUserFragment extends BasicFragment implements RecycleAdapterCar
 
     private RecycleAdapterCardUser adapter;
 
-    private Integer gender;
-    private String age;
+    private Integer gender = -1;
+    private String age = "all";
 
     public static CardUserFragment newInstance() {
         Bundle args = new Bundle();
@@ -100,13 +106,20 @@ public class CardUserFragment extends BasicFragment implements RecycleAdapterCar
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(recycler);
         callback.setOnSwipedListener((ItemTouchCardCallback.OnSwipedListener<CardUser>) (bean, direction) -> {
-            if (ItemTouchHelper.RIGHT != direction) return;
-            DialogValiRequest.showDialog(getContext(), content -> {
-                //TODO:发起加好友请求
-                NetFriendHelper.newInstance().netSendFriendlyApply(CardUserFragment.this, bean.getUserId(), content, () -> {
-                    ToastUtil.showToastShort("请求已发送");
+            //如果是右滑，则提示好友请求
+            if (ItemTouchHelper.RIGHT == direction) {
+                DialogValiRequest.showDialog(getContext(), content -> {
+                    NetFriendHelper.newInstance().netSendFriendlyApply(CardUserFragment.this, bean.getUserId(), content, () -> {
+                        ToastUtil.showToastShort("请求已发送");
+                    });
                 });
-            });
+            }
+            //如果剩余卡片小于等于5 张，则开始请求下一页数据
+            if (adapter.getItemCount() == 5) {
+                netGetCardUsers(false);
+            } else if (adapter.getItemCount() == 0) {
+                ToastUtil.showToastLong("没有更多数据了");
+            }
         });
 
         netGetCardUsers(true);
@@ -163,27 +176,40 @@ public class CardUserFragment extends BasicFragment implements RecycleAdapterCar
     }
 
     //////////////////////分页查询////////////////////
-    private int current = 1;
-    private int size = 20;
+    private int current = 0;
+    private int size = 6;
+    private String orderByField;
+    private String strategy;
+    private String asc;
 
-    private void netGetCardUsers(boolean isFresh) {
-        if (isFresh) current = 0;
-        ApiHelperEx.execute(this, true,
-                ApiHelperEx.getService(HomeService.class).getCardUsers(gender, age, current + 1, size),
-                new ErrorHandleSubscriber<BaseJson<BaseListWrap<CardUser>>>() {
+    private void netGetCardUsers(boolean needLoading) {
+        Map<String, Object> map = NetParam.newInstance()
+                .put("sex", gender)
+                .put("ageRange", age)
+                .put("current", current + 1)
+                .put("size", size)
+                .put("orderByField", orderByField)
+                .put("strategy", strategy)
+                .put("asc", asc)
+                .build();
+        ApiHelperEx.execute(this, needLoading,
+                ApiHelperEx.getService(HomeService.class).getCardUsers(map),
+                new ErrorHandleSubscriber<BaseJson<BaseCardListWrap<CardUser>>>() {
                     @Override
-                    public void onNext(BaseJson<BaseListWrap<CardUser>> basejson) {
-                        BaseListWrap<CardUser> warp = basejson.getData();
+                    public void onNext(BaseJson<BaseCardListWrap<CardUser>> basejson) {
+                        BaseCardListWrap<CardUser> warp = basejson.getData();
                         List<CardUser> list = warp.getList();
+                        current = warp.getCurrent();
+                        orderByField = warp.getOrderByField();
+                        strategy = warp.getStrategy();
+                        asc = warp.getAsc();
+
                         if (!StrUtil.isEmpty(list)) {
-                            current = warp.getCurrent();
-                            if (isFresh) {
-                                adapter.refreshItem(list);
-                            } else {
-                                adapter.addItem(list);
-                            }
+                            Collections.reverse(list);
+                            List<CardUser> results = adapter.getData();
+                            results.addAll(0, list);
+                            adapter.notifyDataSetChanged();
                         } else {
-                            //ToastUtil.showToastLong("没有更多数据了");
                         }
                     }
 

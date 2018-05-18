@@ -96,7 +96,9 @@
                 android:onClick="onClick"
                 android:text="添加好友"
                 android:textColor="@color/common_white"
-                android:textSize="17sp" />
+                android:textSize="17sp"
+                android:visibility="gone"
+                tools:visibility="visible" />
         </LinearLayout>
     </com.frame.component.view.ObservableNestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

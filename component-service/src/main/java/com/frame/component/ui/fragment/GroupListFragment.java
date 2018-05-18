@@ -50,11 +50,14 @@ public class GroupListFragment extends BasicFragment implements IView {
     public final static int TYPE_SEARCH_GROUP = 1;
     // 聊天列表-搜索已加入的觅聊
     public final static int TYPE_SEARCH_MI = 2;
+    // 搜索趣聊
+    public final static int TYPE_SEARCH_ALL_GROUP = 3;
 
     @IntDef({
             TYPE_GROUP_LIST,
             TYPE_SEARCH_GROUP,
-            TYPE_SEARCH_MI
+            TYPE_SEARCH_MI,
+            TYPE_SEARCH_ALL_GROUP
     })
     @Retention(RetentionPolicy.SOURCE)
     @interface GroupListType {
@@ -84,6 +87,14 @@ public class GroupListFragment extends BasicFragment implements IView {
         return fragment;
     }
 
+    public static GroupListFragment newSearchAll() {
+        GroupListFragment fragment = new GroupListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("type", TYPE_SEARCH_ALL_GROUP);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
     @BindView(R2.id.spring_view)
     SpringView mSpringView;
     @BindView(R2.id.recycler_view)
@@ -100,6 +111,7 @@ public class GroupListFragment extends BasicFragment implements IView {
     private @GroupListType
     int mType = TYPE_GROUP_LIST;
     private String mKey;
+    private String mTags;
 
     @Override
     public void setupFragmentComponent(@NonNull AppComponent appComponent) {
@@ -158,6 +170,8 @@ public class GroupListFragment extends BasicFragment implements IView {
             chatListSearchGroup(mKey, refresh);
         } else if (mType == TYPE_SEARCH_MI) {
             chatListSearchMiList(mKey, refresh);
+        } else if (mType == TYPE_SEARCH_ALL_GROUP) {
+            searchGroup(mKey, mTags, refresh);
         } else {
             loadGroupList(refresh);
         }
@@ -167,6 +181,20 @@ public class GroupListFragment extends BasicFragment implements IView {
         if (refresh) {
             mCurrent = 0;
             mList.clear();
+        }
+    }
+
+    private void updateList(PageList<GroupBean> list) {
+        if (null != list) {
+            mCurrent = list.getCurrent();
+
+            if (null != list.getList()) {
+                mList.addAll(list.getList());
+            }
+        }
+
+        if (null != mAdapter) {
+            mAdapter.notifyDataSetChanged();
         }
     }
 
@@ -183,17 +211,7 @@ public class GroupListFragment extends BasicFragment implements IView {
                 new ErrorHandleSubscriber<PageList<GroupBean>>() {
                     @Override
                     public void onNext(PageList<GroupBean> list) {
-                        if (null != list) {
-                            mCurrent = list.getCurrent();
-
-                            if (null != list.getList()) {
-                                mList.addAll(list.getList());
-                            }
-                        }
-
-                        if (null != mAdapter) {
-                            mAdapter.notifyDataSetChanged();
-                        }
+                        updateList(list);
                     }
                 },
                 disposable -> {
@@ -227,13 +245,7 @@ public class GroupListFragment extends BasicFragment implements IView {
                 new ErrorHandleSubscriber<PageList<GroupBean>>() {
                     @Override
                     public void onNext(PageList<GroupBean> list) {
-                        if (null != list && null != list.getList()) {
-                            mList.addAll(list.getList());
-                        }
-
-                        if (null != mAdapter) {
-                            mAdapter.notifyDataSetChanged();
-                        }
+                        updateList(list);
                     }
                 },
                 disposable -> {
@@ -241,6 +253,9 @@ public class GroupListFragment extends BasicFragment implements IView {
                 () -> mSpringView.onFinishFreshAndLoadDelay());
     }
 
+    /**
+     * 聊天列表-搜索已加入的趣聊
+     */
     private Observable<BaseJson<PageListDTO<GroupBeanDTO, GroupBean>>> chatListSearchGroup(String key,
                                                                                            int current, int size) {
         Map<String, Object> param = new NetParam()
@@ -269,13 +284,7 @@ public class GroupListFragment extends BasicFragment implements IView {
                 new ErrorHandleSubscriber<PageList<GroupBean>>() {
                     @Override
                     public void onNext(PageList<GroupBean> list) {
-                        if (null != list && null != list.getList()) {
-                            mList.addAll(list.getList());
-                        }
-
-                        if (null != mAdapter) {
-                            mAdapter.notifyDataSetChanged();
-                        }
+                        updateList(list);
                     }
                 },
                 disposable -> {
@@ -295,6 +304,46 @@ public class GroupListFragment extends BasicFragment implements IView {
                 .obtainRetrofitService(CommonService.class)
                 .chatListSearchMiList(param);
     }
+
+    /**
+     * 搜索趣聊
+     * @param keyword 关键字
+     * @param tagNames 标签中文名，多个以逗号隔开
+     * @param refresh 是否刷新
+     */
+    private void searchGroup(String keyword, String tagNames, boolean refresh) {
+        refreshList(refresh);
+
+        mApiHelper.execute(this,
+                netSearchGroup(keyword, tagNames, mCurrent + 1, mSize),
+                new ErrorHandleSubscriber<PageList<GroupBean>>() {
+                    @Override
+                    public void onNext(PageList<GroupBean> list) {
+                        updateList(list);
+                    }
+                },
+                disposable -> {
+                },
+                () -> mSpringView.onFinishFreshAndLoadDelay());
+    }
+
+    /**
+     * 搜索趣聊
+     */
+    private Observable<BaseJson<PageListDTO<GroupBeanDTO, GroupBean>>> netSearchGroup(String keyword, String tagNames,
+                                                                                            int current, int size) {
+        Map<String, Object> param = new NetParam()
+                .put("keyword", keyword)
+                .put("tagNames", tagNames)
+                .put("current", current)
+                .put("size", size)
+                .put("v", "2.0.0")
+                .build();
+        return mRepositoryManager
+                .obtainRetrofitService(CommonService.class)
+                .searchGroup(param);
+    }
+
 
     @Override
     public void showLoading() {
@@ -322,6 +371,13 @@ public class GroupListFragment extends BasicFragment implements IView {
         super.onCommonEvent(event);
 
         switch (event.getEvent()) {
+            case EventBean.EVENT_IM_SEARCH:
+                mKey = (String) event.get("key");
+                mTags = (String) event.get("tags");
+
+                mSpringView.callFreshDelay();
+
+                break;
             case EventBean.EVENT_APP_SEARCH:
                 mKey = (String) event.get("key");
 //                String tags = (String) event.get("tags");

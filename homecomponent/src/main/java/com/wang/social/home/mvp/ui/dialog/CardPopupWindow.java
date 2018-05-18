@@ -73,19 +73,19 @@ public class CardPopupWindow extends BasePopupWindow {
             String age = null;
             switch (lable.getIndex()) {
                 case 0:
-                    age = "不限";
+                    age = "all";
                     break;
                 case 1:
-                    age = "90后";
+                    age = "90";
                     break;
                 case 2:
-                    age = "95后";
+                    age = "95";
                     break;
                 case 3:
-                    age = "00后";
+                    age = "00";
                     break;
                 case 4:
-                    age = "其他";
+                    age = "other";
                     break;
             }
             EventBean eventBean = new EventBean(EventBean.EVENT_HOME_CARD_AGE_SELECT).put("age", age);

@@ -15,7 +15,7 @@
         android:paddingBottom="160dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
-        android:paddingTop="70dp" />
+        android:paddingTop="90dp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btn_dislike"
