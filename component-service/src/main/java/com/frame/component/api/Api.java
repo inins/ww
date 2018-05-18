@@ -23,7 +23,13 @@ public interface Api {
      */
     String QINIU_PREFIX = "http://resouce.dongdongwedding.com/";
 
-    //获取用户二维码
+    /**
+     * 获取用户二维码
+     */
     String USER_QRCODE = "/user/getUserQrcodeByUserId";
 
+    /**
+     * 分享/说明H5页面根路径
+     */
+    String WEB_BASE_URL = "http://wangsocial.com/share/v_2.0/test/";
 }

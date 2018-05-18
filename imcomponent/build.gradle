@@ -11,7 +11,9 @@ android {
     }
 
     defaultConfig {
-//        applicationId "com.dongdongkeji.wangwangsocial"
+        if (isRunAlone.toBoolean()) {
+            manifestPlaceholders = [qqappid: "1106099147"]
+        }
         minSdkVersion rootProject.ext.android["minSdkVersion"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
         versionCode rootProject.ext.android["versionCode"]
@@ -76,6 +78,7 @@ dependencies {
     implementation project(':pictureselectorcomponent')
     implementation project(':locationlib')
     implementation project(':springlibrary')
+    implementation project(':socializecomponent')
 }
 
 combuild {

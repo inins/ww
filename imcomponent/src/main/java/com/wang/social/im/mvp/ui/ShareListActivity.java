@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.frame.component.api.CommonService;
 import com.frame.component.app.Constant;
 import com.frame.component.common.HVItemDecoration;
 import com.frame.component.ui.base.BasicAppActivity;
@@ -90,13 +89,13 @@ public class ShareListActivity extends BasicAppActivity implements IView {
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
         switch (shareType) {
-            case Constant.SHARE_TYPE_GROUP:
+            case Constant.SHARE_WOOD_TYPE_GROUP:
                 mType = GroupService.SHARE_WOOD_GROUP;
                 break;
-            case Constant.SHARE_TYPE_TALK:
+            case Constant.SHARE_WOOD_TYPE_TALK:
                 mType = GroupService.SHARE_WOOD_TALK;
                 break;
-            case Constant.SHARE_TYPE_TOPIC:
+            case Constant.SHARE_WOOD_TYPE_TOPIC:
                 mType = GroupService.SHARE_WOOD_TOPIC;
                 break;
         }
