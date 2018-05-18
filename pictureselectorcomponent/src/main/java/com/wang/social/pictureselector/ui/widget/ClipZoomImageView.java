@@ -48,6 +48,15 @@ public class ClipZoomImageView extends AppCompatImageView implements
     private int lastPointerCount;
     private int horizontalPadding;
 
+    public interface SingleTapListener {
+        void onSingleTap();
+    }
+
+    private SingleTapListener mSingleTapListener;
+
+    public void setSingleTapListener(SingleTapListener singleTapListener) {
+        mSingleTapListener = singleTapListener;
+    }
 
     // 默认保存为jpeg
     Bitmap.CompressFormat compressFormat = Bitmap.CompressFormat.JPEG;
@@ -63,6 +72,14 @@ public class ClipZoomImageView extends AppCompatImageView implements
         setScaleType(ScaleType.MATRIX);
         gestureDetector = new GestureDetector(context,
                 new GestureDetector.SimpleOnGestureListener() {
+
+                    @Override
+                    public boolean onSingleTapUp(MotionEvent e) {
+                        if (null != mSingleTapListener) {
+                            mSingleTapListener.onSingleTap();
+                        }
+                        return super.onSingleTapUp(e);
+                    }
 
                     @Override
                     public boolean onDoubleTap(MotionEvent e) {

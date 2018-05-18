@@ -157,9 +157,11 @@ public class FragmentPictureSelector extends Fragment {
 
             // 选中列表里有数据确认按钮才能点击
             if (selectedList.size() > 0) {
+                confirmBtn.setVisibility(View.VISIBLE);
                 confirmBtn.setEnabled(true);
                 confirmBtn.setText(getString(R.string.ps_confirm) +" (" + selectedList.size() + ")");
             } else {
+                confirmBtn.setVisibility(View.GONE);
                 confirmBtn.setEnabled(false);
             }
 

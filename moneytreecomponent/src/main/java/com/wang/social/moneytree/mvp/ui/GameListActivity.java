@@ -15,6 +15,7 @@ import com.frame.component.utils.SpannableStringUtil;
 import com.frame.component.view.DialogPay;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
+import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.StatusBarUtil;
 import com.frame.utils.ToastUtil;
 import com.liaoinstan.springview.container.AliFooter;
@@ -43,6 +44,7 @@ import static com.wang.social.moneytree.utils.Keys.NAME_GROUP_ID;
 import static com.wang.social.moneytree.utils.Keys.TYPE_FROM_GROUP;
 import static com.wang.social.moneytree.utils.Keys.TYPE_FROM_SQUARE;
 
+@RouteNode(path = "/money_tree_list", desc = "游戏列表")
 public class GameListActivity extends BaseAppActivity<GameListPresenter>
         implements GameListContract.View, DialogCreateGame.CreateGameCallback,
         GameListAdapter.ClickListener {

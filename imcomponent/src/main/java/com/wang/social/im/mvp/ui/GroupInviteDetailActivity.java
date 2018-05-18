@@ -14,14 +14,10 @@ import android.widget.TextView;
 
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.beloo.widget.chipslayoutmanager.SpacingItemDecoration;
-import com.frame.component.app.Constant;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.helper.NetGroupHelper;
-import com.frame.component.helper.NetPayStoneHelper;
 import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.component.ui.base.BaseAppActivity;
-import com.frame.component.ui.dialog.DialogSure;
-import com.frame.component.ui.dialog.PayDialog;
 import com.frame.component.utils.UIUtil;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
@@ -32,26 +28,26 @@ import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.http.imageloader.glide.RoundedCornersTransformation;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.IView;
+import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.ToastUtil;
 import com.frame.utils.Utils;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
+import com.wang.social.im.helper.GroupPersonReportHelper;
 import com.wang.social.im.mvp.model.api.GroupService;
-import com.frame.component.entities.AddGroupApplyRsp;
-import com.frame.component.entities.AddGroupRsp;
 import com.wang.social.im.mvp.model.entities.DistributionAge;
 import com.wang.social.im.mvp.model.entities.DistributionGroup;
 import com.wang.social.im.mvp.model.entities.DistributionSex;
 import com.wang.social.im.mvp.model.entities.SocialInfo;
-import com.frame.component.entities.dto.AddGroupApplyRspDTO;
-import com.frame.component.entities.dto.AddGroupRspDTO;
 import com.wang.social.im.mvp.model.entities.dto.DistributionGroupDTO;
 import com.wang.social.im.mvp.model.entities.dto.SocialDTO;
 import com.wang.social.im.mvp.ui.adapters.DistributionAgeAdapter;
 import com.wang.social.im.mvp.ui.adapters.DistributionSexAdapter;
 import com.wang.social.im.mvp.ui.adapters.HomeTagAdapter;
+import com.wang.social.pictureselector.helper.PhotoHelper;
+import com.wang.social.pictureselector.helper.PhotoHelperEx;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -61,7 +57,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.Observable;
+import timber.log.Timber;
 
+@RouteNode(path = "/group_invite", desc = "趣聊邀请")
 public class GroupInviteDetailActivity extends BaseAppActivity implements IView {
 
     public final static int TYPE_BROWSE = 0;
@@ -159,6 +157,10 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
     private List<DistributionAge> mAgeList = new ArrayList<>();
     // 性别分布
     private List<DistributionSex> mSexList = new ArrayList<>();
+    // 图片选择
+    private PhotoHelperEx mPhotoHelperEx;
+    // 选择的举报内容
+    private String mReportComment;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -183,15 +185,22 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
                 finish();
             } else if (clickType == SocialToolbar.ClickType.RIGHT_TEXT) {
                 // 举报
-                DialogSure.showDialog(GroupInviteDetailActivity.this,
-                        "", new DialogSure.OnSureCallback() {
-                            @Override
-                            public void onOkClick() {
-
-                            }
-                        });
+                doReport();
             }
         });
+
+
+        // 图片选择的回调
+        mPhotoHelperEx = PhotoHelperEx.newInstance(this,
+                path -> {
+                    Timber.i("图片返回 : " + path);
+                        // 弹出确认举报对话框
+                        GroupPersonReportHelper.confirmReportGroup(this, this,
+                                "确定要举报该趣聊？",
+                                mGroupId,
+                                mReportComment,
+                                PhotoHelper.format2Array(path));
+                });
 
         if (null != scToolbar.getTvRight()) {
             scToolbar.getTvRight().setVisibility(View.GONE);
@@ -201,6 +210,17 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
         initDistributionSex();
 
         loadSocialInfo(mGroupId);
+    }
+
+    private void doReport() {
+        GroupPersonReportHelper.doReport(getSupportFragmentManager(),
+                (position, text) -> {
+                    // 记录文字信息
+                    mReportComment = text;
+                    // 弹出图片选择
+                    mPhotoHelperEx.setMaxSelectCount(5);
+                    mPhotoHelperEx.showDefaultDialog();
+                });
     }
 
     /**
@@ -460,5 +480,12 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
                         resetMemberCount(mSocial.getMemberNum());
                     }
                 });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        mPhotoHelperEx.onActivityResult(requestCode, resultCode, data);
     }
 }

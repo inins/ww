@@ -8,6 +8,7 @@ import com.frame.component.path.FunshowPath;
 import com.frame.component.path.AppPath;
 import com.frame.component.path.ImPath;
 import com.frame.component.path.LoginPath;
+import com.frame.component.path.MoneyTreePath;
 import com.frame.component.path.TopicPath;
 import com.frame.component.router.ui.UIRouter;
 import com.frame.utils.ToastUtil;
@@ -128,6 +129,51 @@ public class CommonHelper {
             bundle.putString("objectId", objectId);
             UIRouter.getInstance().openUri(context, ImPath.SHARE_WOOD_URL, bundle);
         }
+
+        /**
+         * 个人名片
+         * @param context context
+         * @param type 类型 （1.好友申请，底部会显示 拒绝 同意 按钮 2.浏览模式，底部显示 添加好友）
+         * @param userId 用户id
+         * @param msgId 消息id（如果是从通知消息中
+         */
+        private static void startPersonalCard(Context context, int type, int userId, int msgId) {
+            Bundle bundle = new Bundle();
+            bundle.putInt("type", type);
+            bundle.putInt("userid", userId);
+            bundle.putInt("msgId", msgId);
+            UIRouter.getInstance().openUri(context, ImPath.PERSONAL_CARD_URL, bundle);
+        }
+
+        /**
+         * 从好友申请通知消息中进入个人名片
+         * @param context context
+         * @param userId 用户id
+         * @param msgId 消息id
+         */
+        public static void startPersonalCardForApplyFromMsg(Context context, int userId, int msgId) {
+            startPersonalCard(context, 1, userId, msgId);
+        }
+
+        /**
+         * 浏览个人名片
+         * @param context context
+         * @param userId 用户id
+         */
+        public static void startPersonalCardForBrowse(Context context, int userId) {
+            startPersonalCard(context, 2, userId, -1);
+        }
+
+        /**
+         * 趣聊邀请和详情简要查看
+         * @param context context
+         * @param type 类型（0.默认浏览模式（底部显示 立即加入） 1.趣聊邀请，底部显示（拒绝 同意））
+         * @param groupId 群id
+         * @param msgId 消息id
+         */
+        private static void startGroupInvite(Context context, int type, int groupId, int msgId) {
+
+        }
     }
 
     public static class TopicHelper {
@@ -149,6 +195,38 @@ public class CommonHelper {
             Bundle bundle = new Bundle();
             bundle.putInt("NAME_TOPIC_ID", topicId);
             UIRouter.getInstance().openUri(context, TopicPath.TOPIC_DETAIL_URL, bundle);
+        }
+    }
+
+    public static class GameHelper {
+        /**
+         * 摇钱树游戏列表
+         * @param context context
+         * @param type 创建类型 （1.从聊天室进入 2.从首页的活动与游戏进入）
+         * @param groupId 群id，类型为1时必须设置这个参数
+         */
+        private static void startMoneyTree(Context context, int type, int groupId) {
+            Bundle bundle = new Bundle();
+            bundle.putInt("NAME_GAME_TYPE", type);
+            bundle.putInt("NAME_GROUP_ID", groupId);
+            UIRouter.getInstance().openUri(context, MoneyTreePath.MONEY_TREE_LIST_URL, bundle);
+        }
+
+        /**
+         * 从群进入游戏列表
+         * @param context context
+         * @param groupId 群id
+         */
+        public static void startMoneyTreeFromGroup(Context context, int groupId) {
+            startMoneyTree(context, 1, groupId);
+        }
+
+        /**
+         * 从首页活动与游戏进入游戏列表
+         * @param context context
+         */
+        public static void startMoneyTreeFromSquare(Context context) {
+            startMoneyTree(context, 2, -1);
         }
     }
 }

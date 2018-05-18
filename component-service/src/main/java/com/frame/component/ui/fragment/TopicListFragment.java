@@ -1,6 +1,7 @@
 package com.frame.component.ui.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,6 +29,8 @@ import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
 import com.frame.component.ui.adapter.TopicListAdapter;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -41,13 +44,34 @@ import retrofit2.http.GET;
  * 话题列表 （他人名片）
  */
 public class TopicListFragment extends BasicFragment implements IView, TopicListAdapter.ClickListener {
+    // 个人话题搜索(默认)
+    public final static int TYPE_PERSON_TOPIC_SEARCH = 0;
+    // 话题搜索
+    public final static int TYPE_TOPIC_SEARCH = 1;
+    @IntDef({
+            TYPE_PERSON_TOPIC_SEARCH,
+            TYPE_TOPIC_SEARCH
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    @interface TopicSearchType {}
 
     public static TopicListFragment newInstance(int userid) {
         TopicListFragment fragment = new TopicListFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt("userid", userid);
-        fragment.setArguments(bundle);
+        fragment.setArguments(getBundle(userid, TYPE_PERSON_TOPIC_SEARCH));
         return fragment;
+    }
+
+    public static TopicListFragment newTopicSearch() {
+        TopicListFragment fragment = new TopicListFragment();
+        fragment.setArguments(getBundle(-1, TYPE_TOPIC_SEARCH));
+        return fragment;
+    }
+
+    private static Bundle getBundle(int userId, int type) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("userid", userId);
+        bundle.putInt("type", type);
+        return bundle;
     }
 
     @BindView(R2.id.spring_view)
@@ -62,6 +86,10 @@ public class TopicListFragment extends BasicFragment implements IView, TopicList
     private static final int mSize = 10;
     private List<Topic> mList = new ArrayList<>();
     private int mUserId;
+    private @TopicSearchType int mType = TYPE_PERSON_TOPIC_SEARCH;
+    // 记录搜索关键字
+    private String mKeys;
+    private String mTags;
 
     @Override
     public void setupFragmentComponent(@NonNull AppComponent appComponent) {
@@ -79,10 +107,12 @@ public class TopicListFragment extends BasicFragment implements IView, TopicList
 
         if (getArguments() != null) {
             mUserId = getArguments().getInt("userid");
+            mType = getArguments().getInt("type");
         }
 
         mAdapter = new TopicListAdapter(this, mRecyclerView, mList);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(
+                getContext(), LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(mAdapter);
 
         // 更新，加载更多
@@ -91,15 +121,25 @@ public class TopicListFragment extends BasicFragment implements IView, TopicList
         mSpringView.setListener(new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
-                getFriendTopicList(true);
+//                getFriendTopicList(true);
+                loadData(true);
             }
 
             @Override
             public void onLoadmore() {
-                getFriendTopicList(false);
+//                getFriendTopicList(false);
+                loadData(false);
             }
         });
         mSpringView.callFreshDelay();
+    }
+
+    private void loadData(boolean refresh) {
+        if (mType == TYPE_TOPIC_SEARCH) {
+            searchTopic(mKeys, mTags, refresh);
+        } else {
+            getFriendTopicList(refresh);
+        }
     }
 
     @Override
@@ -107,26 +147,38 @@ public class TopicListFragment extends BasicFragment implements IView, TopicList
 
     }
 
-    private void getFriendTopicList(boolean refresh) {
+    private void refreshList(boolean refresh) {
         if (refresh) {
             mCurrent = 0;
             mList.clear();
         }
+    }
+
+    private void updateList(PageList<Topic> pageList) {
+        if (null != pageList) {
+            mCurrent = pageList.getCurrent();
+            if (null != pageList.getList()) {
+                mList.addAll(pageList.getList());
+            }
+        }
+
+        if (null != mAdapter) {
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    /**
+     * 话题列表 （他人名片）
+     */
+    private void getFriendTopicList(boolean refresh) {
+        refreshList(refresh);
+
         mApiHelper.execute(this,
                 netGetFriendTopicList(mUserId, mCurrent + 1, mSize),
                 new ErrorHandleSubscriber<PageList<Topic>>() {
                     @Override
                     public void onNext(PageList<Topic> pageList) {
-                        if (null != pageList) {
-                            mCurrent = pageList.getCurrent();
-                            if (null != pageList.getList()) {
-                                mList.addAll(pageList.getList());
-                            }
-                        }
-
-                        if (null != mAdapter) {
-                            mAdapter.notifyDataSetChanged();
-                        }
+                        updateList(pageList);
                     }
                 },
                 disposable -> {},
@@ -136,7 +188,6 @@ public class TopicListFragment extends BasicFragment implements IView, TopicList
     /**
      * 话题列表 （他人名片）
      */
-    @GET("app/topic/personalCardList")
     private Observable<BaseJson<PageListDTO<TopicDTO, Topic>>> netGetFriendTopicList(int queryUserId, int current, int size) {
         Map<String, Object> param = new NetParam()
                 .put("queryUserId", queryUserId)
@@ -148,6 +199,35 @@ public class TopicListFragment extends BasicFragment implements IView, TopicList
                 .obtainRetrofitService(CommonService.class)
                 .getFriendTopicList(param);
     }
+
+    private void searchTopic(String keyword, String tagNames, boolean refresh) {
+        refreshList(refresh);
+
+        mApiHelper.execute(this,
+                netSearchTopic(keyword, tagNames, mCurrent + 1, mSize),
+                new ErrorHandleSubscriber<PageList<Topic>>() {
+                    @Override
+                    public void onNext(PageList<Topic> pageList) {
+                        updateList(pageList);
+                    }
+                },
+                disposable -> {},
+                () -> mSpringView.onFinishFreshAndLoadDelay());
+    }
+
+    private Observable<BaseJson<PageListDTO<TopicDTO, Topic>>> netSearchTopic(String keyword, String tagNames, int current, int size) {
+        Map<String, Object> param = new NetParam()
+                .put("keyword",keyword)
+                .put("tagNames",tagNames)
+                .put("size",size)
+                .put("current",current)
+                .put("v", "2.0.0")
+                .build();
+        return mRepositoryManager
+                .obtainRetrofitService(CommonService.class)
+                .searchTopic(param);
+    }
+
 
     @Override
     public void showLoading() {

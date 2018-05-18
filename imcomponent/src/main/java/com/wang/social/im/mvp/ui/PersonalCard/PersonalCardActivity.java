@@ -14,20 +14,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.frame.component.helper.ImageLoaderHelper;
-import com.frame.component.helper.NetReportHelper;
 import com.frame.component.ui.acticity.tags.TagUtils;
 import com.frame.component.ui.base.BaseAppActivity;
-import com.frame.component.ui.dialog.DialogActionSheet;
 import com.frame.component.ui.dialog.DialogInput;
 import com.frame.component.ui.dialog.DialogSure;
 import com.frame.component.ui.dialog.DialogValiRequest;
 import com.frame.component.view.GradualImageView;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
+import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.StatusBarUtil;
 import com.frame.utils.TimeUtils;
 import com.frame.utils.ToastUtil;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
+import com.wang.social.im.helper.GroupPersonReportHelper;
 import com.wang.social.im.mvp.ui.PersonalCard.contract.PersonalCardContract;
 import com.wang.social.im.mvp.ui.PersonalCard.di.DaggerPersonalCardComponent;
 import com.wang.social.im.mvp.ui.PersonalCard.di.PersonalCardModule;
@@ -56,6 +56,7 @@ import timber.log.Timber;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 
+@RouteNode(path = "/personal_card", desc = "个人名片")
 public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter> implements
         PersonalCardContract.View {
 
@@ -227,6 +228,7 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
             }
         });
 
+        // 图片选择的回调
         mPhotoHelperEx = PhotoHelperEx.newInstance(this,
                 path -> {
                     Timber.i("图片返回 : " + path);
@@ -237,13 +239,12 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
 
                         mPresenter.setFriendAvatar(mUserId, pathArray[0]);
                     } else if (mRequestImageType == REQUEST_REPORT_IMAGE) {
-                        String[] pathArray = PhotoHelper.format2Array(path);
-                        String picUrl = "";
-                        for (int i = 0; i < pathArray.length; i++) {
-                            picUrl += (i <= 0 ? "" : ",") + pathArray[i];
-                        }
                         // 弹出确认举报对话框
-                        confirmReport(mReportComment, picUrl);
+                        GroupPersonReportHelper.confirmReportPerson(this, this,
+                                "确定要举报该用户？",
+                                mUserId,
+                                mReportComment,
+                                PhotoHelper.format2Array(path));
                     }
                 });
 
@@ -412,12 +413,16 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
                 mBottomRightTV.setText("同意");
                 mBottomRightTV.setOnClickListener(v -> mPresenter.agreeApply(mUserId, mMsgId));
             } else {
-                // 浏览模式，显示添加好友
-                mBottomMiddleTV.setVisibility(View.VISIBLE);
-                mBottomMiddleTV.setText("添加好友");
-                mBottomMiddleTV.setOnClickListener(
-                        v -> DialogValiRequest.showDialog(PersonalCardActivity.this,
-                                content -> mPresenter.addFriendApply(mUserId, content)));
+                // 浏览模式，如果不是好友显示 添加好友
+                if (personalInfo.getIsFriend() <= 0) {
+                    mBottomMiddleTV.setVisibility(View.VISIBLE);
+                    mBottomMiddleTV.setText("添加好友");
+                    mBottomMiddleTV.setOnClickListener(
+                            v -> DialogValiRequest.showDialog(PersonalCardActivity.this,
+                                    content -> mPresenter.addFriendApply(mUserId, content)));
+                } else {
+                    mBottomMiddleTV.setVisibility(View.GONE);
+                }
             }
         }
 
@@ -547,36 +552,15 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
     }
 
     private void doReport() {
-        final String[] reports = {
-                "语言谩骂/骚扰信息",
-                "存在欺诈骗钱行为",
-                "发布不适当内容"
-        };
-
-        DialogActionSheet.show(getSupportFragmentManager(), reports)
-                .setActionSheetListener(
-                        (position, text) -> {
-                            // 记录文字信息
-                            mReportComment = text;
-                            // 弹出图片选择
-                            mRequestImageType = REQUEST_REPORT_IMAGE;
-                            mPhotoHelperEx.setMaxSelectCount(5);
-                            mPhotoHelperEx.showDefaultDialog();
-                        }
-                );
-    }
-
-    private void confirmReport(String comment, String picUrl) {
-        // 提示确认是否删除
-        DialogSure.showDialog(PersonalCardActivity.this,
-                "确定要举报该用户？",
-                () -> NetReportHelper.newInstance()
-                        .netReportPerson(
-                                PersonalCardActivity.this,
-                                mUserId,
-                                comment,
-                                picUrl,
-                                () -> ToastUtil.showToastShort("举报成功")));
+        GroupPersonReportHelper.doReport(getSupportFragmentManager(),
+                (position, text) -> {
+                    // 记录文字信息
+                    mReportComment = text;
+                    // 弹出图片选择
+                    mRequestImageType = REQUEST_REPORT_IMAGE;
+                    mPhotoHelperEx.setMaxSelectCount(5);
+                    mPhotoHelperEx.showDefaultDialog();
+                });
     }
 
     private PWFriendMoreMenu mPWFriendMoreMenu;

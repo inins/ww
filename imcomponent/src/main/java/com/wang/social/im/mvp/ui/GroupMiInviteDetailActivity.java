@@ -13,10 +13,8 @@ import android.widget.TextView;
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.beloo.widget.chipslayoutmanager.SpacingItemDecoration;
 import com.frame.component.helper.ImageLoaderHelper;
-import com.frame.component.helper.NetGroupHelper;
 import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.component.ui.base.BaseAppActivity;
-import com.frame.component.ui.dialog.DialogSure;
 import com.frame.component.utils.UIUtil;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
@@ -33,17 +31,20 @@ import com.frame.utils.ToastUtil;
 import com.frame.utils.Utils;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
+import com.wang.social.im.helper.GroupPersonReportHelper;
 import com.wang.social.im.mvp.model.api.GroupService;
-import com.wang.social.im.mvp.model.entities.SocialInfo;
 import com.wang.social.im.mvp.model.entities.TeamInfo;
 import com.wang.social.im.mvp.model.entities.dto.TeamInfoDTO;
 import com.wang.social.im.mvp.ui.adapters.HomeTagAdapter;
+import com.wang.social.pictureselector.helper.PhotoHelper;
+import com.wang.social.pictureselector.helper.PhotoHelperEx;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.Observable;
+import timber.log.Timber;
 
 public class GroupMiInviteDetailActivity extends BaseAppActivity implements IView {
 
@@ -98,6 +99,10 @@ public class GroupMiInviteDetailActivity extends BaseAppActivity implements IVie
     private TeamInfo mTeamInfo;
     private int mGroupId;
     private int mMsgId;
+    // 图片选择
+    private PhotoHelperEx mPhotoHelperEx;
+    // 选择的举报内容
+    private String mReportComment;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -121,21 +126,38 @@ public class GroupMiInviteDetailActivity extends BaseAppActivity implements IVie
                 finish();
             } else if (clickType == SocialToolbar.ClickType.RIGHT_TEXT) {
                 // 举报
-                DialogSure.showDialog(GroupMiInviteDetailActivity.this,
-                        "", new DialogSure.OnSureCallback() {
-                            @Override
-                            public void onOkClick() {
-
-                            }
-                        });
+                doReport();
             }
         });
+
+        // 图片选择的回调
+        mPhotoHelperEx = PhotoHelperEx.newInstance(this,
+                path -> {
+                    Timber.i("图片返回 : " + path);
+                    // 弹出确认举报对话框
+                    GroupPersonReportHelper.confirmReportGroup(this, this,
+                            "确定要举报该觅聊？",
+                            mGroupId,
+                            mReportComment,
+                            PhotoHelper.format2Array(path));
+                });
 
         if (null != scToolbar.getTvRight()) {
             scToolbar.getTvRight().setVisibility(View.GONE);
         }
 
         getTeamInfo(mGroupId);
+    }
+
+    private void doReport() {
+        GroupPersonReportHelper.doReport(getSupportFragmentManager(),
+                (position, text) -> {
+                    // 记录文字信息
+                    mReportComment = text;
+                    // 弹出图片选择
+                    mPhotoHelperEx.setMaxSelectCount(5);
+                    mPhotoHelperEx.showDefaultDialog();
+                });
     }
 
     private void resetMemberCount(int count) {
@@ -301,4 +323,11 @@ public class GroupMiInviteDetailActivity extends BaseAppActivity implements IVie
         agreeAdd(mGroupId, mMsgId);
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        mPhotoHelperEx.onActivityResult(requestCode, resultCode, data);
+    }
 }
