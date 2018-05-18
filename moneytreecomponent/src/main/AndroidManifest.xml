@@ -3,15 +3,18 @@
 
     <application
         android:name="com.frame.base.BaseApplication"
-        android:allowBackup="true"
-        android:screenOrientation="portrait">
-        <activity android:name=".mvp.ui.GameListActivity">
+        android:allowBackup="true">
+        <activity android:name=".mvp.ui.GameListActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".mvp.ui.GameRecordListActivity">
+        <activity android:name=".mvp.ui.GameRecordListActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".mvp.ui.GameRoomActivity">
+        <activity android:name=".mvp.ui.GameRoomActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".mvp.ui.MemberListActivity">
+        <activity android:name=".mvp.ui.MemberListActivity"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 </manifest>

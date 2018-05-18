@@ -241,6 +241,7 @@ public interface CommonService {
     /**
      * 聊天列表-搜索已添加的好友
      */
+    @Headers(HEADER_CONTENT_TYPE)
     @GET("app/chatList/searchUserList")
     Observable<BaseJson<PageListDTO<SearchUserInfoDTO, PersonalInfo>>>
     chatListSearchUser(@QueryMap Map<String, Object> param);
@@ -248,6 +249,7 @@ public interface CommonService {
     /**
      * 聊天列表-搜索已加入的趣聊
      */
+    @Headers(HEADER_CONTENT_TYPE)
     @GET("app/chatList/searchGroupList")
     Observable<BaseJson<PageListDTO<GroupBeanDTO, GroupBean>>>
     chatListSearchGroup(@QueryMap Map<String, Object> param);
@@ -255,6 +257,7 @@ public interface CommonService {
     /**
      * 聊天列表-搜索已加入的觅聊
      */
+    @Headers(HEADER_CONTENT_TYPE)
     @GET("app/chatList/searchMiList")
     Observable<BaseJson<PageListDTO<GroupBeanDTO, GroupBean>>>
     chatListSearchMiList(@QueryMap Map<String, Object> param);
@@ -272,5 +275,13 @@ public interface CommonService {
      */
     @GET("app/topic/personalCardList")
     Observable<BaseJson<PageListDTO<TopicDTO, Topic>>> getFriendTopicList(@QueryMap Map<String, Object> param);
+
+    /**
+     * 搜索话题
+     */
+    @Headers(HEADER_CONTENT_TYPE)
+    @FormUrlEncoded
+    @POST("app/topic/searchTopic")
+    Observable<BaseJson<PageListDTO<TopicDTO, Topic>>> searchTopic(@FieldMap Map<String, Object> param);
 
 }

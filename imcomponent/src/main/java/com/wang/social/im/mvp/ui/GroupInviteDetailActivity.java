@@ -28,6 +28,7 @@ import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.http.imageloader.glide.RoundedCornersTransformation;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.IView;
+import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.ToastUtil;
@@ -58,6 +59,7 @@ import butterknife.OnClick;
 import io.reactivex.Observable;
 import timber.log.Timber;
 
+@RouteNode(path = "/group_invite", desc = "趣聊邀请")
 public class GroupInviteDetailActivity extends BaseAppActivity implements IView {
 
     public final static int TYPE_BROWSE = 0;

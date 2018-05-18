@@ -22,6 +22,7 @@ import com.frame.component.ui.dialog.DialogValiRequest;
 import com.frame.component.view.GradualImageView;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
+import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.StatusBarUtil;
 import com.frame.utils.TimeUtils;
 import com.frame.utils.ToastUtil;
@@ -55,6 +56,7 @@ import timber.log.Timber;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 
+@RouteNode(path = "/personal_card", desc = "个人名片")
 public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter> implements
         PersonalCardContract.View {
 
@@ -411,12 +413,16 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
                 mBottomRightTV.setText("同意");
                 mBottomRightTV.setOnClickListener(v -> mPresenter.agreeApply(mUserId, mMsgId));
             } else {
-                // 浏览模式，显示添加好友
-                mBottomMiddleTV.setVisibility(View.VISIBLE);
-                mBottomMiddleTV.setText("添加好友");
-                mBottomMiddleTV.setOnClickListener(
-                        v -> DialogValiRequest.showDialog(PersonalCardActivity.this,
-                                content -> mPresenter.addFriendApply(mUserId, content)));
+                // 浏览模式，如果不是好友显示 添加好友
+                if (personalInfo.getIsFriend() <= 0) {
+                    mBottomMiddleTV.setVisibility(View.VISIBLE);
+                    mBottomMiddleTV.setText("添加好友");
+                    mBottomMiddleTV.setOnClickListener(
+                            v -> DialogValiRequest.showDialog(PersonalCardActivity.this,
+                                    content -> mPresenter.addFriendApply(mUserId, content)));
+                } else {
+                    mBottomMiddleTV.setVisibility(View.GONE);
+                }
             }
         }
 

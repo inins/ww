@@ -30,4 +30,12 @@ public interface ImPath extends BasePath {
     //分享树
     String SHARE_WOOD_PATH = "/shareWood";
     String SHARE_WOOD_URL = SCHEME + HOST + SHARE_WOOD_PATH;
+
+    // 个人名片
+    String PERSONAL_CARD_PATH = "/personal_card";
+    String PERSONAL_CARD_URL = SCHEME + HOST + PERSONAL_CARD_PATH;
+
+    // 趣聊邀请
+    String GROUP_INVITE_PATH = "/group_invite";
+    String GROUP_INVITE_URL = SCHEME + HOST + GROUP_INVITE_PATH;
 }
