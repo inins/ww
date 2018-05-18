@@ -89,7 +89,7 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
                     mVoiceToggle.setImageResource(R.drawable.im_voice_mirror_icon);
                     mEmotionToggle.setImageResource(R.drawable.im_emoji_mirror_icon);
                     mPluginToggle.setImageResource(R.drawable.im_plugin_mirror_icon);
-                    mSendToggle.setImageResource(R.drawable.im_send_icon);
+                    mSendToggle.setImageResource(R.drawable.im_send_mirror_icon);
                     break;
                 default:
                     mVoiceToggle.setImageResource(R.drawable.im_voice_icon);
@@ -306,6 +306,14 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
      */
     private void initEmotions() {
         mEmotionAdapter = new EmotionAdapter(mEditText);
+        mEmotionAdapter.setOnEmotionClickListener(new EmotionAdapter.OnEmotionClickListener() {
+            @Override
+            public void onEmotionClick(String identity, String name) {
+                if (mInputViewListener != null) {
+                    mInputViewListener.onEmotionClick(identity, name);
+                }
+            }
+        });
     }
 
     /**

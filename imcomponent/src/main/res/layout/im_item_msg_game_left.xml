@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <include layout="@layout/im_view_time" />
+
+    <ImageView
+        android:id="@+id/msg_iv_portrait"
+        android:layout_width="@dimen/im_msg_portrait_size"
+        android:layout_height="@dimen/im_msg_portrait_size"
+        android:layout_marginStart="@dimen/common_border_margin"
+        android:layout_marginTop="10dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/msg_tv_time"
+        app:layout_goneMarginTop="10dp"
+        tools:src="@drawable/common_default_circle_placeholder" />
+
+    <TextView
+        android:id="@+id/msg_tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="10dp"
+        android:lines="1"
+        android:textColor="@color/im_message_nickname"
+        android:textSize="@dimen/im_msg_nickname_size"
+        app:layout_constraintLeft_toRightOf="@id/msg_iv_portrait"
+        app:layout_constraintTop_toBottomOf="@id/msg_tv_time"
+        app:layout_goneMarginStart="@dimen/common_border_margin"
+        app:layout_goneMarginTop="0dp"
+        tools:text="Michi Man" />
+
+    <LinearLayout
+        android:id="@+id/msg_cl_game"
+        android:layout_width="218dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="3dp"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:paddingEnd="12dp"
+        android:paddingStart="12dp"
+        android:paddingTop="10dp"
+        app:layout_constraintLeft_toRightOf="@id/msg_iv_portrait"
+        app:layout_constraintTop_toBottomOf="@id/msg_tv_name"
+        app:layout_goneMarginStart="@dimen/common_border_margin"
+        app:layout_goneMarginTop="10dp"
+        tools:background="@drawable/im_bg_message_left">
+
+        <TextView
+            android:id="@+id/msg_tv_game_message"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:lines="3"
+            android:textColor="@color/im_message_txt_receive"
+            android:textSize="13dp"
+            tools:text="轻拿轻放开启了价值1000钻的摇钱树，参与一下！" />
+
+        <ImageView
+            android:id="@+id/msg_iv_game"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/im_img_msg_tree" />
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

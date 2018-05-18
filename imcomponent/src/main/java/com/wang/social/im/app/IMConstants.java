@@ -31,6 +31,11 @@ public interface IMConstants {
     String CUSTOM_ELEM_GAME_NOTIFY = "GameNtf";
 
     /**
+     * 自定义消息Elem类型：游戏
+     */
+    String CUSTOM_ELEM_GAME = "game_yqs";
+
+    /**
      * 个人红包上限
      */
     int PRIVATE_ENVELOP_DIAMOND_LIMIT = 2000;
@@ -115,6 +120,7 @@ public interface IMConstants {
      * 撤回消息发送时间超过两分钟
      */
     int TIM_ERROR_CODE_REVOKE_TIMEOUT = 6223;
+    int TIM_ERROR_CODE_REVOKE_TIMEOUT_ = 10031;
     /**
      * 已经加入过群组
      */

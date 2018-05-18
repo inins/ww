@@ -37,6 +37,10 @@ public enum MessageType {
      */
     GAME_NOTIFY,
     /*
+     * 游戏：摇钱树
+     */
+    GAME_TREE,
+    /*
      * 未知消息
      */
     UNKNOWN

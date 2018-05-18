@@ -8,9 +8,9 @@
     <color name="im_message_hint">#999999</color>
     <color name="im_bg_chat_input">#f7f7f7</color>
     <color name="im_bg_chat_input_selected">#d9d9d9</color>
-    <color name="im_emotion_toolbtn_select">#d9d9d9</color>
-    <color name="im_emotion_toolbtn_normal">@color/common_white</color>
-    <color name="im_emotion_toolbtn_spilt_line">#cfcfcf</color>
+    <color name="im_emotion_toolbtn_select">#aeb6b6b6</color>
+    <color name="im_emotion_toolbtn_normal">@android:color/transparent</color>
+    <color name="im_emotion_toolbtn_spilt_line">#aeb6b6b6</color>
     <color name="im_emotion_indicator_normal">#c9c9c9</color>
     <color name="im_emotion_indicator_select">@color/common_colorAccent</color>
 

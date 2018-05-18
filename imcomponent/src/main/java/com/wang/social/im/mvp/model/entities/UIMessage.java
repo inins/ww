@@ -132,6 +132,8 @@ public class UIMessage {
                     messageType = MessageType.RED_ENVELOP;
                 } else if (elemType == CustomElemType.GAME_NOTIFY) {
                     messageType = MessageType.GAME_NOTIFY;
+                } else if (elemType == CustomElemType.GAME) {
+                    messageType = MessageType.GAME_TREE;
                 }
             }
         }
@@ -216,19 +218,14 @@ public class UIMessage {
      * @param elemType
      * @return
      */
-    public Object getCustomMessageElemData(CustomElemType elemType, Gson gson) {
+    public Object getCustomMessageElemData(CustomElemType elemType, Class<?> objectClass, Gson gson) {
         try {
             for (int i = 0, max = (int) timMessage.getElementCount(); i < max; i++) {
                 TIMElem elem = timMessage.getElement(i);
                 if (elem instanceof TIMCustomElem) {
                     TIMCustomElem customElem = (TIMCustomElem) elem;
                     if (CustomElemType.getElemType(customElem) == elemType) {
-                        switch (elemType) {
-                            case RED_ENVELOP:
-                                return gson.fromJson(new String(customElem.getData(), "UTF-8"), EnvelopElemData.class);
-                            case GAME_NOTIFY:
-                                return gson.fromJson(new String(customElem.getData(), "UTF-8"), GameNotifyElemData.class);
-                        }
+                        return gson.fromJson(new String(customElem.getData(), "UTF-8"), objectClass);
                     }
                 }
             }

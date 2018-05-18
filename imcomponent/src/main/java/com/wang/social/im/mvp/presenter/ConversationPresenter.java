@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMCustomElem;
+import com.tencent.imsdk.TIMFaceElem;
 import com.tencent.imsdk.TIMImageElem;
 import com.tencent.imsdk.TIMLocationElem;
 import com.tencent.imsdk.TIMManager;
@@ -161,7 +162,8 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
         mConversationExt.revokeMessage(uiMessage.getTimMessage(), new TIMCallBack() {
             @Override
             public void onError(int i, String s) {
-                if (i == IMConstants.TIM_ERROR_CODE_REVOKE_TIMEOUT) {
+                if (i == IMConstants.TIM_ERROR_CODE_REVOKE_TIMEOUT ||
+                        i == IMConstants.TIM_ERROR_CODE_REVOKE_TIMEOUT_) {
                     ToastUtil.showToastShort(mRootView.getContext().getString(R.string.im_toast_revoke_timeout));
                 }
             }
@@ -203,6 +205,18 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
     public void sendSoundMessage(TIMSoundElem soundElem) {
         TIMMessage message = new TIMMessage();
         message.addElement(soundElem);
+
+        doSendMessage(message);
+    }
+
+    /**
+     * 发送一条表情消息
+     */
+    public void sendFaceMessage(int index) {
+        TIMMessage message = new TIMMessage();
+        TIMFaceElem faceElem = new TIMFaceElem();
+        faceElem.setIndex(index);
+        message.addElement(faceElem);
 
         doSendMessage(message);
     }
@@ -267,7 +281,7 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
      * @param uiMessage
      */
     public void getEnvelopInfo(UIMessage uiMessage) {
-        EnvelopElemData envelopElemData = (EnvelopElemData) uiMessage.getCustomMessageElemData(CustomElemType.RED_ENVELOP, gson);
+        EnvelopElemData envelopElemData = (EnvelopElemData) uiMessage.getCustomMessageElemData(CustomElemType.RED_ENVELOP, EnvelopElemData.class, gson);
         if (envelopElemData != null) {
             mApiHelper.execute(mRootView, mModel.getEnvelopInfo(envelopElemData.getEnvelopId()), new ErrorHandleSubscriber<EnvelopInfo>(mErrorHandler) {
                 @Override
