@@ -422,6 +422,16 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
     public void onCountDownFinished() {
     }
 
+    private View.OnLayoutChangeListener mLayoutChangeListener =
+            (View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) -> {
+                if (v.getHeight() > v.getMinimumHeight()) {
+                    mJoinNumLayout.setVisibility(View.INVISIBLE);
+                    mShakeHintTV.setVisibility(View.INVISIBLE);
+                } else {
+                    mJoinNumLayout.setVisibility(View.VISIBLE);
+                    mShakeHintTV.setVisibility(View.VISIBLE);
+                }
+            };
     @Override
     protected void onResume() {
         super.onResume();
@@ -430,6 +440,8 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
         if (null != mShakeUtils) {
             mShakeUtils.onResume();
         }
+
+        mMemberChatLayout.addOnLayoutChangeListener(mLayoutChangeListener);
     }
 
     @Override
@@ -441,6 +453,8 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
         if (null != mShakeUtils) {
             mShakeUtils.onPause();
         }
+
+        mMemberChatLayout.removeOnLayoutChangeListener(mLayoutChangeListener);
     }
 
     @Override
@@ -548,5 +562,7 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
                 break;
         }
     }
+
+
 }
 
