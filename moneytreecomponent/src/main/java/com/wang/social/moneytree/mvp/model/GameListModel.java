@@ -2,20 +2,25 @@ package com.wang.social.moneytree.mvp.model;
 
 
 import com.frame.component.common.NetParam;
+import com.frame.component.entities.NewMoneyTreeGame;
 import com.frame.di.scope.ActivityScope;
 import com.frame.http.api.BaseJson;
+import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.BaseModel;
 import com.wang.social.moneytree.mvp.contract.GameListContract;
 import com.wang.social.moneytree.mvp.model.api.MoneyTreeService;
 import com.wang.social.moneytree.mvp.model.entities.dto.GameBeansDTO;
-import com.wang.social.moneytree.mvp.model.entities.dto.NewGameDTO;
+import com.frame.component.entities.dto.NewMoneyTreeGameDTO;
 
 import java.util.Map;
 
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 
 @ActivityScope
 public class GameListModel extends BaseModel implements GameListContract.Model {
@@ -41,36 +46,5 @@ public class GameListModel extends BaseModel implements GameListContract.Model {
         return mRepositoryManager
                 .obtainRetrofitService(MoneyTreeService.class)
                 .getMoneyTreeList(param);
-    }
-
-    /**
-     * 创建游戏
-     * @param groupId 群ID (在群中创建时必传)
-     * @param type 创建类型（1：通过群，2：用户）
-     * @param gameType 游戏类型（1：人数，2：时间）
-     * @param resetTime 重置时长(s)
-     * @param diamond 钻石数
-     * @param peopleNum 开始人数 (gameType=1时必传)
-     *
-     */
-    @Override
-    public Observable<BaseJson<NewGameDTO>> createGame(int groupId, int type, int gameType,
-                                                       int resetTime, int diamond, int peopleNum) {
-        NetParam netParam = new NetParam();
-        if (type == 1) {
-            netParam.put("groupId", groupId);
-        }
-        netParam.put("type", type);
-        netParam.put("gameType", gameType);
-        netParam.put("resetTime", resetTime);
-        netParam.put("diamond", diamond);
-        if (gameType == 1) {
-            netParam.put("peopleNum", peopleNum);
-        }
-        netParam.put("v", "2.0.0");
-
-        return mRepositoryManager
-                .obtainRetrofitService(MoneyTreeService.class)
-                .createGame(netParam.build());
     }
 }

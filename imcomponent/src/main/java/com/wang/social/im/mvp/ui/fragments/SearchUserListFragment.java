@@ -40,7 +40,7 @@ import io.reactivex.functions.Consumer;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 
-public class SearchUserListFragment extends BasicFragment implements IView, TopicListAdapter.ClickListener {
+public class SearchUserListFragment extends BasicFragment implements IView {
 
     public static SearchUserListFragment newInstance(int userid) {
         SearchUserListFragment fragment = new SearchUserListFragment();
@@ -172,20 +172,5 @@ public class SearchUserListFragment extends BasicFragment implements IView, Topi
         super.onDestroy();
         mErrorHandler = null;
         mApiHelper = null;
-    }
-
-    @Override
-    public boolean autoTopicClick() {
-        return true;
-    }
-
-    @Override
-    public void onTopicClick(Topic topic) {
-
-    }
-
-    @Override
-    public void onPayTopicSuccess(Topic topic) {
-
     }
 }

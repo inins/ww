@@ -18,13 +18,6 @@
     <string name="mt_lose">输</string>
     <string name="mt_win">赢</string>
     <string name="mt_tie">平</string>
-    <string name="mt_cancel">取消</string>
-    <string name="mt_confirm">确定</string>
-    <string name="mt_time_define">自定义</string>
-    <string name="mt_time_minute_1">1分钟</string>
-    <string name="mt_time_minute_2">2分钟</string>
-    <string name="mt_time_minute_5">5分钟</string>
-    <string name="mt_time_minute_10">10分钟</string>
     <string name="mt_pay_immediately">立即支付</string>
     <string name="mt_recharge_immediately">立即充值</string>
     <string name="mt_format_pay_title_pre">需要支付</string>

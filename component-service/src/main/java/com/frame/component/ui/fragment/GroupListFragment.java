@@ -372,6 +372,8 @@ public class GroupListFragment extends BasicFragment implements IView {
 
         switch (event.getEvent()) {
             case EventBean.EVENT_IM_SEARCH:
+                if (mType != TYPE_SEARCH_GROUP && mType != TYPE_SEARCH_MI) break;
+
                 mKey = (String) event.get("key");
                 mTags = (String) event.get("tags");
 
@@ -379,6 +381,7 @@ public class GroupListFragment extends BasicFragment implements IView {
 
                 break;
             case EventBean.EVENT_APP_SEARCH:
+                if (mType != TYPE_SEARCH_ALL_GROUP) break;
                 mKey = (String) event.get("key");
 //                String tags = (String) event.get("tags");
 

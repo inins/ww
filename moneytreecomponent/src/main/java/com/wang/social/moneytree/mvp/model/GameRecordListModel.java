@@ -9,7 +9,6 @@ import com.frame.mvp.BaseModel;
 import com.wang.social.moneytree.mvp.contract.GameRecordListContract;
 import com.wang.social.moneytree.mvp.model.api.MoneyTreeService;
 import com.wang.social.moneytree.mvp.model.entities.dto.GameRecordsDTO;
-import com.wang.social.moneytree.mvp.model.entities.dto.NewGameDTO;
 
 import java.util.Map;
 

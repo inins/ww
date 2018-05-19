@@ -1,23 +1,24 @@
-package com.wang.social.moneytree.mvp.ui.widget;
+package com.frame.component.view.moneytree;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 
+import com.frame.component.service.R;
 import com.frame.component.view.WheelPicker;
 import com.frame.utils.SizeUtils;
-import com.wang.social.moneytree.R;
-
-import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class TimePicker extends WheelPicker<String> {
-
-
+    private final static String[] times = {
+           "自定义",
+            "1分钟",
+            "2分钟",
+            "5分钟",
+            "10分钟"
+    };
     public TimePicker(Context context) {
         this(context, null);
     }
@@ -31,11 +32,9 @@ public class TimePicker extends WheelPicker<String> {
         setItemMaximumWidthText("00");
 
         List<String> list = new ArrayList<>();
-        list.add(getContext().getString(R.string.mt_time_define));
-        list.add(getContext().getString(R.string.mt_time_minute_1));
-        list.add(getContext().getString(R.string.mt_time_minute_2));
-        list.add(getContext().getString(R.string.mt_time_minute_5));
-        list.add(getContext().getString(R.string.mt_time_minute_10));
+        for(String time : times) {
+            list.add(time);
+        }
         setDataList(list);
 
         setHalfVisibleItemCount(2);

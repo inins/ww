@@ -5,12 +5,16 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.text.SpannableStringBuilder;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.frame.base.BasicActivity;
+import com.frame.component.entities.NewMoneyTreeGame;
 import com.frame.component.helper.NetLoginTestHelper;
+import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.utils.SpannableStringUtil;
 import com.frame.component.view.DialogPay;
+import com.frame.component.view.moneytree.DialogCreateGame;
 import com.frame.di.component.AppComponent;
 import com.frame.mvp.IView;
 import com.umeng.socialize.UMShareAPI;
@@ -23,13 +27,15 @@ import com.wang.social.socialize.SocializeUtil;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class MainActivity extends BasicActivity implements IView {
+public class MainActivity extends BaseAppActivity implements IView , DialogCreateGame.CreateGameCallback{
     @BindView(R2.id.edit_text)
     EditText mEditText;
     @BindView(R2.id.name_edit_text)
     EditText mNameET;
     @BindView(R2.id.password_edit_text)
     EditText mPasswordET;
+    @BindView(R2.id.mt_checkbox)
+    CheckBox mCheckBox;
 
 
     @Override
@@ -87,22 +93,22 @@ public class MainActivity extends BasicActivity implements IView {
     @OnClick(R2.id.pay_button)
     public void pay() {
         String[] strings = {
-                getString(R.string.mt_format_pay_title_pre),
+                "需要支付",
                 Integer.toString(100),
-                getString(R.string.mt_format_pay_title_suf)};
+                "钻进行游戏"};
         int[] colors = {
-                ContextCompat.getColor(this, R.color.common_text_blank),
-                ContextCompat.getColor(this, R.color.common_blue_deep),
-                ContextCompat.getColor(this, R.color.common_text_blank)
+                ContextCompat.getColor(this, com.frame.component.service.R.color.common_text_blank),
+                ContextCompat.getColor(this, com.frame.component.service.R.color.common_blue_deep),
+                ContextCompat.getColor(this, com.frame.component.service.R.color.common_text_blank)
         };
         SpannableStringBuilder titleText = SpannableStringUtil.createV2(strings, colors);
         DialogPay.showPay(this,
                 getSupportFragmentManager(),
                 titleText,
-                getString(R.string.mt_format_pay_hint),
-                getString(R.string.common_cancel),
-                getString(R.string.mt_pay_immediately),
-                getString(R.string.mt_recharge_immediately),
+                "您当前余额为%1d钻",
+                getString(com.frame.component.service.R.string.common_cancel),
+                "立即支付",
+                "您当前余额为%1d钻",
                 100,
                 9999,
                 new DialogPay.DialogPayCallback() {
@@ -127,11 +133,30 @@ public class MainActivity extends BasicActivity implements IView {
 
     @Override
     public void showLoading() {
-
+        showLoadingDialog();
     }
 
     @Override
     public void hideLoading() {
+        dismissLoadingDialog();
+    }
+
+    @OnClick(R2.id.create_game_button)
+    public void createGame() {
+        int groupId = 0;
+
+        try {
+            groupId = Integer.parseInt(mEditText.getText().toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (groupId > 0) {
+            DialogCreateGame.createFromGroup(this, getSupportFragmentManager(), groupId,  this);
+        } else {
+            DialogCreateGame.createFromSquare(this, getSupportFragmentManager(), this);
+        }
+
 
     }
 
@@ -140,5 +165,15 @@ public class MainActivity extends BasicActivity implements IView {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public boolean onCreateSuccess(NewMoneyTreeGame newMoneyTreeGame) {
+        return mCheckBox.isChecked();
+    }
+
+    @Override
+    public void onPayCreateGameSuccess() {
+
     }
 }

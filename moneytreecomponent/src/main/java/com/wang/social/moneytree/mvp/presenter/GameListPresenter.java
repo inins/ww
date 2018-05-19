@@ -6,10 +6,10 @@ import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
 import com.wang.social.moneytree.mvp.contract.GameListContract;
-import com.wang.social.moneytree.mvp.model.PayHelper;
+import com.frame.component.view.moneytree.PayHelper;
 import com.wang.social.moneytree.mvp.model.entities.GameBean;
 import com.wang.social.moneytree.mvp.model.entities.GameBeans;
-import com.wang.social.moneytree.mvp.model.entities.NewGame;
+import com.frame.component.entities.NewMoneyTreeGame;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,69 +78,6 @@ public class GameListPresenter extends
                     @Override
                     public void run() throws Exception {
                         mRootView.onLoadGameListCompleted();
-                    }
-                });
-    }
-
-    /**
-     * 创建游戏
-     *
-     * @param groupId   群ID (在群中创建时必传)
-     * @param type      创建类型（1：通过群，2：用户）
-     * @param gameType  游戏类型（1：人数，2：时间）
-     * @param resetTime 重置时长(s)
-     * @param diamond   钻石数
-     * @param peopleNum 开始人数 (gameType=1时必传)
-     */
-    public void createGame(int groupId, int type, int gameType,
-                           int resetTime, int diamond, int peopleNum) {
-        mApiHelper.execute(mRootView,
-                mModel.createGame(groupId, type, gameType, resetTime, diamond, peopleNum),
-                new ErrorHandleSubscriber<NewGame>(mErrorHandler) {
-                    @Override
-                    public void onNext(NewGame newGame) {
-                        mRootView.onCreateGameSuccess(newGame);
-                    }
-                    @Override
-                    public void onError(Throwable e) {
-                        mRootView.showToastShort(e.getMessage());
-                        mRootView.hideLoading();
-                    }
-                }, new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        mRootView.showLoading();
-                    }
-                }, new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mRootView.onCreateGameCompleted();
-                        mRootView.hideLoading();
-                    }
-                });
-    }
-
-    public void payCreateGame(NewGame newGame) {
-        PayHelper.newInstance().payCreateGame(mRootView, newGame.getApplyId(), newGame.getDiamond(),
-                new ErrorHandleSubscriber<Object>(mErrorHandler) {
-                    @Override
-                    public void onNext(Object o) {
-                        mRootView.onPayCreateGameSuccess();
-                    }
-                    @Override
-                    public void onError(Throwable e) {
-                        mRootView.showToastShort(e.getMessage());
-                    }
-                }, new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        mRootView.showLoading();
-                    }
-                }, new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mRootView.onPayCreateGameCompleted();
-                        mRootView.hideLoading();
                     }
                 });
     }

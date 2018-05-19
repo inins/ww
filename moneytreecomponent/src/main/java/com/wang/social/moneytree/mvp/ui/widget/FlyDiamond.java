@@ -52,37 +52,22 @@ public class FlyDiamond extends AppCompatImageView {
     }
 
     public void startFly() {
-//        ObjectAnimator animatorX = ObjectAnimator.ofFloat(this, "translationX", destX);
-//        ObjectAnimator animatorY1 = ObjectAnimator.ofFloat(this, "translationY", getY() - 100);
-//        ObjectAnimator animatorY2 = ObjectAnimator.ofFloat(this, "translationY", destY);
-//        animatorY1.setInterpolator(new DecelerateInterpolator());
-//        animatorY2.setInterpolator(new AccelerateInterpolator());
-//
-//        AnimatorSet set2 = new AnimatorSet();
-//        set2.playSequentially(animatorY1, animatorY2);
+        int pointX = (int)getX();
+        int pointY = destY;
+        startFly(pointX, pointY);
+    }
 
-//        PropertyValuesHolder holder1 = PropertyValuesHolder.ofFloat("translationX", getX() - 200);
-//        PropertyValuesHolder holder2 = PropertyValuesHolder.ofFloat("translationY", getY() - 100);
-//
-//        ObjectAnimator animator1 = ObjectAnimator.ofPropertyValuesHolder(this, holder1, holder2);
-//        animator1.setInterpolator(new DecelerateInterpolator());
-//
-//        PropertyValuesHolder holder3 = PropertyValuesHolder.ofFloat("translationX", destX);
-//        PropertyValuesHolder holder4 = PropertyValuesHolder.ofFloat("translationY", destY);
-//
-//        ObjectAnimator animator2 = ObjectAnimator.ofPropertyValuesHolder(this, holder3, holder4);
-//        animator1.setInterpolator(new AccelerateInterpolator());
-
-
+    private ValueAnimator valueAnimator;
+    public void startFly(int controlX, int controlY) {
         Point startPosition = new Point((int)getX(), (int)getY());
         Point endPosition = new Point(destX, destY);
 
-        int pointX = (startPosition.x + endPosition.x) / 2 - 100;
-        int pointY = startPosition.y - 200;
-        Point controllPoint = new Point(pointX, pointY);
 
-        ValueAnimator valueAnimator = ValueAnimator.ofObject(
-                new BezierEvaluator2(controllPoint), startPosition, endPosition);
+        Point controlPoint = new Point(controlX, controlY);
+
+        valueAnimator = ValueAnimator.ofObject(
+                new BezierEvaluator2(controlPoint), startPosition, endPosition);
+        valueAnimator.setDuration(1800);
         valueAnimator.start();
         valueAnimator.addListener(new Animator.AnimatorListener() {
             @Override
@@ -113,5 +98,14 @@ public class FlyDiamond extends AppCompatImageView {
             setX(point.x);
             setY(point.y);
         });
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+
+        if (null != valueAnimator && valueAnimator.isRunning()) {
+            valueAnimator.cancel();
+        }
     }
 }

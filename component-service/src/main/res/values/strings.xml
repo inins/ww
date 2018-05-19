@@ -34,4 +34,16 @@
     <string name="group_add_format_pay_hint">加入此趣聊需要支付%1d宝石</string>
     <string name="group_mi_add_format_pay_hint">加入此觅聊需要支付%1d宝石</string>
 
+
+    <string name="mt_game_time_colon">游戏时间：</string>
+    <string name="mt_game_number_of_person_colon">游戏人数：</string>
+    <string name="mt_game_price_colon">支付钻石：</string>
+    <string name="mt_people">人</string>
+    <string name="mt_unlimited">不限</string>
+    <string name="mt_gemstone">钻</string>
+    <string name="mt_minute">分钟</string>
+    <string name="mt_create_pay">创建并支付</string>
+    <string name="mt_cancel">取消</string>
+    <string name="mt_confirm">确定</string>
+
 </resources>

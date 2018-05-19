@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+
+import com.frame.component.helper.CommonHelper;
+import com.frame.component.path.ImPath;
+import com.frame.component.router.ui.UIRouter;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
@@ -76,6 +80,8 @@ public class MemberListActivity extends BaseAppActivity implements IView {
             @Override
             public void onMemberClick(Member member) {
 //                PersonalCardActivity.startFromGroup(MemberListActivity.this, member.getUserId());
+//                UIRouter.getInstance().openUri(this, ImPath.PERSONAL_CARD_URL)
+                CommonHelper.ImHelper.startPersonalCardForBrowse(MemberListActivity.this, member.getUserId());
             }
         });
         mRecyclerView.setLayoutManager(

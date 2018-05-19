@@ -60,7 +60,7 @@ public class GlideConfiguration extends AppGlideModule{
     @Override
     public void registerComponents(@NonNull Context context, @NonNull Glide glide, @NonNull Registry registry) {
         //Glide 默认使用 HttpURLConnection做网络请求，框架内切换为OkHttp
-        AppComponent appComponent = FrameUtils.obtainAppComponentFromContext(context);
-        registry.replace(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(appComponent.okhttpClient()));
+//        AppComponent appComponent = FrameUtils.obtainAppComponentFromContext(context);
+//        registry.replace(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(appComponent.okhttpClient()));
     }
 }

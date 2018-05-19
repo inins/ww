@@ -1,6 +1,5 @@
 package com.wang.social.moneytree.mvp.presenter;
 
-import com.frame.component.entities.User;
 import com.frame.di.scope.ActivityScope;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.error.ErrorHandleSubscriber;
@@ -8,7 +7,7 @@ import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
 import com.wang.social.moneytree.mvp.contract.GameRoomContract;
 import com.wang.social.moneytree.mvp.model.MemberListHelper;
-import com.wang.social.moneytree.mvp.model.PayHelper;
+import com.frame.component.view.moneytree.PayHelper;
 import com.wang.social.moneytree.mvp.model.entities.GameBean;
 import com.wang.social.moneytree.mvp.model.entities.GameEnd;
 import com.wang.social.moneytree.mvp.model.entities.GameRecord;
@@ -18,7 +17,6 @@ import com.wang.social.moneytree.mvp.model.entities.JoinGame;
 import com.wang.social.moneytree.mvp.model.entities.Member;
 import com.wang.social.moneytree.mvp.model.entities.MemberList;
 import com.wang.social.moneytree.mvp.model.entities.RoomMsg;
-import com.wang.social.moneytree.mvp.model.entities.dto.MemberListDTO;
 
 import java.util.ArrayList;
 import java.util.List;

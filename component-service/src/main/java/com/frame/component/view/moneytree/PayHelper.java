@@ -1,8 +1,9 @@
-package com.wang.social.moneytree.mvp.model;
+package com.frame.component.view.moneytree;
 
 import android.support.annotation.IntDef;
 
 import com.frame.component.BuildConfig;
+import com.frame.component.api.CommonService;
 import com.frame.component.common.NetParam;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.BaseJson;
@@ -12,7 +13,6 @@ import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.IView;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.Utils;
-import com.wang.social.moneytree.mvp.model.api.MoneyTreeService;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -74,7 +74,7 @@ public class PayHelper {
                 .build();
 
         return mRepositoryManager
-                .obtainRetrofitService(MoneyTreeService.class)
+                .obtainRetrofitService(CommonService.class)
                 .gamePay(param);
 
     }

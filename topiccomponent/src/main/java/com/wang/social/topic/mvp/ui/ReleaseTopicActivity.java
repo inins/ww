@@ -1024,7 +1024,9 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     @Override
     public void onBackPressed() {
         if (mStylePicker.getVisibility() == View.VISIBLE) {
-            mStylePicker.setVisibility(View.GONE);
+            showStylePicker(false);
+        } else if (mVoicLayout.getVisibility() == View.VISIBLE) {
+            showVoiceLayout(false);
         } else {
             finish();
         }
