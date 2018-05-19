@@ -12,6 +12,7 @@ import android.view.View;
 import com.frame.base.BaseFragment;
 import com.frame.component.utils.UIUtil;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
 import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
 import com.tencent.imsdk.TIMConversation;
@@ -28,6 +29,8 @@ import com.wang.social.im.mvp.model.entities.UIMessage;
 import com.wang.social.im.mvp.presenter.GameConversationPresenter;
 import com.wang.social.im.mvp.ui.adapters.MessageListAdapter;
 import com.wang.social.im.view.GameInputView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -153,11 +156,14 @@ public class GameConversationFragment extends BaseFragment<GameConversationPrese
     }
 
     @Override
-    public void onInputViewExpanded() {
+    public void onInputViewExpanded(int height) {
         int lastVisiblePosition = mLayoutManager.findLastVisibleItemPosition();
         if (mAdapter.getItemCount() - lastVisiblePosition < 5) {
             fgcMessages.scrollToPosition(mAdapter.getData().size() - 1);
         }
+        EventBean eventBean = new EventBean(EventBean.EVENT_GAME_INPUT_HEIGHT_CHANGED);
+        eventBean.put("height", height);
+        EventBus.getDefault().post(eventBean);
     }
 
     @Override
@@ -225,6 +231,16 @@ public class GameConversationFragment extends BaseFragment<GameConversationPrese
             if (position >= startPosition && position <= endPosition) {
                 mAdapter.notifyItemChanged(position);
             }
+        }
+    }
+
+    @Override
+    protected boolean onBackPressed() {
+        if (fgcInput.isExpanded()) {
+            fgcInput.collapse();
+            return true;
+        } else {
+            return super.onBackPressed();
         }
     }
 }

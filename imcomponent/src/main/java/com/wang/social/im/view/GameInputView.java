@@ -88,7 +88,7 @@ public class GameInputView extends LinearLayout {
                         postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                mInputViewListener.onInputViewExpanded();
+                                mInputViewListener.onInputViewExpanded(0);
                             }
                         }, 350L);
                     }
@@ -109,7 +109,7 @@ public class GameInputView extends LinearLayout {
                             postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    mInputViewListener.onInputViewExpanded();
+                                    mInputViewListener.onInputViewExpanded(0);
                                 }
                             }, 350L);
                         }
@@ -121,7 +121,7 @@ public class GameInputView extends LinearLayout {
                                     mEmotionAdapter.setVisibility(VISIBLE);
 
                                     if (mInputViewListener != null) {
-                                        mInputViewListener.onInputViewExpanded();
+                                        mInputViewListener.onInputViewExpanded(getContext().getResources().getDimensionPixelSize(R.dimen.im_chat_input_plugin_board_height));
                                     }
                                 }
                             }, 200L);
@@ -129,7 +129,7 @@ public class GameInputView extends LinearLayout {
                             mEmotionAdapter.setVisibility(VISIBLE);
 
                             if (mInputViewListener != null) {
-                                mInputViewListener.onInputViewExpanded();
+                                mInputViewListener.onInputViewExpanded(getContext().getResources().getDimensionPixelSize(R.dimen.im_chat_input_plugin_board_height));
                             }
                         }
                         hideInputKeyBoard();
@@ -139,7 +139,7 @@ public class GameInputView extends LinearLayout {
                     hideInputKeyBoard();
 
                     if (mInputViewListener != null) {
-                        mInputViewListener.onInputViewExpanded();
+                        mInputViewListener.onInputViewExpanded(getContext().getResources().getDimensionPixelSize(R.dimen.im_chat_input_plugin_board_height));
                     }
                 }
             }
@@ -194,6 +194,14 @@ public class GameInputView extends LinearLayout {
         isKeyBoardActive = false;
     }
 
+    public boolean isExpanded() {
+        return mEmotionAdapter.getVisibility() == VISIBLE;
+    }
+
+    public void collapse() {
+        mEmotionAdapter.setVisibility(GONE);
+    }
+
     public interface IGInputViewListener {
 
         /**
@@ -214,7 +222,7 @@ public class GameInputView extends LinearLayout {
         /**
          * 输入键盘展开
          */
-        void onInputViewExpanded();
+        void onInputViewExpanded(int height);
 
         /**
          * 输入键盘收起

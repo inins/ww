@@ -35,8 +35,8 @@ import io.reactivex.subjects.Subject;
  * ======================================
  */
 
-public abstract class BasicFragment extends Fragment implements IFragment, FragmentLifecycleable{
-    
+public abstract class BasicFragment extends Fragment implements IFragment, FragmentLifecycleable {
+
     protected final String TAG = this.getClass().getSimpleName();
     private final BehaviorSubject<FragmentEvent> mLifecycleSubject = BehaviorSubject.create();
     private Cache<String, Object> mCache;
@@ -58,9 +58,9 @@ public abstract class BasicFragment extends Fragment implements IFragment, Fragm
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (mRootView == null){
+        if (mRootView == null) {
             mRootView = inflater.inflate(initView(savedInstanceState), null);
-        }else {
+        } else {
             //避免重复添加View
             ViewGroup parent = (ViewGroup) mRootView.getParent();
             if (parent != null) {
@@ -79,7 +79,7 @@ public abstract class BasicFragment extends Fragment implements IFragment, Fragm
 
     @Override
     public Cache<String, Object> provideCache() {
-        if (mCache == null){
+        if (mCache == null) {
             mCache = FrameUtils.obtainAppComponentFromContext(mActivity).cacheFactory().build(CacheType.FRAGMENT_CACHE);
         }
         return mCache;
@@ -99,5 +99,14 @@ public abstract class BasicFragment extends Fragment implements IFragment, Fragm
     //默认的eventbus事件处理方法
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onCommonEvent(EventBean event) {
+    }
+
+    /**
+     * 用于Activity向Fragment传递返回点击事件
+     *
+     * @return 返回 false 表示不需拦截事件 返回 true 表示拦截
+     */
+    protected boolean onBackPressed() {
+        return false;
     }
 }

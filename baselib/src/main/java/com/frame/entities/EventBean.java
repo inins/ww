@@ -79,6 +79,8 @@ public class EventBean implements Serializable {
     public static final int EVENT_GAME_JOIN = 0xffa601;
     //游戏结束
     public static final int EVENT_GAME_RESULT = 0xffa602;
+    //游戏房间输入框高度变化
+    public static final int EVENT_GAME_INPUT_HEIGHT_CHANGED = 0xffa603;
 
     //首页卡牌选择性别筛选条件
     public static final int EVENT_HOME_CARD_GENDER_SELECT = 0xffa701;
@@ -122,6 +124,7 @@ public class EventBean implements Serializable {
             EVENT_HOME_CARD_GENDER_SELECT,
             EVENT_HOME_CARD_AGE_SELECT,
             EVENT_NOTIFY_DETAIL_DEAL,
+            EVENT_GAME_INPUT_HEIGHT_CHANGED
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface EventBeanType {
