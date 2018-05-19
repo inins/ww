@@ -11,11 +11,14 @@ import android.support.v7.widget.SimpleItemAnimator;
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseFragment;
 import com.frame.component.common.HVItemDecoration;
+import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.utils.UIUtil;
 import com.frame.di.component.AppComponent;
+import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
+import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.ext.message.TIMMessageExt;
 import com.tencent.imsdk.ext.message.TIMMessageLocator;
@@ -24,6 +27,10 @@ import com.wang.social.im.R2;
 import com.wang.social.im.di.component.DaggerConversationListComponent;
 import com.wang.social.im.di.modules.ConversationListModule;
 import com.frame.component.enums.ConversationType;
+import com.wang.social.im.enums.ConnectionStatus;
+import com.wang.social.im.helper.FriendShipHelper;
+import com.wang.social.im.helper.GroupHelper;
+import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.helper.StickHelper;
 import com.wang.social.im.mvp.contract.ConversationListContract;
 import com.wang.social.im.mvp.model.entities.UIConversation;
@@ -41,6 +48,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import butterknife.BindView;
+import timber.log.Timber;
 
 /**
  * ============================================
@@ -69,6 +77,8 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mConversations = new LinkedList<>();
+
+        imLogin();
     }
 
     @Override
@@ -88,8 +98,6 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         initialView();
-
-        mPresenter.getConversationList();
 
         mPresenter.getFriendsList();
     }
@@ -248,6 +256,17 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
         mConversations.add(uiConversation);
     }
 
+    @Override
+    public void toggleStick(UIConversation uiConversation, int position) {
+        StickHelper.getInstance().toggleStick(uiConversation);
+        refresh();
+    }
+
+    @Override
+    public void onDelete(UIConversation uiConversation, int position) {
+        mPresenter.deleteConversation(uiConversation);
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageRevoke(TIMMessageLocator messageLocator) {
         if (mAdapter == null) {
@@ -266,14 +285,28 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
         }
     }
 
-    @Override
-    public void toggleStick(UIConversation uiConversation, int position) {
-        StickHelper.getInstance().toggleStick(uiConversation);
-        refresh();
+    private void imLogin() {
+        String userId = String.valueOf(AppDataHelper.getUser().getUserId());
+        TIMManager.getInstance().login(userId, AppDataHelper.getSign(), new TIMCallBack() {
+            @Override
+            public void onError(int i, String s) {
+
+            }
+
+            @Override
+            public void onSuccess() {
+                ImHelper.configurationOfflinePush(getActivity().getApplication());
+
+                GroupHelper.getInstance();
+                FriendShipHelper.getInstance();
+
+                mPresenter.getConversationList();
+            }
+        });
     }
 
-    @Override
-    public void onDelete(UIConversation uiConversation, int position) {
-        mPresenter.deleteConversation(uiConversation);
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onImConnectStatusChanged(ConnectionStatus status) {
+        Timber.tag(this.getClass().getSimpleName()).d("onImConnectStatusChanged" + status);
     }
 }

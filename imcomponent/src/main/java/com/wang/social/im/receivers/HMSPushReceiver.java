@@ -21,7 +21,13 @@ public class HMSPushReceiver extends PushReceiver {
     private final String TAG = "HwPushMessageReceiver";
 
     @Override
+    public void onPushState(Context context, boolean b) {
+        super.onPushState(context, b);
+    }
+
+    @Override
     public void onToken(Context context, String token, Bundle extras) {
+
         String belongId = extras.getString("belongId");
         String content = "获取token和belongId成功，token = " + token + ",belongId = " + belongId;
         Log.e(TAG, content);
