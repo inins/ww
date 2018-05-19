@@ -25,7 +25,7 @@ public class MemberInfo implements Parcelable {
     //群成员
     public static final int ROLE_MEMBER = 0x001;
     //群主
-    public static final int ROLE_MASTER = 0x001;
+    public static final int ROLE_MASTER = 0x002;
 
     private String groupId;
     private String memberId;
