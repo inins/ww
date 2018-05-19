@@ -9,6 +9,7 @@ import com.frame.component.enums.ConversationType;
 import com.frame.utils.FileUtils;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.Utils;
+import com.huawei.android.hms.agent.HMSAgent;
 import com.tencent.imsdk.TIMOfflinePushSettings;
 import com.tencent.imsdk.TIMOfflinePushToken;
 import com.wang.social.im.app.IMConstants;
@@ -140,6 +141,8 @@ public class ImHelper {
         //初始化推送
         if (vendor.contains("xiaomi")) { //小米推送
             MiPushClient.registerPush(application, IMConstants.MIPUSH_APPID, IMConstants.MIPUSH_APPKEY);
+        } else if (vendor.contains("huawei")) {
+            HMSAgent.init(application);
         }
     }
 }

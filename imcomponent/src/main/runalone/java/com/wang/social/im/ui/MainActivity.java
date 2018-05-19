@@ -146,4 +146,9 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         TIMManager.getInstance().logout(null);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }
