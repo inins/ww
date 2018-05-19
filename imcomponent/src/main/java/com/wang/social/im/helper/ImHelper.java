@@ -1,5 +1,7 @@
 package com.wang.social.im.helper;
 
+import android.app.Application;
+import android.os.Build;
 import android.text.TextUtils;
 
 import com.frame.component.common.AppConstant;
@@ -7,7 +9,10 @@ import com.frame.component.enums.ConversationType;
 import com.frame.utils.FileUtils;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.Utils;
+import com.tencent.imsdk.TIMOfflinePushSettings;
+import com.tencent.imsdk.TIMOfflinePushToken;
 import com.wang.social.im.app.IMConstants;
+import com.xiaomi.mipush.sdk.MiPushClient;
 
 import java.io.File;
 import java.io.IOException;
@@ -120,6 +125,21 @@ public class ImHelper {
                 return IMConstants.IM_IDENTITY_PREFIX_SOCIAL + wangId;
             default:
                 return wangId;
+        }
+    }
+
+    /**
+     * 配置离线推送
+     */
+    public static void configurationOfflinePush(Application application) {
+        //登陆成功添加离线消息推送配置
+        TIMOfflinePushSettings offlinePushSettings = new TIMOfflinePushSettings();
+        offlinePushSettings.setEnabled(true);
+
+        String vendor = Build.MANUFACTURER;
+        //初始化推送
+        if (vendor.contains("xiaomi")) { //小米推送
+            MiPushClient.registerPush(application, IMConstants.MIPUSH_APPID, IMConstants.MIPUSH_APPKEY);
         }
     }
 }

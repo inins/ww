@@ -7,6 +7,16 @@ public interface IMConstants {
 
     String USRE_IDENTIFIER_1 = "10009";
     String USRE_IDENTIFIER_2 = "10034";
+
+    /**
+     * 小米推送：AppId
+     */
+    String MIPUSH_APPID = "2882303761517578585";
+    /**
+     * 小米推送：AppKey
+     */
+    String MIPUSH_APPKEY = "5641757831585";
+
     /**
      * 自定义消息Elem类型：红包
      * {@link com.wang.social.im.enums.CustomElemType}

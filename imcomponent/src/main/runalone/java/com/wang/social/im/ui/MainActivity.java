@@ -12,9 +12,11 @@ import com.frame.utils.ToastUtil;
 import com.squareup.haha.perflib.Main;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMManager;
+import com.tencent.imsdk.TIMOfflinePushSettings;
 import com.wang.social.im.R;
 import com.wang.social.im.helper.FriendShipHelper;
 import com.wang.social.im.helper.GroupHelper;
+import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.mvp.ui.GroupInviteDetailActivity;
 import com.wang.social.im.mvp.ui.GroupMiInviteDetailActivity;
 import com.wang.social.im.mvp.ui.PersonalCard.PersonalCardActivity;
@@ -57,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onSuccess() {
+                        ImHelper.configurationOfflinePush(getApplication());
+
                         GroupHelper.getInstance();
                         FriendShipHelper.getInstance();
 
