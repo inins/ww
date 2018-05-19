@@ -91,7 +91,8 @@ public class RepresentActivity extends BasicAppActivity implements IView {
         });
         springView.callFreshDelay();
 
-        ImageLoaderHelper.loadImgTest(imgPic);
+        //FIXME:这张图片被移除了
+        //ImageLoaderHelper.loadImgTest(imgPic);
     }
 
     public void onClick(View v) {

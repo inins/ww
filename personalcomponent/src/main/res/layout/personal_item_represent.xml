@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:drawablePadding="3dp"
-        android:drawableRight="@drawable/common_ic_diamond_small"
+        android:drawableRight="@drawable/personal_ic_stone_small"
         android:gravity="center"
         android:text="9"
         android:textColor="@color/common_text_blank"

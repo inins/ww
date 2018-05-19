@@ -16,6 +16,7 @@ import com.wang.social.funshow.R;
 import com.wang.social.funshow.R2;
 import com.wang.social.funshow.helper.VideoPhotoHelperEx;
 import com.wang.social.funshow.mvp.entities.funshow.Pic;
+import com.wang.social.location.mvp.helper.LocationHelper;
 import com.wang.social.location.mvp.model.entities.LocationInfo;
 import com.wang.social.pictureselector.helper.PhotoHelper;
 
@@ -42,6 +43,7 @@ public class FunshowAddBundleController extends FunshowAddBaseController impleme
     private VideoPhotoHelperEx photoHelperEx;
     private int MaxPhotoCount = 9;
 
+    private LocationHelper locationHelper;
     private LocationInfo location;
 
     @Override
@@ -49,7 +51,6 @@ public class FunshowAddBundleController extends FunshowAddBaseController impleme
         switch (event.getEvent()) {
             case EventBean.EVENT_LOCATION_SELECT:
                 location = (LocationInfo) event.get("location");
-                textPosition.setVisibility(View.VISIBLE);
                 textPosition.setText(location.getProvince() + location.getCity());
                 break;
         }
@@ -85,6 +86,18 @@ public class FunshowAddBundleController extends FunshowAddBaseController impleme
 
     @Override
     protected void onInitData() {
+        //开始定位
+        locationHelper = LocationHelper.newInstance().startLocation();
+        locationHelper.setOnLocationListener(locationInfo -> {
+            location = locationInfo;
+            textPosition.setText(location.getProvince() + location.getCity());
+        });
+    }
+
+    @Override
+    public void onDestory() {
+        super.onDestory();
+        if (locationHelper != null) locationHelper.onDestroy();
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

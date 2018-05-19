@@ -97,9 +97,8 @@ public class BannerView extends FrameLayout {
                     .setFocusColor(selectedColor)
                     .setNormalColor(unSelectedColor)
                     .setMargin(0, 0, 0, SizeUtils.dp2px(20))
-                    .setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL)
                     .setRadius(SizeUtils.dp2px(5));
-            viewPager.getIndicator().setGravity(Gravity.RIGHT | Gravity.BOTTOM);
+            viewPager.getIndicator().setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
             viewPager.getIndicator().build();
             text_banner_count.setVisibility(GONE);
         } else {
