@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.huawei.hms.support.api.push.PushReceiver;
+import com.tencent.imsdk.TIMManager;
+import com.tencent.imsdk.TIMOfflinePushToken;
+import com.wang.social.im.app.IMConstants;
 
 /**
  * ============================================
@@ -16,14 +19,14 @@ import com.huawei.hms.support.api.push.PushReceiver;
 public class HMSPushReceiver extends PushReceiver {
 
     private final String TAG = "HwPushMessageReceiver";
-    private String mToken = "";
 
     @Override
     public void onToken(Context context, String token, Bundle extras) {
         String belongId = extras.getString("belongId");
         String content = "获取token和belongId成功，token = " + token + ",belongId = " + belongId;
-        mToken = token;
         Log.e(TAG, content);
+        TIMOfflinePushToken param = new TIMOfflinePushToken(IMConstants.HMSPUSH_BUSSID, token);
+        TIMManager.getInstance().setOfflinePushToken(param, null);
     }
 
     @Override

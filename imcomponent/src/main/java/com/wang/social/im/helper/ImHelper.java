@@ -10,6 +10,8 @@ import com.frame.utils.FileUtils;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.Utils;
 import com.huawei.android.hms.agent.HMSAgent;
+import com.meizu.cloud.pushsdk.PushManager;
+import com.meizu.cloud.pushsdk.util.MzSystemUtils;
 import com.tencent.imsdk.TIMOfflinePushSettings;
 import com.tencent.imsdk.TIMOfflinePushToken;
 import com.wang.social.im.app.IMConstants;
@@ -18,6 +20,9 @@ import com.xiaomi.mipush.sdk.MiPushClient;
 import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
+
+import static com.wang.social.im.app.IMConstants.MZPUSH_APPID;
+import static com.wang.social.im.app.IMConstants.MZPUSH_APPKEY;
 
 /**
  * ============================================
@@ -143,6 +148,8 @@ public class ImHelper {
             MiPushClient.registerPush(application, IMConstants.MIPUSH_APPID, IMConstants.MIPUSH_APPKEY);
         } else if (vendor.contains("huawei")) {
             HMSAgent.init(application);
+        } else if (MzSystemUtils.isBrandMeizu(application)) {
+            PushManager.register(application, MZPUSH_APPID, MZPUSH_APPKEY);
         }
     }
 }

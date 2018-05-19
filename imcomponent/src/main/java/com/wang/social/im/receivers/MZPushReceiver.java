@@ -13,6 +13,7 @@ import com.meizu.cloud.pushsdk.platform.message.UnRegisterStatus;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMOfflinePushToken;
+import com.wang.social.im.app.IMConstants;
 
 /**
  * ============================================
@@ -45,7 +46,7 @@ public class MZPushReceiver extends MzPushMessageReceiver {
     @Override
     public void onRegisterStatus(Context context, RegisterStatus registerStatus) {
         //上报 busiid 和 pushid 到腾讯云，需要在登录成功后进行上报
-        TIMOfflinePushToken token = new TIMOfflinePushToken(1l, registerStatus.getPushId());
+        TIMOfflinePushToken token = new TIMOfflinePushToken(IMConstants.MZPUSH_BUSSID, registerStatus.getPushId());
         TIMManager.getInstance().setOfflinePushToken(token, new TIMCallBack() {
             @Override
             public void onError(int i, String s) {
