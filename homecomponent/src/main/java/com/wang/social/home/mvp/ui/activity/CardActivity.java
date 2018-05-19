@@ -11,6 +11,7 @@ import android.widget.CheckedTextView;
 
 import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.di.component.AppComponent;
+import com.frame.utils.StatusBarUtil;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.wang.social.home.R;
 import com.wang.social.home.R2;
@@ -58,6 +59,7 @@ public class CardActivity extends BasicAppActivity {
     public void initData(@NonNull Bundle savedInstanceState) {
         position = getIntent().getIntExtra("position", 0);
         appbar.bringToFront();
+        StatusBarUtil.setTranslucent(this);
 
 
         pagerAdapter = new PagerAdapterCard(getSupportFragmentManager(), titles);

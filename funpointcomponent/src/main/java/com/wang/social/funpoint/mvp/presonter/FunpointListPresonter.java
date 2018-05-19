@@ -75,19 +75,6 @@ public class FunpointListPresonter extends BasePresenter<FunpointListContract.Mo
         NetReadHelper.newInstance().netReadFunpoint(newsId,()->{
             mRootView.reFreshReadCountById(newsId);
         });
-//        ApiHelperEx.execute(null, false,
-//                mModel.readFunpoint(newsId),
-//                new ErrorHandleSubscriber<BaseJson<Object>>(mErrorHandler) {
-//                    @Override
-//                    public void onNext(BaseJson<Object> basejson) {
-//                        mRootView.reFreshReadCountById(newsId);
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        ToastUtil.toastShort(e.getMessage());
-//                    }
-//                });
     }
 
     public void netGetRecommendTag() {

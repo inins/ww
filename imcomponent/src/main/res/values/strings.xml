@@ -33,6 +33,7 @@
     <string name="im_remark_setting">设置备注</string>
     <string name="im_information_card">资料卡</string>
     <string name="im_alter_friend">&#064;好友</string>
+    <string name="im_game_message_format">%s开启了价值%d钻的摇钱树，参与一下</string>
 
     <!-- Mirror -->
     <string name="im_mirror_title">镜像聊天</string>
@@ -121,7 +122,7 @@
 
     <!--群二维码-->
     <string name="im_qrcode_title">趣聊二维码</string>
-    <string name="im_qrcode_notice">扫描上面二维码，添加往往好友</string>
+    <string name="im_qrcode_notice">扫描上面二维码，添加往往趣聊</string>
 
     <string name="im_toast_revoke_timeout">发送时间超过2分钟，不能被撤回</string>
     <string name="im_toast_contact_permission">请打开通讯录读取权限</string>

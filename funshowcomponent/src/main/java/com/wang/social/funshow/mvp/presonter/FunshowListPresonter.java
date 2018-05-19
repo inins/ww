@@ -48,7 +48,6 @@ public class FunshowListPresonter extends BasePresenter<FunshowListContract.Mode
                     @Override
                     public void onNext(BaseJson<BaseListWrap<Funshow>> basejson) {
                         BaseListWrap<Funshow> warp = basejson.getData();
-//                        List<Funshow> list = warp.getList();
                         List<FunshowBean> list = Funshow.tans2FunshowBeanList(warp.getList());
                         mRootView.reFreshList(list);
                         mRootView.finishSpringView();

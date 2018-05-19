@@ -28,6 +28,9 @@ public interface Api {
      */
     String USER_QRCODE = "/user/getUserQrcodeByUserId";
 
+    //获取趣聊二维码
+    String GROUP_QRCODE = "/group/getGroupQrcodeBygroupId";
+
     /**
      * 分享/说明H5页面根路径
      */

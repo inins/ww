@@ -2,8 +2,10 @@ package com.wang.social.home.common;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.View;
 
 import com.wang.social.home.common.CardLayoutManager.CardConfig;
@@ -40,7 +42,8 @@ public class ItemTouchCardCallback extends ItemTouchHelper.SimpleCallback {
 
     @Override
     public boolean isItemViewSwipeEnabled() {
-        return super.isItemViewSwipeEnabled();
+//        return super.isItemViewSwipeEnabled();
+        return false;
     }
 
     public ItemTouchCardCallback(int dragDirs, int swipeDirs, RecyclerView rv, List datas) {
@@ -51,10 +54,30 @@ public class ItemTouchCardCallback extends ItemTouchHelper.SimpleCallback {
         context = rv.getContext();
     }
 
-    //水平方向是否可以被回收掉的阈值
+    private float fz = 0.5f;
+
+    //阈值
+    @Override
+    public float getSwipeThreshold(RecyclerView.ViewHolder viewHolder) {
+        float x = viewHolder.itemView.getX();
+        float y = viewHolder.itemView.getY();
+        Rect rect = new Rect();
+        viewHolder.itemView.getLocalVisibleRect(rect);
+        Log.e("test", "x:" + x + " y:" + y + " rect:" + rect.toString());
+        return fz;
+    }
+
+    //swipe的逃逸速度，换句话说就算没达到getSwipeThreshold设置的距离，达到了这个逃逸速度item也会被swipe消失掉
+    //这里设置为最大值，不允许这种操作
+    @Override
+    public float getSwipeEscapeVelocity(float defaultValue) {
+        return Float.MAX_VALUE;
+    }
+
+    //水平方向是否可以被回收掉的距离阈值
     public float getThreshold(RecyclerView.ViewHolder viewHolder) {
         //考虑 探探垂直上下方向滑动，不删除卡片，这里参照源码写死0.5f
-        return mRv.getWidth() * /*getSwipeThreshold(viewHolder)*/ 0.5f;
+        return mRv.getWidth() * 0.5f;
     }
 
     @Override
@@ -66,8 +89,7 @@ public class ItemTouchCardCallback extends ItemTouchHelper.SimpleCallback {
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
         //★实现循环的要点
         Object remove = mDatas.remove(viewHolder.getLayoutPosition());
-        mDatas.add(0, remove);
-        Object next = mDatas.get(mDatas.size() - 1);
+//        mDatas.add(0, remove);
         mAdapter.notifyDataSetChanged();
 
         //item复位
@@ -84,6 +106,11 @@ public class ItemTouchCardCallback extends ItemTouchHelper.SimpleCallback {
     @Override
     public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+        if (Math.abs(dY) > Math.abs(dX)) {
+            fz = 2;
+        } else {
+            fz = 0.5f;
+        }
         //先根据滑动的dxdy 算出现在动画的比例系数fraction
         double swipValue = Math.sqrt(dX * dX + dY * dY);
         double fraction = swipValue / getThreshold(viewHolder);
@@ -114,7 +141,7 @@ public class ItemTouchCardCallback extends ItemTouchHelper.SimpleCallback {
                     else
                         ((BaseCardViewHolder) viewHolder).setDisLikeAlpha(Math.abs(fractionX));
                 }
-            } else if (level == viewCount - 1) {
+            } else if (level == viewCount - 1 && viewCount >= CardConfig.MAX_SHOW_COUNT) {
                 //最后一个
                 //Y方向位移及缩小等同于上一级
                 child.setScaleY(1 - CardConfig.SCALE_GAP * (level - 1));

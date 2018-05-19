@@ -94,29 +94,29 @@ public class EnvelopViewHolder extends BaseMessageViewHolder<UIMessage> {
         }
 
         //显示红包信息
-        EnvelopElemData elem = (EnvelopElemData) itemValue.getCustomMessageElemData(CustomElemType.RED_ENVELOP, gson);
-        if (elem != null){
+        EnvelopElemData elem = (EnvelopElemData) itemValue.getCustomMessageElemData(CustomElemType.RED_ENVELOP, EnvelopElemData.class, gson);
+        if (elem != null) {
             msgTvMessage.setText(elem.getMessage() == null ? "" : elem.getMessage());
             TIMMessageExt messageExt = new TIMMessageExt(itemValue.getTimMessage());
             int status = messageExt.getCustomInt();
-            if (status == EnvelopMessageCacheInfo.STATUS_INITIAL){
+            if (status == EnvelopMessageCacheInfo.STATUS_INITIAL) {
                 msgTvStatus.setText(R.string.im_envelop_status_adopt);
-                if (itemValue.getTimMessage().isSelf()){
+                if (itemValue.getTimMessage().isSelf()) {
                     msgClEnvelop.setBackgroundResource(R.drawable.im_bg_msg_envelop_right);
-                }else {
+                } else {
                     msgClEnvelop.setBackgroundResource(R.drawable.im_bg_msg_envelop_left);
                 }
-            }else {
-                if (status == EnvelopMessageCacheInfo.STATUS_ADOPTED){
+            } else {
+                if (status == EnvelopMessageCacheInfo.STATUS_ADOPTED) {
                     msgTvStatus.setText(R.string.im_envelop_status_adopted);
-                }else if (status == EnvelopMessageCacheInfo.STATUS_OVERDUE){
+                } else if (status == EnvelopMessageCacheInfo.STATUS_OVERDUE) {
                     msgTvStatus.setText(R.string.im_envelop_status_overdue);
-                }else if (status == EnvelopMessageCacheInfo.STATUS_EMPTY){
+                } else if (status == EnvelopMessageCacheInfo.STATUS_EMPTY) {
                     msgTvStatus.setText(R.string.im_envelop_status_empty);
                 }
-                if (itemValue.getTimMessage().isSelf()){
+                if (itemValue.getTimMessage().isSelf()) {
                     msgClEnvelop.setBackgroundResource(R.drawable.im_bg_msg_envelop_right_adopted);
-                }else {
+                } else {
                     msgClEnvelop.setBackgroundResource(R.drawable.im_bg_msg_envelop_left_adopted);
                 }
             }

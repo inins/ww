@@ -108,7 +108,7 @@ public class FunshowView extends FrameLayout implements View.OnClickListener {
         textPicCount.setText("1/" + bean.getPicNum());
         textTime.setText(FunShowUtil.getFunshowTimeStr(bean.getCreateTime()));
         textZan.setSelected(bean.isSupport());
-        imgTagPay.setVisibility(bean.isFree() ? View.VISIBLE : View.GONE);
+        imgTagPay.setVisibility(!bean.isFree() ? View.VISIBLE : View.GONE);
         imgPlayer.setVisibility(bean.isVideo() ? View.VISIBLE : View.GONE);
         textPosition.setText(bean.getPositionText());
         textPosition.setVisibility(!TextUtils.isDigitsOnly(bean.getPositionText()) ? VISIBLE : GONE);

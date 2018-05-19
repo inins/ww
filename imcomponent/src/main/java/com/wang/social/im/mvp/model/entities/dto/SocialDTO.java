@@ -11,12 +11,15 @@ import com.wang.social.im.mvp.model.entities.SocialInfo;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.Data;
+
 /**
  * ============================================
  * <p>
  * Create by ChenJing on 2018-05-02 9:29
  * ============================================
  */
+@Data
 public class SocialDTO implements Mapper<SocialInfo> {
 
     private String groupId;

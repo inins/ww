@@ -451,7 +451,7 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
 
     @Override
     public void onEmotionClick(String codeName, String showName) {
-
+        mPresenter.sendFaceMessage(Integer.parseInt(codeName));
     }
 
     @Override

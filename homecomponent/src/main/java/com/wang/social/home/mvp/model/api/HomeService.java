@@ -1,5 +1,6 @@
 package com.wang.social.home.mvp.model.api;
 
+import com.frame.component.entities.BaseCardListWrap;
 import com.frame.component.entities.BaseListWrap;
 import com.frame.http.api.BaseJson;
 import com.google.gson.JsonObject;
@@ -9,9 +10,12 @@ import com.wang.social.home.mvp.entities.funshow.FunshowHome;
 import com.wang.social.home.mvp.entities.funshow.FunshowHomeDetail;
 import com.wang.social.home.mvp.entities.topic.TopicHomeDetail;
 
+import java.util.Map;
+
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 /**
  */
@@ -37,13 +41,13 @@ public interface HomeService {
      * 首页卡牌，有趣的同类
      */
     @GET("/app/interest/searchUser?v=2.0.0")
-    Observable<BaseJson<BaseListWrap<CardUser>>> getCardUsers(@Query("sex") Integer sex, @Query("ageRange") String ageRange, @Query("current") int current, @Query("size") int size);
+    Observable<BaseJson<BaseCardListWrap<CardUser>>> getCardUsers(@QueryMap Map<String, Object> map);
 
     /**
      * 首页卡牌，有趣的圈子
      */
     @GET("/app/interest/searchGroup?v=2.0.0")
-    Observable<BaseJson<BaseListWrap<CardGroup>>> getCardGroups(@Query("current") int current, @Query("size") int size);
+    Observable<BaseJson<BaseCardListWrap<CardGroup>>> getCardGroups(@QueryMap Map<String, Object> map);
 
     /**
      * 他人名片 - 最新趣晒

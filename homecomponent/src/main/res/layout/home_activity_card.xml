@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/common_white"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="false">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -18,8 +18,9 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="76dp"
             android:background="@android:color/transparent"
+            android:paddingTop="20dp"
             app:contentInsetStart="0dp"
             app:navigationIcon="@drawable/common_ic_back"
             app:popupTheme="@style/common_AppTheme.PopupOverlay">
@@ -42,8 +43,6 @@
 
         </android.support.v7.widget.Toolbar>
 
-        <View style="@style/common_Line_H" />
-
     </android.support.design.widget.AppBarLayout>
 
     <com.frame.component.view.UnScrollViewPager
@@ -55,7 +54,7 @@
         android:id="@+id/shadow"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_marginTop="76dp"
         android:background="#77000000"
         android:visibility="gone" />
 

@@ -19,10 +19,12 @@
         </provider>-->
 
         <activity android:name="com.frame.component.ui.acticity.WebActivity" />
-        <activity android:name="com.frame.component.ui.acticity.BGMList.BGMListActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name="com.frame.component.ui.acticity.tags.TagSelectionActivity"
-            android:screenOrientation="portrait">
-        </activity>
+        <activity
+            android:name="com.frame.component.ui.acticity.BGMList.BGMListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.frame.component.ui.acticity.tags.TagSelectionActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name="com.frame.component.ui.acticity.FunshowTopicActivity" />
     </application>
 </manifest>

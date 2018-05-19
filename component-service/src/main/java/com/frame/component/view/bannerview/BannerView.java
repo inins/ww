@@ -61,9 +61,10 @@ public class BannerView extends FrameLayout {
 
     @Override
     protected void onFinishInflate() {
-        if (!isInEditMode())LayoutInflater.from(getContext()).inflate(R.layout.view_bannerview, this, true);
+        if (!isInEditMode())
+            LayoutInflater.from(getContext()).inflate(R.layout.view_bannerview, this, true);
         super.onFinishInflate();
-        if (!isInEditMode())initView();
+        if (!isInEditMode()) initView();
     }
 
     @Override
@@ -96,9 +97,8 @@ public class BannerView extends FrameLayout {
                     .setFocusColor(selectedColor)
                     .setNormalColor(unSelectedColor)
                     .setMargin(0, 0, 0, SizeUtils.dp2px(20))
-                    .setGravity(Gravity.CENTER)
                     .setRadius(SizeUtils.dp2px(5));
-            viewPager.getIndicator().setGravity(Gravity.RIGHT | Gravity.BOTTOM);
+            viewPager.getIndicator().setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
             viewPager.getIndicator().build();
             text_banner_count.setVisibility(GONE);
         } else {

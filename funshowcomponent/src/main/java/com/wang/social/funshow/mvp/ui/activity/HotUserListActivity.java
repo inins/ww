@@ -89,7 +89,8 @@ public class HotUserListActivity extends BasicAppActivity implements IView, Base
     }
 
     @Override
-    public void onItemClick(TopUser testEntity, int position) {
+    public void onItemClick(TopUser bean, int position) {
+        CommonHelper.ImHelper.startPersonalCardForBrowse(this, bean.getUserId());
     }
 
     @Override

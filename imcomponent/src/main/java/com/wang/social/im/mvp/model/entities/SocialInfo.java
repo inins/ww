@@ -3,7 +3,9 @@ package com.wang.social.im.mvp.model.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.frame.component.api.Api;
 import com.frame.component.ui.acticity.tags.Tag;
+import com.frame.utils.StrUtil;
 
 import java.util.List;
 
@@ -80,4 +82,19 @@ public class SocialInfo implements Parcelable {
             return new SocialInfo[size];
         }
     };
+
+    //获取标签字符串 #xx #xx #xx
+    public String getTagText() {
+        if (StrUtil.isEmpty(tags)) return "";
+        String tagText = "";
+        for (Tag tag : tags) {
+            tagText += "#" + tag.getTagName() + " ";
+        }
+        return tagText.trim();
+    }
+
+    //获取二维码图片地址
+    public String getQrcodeImg(){
+        return Api.DOMAIN + Api.GROUP_QRCODE + "?v=2.0.0&groupId=" + socialId;
+    }
 }

@@ -1,5 +1,6 @@
 package com.frame.component.api;
 
+import com.frame.component.entities.BaseListWrap;
 import com.frame.component.entities.GroupBean;
 import com.frame.component.entities.dto.NewMoneyTreeGameDTO;
 import com.frame.component.entities.PersonalInfo;
@@ -12,6 +13,10 @@ import com.frame.component.entities.dto.GroupBeanDTO;
 import com.frame.component.entities.dto.PersonalInfoDTO;
 import com.frame.component.entities.dto.QiNiuDTO;
 import com.frame.component.entities.dto.SearchUserInfoDTO;
+import com.frame.component.entities.funshow.FunshowGroup;
+import com.frame.component.entities.funshow.FunshowMe;
+import com.frame.component.entities.topic.TopicGroup;
+import com.frame.component.entities.topic.TopicMe;
 import com.frame.component.entities.dto.TalkBeanDTO;
 import com.frame.component.entities.dto.TopicDTO;
 import com.frame.component.entities.funshow.FunshowBean;
@@ -219,12 +224,33 @@ public interface CommonService {
             @Field("applyId") int applyId,
             @Field("applyDesc") String applyDesc);
 
+    //用户趣晒列表
+    @FormUrlEncoded
+    @POST("/app/talk/getMyTalkList?v=2.0.0")
+    Observable<BaseJson<BaseListWrap<FunshowMe>>> getFunshowList(@Field("current") int current, @Field("size") int size);
+
+    //用户话题列表
+    @FormUrlEncoded
+    @POST("/app/topic/getMyTopicList?v=2.0.0")
+    Observable<BaseJson<BaseListWrap<TopicMe>>> getTopicList(@Field("current") int current, @Field("size") int size);
+
+    //群成员趣晒列表
+    @FormUrlEncoded
+    @POST("/app/talk/getGroupTalkList?v=2.0.0")
+    Observable<BaseJson<BaseListWrap<FunshowGroup>>> getGroupFunshowList(@Field("groupId") int groupId, @Field("current") int current, @Field("size") int size);
+
+    //群成员话题列表
+    @FormUrlEncoded
+    @POST("/app/topic/getGroupTopicList?v=2.0.0")
+    Observable<BaseJson<BaseListWrap<TopicGroup>>> getGroupTopicList(@Field("groupId") int groupId, @Field("current") int current, @Field("size") int size);
+
+
     /**
      * 趣晒列表 （他人名片）
      */
     @GET("app/talk/personalCardList")
     Observable<BaseJson<PageListDTO<TalkBeanDTO, FunshowBean>>>
-        getFriendTalkList(@QueryMap Map<String, Object> param);
+    getFriendTalkList(@QueryMap Map<String, Object> param);
 
 
     /**
@@ -232,7 +258,7 @@ public interface CommonService {
      */
     @GET("app/userFriend/othersFriendList")
     Observable<BaseJson<PageListDTO<PersonalInfoDTO, PersonalInfo>>>
-        getUserFriendList(@QueryMap Map<String, Object> param);
+    getUserFriendList(@QueryMap Map<String, Object> param);
 
 
 
@@ -296,7 +322,7 @@ public interface CommonService {
     @Headers(HEADER_CONTENT_TYPE)
     @FormUrlEncoded
     @POST("app/userInfo/searchUser")
-    Observable<BaseJson<PageListDTO<SearchUserInfoDTO, PersonalInfo>>> searchUser(@FieldMap Map<String, Object> param);
+    Observable<BaseJson<PageListDTO<SearchUserInfoDTO, PersonalInfo>>> searchUser(@QueryMap Map<String, Object> param);
 
 
     /**

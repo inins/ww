@@ -76,6 +76,7 @@ public class FunshowHome {
 
         funshowBean.setId(talkId);
         funshowBean.setUserId(creatorId);
+        funshowBean.setAvatar(headImg);
         funshowBean.setNickname(nickname);
         funshowBean.setCreateTime(createTime);
         funshowBean.setContent(content);

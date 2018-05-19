@@ -28,8 +28,7 @@
         android:drawablePadding="2dp"
         android:textColor="@color/common_text_dark"
         android:textSize="11sp"
-        android:visibility="gone"
-        tools:text="四川省成都市"
+        android:text="正在获取位置..."
         tools:visibility="visible" />
 
 </LinearLayout>

@@ -8,6 +8,7 @@ public class EmoticonPageSetEntity<T> extends PageSetEntity<EmoticonPageEntity> 
 
     final int mLine;
     final int mRow;
+    final int mItemHeight;
     final EmoticonPageEntity.DelBtnStatus mDelBtnStatus;
     final ArrayList<T> mEmoticonList;
 
@@ -17,6 +18,7 @@ public class EmoticonPageSetEntity<T> extends PageSetEntity<EmoticonPageEntity> 
         this.mRow = builder.row;
         this.mDelBtnStatus = builder.delBtnStatus;
         this.mEmoticonList = builder.emoticonList;
+        this.mItemHeight = builder.itemHeight;
     }
 
     public int getLine() {
@@ -53,6 +55,7 @@ public class EmoticonPageSetEntity<T> extends PageSetEntity<EmoticonPageEntity> 
          * 表情集数据源
          */
         protected ArrayList<T> emoticonList;
+        protected int itemHeight;
 
         protected PageViewInstantiateListener pageViewInstantiateListener;
 
@@ -104,6 +107,11 @@ public class EmoticonPageSetEntity<T> extends PageSetEntity<EmoticonPageEntity> 
             return this;
         }
 
+        public Builder setItemHeight(int height){
+            this.itemHeight = height;
+            return this;
+        }
+
         public EmoticonPageSetEntity<T> build() {
             int emoticonSetSum = emoticonList.size();
             int del = delBtnStatus.isShow() ? 1 : 0;
@@ -124,6 +132,7 @@ public class EmoticonPageSetEntity<T> extends PageSetEntity<EmoticonPageEntity> 
                 emoticonPageEntity.setDelBtnStatus(delBtnStatus);
                 emoticonPageEntity.setEmoticonList(emoticonList.subList(start, end));
                 emoticonPageEntity.setIPageViewInstantiateItem(pageViewInstantiateListener);
+                emoticonPageEntity.setItemHeight(itemHeight);
                 pageEntityList.add(emoticonPageEntity);
 
                 start = everyPageMaxSum + i * everyPageMaxSum;

@@ -40,7 +40,7 @@ import butterknife.Unbinder;
 /**
  */
 
-public class FunPointFragment extends BaseFragment<FunpointListPresonter> implements FunpointListContract.View, BaseAdapter.OnItemClickListener<Funpoint> {
+public class FunPointFragment extends BaseFragment<FunpointListPresonter> implements FunpointListContract.View{
 
     @BindView(R2.id.spring)
     SpringView springView;
@@ -95,7 +95,6 @@ public class FunPointFragment extends BaseFragment<FunpointListPresonter> implem
         recyclerLable.addItemDecoration(new GridSpacingItemDecoration(1, SizeUtils.dp2px(5), GridLayoutManager.HORIZONTAL, false));
 
         adapterHome = new RecycleAdapterFunpoint();
-        adapterHome.setOnItemClickListener(this);
         recyclerContent.setNestedScrollingEnabled(false);
         recyclerContent.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerContent.setAdapter(adapterHome);
@@ -117,12 +116,6 @@ public class FunPointFragment extends BaseFragment<FunpointListPresonter> implem
 
         mPresenter.netGetFunpointList(true);
         mPresenter.netGetRecommendTag();
-    }
-
-    @Override
-    public void onItemClick(Funpoint bean, int position) {
-        mPresenter.netReadFunpoint(bean.getNewsId());
-        WebActivity.start(getContext(), bean.getUrl());
     }
 
     @OnClick(R2.id.btn_search)

@@ -19,25 +19,31 @@ public class EmotionAdapter {
 
     private boolean isInitialed;
 
+    private OnEmotionClickListener onEmotionClickListener;
+
     public EmotionAdapter(EmoticonsEditText editText) {
         this.mEditText = editText;
     }
 
-    public void setVisibility(int visibility){
-        if (mEmotionView != null){
+    public void setVisibility(int visibility) {
+        if (mEmotionView != null) {
             mEmotionView.setVisibility(visibility);
         }
     }
 
-    public int getVisibility(){
+    public int getVisibility() {
         return mEmotionView == null ? View.GONE : mEmotionView.getVisibility();
+    }
+
+    public void setOnEmotionClickListener(OnEmotionClickListener onEmotionClickListener) {
+        this.onEmotionClickListener = onEmotionClickListener;
     }
 
     public boolean isInitialed() {
         return isInitialed;
     }
 
-    public void bindView(ViewGroup viewGroup){
+    public void bindView(ViewGroup viewGroup) {
         isInitialed = true;
         initView(viewGroup);
     }
@@ -53,28 +59,39 @@ public class EmotionAdapter {
     private EmoticonClickListener emoticonClickListener = new EmoticonClickListener() {
         @Override
         public void onEmoticonClick(Object o, int actionType, boolean isDelBtn) {
-            if (isDelBtn) {
-                SimpleCommonUtils.delClick(mEditText);
-            } else {
-                if (o == null) {
-                    return;
+            if (actionType == Constants.EMOTICON_CLICK_BIGIMAGE) {
+                if (onEmotionClickListener != null) {
+                    onEmotionClickListener.onEmotionClick(((EmojiBean) o).emoji, "");
                 }
-                if (actionType == Constants.EMOTICON_CLICK_TEXT) {
-                    String content = null;
-                    if (o instanceof EmojiBean) {
-                        content = ((EmojiBean) o).emoji;
-                    } else if (o instanceof EmoticonEntity) {
-                        content = ((EmoticonEntity) o).getContent();
-                    }
-
-                    if (TextUtils.isEmpty(content)) {
+            } else {
+                if (isDelBtn) {
+                    SimpleCommonUtils.delClick(mEditText);
+                } else {
+                    if (o == null) {
                         return;
                     }
-                    int index = mEditText.getSelectionStart();
-                    Editable editable = mEditText.getText();
-                    editable.insert(index, content);
+                    if (actionType == Constants.EMOTICON_CLICK_TEXT) {
+                        String content = null;
+                        if (o instanceof EmojiBean) {
+                            content = ((EmojiBean) o).emoji;
+                        } else if (o instanceof EmoticonEntity) {
+                            content = ((EmoticonEntity) o).getContent();
+                        }
+
+                        if (TextUtils.isEmpty(content)) {
+                            return;
+                        }
+                        int index = mEditText.getSelectionStart();
+                        Editable editable = mEditText.getText();
+                        editable.insert(index, content);
+                    }
                 }
             }
         }
     };
+
+    public interface OnEmotionClickListener {
+
+        void onEmotionClick(String identity, String name);
+    }
 }

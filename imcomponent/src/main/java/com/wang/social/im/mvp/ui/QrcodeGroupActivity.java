@@ -19,6 +19,7 @@ import com.frame.utils.ToastUtil;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.mvp.model.api.GroupService;
+import com.wang.social.im.mvp.model.entities.SocialInfo;
 import com.wang.social.im.mvp.model.entities.dto.SocialDTO;
 
 import butterknife.BindView;
@@ -33,10 +34,6 @@ public class QrcodeGroupActivity extends BasicAppNoDiActivity implements IView {
     TextView textDetail;
     @BindView(R2.id.img_qrcode)
     ImageView imgQrcode;
-    @BindView(R2.id.text_lable_gender)
-    TextView textLableGender;
-    @BindView(R2.id.text_lable_astro)
-    TextView textLableAstro;
 
     private int groupId;
 
@@ -60,15 +57,12 @@ public class QrcodeGroupActivity extends BasicAppNoDiActivity implements IView {
         netGetGroupInfo(groupId);
     }
 
-    private void setUserData(SocialDTO groupInfo) {
+    private void setUserData(SocialInfo groupInfo) {
         if (groupInfo != null) {
-//            ImageLoaderHelper.loadCircleImg(imgHeader, groupInfo.getAvatar());
-//            ImageLoaderHelper.loadImg(imgQrcode, groupInfo.getAvatar());
-//            textName.setText(groupInfo.getNickname());
-//            textDetail.setText(groupInfo.getTagTextDot());
-//            textLableGender.setSelected(!groupInfo.isMale());
-//            textLableGender.setText(TimeUtils.getBirthdaySpan(groupInfo.getBirthday()));
-//            textLableAstro.setText(TimeUtils.getAstro(groupInfo.getBirthday()));
+            ImageLoaderHelper.loadCircleImg(imgHeader, groupInfo.getCover());
+            ImageLoaderHelper.loadImg(imgQrcode, groupInfo.getQrcodeImg());
+            textName.setText(groupInfo.getName());
+            textDetail.setText(groupInfo.getTagText());
         }
     }
 
@@ -80,22 +74,9 @@ public class QrcodeGroupActivity extends BasicAppNoDiActivity implements IView {
                 new ErrorHandleSubscriber<BaseJson<SocialDTO>>() {
                     @Override
                     public void onNext(BaseJson<SocialDTO> basejson) {
-                        SocialDTO groupInfo = basejson.getData();
+                        SocialDTO dto = basejson.getData();
+                        SocialInfo groupInfo = dto.transform();
                         setUserData(groupInfo);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        ToastUtil.showToastLong(e.getMessage());
-                    }
-                });
-    }
-    public void netGetQrcodeImg(int groupId) {
-        ApiHelperEx.execute(this, true,
-                ApiHelperEx.getService(GroupService.class).getGroupQrcodeBygroupId("2.0.0", String.valueOf(groupId)),
-                new ErrorHandleSubscriber<BaseJson>() {
-                    @Override
-                    public void onNext(BaseJson basejson) {
                     }
 
                     @Override

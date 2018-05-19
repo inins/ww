@@ -2,6 +2,7 @@ package com.wang.social.funshow.mvp.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -10,7 +11,10 @@ import android.view.View;
 import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.QiNiuManager;
 import com.frame.component.ui.base.BasicAppActivity;
+import com.frame.component.utils.BitmapUtil;
+import com.frame.component.utils.FileUtil;
 import com.frame.component.utils.ListUtil;
+import com.frame.component.utils.VideoCoverUtil;
 import com.frame.component.view.TitleView;
 import com.frame.di.component.AppComponent;
 import com.frame.http.api.ApiHelperEx;
@@ -92,17 +96,22 @@ public class FunshowAddActivity extends BasicAppActivity implements IView {
             String videoPath = bundleController.getVideoPath();
             String musicPath = musicBoardController.getMusicPath();
 
+            //如果存在视频，需要解析第一帧图片在图片资源中添加一张图片作为封面
+            if (!TextUtils.isEmpty(videoPath)) {
+                String path = FileUtil.getPhotoFullPath();
+                Bitmap bitmap = VideoCoverUtil.createVideoThumbnail(videoPath);
+                BitmapUtil.saveBitmap(bitmap, path);
+                photoPaths.add(0, path);
+            }
+
             uploadhelper.startUpload(this, musicPath, videoPath, photoPaths, (voiceUrl, videoUrl, photoUrls) -> postCommit(voiceUrl, videoUrl, photoUrls));
         }
     }
 
+    //发布趣晒
+    //1.音频2.视频3.图片
     private void postCommit(String voiceUrl, String videoUrl, List<String> photoUrls) {
         FunshowAddPost postBean = new FunshowAddPost();
-//        postBean.setAdCode("610100");
-//        postBean.setProvince("四川省");
-//        postBean.setCity("绵阳市");
-//        postBean.setLatitude("30.566729");
-//        postBean.setLongitude("104.063642");
         postBean.setContent(editController.getContent());
         postBean.setCreatorId(AppDataHelper.getUser().getUserId());
         postBean.setIsAnonymous(tagController.isHideName() ? "1" : "0");   //是否匿名
@@ -132,6 +141,7 @@ public class FunshowAddActivity extends BasicAppActivity implements IView {
             resourcePost.setUrl(url);
             resourcePost.setPicOrder(i);
             resources.add(resourcePost);
+            postBean.setMediaType(3);
         }
         //音频资源
         if (!TextUtils.isEmpty(voiceUrl)) {
@@ -139,6 +149,7 @@ public class FunshowAddActivity extends BasicAppActivity implements IView {
             resourcePostVoice.setMediaType(1);
             resourcePostVoice.setUrl(voiceUrl);
             resources.add(resourcePostVoice);
+            postBean.setMediaType(1);
         }
         //视频资源
         if (!TextUtils.isEmpty(videoUrl)) {
@@ -146,6 +157,7 @@ public class FunshowAddActivity extends BasicAppActivity implements IView {
             resourcePostVideo.setMediaType(2);
             resourcePostVideo.setUrl(videoUrl);
             resources.add(resourcePostVideo);
+            postBean.setMediaType(2);
         }
 
         postBean.setResources(resources);

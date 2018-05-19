@@ -31,7 +31,7 @@ import com.wang.social.personal.mvp.entities.user.UserStatistic;
 import com.wang.social.personal.mvp.ui.activity.AboutActivity;
 import com.wang.social.personal.mvp.ui.activity.AccountActivity;
 import com.wang.social.personal.mvp.ui.activity.FeedbackActivity;
-import com.wang.social.personal.mvp.ui.activity.FunshowTopicActivity;
+import com.frame.component.ui.acticity.FunshowTopicActivity;
 import com.wang.social.personal.mvp.ui.activity.LableActivity;
 import com.wang.social.personal.mvp.ui.activity.MeDetailActivity;
 import com.wang.social.personal.mvp.ui.activity.QrcodeActivity;
@@ -44,7 +44,6 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 /**
  * ========================================
@@ -179,7 +178,6 @@ public class PersonalFragment extends BasicFragment implements PersonalFragmentI
             WebActivity.start(getContext(), AppConstant.Url.eva);
         } else if (v.getId() == R.id.btn_me_represent) {
             RepresentActivity.start(getContext());
-            CommonHelper.HomeHelper.startSearchActivity(getContext());
         } else if (v.getId() == R.id.lay_funshow) {
             FunshowTopicActivity.startFunshow(getContext());
         } else if (v.getId() == R.id.lay_topic) {

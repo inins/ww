@@ -95,6 +95,8 @@ public class AccountDepositActivity extends BasicAppNoDiActivity {
                     @Override
                     public void onNext(BaseJson<Object> basejson) {
                         ToastUtil.showToastShort("提交成功");
+                        finish();
+                        AccountDepositRecordActivity.start(AccountDepositActivity.this);
                     }
 
                     @Override
