@@ -11,6 +11,8 @@ import com.tencent.imsdk.TIMGroupMemberInfo;
 import com.tencent.imsdk.TIMGroupSettings;
 import com.tencent.imsdk.TIMLogLevel;
 import com.tencent.imsdk.TIMManager;
+import com.tencent.imsdk.TIMOfflinePushListener;
+import com.tencent.imsdk.TIMOfflinePushNotification;
 import com.tencent.imsdk.TIMSNSChangeInfo;
 import com.tencent.imsdk.TIMSdkConfig;
 import com.tencent.imsdk.TIMUserConfig;
@@ -24,7 +26,9 @@ import com.tencent.imsdk.ext.message.TIMMessageRevokedListener;
 import com.tencent.imsdk.ext.message.TIMUserConfigMsgExt;
 import com.tencent.imsdk.ext.sns.TIMFriendshipProxyListener;
 import com.tencent.imsdk.ext.sns.TIMUserConfigSnsExt;
+import com.tencent.qalsdk.sdk.MsfSdkUtils;
 import com.wang.social.im.BuildConfig;
+import com.wang.social.im.R;
 import com.wang.social.im.enums.ConnectionStatus;
 import com.wang.social.im.helper.FriendShipHelper;
 import com.wang.social.im.helper.GroupHelper;
@@ -80,6 +84,16 @@ public class ImAppLifecycleImpl implements AppDelegate {
         TIMManager.getInstance().init(application, config);
 
         imUserInit();
+
+        //添加离线消息监听(只能在主进程中注册)
+        if (MsfSdkUtils.isMainProcess(application)){
+            TIMManager.getInstance().setOfflinePushListener(new TIMOfflinePushListener() {
+                @Override
+                public void handleNotification(TIMOfflinePushNotification timOfflinePushNotification) {
+                    timOfflinePushNotification.doNotify(application, R.drawable.default_circle);
+                }
+            });
+        }
     }
 
     /**
