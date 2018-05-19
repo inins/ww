@@ -3,22 +3,35 @@ package com.wang.social.moneytree.mvp.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.frame.base.BaseFragment;
+import com.frame.component.router.Router;
+import com.frame.component.router.ui.UIRouter;
+import com.frame.component.service.funpoint.FunpointService;
+import com.frame.component.service.im.ImService;
 import com.frame.component.ui.acticity.WebActivity;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.utils.SpannableStringUtil;
 import com.frame.component.view.DialogPay;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
 import com.frame.integration.AppManager;
 import com.frame.utils.StatusBarUtil;
 import com.frame.utils.ToastUtil;
@@ -44,6 +57,8 @@ import com.wang.social.moneytree.mvp.ui.widget.MoneyTreeView;
 import com.wang.social.moneytree.utils.Keys;
 import com.wang.social.moneytree.utils.ShakeUtils;
 import com.wang.social.socialize.SocializeUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import javax.inject.Inject;
 
@@ -116,6 +131,8 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
     TextView mShakeHintTV;
     @BindView(R2.id.money_tree_layout)
     MoneyTreeView mMoneyTreeView;
+    @BindView(R2.id.member_chat_layout)
+    LinearLayout mMemberChatLayout;
 
     private ShakeUtils mShakeUtils;
     @Inject
@@ -124,8 +141,10 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
 
     // 是否已经摇过了
     private boolean mShaked = false;
+    private int mShakeCount = 0;
 
-    private @Keys.GameType int mType;
+    private @Keys.GameType
+    int mType;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -159,7 +178,8 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
             @Override
             public void onButtonClick(SocialToolbar.ClickType clickType) {
                 if (clickType == SocialToolbar.ClickType.LEFT_ICON) {
-                    finish();                }
+                    finish();
+                }
             }
         });
 
@@ -169,18 +189,18 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
                 if (null != mPresenter.getGameBean() && !mShaked) {
                     mShaked = true;
                     DialogShaked.show(getSupportFragmentManager())
-                    .setCallback(new DialogShaked.Callback() {
-                        @Override
-                        public void onResume() {
-                            mShakeHintTV.setVisibility(View.INVISIBLE);
-                        }
+                            .setCallback(new DialogShaked.Callback() {
+                                @Override
+                                public void onResume() {
+                                    mShakeHintTV.setVisibility(View.INVISIBLE);
+                                }
 
-                        @Override
-                        public void onDestroy() {
-                            mShakeHintTV.setText(getString(R.string.mt_shaked_hint));
-                            mShakeHintTV.setVisibility(View.VISIBLE);
-                        }
-                    });
+                                @Override
+                                public void onDestroy() {
+                                    mShakeHintTV.setText(getString(R.string.mt_shaked_hint));
+                                    mShakeHintTV.setVisibility(View.VISIBLE);
+                                }
+                            });
                 }
             }
         });
@@ -251,6 +271,8 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
         DialogGameEnd.show(getSupportFragmentManager(), gameEnd, this);
     }
 
+    private BaseFragment mChatFragment;
+
     /**
      * 游戏房间信息加载完成
      */
@@ -284,6 +306,15 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
             mPresenter.loadMemberList();
         }
 
+        ImService imService = (ImService) Router.getInstance().getService(ImService.class.getName());
+        mChatFragment = imService.getGameConversationFragment(Integer.toString(mPresenter.getRoomId()));
+        // 聊天
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.chat_layout,
+                        mChatFragment)
+                .commit();
+
         // 显示
         mContentLayout.setVisibility(View.VISIBLE);
     }
@@ -309,13 +340,7 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
                 getString(R.string.mt_recharge_immediately),
                 joinGame.getDiamond(),
                 joinGame.getBalance(),
-                new DialogPay.DialogPayCallback() {
-
-                    @Override
-                    public void onPay() {
-                        mPresenter.payJoinGame(joinGame);
-                    }
-                });
+                () -> mPresenter.payJoinGame(joinGame));
     }
 
     @Override
@@ -328,6 +353,9 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
 
     @Override
     public void onLoadMemberListSuccess() {
+        if (null != mPresenter.getMemberList()) {
+            setJoinNumTV(mPresenter.getMemberList().size());
+        }
         // 刷新成员列表
         if (null != mMemberAdapter) {
             mMemberAdapter.notifyDataSetChanged();
@@ -392,10 +420,6 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
 
     @Override
     public void onCountDownFinished() {
-        if (!mResumed) return;
-//        ToastUtil.toastShort("游戏结束");
-        // 游戏结束，加载结果
-        mPresenter.loadGameEnd(mPresenter.getGameBeanGameId());
     }
 
     @Override
@@ -421,7 +445,23 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
 
     @Override
     public void onShake() {
-        Timber.i("摇一摇");
+        if (++mShakeCount > 5) {
+            mShakeCount = 0;
+            setSimulateClick(mMoneyTreeView, mMoneyTreeView.getX(), mMoneyTreeView.getY());
+        }
+    }
+
+    private void setSimulateClick(View view, float x, float y) {
+        long downTime = SystemClock.uptimeMillis();
+        final MotionEvent downEvent = MotionEvent.obtain(downTime, downTime,
+                MotionEvent.ACTION_DOWN, x, y, 0);
+        downTime += 1000;
+        final MotionEvent upEvent = MotionEvent.obtain(downTime, downTime,
+                MotionEvent.ACTION_UP, x, y, 0);
+        view.onTouchEvent(downEvent);
+        view.onTouchEvent(upEvent);
+        downEvent.recycle();
+        upEvent.recycle();
     }
 
     @Override
@@ -451,10 +491,62 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
     }
 
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
+
+    @Override
+    public void onBackPressed() {
+        boolean flag = mChatFragment.onBackPressed();
+        if (null == mChatFragment || !flag) {
+            super.onBackPressed();
+        }
+
+        if (flag) {
+            resetMemberChatLayoutHeight(0);
+        }
+    }
+
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
+    private void resetMemberChatLayoutHeight(int height) {
+        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) mMemberChatLayout.getLayoutParams();
+        if (height > 0) {
+            params.height = mMemberChatLayout.getMinimumHeight() + height;
+            mMemberChatLayout.setLayoutParams(params);
+        } else {
+            params.height = mMemberChatLayout.getMinimumHeight();
+            mMemberChatLayout.setLayoutParams(params);
+        }
+    }
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        super.onCommonEvent(event);
+
+        switch (event.getEvent()) {
+            // 表情输入框弹出
+            case EventBean.EVENT_GAME_INPUT_HEIGHT_CHANGED:
+                int height = (int) event.get("height");
+                resetMemberChatLayoutHeight(height);
+                break;
+            case EventBean.EVENT_GAME_JOIN:
+                Timber.i("用户加入游戏");
+                int number = (int) event.get("joinNumber");
+                mPresenter.loadMemberList();
+                break;
+            case EventBean.EVENT_GAME_RESULT:
+                if (!mResumed) return;
+                Timber.i("游戏结束");
+                // 游戏结束，加载结果
+                mPresenter.loadGameEnd(mPresenter.getGameBeanGameId());
+                break;
+        }
+    }
 }
+

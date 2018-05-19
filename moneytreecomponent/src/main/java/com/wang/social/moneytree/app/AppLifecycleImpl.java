@@ -25,16 +25,6 @@ public class AppLifecycleImpl implements AppDelegate{
 
     @Override
     public void onCreate(Application application) {
-        if (LeakCanary.isInAnalyzerProcess(application)) {
-            // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
-            return;
-        }
-        if (BuildConfig.LOG_DEBUG){
-            Timber.plant(new Timber.DebugTree());
-
-            ButterKnife.setDebug(true);
-        }
     }
 
     @Override

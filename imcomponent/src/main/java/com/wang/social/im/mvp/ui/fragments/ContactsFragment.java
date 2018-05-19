@@ -1,5 +1,6 @@
 package com.wang.social.im.mvp.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,14 +13,20 @@ import android.widget.TextView;
 
 import com.frame.base.BasicFragment;
 import com.frame.component.entities.AutoPopupItemModel;
+import com.frame.component.helper.AppDataHelper;
 import com.frame.component.ui.dialog.AutoPopupWindow;
 import com.frame.component.utils.UIUtil;
 import com.frame.di.component.AppComponent;
 import com.frame.utils.ScreenUtils;
 import com.frame.utils.SizeUtils;
+import com.frame.utils.ToastUtil;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
+import com.tencent.imsdk.TIMCallBack;
+import com.tencent.imsdk.TIMManager;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
+import com.wang.social.im.helper.FriendShipHelper;
+import com.wang.social.im.helper.GroupHelper;
 import com.wang.social.im.mvp.ui.ConversationListFragment;
 import com.wang.social.im.mvp.ui.CreateSocialActivity;
 import com.wang.social.im.mvp.ui.PhoneBookActivity;
@@ -61,6 +68,12 @@ public class ContactsFragment extends BasicFragment implements AutoPopupWindow.O
         ContactsFragment fragment = new ContactsFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        imLogin();
     }
 
     @Override
@@ -110,6 +123,22 @@ public class ContactsFragment extends BasicFragment implements AutoPopupWindow.O
 
             @Override
             public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
+
+    private void imLogin() {
+        TIMManager.getInstance().login(String.valueOf(AppDataHelper.getUser().getUserId()), AppDataHelper.getSign(), new TIMCallBack() {
+            @Override
+            public void onError(int i, String s) {
+                ToastUtil.showToastShort("Login Error.");
+            }
+
+            @Override
+            public void onSuccess() {
+                GroupHelper.getInstance();
+                FriendShipHelper.getInstance();
 
             }
         });

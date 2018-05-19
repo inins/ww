@@ -36,7 +36,7 @@ public class GameNotifyElemData {
     private int joinPersonNum;
 
     public GameNotifyType getNotifyType() {
-        if (TextUtils.isEmpty(operation)) {
+        if (!TextUtils.isEmpty(operation)) {
             return GameNotifyType.instanceOf(operation);
         }
         return null;

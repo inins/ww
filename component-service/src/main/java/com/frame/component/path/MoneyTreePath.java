@@ -9,9 +9,9 @@ package com.frame.component.path;
 
 public interface MoneyTreePath extends BasePath{
 
-    String HOST = "moneytree/";
+    String HOST = "moneytree";
 
     // 游戏列表
-    String MONEY_TREE_LIST = "money_tree_list";
+    String MONEY_TREE_LIST = "/money_tree_list";
     String MONEY_TREE_LIST_URL = SCHEME + HOST + MONEY_TREE_LIST;
 }

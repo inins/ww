@@ -106,7 +106,7 @@ public abstract class BasicFragment extends Fragment implements IFragment, Fragm
      *
      * @return 返回 false 表示不需拦截事件 返回 true 表示拦截
      */
-    protected boolean onBackPressed() {
+    public boolean onBackPressed() {
         return false;
     }
 }

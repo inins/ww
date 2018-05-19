@@ -229,9 +229,11 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
                         AppDataHelper.saveToken(loginInfo.getImSign());
                         AppDataHelper.saveUser(loginInfo.getUserInfo());
                         // 提示注册成功
-                        // 跳转到标签选择页面
-                        TagSelectionActivity.startSelectionFromLogin(mRootView.getActivity());
-                        mRootView.getActivity().finish();
+                        // 自动登录
+                        passwordLogin(mobile, password);
+//                        // 跳转到标签选择页面
+//                        TagSelectionActivity.startSelectionFromLogin(mRootView.getActivity());
+//                        mRootView.getActivity().finish();
                     }
 
                     @Override

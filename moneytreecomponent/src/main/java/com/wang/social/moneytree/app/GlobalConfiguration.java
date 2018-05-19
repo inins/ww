@@ -29,12 +29,6 @@ public class GlobalConfiguration implements ConfigModule{
 
     @Override
     public void applyOptions(Context context, GlobalConfigModule.Builder builder) {
-//        if (!BuildConfig.LOG_DEBUG){ //release的时候不再输出网络请求日志
-//            builder.printHttpLogLevel(RequestInterceptor.Level.NONE);
-//        }
-//        builder.baseUrl(Api.DOMAIN)
-//                .globalHttpHandler(new GlobalHttpHandlerImp(context))
-//                .responseErrorListener(new ResponseErrorListenerImp());
     }
 
     @Override

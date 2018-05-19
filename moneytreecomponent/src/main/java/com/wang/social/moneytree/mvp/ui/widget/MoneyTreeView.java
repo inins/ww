@@ -3,6 +3,8 @@ package com.wang.social.moneytree.mvp.ui.widget;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -32,6 +34,10 @@ public class MoneyTreeView extends FrameLayout implements View.OnClickListener {
     private AnimCallback mAnimCallback;
     private boolean mFirstClick = true;
 
+
+    private SoundPool mSoundPool;
+    private int mSoundActionId;
+
     public MoneyTreeView(@NonNull Context context) {
         this(context, null);
     }
@@ -59,6 +65,10 @@ public class MoneyTreeView extends FrameLayout implements View.OnClickListener {
         mGroundDiamondIV.setVisibility(INVISIBLE);
 
         setOnClickListener(this);
+
+
+        mSoundPool = new SoundPool(3,AudioManager.STREAM_MUSIC, 0);
+        mSoundActionId = mSoundPool.load(getContext(), R.raw.action, 1);
     }
 
     @Override
@@ -96,6 +106,8 @@ public class MoneyTreeView extends FrameLayout implements View.OnClickListener {
         animator.setInterpolator(new OvershootInterpolator());
         animator.setDuration(1000);
         animator.start();
+
+        mSoundPool.play(mSoundActionId, 0.8f, 0.8f, 1, 0, 1);
 
         int diamondCount = 0;
         for (int i = 1; i < mTreeView.getChildCount(); i++) {

@@ -60,6 +60,7 @@ public class HomeNaviboardController extends BaseController implements View.OnCl
         } else if (id == R.id.btn_circle) {
             CardActivity.startGroup(getContext());
         } else if (id == R.id.btn_active) {
+            CommonHelper.GameHelper.startMoneyTreeFromSquare(getContext());
         }
     }
 }

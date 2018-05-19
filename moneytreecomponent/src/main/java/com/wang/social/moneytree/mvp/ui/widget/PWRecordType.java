@@ -46,19 +46,14 @@ public class PWRecordType extends BasePopupWindow implements View.OnClickListene
     @Override
     public void onClick(View v) {
         if (null != mTypeListener) {
-            switch (v.getId()) {
-                case R.id.all_text_view:
-                    mTypeListener.onTypeSelected(GameRecord.TYPE_PLAYING);
-                    break;
-                case R.id.lose_text_view:
-                    mTypeListener.onTypeSelected(GameRecord.TYPE_LOSE);
-                    break;
-                case R.id.win_text_view:
-                    mTypeListener.onTypeSelected(GameRecord.TYPE_WIN);
-                    break;
-                case R.id.tie_text_view:
-                    mTypeListener.onTypeSelected(GameRecord.TYPE_TIE);
-                    break;
+            if (v.getId() == R.id.all_text_view) {
+                mTypeListener.onTypeSelected(GameRecord.TYPE_PLAYING);
+            } else if (v.getId() == R.id.lose_text_view) {
+                mTypeListener.onTypeSelected(GameRecord.TYPE_LOSE);
+            } else if (v.getId() == R.id.win_text_view) {
+                mTypeListener.onTypeSelected(GameRecord.TYPE_WIN);
+            } else if (v.getId() == R.id.tie_text_view) {
+                mTypeListener.onTypeSelected(GameRecord.TYPE_TIE);
             }
         }
 

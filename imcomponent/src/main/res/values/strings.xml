@@ -55,8 +55,8 @@
 
     <!--摇钱树-->
     <string name="im_myself">我自己&#160;:</string>
-    <string name="im_create_notify_format">%s创建了游戏</string>
-    <string name="im_join_notify_format">%加入游戏</string>
+    <string name="im_create_notify_format">%1s创建了游戏</string>
+    <string name="im_join_notify_format">%1s加入游戏</string>
 
     <!--通知-->
     <string name="im_notify_official_title">往往官方号</string>

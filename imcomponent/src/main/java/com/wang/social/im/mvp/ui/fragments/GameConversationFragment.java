@@ -235,7 +235,7 @@ public class GameConversationFragment extends BaseFragment<GameConversationPrese
     }
 
     @Override
-    protected boolean onBackPressed() {
+    public boolean onBackPressed() {
         if (fgcInput.isExpanded()) {
             fgcInput.collapse();
             return true;
