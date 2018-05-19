@@ -9,6 +9,10 @@ public interface IMConstants {
     String USRE_IDENTIFIER_2 = "10034";
 
     /**
+     * 小米推送：bussId
+     */
+    long MIPUSH_BUSSID = 3720;
+    /**
      * 小米推送：AppId
      */
     String MIPUSH_APPID = "2882303761517578585";
@@ -16,6 +20,22 @@ public interface IMConstants {
      * 小米推送：AppKey
      */
     String MIPUSH_APPKEY = "5641757831585";
+    /**
+     * 魅族推送：bussId
+     */
+    long MZPUSH_BUSSID = 3721;
+    /**
+     * 魅族推送：AppId
+     */
+    String MZPUSH_APPID = "1000160";
+    /**
+     * 魅族推送：AppKey
+     */
+    String MZPUSH_APPKEY = "3379086898464c90bc7914ed668496dd";
+    /**
+     * 华为推送：bussId
+     */
+    long HMSPUSH_BUSSID = 3719;
 
     /**
      * 自定义消息Elem类型：红包

@@ -1,5 +1,6 @@
 package com.frame.component.service.im;
 
+import android.app.Application;
 import android.support.v4.app.Fragment;
 
 import com.frame.base.BaseFragment;
@@ -22,4 +23,6 @@ public interface ImService {
      * 摇钱树聊天会话
      */
     BaseFragment getGameConversationFragment(String roomId);
+
+    void imLogin(Application application);
 }
