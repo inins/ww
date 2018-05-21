@@ -40,19 +40,19 @@ public class XMediaPlayer extends MediaPlayer
     }
 
     // 是否准备好了
-    boolean mIsPrepared = false;
+    private boolean mIsPrepared = false;
     // 当前播放的音乐
-    String mPath;
-    Uri mUri;
-    FileDescriptor mFileDescriptor;
+    private String mPath;
+    private Uri mUri;
+    private FileDescriptor mFileDescriptor;
 
     // 是否在准备好后开始播放
-    boolean mPlayWhenPrepared;
+    private boolean mPlayWhenPrepared;
     // 是否循环播放
-    boolean mCircle;
+    private boolean mCircle;
 
-    @MP_State int mState;
-    StateListener mStateListener;
+    private @MP_State int mState;
+    private StateListener mStateListener;
 
     @Override
     public void onPrepared(MediaPlayer mp) {

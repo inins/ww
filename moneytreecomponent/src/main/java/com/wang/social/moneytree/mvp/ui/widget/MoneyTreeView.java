@@ -176,4 +176,13 @@ public class MoneyTreeView extends FrameLayout implements View.OnClickListener {
             }
         }
     }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+
+        if (null != mSoundPool) {
+            mSoundPool.release();
+        }
+    }
 }

@@ -46,6 +46,7 @@ public class MusicBoard extends FrameLayout implements XMediaPlayer.StateListene
         void onPlaying();
         void onPause();
         void onStop();
+        void onComplete();
     }
 
     private XMediaPlayer mXMediaPlayer;
@@ -211,8 +212,14 @@ public class MusicBoard extends FrameLayout implements XMediaPlayer.StateListene
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(aLong -> {
                                 if (null != mXMediaPlayer && mXMediaPlayer.isPlaying()) {
-                                    mSeekBar.setProgress(mXMediaPlayer.getCurrentPosition(), true);
-                                    mTime1TV.setText(mTimeFormat.format(mXMediaPlayer.getCurrentPosition()));
+                                    int currentPosition = mXMediaPlayer.getCurrentPosition();
+                                    try {
+                                        mSeekBar.setProgress(currentPosition, false);
+                                        mTime1TV.setText(mTimeFormat.format(
+                                                Math.min(mXMediaPlayer.getCurrentPosition(), mXMediaPlayer.getDuration())));
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             });
                 }
@@ -234,6 +241,10 @@ public class MusicBoard extends FrameLayout implements XMediaPlayer.StateListene
             case XMediaPlayer.STATE_COMPLETION:
                 // 播放完成
                 mControlIV.setImageResource(R.drawable.common_ic_music_start_big);
+
+                if (null != mPlayStateListener) {
+                    mPlayStateListener.onComplete();
+                }
                 break;
         }
     }
