@@ -1,6 +1,5 @@
 package com.wang.social.im.mvp.ui.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,8 +24,10 @@ import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMManager;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
+import com.wang.social.im.enums.ConnectionStatus;
 import com.wang.social.im.helper.FriendShipHelper;
 import com.wang.social.im.helper.GroupHelper;
+import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.mvp.ui.ConversationListFragment;
 import com.wang.social.im.mvp.ui.CreateSocialActivity;
 import com.wang.social.im.mvp.ui.PhoneBookActivity;
@@ -34,12 +35,14 @@ import com.wang.social.im.mvp.ui.ScanActivity;
 import com.wang.social.im.mvp.ui.adapters.FragmentAdapter;
 import com.wang.social.im.view.NoScrollViewPager;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import butterknife.Optional;
 
 /**
  * ============================================
@@ -73,7 +76,6 @@ public class ContactsFragment extends BasicFragment implements AutoPopupWindow.O
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        imLogin();
     }
 
     @Override
@@ -123,22 +125,6 @@ public class ContactsFragment extends BasicFragment implements AutoPopupWindow.O
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-    }
-
-    private void imLogin() {
-        TIMManager.getInstance().login(String.valueOf(AppDataHelper.getUser().getUserId()), AppDataHelper.getSign(), new TIMCallBack() {
-            @Override
-            public void onError(int i, String s) {
-                ToastUtil.showToastShort("Login Error.");
-            }
-
-            @Override
-            public void onSuccess() {
-                GroupHelper.getInstance();
-                FriendShipHelper.getInstance();
 
             }
         });

@@ -33,6 +33,8 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
+import static com.wang.social.im.app.IMConstants.SERVER_PUSH_MESSAGE_ACCOUNT;
+
 /**
  * ============================================
  * <p>
@@ -67,7 +69,8 @@ public class ConversationListPresenter extends BasePresenter<ConversationListCon
         for (TIMConversation conversation : conversations) {
             if ((conversation.getType() != TIMConversationType.Group && conversation.getType() != TIMConversationType.C2C) ||
                     conversation.getPeer().startsWith(IMConstants.IM_IDENTITY_PREFIX_MIRROR) ||
-                    conversation.getPeer().startsWith(IMConstants.IM_IDENTITY_PREFIX_GAME)) {
+                    conversation.getPeer().startsWith(IMConstants.IM_IDENTITY_PREFIX_GAME) ||
+                    (conversation.getType() == TIMConversationType.C2C && conversation.getPeer().equals(SERVER_PUSH_MESSAGE_ACCOUNT))) {
                 continue;
             }
             result.add(conversation);

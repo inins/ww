@@ -74,6 +74,7 @@ dependencies {
     implementation 'cn.bingoogolapple:bga-qrcodecore:1.1.9@aar'
     implementation 'cn.bingoogolapple:bga-zxing:1.1.9@aar'
     implementation 'com.meizu.flyme.internet:push-internal:3.6.7@aar'
+    implementation 'com.huawei.android.hms:push:2.6.0.301'
     implementation project(':component-service')
     annotationProcessor project(':router-anno-compiler')
     implementation project(':pictureselectorcomponent')

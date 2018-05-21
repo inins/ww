@@ -10,6 +10,7 @@ import com.frame.utils.FileUtils;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.Utils;
 import com.huawei.android.hms.agent.HMSAgent;
+import com.huawei.android.hms.agent.push.handler.GetTokenHandler;
 import com.meizu.cloud.pushsdk.PushManager;
 import com.meizu.cloud.pushsdk.util.MzSystemUtils;
 import com.tencent.imsdk.TIMOfflinePushSettings;
@@ -20,6 +21,8 @@ import com.xiaomi.mipush.sdk.MiPushClient;
 import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
+
+import timber.log.Timber;
 
 import static com.wang.social.im.app.IMConstants.MZPUSH_APPID;
 import static com.wang.social.im.app.IMConstants.MZPUSH_APPKEY;
@@ -144,10 +147,16 @@ public class ImHelper {
 
         String vendor = Build.MANUFACTURER;
         //初始化推送
-        if (vendor.contains("xiaomi")) { //小米推送
+        if (vendor.toLowerCase().contains("xiaomi")) { //小米推送
             MiPushClient.registerPush(application, IMConstants.MIPUSH_APPID, IMConstants.MIPUSH_APPKEY);
-        } else if (vendor.contains("huawei")) {
+        } else if (vendor.toLowerCase().contains("huawei")) {
             HMSAgent.init(application);
+            HMSAgent.Push.getToken(new GetTokenHandler() {
+                @Override
+                public void onResult(int rst) {
+                    Timber.d("--------------------" + rst);
+                }
+            });
         } else if (MzSystemUtils.isBrandMeizu(application)) {
             PushManager.register(application, MZPUSH_APPID, MZPUSH_APPKEY);
         }

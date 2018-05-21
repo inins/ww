@@ -38,6 +38,11 @@ public interface IMConstants {
     long HMSPUSH_BUSSID = 3719;
 
     /**
+     * 服务端推送消息使用账号
+     */
+    String SERVER_PUSH_MESSAGE_ACCOUNT = "admin";
+
+    /**
      * 自定义消息Elem类型：红包
      * {@link com.wang.social.im.enums.CustomElemType}
      */
