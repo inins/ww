@@ -32,6 +32,7 @@ import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.BarUtils;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.SizeUtils;
+import com.frame.utils.StatusBarUtil;
 import com.frame.utils.TimeUtils;
 import com.frame.utils.ToastUtil;
 import com.wang.social.topic.R;
@@ -140,6 +141,8 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
     @BindView(R2.id.share_text_view)
     TextView mShareTV;
 
+    private boolean mHasCoverImage = false;
+
     private void resetShareLayout(int count) {
         mShareTV.setText(String.format(getString(R.string.topic_share_format), count));
     }
@@ -186,7 +189,7 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
-        BarUtils.setTranslucent(this);
+        StatusBarUtil.setTranslucent(this);
 
         mTopicId = getIntent().getIntExtra(NAME_TOPIC_ID, -1);
         mCreatorId = getIntent().getIntExtra(NAME_CREATOR_ID, -1);
@@ -208,22 +211,26 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
                 if (state == State.EXPANDED) {
                     //展开状态
-//                    mGradualImageView.startAnimation();
+                    if (mHasCoverImage) {
+                        StatusBarUtil.setStatusBarColor(TopicDetailActivity.this,
+                                android.R.color.transparent);
+                    } else {
+                        StatusBarUtil.setStatusBarColor(TopicDetailActivity.this,
+                                R.color.common_text_dark_light);
+                    }
                 } else if (state == AppBarStateChangeListener.State.COLLAPSED) {
                     //折叠状态
-//                    mGradualImageView.stopAnimation();
+                    StatusBarUtil.setStatusBarColor(TopicDetailActivity.this,
+                            R.color.common_text_dark_light);
                 } else {
                     //中间状态
                 }
             }
         });
 
-        mSocialToolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
-            @Override
-            public void onButtonClick(SocialToolbar.ClickType clickType) {
-                if (clickType == SocialToolbar.ClickType.LEFT_ICON) {
-                    finish();
-                }
+        mSocialToolbar.setOnButtonClickListener(clickType -> {
+            if (clickType == SocialToolbar.ClickType.LEFT_ICON) {
+                finish();
             }
         });
 
@@ -272,6 +279,10 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
 
         // 背景图
         if (TextUtils.isEmpty(detail.getBackgroundImage())) {
+            mHasCoverImage = false;
+            StatusBarUtil.setStatusBarColor(TopicDetailActivity.this,
+                    R.color.common_text_dark_light);
+
             // 没有背景图时候的配色方案
             mBackgroundIV.setVisibility(View.GONE);
             mGradualImageView.setVisibility(View.GONE);
@@ -298,6 +309,10 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
             mGradualImageView.setDrawable(R.drawable.common_ic_playing2, R.drawable.common_ic_playing2);
             mGradualImageView.setGradual(false);
         } else {
+            mHasCoverImage = true;
+            StatusBarUtil.setStatusBarColor(TopicDetailActivity.this,
+                    android.R.color.transparent);
+
             mTagTV.setGradual(true);
             mTagTV.setGradualColor(Color.parseColor("#FFFFFF"),
                     Color.TRANSPARENT);

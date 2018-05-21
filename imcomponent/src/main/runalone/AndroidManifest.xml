@@ -334,6 +334,8 @@
         <activity android:name=".mvp.ui.NotifyAiteListActivity" />
         <activity android:name=".mvp.ui.TeamFunPointActivity"></activity>
         <activity android:name=".mvp.ui.QrcodeGroupActivity" />
+
+        <activity android:name=".mvp.ui.OfficialChatRobot.OfficialChatRobotActivity"></activity>
     </application>
 
 </manifest>

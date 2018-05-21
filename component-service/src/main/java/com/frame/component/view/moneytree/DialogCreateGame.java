@@ -391,7 +391,7 @@ public class DialogCreateGame extends DialogFragment {
                 ContextCompat.getColor(getContext(), R.color.common_text_blank)
         };
         SpannableStringBuilder titleText = SpannableStringUtil.createV2(strings, colors);
-        DialogPay.showPay(mIView,
+        DialogPay.showPayDiamond(mIView,
                 mFragmentManager,
                 titleText,
                 "您当前余额为%1d钻",

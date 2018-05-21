@@ -334,7 +334,7 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
                 ContextCompat.getColor(this, R.color.common_text_blank)
         };
         SpannableStringBuilder titleText = SpannableStringUtil.createV2(strings, colors);
-        DialogPay.showPay(this,
+        DialogPay.showPayDiamond(this,
                 getSupportFragmentManager(),
                 titleText,
                 getString(R.string.mt_format_pay_hint),

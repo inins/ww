@@ -19,6 +19,7 @@ import com.wang.social.im.helper.GroupHelper;
 import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.mvp.ui.GroupInviteDetailActivity;
 import com.wang.social.im.mvp.ui.GroupMiInviteDetailActivity;
+import com.wang.social.im.mvp.ui.OfficialChatRobot.OfficialChatRobotActivity;
 import com.wang.social.im.mvp.ui.PersonalCard.PersonalCardActivity;
 import com.wang.social.im.mvp.ui.SearchActivity;
 
@@ -138,6 +139,9 @@ public class MainActivity extends AppCompatActivity {
 
                         }
                 );
+
+        findViewById(R.id.official_chat_robot)
+                .setOnClickListener(v -> OfficialChatRobotActivity.start(MainActivity.this));
 
     }
 

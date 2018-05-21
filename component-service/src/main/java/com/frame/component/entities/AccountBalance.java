@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class AccountBalance {
-    private int amount;
+    private float amount;
     private int amountGemstone;
     private int userId;
     private int amountDiamond;

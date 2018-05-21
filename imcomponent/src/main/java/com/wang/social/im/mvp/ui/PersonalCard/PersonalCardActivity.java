@@ -195,12 +195,7 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
         mMsgId = getIntent().getIntExtra("msgId", -1);
 
         mBackGIV.setDrawable(R.drawable.common_ic_back_white, R.drawable.common_ic_back);
-        mBackGIV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        mBackGIV.setOnClickListener(v -> finish());
 
 //        initTabLayout();
 

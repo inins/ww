@@ -68,6 +68,10 @@ public class GameInputView extends LinearLayout {
         initEmotions();
     }
 
+    public void hideEmojiToggle() {
+        ivEmojiToggle.setVisibility(GONE);
+    }
+
     /**
      * 初始化表情列表
      */

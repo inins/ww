@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.IntDef;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 
 import com.frame.component.entities.AccountBalance;
 import com.frame.component.entities.Topic;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.NetAccountBalanceHelper;
 import com.frame.component.service.R;
 import com.frame.component.utils.SpannableStringUtil;
@@ -37,6 +39,11 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 
 public class DialogPay extends DialogFragment {
+    // 钻石支付
+    public final static int TYPE_PAY_DIAMOND = 1;
+    // 宝石支付
+    public final static int TYPE_PAY_GEM = 2;
+
     public interface DialogPayCallback {
         void onPay();
     }
@@ -49,7 +56,7 @@ public class DialogPay extends DialogFragment {
         String[] strings = {
                 "查看该话题需支付",
                 Integer.toString(topic.getRelateMoney()),
-                "钻"};
+                "宝石"};
         int[] colors = {
                 ContextCompat.getColor(Utils.getContext(), R.color.common_text_blank),
                 ContextCompat.getColor(Utils.getContext(), R.color.common_blue_deep),
@@ -57,10 +64,12 @@ public class DialogPay extends DialogFragment {
         };
         SpannableStringBuilder titleText = SpannableStringUtil.createV2(strings, colors);
 
-        return showPay(bindView,
+        return showPay(
+                TYPE_PAY_GEM, // 话题使用宝石支付
+                bindView,
                 manager,
                 titleText,
-                "您当前余额为%1d钻",
+                "您当前余额为%1d宝石",
                 "再逛逛",
                 "立即支付",
                 "去充值",
@@ -70,8 +79,32 @@ public class DialogPay extends DialogFragment {
     }
 
     /**
+     * 使用钻石支付
+     */
+    public static DialogPay showPayDiamond(IView bindView,
+                                           FragmentManager manager,
+                                           SpannableStringBuilder titleText, String hintText,
+                                           String cancelText, String payText, String rechargeText,
+                                           int price, int balance,
+                                           DialogPayCallback callback) {
+        return showPay(
+                TYPE_PAY_DIAMOND,
+                bindView,
+                manager,
+                titleText,
+                hintText,
+                cancelText,
+                payText,
+                rechargeText,
+                price,
+                balance,
+                callback);
+    }
+
+    /**
      * 显示付费对话框(自身调用 NetAccountBalanceHelper )
      *
+     * @param type         支付类型，宝石或钻石
      * @param bindView     IView
      * @param manager      FramgentManager
      * @param titleText    标题
@@ -81,10 +114,9 @@ public class DialogPay extends DialogFragment {
      * @param rechargeText 去充值
      * @param price        价格
      * @param callback     回调
-     * @return
      * @Param balance 余额，当余额为 < 0 时，会调用 accountBalance 查询余额
      */
-    public static DialogPay showPay(IView bindView,
+    private static DialogPay showPay(int type, IView bindView,
                                     FragmentManager manager,
                                     SpannableStringBuilder titleText, String hintText,
                                     String cancelText, String payText, String rechargeText,
@@ -106,7 +138,12 @@ public class DialogPay extends DialogFragment {
                             new ErrorHandleSubscriber<AccountBalance>() {
                                 @Override
                                 public void onNext(AccountBalance accountBalance) {
-                                    dialog.setBalance(accountBalance.getAmount());
+                                    if (type == TYPE_PAY_DIAMOND) {
+                                        dialog.setBalance(accountBalance.getAmountDiamond());
+                                    } else if (type == TYPE_PAY_GEM) {
+                                        dialog.setBalance(accountBalance.getAmountGemstone());
+                                    }
+
                                     dialog.showDialog();
                                 }
 
@@ -222,7 +259,8 @@ public class DialogPay extends DialogFragment {
         payText.setOnClickListener(v -> {
             if (null != mCallback) {
                 if (mPrice > mBalance) {
-                    ToastUtil.showToastLong("去充值");
+//                    ToastUtil.showToastLong("去充值");
+                    CommonHelper.PersonalHelper.startRechargeActivity(getContext());
                 } else {
                     mCallback.onPay();
                 }
