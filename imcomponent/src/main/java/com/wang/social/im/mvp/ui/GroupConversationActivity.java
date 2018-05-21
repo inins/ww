@@ -120,7 +120,7 @@ public class GroupConversationActivity extends BaseAppActivity<GroupConversation
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
                 super.getItemOffsets(outRect, view, parent, state);
-                outRect.bottom = SizeUtils.dp2px(10);
+                outRect.bottom = SizeUtils.dp2px(3);
             }
         });
         mJoinTeamsAdapter = new JoinedTeamListAdapter();
@@ -132,7 +132,7 @@ public class GroupConversationActivity extends BaseAppActivity<GroupConversation
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
                 super.getItemOffsets(outRect, view, parent, state);
-                outRect.bottom = SizeUtils.dp2px(10);
+                outRect.bottom = SizeUtils.dp2px(8);
             }
         });
         mAllTeamsAdapter = new TeamListAdapter(this);
