@@ -147,6 +147,7 @@ public class MusicBoard extends FrameLayout implements XMediaPlayer.StateListene
                 mSeekBar.setMax(mXMediaPlayer.getDuration());
 
                 mSeekBar.setEnabled(true);
+                mSeekBar.requestFocus();
             }
         } else {
             mSeekBar.setProgress(0);
@@ -214,12 +215,12 @@ public class MusicBoard extends FrameLayout implements XMediaPlayer.StateListene
                                 if (null != mXMediaPlayer && mXMediaPlayer.isPlaying()) {
                                     int currentPosition = mXMediaPlayer.getCurrentPosition();
                                     try {
-                                        mSeekBar.setProgress(currentPosition, false);
-                                        mTime1TV.setText(mTimeFormat.format(
-                                                Math.min(mXMediaPlayer.getCurrentPosition(), mXMediaPlayer.getDuration())));
+                                        mSeekBar.setProgress(currentPosition);
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
+                                    mTime1TV.setText(mTimeFormat.format(
+                                            Math.min(mXMediaPlayer.getCurrentPosition(), mXMediaPlayer.getDuration())));
                                 }
                             });
                 }

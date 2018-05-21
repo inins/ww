@@ -28,6 +28,7 @@ import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.view.MusicBoard;
 import com.frame.component.view.SocialToolbar;
+import com.frame.component.view.waveview.WaveView;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
@@ -135,6 +136,8 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     View mVoicLayout;
     @BindView(R2.id.btn_voice_record)
     ImageView mVoiceRecordIV;
+    @BindView(R2.id.wave_view)
+    WaveView mWaveView;
 
     // 判断键盘是否弹起时候的阈值
     private int mKeyboardHeight;
@@ -432,6 +435,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
             @Override
             public void onCompleted(int duration, String path) {
+                mWaveView.setExheight(0);
 
                 Observable.create(new ObservableOnSubscribe<String>() {
                     @Override
@@ -486,7 +490,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
             @Override
             public void onDBChanged(int db) {
-
+                mWaveView.setExheight(db * 3);
             }
 
             @Override
