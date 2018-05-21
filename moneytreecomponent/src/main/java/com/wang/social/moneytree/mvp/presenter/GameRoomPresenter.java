@@ -89,6 +89,10 @@ public class GameRoomPresenter extends
         return mRoomMsg;
     }
 
+    public boolean isJoined() {
+        return null == mGameBean ? false : mGameBean.getIsJoined() != 0;
+    }
+
     /**
      * 获取游戏记录游戏id
      * @return
@@ -115,17 +119,9 @@ public class GameRoomPresenter extends
                     public void onError(Throwable e) {
                         mRootView.showToastLong(e.getMessage());
                     }
-                }, new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        mRootView.showLoading();
-                    }
-                }, new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mRootView.hideLoading();
-                    }
-                });
+                },
+                disposable -> mRootView.showLoading(),
+                () -> mRootView.hideLoading());
     }
 
     /**
@@ -208,17 +204,9 @@ public class GameRoomPresenter extends
                     public void onError(Throwable e) {
                         mRootView.showToastLong(e.getMessage());
                     }
-                }, new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        mRootView.showLoading();
-                    }
-                }, new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mRootView.hideLoading();
-                    }
-                });
+                },
+                disposable -> mRootView.showLoading(),
+                () -> mRootView.hideLoading());
     }
 
     /**

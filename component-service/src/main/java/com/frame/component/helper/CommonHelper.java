@@ -219,6 +219,13 @@ public class CommonHelper {
             bundle.putInt("NAME_TOPIC_ID", topicId);
             UIRouter.getInstance().openUri(context, TopicPath.TOPIC_DETAIL_URL, bundle);
         }
+
+        /**
+         * 知识魔列表
+         */
+        public static void startTopUser(Context context) {
+            UIRouter.getInstance().openUri(context, TopicPath.TOPIC_TOP_USER_URL, null);
+        }
     }
 
     public static class GameHelper {

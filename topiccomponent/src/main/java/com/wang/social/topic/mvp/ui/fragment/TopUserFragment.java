@@ -53,12 +53,9 @@ public class TopUserFragment extends BaseFragment<TopicPresenter> implements Top
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
-        mToolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
-            @Override
-            public void onButtonClick(SocialToolbar.ClickType clickType) {
-                if (clickType == SocialToolbar.ClickType.LEFT_ICON) {
-                    getActivity().finish();
-                }
+        mToolbar.setOnButtonClickListener(clickType -> {
+            if (clickType == SocialToolbar.ClickType.LEFT_ICON) {
+                getActivity().finish();
             }
         });
 
