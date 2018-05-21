@@ -15,6 +15,7 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 
 import com.frame.utils.DataHelper;
@@ -595,5 +596,36 @@ public class AudioRecordManager implements Callback {
          * 销毁
          */
         void onDestroy();
+    }
+
+    public abstract static class OnSimpleRecordListener implements OnRecordListener{
+
+        @Override
+        public void initView(View root) {
+        }
+
+        @Override
+        public void onTimeOut(int counter) {
+        }
+
+        @Override
+        public void onRecording() {
+        }
+
+        @Override
+        public void onCancel() {
+        }
+
+        @Override
+        public void onDBChanged(int db) {
+        }
+
+        @Override
+        public void tooShort() {
+        }
+
+        @Override
+        public void onDestroy() {
+        }
     }
 }

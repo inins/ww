@@ -12,6 +12,7 @@ import com.app.hubert.guide.model.GuidePage;
 import com.app.hubert.guide.model.HighLight;
 import com.frame.base.BasicFragment;
 import com.frame.component.helper.GuidePageHelper;
+import com.frame.component.ui.base.BasicNoDiFragment;
 import com.frame.di.component.AppComponent;
 import com.frame.mvp.IView;
 import com.frame.utils.FocusUtil;
@@ -38,7 +39,7 @@ import static com.app.hubert.guide.model.HighLight.Shape.ROUND_RECTANGLE;
 /**
  */
 
-public class HomeFragment extends BasicFragment implements HomeContract.View {
+public class HomeFragment extends BasicNoDiFragment implements HomeContract.View {
 
     @BindView(R2.id.spring)
     SpringView springView;
@@ -105,24 +106,6 @@ public class HomeFragment extends BasicFragment implements HomeContract.View {
         naviboardController.onDestory();
         funshowController.onDestory();
         contentController.onDestory();
-    }
-
-    @Override
-    public void setupFragmentComponent(@NonNull AppComponent appComponent) {
-//        DaggerSingleFragmentComponent.builder()
-//                .appComponent(appComponent)
-//                .build()
-//                .inject(this);
-    }
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
     }
 
     @Override

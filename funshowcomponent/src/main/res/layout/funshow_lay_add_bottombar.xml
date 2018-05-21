@@ -69,6 +69,11 @@
         android:visibility="gone"
         tools:visibility="visible">
 
+        <com.frame.component.view.waveview.WaveView
+            android:id="@+id/wave_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
         <ImageView
             android:id="@+id/btn_voice_record"
             android:layout_width="77dp"

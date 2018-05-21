@@ -6,23 +6,20 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.frame.component.helper.sound.AudioRecordManager;
 import com.frame.component.ui.acticity.BGMList.BGMListActivity;
 import com.frame.component.ui.acticity.BGMList.Music;
-import com.frame.component.ui.base.BaseController;
+import com.frame.component.utils.VibratorUtil;
+import com.frame.component.view.waveview.WaveView;
 import com.frame.entities.EventBean;
 import com.frame.utils.KeyboardUtils;
 import com.frame.utils.ToastUtil;
-import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.wang.social.funshow.R;
 import com.wang.social.funshow.R2;
 import com.wang.social.funshow.mvp.ui.activity.AiteUserListActivity;
-import com.wang.social.funshow.mvp.ui.activity.FunshowAddActivity;
 import com.wang.social.funshow.mvp.ui.activity.LockActivity;
 import com.wang.social.funshow.mvp.ui.dialog.MusicPopupWindow;
 import com.wang.social.location.mvp.ui.LocationActivity;
@@ -31,7 +28,6 @@ import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 public class FunshowAddBottomBarController extends FunshowAddBaseController {
@@ -50,6 +46,8 @@ public class FunshowAddBottomBarController extends FunshowAddBaseController {
     ImageView btnVoiceRecord;
     @BindView(R2.id.lay_voice_record)
     View layVoiceRecord;
+    @BindView(R2.id.wave_view)
+    WaveView waveView;
 
     private MusicPopupWindow popupWindow;
 
@@ -95,30 +93,11 @@ public class FunshowAddBottomBarController extends FunshowAddBaseController {
             }
         });
 
-        AudioRecordManager.getInstance().setRecordListener(new AudioRecordManager.OnRecordListener() {
-            @Override
-            public void initView(View root) {
-                Timber.e("initView");
-            }
-
-            @Override
-            public void onTimeOut(int counter) {
-                Timber.e("onTimeOut:" + counter);
-            }
-
-            @Override
-            public void onRecording() {
-                Timber.e("onRecording");
-            }
-
-            @Override
-            public void onCancel() {
-                Timber.e("onCancel");
-            }
-
+        AudioRecordManager.getInstance().setRecordListener(new AudioRecordManager.OnSimpleRecordListener() {
             @Override
             public void onCompleted(int duration, String path) {
                 Timber.e("onCompleted:" + path);
+                waveView.setExheight(0);
                 Music music = new Music();
                 music.setMusicId(new Random().nextInt());
                 music.setMusicName("我的录音");
@@ -128,17 +107,13 @@ public class FunshowAddBottomBarController extends FunshowAddBaseController {
 
             @Override
             public void onDBChanged(int db) {
-                Timber.e("onDBChanged:" + db);
+                waveView.setExheight(db * 3);
             }
 
             @Override
-            public void tooShort() {
-                Timber.e("tooShort");
-            }
-
-            @Override
-            public void onDestroy() {
-                Timber.e("onDestroy");
+            public void onRecording() {
+                //开始录制时震动一下
+                VibratorUtil.vibrate(getContext(), 70);
             }
         });
         btnVoiceRecord.setOnTouchListener((v, event) -> {
