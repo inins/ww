@@ -29,6 +29,7 @@ public class AiteMsg {
     private int receiveUserId;
     private String msgContent;
     private int modeId;
+    private int modePkId;
     private String modeDesc;
     private int modeType;
     private int state;
@@ -41,10 +42,13 @@ public class AiteMsg {
         CommonMsg commonMsg = new CommonMsg();
         commonMsg.setId(msgId);
         commonMsg.setAvatar(sendAvatar);
-        commonMsg.setPicUrl("");
+        commonMsg.setPicUrl(modeDesc);
         commonMsg.setName(sendNickname);
         commonMsg.setTime(createTime);
-        commonMsg.setContent(msgContent);
+        commonMsg.setContent("发布趣晒-@了你");
+        commonMsg.setModeType(modeType);
+        commonMsg.setModeId(modeId);
+        commonMsg.setModePkId(modePkId);
         return commonMsg;
     }
 

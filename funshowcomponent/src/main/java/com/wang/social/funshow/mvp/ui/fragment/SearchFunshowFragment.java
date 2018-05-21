@@ -13,9 +13,12 @@ import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.entities.funpoint.Funpoint;
 import com.frame.component.entities.funshow.FunshowBean;
+import com.frame.component.helper.CommonHelper;
+import com.frame.component.helper.NetPayStoneHelper;
 import com.frame.component.ui.acticity.WebActivity;
 import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.component.ui.base.BasicNoDiFragment;
+import com.frame.component.ui.dialog.DialogSureFunshowPay;
 import com.frame.component.view.LoadingLayout;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
@@ -112,7 +115,17 @@ public class SearchFunshowFragment extends BasicNoDiFragment implements IView, B
     }
 
     @Override
-    public void onItemClick(FunshowBean bean, int position) {
+    public void onItemClick(FunshowBean funshowBean, int position) {
+        if (!funshowBean.isFree() && !funshowBean.isPay()) {
+            DialogSureFunshowPay.showDialog(getContext(), funshowBean.getPrice(), () -> {
+                NetPayStoneHelper.newInstance().netPayFunshow(this, funshowBean.getId(), funshowBean.getPrice(), () -> {
+                    CommonHelper.FunshowHelper.startDetailActivity(getContext(), funshowBean.getId());
+                    funshowBean.setPay(true);
+                });
+            });
+        } else {
+            CommonHelper.FunshowHelper.startDetailActivity(getContext(), funshowBean.getId());
+        }
     }
 
     private void search(boolean isFresh) {

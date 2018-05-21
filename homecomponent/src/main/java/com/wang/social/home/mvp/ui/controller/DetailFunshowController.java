@@ -120,7 +120,7 @@ public class DetailFunshowController extends BaseController {
             FunshowBean funshowBean = bean.tans2FunshowBean();
             funshowView.setData(funshowBean);
             getRoot().setOnClickListener(v -> {
-                if (!funshowBean.isPay()) {
+                if (!funshowBean.isFree() && !funshowBean.isPay()) {
                     DialogSureFunshowPay.showDialog(getContext(), funshowBean.getPrice(), () -> {
                         NetPayStoneHelper.newInstance().netPayFunshow(getIView(), funshowBean.getId(), funshowBean.getPrice(), () -> {
                             CommonHelper.FunshowHelper.startDetailActivity(getContext(), funshowBean.getId());
