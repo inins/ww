@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.ui.acticity.tags.TagUtils;
 import com.frame.component.ui.base.BaseAppActivity;
@@ -389,6 +390,15 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
      * 根据好友关系来重置相关UI
      */
     private void resetViewWithRelationship(PersonalInfo personalInfo) {
+        int localUserId = 0;
+        if (null != AppDataHelper.getUser()) {
+            localUserId = AppDataHelper.getUser().getUserId();
+        }
+        if (personalInfo.getUserId() == localUserId) {
+            Timber.i("自己的名片");
+            return;
+        }
+
         // 底部栏可见
         mBottomLayout.setVisibility(View.VISIBLE);
 

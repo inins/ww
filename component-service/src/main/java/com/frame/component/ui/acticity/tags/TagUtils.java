@@ -30,9 +30,9 @@ public class TagUtils {
             Tag tag = list.get(i);
             Timber.i(tag.getId() + " " + tag.getTagName());
             tagNames = tagNames + " #" + tag.getTagName();
-            if (i < list.size() - 1) {
-                tagNames = tagNames + ",";
-            }
+//            if (i < list.size() - 1) {
+//                tagNames = tagNames + ",";
+//            }
         }
 
         return tagNames;

@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.frame.component.ui.acticity.BGMList.Music;
 import com.frame.component.ui.base.BaseAppActivity;
+import com.frame.component.ui.dialog.DialogSure;
 import com.frame.component.view.MusicBoard;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
@@ -383,6 +384,22 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
             music.setMusicName(detail.getBackgroundMusicName());
             music.setUrl(detail.getBackgroundMusicUrl());
             mMusicBoard.resetMusic(music);
+            mMusicBoard.setPlayStateListener(new MusicBoard.PlayStateListener() {
+                @Override
+                public void onPlaying() {
+                    mGradualImageView.startAnimation();
+                }
+
+                @Override
+                public void onPause() {
+                    mGradualImageView.stopAnimation();
+                }
+
+                @Override
+                public void onStop() {
+                    mGradualImageView.stopAnimation();
+                }
+            });
         } else {
             mMusicBoard.setVisibility(View.GONE);
         }
@@ -488,7 +505,9 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
 
     @OnClick(R2.id.report_text_view)
     public void report() {
-        mPresenter.report();
+        DialogSure.showDialog(this,
+                "确认举报该话题？",
+                () -> mPresenter.report());
     }
 
     @OnClick(R2.id.support_layout)

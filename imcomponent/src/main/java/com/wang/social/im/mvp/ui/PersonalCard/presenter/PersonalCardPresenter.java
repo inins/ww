@@ -11,10 +11,6 @@ import com.frame.component.entities.PersonalInfo;
 import com.wang.social.im.mvp.ui.PersonalCard.model.entities.UserStatistics;
 
 import javax.inject.Inject;
-
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 
@@ -70,18 +66,8 @@ public class PersonalCardPresenter extends
                         mRootView.toastShort(e.getMessage());
                     }
                 },
-                new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        mRootView.showLoading();
-                    }
-                },
-                new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mRootView.hideLoading();
-                    }
-                });
+                disposable -> mRootView.showLoading(),
+                () -> mRootView.hideLoading());
     }
 
     /**
@@ -103,18 +89,8 @@ public class PersonalCardPresenter extends
                         mRootView.toastShort(e.getMessage());
                     }
                 },
-                new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        mRootView.showLoading();
-                    }
-                },
-                new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mRootView.hideLoading();
-                    }
-                });
+                disposable -> mRootView.showLoading(),
+                () -> mRootView.hideLoading());
     }
 
     /**
@@ -159,18 +135,8 @@ public class PersonalCardPresenter extends
                         mRootView.toastShort(e.getMessage());
                     }
                 },
-                new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        mRootView.showLoading();
-                    }
-                },
-                new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mRootView.hideLoading();
-                    }
-                });
+                disposable -> mRootView.showLoading(),
+                () -> mRootView.hideLoading());
     }
 
     /**
@@ -192,18 +158,8 @@ public class PersonalCardPresenter extends
                         mRootView.toastShort(e.getMessage());
                     }
                 },
-                new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        mRootView.showLoading();
-                    }
-                },
-                new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mRootView.hideLoading();
-                    }
-                });
+                disposable -> mRootView.showLoading(),
+                () -> mRootView.hideLoading());
     }
 
     /**
@@ -225,22 +181,15 @@ public class PersonalCardPresenter extends
                         mRootView.toastShort(e.getMessage());
                     }
                 },
-                disposable -> {
-                        mRootView.showLoading();
-                },
-                new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mRootView.hideLoading();
-                    }
-                });
+                disposable -> mRootView.showLoading(),
+                () -> mRootView.hideLoading());
     }
 
     /**
      * 申请添加好友
      *
-     * @param addUserId
-     * @param reason
+     * @param addUserId 用户id
+     * @param reason 申请内容
      */
     public void addFriendApply(int addUserId, String reason) {
         mApiHelper.executeForData(mRootView,
@@ -256,18 +205,8 @@ public class PersonalCardPresenter extends
                         mRootView.toastShort(e.getMessage());
                     }
                 },
-                new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        mRootView.showLoading();
-                    }
-                },
-                new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mRootView.hideLoading();
-                    }
-                });
+                disposable -> mRootView.showLoading(),
+                () -> mRootView.hideLoading());
     }
 
     public void agreeApply(int friendUserId, int msgId) {
@@ -298,18 +237,8 @@ public class PersonalCardPresenter extends
                         mRootView.toastShort(e.getMessage());
                     }
                 },
-                new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        mRootView.showLoading();
-                    }
-                },
-                new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mRootView.hideLoading();
-                    }
-                });
+                disposable -> mRootView.showLoading(),
+                () -> mRootView.hideLoading());
     }
 
 

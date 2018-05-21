@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.frame.component.helper.CommonHelper;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.TimeUtils;
@@ -82,6 +83,15 @@ public class TopUserAdapter extends RecyclerView.Adapter<TopUserAdapter.ViewHold
         holder.mTopicCountTV.setText(
                 String.format(mContext.getResources().getString(R.string.topic_top_user_comment_count_format),
                         user.getPublishNum()));
+
+        holder.mRootView.setTag(user);
+        holder.mRootView.setOnClickListener(v -> {
+            if (v.getTag() instanceof TopicTopUser) {
+                TopicTopUser tu = (TopicTopUser) v.getTag();
+
+                CommonHelper.ImHelper.startPersonalCardForBrowse(mContext, tu.getUserId());
+            }
+        });
     }
 
     @Override
@@ -90,6 +100,7 @@ public class TopUserAdapter extends RecyclerView.Adapter<TopUserAdapter.ViewHold
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+        View mRootView;
         ImageView mAvatarIV;
         TextView mNameTV;
         View mGenderLayout;
@@ -102,6 +113,7 @@ public class TopUserAdapter extends RecyclerView.Adapter<TopUserAdapter.ViewHold
         public ViewHolder(View itemView) {
             super(itemView);
 
+            mRootView = itemView;
             mAvatarIV = itemView.findViewById(R.id.avatar_image_view);
             mNameTV = itemView.findViewById(R.id.name_text_view);
             mGenderLayout = itemView.findViewById(R.id.gender_layout);

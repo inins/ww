@@ -170,14 +170,12 @@ public class GameListActivity extends BaseAppActivity<GameListPresenter>
 
     @Override
     public boolean onCreateSuccess(NewMoneyTreeGame newMoneyTreeGame) {
-        // 刷新页面
-        mSpringView.callFreshDelay();
-
         return true;
     }
 
     @Override
     public void onPayCreateGameSuccess() {
-
+        // 刷新页面
+        mSpringView.callFreshDelay();
     }
 }

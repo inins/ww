@@ -18,4 +18,8 @@ public interface TopicPath extends BasePath{
     // 话题详情
     String TOPIC_DETAIL = "/topic_detail";
     String TOPIC_DETAIL_URL = SCHEME + HOST + TOPIC_DETAIL;
+
+    // 知识魔列表
+    String TOPIC_TOP_USER = "/top_user_list";
+    String TOPIC_TOP_USER_URL = SCHEME + HOST + TOPIC_TOP_USER;
 }
