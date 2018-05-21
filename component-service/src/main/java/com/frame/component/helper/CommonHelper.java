@@ -9,6 +9,7 @@ import com.frame.component.path.AppPath;
 import com.frame.component.path.ImPath;
 import com.frame.component.path.LoginPath;
 import com.frame.component.path.MoneyTreePath;
+import com.frame.component.path.PersonalPath;
 import com.frame.component.path.TopicPath;
 import com.frame.component.router.ui.UIRouter;
 import com.frame.utils.ToastUtil;
@@ -48,6 +49,13 @@ public class CommonHelper {
 
         public static void startSearchActivity(Context context) {
             UIRouter.getInstance().openUri(context, AppPath.SEARCH_URL, null);
+        }
+    }
+
+    public static class PersonalHelper {
+        //启动充值页面
+        public static void startRechargeActivity(Context context) {
+            UIRouter.getInstance().openUri(context, PersonalPath.RECHARGE_URL, null);
         }
     }
 
@@ -213,8 +221,6 @@ public class CommonHelper {
          * 详情话题
          */
         public static void startTopicDetail(Context context, int topicId) {
-            //TODO:暂时没有，预留一个方法
-//            ToastUtil.showToastShort("topicId:" + topicId);
             Bundle bundle = new Bundle();
             bundle.putInt("NAME_TOPIC_ID", topicId);
             UIRouter.getInstance().openUri(context, TopicPath.TOPIC_DETAIL_URL, bundle);

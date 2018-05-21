@@ -16,6 +16,7 @@ import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.mvp.IView;
+import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.FocusUtil;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.StrUtil;
@@ -36,6 +37,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
+@RouteNode(path = "/recharge", desc = "充值")
 public class AccountRechargeActivity extends BasicAppNoDiActivity implements IView, BaseAdapter.OnItemClickListener<Recharge> {
 
     @BindView(R2.id.spring)
