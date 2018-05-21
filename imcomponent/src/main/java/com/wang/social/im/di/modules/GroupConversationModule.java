@@ -18,6 +18,10 @@ public class GroupConversationModule {
 
     GroupConversationContract.View view;
 
+    public GroupConversationModule(GroupConversationContract.View view) {
+        this.view = view;
+    }
+
     @ActivityScope
     @Provides
     GroupConversationContract.View provideView(){

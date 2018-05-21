@@ -10,4 +10,8 @@
         <attr name="im_ios" format="boolean" />
         <attr name="im_leftSwipe" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="im_StackLayout">
+        <attr name="im_sl_xoffset" format="dimension" />
+    </declare-styleable>
 </resources>

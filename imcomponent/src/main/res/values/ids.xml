@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="im_emotion_tag_pageset" type="id"/>
-    <item name="im_emotion_toolbar_left" type="id"/>
-    <item name="im_emotion_toolbar_right" type="id"/>
+    <item name="im_emotion_tag_pageset" type="id" />
+    <item name="im_emotion_toolbar_left" type="id" />
+    <item name="im_emotion_toolbar_right" type="id" />
 
     <item name="im_root_layout" type="id" />
+
+    <item name="im_sl_lower_view" type="id" />
+    <item name="im_sl_upper_view" type="id" />
 </resources>

@@ -239,7 +239,7 @@ public interface GroupService {
     Observable<BaseJson> updateSocialInfo(@FieldMap Map<String, Object> map);
 
     /**
-     * 获取趣聊列表
+     * 获取觅聊列表
      *
      * @param version
      * @param socialId
@@ -249,6 +249,16 @@ public interface GroupService {
     @GET("app/group/getMiList")
     Observable<BaseJson<ListDataDTO<TeamInfoDTO, TeamInfo>>> getTeamList(@Query("v") String version, @Query("groupId") String socialId,
                                                                          @Query("type") int type);
+
+    /**
+     * 获取我的觅聊列表
+     *
+     * @param version
+     * @param socialId
+     * @return
+     */
+    @GET("app/group/getMyMiList")
+    Observable<BaseJson<ListDataDTO<TeamInfoDTO, TeamInfo>>> getSelfTeamList(@Query("v") String version, @Query("groupId") String socialId);
 
     /**
      * 解散趣聊/觅聊

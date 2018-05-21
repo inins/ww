@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="89dp">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="81dp"
+        android:background="@drawable/common_bg_white_corners_normal">
+
+        <ImageView
+            android:id="@+id/tl_iv_avatar"
+            android:layout_width="41dp"
+            android:layout_height="41dp"
+            android:layout_marginStart="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/common_default_circle_placeholder" />
+
+        <TextView
+            android:id="@+id/tl_tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="8dp"
+            android:ellipsize="end"
+            android:lines="1"
+            android:textColor="@color/common_text_blank"
+            android:textSize="11dp"
+            app:layout_constraintBottom_toTopOf="@id/tl_tv_tag"
+            app:layout_constraintLeft_toRightOf="@id/tl_iv_avatar"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="的犯得上地方" />
+
+        <TextView
+            android:id="@+id/tl_tv_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="14dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/im_bg_home_tag"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:lines="1"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
+            android:textColor="@color/common_white"
+            android:textSize="8dp"
+            app:layout_constraintBottom_toTopOf="@id/tl_tv_member"
+            app:layout_constraintLeft_toRightOf="@id/tl_iv_avatar"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tl_tv_name"
+            tools:text="秒昔日" />
+
+        <TextView
+            android:id="@+id/tl_tv_member"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="3dp"
+            android:text="成员2人"
+            android:textColor="@color/common_text_dark"
+            android:textSize="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/tl_iv_avatar"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tl_tv_tag" />
+    </android.support.constraint.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tl_tvb_join"
+        android:layout_width="58dp"
+        android:layout_height="16dp"
+        android:background="@drawable/common_bg_btn_theme"
+        android:gravity="center"
+        android:text="@string/im_joined_team"
+        android:textColor="@color/common_white"
+        android:textSize="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+</android.support.constraint.ConstraintLayout>
