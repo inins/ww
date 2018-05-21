@@ -25,6 +25,13 @@ import butterknife.BindView;
  * ============================================
  */
 public class TeamListAdapter extends BaseAdapter<TeamInfo> {
+
+    private OnJoinClickListener clickListener;
+
+    public TeamListAdapter(OnJoinClickListener clickListener) {
+        this.clickListener = clickListener;
+    }
+
     @Override
     protected BaseViewHolder createViewHolder(Context context, ViewGroup parent, int viewType) {
         return new ViewHolder(context, parent);
@@ -73,15 +80,33 @@ public class TeamListAdapter extends BaseAdapter<TeamInfo> {
             if (itemValue.isJoined()) {
                 tlTvbJoin.setText(R.string.im_joined);
                 tlTvbJoin.setEnabled(false);
+
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (onItemClickListener != null){
+                            onItemClickListener.onItemClick(itemValue, position);
+                        }
+                    }
+                });
             } else {
                 tlTvbJoin.setEnabled(true);
                 tlTvbJoin.setText(R.string.im_join);
+
+                tlTvbJoin.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (clickListener != null) {
+                            clickListener.onJoinClick(itemValue);
+                        }
+                    }
+                });
             }
         }
+    }
 
-        @Override
-        protected boolean useItemClickListener() {
-            return true;
-        }
+    public interface OnJoinClickListener {
+
+        void onJoinClick(TeamInfo teamInfo);
     }
 }

@@ -1,7 +1,9 @@
 package com.wang.social.im.mvp.ui;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -10,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.beloo.widget.chipslayoutmanager.SpacingItemDecoration;
 import com.frame.base.BaseAdapter;
 import com.frame.component.enums.ConversationType;
 import com.frame.component.path.ImPath;
@@ -17,6 +20,7 @@ import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.di.component.AppComponent;
 import com.frame.router.facade.annotation.Autowired;
 import com.frame.router.facade.annotation.RouteNode;
+import com.frame.utils.SizeUtils;
 import com.wang.social.im.R;
 import com.wang.social.im.di.component.DaggerGroupConversationComponent;
 import com.wang.social.im.di.modules.GroupConversationModule;
@@ -38,7 +42,7 @@ import java.util.List;
  * 趣聊/觅聊会话界面
  */
 @RouteNode(path = ImPath.GROUP_PATH, desc = "群（趣聊/觅聊）会话")
-public class GroupConversationActivity extends BaseAppActivity<GroupConversationPresenter> implements GroupConversationContract.View, View.OnClickListener, BaseAdapter.OnItemClickListener<TeamInfo> {
+public class GroupConversationActivity extends BaseAppActivity<GroupConversationPresenter> implements GroupConversationContract.View, View.OnClickListener, BaseAdapter.OnItemClickListener<TeamInfo>, TeamListAdapter.OnJoinClickListener {
 
     private TextView tvbJoinedCreate, tvbListCreate;
 
@@ -112,11 +116,26 @@ public class GroupConversationActivity extends BaseAppActivity<GroupConversation
         RecyclerView rlvAllTeams = findViewById(R.id.gd_team_list);
 
         rlvJoinTeams.setLayoutManager(new LinearLayoutManager(this));
+        rlvJoinTeams.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                super.getItemOffsets(outRect, view, parent, state);
+                outRect.bottom = SizeUtils.dp2px(10);
+            }
+        });
         mJoinTeamsAdapter = new JoinedTeamListAdapter();
+        mJoinTeamsAdapter.setOnItemClickListener(this);
         rlvJoinTeams.setAdapter(mJoinTeamsAdapter);
 
         rlvAllTeams.setLayoutManager(new LinearLayoutManager(this));
-        mAllTeamsAdapter = new TeamListAdapter();
+        rlvAllTeams.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                super.getItemOffsets(outRect, view, parent, state);
+                outRect.bottom = SizeUtils.dp2px(10);
+            }
+        });
+        mAllTeamsAdapter = new TeamListAdapter(this);
         mAllTeamsAdapter.setOnItemClickListener(this);
         rlvAllTeams.setAdapter(mAllTeamsAdapter);
     }
@@ -183,7 +202,7 @@ public class GroupConversationActivity extends BaseAppActivity<GroupConversation
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.gd_joined_create || v.getId() == R.id.gd_list_create) {
-            CreateTeamActivity.start(this, targetId);
+            CreateTeamActivity.start(this, ImHelper.imId2WangId(targetId));
         }
     }
 
@@ -199,6 +218,18 @@ public class GroupConversationActivity extends BaseAppActivity<GroupConversation
 
     @Override
     public void onItemClick(TeamInfo teamInfo, int position) {
+        showFragment(teamInfo.getTeamId(), ConversationType.TEAM);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mRootNav.closeMenu();
+                mRootNav.setMenuLocked(true);
+            }
+        }, 150);
+    }
+
+    @Override
+    public void onJoinClick(TeamInfo teamInfo) {
 
     }
 }

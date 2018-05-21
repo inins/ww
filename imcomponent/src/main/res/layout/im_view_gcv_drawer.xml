@@ -27,7 +27,7 @@
 
         <android.support.constraint.ConstraintLayout
             android:id="@id/im_sl_lower_view"
-            android:layout_width="185dp"
+            android:layout_width="195dp"
             android:layout_height="match_parent"
             android:background="@drawable/im_bg_teams">
 
@@ -60,16 +60,20 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/gd_team_list"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/gd_list_title" />
         </android.support.constraint.ConstraintLayout>
 
         <android.support.constraint.ConstraintLayout
             android:id="@id/im_sl_upper_view"
-            android:layout_width="185dp"
+            android:layout_width="195dp"
             android:layout_height="match_parent"
             android:background="@drawable/im_bg_teams">
 
@@ -102,10 +106,14 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/gd_joined_list"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/gd_joined_title" />
         </android.support.constraint.ConstraintLayout>
     </com.wang.social.im.view.StackLayout>
