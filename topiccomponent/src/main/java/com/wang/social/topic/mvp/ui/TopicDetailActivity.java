@@ -399,6 +399,11 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
                 public void onStop() {
                     mGradualImageView.stopAnimation();
                 }
+
+                @Override
+                public void onComplete() {
+                    mGradualImageView.stopAnimation();
+                }
             });
         } else {
             mMusicBoard.setVisibility(View.GONE);

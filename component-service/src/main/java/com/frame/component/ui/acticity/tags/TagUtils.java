@@ -1,9 +1,5 @@
 package com.frame.component.ui.acticity.tags;
-
-import android.text.TextUtils;
-
 import java.util.List;
-
 import timber.log.Timber;
 
 public class TagUtils {

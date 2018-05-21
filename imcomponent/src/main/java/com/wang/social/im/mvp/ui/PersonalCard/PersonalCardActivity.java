@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.frame.component.helper.AppDataHelper;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.ui.acticity.tags.TagUtils;
 import com.frame.component.ui.base.BaseAppActivity;
@@ -412,6 +413,9 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
             // 已经是好友了，底部显示 开始聊天
             mBottomMiddleTV.setVisibility(View.VISIBLE);
             mBottomMiddleTV.setText("开始聊天");
+            // 跳转到聊天页面
+            mBottomMiddleTV.setOnClickListener(
+                    v -> CommonHelper.ImHelper.gotoPrivateConversation(this, String.valueOf(mUserId)));
         } else {
             // 还不是好友，可能是 好友申请 或者 添加好友
             if (mType == TYPE_REQUEST_FRIEND) {
