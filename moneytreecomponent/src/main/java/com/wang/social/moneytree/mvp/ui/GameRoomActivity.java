@@ -3,8 +3,6 @@ package com.wang.social.moneytree.mvp.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.media.AudioManager;
-import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
@@ -15,15 +13,12 @@ import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.frame.base.BaseFragment;
 import com.frame.component.router.Router;
-import com.frame.component.router.ui.UIRouter;
-import com.frame.component.service.funpoint.FunpointService;
 import com.frame.component.service.im.ImService;
 import com.frame.component.ui.acticity.WebActivity;
 import com.frame.component.ui.base.BaseAppActivity;
@@ -33,6 +28,7 @@ import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.integration.AppManager;
+import com.frame.utils.SizeUtils;
 import com.frame.utils.StatusBarUtil;
 import com.frame.utils.ToastUtil;
 import com.umeng.socialize.UMShareAPI;
@@ -57,8 +53,6 @@ import com.wang.social.moneytree.mvp.ui.widget.MoneyTreeView;
 import com.wang.social.moneytree.utils.Keys;
 import com.wang.social.moneytree.utils.ShakeUtils;
 import com.wang.social.socialize.SocializeUtil;
-
-import org.greenrobot.eventbus.EventBus;
 
 import javax.inject.Inject;
 
@@ -141,6 +135,7 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
 
     // 是否已经摇过了
     private boolean mShaked = false;
+    private boolean mGameEnded = false;
     private int mShakeCount = 0;
 
     private @Keys.GameType
@@ -174,34 +169,29 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
         // 游戏记录信息
         mPresenter.setGameRecord(getIntent().getParcelableExtra(NAME_GAME_RECORD));
 
-        mToolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
-            @Override
-            public void onButtonClick(SocialToolbar.ClickType clickType) {
-                if (clickType == SocialToolbar.ClickType.LEFT_ICON) {
-                    finish();
-                }
+        mToolbar.setOnButtonClickListener(clickType -> {
+            if (clickType == SocialToolbar.ClickType.LEFT_ICON) {
+                finish();
             }
         });
 
-        mMoneyTreeView.setAnimCallback(new MoneyTreeView.AnimCallback() {
-            @Override
-            public void onAnimEnd() {
-                if (null != mPresenter.getGameBean() && !mShaked) {
-                    mShaked = true;
-                    DialogShaked.show(getSupportFragmentManager())
-                            .setCallback(new DialogShaked.Callback() {
-                                @Override
-                                public void onResume() {
-                                    mShakeHintTV.setVisibility(View.INVISIBLE);
-                                }
+        // 摇钱树动画结束回调
+        mMoneyTreeView.setAnimCallback(() -> {
+            if (null != mPresenter.getGameBean() && mPresenter.getGameBean().getIsJoined() == 1 && !mShaked) {
+                mShaked = true;
+                DialogShaked.show(getSupportFragmentManager())
+                        .setCallback(new DialogShaked.Callback() {
+                            @Override
+                            public void onResume() {
+                                mShakeHintTV.setVisibility(View.INVISIBLE);
+                            }
 
-                                @Override
-                                public void onDestroy() {
-                                    mShakeHintTV.setText(getString(R.string.mt_shaked_hint));
-                                    mShakeHintTV.setVisibility(View.VISIBLE);
-                                }
-                            });
-                }
+                            @Override
+                            public void onDestroy() {
+                                mShakeHintTV.setText(getString(R.string.mt_shaked_hint));
+                                mShakeHintTV.setVisibility(View.VISIBLE);
+                            }
+                        });
             }
         });
 
@@ -219,7 +209,17 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
 
             mPresenter.getRoomMsg(mPresenter.getRoomId());
         } else if (null != mPresenter.getGameRecord()) {
+            //  游戏结果，不播放钻石下落动画
+            mMoneyTreeView.setCanFly(false);
+            // 显示地上钻石
+            mMoneyTreeView.showGroundDiamond(true);
+
             mGameScoreAdapter = new GameScoreAdapter(mMemberListRV, mPresenter.getGameScoreList());
+            // 游戏结果列表距离顶部的距离有变化
+            LinearLayout.LayoutParams listParam = (LinearLayout.LayoutParams)mMemberListRV.getLayoutParams();
+            listParam.topMargin = SizeUtils.dp2px(50);
+            mMemberListRV.setLayoutParams(listParam);
+
             mMemberListRV.setLayoutManager(
                     new LinearLayoutManager(
                             this,
@@ -302,6 +302,9 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
             // 已加入游戏
             mJoinGameIV.setVisibility(View.GONE);
 
+            // 已加入游戏，钻石可以飞下
+            mMoneyTreeView.setCanFly(true);
+
             // 加载成员列表
             mPresenter.loadMemberList();
         }
@@ -347,6 +350,12 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
     public void onPayJoinGameSuccess() {
         // 加入游戏支付成功
         ToastUtil.showToastLong("参与成功");
+
+        mMoneyTreeView.setCanFly(true);
+        if (null != mPresenter.getGameBean()) {
+            mPresenter.getGameBean().setIsJoined(1);
+        }
+
         // 刷新游戏
         mPresenter.getRoomMsg(mPresenter.getRoomId());
     }
@@ -354,7 +363,8 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
     @Override
     public void onLoadMemberListSuccess() {
         if (null != mPresenter.getMemberList()) {
-            setJoinNumTV(mPresenter.getMemberList().size());
+            // 有一个时更多图标，所以-1
+            setJoinNumTV(mPresenter.getMemberList().size() - 1);
         }
         // 刷新成员列表
         if (null != mMemberAdapter) {
@@ -441,7 +451,14 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
             mShakeUtils.onResume();
         }
 
-        mMemberChatLayout.addOnLayoutChangeListener(mLayoutChangeListener);
+        if (null != mPresenter.getGameBean() && mPresenter.isJoined()) {
+            mMemberChatLayout.addOnLayoutChangeListener(mLayoutChangeListener);
+        }
+
+        // 如果游戏已经结束，则加载游戏结果
+        if (mGameEnded) {
+            mPresenter.loadGameEnd(mPresenter.getGameBeanGameId());
+        }
     }
 
     @Override
@@ -459,7 +476,9 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
 
     @Override
     public void onShake() {
-        if (++mShakeCount > 5) {
+        Timber.i("摇一摇");
+        // 模拟摇钱树点击
+        if (++mShakeCount > 3) {
             mShakeCount = 0;
             setSimulateClick(mMoneyTreeView, mMoneyTreeView.getX(), mMoneyTreeView.getY());
         }
@@ -513,13 +532,14 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
 
     @Override
     public void onBackPressed() {
-        boolean flag = mChatFragment.onBackPressed();
-        if (null == mChatFragment || !flag) {
+        if (null == mChatFragment) {
             super.onBackPressed();
-        }
-
-        if (flag) {
-            resetMemberChatLayoutHeight(0);
+        } else {
+            if (mChatFragment.onBackPressed()) {
+                resetMemberChatLayoutHeight(0);
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 
@@ -552,17 +572,31 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
             case EventBean.EVENT_GAME_JOIN:
                 Timber.i("用户加入游戏");
                 int number = (int) event.get("joinNumber");
+                // 重新加载房间信息
+                mPresenter.getRoomMsg(mPresenter.getRoomId());
+                // 重新加载成员列表
                 mPresenter.loadMemberList();
                 break;
             case EventBean.EVENT_GAME_RESULT:
-                if (!mResumed) return;
+//                if (!mResumed) return;
                 Timber.i("游戏结束");
-                // 游戏结束，加载结果
-                mPresenter.loadGameEnd(mPresenter.getGameBeanGameId());
+                gameEnd();
                 break;
         }
     }
 
+    private void gameEnd() {
+        mGameEnded = true;
 
+        mShakeHintTV.setVisibility(View.GONE);
+        // 设置不是钻石不能飞下
+        mMoneyTreeView.setCanFly(false);
+        // 设置已经摇过了
+        mShaked = true;
+        // 游戏结束，加载结果
+        if (mResumed) {
+            mPresenter.loadGameEnd(mPresenter.getGameBeanGameId());
+        }
+    }
 }
 

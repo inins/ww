@@ -43,10 +43,13 @@ public class EvaMsg {
         CommonMsg commonMsg = new CommonMsg();
         commonMsg.setId(msgId);
         commonMsg.setAvatar(sendAvatar);
-        commonMsg.setPicUrl("");
+        commonMsg.setPicUrl(modeDesc);
         commonMsg.setName(sendNickname);
         commonMsg.setTime(createTime);
         commonMsg.setContent(msgContent);
+        commonMsg.setModeType(modeType);
+        commonMsg.setModeId(modeId);
+        commonMsg.setModePkId(modePkId);
         return commonMsg;
     }
 

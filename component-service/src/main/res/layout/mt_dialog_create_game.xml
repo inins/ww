@@ -49,12 +49,11 @@
                 android:id="@+id/time_select_image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
+                android:padding="4dp"
                 android:src="@drawable/mt_game_choose_ico" />
 
             <TextView
                 style="@style/mt_StyleTextCreateGame"
-                android:layout_marginStart="4dp"
                 android:text="@string/mt_minute" />
 
         </LinearLayout>

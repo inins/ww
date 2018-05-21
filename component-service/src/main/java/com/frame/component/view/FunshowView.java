@@ -134,11 +134,17 @@ public class FunshowView extends FrameLayout implements View.OnClickListener {
         }
     }
 
+    ////////////////////////////// get & set //////////////////
+
     public ImageView getMoreBtn() {
         return imgMore;
     }
 
-    ///////////////////////////////
+    public TextView getTextTitle() {
+        return textTitle;
+    }
+
+    /////////////////////////////// interface /////////////////
 
     NetZanHelper.OnZanCallback onZanCallback;
 

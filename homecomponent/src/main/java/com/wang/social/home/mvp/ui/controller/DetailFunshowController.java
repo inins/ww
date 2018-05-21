@@ -6,11 +6,14 @@ import android.widget.TextView;
 
 import com.frame.component.api.CommonService;
 import com.frame.component.entities.BaseListWrap;
+import com.frame.component.entities.funshow.FunshowBean;
 import com.frame.component.entities.user.UserBoard;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.ImageLoaderHelper;
+import com.frame.component.helper.NetPayStoneHelper;
 import com.frame.component.helper.NetZanHelper;
 import com.frame.component.ui.base.BaseController;
+import com.frame.component.ui.dialog.DialogSureFunshowPay;
 import com.frame.component.view.FunshowView;
 import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelperEx;
@@ -114,26 +117,20 @@ public class DetailFunshowController extends BaseController {
     private void setFunshowData(FunshowHome bean) {
         if (bean != null) {
             currentFunshow = bean;
-            funshowView.setData(bean.tans2FunshowBean());
-//            textTitle.setText(bean.getContent());
-//            textPosition.setText(bean.getProvince() + bean.getCity());
-//            textZan.setText(bean.getSupportTotal() + "");
-//            textComment.setText(bean.getCommentTotal() + "");
-//            textShare.setText(bean.getShareTotal() + "");
-//            textPicCount.setText("1/" + bean.getUrls());
-//            imgTagPay.setVisibility(bean.isFree() ? View.VISIBLE : View.GONE);
-//            textZan.setSelected(bean.isLiked());
-//
-//            imgPlayer.setVisibility(bean.isVideo() ? View.VISIBLE : View.GONE);
-//            ImageLoaderHelper.loadImg(imgPic, bean.getUrl());
-//
-//            textZan.setOnClickListener(v -> {
-//                IView iView = (getContext() instanceof IView) ? (IView) getContext() : null;
-//                NetZanHelper.newInstance().funshowZan(iView, textZan, bean.getTalkId(), !textZan.isSelected(), null);
-//            });
-//            getRoot().setOnClickListener(v -> {
-//                CommonHelper.FunshowHelper.startDetailActivity(getContext(),bean.getTalkId());
-//            });
+            FunshowBean funshowBean = bean.tans2FunshowBean();
+            funshowView.setData(funshowBean);
+            getRoot().setOnClickListener(v -> {
+                if (!funshowBean.isFree() && !funshowBean.isPay()) {
+                    DialogSureFunshowPay.showDialog(getContext(), funshowBean.getPrice(), () -> {
+                        NetPayStoneHelper.newInstance().netPayFunshow(getIView(), funshowBean.getId(), funshowBean.getPrice(), () -> {
+                            CommonHelper.FunshowHelper.startDetailActivity(getContext(), funshowBean.getId());
+                            currentFunshow.setTalkPayed(1);
+                        });
+                    });
+                } else {
+                    CommonHelper.FunshowHelper.startDetailActivity(getContext(), funshowBean.getId());
+                }
+            });
         }
     }
 

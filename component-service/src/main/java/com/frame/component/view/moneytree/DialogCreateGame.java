@@ -324,7 +324,7 @@ public class DialogCreateGame extends DialogFragment {
                 new ErrorHandleSubscriber<NewMoneyTreeGame>() {
                     @Override
                     public void onNext(NewMoneyTreeGame newMoneyTreeGame) {
-                        ToastUtil.showToastLong("创建游戏成功");
+//                        ToastUtil.showToastLong("创建游戏成功");
 
                         // 创建游戏成功
                         if (null != mCreateGameCallback) {
@@ -413,7 +413,8 @@ public class DialogCreateGame extends DialogFragment {
                 new ErrorHandleSubscriber<Object>() {
                     @Override
                     public void onNext(Object o) {
-                        ToastUtil.showToastLong("支付成功");
+//                        ToastUtil.showToastLong("支付成功");
+                        ToastUtil.showToastLong("创建并支付成功");
 
                         if (null != mCreateGameCallback) {
                             mCreateGameCallback.onPayCreateGameSuccess();

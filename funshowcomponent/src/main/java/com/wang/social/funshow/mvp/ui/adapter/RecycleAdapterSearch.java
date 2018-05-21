@@ -8,6 +8,7 @@ import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
 import com.frame.component.entities.funshow.FunshowBean;
 import com.frame.component.helper.ImageLoaderHelper;
+import com.frame.component.utils.SearchUtil;
 import com.frame.component.view.FunshowView;
 import com.wang.social.funshow.R;
 import com.wang.social.funshow.R2;
@@ -37,6 +38,8 @@ public class RecycleAdapterSearch extends BaseAdapter<FunshowBean> {
         @Override
         protected void bindData(FunshowBean bean, int position, OnItemClickListener onItemClickListener) {
             funshowView.setData(bean);
+            //设置高亮关键字
+            funshowView.getTextTitle().setText(SearchUtil.getHotText(tags, key, bean.getContent()));
         }
 
         @Override

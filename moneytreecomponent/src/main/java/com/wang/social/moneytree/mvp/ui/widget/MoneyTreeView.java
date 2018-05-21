@@ -33,6 +33,7 @@ public class MoneyTreeView extends FrameLayout implements View.OnClickListener {
     private boolean mAnimPlaying = false;
     private AnimCallback mAnimCallback;
     private boolean mFirstClick = true;
+    private boolean mCanFly = false;
 
 
     private SoundPool mSoundPool;
@@ -56,6 +57,14 @@ public class MoneyTreeView extends FrameLayout implements View.OnClickListener {
         mAnimCallback = animCallback;
     }
 
+    public void showGroundDiamond(boolean visible) {
+        mGroundDiamondIV.setVisibility(visible ? VISIBLE : INVISIBLE);
+    }
+
+    public void setCanFly(boolean canFly) {
+        mCanFly = canFly;
+    }
+
     private void init(Context context) {
         View view = LayoutInflater.from(context)
                 .inflate(R.layout.mt_view_money_tree_bg, this, true);
@@ -71,6 +80,10 @@ public class MoneyTreeView extends FrameLayout implements View.OnClickListener {
         mSoundActionId = mSoundPool.load(getContext(), R.raw.action, 1);
     }
 
+    public void setFirstClick(boolean firstClick) {
+        mFirstClick = firstClick;
+    }
+
     @Override
     public void onClick(View view) {
         startAnim();
@@ -79,6 +92,10 @@ public class MoneyTreeView extends FrameLayout implements View.OnClickListener {
     private void flyDiamond(ImageView v) {
         if (!mFirstClick) return;
         mFirstClick = false;
+        if (!mCanFly) return;
+
+        // 播放音效
+        mSoundPool.play(mSoundActionId, 0.8f, 0.8f, 1, 0, 1);
 
         FlyDiamond diamond = new FlyDiamond(getContext());
         diamond.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -106,8 +123,6 @@ public class MoneyTreeView extends FrameLayout implements View.OnClickListener {
         animator.setInterpolator(new OvershootInterpolator());
         animator.setDuration(1000);
         animator.start();
-
-        mSoundPool.play(mSoundActionId, 0.8f, 0.8f, 1, 0, 1);
 
         int diamondCount = 0;
         for (int i = 1; i < mTreeView.getChildCount(); i++) {
@@ -159,6 +174,15 @@ public class MoneyTreeView extends FrameLayout implements View.OnClickListener {
 
                 moneyAnimator.start();
             }
+        }
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+
+        if (null != mSoundPool) {
+            mSoundPool.release();
         }
     }
 }

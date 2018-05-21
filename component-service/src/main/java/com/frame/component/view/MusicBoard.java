@@ -42,6 +42,13 @@ public class MusicBoard extends FrameLayout implements XMediaPlayer.StateListene
         void onPrepared();
     }
 
+    public interface PlayStateListener {
+        void onPlaying();
+        void onPause();
+        void onStop();
+        void onComplete();
+    }
+
     private XMediaPlayer mXMediaPlayer;
 
     ImageView mControlIV;
@@ -53,6 +60,7 @@ public class MusicBoard extends FrameLayout implements XMediaPlayer.StateListene
     Music mMusic;
 
     StateListener mStateListener;
+    PlayStateListener mPlayStateListener;
 
     Disposable mDisposable;
 
@@ -119,6 +127,10 @@ public class MusicBoard extends FrameLayout implements XMediaPlayer.StateListene
         mStateListener = stateListener;
     }
 
+    public void setPlayStateListener(PlayStateListener playStateListener) {
+        mPlayStateListener = playStateListener;
+    }
+
     /**
      * 根据播放器状态刷新UI
      *
@@ -135,6 +147,7 @@ public class MusicBoard extends FrameLayout implements XMediaPlayer.StateListene
                 mSeekBar.setMax(mXMediaPlayer.getDuration());
 
                 mSeekBar.setEnabled(true);
+                mSeekBar.requestFocus();
             }
         } else {
             mSeekBar.setProgress(0);
@@ -174,6 +187,10 @@ public class MusicBoard extends FrameLayout implements XMediaPlayer.StateListene
             case XMediaPlayer.STATE_IDLE:
             case XMediaPlayer.STATE_STOP: // 未准备好的情况下不能点击，UI回到初始状态
                 resetView(false);
+
+                if (null != mPlayStateListener) {
+                    mPlayStateListener.onStop();
+                }
                 break;
             case XMediaPlayer.STATE_PREPARING: // 开始准备，UI回到初始状态，并且通知状态变化
                 if (null != mStateListener) {
@@ -194,26 +211,41 @@ public class MusicBoard extends FrameLayout implements XMediaPlayer.StateListene
                 if (null == mDisposable) {
                     mDisposable = Observable.interval(100, TimeUnit.MILLISECONDS)
                             .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new Consumer<Long>() {
-                                @Override
-                                public void accept(Long aLong) throws Exception {
-                                    if (null != mXMediaPlayer && mXMediaPlayer.isPlaying()) {
-                                        mSeekBar.setProgress(mXMediaPlayer.getCurrentPosition(), true);
-                                        mTime1TV.setText(mTimeFormat.format(mXMediaPlayer.getCurrentPosition()));
+                            .subscribe(aLong -> {
+                                if (null != mXMediaPlayer && mXMediaPlayer.isPlaying()) {
+                                    int currentPosition = mXMediaPlayer.getCurrentPosition();
+                                    try {
+                                        mSeekBar.setProgress(currentPosition);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
                                     }
+                                    mTime1TV.setText(mTimeFormat.format(
+                                            Math.min(mXMediaPlayer.getCurrentPosition(), mXMediaPlayer.getDuration())));
                                 }
                             });
                 }
                 // 播放图标变化
                 mControlIV.setImageResource(R.drawable.common_ic_music_stop_big);
+
+                if (null != mPlayStateListener) {
+                    mPlayStateListener.onPlaying();
+                }
                 break;
             case XMediaPlayer.STATE_PAUSE:
                 // 播放图标变化
                 mControlIV.setImageResource(R.drawable.common_ic_music_start_big);
+
+                if (null != mPlayStateListener) {
+                    mPlayStateListener.onPause();
+                }
                 break;
             case XMediaPlayer.STATE_COMPLETION:
                 // 播放完成
                 mControlIV.setImageResource(R.drawable.common_ic_music_start_big);
+
+                if (null != mPlayStateListener) {
+                    mPlayStateListener.onComplete();
+                }
                 break;
         }
     }

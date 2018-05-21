@@ -62,10 +62,10 @@ public class DialogValiRequest extends BaseDialogOkCancel {
         dialogSure.setOkClickListener(view -> {
             if (!TextUtils.isEmpty(dialogSure.getContent())) {
                 if (callback != null) callback.onOkClick(dialogSure.getContent());
+                dialogSure.dismiss();
             } else {
                 ToastUtil.showToastShort("请输入验证信息");
             }
-            dialogSure.dismiss();
         });
         dialogSure.show();
     }

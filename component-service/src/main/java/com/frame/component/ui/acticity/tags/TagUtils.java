@@ -1,9 +1,5 @@
 package com.frame.component.ui.acticity.tags;
-
-import android.text.TextUtils;
-
 import java.util.List;
-
 import timber.log.Timber;
 
 public class TagUtils {
@@ -30,9 +26,9 @@ public class TagUtils {
             Tag tag = list.get(i);
             Timber.i(tag.getId() + " " + tag.getTagName());
             tagNames = tagNames + " #" + tag.getTagName();
-            if (i < list.size() - 1) {
-                tagNames = tagNames + ",";
-            }
+//            if (i < list.size() - 1) {
+//                tagNames = tagNames + ",";
+//            }
         }
 
         return tagNames;

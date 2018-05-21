@@ -8,10 +8,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.frame.component.entities.BaseListWrap;
+import com.frame.component.entities.funshow.FunshowBean;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.ImageLoaderHelper;
+import com.frame.component.helper.NetPayStoneHelper;
 import com.frame.component.helper.NetZanHelper;
 import com.frame.component.ui.base.BaseController;
+import com.frame.component.ui.dialog.DialogSureFunshowPay;
 import com.frame.component.ui.dialog.MorePopupWindow;
 import com.frame.component.utils.ListUtil;
 import com.frame.component.view.FunshowView;
@@ -106,7 +109,8 @@ public class HomeFunshowController extends BaseController {
     private void setFunshowData(FunshowHome bean) {
         if (bean != null) {
             currentFunshow = bean;
-            funshowView.setData(bean.tans2FunshowBean());
+            FunshowBean funshowBean = bean.tans2FunshowBean();
+            funshowView.setData(funshowBean);
             funshowView.setZanCallback((isZan, zanCount) -> {
                 bean.setIsLike(isZan);
                 bean.setSupportTotal(zanCount);
@@ -118,7 +122,16 @@ public class HomeFunshowController extends BaseController {
                 popupWindow.showPopupWindow(view);
             });
             getRoot().setOnClickListener(v -> {
-                CommonHelper.FunshowHelper.startDetailActivity(getContext(), bean.getTalkId());
+                if (!funshowBean.isFree() && !funshowBean.isPay()) {
+                    DialogSureFunshowPay.showDialog(getContext(), funshowBean.getPrice(), () -> {
+                        NetPayStoneHelper.newInstance().netPayFunshow(getIView(), funshowBean.getId(), funshowBean.getPrice(), () -> {
+                            CommonHelper.FunshowHelper.startDetailActivity(getContext(), funshowBean.getId());
+                            currentFunshow.setTalkPayed(1);
+                        });
+                    });
+                } else {
+                    CommonHelper.FunshowHelper.startDetailActivity(getContext(), funshowBean.getId());
+                }
             });
         }
     }
