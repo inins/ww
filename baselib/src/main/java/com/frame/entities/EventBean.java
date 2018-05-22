@@ -90,6 +90,9 @@ public class EventBean implements Serializable {
     //通知好友申请详情，处理好友申请
     public static final int EVENT_NOTIFY_DETAIL_DEAL = 0xffa801;
 
+    //创建了一个觅聊
+    public static final int EVENT_NOTIFY_CREATE_TEAM = 0xffa901;
+
     @IntDef({
             EVENTBUS_TAG_SELECTED,
             EVENTBUS_TAG_UNSELECT,
@@ -124,7 +127,8 @@ public class EventBean implements Serializable {
             EVENT_HOME_CARD_GENDER_SELECT,
             EVENT_HOME_CARD_AGE_SELECT,
             EVENT_NOTIFY_DETAIL_DEAL,
-            EVENT_GAME_INPUT_HEIGHT_CHANGED
+            EVENT_GAME_INPUT_HEIGHT_CHANGED,
+            EVENT_NOTIFY_CREATE_TEAM
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface EventBeanType {
