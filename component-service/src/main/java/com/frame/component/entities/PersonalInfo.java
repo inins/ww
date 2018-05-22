@@ -12,7 +12,7 @@ public class PersonalInfo {
     private String province;
     private String cityName;
     private String city;
-    private List<String> picList;
+    private List<PersonalPic> picList;
     private int sex;
     private String nickname;
     private String autograph;

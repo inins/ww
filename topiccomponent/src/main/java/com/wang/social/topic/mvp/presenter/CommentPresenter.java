@@ -199,9 +199,12 @@ public class CommentPresenter extends
                 new ErrorHandleSubscriber<Comments>(mErrorHandler) {
                     @Override
                     public void onNext(Comments comments) {
-                        mRootView.setReplyCount(comments.getTotal());
+//                        mRootView.setReplyCount(comments.getTotal());
 
-                        mCurrent = comments.getCurrent();
+//                        mCurrent = comments.getCurrent();
+
+                        mRootView.setReplyCount(comments.getCount());
+                        mCurrent++;
 
                         mCommentList.addAll(comments.getList());
 

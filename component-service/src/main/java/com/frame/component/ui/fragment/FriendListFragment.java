@@ -81,6 +81,7 @@ public class FriendListFragment extends BasicFragment implements
 
         Bundle bundle = new Bundle();
         bundle.putInt("type", TYPE_GROUP_SEARCH);
+        fragment.setArguments(bundle);
 
         return fragment;
     }
@@ -90,6 +91,7 @@ public class FriendListFragment extends BasicFragment implements
 
         Bundle bundle = new Bundle();
         bundle.putInt("type", TYPE_SEARCH_ALL);
+        fragment.setArguments(bundle);
 
         return fragment;
     }

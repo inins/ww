@@ -1,5 +1,6 @@
 package com.frame.component.entities.dto;
 
+import com.frame.component.entities.PersonalPic;
 import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.http.api.Mapper;
 import com.frame.component.utils.EntitiesUtil;
@@ -13,7 +14,7 @@ public class SearchUserInfoDTO implements Mapper<PersonalInfo> {
     private String province;
     private String cityName;
     private String city;
-    private List<String> picList;
+    private List<PersonalPic> picList;
     private Integer sex;
     private String nickname;
     private String autograph;

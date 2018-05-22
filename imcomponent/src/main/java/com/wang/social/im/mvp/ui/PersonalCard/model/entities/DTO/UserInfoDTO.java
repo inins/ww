@@ -1,5 +1,6 @@
 package com.wang.social.im.mvp.ui.PersonalCard.model.entities.DTO;
 
+import com.frame.component.entities.PersonalPic;
 import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.http.api.Mapper;
 import com.frame.component.utils.EntitiesUtil;
@@ -13,7 +14,7 @@ public class UserInfoDTO implements Mapper<PersonalInfo> {
     private String province;
     private String cityName;
     private String city;
-    private List<String> picList;
+    private List<PersonalPic> picList;
     private Integer sex;
     private String nickname;
     private String autograph;

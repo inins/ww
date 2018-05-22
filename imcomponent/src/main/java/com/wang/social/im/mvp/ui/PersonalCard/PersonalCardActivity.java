@@ -195,7 +195,7 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
         StatusBarUtil.setTranslucent(this);
 
         mUserId = getIntent().getIntExtra("userid", -1);
-//        mUserId = 10001;
+//        mUserId = 10012;
         // 默认为浏览用户信息模式
         mType = getIntent().getIntExtra("type", TYPE_BROWS);
         // 消息id
@@ -253,7 +253,6 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
                 });
 
         mPresenter.loadUserInfoAndPhotos(mUserId);
-//        mPresenter.loadUserStatistics(mUserId);
     }
 
     private void showMoreLayout(boolean visible) {
