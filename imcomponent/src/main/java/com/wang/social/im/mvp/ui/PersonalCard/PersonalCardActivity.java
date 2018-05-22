@@ -164,9 +164,16 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
     int mType;
     // 消息id
     private int mMsgId;
+    // 图片选择封装
     private PhotoHelperEx mPhotoHelperEx;
+    // 选择图片类型
     private int mRequestImageType;
+    // 记录举报信息
     private String mReportComment;
+    // 右上角弹出窗口
+    private PWFriendMoreMenu mPWFriendMoreMenu;
+    // 备注输入对话框
+    private DialogInput mSetRemarkDialog;
 
 
     @Override
@@ -548,10 +555,14 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
 
     @Override
     public void onChangeMyBlackSuccess(boolean isBlack) {
-        toastShort("已拉黑");
+        toastShort(isBlack ? "已拉黑" : "已取消黑名单");
+
+        // 修改当前黑名单信息
+        mPersonalInfo.setIsBlack(isBlack ? 1 : 0);
 
         EventBean eventBean = new EventBean(EventBean.EVENTBUS_FRIEND_ADD_BLACK_LIST);
         eventBean.put("userid", mUserId);
+        eventBean.put("isBlack", isBlack);
         EventBus.getDefault().post(eventBean);
     }
 
@@ -571,10 +582,6 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
                     mPhotoHelperEx.showDefaultDialog();
                 });
     }
-
-    private PWFriendMoreMenu mPWFriendMoreMenu;
-
-    private DialogInput mSetRemarkDialog;
 
     private void showSetRemarkDialog() {
         if (null == mSetRemarkDialog) {
@@ -611,9 +618,12 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
 
                 @Override
                 public void onSetAvatar() {
+                    // 设置图片选择类型
                     mRequestImageType = REQUEST_AVATAR_IMAGE;
+                    // 设置图片选择参数
                     mPhotoHelperEx.setMaxSelectCount(1);
                     mPhotoHelperEx.setClip(true);
+                    // 显示图片选择对话框
                     mPhotoHelperEx.showDefaultDialog();
                 }
 
@@ -631,13 +641,17 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
 
                 @Override
                 public void onAddBlackList() {
+                    // 是否黑名单，默认未拉黑 0：未拉黑，大于0：黑名单
+                    boolean isBlack = null == mPersonalInfo ? false : mPersonalInfo.getIsBlack() > 0;
                     DialogSure.showDialog(PersonalCardActivity.this,
-                            "确认加入黑名单？",
-                            () -> mPresenter.changeMyBlack(mUserId, true));
+                            isBlack ? "确认取消黑名单？" : "确认加入黑名单？",
+                            () -> mPresenter.changeMyBlack(mUserId, !isBlack));
                 }
             });
         }
 
+        // 设置是否黑名单(默认未拉黑）
+        mPWFriendMoreMenu.setBlack(null == mPersonalInfo ? 0 : mPersonalInfo.getIsBlack());
         mPWFriendMoreMenu.showPopupWindow(mMoreIV);
     }
 

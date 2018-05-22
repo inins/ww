@@ -258,7 +258,7 @@ RE.setBlockquote = function(b) {
 
 //插入图片
 RE.insertImage = function(url, alt) {
-    var html = '<img align=center src="' + url + '" alt="' + alt + '" /><br/><br/>';
+    var html = '<img align=center src="' + url + '" alt="' + alt + '" style="max-width: 100%;" /><br/><br/>';
     RE.insertHTML(html);
 }
 

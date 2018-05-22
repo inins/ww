@@ -57,7 +57,7 @@ html {
 img{
   margin-top:10px;
   margin-bottom:10px;
-  max-width: 98%;
+  max-width: 100%;
 }
 
 img{
@@ -92,13 +92,12 @@ body {
 }
 
 blockquote{
-background-color: whitesmoke;
-border-left: 4px solid #999999;
-font-size: 15px;
-font-weight: 100;
-padding: 10px 15px;
-margin-left: 0px;
-margin-right : 0px;
+    background-color: whitesmoke;
+    border-left: 4px solid #999999;
+    font-size: 15px;
+    font-weight: 100;
+    margin-left: 0px;
+    margin-right : 0px;
 }
 
 #editor[placeholder]:empty:not(:focus):before {
