@@ -12,6 +12,7 @@ import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMCustomElem;
 import com.tencent.imsdk.TIMElem;
+import com.tencent.imsdk.TIMFaceElem;
 import com.tencent.imsdk.TIMGroupManager;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
@@ -91,7 +92,6 @@ public class GameConversationPresenter extends BasePresenter<GameConversationCon
         TIMGroupManager.getInstance().applyJoinGroup(identity, "", new TIMCallBack() {
             @Override
             public void onError(int i, String s) {
-                Timber.tag("加入聊天室").e(i + "=>" + s);
                 if (i == IMConstants.TIM_ERROR_CODE_GROUP_JOINED) {
                     TIMManager.getInstance().addMessageListener(GameConversationPresenter.this);
 
@@ -193,6 +193,18 @@ public class GameConversationPresenter extends BasePresenter<GameConversationCon
         TIMTextElem textElem = new TIMTextElem();
         textElem.setText(content);
         message.addElement(textElem);
+
+        doSendMessage(message);
+    }
+
+    /**
+     * 发送一条表情消息
+     */
+    public void sendFaceMessage(int index) {
+        TIMMessage message = new TIMMessage();
+        TIMFaceElem faceElem = new TIMFaceElem();
+        faceElem.setIndex(index);
+        message.addElement(faceElem);
 
         doSendMessage(message);
     }

@@ -146,16 +146,17 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
     public void getHistoryMessage() {
         TIMMessage lastMessage = null;
         if (mAdapter != null && mAdapter.getData() != null && mAdapter.getData().size() > 0) {
-            lastMessage = mAdapter.getData().get(mAdapter.getItemCount() - 1).getTimMessage();
+            lastMessage = mAdapter.getData().get(0).getTimMessage();
         }
         mConversationExt.getLocalMessage(20, lastMessage, new TIMValueCallBack<List<TIMMessage>>() {
             @Override
             public void onError(int i, String s) {
-
+                mRootView.hideMessageLoad();
             }
 
             @Override
             public void onSuccess(List<TIMMessage> timMessages) {
+                mRootView.hideMessageLoad();
                 if (timMessages == null) {
                     return;
                 }
