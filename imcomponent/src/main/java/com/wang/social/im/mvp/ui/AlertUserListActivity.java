@@ -80,7 +80,6 @@ public class AlertUserListActivity extends BaseAppActivity<AlertUserListPresente
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
-        groupId = "26";
         mPresenter.getMemberList(groupId);
     }
 

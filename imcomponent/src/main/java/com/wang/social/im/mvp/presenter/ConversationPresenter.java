@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.entities.funpoint.Funpoint;
+import com.frame.component.enums.ConversationType;
 import com.frame.di.scope.FragmentScope;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.ApiHelperEx;
@@ -31,10 +32,13 @@ import com.wang.social.im.R;
 import com.wang.social.im.app.IMConstants;
 import com.wang.social.im.enums.CustomElemType;
 import com.wang.social.im.mvp.contract.ConversationContract;
+import com.wang.social.im.mvp.model.entities.AnonymousInfo;
+import com.wang.social.im.mvp.model.entities.CarryUserInfo;
 import com.wang.social.im.mvp.model.entities.EnvelopElemData;
 import com.wang.social.im.mvp.model.entities.EnvelopInfo;
 import com.wang.social.im.mvp.model.entities.EnvelopMessageCacheInfo;
 import com.wang.social.im.mvp.model.entities.LocationAddressInfo;
+import com.wang.social.im.mvp.model.entities.ShadowInfo;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 import com.wang.social.im.mvp.ui.adapters.MessageListAdapter;
 import com.wang.social.location.mvp.model.entities.LocationInfo;
@@ -42,6 +46,7 @@ import com.wang.social.location.mvp.model.entities.LocationInfo;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
+import java.util.Random;
 
 import javax.inject.Inject;
 
@@ -58,7 +63,16 @@ import io.reactivex.functions.Consumer;
 @FragmentScope
 public class ConversationPresenter extends BasePresenter<ConversationContract.Model, ConversationContract.View> implements TIMMessageListener {
 
+    private static final String[] sAnonymous;
+
+    static {
+        sAnonymous = new String[]{
+                "关皮皮", "贺兰静霆", "黄景瑜", "宋茜", "刘亦菲", "范丞丞", "李子璇", "孟美岐", "蔡徐坤", "陈立农"
+        };
+    }
+
     private MessageListAdapter mAdapter;
+    private ConversationType mConversationType;
     private TIMConversation mConversation;
     private TIMConversationExt mConversationExt;
 
@@ -69,6 +83,9 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
     @Inject
     RxErrorHandler mErrorHandler;
 
+    private ShadowInfo mShadowInfo;
+    private AnonymousInfo mAnonymousInfo;
+
     @Inject
     public ConversationPresenter(ConversationContract.Model model, ConversationContract.View view) {
         super(model, view);
@@ -78,6 +95,10 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
 
     public void setAdapter(MessageListAdapter mAdapter) {
         this.mAdapter = mAdapter;
+    }
+
+    public void setConversationType(ConversationType conversationType) {
+        this.mConversationType = conversationType;
     }
 
     /**
@@ -339,12 +360,60 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
     }
 
     /**
+     * 获取趣聊分身信息
+     *
+     * @param socialId
+     * @return
+     */
+    public ShadowInfo getShadowInfo(String socialId) {
+        if (mShadowInfo == null) {
+            mApiHelper.execute(mRootView, mModel.getShadowInfo(socialId),
+                    new ErrorHandleSubscriber<ShadowInfo>() {
+                        @Override
+                        public void onNext(ShadowInfo shadowInfo) {
+                            mShadowInfo = shadowInfo;
+                            mRootView.onShadowChanged(mShadowInfo);
+                        }
+                    });
+        }
+        return mShadowInfo;
+    }
+
+    /**
+     * 获取匿名信息
+     */
+    public void getAnonymousInfo() {
+        mApiHelper.execute(mRootView, mModel.getAnonymousInfo(),
+                new ErrorHandleSubscriber<AnonymousInfo>() {
+                    @Override
+                    public void onNext(AnonymousInfo anonymousInfo) {
+                        mAnonymousInfo = anonymousInfo;
+                    }
+                });
+    }
+
+    /**
      * 执行发送
      *
      * @param message
      */
     private void doSendMessage(TIMMessage message) {
-        // TODO: 2018-04-25 判断是否需要添加匿名/分身消息标识
+        if (mConversationType == ConversationType.SOCIAL) {
+            if (mShadowInfo != null && mShadowInfo.getStatus() == ShadowInfo.STATUS_OPEN) {
+                addCarryInfo(message, mConversationType, mShadowInfo.getNickname(), mShadowInfo.getPortrait());
+            }
+        } else if (mConversationType == ConversationType.MIRROR) {
+            String nickname;
+            if (mAnonymousInfo != null) {
+                nickname = mAnonymousInfo.getNickname();
+            } else {
+                int getIndex = (int) (Math.random() * 10);
+                mAnonymousInfo = new AnonymousInfo();
+                mAnonymousInfo.setNickname(sAnonymous[getIndex]);
+                nickname = mAnonymousInfo.getNickname();
+            }
+            addCarryInfo(message, mConversationType, nickname, null);
+        }
         mConversation.sendMessage(message, new TIMValueCallBack<TIMMessage>() {
             @Override
             public void onError(int i, String s) {
@@ -359,6 +428,32 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
         mRootView.showMessage(UIMessage.obtain(message));
 
         EventBus.getDefault().post(message);
+    }
+
+    /**
+     * 添加携带信息
+     *
+     * @param timMessage
+     * @param type
+     * @param nickname
+     * @param portrait
+     */
+    private void addCarryInfo(TIMMessage timMessage, ConversationType type, String nickname, String portrait) {
+        CarryUserInfo carryInfo = new CarryUserInfo();
+        switch (type) {
+            case SOCIAL:
+                carryInfo.setType(IMConstants.CUSTOM_ELEM_SHADOW);
+                break;
+            case MIRROR:
+                carryInfo.setType(IMConstants.CUSTOM_ELEM_ANONYMITY);
+                break;
+        }
+        carryInfo.setFaceUrl(portrait);
+        carryInfo.setNickname(nickname);
+        String data = gson.toJson(carryInfo);
+        TIMCustomElem customElem = new TIMCustomElem();
+        customElem.setData(data.getBytes());
+        timMessage.addElement(customElem);
     }
 
     /**

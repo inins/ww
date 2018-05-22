@@ -30,6 +30,7 @@ public class PluginAdapter {
     private LayoutInflater mLayoutInflater;
 
     private ViewPager mPluginsPager;
+    private PluginPagerAdapter mAdapter;
 
     private List<PluginModule> plugins;
     private boolean isInitialed;
@@ -78,7 +79,8 @@ public class PluginAdapter {
             }
             pages = count / PAGE_ITEM_COUNT + tmp;
         }
-        mPluginsPager.setAdapter(new PluginPagerAdapter(pages));
+        mAdapter = new PluginPagerAdapter(pages);
+        mPluginsPager.setAdapter(mAdapter);
     }
 
     @Override
@@ -88,6 +90,14 @@ public class PluginAdapter {
         mPluginsPager = null;
         plugins = null;
         pluginClickListener = null;
+    }
+
+    public List<PluginModule> getPlugins() {
+        return plugins;
+    }
+
+    public void refresh(){
+        mAdapter.notifyDataSetChanged();
     }
 
     private class PluginPagerAdapter extends PagerAdapter {

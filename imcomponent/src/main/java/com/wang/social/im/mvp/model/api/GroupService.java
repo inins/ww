@@ -10,6 +10,7 @@ import com.wang.social.im.mvp.model.entities.SimpleGroupInfo;
 import com.wang.social.im.mvp.model.entities.TeamInfo;
 import com.frame.component.entities.dto.AddGroupApplyRspDTO;
 import com.frame.component.entities.dto.AddGroupRspDTO;
+import com.wang.social.im.mvp.model.entities.dto.AnonymousInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.CreateGroupResultDTO;
 import com.wang.social.im.mvp.model.entities.dto.DistributionGroupDTO;
 import com.wang.social.im.mvp.model.entities.dto.GroupJoinCheckResultDTO;
@@ -19,6 +20,7 @@ import com.wang.social.im.mvp.model.entities.dto.JoinGroupResultDTO;
 import com.wang.social.im.mvp.model.entities.dto.ListDataDTO;
 import com.wang.social.im.mvp.model.entities.dto.MemberInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.PayCheckInfoDTO;
+import com.wang.social.im.mvp.model.entities.dto.ShadowInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.SimpleGroupInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.SocialDTO;
 import com.wang.social.im.mvp.model.entities.dto.SocialHomeDTO;
@@ -406,4 +408,23 @@ public interface GroupService {
      */
     @POST("app/group/addGroupMember")
     Observable<BaseJson<JoinGroupResultDTO>> joinGroup(@Query("v") String version, @Query("applyId") String applyId);
+
+    /**
+     * 获取趣聊下分身信息
+     *
+     * @param version
+     * @param socialId
+     * @return
+     */
+    @GET("app/shadow/getGroupMyUserShadow")
+    Observable<BaseJson<ShadowInfoDTO>> getShadowInfo(@Query("v") String version, @Query("groupId") String socialId);
+
+    /**
+     * 获取匿名信息
+     *
+     * @param version
+     * @return
+     */
+    @GET("system/nicknameLibrary")
+    Observable<BaseJson<AnonymousInfoDTO>> getAnonymousInfo(@Query("v") String version);
 }

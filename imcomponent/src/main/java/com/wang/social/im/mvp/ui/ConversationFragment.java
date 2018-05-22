@@ -59,6 +59,7 @@ import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.mvp.contract.ConversationContract;
 import com.wang.social.im.mvp.model.entities.EnvelopInfo;
 import com.wang.social.im.mvp.model.entities.MemberInfo;
+import com.wang.social.im.mvp.model.entities.ShadowInfo;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 import com.wang.social.im.mvp.presenter.ConversationPresenter;
 import com.wang.social.im.mvp.ui.adapters.MessageListAdapter;
@@ -178,6 +179,7 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
         distinctInit();
 
         mConversation = TIMManager.getInstance().getConversation(timConversationType, mTargetId);
+        mPresenter.setConversationType(mConversationType);
         mPresenter.setConversation(mConversation);
 
         fcInput.setMInputViewListener(this);
@@ -207,6 +209,10 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
 
         if (mConversationType == ConversationType.TEAM) {
             mPresenter.getFunPoint(ImHelper.imId2WangId(mTargetId));
+        } else if (mConversationType == ConversationType.SOCIAL) {
+            mPresenter.getShadowInfo(ImHelper.imId2WangId(mTargetId));
+        } else if (mConversationType == ConversationType.MIRROR){
+            mPresenter.getAnonymousInfo();
         }
     }
 
@@ -395,6 +401,11 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     public void showFunPoint(Funpoint funpoint) {
         mFunPoint = funpoint;
         fcFunPoint.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onShadowChanged(ShadowInfo shadowInfo) {
+        fcInput.updateShadowText(shadowInfo.getStatus() == ShadowInfo.STATUS_OPEN ? R.string.im_chat_input_plugin_shadow_close : R.string.im_chat_input_plugin_shadow);
     }
 
     @Override
