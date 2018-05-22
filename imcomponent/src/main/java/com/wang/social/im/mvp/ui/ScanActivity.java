@@ -17,6 +17,7 @@ import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
+import com.wang.social.im.mvp.ui.PersonalCard.PersonalCardActivity;
 import com.wang.social.pictureselector.PictureSelector;
 
 import butterknife.BindView;
@@ -116,16 +117,29 @@ public class ScanActivity extends BasicAppActivity implements QRCodeView.Delegat
         if (scZing != null) {
             scZing.onDestroy();
         }
+        if (disposable != null && !disposable.isDisposed()) {
+            disposable.dispose();
+        }
+        disposable = null;
         super.onDestroy();
     }
 
     @Override
     public void onScanQRCodeSuccess(String result) {
-        // TODO: 2018-05-15 跳转到名片页
         if (result.contains("userId")) {
-
+            String userId = result.substring(result.indexOf("userId=") + 7);
+            if (userId.contains("&")) {
+                userId = userId.substring(0, userId.indexOf("&"));
+            }
+            PersonalCardActivity.start(this, Integer.valueOf(userId));
+            finish();
         } else if (result.contains("groupId")) {
-
+            String groupId = result.substring(result.indexOf("groupId=") + 8);
+            if (groupId.contains("&")) {
+                groupId = groupId.substring(0, groupId.indexOf("&"));
+            }
+            GroupInviteDetailActivity.startForBrowse(this, Integer.valueOf(groupId));
+            finish();
         } else {
             if (scZing != null) {
                 scZing.stopSpot();

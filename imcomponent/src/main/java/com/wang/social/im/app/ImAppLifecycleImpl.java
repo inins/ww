@@ -5,8 +5,10 @@ import android.content.Context;
 
 import com.frame.base.delegate.AppDelegate;
 import com.frame.component.app.Constant;
+import com.frame.entities.EventBean;
 import com.frame.utils.FrameUtils;
 import com.tencent.imsdk.TIMConnListener;
+import com.tencent.imsdk.TIMFriendshipSettings;
 import com.tencent.imsdk.TIMGroupMemberInfo;
 import com.tencent.imsdk.TIMGroupSettings;
 import com.tencent.imsdk.TIMLogLevel;
@@ -39,6 +41,8 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.List;
 
 import timber.log.Timber;
+
+import static com.wang.social.im.app.IMConstants.IM_FIELD_FRIEND_PORTRAIT;
 
 /**
  * ======================================
@@ -86,7 +90,7 @@ public class ImAppLifecycleImpl implements AppDelegate {
         imUserInit();
 
         //添加离线消息监听(只能在主进程中注册)
-        if (MsfSdkUtils.isMainProcess(application)){
+        if (MsfSdkUtils.isMainProcess(application)) {
             TIMManager.getInstance().setOfflinePushListener(new TIMOfflinePushListener() {
                 @Override
                 public void handleNotification(TIMOfflinePushNotification timOfflinePushNotification) {
@@ -103,6 +107,9 @@ public class ImAppLifecycleImpl implements AppDelegate {
         TIMUserConfig userConfig = new TIMUserConfig()
                 .setUserStatusListener(new ImUserStatusListener())
                 .setConnectionListener(new ImConnectionListener())
+                //设置好友资料拉取自定义字段
+                .setFriendshipSettings(getFriendShipSetting())
+                //设置群资料拉取自定义字段
                 .setGroupSettings(getGroupSettings());
         //消息扩展配置
         userConfig = new TIMUserConfigMsgExt(userConfig)
@@ -119,16 +126,25 @@ public class ImAppLifecycleImpl implements AppDelegate {
                 .setGroupAssistantListener(new ImGroupAssistantListener());
         //将用户信息与通讯管理器进行绑定
         TIMManager.getInstance().setUserConfig(userConfig);
+        RefreshEvent.getInstance().init(userConfig);
+    }
+
+    private TIMFriendshipSettings getFriendShipSetting() {
+        TIMFriendshipSettings settings = new TIMFriendshipSettings();
+        settings.addCustomTag(IM_FIELD_FRIEND_PORTRAIT);
+        return settings;
     }
 
     /**
      * 配置群信息拉取字段
+     *
      * @return
      */
-    private TIMGroupSettings getGroupSettings(){
+    private TIMGroupSettings getGroupSettings() {
         TIMGroupSettings settings = new TIMGroupSettings();
-        TIMGroupSettings.Options options = new TIMGroupSettings.Options();
-        options.addCustomTag(IMConstants.IM_GROUP_PROFILE_TYPE);
+        TIMGroupSettings.Options memberOptions = new TIMGroupSettings.Options();
+        memberOptions.addCustomTag(IMConstants.IM_FIELD_GROUP_MEMBER_PORTRAIT);
+        settings.setMemberInfoOptions(memberOptions);
         return settings;
     }
 
@@ -182,18 +198,25 @@ public class ImAppLifecycleImpl implements AppDelegate {
      * 监听资料关系链变化
      * 当关系链发生变化时，使用{@link EventBus}通知相关界面进行更新
      */
-    private class ImFriendShipProxyListener implements TIMFriendshipProxyListener{
+    private class ImFriendShipProxyListener implements TIMFriendshipProxyListener {
 
         @Override
         public void OnAddFriends(List<TIMUserProfile> list) {
             Timber.tag(TAG).d("OnAddFriends");
             FriendShipHelper.getInstance().refresh();
+            EventBean eventBean = new EventBean(EventBean.EVENT_NOTIFY_FRIEND_ADD);
+            EventBus.getDefault().post(eventBean);
         }
 
         @Override
         public void OnDelFriends(List<String> list) {
             Timber.tag(TAG).d("OnDelFriends");
             FriendShipHelper.getInstance().refresh();
+            if (list != null && !list.isEmpty()) {
+                EventBean eventBean = new EventBean(EventBean.EVENT_NOTIFY_FRIEND_DELETE);
+                eventBean.put("identity", list.get(0));
+                EventBus.getDefault().post(eventBean);
+            }
         }
 
         @Override
@@ -213,7 +236,7 @@ public class ImAppLifecycleImpl implements AppDelegate {
      * 群组相关信息变化监听
      * 当群组信息发生变化时，使用{@link EventBus}通知相关界面进行更新
      */
-    private class ImGroupAssistantListener implements TIMGroupAssistantListener{
+    private class ImGroupAssistantListener implements TIMGroupAssistantListener {
 
         @Override
         public void onMemberJoin(String s, List<TIMGroupMemberInfo> list) {
@@ -243,6 +266,9 @@ public class ImAppLifecycleImpl implements AppDelegate {
         public void onGroupDelete(String s) {
             Timber.tag(TAG).d("onGroupDelete");
             GroupHelper.getInstance().refresh();
+            EventBean eventBean = new EventBean(EventBean.EVENT_NOTIFY_GROUP_DELETE);
+            eventBean.put("identity", s);
+            EventBus.getDefault().post(eventBean);
         }
 
         @Override
@@ -255,7 +281,7 @@ public class ImAppLifecycleImpl implements AppDelegate {
     /**
      * 消息撤销监听
      */
-    private class MessageRevokeListener implements TIMMessageRevokedListener{
+    private class MessageRevokeListener implements TIMMessageRevokedListener {
 
         @Override
         public void onMessageRevoked(TIMMessageLocator timMessageLocator) {

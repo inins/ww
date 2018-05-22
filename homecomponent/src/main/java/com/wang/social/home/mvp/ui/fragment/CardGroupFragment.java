@@ -77,7 +77,7 @@ public class CardGroupFragment extends BasicFragment implements RecycleAdapterCa
         callback.setOnSwipedListener((ItemTouchCardCallback.OnSwipedListener<CardGroup>) (bean, direction) -> {
             //如果是右滑，则提示好友请求
             if (ItemTouchHelper.RIGHT == direction) {
-                NetGroupHelper.newInstance().addGroup(getContext(), CardGroupFragment.this, bean.getGroupId(), isNeedValidation -> {
+                NetGroupHelper.newInstance().addGroup(getContext(), CardGroupFragment.this, getChildFragmentManager(), bean.getGroupId(), isNeedValidation -> {
                     ToastUtil.showToastShort("加群成功");
                 });
             }

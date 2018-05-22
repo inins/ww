@@ -173,7 +173,8 @@ public class PersonalCardPresenter extends
                 new ErrorHandleSubscriber() {
                     @Override
                     public void onNext(Object o) {
-                        mRootView.onChangeMyBlackSuccess(!black);
+                        // 操作成功，回调 boolean 是否黑名单
+                        mRootView.onChangeMyBlackSuccess(black);
                     }
 
                     @Override

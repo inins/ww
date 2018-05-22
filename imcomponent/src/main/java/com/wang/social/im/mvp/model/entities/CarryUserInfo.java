@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import com.tencent.imsdk.TIMElem;
 
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * ==========================================
@@ -16,10 +17,13 @@ import lombok.Getter;
  */
 public class CarryUserInfo {
 
+    @Setter
     private String type;
+    @Setter
     @Getter
     @SerializedName("name")
     private String nickname;
+    @Setter
     @Getter
     private String faceUrl;
 }

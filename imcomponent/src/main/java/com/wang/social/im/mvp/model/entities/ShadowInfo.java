@@ -25,7 +25,7 @@ public class ShadowInfo implements Parcelable {
     private String portrait;
     private String nickname;
     private Gender gender;
-    private int status;
+    private int status = STATUS_CLOSE;
 
     @Override
     public int describeContents() {

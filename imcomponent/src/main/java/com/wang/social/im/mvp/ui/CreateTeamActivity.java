@@ -35,6 +35,8 @@ import com.wang.social.im.mvp.model.entities.TeamAttribute;
 import com.wang.social.im.mvp.presenter.CreateTeamPresenter;
 import com.wang.social.pictureselector.helper.PhotoHelper;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 
 import javax.inject.Inject;
@@ -221,5 +223,7 @@ public class CreateTeamActivity extends BaseAppActivity<CreateTeamPresenter> imp
     @Override
     public void onCreateComplete(CreateGroupResult result) {
         finish();
+        //通知有觅聊列表的地方刷新数据
+        EventBus.getDefault().post(new EventBean(EventBean.EVENT_NOTIFY_CREATE_TEAM));
     }
 }

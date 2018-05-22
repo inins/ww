@@ -84,7 +84,7 @@ public class GroupConversationPresenter extends BasePresenter<GroupConversationC
                         if (groupJoinCheckResult.isNeedPay()) {
                             mRootView.showPayDialog(groupJoinCheckResult);
                         } else {
-                            payForJoin(socialId, groupJoinCheckResult);
+                            joinGroup(socialId, groupJoinCheckResult.getApplyId(), groupJoinCheckResult.isValidation());
                         }
                     }
                 }, new Consumer<Disposable>() {
@@ -110,7 +110,7 @@ public class GroupConversationPresenter extends BasePresenter<GroupConversationC
         NetPayStoneHelper.newInstance().stonePay(mRootView, checkResult.getJoinCost(), Constant.PAY_OBJECT_TYPE_ADD_GROUP, checkResult.getApplyId(), new NetPayStoneHelper.OnStonePayCallback() {
             @Override
             public void success() {
-                joinGroup(socialId, checkResult.getApplyId());
+                joinGroup(socialId, checkResult.getApplyId(), checkResult.isValidation());
             }
         });
     }
@@ -121,12 +121,12 @@ public class GroupConversationPresenter extends BasePresenter<GroupConversationC
      * @param socialId
      * @param applyId
      */
-    public void joinGroup(String socialId, String applyId) {
+    public void joinGroup(String socialId, String applyId, boolean isValidation) {
         mApiHelper.execute(mRootView, mModel.joinGroup(applyId),
                 new ErrorHandleSubscriber<JoinGroupResult>() {
                     @Override
                     public void onNext(JoinGroupResult joinGroupResult) {
-                        if (joinGroupResult.getJoinState() == JoinGroupResult.STATE_JOIN_SUCCESS) {
+                        if (!isValidation) {
                             getMiList(socialId);
                             getSelfMiList(socialId);
                         } else {

@@ -163,6 +163,7 @@
                 android:layout_marginBottom="14dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/sc_tv_gender">
 
             </android.support.v7.widget.RecyclerView>
@@ -232,7 +233,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="#ff999999"
                 android:textSize="12sp"
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="6dp"
                 tools:text="加入此趣聊需要支付500宝石"
                 />
 

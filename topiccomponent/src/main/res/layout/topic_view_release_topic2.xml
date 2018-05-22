@@ -220,7 +220,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:padding="12dp"
+            android:padding="14dp"
             android:background="@drawable/topic_shape_rect_corner_release_content_bg">
 
             <com.wang.social.topic.mvp.ui.widget.richeditor.RichEditor
@@ -228,13 +228,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:orientation="vertical"
-                android:background="#F2F2F2">
+                android:orientation="vertical">
 
             </com.wang.social.topic.mvp.ui.widget.richeditor.RichEditor>
         </FrameLayout>
 
     </LinearLayout>
-
 
 </android.support.v4.widget.NestedScrollView>

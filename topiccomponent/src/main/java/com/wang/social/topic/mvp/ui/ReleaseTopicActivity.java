@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
@@ -65,7 +64,6 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -191,14 +189,11 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         mPhotoHelperEx = PhotoHelperEx.newInstance(this, this);
 
         // 顶部状态栏控制
-        mToolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
-            @Override
-            public void onButtonClick(SocialToolbar.ClickType clickType) {
-                if (clickType == SocialToolbar.ClickType.LEFT_ICON) {
-                    finish();
-                } else if (clickType == SocialToolbar.ClickType.RIGHT_TEXT) {
-                    addTopic();
-                }
+        mToolbar.setOnButtonClickListener(clickType -> {
+            if (clickType == SocialToolbar.ClickType.LEFT_ICON) {
+                finish();
+            } else if (clickType == SocialToolbar.ClickType.RIGHT_TEXT) {
+                addTopic();
             }
         });
 
@@ -219,6 +214,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
                 refreshTitleCount(s.length());
             }
         });
+
         // 标题字数清0
         refreshTitleCount(0);
 
@@ -320,8 +316,8 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
             @Override
             public void onStyle(int position) {
-                Timber.i("重置样式 " + position);
-                resetSymbolStyle(position);
+//                resetListStyleType(position);
+                setListStyleType(position);
             }
 
             @Override
@@ -404,6 +400,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
                                     break;
                                 case MotionEvent.ACTION_UP:
                                 case MotionEvent.ACTION_CANCEL:
+                                    v.performClick();
                                     AudioRecordManager.getInstance().stopRecord();
                                     showVoiceLayout(false);
                                     break;
@@ -438,15 +435,12 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
             public void onCompleted(int duration, String path) {
                 mWaveView.setExheight(0);
 
-                Observable.create(new ObservableOnSubscribe<String>() {
-                    @Override
-                    public void subscribe(ObservableEmitter<String> emitter) throws Exception {
-                        emitter.onNext(AudioImageUtil.createAudioImage(
-                                ReleaseTopicActivity.this,
-                                mRichEditor.getWidth(),
-                                duration));
-                        emitter.onComplete();
-                    }
+                Observable.create((ObservableEmitter<String> emitter) -> {
+                    emitter.onNext(AudioImageUtil.createAudioImage(
+                            ReleaseTopicActivity.this,
+                            mRichEditor.getWidth(),
+                            duration));
+                    emitter.onComplete();
                 })
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -507,63 +501,50 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
         // 内容编辑器相关设置
         //        mRichEditor.setEditorBackgroundColor(Color.TRANSPARENT);
-        int padding = SizeUtils.dp2px(5);
-        mRichEditor.setPadding(
-                padding,
-                padding,
-                padding,
-                padding);
+//        int padding = SizeUtils.dp2px(5);
+//        mRichEditor.setPadding(
+//                padding,
+//                padding,
+//                padding,
+//                padding);
 
-        mRichEditor.setOnDecorationChangeListener(new RichEditor.OnDecorationStateListener() {
-            @Override
-            public void onStateChangeListener(String text, List<RichEditor.Type> types) {
-                Timber.i("onStateChangeListener : " + text);
+        mRichEditor.setOnDecorationChangeListener((String text, List<RichEditor.Type> types) -> {
+            Timber.i("onStateChangeListener : " + text);
+        });
+
+        mRichEditor.setOnTextChangeListener((String text) -> {});
+
+
+        mTitleET.setOnFocusChangeListener((View v, boolean hasFocus) -> {
+            Timber.i("编辑器焦点 " + Boolean.toString(hasFocus));
+            mTitltEditorFocused = hasFocus;
+            if (hasFocus) {
+                editTextHasFocused();
             }
         });
 
-        mRichEditor.setOnTextChangeListener(new RichEditor.OnTextChangeListener() {
-            @Override
-            public void onTextChange(String text) {
-//                Timber.i(text);
+        mTitleET.setOnClickListener((View v) -> {
+            Timber.i("标题编辑器点击");
+            if (mTitltEditorFocused) {
+                editTextHasFocused();
             }
         });
 
-
-        mTitleET.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                Timber.i("编辑器焦点 " + Boolean.toString(hasFocus));
-                mTitltEditorFocused = hasFocus;
-                if (hasFocus) {
-                    editTextHasFocused();
-                }
+        mRichEditor.setOnFocusChangeListener((View v, boolean hasFocus) -> {
+            Timber.i("编辑器焦点 " + Boolean.toString(hasFocus));
+            mRichEditorFocused = hasFocus;
+            if (hasFocus) {
+                editTextHasFocused();
             }
         });
-        mTitleET.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Timber.i("标题编辑器点击");
-                if (mTitltEditorFocused) {
-                    editTextHasFocused();
-                }
-            }
-        });
-
-        mRichEditor.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                Timber.i("编辑器焦点 " + Boolean.toString(hasFocus));
-                mRichEditorFocused = hasFocus;
-                if (hasFocus) {
-                    editTextHasFocused();
-                }
-            }
-        });
-
 
         mRichEditor.setPlaceholder("你想说什么?......为保障用户们的友好体验，请最少输入30个字");
     }
 
+    /**
+     * 重设编辑器字体
+     * @param position 字体索引
+     */
     private void resetREFont(int position) {
         if (position == 0) {
             mRichEditor.setFont("kt,STKaiti-SC-Regular,STKaiti-SC-Regular");
@@ -585,7 +566,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     private void resetRichEditorStyle() {
         resetRETextColor(mStylePicker.getDefaultColor());
         resetRETextSize(mStylePicker.getDefaultSize());
-//        resetSymbolStyle(mStylePicker.getDefaultSymbol());
+//        resetListStyleType(mStylePicker.getDefaultSymbol());
     }
 
     @Override
@@ -669,10 +650,17 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     private int mSymbolPosition;
     private boolean isclick;
 
-    private void resetSymbolStyle(int position) {
-        Timber.i("重设列表样式 : " + position);
+    /**
+     * 设置列表项标志的类型
+     * @param position 索引
+     */
+    private void resetListStyleType(int position) {
+        Timber.i("重设列表项标志的类型 : " + position);
 
-        if (!TextUtils.isEmpty(mRichEditor.getHtml()) && !mRichEditor.getHtml().endsWith("</ol>") && mRichEditor.getHtml().endsWith("</div>") && !mRichEditor.getHtml().endsWith("</ol></div>")) {
+        if (!TextUtils.isEmpty(mRichEditor.getHtml()) &&
+                !mRichEditor.getHtml().endsWith("</ol>") &&
+                mRichEditor.getHtml().endsWith("</div>") &&
+                !mRichEditor.getHtml().endsWith("</ol></div>")) {
             isclick = false;
         }
         if (isclick) {
@@ -702,8 +690,15 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         }
     }
 
-    private void setSymbolStyle(int position) {
-        if (position == 1) {
+    /**
+     * 设置列表项标志的类型
+     * @param position 索引
+     */
+    private void setListStyleType(int position) {
+        Timber.i("列表项标志的类型 : " + position);
+        if (position == 0) {
+            mRichEditor.setNumbersNone();
+        } else if (position == 1) {
             mRichEditor.setOrderNumbers();
         } else if (position == 2) {
             mRichEditor.setNumbersLower();
@@ -999,7 +994,6 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         Timber.i("图片返回 : " + path);
         String[] pathArray = PhotoHelper.format2Array(path);
 
-        if (null == pathArray) return;
         if (pathArray.length <= 0) return;
 
         Timber.i(String.format("文件大小 : " + FileUtil.getFileSize(pathArray[0])));

@@ -3,6 +3,7 @@ package com.wang.social.im.mvp.ui;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +16,7 @@ import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.utils.UIUtil;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
@@ -25,6 +27,7 @@ import com.tencent.imsdk.ext.message.TIMMessageLocator;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.app.IMConstants;
+import com.wang.social.im.app.RefreshEvent;
 import com.wang.social.im.di.component.DaggerConversationListComponent;
 import com.wang.social.im.di.modules.ConversationListModule;
 import com.frame.component.enums.ConversationType;
@@ -47,6 +50,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import butterknife.BindView;
 import timber.log.Timber;
@@ -269,24 +274,6 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
         mPresenter.deleteConversation(uiConversation);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageRevoke(TIMMessageLocator messageLocator) {
-        if (mAdapter == null) {
-            return;
-        }
-        for (UIConversation conversation : mAdapter.getData()) {
-            UIMessage lastMessage = conversation.getLastMessage();
-            if (lastMessage != null) {
-                TIMMessageExt messageExt = new TIMMessageExt(lastMessage.getTimMessage());
-                if (messageExt.checkEquals(messageLocator)) {
-                    lastMessage.refresh();
-                    refresh();
-                    break;
-                }
-            }
-        }
-    }
-
     private void imLogin() {
         String userId = String.valueOf(AppDataHelper.getUser().getUserId());
         TIMManager.getInstance().login(userId, AppDataHelper.getSign(), new TIMCallBack() {
@@ -305,6 +292,43 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
                 mPresenter.getConversationList();
             }
         });
+    }
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        if (event.getEvent() == EventBean.EVENT_NOTIFY_GROUP_DELETE ||
+                event.getEvent() == EventBean.EVENTBUS_FRIEND_DELETE) {
+            String identity = (String) event.get("identity");
+            for (UIConversation conversation : mConversations) {
+                if (conversation.getIdentify().equals(identity)) {
+                    onDeleted(conversation);
+                    break;
+                }
+            }
+        } else if (event.getEvent() == EventBean.EVENT_NOTIFY_FRIEND_ADD) {
+            Fragment fragment = getChildFragmentManager().findFragmentByTag(NobodyFragment.class.getName());
+            getChildFragmentManager().beginTransaction().hide(fragment).commitAllowingStateLoss();
+        } else if (event.getEvent() == EventBean.EVENT_NOTIFY_PROFILE_UPDATED) {
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageRevoke(TIMMessageLocator messageLocator) {
+        if (mAdapter == null) {
+            return;
+        }
+        for (UIConversation conversation : mAdapter.getData()) {
+            UIMessage lastMessage = conversation.getLastMessage();
+            if (lastMessage != null) {
+                TIMMessageExt messageExt = new TIMMessageExt(lastMessage.getTimMessage());
+                if (messageExt.checkEquals(messageLocator)) {
+                    lastMessage.refresh();
+                    refresh();
+                    break;
+                }
+            }
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

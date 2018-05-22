@@ -35,6 +35,7 @@ public class PluginAdapter {
     private boolean isInitialed;
 
     private OnPluginClickListener pluginClickListener;
+    private PluginGridAdapter mAdapter;
 
     public void setPluginClickListener(OnPluginClickListener pluginClickListener) {
         this.pluginClickListener = pluginClickListener;
@@ -44,16 +45,16 @@ public class PluginAdapter {
         this.plugins = plugins;
     }
 
-    public boolean isInitialed(){
+    public boolean isInitialed() {
         return isInitialed;
     }
 
-    public int getVisibility(){
+    public int getVisibility() {
         return mPluginsPager == null ? View.GONE : mPluginsPager.getVisibility();
     }
 
-    public void setVisibility(int visibility){
-        if (mPluginsPager != null){
+    public void setVisibility(int visibility) {
+        if (mPluginsPager != null) {
             mPluginsPager.setVisibility(visibility);
         }
     }
@@ -71,14 +72,15 @@ public class PluginAdapter {
         viewGroup.addView(mPluginsPager);
         int pages = 0;
         int count = plugins.size();
-        if (count > 0){
+        if (count > 0) {
             int tmp = count % PAGE_ITEM_COUNT;
-            if (tmp > 0){
+            if (tmp > 0) {
                 tmp = 1;
             }
             pages = count / PAGE_ITEM_COUNT + tmp;
         }
-        mPluginsPager.setAdapter(new PluginPagerAdapter(pages));
+        PluginPagerAdapter adapter = new PluginPagerAdapter(pages);
+        mPluginsPager.setAdapter(adapter);
     }
 
     @Override
@@ -88,6 +90,20 @@ public class PluginAdapter {
         mPluginsPager = null;
         plugins = null;
         pluginClickListener = null;
+    }
+
+    public void updateShadowText(int textRes) {
+        if (plugins != null) {
+            for (PluginModule pluginModule : plugins) {
+                if (pluginModule.getPluginType() == PluginModule.PluginType.SHADOW) {
+                    pluginModule.setPluginName(textRes);
+                    break;
+                }
+            }
+            if (mAdapter != null) {
+                mAdapter.notifyDataSetChanged();
+            }
+        }
     }
 
     private class PluginPagerAdapter extends PagerAdapter {
@@ -118,7 +134,7 @@ public class PluginAdapter {
                     if (parent.getChildLayoutPosition(view) < COLUMN) {
                         outRect.top = space;
                     }
-                    if((parent.getChildLayoutPosition(view) + 1) % COLUMN == 0 ){
+                    if ((parent.getChildLayoutPosition(view) + 1) % COLUMN == 0) {
                         outRect.right = space;
                     }
                 }
@@ -134,9 +150,9 @@ public class PluginAdapter {
             } else {
                 pluginModules = plugins.subList(position * PAGE_ITEM_COUNT, showSize);
             }
-            PluginGridAdapter pluginGridAdapter = new PluginGridAdapter(pluginModules);
-            pluginContainer.setAdapter(pluginGridAdapter);
-            pluginGridAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener<PluginModule>() {
+            mAdapter = new PluginGridAdapter(pluginModules);
+            pluginContainer.setAdapter(mAdapter);
+            mAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener<PluginModule>() {
                 @Override
                 public void onItemClick(PluginModule pluginModule, int position) {
                     pluginClickListener.onPluginClick(pluginModule);
@@ -152,7 +168,7 @@ public class PluginAdapter {
         }
 
         public void destroyItem(ViewGroup container, int position, Object object) {
-            View layout = (View)object;
+            View layout = (View) object;
             container.removeView(layout);
         }
     }

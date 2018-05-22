@@ -146,8 +146,20 @@ public interface IMConstants {
     /** -------------------IM自定义字段---------------------*/
     /**
      * 群组类型（1：趣聊、2：觅聊、3：镜子聊天室）
+     * 群组类型判别使用会话ID的前缀来判断
      */
-    String IM_GROUP_PROFILE_TYPE = "GroupType";
+    @Deprecated
+    String IM_FIELD_GROUP_PROFILE_TYPE = "GroupType";
+
+    /**
+     * 好友备注头像
+     */
+    String IM_FIELD_FRIEND_PORTRAIT = "Tag_SNS_Custom_RmrkFUrl";
+
+    /**
+     * 群用户头像
+     */
+    String IM_FIELD_GROUP_MEMBER_PORTRAIT = "cardFaceUrl";
     /**------------------------------------------------**/
 
     /**--------------------IM错误码-----------------------**/

@@ -98,6 +98,7 @@ public class CommonHelper {
          * @param context
          * @param targetId
          */
+        @Deprecated
         public static void gotoSocialConversation(Context context, String targetId) {
             Bundle bundle = new Bundle();
             bundle.putString("targetId", targetId);
@@ -110,6 +111,7 @@ public class CommonHelper {
          * @param context
          * @param targetId
          */
+        @Deprecated
         public static void gotoTeamConversation(Context context, String targetId) {
             Bundle bundle = new Bundle();
             bundle.putString("targetId", targetId);
@@ -217,6 +219,18 @@ public class CommonHelper {
          */
         public static void startGroupInviteBrowse(Context context, int groupId) {
             startGroupInvite(context, 0, groupId, -1);
+        }
+
+        /**
+         * 趣聊主页
+         *
+         * @param context
+         * @param socialId
+         */
+        public static void gotoSocialHome(Context context, String socialId) {
+            Bundle bundle = new Bundle();
+            bundle.putString("socialId", socialId);
+            UIRouter.getInstance().openUri(context, ImPath.SOCIAL_HOME_URL, bundle);
         }
     }
 

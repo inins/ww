@@ -24,6 +24,7 @@ import com.frame.component.common.AppConstant;
 import com.frame.component.entities.AutoPopupItemModel;
 import com.frame.component.enums.ConversationType;
 import com.frame.component.helper.AppDataHelper;
+import com.frame.component.ui.acticity.FunshowTopicActivity;
 import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.ui.dialog.AutoPopupWindow;
@@ -37,6 +38,7 @@ import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.http.imageloader.glide.RoundedCornersTransformation;
 import com.frame.integration.AppManager;
 import com.frame.router.facade.annotation.Autowired;
+import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.ScreenUtils;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.ToastUtil;
@@ -72,11 +74,14 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.frame.component.path.ImPath.SOCIAL_HOME;
+
 /**
  * 趣聊主页
  * <p>
  * Create by ChenJing on 4.28
  */
+@RouteNode(path = SOCIAL_HOME, desc = "趣聊主页")
 public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> implements SocialHomeContract.View, AutoPopupWindow.OnItemClickListener {
 
     private static final String EXTRA_SOCIAL_ID = "socialId";
@@ -191,6 +196,7 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
 
     @Autowired
     String socialId;
+
     @Inject
     ImageLoader mImageLoader;
     @Inject
@@ -334,7 +340,7 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
     @OnClick({R2.id.sc_iv_qrcode, R2.id.sc_iv_intro_edit, R2.id.sc_tv_member_dynamic, R2.id.sc_ll_portrait, R2.id.sc_ll_nickname, R2.id.sc_ll_shadow, R2.id.sc_ll_social_name, R2.id.sc_tv_background_chat, R2.id.sc_tv_clear_message, R2.id.sc_tv_charge_setting, R2.id.sc_tv_join_limit, R2.id.sc_tvb_handle, R2.id.sc_tv_wood})
     public void onViewClicked(View view) {
         if (view.getId() == R.id.sc_iv_qrcode) {//二维码
-
+            QrcodeGroupActivity.start(this, Integer.valueOf(socialId));
         } else if (view.getId() == R.id.sc_iv_intro_edit) { //简介编辑
             EditDialog editDialog = new EditDialog(this, mSocial.getDesc(), UIUtil.getString(R.string.im_group_desc_setting), 15, new EditDialog.OnInputCompleteListener() {
                 @Override
@@ -351,7 +357,7 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
             });
             editDialog.show();
         } else if (view.getId() == R.id.sc_tv_member_dynamic) {//成员动态
-
+            FunshowTopicActivity.startFunshowForGroup(this, Integer.valueOf(socialId));
         } else if (view.getId() == R.id.sc_ll_portrait) {//我的群头像
             mPhotoHelper = PhotoHelperEx.newInstance(this, new PortraitCallBack());
             mPhotoHelper.showDefaultDialog();

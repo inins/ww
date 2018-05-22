@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.frame.component.helper.QiNiuManager;
 import com.frame.component.utils.UIUtil;
+import com.frame.http.api.ApiException;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
@@ -148,6 +149,15 @@ public class GroupPresenter<M extends GroupContract.GroupModel, V extends GroupC
                     @Override
                     public void onNext(BaseJson baseJson) {
                         mRootView.onExitOrDissolve();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (e instanceof ApiException) {
+                            ToastUtil.showToastShort(((ApiException) e).getMsg());
+                        } else {
+                            super.onError(e);
+                        }
                     }
                 }, new Consumer<Disposable>() {
                     @Override

@@ -38,4 +38,8 @@ public interface ImPath extends BasePath {
     // 趣聊邀请
     String GROUP_INVITE_PATH = "/group_invite";
     String GROUP_INVITE_URL = SCHEME + HOST + GROUP_INVITE_PATH;
+
+    //趣聊详情页
+    String SOCIAL_HOME = "/social_home";
+    String SOCIAL_HOME_URL = SCHEME + HOST + SOCIAL_HOME;
 }

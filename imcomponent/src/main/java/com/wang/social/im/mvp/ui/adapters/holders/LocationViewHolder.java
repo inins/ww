@@ -2,6 +2,7 @@ package com.wang.social.im.mvp.ui.adapters.holders;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.frame.base.BaseAdapter;
+import com.frame.component.enums.ConversationType;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.http.imageloader.glide.RoundedCornersTransformation;
 import com.frame.utils.FrameUtils;
@@ -62,11 +64,23 @@ public class LocationViewHolder extends BaseMessageViewHolder<UIMessage> {
 
     @Override
     protected void initStyle(UIMessage uiMessage) {
-
+        if (conversationType == ConversationType.MIRROR) {
+            if (msgTvName != null) {
+                msgTvName.setTextColor(ContextCompat.getColor(getContext(), R.color.im_bg_message_mirror_left));
+            }
+            msgTvTime.setTextColor(ContextCompat.getColor(getContext(), R.color.im_message_mirror_left_text));
+        } else {
+            if (msgTvName != null) {
+                msgTvName.setTextColor(ContextCompat.getColor(getContext(), R.color.im_message_txt_receive));
+            }
+            msgTvTime.setTextColor(ContextCompat.getColor(getContext(), R.color.common_text_dark_light));
+        }
     }
 
     @Override
     protected void bindData(UIMessage itemValue, int position, BaseAdapter.OnItemClickListener onItemClickListener) {
+        initStyle(itemValue);
+
         if (itemValue.isShowTime()) {
             msgTvTime.setVisibility(View.VISIBLE);
             msgTvTime.setText(getTimeStr(itemValue.getTimMessage().timestamp()));

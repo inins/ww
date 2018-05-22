@@ -9,7 +9,9 @@ import com.frame.mvp.BaseModel;
 import com.wang.social.im.mvp.contract.ConversationContract;
 import com.wang.social.im.mvp.model.api.EnvelopService;
 import com.wang.social.im.mvp.model.api.GroupService;
+import com.wang.social.im.mvp.model.entities.dto.AnonymousInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.EnvelopInfoDTO;
+import com.wang.social.im.mvp.model.entities.dto.ShadowInfoDTO;
 
 import javax.inject.Inject;
 
@@ -41,5 +43,26 @@ public class ConversationModel extends BaseModel implements ConversationContract
         return mRepositoryManager
                 .obtainRetrofitService(GroupService.class)
                 .getFunPointList(teamId, 1, 1);
+    }
+
+    @Override
+    public Observable<BaseJson<ShadowInfoDTO>> getShadowInfo(String socialId) {
+        return mRepositoryManager
+                .obtainRetrofitService(GroupService.class)
+                .getShadowInfo("2.0.0", socialId);
+    }
+
+    @Override
+    public Observable<BaseJson<AnonymousInfoDTO>> getAnonymousInfo() {
+        return mRepositoryManager
+                .obtainRetrofitService(GroupService.class)
+                .getAnonymousInfo("2.0.0");
+    }
+
+    @Override
+    public Observable<BaseJson> updateShadowStatus(String socialId, boolean isOpen) {
+        return mRepositoryManager
+                .obtainRetrofitService(GroupService.class)
+                .updateShadowStatus("2.0.0", socialId, isOpen ? GroupService.SHADOW_STATE_OPEN : GroupService.SHADOW_STATE_CLOSE);
     }
 }

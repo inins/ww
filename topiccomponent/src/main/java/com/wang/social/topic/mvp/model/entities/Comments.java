@@ -6,9 +6,10 @@ import lombok.Data;
 
 @Data
 public class Comments {
-    private int total;
-    private int size;
-    private int pages;
-    private int current;
+//    private int total;
+//    private int size;
+//    private int pages;
+//    private int current;
+    private int count;
     List<Comment> list;
 }

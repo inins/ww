@@ -10,6 +10,7 @@ import com.wang.social.im.mvp.model.entities.SimpleGroupInfo;
 import com.wang.social.im.mvp.model.entities.TeamInfo;
 import com.frame.component.entities.dto.AddGroupApplyRspDTO;
 import com.frame.component.entities.dto.AddGroupRspDTO;
+import com.wang.social.im.mvp.model.entities.dto.AnonymousInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.CreateGroupResultDTO;
 import com.wang.social.im.mvp.model.entities.dto.DistributionGroupDTO;
 import com.wang.social.im.mvp.model.entities.dto.GroupJoinCheckResultDTO;
@@ -19,6 +20,7 @@ import com.wang.social.im.mvp.model.entities.dto.JoinGroupResultDTO;
 import com.wang.social.im.mvp.model.entities.dto.ListDataDTO;
 import com.wang.social.im.mvp.model.entities.dto.MemberInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.PayCheckInfoDTO;
+import com.wang.social.im.mvp.model.entities.dto.ShadowInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.SimpleGroupInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.SocialDTO;
 import com.wang.social.im.mvp.model.entities.dto.SocialHomeDTO;
@@ -73,6 +75,15 @@ public interface GroupService {
      * 分享树类型：群组
      */
     String SHARE_WOOD_GROUP = "group";
+
+    /**
+     * 分身状态：关闭
+     */
+    int SHADOW_STATE_CLOSE = 0;
+    /**
+     * 分身状态：开启
+     */
+    int SHADOW_STATE_OPEN = 1;
 
     /**
      * 获取趣聊详情
@@ -270,7 +281,7 @@ public interface GroupService {
      * @param groupId
      * @return
      */
-    @POST("app/group/dissolutionGroup")
+    @POST("app/group/deleteGroup")
     Observable<BaseJson> dissolveGroup(@Query("v") String version, @Query("groupId") String groupId);
 
     /**
@@ -406,4 +417,34 @@ public interface GroupService {
      */
     @POST("app/group/addGroupMember")
     Observable<BaseJson<JoinGroupResultDTO>> joinGroup(@Query("v") String version, @Query("applyId") String applyId);
+
+    /**
+     * 获取趣聊下分身信息
+     *
+     * @param version
+     * @param socialId
+     * @return
+     */
+    @GET("app/shadow/getGroupMyUserShadow")
+    Observable<BaseJson<ShadowInfoDTO>> getShadowInfo(@Query("v") String version, @Query("groupId") String socialId);
+
+    /**
+     * 获取匿名信息
+     *
+     * @param version
+     * @return
+     */
+    @GET("system/nicknameLibrary")
+    Observable<BaseJson<AnonymousInfoDTO>> getAnonymousInfo(@Query("v") String version);
+
+    /**
+     * 修改分身状态
+     *
+     * @param version
+     * @param socialId
+     * @param state
+     * @return
+     */
+    @POST("app/shadow/openOrCloseUserShadow")
+    Observable<BaseJson> updateShadowStatus(@Query("v") String version, @Query("groupId") String socialId, @Query("state") int state);
 }
