@@ -58,4 +58,11 @@ public class ConversationModel extends BaseModel implements ConversationContract
                 .obtainRetrofitService(GroupService.class)
                 .getAnonymousInfo("2.0.0");
     }
+
+    @Override
+    public Observable<BaseJson> updateShadowStatus(String socialId, boolean isOpen) {
+        return mRepositoryManager
+                .obtainRetrofitService(GroupService.class)
+                .updateShadowStatus("2.0.0", socialId, isOpen ? GroupService.SHADOW_STATE_OPEN : GroupService.SHADOW_STATE_CLOSE);
+    }
 }

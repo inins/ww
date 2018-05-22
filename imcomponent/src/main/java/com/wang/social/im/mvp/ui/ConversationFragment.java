@@ -211,7 +211,7 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
             mPresenter.getFunPoint(ImHelper.imId2WangId(mTargetId));
         } else if (mConversationType == ConversationType.SOCIAL) {
             mPresenter.getShadowInfo(ImHelper.imId2WangId(mTargetId));
-        } else if (mConversationType == ConversationType.MIRROR){
+        } else if (mConversationType == ConversationType.MIRROR) {
             mPresenter.getAnonymousInfo();
         }
     }
@@ -444,6 +444,15 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
                                 }
                             }
                         });
+                break;
+            case SHADOW:
+                if (mPresenter.getShadowInfo(ImHelper.imId2WangId(mTargetId)) == null) {
+                    ShadowInfo shadowInfo = new ShadowInfo();
+                    shadowInfo.setSocialId(ImHelper.imId2WangId(mTargetId));
+                    ShadowSettingActivity.start(getContext(), shadowInfo);
+                } else {
+                    mPresenter.updateShadowStatus(ImHelper.imId2WangId(mTargetId));
+                }
                 break;
         }
     }

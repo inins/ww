@@ -38,6 +38,7 @@ import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.http.imageloader.glide.RoundedCornersTransformation;
 import com.frame.integration.AppManager;
 import com.frame.router.facade.annotation.Autowired;
+import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.ScreenUtils;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.ToastUtil;
@@ -73,11 +74,14 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.frame.component.path.ImPath.SOCIAL_HOME;
+
 /**
  * 趣聊主页
  * <p>
  * Create by ChenJing on 4.28
  */
+@RouteNode(path = SOCIAL_HOME, desc = "趣聊主页")
 public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> implements SocialHomeContract.View, AutoPopupWindow.OnItemClickListener {
 
     private static final String EXTRA_SOCIAL_ID = "socialId";
@@ -192,6 +196,7 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
 
     @Autowired
     String socialId;
+
     @Inject
     ImageLoader mImageLoader;
     @Inject

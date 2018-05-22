@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/common_border_margin"
+    android:paddingRight="@dimen/common_border_margin">
+
+    <TextView
+        android:id="@+id/igt_tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14dp"
+        tools:text="刘波 :" />
+
+    <ImageView
+        android:id="@+id/igt_iv_face"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        tools:src="@drawable/im_ww_emoji_101" />
+</LinearLayout>

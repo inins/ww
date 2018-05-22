@@ -8,6 +8,7 @@ import com.frame.component.app.Constant;
 import com.frame.entities.EventBean;
 import com.frame.utils.FrameUtils;
 import com.tencent.imsdk.TIMConnListener;
+import com.tencent.imsdk.TIMFriendshipSettings;
 import com.tencent.imsdk.TIMGroupMemberInfo;
 import com.tencent.imsdk.TIMGroupSettings;
 import com.tencent.imsdk.TIMLogLevel;
@@ -40,6 +41,8 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.List;
 
 import timber.log.Timber;
+
+import static com.wang.social.im.app.IMConstants.IM_FIELD_FRIEND_PORTRAIT;
 
 /**
  * ======================================
@@ -104,6 +107,9 @@ public class ImAppLifecycleImpl implements AppDelegate {
         TIMUserConfig userConfig = new TIMUserConfig()
                 .setUserStatusListener(new ImUserStatusListener())
                 .setConnectionListener(new ImConnectionListener())
+                //设置好友资料拉取自定义字段
+                .setFriendshipSettings(getFriendShipSetting())
+                //设置群资料拉取自定义字段
                 .setGroupSettings(getGroupSettings());
         //消息扩展配置
         userConfig = new TIMUserConfigMsgExt(userConfig)
@@ -123,6 +129,12 @@ public class ImAppLifecycleImpl implements AppDelegate {
         RefreshEvent.getInstance().init(userConfig);
     }
 
+    private TIMFriendshipSettings getFriendShipSetting() {
+        TIMFriendshipSettings settings = new TIMFriendshipSettings();
+        settings.addCustomTag(IM_FIELD_FRIEND_PORTRAIT);
+        return settings;
+    }
+
     /**
      * 配置群信息拉取字段
      *
@@ -130,8 +142,9 @@ public class ImAppLifecycleImpl implements AppDelegate {
      */
     private TIMGroupSettings getGroupSettings() {
         TIMGroupSettings settings = new TIMGroupSettings();
-        TIMGroupSettings.Options options = new TIMGroupSettings.Options();
-        options.addCustomTag(IMConstants.IM_GROUP_PROFILE_TYPE);
+        TIMGroupSettings.Options memberOptions = new TIMGroupSettings.Options();
+        memberOptions.addCustomTag(IMConstants.IM_FIELD_GROUP_MEMBER_PORTRAIT);
+        settings.setMemberInfoOptions(memberOptions);
         return settings;
     }
 

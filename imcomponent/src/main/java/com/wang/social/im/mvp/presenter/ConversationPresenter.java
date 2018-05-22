@@ -44,6 +44,8 @@ import com.wang.social.im.mvp.ui.adapters.MessageListAdapter;
 import com.wang.social.location.mvp.model.entities.LocationInfo;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 import java.util.Random;
@@ -393,6 +395,33 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
     }
 
     /**
+     * 修改分身状态
+     *
+     * @param socialId
+     */
+    public void updateShadowStatus(String socialId) {
+        mApiHelper.executeNone(mRootView, mModel.updateShadowStatus(socialId, mShadowInfo.getStatus() == ShadowInfo.STATUS_CLOSE),
+                new ErrorHandleSubscriber<BaseJson>() {
+                    @Override
+                    public void onNext(BaseJson baseJson) {
+                        int newStatus = mShadowInfo.getStatus() == ShadowInfo.STATUS_CLOSE ? ShadowInfo.STATUS_OPEN : ShadowInfo.STATUS_CLOSE;
+                        mShadowInfo.setStatus(newStatus);
+                        mRootView.onShadowChanged(mShadowInfo);
+                    }
+                }, new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                        mRootView.showLoading();
+                    }
+                }, new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mRootView.hideLoading();
+                    }
+                });
+    }
+
+    /**
      * 执行发送
      *
      * @param message
@@ -474,5 +503,15 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
      */
     private int insertLocalMessage(TIMMessage timMessage) {
         return mConversationExt.saveMessage(timMessage, TIMManager.getInstance().getLoginUser(), false);
+    }
+
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onShadowInfoChanged(ShadowInfo shadowInfo) {
+        mShadowInfo = shadowInfo;
     }
 }

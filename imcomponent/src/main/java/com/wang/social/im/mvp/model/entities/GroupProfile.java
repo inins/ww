@@ -69,16 +69,4 @@ public class GroupProfile implements ProfileSummary {
     public TIMGroupReceiveMessageOpt getMessagOpt() {
         return selfInfo.getRecvMsgOption();
     }
-
-    /**
-     * 群类型
-     * {@link #GROUP_TYPE_SOCIAL}
-     * {@link #GROUP_TYPE_TEAM}
-     * {@link #GROUP_TYPE_SOCIAL}
-     *
-     * @return
-     */
-    public int getGroupType() {
-        return Integer.parseInt(new String(profile.getCustom().get(IMConstants.IM_GROUP_PROFILE_TYPE)));
-    }
 }
