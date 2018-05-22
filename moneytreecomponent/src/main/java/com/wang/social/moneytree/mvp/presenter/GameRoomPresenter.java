@@ -23,10 +23,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
-
 
 @ActivityScope
 public class GameRoomPresenter extends
@@ -111,7 +107,7 @@ public class GameRoomPresenter extends
                 new ErrorHandleSubscriber<RoomMsg>(mErrorHandler) {
                     @Override
                     public void onNext(RoomMsg roomMsg) {
-                        mRoomMsg = mRoomMsg;
+                        mRoomMsg = roomMsg;
 
                         mRootView.onGetRoomMsgSuccess(roomMsg);
                     }
@@ -142,17 +138,9 @@ public class GameRoomPresenter extends
                         }
                         mRootView.onGetRecordDetailSuccess(recordDetail);
                     }
-                }, new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        mRootView.showLoading();
-                    }
-                }, new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mRootView.hideLoading();
-                    }
-                });
+                },
+                disposable -> mRootView.showLoading(),
+                () -> mRootView.hideLoading());
     }
 
     /**
@@ -173,17 +161,9 @@ public class GameRoomPresenter extends
                         mRootView.showToastLong(e.getMessage());
                         mRootView.hideLoading();
                     }
-                }, new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        mRootView.showLoading();
-                    }
-                }, new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mRootView.hideLoading();
-                    }
-                });
+                },
+                disposable -> mRootView.showLoading(),
+                () -> mRootView.hideLoading());
     }
 
     /**
@@ -231,15 +211,9 @@ public class GameRoomPresenter extends
 
                         mRootView.onLoadMemberListSuccess();
                     }
-                }, new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                    }
-                }, new Action() {
-                    @Override
-                    public void run() throws Exception {
-                    }
-                });
+                },
+                disposable -> {},
+                () -> {});
     }
 
     /**
@@ -258,17 +232,9 @@ public class GameRoomPresenter extends
                     public void onError(Throwable e) {
                         mRootView.showToastLong(e.getMessage());
                     }
-                }, new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        mRootView.showLoading();
-                    }
-                }, new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mRootView.hideLoading();
-                    }
-                });
+                },
+                disposable -> mRootView.showLoading(),
+                () -> mRootView.hideLoading());
     }
 
     @Override

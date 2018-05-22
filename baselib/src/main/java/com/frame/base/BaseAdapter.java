@@ -1,6 +1,8 @@
 package com.frame.base;
 
 import android.content.Context;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -176,5 +178,12 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
      */
     public IView getIView() {
         return getContext() instanceof IView ? (IView) getContext() : null;
+    }
+
+    /**
+     * 尝试获取FragmentManager失败返回null
+     */
+    public FragmentManager getFragmentManager() {
+        return getContext() instanceof AppCompatActivity ? ((AppCompatActivity) getContext()).getSupportFragmentManager() : null;
     }
 }

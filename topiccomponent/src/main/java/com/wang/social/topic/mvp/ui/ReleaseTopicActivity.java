@@ -390,7 +390,8 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
         // 录音
         mVoiceRecordIV.setOnTouchListener((v, event) -> {
-            new RxPermissions(this).requestEach(Manifest.permission.RECORD_AUDIO)
+            new RxPermissions(this)
+                    .requestEach(Manifest.permission.RECORD_AUDIO)
                     .subscribe((permission) -> {
                         if (permission.granted) {
                             switch (event.getAction()) {
@@ -1005,13 +1006,14 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
         switch (mImageType) {
             case IMAGE_TYPE_CONTENT:
+                // 内容插入图片
                 for (String imagePath : pathArray) {
                     mRichEditor.insertImage(imagePath, "图片");
                 }
                 break;
             case IMAGE_TYPE_COVER:
                 mCoverImage = pathArray[0];
-
+                // 封面图片
                 if (!TextUtils.isEmpty(mCoverImage)) {
                     FrameUtils.obtainAppComponentFromContext(this)
                             .imageLoader()

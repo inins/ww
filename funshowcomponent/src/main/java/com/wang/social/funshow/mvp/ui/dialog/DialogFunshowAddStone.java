@@ -28,7 +28,7 @@ public class DialogFunshowAddStone extends BaseDialogOkCancel {
     EditText editInput;
 
     public DialogFunshowAddStone(Context context) {
-        super(context, "取消", "修改");
+        super(context, "取消", "确定");
     }
 
     @Override
@@ -41,8 +41,11 @@ public class DialogFunshowAddStone extends BaseDialogOkCancel {
         super.intViewOnCreate(root);
         btnOk.setOnClickListener(view -> {
             int count = StrUtil.str2int(editInput.getText().toString());
-            if (count == 0) {
-                ToastUtil.showToastShort("最少付费1钻石");
+            if (count < 10) {
+                ToastUtil.showToastShort("最少付费10宝石");
+                return;
+            } else if (count > 400000) {
+                ToastUtil.showToastShort("最多付费400000宝石");
                 return;
             }
             if (onInputListener != null) {

@@ -115,9 +115,17 @@ public class FunshowView extends FrameLayout implements View.OnClickListener {
 
         if (TextUtils.isEmpty(bean.getShowPic()) && !TextUtils.isEmpty(bean.getVideoUrl())) {
             //如果没有封面，并且有视频链接，则自行解析视频第一帧作为封面
-            ImageLoaderHelper.loadImg(imgPic, bean.getVideoUrl());
+            if (bean.hasAuth()) {
+                ImageLoaderHelper.loadImg(imgPic, bean.getVideoUrl());
+            } else {
+                ImageLoaderHelper.loadBlurImg(imgPic, bean.getVideoUrl());
+            }
         } else {
-            ImageLoaderHelper.loadImg(imgPic, bean.getShowPic());
+            if (bean.hasAuth()) {
+                ImageLoaderHelper.loadImg(imgPic, bean.getShowPic());
+            } else {
+                ImageLoaderHelper.loadBlurImg(imgPic, bean.getShowPic());
+            }
         }
     }
 

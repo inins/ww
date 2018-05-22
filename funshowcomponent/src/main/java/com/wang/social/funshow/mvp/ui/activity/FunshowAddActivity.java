@@ -17,6 +17,7 @@ import com.frame.component.utils.ListUtil;
 import com.frame.component.utils.VideoCoverUtil;
 import com.frame.component.view.TitleView;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
@@ -25,6 +26,7 @@ import com.frame.mvp.IView;
 import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.FocusUtil;
 import com.frame.utils.ToastUtil;
+import com.umeng.debug.log.E;
 import com.wang.social.funshow.R;
 import com.wang.social.funshow.R2;
 import com.wang.social.funshow.di.component.DaggerSingleActivityComponent;
@@ -39,6 +41,8 @@ import com.wang.social.funshow.mvp.ui.controller.FunshowAddMusicBoardController;
 import com.wang.social.funshow.mvp.ui.controller.FunshowAddTagController;
 import com.wang.social.funshow.mvp.ui.view.DispatchTouchNestedScrollView;
 import com.wang.social.location.mvp.model.entities.LocationInfo;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -230,6 +234,7 @@ public class FunshowAddActivity extends BasicAppActivity implements IView {
                 new ErrorHandleSubscriber<BaseJson<Object>>() {
                     @Override
                     public void onNext(BaseJson<Object> basejson) {
+                        EventBus.getDefault().post(new EventBean(EventBean.EVENT_FUNSHOW_ADD));
                         ToastUtil.showToastShort("发布成功");
                         finish();
                     }

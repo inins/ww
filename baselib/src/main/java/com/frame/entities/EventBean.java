@@ -53,7 +53,7 @@ public class EventBean implements Serializable {
     //趣晒控制器通知刷新评论
     public static final int EVENT_FUNSHOW_DETAIL_ADD_EVA = 0xffa302;
     //趣晒控制器通知刷新分享数量
-    public static final int EVENT_FUNSHOW_DETAIL_ADD_SHARE = 0xffa319;
+    public static final int EVENT_FUNSHOW_DETAIL_ADD_SHARE = 0xffa310;
     //趣晒详情点赞通知列表更新数量
     public static final int EVENT_FUNSHOW_UPDATE_ZAN = 0xffa303;
     //趣晒详情评论点击通知编辑框
@@ -66,6 +66,10 @@ public class EventBean implements Serializable {
     public static final int EVENT_FUNSHOW_DISSLIKE = 0xffa307;
     //趣晒列表改变了筛选类型（趣聊、老友）
     public static final int EVENT_FUNSHOW_LIST_TYPE_CHANGE = 0xffa308;
+    //通知趣晒被删除了
+    public static final int EVENT_FUNSHOW_DEL = 0xffa309;
+    //通知趣晒新增了
+    public static final int EVENT_FUNSHOW_ADD = 0xffa311;
 
     //选择地址
     public static final int EVENT_LOCATION_SELECT = 0xffa401;
@@ -119,6 +123,8 @@ public class EventBean implements Serializable {
             EVENT_CTRL_FUNSHOW_ADD_LOCK,
             EVENT_FUNSHOW_DISSLIKE,
             EVENT_FUNSHOW_LIST_TYPE_CHANGE,
+            EVENT_FUNSHOW_DEL,
+            EVENT_FUNSHOW_ADD,
             EVENT_LOCATION_SELECT,
             EVENT_APP_SEARCH,
             EVENT_IM_SEARCH,

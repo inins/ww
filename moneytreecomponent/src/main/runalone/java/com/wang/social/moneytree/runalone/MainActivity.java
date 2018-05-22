@@ -102,7 +102,7 @@ public class MainActivity extends BaseAppActivity implements IView , DialogCreat
                 ContextCompat.getColor(this, com.frame.component.service.R.color.common_text_blank)
         };
         SpannableStringBuilder titleText = SpannableStringUtil.createV2(strings, colors);
-        DialogPay.showPay(this,
+        DialogPay.showPayDiamond(this,
                 getSupportFragmentManager(),
                 titleText,
                 "您当前余额为%1d钻",

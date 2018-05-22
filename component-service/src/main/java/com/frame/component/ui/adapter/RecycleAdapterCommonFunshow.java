@@ -1,7 +1,9 @@
 package com.frame.component.ui.adapter;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -22,6 +24,7 @@ import com.frame.component.service.R2;
 import com.frame.component.ui.dialog.DialogSureFunshowPay;
 import com.frame.component.ui.dialog.MorePopupWindow;
 import com.frame.component.utils.FunShowUtil;
+import com.frame.component.view.DialogPay;
 import com.frame.component.view.FunshowView;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
@@ -64,8 +67,14 @@ public class RecycleAdapterCommonFunshow extends BaseAdapter<FunshowBean> {
                 popupWindow.showPopupWindow(view);
             });
             itemView.setOnClickListener(v -> {
-                if (!bean.isPay()) {
-                    DialogSureFunshowPay.showDialog(getContext(), bean.getPrice(), () -> {
+                if (!bean.isFree() && !bean.isPay()) {
+//                    DialogSureFunshowPay.showDialog(getContext(), bean.getPrice(), () -> {
+//                        NetPayStoneHelper.newInstance().netPayFunshow(getIView(), bean.getId(), bean.getPrice(), () -> {
+//                            CommonHelper.FunshowHelper.startDetailActivity(getContext(), bean.getId());
+//                            refreshNeedPayById(bean.getId());
+//                        });
+//                    });
+                    DialogPay.showPayFunshow(getIView(), getFragmentManager(), bean.getPrice(), -1, () -> {
                         NetPayStoneHelper.newInstance().netPayFunshow(getIView(), bean.getId(), bean.getPrice(), () -> {
                             CommonHelper.FunshowHelper.startDetailActivity(getContext(), bean.getId());
                             refreshNeedPayById(bean.getId());

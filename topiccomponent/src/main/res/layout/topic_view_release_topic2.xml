@@ -36,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="77dp"
             android:layout_marginTop="8dp"
-            android:background="@drawable/topic_shape_rect_corner_solid_bk_light"
+            android:background="@drawable/topic_shape_rect_corner_release_content_bg"
             android:padding="14dp">
 
             <EditText
@@ -76,7 +76,7 @@
             android:layout_width="158dp"
             android:layout_height="108dp"
             android:layout_marginTop="8dp"
-            android:background="@drawable/topic_shape_rect_corner_solid_bk_light">
+            android:background="@drawable/topic_shape_rect_corner_release_content_bg">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -139,7 +139,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginTop="8dp"
-            android:background="@drawable/topic_shape_rect_corner_solid_bk_light"
+            android:background="@drawable/topic_shape_rect_corner_release_content_bg"
             android:gravity="center_vertical"
             android:paddingLeft="14dp"
             android:paddingRight="14dp"
@@ -185,7 +185,7 @@
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/topic_shape_rect_corner_solid_bk_light"
+                android:background="@drawable/topic_shape_rect_corner_release_content_bg"
                 android:orientation="horizontal">
 
             </com.frame.component.view.MusicBoard>
@@ -216,17 +216,23 @@
         </LinearLayout>
 
 
-        <com.wang.social.topic.mvp.ui.widget.richeditor.RichEditor
-            android:id="@+id/rich_editor"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:background="@drawable/topic_shape_rect_corner_solid_bk_light"
-            android:adjustViewBounds="true"
-            android:minHeight="302dp"
-            android:orientation="vertical">
+            android:padding="12dp"
+            android:background="@drawable/topic_shape_rect_corner_release_content_bg">
 
-        </com.wang.social.topic.mvp.ui.widget.richeditor.RichEditor>
+            <com.wang.social.topic.mvp.ui.widget.richeditor.RichEditor
+                android:id="@+id/rich_editor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:orientation="vertical"
+                android:background="#F2F2F2">
+
+            </com.wang.social.topic.mvp.ui.widget.richeditor.RichEditor>
+        </FrameLayout>
 
     </LinearLayout>
 

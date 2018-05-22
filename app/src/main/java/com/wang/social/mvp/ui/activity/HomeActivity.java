@@ -11,6 +11,7 @@ import android.widget.RadioGroup;
 
 import com.frame.component.service.personal.PersonalFragmentInterface;
 import com.frame.component.ui.base.BasicAppActivity;
+import com.frame.component.ui.base.BasicAppNoDiActivity;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.router.facade.annotation.RouteNode;
@@ -24,7 +25,7 @@ import org.greenrobot.eventbus.EventBus;
 import butterknife.BindView;
 
 @RouteNode(path = "/main", desc = "首页")
-public class HomeActivity extends BasicAppActivity implements RadioGroup.OnCheckedChangeListener {
+public class HomeActivity extends BasicAppNoDiActivity implements RadioGroup.OnCheckedChangeListener {
 
     @BindView(R.id.group_tab)
     RadioGroup groupTab;
@@ -129,10 +130,5 @@ public class HomeActivity extends BasicAppActivity implements RadioGroup.OnCheck
         Fragment personalFragment = pagerAdapter.getPersonalFragment();
         if (personalFragment != null)
             personalFragment.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void setupActivityComponent(@NonNull AppComponent appComponent) {
-
     }
 }
