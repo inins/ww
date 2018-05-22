@@ -51,10 +51,13 @@ public class FunshowAddTagController extends FunshowAddBaseController implements
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.check_pay) {
-            if (diamond == 0) {
-                dialogStone.show();
+            if (checkPay.isChecked()) {
+                checkPay.setChecked(false);
+                textAmount.setText("");
+                dialogStone.clearEdit();
+                diamond = 0;
             } else {
-                checkPay.setChecked(!checkPay.isChecked());
+                dialogStone.show();
             }
         } else if (id == R.id.text_amount) {
             dialogStone.setCount(diamond);

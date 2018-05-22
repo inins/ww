@@ -16,7 +16,11 @@ import com.frame.component.common.GridSpacingItemDecoration;
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.NetShareHelper;
+import com.frame.component.helper.NetZanHelper;
 import com.frame.component.ui.base.BaseController;
+import com.frame.component.ui.dialog.MorePopupWindow;
+import com.frame.component.utils.FunShowUtil;
+import com.frame.component.view.LoadingLayout;
 import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
@@ -32,9 +36,6 @@ import com.wang.social.funshow.mvp.entities.user.ZanUser;
 import com.wang.social.funshow.mvp.model.api.FunshowService;
 import com.wang.social.funshow.mvp.ui.activity.ZanUserListActivity;
 import com.wang.social.funshow.mvp.ui.adapter.RecycleAdapterZan;
-import com.frame.component.ui.dialog.MorePopupWindow;
-import com.frame.component.helper.NetZanHelper;
-import com.frame.component.utils.FunShowUtil;
 import com.wang.social.socialize.SocializeUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -57,6 +58,8 @@ public class FunshowDetailZanController extends BaseController implements View.O
     TextView textShare;
     @BindView(R2.id.text_zan_count)
     TextView textZanCount;
+    @BindView(R2.id.loadingview)
+    LoadingLayout loadingview;
 
     private AppBarLayout appBarLayout;
     private EditText editEva;
@@ -179,14 +182,20 @@ public class FunshowDetailZanController extends BaseController implements View.O
                         List<ZanUser> zanUsers = wrap.getList();
                         if (!StrUtil.isEmpty(zanUsers)) {
                             adapterZan.refreshData(zanUsers);
+                            loadingview.showOut();
+                        }else {
+                            loadingview.showLackView();
                         }
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         ToastUtil.showToastLong(e.getMessage());
+                        loadingview.showFailView();
                     }
-                });
+                }, () -> {
+                    loadingview.showLoadingView();
+                }, null);
     }
 
     private void netDislike(int userId) {

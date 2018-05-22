@@ -63,6 +63,10 @@ public class DialogFunshowAddStone extends BaseDialogOkCancel {
         EditTextUtil.setTextWithSelectionAtLast(editInput, count + "");
     }
 
+    public void clearEdit() {
+        editInput.setText("");
+    }
+
     //////////////////////////
 
     private OnInputListener onInputListener;

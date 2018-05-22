@@ -60,6 +60,15 @@ public class FunshowDetail {
 
     ////////////////////////////////////
 
+
+    public String getUserNickname() {
+        return !isHideName() ? userNickname : "匿名用户";
+    }
+
+    public boolean isHideName() {
+        return "1".equals(isAnonymous);
+    }
+
     public FunshowDetailVideoRsc getMusicRsc() {
         if (resourceUrl != null && resourceUrl.isVoice()) {
             return resourceUrl;

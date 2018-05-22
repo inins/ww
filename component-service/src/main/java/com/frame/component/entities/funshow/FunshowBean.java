@@ -24,6 +24,8 @@ public class FunshowBean {
     private boolean isFree;
     //是否已经支付
     private boolean isPay;
+    //是否匿名
+    private boolean isHideName;
     //查看需付费价格（宝石）
     private int price;
     //是否是视频趣晒
@@ -50,6 +52,10 @@ public class FunshowBean {
     //收费且没有付费 没有权限，其他情况均可查看
     public boolean hasAuth() {
         return isFree || isPay;
+    }
+
+    public String getNickname() {
+        return !isHideName() ? nickname : "匿名用户";
     }
 
     //获取省+市
