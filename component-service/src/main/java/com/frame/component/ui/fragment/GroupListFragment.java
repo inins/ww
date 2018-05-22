@@ -11,7 +11,10 @@ import com.frame.base.BasicFragment;
 import com.frame.component.api.CommonService;
 import com.frame.component.common.GridSpacingItemDecoration;
 import com.frame.component.common.NetParam;
+import com.frame.component.entities.GroupMemberInfo;
 import com.frame.component.entities.dto.GroupBeanDTO;
+import com.frame.component.entities.dto.GroupMemberInfoDTO;
+import com.frame.component.enums.ConversationType;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.service.R;
 import com.frame.component.service.R2;
@@ -26,6 +29,7 @@ import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.IView;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.SizeUtils;
+import com.frame.utils.ToastUtil;
 import com.frame.utils.Utils;
 import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.container.AliHeader;
@@ -42,22 +46,23 @@ import java.util.Map;
 
 import butterknife.BindView;
 import io.reactivex.Observable;
+import timber.log.Timber;
 
 public class GroupListFragment extends BasicFragment implements IView {
 
     // 趣聊列表
     public final static int TYPE_GROUP_LIST = 0;
     // 聊天列表-搜索已加入的趣聊
-    public final static int TYPE_SEARCH_GROUP = 1;
+    public final static int TYPE_SEARCH_MY_GROUP = 1;
     // 聊天列表-搜索已加入的觅聊
-    public final static int TYPE_SEARCH_MI = 2;
+    public final static int TYPE_SEARCH_MY_MI = 2;
     // 搜索趣聊
     public final static int TYPE_SEARCH_ALL_GROUP = 3;
 
     @IntDef({
             TYPE_GROUP_LIST,
-            TYPE_SEARCH_GROUP,
-            TYPE_SEARCH_MI,
+            TYPE_SEARCH_MY_GROUP,
+            TYPE_SEARCH_MY_MI,
             TYPE_SEARCH_ALL_GROUP
     })
     @Retention(RetentionPolicy.SOURCE)
@@ -77,23 +82,23 @@ public class GroupListFragment extends BasicFragment implements IView {
     }
 
     /**
-     * 搜索趣聊
+     * 聊天列表-搜索已加入的趣聊
      */
     public static GroupListFragment newSearchGroup() {
         GroupListFragment fragment = new GroupListFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt("type", TYPE_SEARCH_GROUP);
+        bundle.putInt("type", TYPE_SEARCH_MY_GROUP);
         fragment.setArguments(bundle);
         return fragment;
     }
 
     /**
-     * 搜索觅聊
+     * 聊天列表-搜索已加入的觅聊
      */
     public static GroupListFragment newSearchMi() {
         GroupListFragment fragment = new GroupListFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt("type", TYPE_SEARCH_MI);
+        bundle.putInt("type", TYPE_SEARCH_MY_MI);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -115,16 +120,24 @@ public class GroupListFragment extends BasicFragment implements IView {
     RecyclerView mRecyclerView;
     private GroupListAdapter mAdapter;
 
+    // 用户id，搜索用户加入的趣聊时使用，外部传入
     private int mUserId;
+
     private ApiHelper mApiHelper = new ApiHelper();
     private IRepositoryManager mRepositoryManager;
+    // 当前页
     private int mCurrent = 0;
+    // 每页多少条数据（没用）
     private static final int mSize = 10;
+    // 群列表
     private List<GroupBean> mList = new ArrayList<>();
 
+    // 搜索类型，调用不同接口
     private @GroupListType
     int mType = TYPE_GROUP_LIST;
+    // 记录搜索关键字
     private String mKey;
+    // 记录搜索标签
     private String mTags;
 
     @Override
@@ -155,8 +168,17 @@ public class GroupListFragment extends BasicFragment implements IView {
         mRecyclerView.setAdapter(mAdapter);
 
         // 点击事件
-        mAdapter.setGroupClickListener((GroupBean groupBean) -> {
-            CommonHelper.ImHelper.startGroupInviteBrowse(getActivity(), groupBean.getId());
+        mAdapter.setGroupClickListener(new GroupListAdapter.GroupClickListener() {
+            @Override
+            public void onGroupClick(GroupBean groupBean) {
+                if (mType == TYPE_SEARCH_MY_GROUP || mType == TYPE_SEARCH_MY_MI) {
+                    // 如果是搜索的已加入的趣聊觅聊，直接进入聊天页面
+                    startConversation(groupBean.getGroupId());
+                } else {
+                    // 获取用户群信息，判断是否在该群，再进行跳转
+                    getMyGroupMemberInfo(groupBean.getGroupId());
+                }
+            }
         });
 
         // 更新，加载更多
@@ -179,15 +201,31 @@ public class GroupListFragment extends BasicFragment implements IView {
         }
     }
 
+    /**
+     * 跳转到趣聊或觅聊
+     * @param groupId 群id
+     */
+    private void startConversation(int groupId) {
+        ConversationType type = ConversationType.SOCIAL;
+        if (mType == TYPE_SEARCH_MY_MI) {
+            type = ConversationType.TEAM;
+        }
+        CommonHelper.ImHelper.gotoGroupConversation(
+                getActivity(),
+                Integer.toString(groupId),
+                type,
+                false);
+    }
+
     @Override
     public void setData(@Nullable Object data) {
 
     }
 
     private void loadData(boolean refresh) {
-        if (mType == TYPE_SEARCH_GROUP) {
+        if (mType == TYPE_SEARCH_MY_GROUP) {
             chatListSearchGroup(mKey, refresh);
-        } else if (mType == TYPE_SEARCH_MI) {
+        } else if (mType == TYPE_SEARCH_MY_MI) {
             chatListSearchMiList(mKey, refresh);
         } else if (mType == TYPE_SEARCH_ALL_GROUP) {
             searchGroup(mKey, mTags, refresh);
@@ -364,6 +402,44 @@ public class GroupListFragment extends BasicFragment implements IView {
     }
 
 
+    /**
+     * 获取用户群信息，用于判断用户是否已在该群
+     * @param groupId 群id
+     */
+    private void getMyGroupMemberInfo(int groupId) {
+        mApiHelper.execute(this,
+                netGetMyGroupMemberInfo(groupId),
+                new ErrorHandleSubscriber<GroupMemberInfo>() {
+                    @Override
+                    public void onNext(GroupMemberInfo groupMemberInfo) {
+//                        Timber.i("在群");
+//                        ToastUtil.showToastShort("进入趣聊详情");
+                        startConversation(groupId);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+//                        Timber.i("不在群 " + e.getMessage());
+                        CommonHelper.ImHelper.startGroupInviteBrowse(getActivity(), groupId);
+                    }
+                });
+    }
+
+    /**
+     * 获取用户群信息，用于判断用户是否已在该群
+     * @param groupId 群id
+     */
+    private Observable<BaseJson<GroupMemberInfoDTO>> netGetMyGroupMemberInfo(int groupId) {
+        Map<String, Object> param = new NetParam()
+                .put("groupId", groupId)
+                .put("v", "2.0.0")
+                .build();
+        return mRepositoryManager
+                .obtainRetrofitService(CommonService.class)
+                .getMyGroupMemberInfo(param);
+    }
+
+
     @Override
     public void showLoading() {
 
@@ -390,8 +466,8 @@ public class GroupListFragment extends BasicFragment implements IView {
         super.onCommonEvent(event);
 
         switch (event.getEvent()) {
-            case EventBean.EVENT_IM_SEARCH:
-                if (mType != TYPE_SEARCH_GROUP && mType != TYPE_SEARCH_MI) break;
+            case EventBean.EVENT_IM_SEARCH: // 往来内的搜索
+                if (mType != TYPE_SEARCH_MY_GROUP && mType != TYPE_SEARCH_MY_MI) break;
 
                 mKey = (String) event.get("key");
                 mTags = (String) event.get("tags");
@@ -399,7 +475,7 @@ public class GroupListFragment extends BasicFragment implements IView {
                 mSpringView.callFreshDelay();
 
                 break;
-            case EventBean.EVENT_APP_SEARCH:
+            case EventBean.EVENT_APP_SEARCH: // 首页搜索，所有所有群
                 if (mType != TYPE_SEARCH_ALL_GROUP) break;
                 mKey = (String) event.get("key");
 //                String tags = (String) event.get("tags");

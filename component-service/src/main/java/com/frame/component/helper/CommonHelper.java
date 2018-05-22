@@ -98,6 +98,7 @@ public class CommonHelper {
          * @param context
          * @param targetId
          */
+        @Deprecated
         public static void gotoSocialConversation(Context context, String targetId) {
             Bundle bundle = new Bundle();
             bundle.putString("targetId", targetId);
@@ -110,6 +111,7 @@ public class CommonHelper {
          * @param context
          * @param targetId
          */
+        @Deprecated
         public static void gotoTeamConversation(Context context, String targetId) {
             Bundle bundle = new Bundle();
             bundle.putString("targetId", targetId);

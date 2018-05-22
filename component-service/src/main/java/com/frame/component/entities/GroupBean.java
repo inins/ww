@@ -10,6 +10,7 @@ import lombok.Data;
 public class GroupBean {
     private int id;
     private int pid;
+    private int groupId;
     private String groupName;
     private String groupHeadUrl;
     private String groupCoverPlan;

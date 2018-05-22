@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.beloo.widget.chipslayoutmanager.SpacingItemDecoration;
+import com.frame.component.enums.ConversationType;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.helper.NetGroupHelper;
 import com.frame.component.ui.acticity.tags.Tag;
@@ -360,6 +362,7 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
                     @Override
                     public void onNext(DistributionGroup group) {
                         if (null != group.getAge()) {
+                            mAgeList.clear();
                             mAgeList.addAll(group.getAge());
                             if (null != mAgeAdapter) {
                                 mAgeAdapter.resetCount(group.getAge());
@@ -368,6 +371,7 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
                         }
                         if (null != group.getSex()) {
                             if (null != group.getSex()) {
+                                mSexList.clear();
                                 mSexList.addAll(group.getSex());
 
                                 if (null != mSexAdapter) {
@@ -452,32 +456,49 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
         dismissLoadingDialog();
     }
 
+    /**
+     * 拒绝加入
+     */
     @OnClick(R2.id.refuse_text_view)
     public void refuse() {
         refuseAdd(mGroupId, mMsgId);
     }
 
+    /**
+     * 同意加入
+     */
     @OnClick(R2.id.agree_text_view)
     public void agree() {
         agreeAdd(mGroupId, mMsgId);
     }
 
+    /**
+     * 立即加入
+     */
     @OnClick(R2.id.apply_text_view)
     public void apply() {
         NetGroupHelper.newInstance().addGroup(
                 this,
                 this,
+                getSupportFragmentManager(),
                 mGroupId,
                 isNeedValidation -> {
                     // 隐藏底部栏
                     mBottomLayout.setVisibility(View.GONE);
 
                     if (!isNeedValidation) {
-                        // 重新加载群统计
-                        loadDistribution(mGroupId);
-                        // 人数增加
-                        mSocial.setMemberNum(mSocial.getMemberNum() + 1);
-                        resetMemberCount(mSocial.getMemberNum());
+//                        // 重新加载群统计
+//                        loadDistribution(mGroupId);
+//                        // 人数增加
+//                        mSocial.setMemberNum(mSocial.getMemberNum() + 1);
+//                        resetMemberCount(mSocial.getMemberNum());
+                        // 不需要群主验证，直接进入聊天页面
+                        CommonHelper.ImHelper.gotoGroupConversation(
+                                this,
+                                Integer.toString(mGroupId),
+                                ConversationType.SOCIAL,
+                                false);
+                        finish();
                     }
                 });
     }

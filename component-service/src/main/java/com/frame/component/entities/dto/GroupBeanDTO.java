@@ -14,6 +14,7 @@ import lombok.Data;
 public class GroupBeanDTO implements Mapper<GroupBean> {
     private Integer id;
     private Integer pid;
+    private Integer groupId;
     private String groupName;
     private String groupHeadUrl;
     private String groupCoverPlan;
@@ -26,7 +27,12 @@ public class GroupBeanDTO implements Mapper<GroupBean> {
     public GroupBean transform() {
         GroupBean object = new GroupBean();
 
-        object.setId(EntitiesUtil.assertNotNull(id));
+        if (null != groupId) {
+            object.setGroupId(EntitiesUtil.assertNotNull(groupId));
+        } else {
+            object.setGroupId(EntitiesUtil.assertNotNull(id));
+        }
+
         object.setPid(EntitiesUtil.assertNotNull(pid));
         object.setGroupName(EntitiesUtil.assertNotNull(groupName));
         object.setGroupHeadUrl(EntitiesUtil.assertNotNull(groupHeadUrl));
