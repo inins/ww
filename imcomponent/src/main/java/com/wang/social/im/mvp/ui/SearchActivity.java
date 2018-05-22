@@ -22,6 +22,7 @@ import com.frame.utils.ToastUtil;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
@@ -121,5 +122,10 @@ public class SearchActivity extends BasicActivity {
             }
         });
         tablayout.setViewPager(pager);
+    }
+
+    @OnClick(R2.id.btn_right)
+    public void cancel() {
+        finish();
     }
 }
