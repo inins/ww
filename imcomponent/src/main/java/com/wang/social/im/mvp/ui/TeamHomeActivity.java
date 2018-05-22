@@ -33,6 +33,7 @@ import com.frame.di.component.AppComponent;
 import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.http.imageloader.glide.RoundedCornersTransformation;
+import com.frame.integration.AppManager;
 import com.frame.router.facade.annotation.Autowired;
 import com.frame.utils.ScreenUtils;
 import com.frame.utils.SizeUtils;
@@ -126,6 +127,8 @@ public class TeamHomeActivity extends BaseAppActivity<TeamHomePresenter> impleme
     String teamId;
     @Inject
     ImageLoader mImageLoader;
+    @Inject
+    AppManager mAppManager;
 
     private TeamInfo mTeam;
     private MemberInfo mSelfProfile;
@@ -133,8 +136,6 @@ public class TeamHomeActivity extends BaseAppActivity<TeamHomePresenter> impleme
     //记录是否是通过用户点击修改状态
     private boolean applyFromCode = false;
     private boolean notifyFromCode = false;
-
-    private AutoPopupWindow popupWindow;
 
     public static void start(Context context, String teamId) {
         Intent intent = new Intent(context, TeamHomeActivity.class);
@@ -304,6 +305,7 @@ public class TeamHomeActivity extends BaseAppActivity<TeamHomePresenter> impleme
 
     @Override
     public void onExitOrDissolve() {
+        mAppManager.killActivity(GroupConversationActivity.class);
         finish();
     }
 

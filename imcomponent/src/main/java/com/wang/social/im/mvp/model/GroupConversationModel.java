@@ -7,6 +7,8 @@ import com.frame.mvp.BaseModel;
 import com.wang.social.im.mvp.contract.GroupConversationContract;
 import com.wang.social.im.mvp.model.api.GroupService;
 import com.wang.social.im.mvp.model.entities.TeamInfo;
+import com.wang.social.im.mvp.model.entities.dto.GroupJoinCheckResultDTO;
+import com.wang.social.im.mvp.model.entities.dto.JoinGroupResultDTO;
 import com.wang.social.im.mvp.model.entities.dto.ListDataDTO;
 import com.wang.social.im.mvp.model.entities.dto.TeamInfoDTO;
 
@@ -40,5 +42,19 @@ public class GroupConversationModel extends BaseModel implements GroupConversati
         return mRepositoryManager
                 .obtainRetrofitService(GroupService.class)
                 .getSelfTeamList("2.0.0", socialId);
+    }
+
+    @Override
+    public Observable<BaseJson<GroupJoinCheckResultDTO>> checkJoinGroupStatus(String groupId) {
+        return mRepositoryManager
+                .obtainRetrofitService(GroupService.class)
+                .checkJoinGroupStatus("2.0.0", groupId);
+    }
+
+    @Override
+    public Observable<BaseJson<JoinGroupResultDTO>> joinGroup(String applyId) {
+        return mRepositoryManager
+                .obtainRetrofitService(GroupService.class)
+                .joinGroup("2.0.0", applyId);
     }
 }

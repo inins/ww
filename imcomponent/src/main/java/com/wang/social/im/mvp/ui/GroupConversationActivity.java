@@ -17,6 +17,8 @@ import com.frame.base.BaseAdapter;
 import com.frame.component.enums.ConversationType;
 import com.frame.component.path.ImPath;
 import com.frame.component.ui.base.BaseAppActivity;
+import com.frame.component.ui.dialog.PayDialog;
+import com.frame.component.utils.UIUtil;
 import com.frame.di.component.AppComponent;
 import com.frame.router.facade.annotation.Autowired;
 import com.frame.router.facade.annotation.RouteNode;
@@ -26,6 +28,7 @@ import com.wang.social.im.di.component.DaggerGroupConversationComponent;
 import com.wang.social.im.di.modules.GroupConversationModule;
 import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.mvp.contract.GroupConversationContract;
+import com.wang.social.im.mvp.model.entities.GroupJoinCheckResult;
 import com.wang.social.im.mvp.model.entities.TeamInfo;
 import com.wang.social.im.mvp.presenter.GroupConversationPresenter;
 import com.wang.social.im.mvp.ui.adapters.JoinedTeamListAdapter;
@@ -142,12 +145,12 @@ public class GroupConversationActivity extends BaseAppActivity<GroupConversation
 
     @Override
     public void showLoading() {
-
+        showLoadingDialog();
     }
 
     @Override
     public void hideLoading() {
-
+        dismissLoadingDialog();
     }
 
     private void showFragment(String targetId, ConversationType conversationType) {
@@ -217,6 +220,18 @@ public class GroupConversationActivity extends BaseAppActivity<GroupConversation
     }
 
     @Override
+    public void showPayDialog(GroupJoinCheckResult checkResult) {
+        String message = UIUtil.getString(R.string.im_join_team_pay_tip, checkResult.getJoinCost());
+        PayDialog dialog = new PayDialog(this, new PayDialog.OnPayListener() {
+            @Override
+            public void onPay() {
+                mPresenter.payForJoin(ImHelper.imId2WangId(targetId), checkResult);
+            }
+        }, message, String.valueOf(checkResult.getJoinCost()));
+        dialog.show();
+    }
+
+    @Override
     public void onItemClick(TeamInfo teamInfo, int position) {
         showFragment(teamInfo.getTeamId(), ConversationType.TEAM);
         new Handler().postDelayed(new Runnable() {
@@ -230,6 +245,6 @@ public class GroupConversationActivity extends BaseAppActivity<GroupConversation
 
     @Override
     public void onJoinClick(TeamInfo teamInfo) {
-
+        mPresenter.checkJoinStatus(ImHelper.imId2WangId(targetId), teamInfo.getTeamId());
     }
 }

@@ -41,6 +41,7 @@
     <string name="im_team_apply_join">申请加入</string>
     <string name="im_dissolve_team">解散觅聊</string>
     <string name="im_exit_team">退出觅聊</string>
+    <string name="im_join_team_pay_tip">加入觅聊需支付%d宝石</string>
 
     <!-- 创建趣聊 -->
     <string name="im_create">创建</string>

@@ -12,8 +12,10 @@ import com.frame.component.entities.dto.AddGroupApplyRspDTO;
 import com.frame.component.entities.dto.AddGroupRspDTO;
 import com.wang.social.im.mvp.model.entities.dto.CreateGroupResultDTO;
 import com.wang.social.im.mvp.model.entities.dto.DistributionGroupDTO;
+import com.wang.social.im.mvp.model.entities.dto.GroupJoinCheckResultDTO;
 import com.wang.social.im.mvp.model.entities.dto.IndexFriendInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.IndexMemberInfoDTO;
+import com.wang.social.im.mvp.model.entities.dto.JoinGroupResultDTO;
 import com.wang.social.im.mvp.model.entities.dto.ListDataDTO;
 import com.wang.social.im.mvp.model.entities.dto.MemberInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.PayCheckInfoDTO;
@@ -22,6 +24,7 @@ import com.wang.social.im.mvp.model.entities.dto.SocialDTO;
 import com.wang.social.im.mvp.model.entities.dto.SocialHomeDTO;
 import com.wang.social.im.mvp.model.entities.dto.TeamHomeDTO;
 import com.wang.social.im.mvp.model.entities.dto.TeamInfoDTO;
+import com.wang.social.im.mvp.model.entities.notify.GroupJoinRequest;
 
 import java.util.Map;
 
@@ -354,6 +357,7 @@ public interface GroupService {
 
     /**
      * 群名片 - 年龄/性别分布
+     *
      * @param version version
      * @param groupId 群id
      */
@@ -363,10 +367,11 @@ public interface GroupService {
 
     /**
      * 同意、拒绝邀请加入趣聊、觅聊（别人邀请我的）
+     *
      * @param version version
      * @param groupId 趣聊/觅聊群id
-     * @param msgId 消息id
-     * @param type 类型（0：同意，1：拒绝）
+     * @param msgId   消息id
+     * @param type    类型（0：同意，1：拒绝）
      */
     @FormUrlEncoded
     @POST("app/group/agreeOrRejectAdd")
@@ -381,4 +386,24 @@ public interface GroupService {
      */
     @GET("/app/news/miNewsList?v=2.0.0")
     Observable<BaseJson<BaseListWrap<Funpoint>>> getFunPointList(@Query("miId") String teamId, @Query("current") int current, @Query("size") int size);
+
+    /**
+     * 加入趣聊/觅聊申请
+     *
+     * @param version
+     * @param groupId
+     * @return
+     */
+    @GET("app/group/addGroupMemberApply")
+    Observable<BaseJson<GroupJoinCheckResultDTO>> checkJoinGroupStatus(@Query("v") String version, @Query("groupId") String groupId);
+
+    /**
+     * 加入趣聊/觅聊(若需要验证则是发送验证)
+     *
+     * @param version
+     * @param applyId
+     * @return
+     */
+    @POST("app/group/addGroupMember")
+    Observable<BaseJson<JoinGroupResultDTO>> joinGroup(@Query("v") String version, @Query("applyId") String applyId);
 }
