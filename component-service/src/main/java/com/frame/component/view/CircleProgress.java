@@ -84,7 +84,7 @@ public class CircleProgress extends View {
         paint.setStrokeWidth(circleWidth);
 
         // 底部圆环
-        paint.setColor(Color.GRAY);
+        paint.setColor(0xFFF2F2F2);
         canvas.drawCircle(centerX, centerY, radius, paint);
 
         // 绿到红着色器

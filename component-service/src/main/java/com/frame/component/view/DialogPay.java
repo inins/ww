@@ -48,6 +48,37 @@ public class DialogPay extends DialogFragment {
         void onPay();
     }
 
+    public static DialogPay showPayAddGroup(IView bindView,
+                                         FragmentManager manager,
+                                         boolean mi,
+                                         int price,
+                                         int balance,
+                                         DialogPayCallback callback) {
+        String[] strings = {
+                mi ? "加入此趣聊需要支付" : "加入此觅聊需要支付",
+                Integer.toString(price),
+                "宝石"};
+        int[] colors = {
+                ContextCompat.getColor(Utils.getContext(), R.color.common_text_blank),
+                ContextCompat.getColor(Utils.getContext(), R.color.common_blue_deep),
+                ContextCompat.getColor(Utils.getContext(), R.color.common_text_blank)
+        };
+        SpannableStringBuilder titleText = SpannableStringUtil.createV2(strings, colors);
+
+        return showPay(
+                TYPE_PAY_GEM, // 话题使用宝石支付
+                bindView,
+                manager,
+                titleText,
+                "您当前余额为%1d宝石",
+                "再逛逛",
+                "立即支付",
+                "去充值",
+                price,
+                balance,
+                callback);
+    }
+
     public static DialogPay showPayTopic(IView bindView,
                                          FragmentManager manager,
                                          Topic topic,

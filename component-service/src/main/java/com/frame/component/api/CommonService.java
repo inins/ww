@@ -2,6 +2,7 @@ package com.frame.component.api;
 
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.entities.GroupBean;
+import com.frame.component.entities.dto.GroupMemberInfoDTO;
 import com.frame.component.entities.dto.NewMoneyTreeGameDTO;
 import com.frame.component.entities.PersonalInfo;
 import com.frame.component.entities.Topic;
@@ -219,10 +220,7 @@ public interface CommonService {
     @Headers(HEADER_CONTENT_TYPE)
     @FormUrlEncoded
     @POST("app/group/addGroupMember")
-    Observable<BaseJson<AddGroupRspDTO>> addGroupMember(
-            @Field("v") String version,
-            @Field("applyId") int applyId,
-            @Field("applyDesc") String applyDesc);
+    Observable<BaseJson<AddGroupRspDTO>> addGroupMember(@FieldMap Map<String, Object> param);
 
     //用户趣晒列表
     @FormUrlEncoded
@@ -322,7 +320,7 @@ public interface CommonService {
     @Headers(HEADER_CONTENT_TYPE)
     @FormUrlEncoded
     @POST("app/userInfo/searchUser")
-    Observable<BaseJson<PageListDTO<SearchUserInfoDTO, PersonalInfo>>> searchUser(@QueryMap Map<String, Object> param);
+    Observable<BaseJson<PageListDTO<SearchUserInfoDTO, PersonalInfo>>> searchUser(@FieldMap Map<String, Object> param);
 
 
     /**
@@ -339,4 +337,12 @@ public interface CommonService {
     @FormUrlEncoded
     @POST("app/moneyTree/pay")
     Observable<BaseJson> gamePay(@FieldMap Map<String, Object> param);
+
+
+    /**
+     * 2.2.8获取我在趣聊、觅聊群名片信息 判断用户是否在某群
+     */
+    @FormUrlEncoded
+    @POST("app/group/getMyGroupMemberInfo")
+    Observable<BaseJson<GroupMemberInfoDTO>> getMyGroupMemberInfo(@FieldMap Map<String, Object> param);
 }
