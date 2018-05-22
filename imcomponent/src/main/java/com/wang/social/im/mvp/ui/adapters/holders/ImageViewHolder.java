@@ -150,7 +150,7 @@ public class ImageViewHolder extends BaseMessageViewHolder<UIMessage> {
     protected void initStyle(UIMessage uiMessage) {
         if (conversationType == ConversationType.MIRROR) {
             if (msgTvName != null) {
-                msgTvName.setTextColor(ContextCompat.getColor(getContext(), R.color.im_message_mirror_left_text));
+                msgTvName.setTextColor(ContextCompat.getColor(getContext(), R.color.im_bg_message_mirror_left));
             }
             msgTvTime.setTextColor(ContextCompat.getColor(getContext(), R.color.im_message_mirror_left_text));
         } else {

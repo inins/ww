@@ -7,9 +7,13 @@ import com.frame.component.entities.funpoint.Funpoint;
 import com.frame.http.api.BaseJson;
 import com.frame.mvp.IModel;
 import com.frame.mvp.IView;
+import com.wang.social.im.mvp.model.entities.AnonymousInfo;
 import com.wang.social.im.mvp.model.entities.EnvelopInfo;
+import com.wang.social.im.mvp.model.entities.ShadowInfo;
 import com.wang.social.im.mvp.model.entities.UIMessage;
+import com.wang.social.im.mvp.model.entities.dto.AnonymousInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.EnvelopInfoDTO;
+import com.wang.social.im.mvp.model.entities.dto.ShadowInfoDTO;
 
 import java.util.List;
 
@@ -69,10 +73,16 @@ public interface ConversationContract {
         void showEnvelopDialog(UIMessage uiMessage, EnvelopInfo envelopInfo);
 
         /**
-         *
          * @param funpoint
          */
         void showFunPoint(Funpoint funpoint);
+
+        /**
+         * 分身信息改变了
+         *
+         * @param shadowInfo
+         */
+        void onShadowChanged(ShadowInfo shadowInfo);
     }
 
     interface Model extends IModel {
@@ -91,5 +101,20 @@ public interface ConversationContract {
          * @return
          */
         Observable<BaseJson<BaseListWrap<Funpoint>>> getFunPointList(String teamId);
+
+        /**
+         * 获取分身信息
+         *
+         * @param socialId
+         * @return
+         */
+        Observable<BaseJson<ShadowInfoDTO>> getShadowInfo(String socialId);
+
+        /**
+         * 获取匿名信息
+         *
+         * @return
+         */
+        Observable<BaseJson<AnonymousInfoDTO>> getAnonymousInfo();
     }
 }
