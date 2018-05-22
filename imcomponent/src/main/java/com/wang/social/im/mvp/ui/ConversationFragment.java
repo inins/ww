@@ -11,12 +11,16 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -54,6 +58,7 @@ import com.wang.social.im.enums.ConnectionStatus;
 import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.mvp.contract.ConversationContract;
 import com.wang.social.im.mvp.model.entities.EnvelopInfo;
+import com.wang.social.im.mvp.model.entities.MemberInfo;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 import com.wang.social.im.mvp.presenter.ConversationPresenter;
 import com.wang.social.im.mvp.ui.adapters.MessageListAdapter;
@@ -97,6 +102,8 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     private static final int REQUEST_CREATE_ENVELOP = 1001;
     //位置选择
     private static final int REQUEST_CREATE_LOCATION = 1002;
+    //@用户
+    private static final int REQUEST_ALERT_USER = 1003;
 
     @BindView(R2.id.fc_message_list)
     RecyclerView fcMessageList;
@@ -230,6 +237,14 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
                 return false;
             }
         });
+        fcInput.getEditText().setFilters(new InputFilter[]{
+                (source, start, end, dest, dstart, dend) -> {
+                    if (source.equals("@")) {
+                        AlertUserListActivity.start(getActivity(), REQUEST_ALERT_USER, ImHelper.imId2WangId(mTargetId));
+                    }
+                    return source;
+                }
+        });
     }
 
     @Override
@@ -279,6 +294,12 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
                 case REQUEST_CREATE_LOCATION://位置
                     LocationInfo locationInfo = (LocationInfo) data.getSerializableExtra(LocationActivity.RESULT_EXTRA_KEY);
                     mPresenter.sendLocationMessage(locationInfo);
+                    break;
+                case REQUEST_ALERT_USER://@用户
+                    MemberInfo memberInfo = data.getParcelableExtra(AlertUserListActivity.EXTRA_MEMBER);
+                    if (memberInfo != null) {
+                        insertAlert(memberInfo.getNickname());
+                    }
                     break;
             }
         }
@@ -555,7 +576,19 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
 
     @Override
     public void onPortraitLongClick(View view, UIMessage uiMessage, int position) {
+        if (mConversationType == ConversationType.TEAM ||
+                mConversationType == ConversationType.SOCIAL) {
+            insertAlert(uiMessage.getNickname(mConversationType));
+        }
+    }
 
+    private void insertAlert(String nickname) {
+        EditText editText = fcInput.getEditText();
+        if (editText != null) {
+            Editable editable = editText.getText();
+            String alertMessage = "@" + nickname;
+            editable.insert(editText.getSelectionStart(), alertMessage);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

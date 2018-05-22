@@ -270,7 +270,7 @@ public interface GroupService {
      * @param groupId
      * @return
      */
-    @POST("app/group/dissolutionGroup")
+    @POST("app/group/deleteGroup")
     Observable<BaseJson> dissolveGroup(@Query("v") String version, @Query("groupId") String groupId);
 
     /**

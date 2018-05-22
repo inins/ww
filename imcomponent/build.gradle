@@ -11,9 +11,7 @@ android {
     }
 
     defaultConfig {
-        if (isRunAlone.toBoolean()) {
-            manifestPlaceholders = [qqappid: "1106099147"]
-        }
+        manifestPlaceholders = [qqappid: "1106099147"]
         minSdkVersion rootProject.ext.android["minSdkVersion"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
         versionCode rootProject.ext.android["versionCode"]
@@ -27,18 +25,17 @@ android {
             }
         }
     }
-    if (isRunAlone.toBoolean()) {
-        buildTypes {
-            debug {
-                buildConfigField "boolean", "LOG_DEBUG", "true"
-                buildConfigField "boolean", "USE_CANARY", "true"
 
-                minifyEnabled false
-                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    buildTypes {
+        debug {
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+            buildConfigField "boolean", "USE_CANARY", "true"
 
-                ndk {
-                    abiFilters "armeabi", "armeabi-v7a", "arm64-v8a"
-                }
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            ndk {
+                abiFilters "armeabi", "armeabi-v7a", "arm64-v8a"
             }
         }
     }
