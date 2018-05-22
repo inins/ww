@@ -2,6 +2,7 @@ package com.wang.social.im.mvp.ui.PersonalCard.ui.widget;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.TextView;
 
 import com.frame.component.ui.dialog.BasePopupWindow;
 import com.frame.utils.SizeUtils;
@@ -16,7 +17,11 @@ public class PWFriendMoreMenu extends BasePopupWindow implements View.OnClickLis
         void onAddBlackList();
     }
 
+    // 点击回调
     private FriendMoreMenuCallback mCallback;
+    // 是否黑名单
+    private int mIsBlack;
+    private TextView mBlackListTV;
 
     public PWFriendMoreMenu(Context context) {
         super(context);
@@ -25,6 +30,23 @@ public class PWFriendMoreMenu extends BasePopupWindow implements View.OnClickLis
 
     public void setCallback(FriendMoreMenuCallback callback) {
         mCallback = callback;
+    }
+
+    public void setBlack(int black) {
+        mIsBlack = black;
+
+        if (null == mBlackListTV) return;
+
+        // 0：未拉黑，大于0：黑名单
+        if (mIsBlack > 0) {
+            mBlackListTV.setText(getContentView()
+                    .getResources()
+                    .getString(R.string.im_personal_card_more_menu_delete_black_list));
+        } else {
+            mBlackListTV.setText(getContentView()
+                    .getResources()
+                    .getString(R.string.im_personal_card_more_menu_add_black_list));
+        }
     }
 
     @Override
@@ -42,9 +64,22 @@ public class PWFriendMoreMenu extends BasePopupWindow implements View.OnClickLis
                 .setOnClickListener(this);
         getContentView().findViewById(R.id.more_menu_delete)
                 .setOnClickListener(this);
-        getContentView().findViewById(R.id.more_menu_add_black_list)
-                .setOnClickListener(this);
+
+        mBlackListTV = getContentView().findViewById(R.id.more_menu_add_black_list);
+        // 0：未拉黑，大于0：黑名单
+        if (mIsBlack > 0) {
+            mBlackListTV.setText(getContentView()
+                    .getResources()
+                    .getString(R.string.im_personal_card_more_menu_delete_black_list));
+        } else {
+            mBlackListTV.setText(getContentView()
+                    .getResources()
+                    .getString(R.string.im_personal_card_more_menu_add_black_list));
+        }
+        mBlackListTV.setOnClickListener(this);
     }
+
+
 
     @Override
     public void onClick(View v) {

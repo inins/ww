@@ -23,4 +23,7 @@ public class PersonalInfo {
     // 是否是好友关系
     // 0：非好友，大于0：好友
     private int isFriend;
+    // Integer  是否拉黑用户
+    // 0：未拉黑，大于0：黑名单
+    private int isBlack;
 }

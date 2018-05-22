@@ -54,7 +54,7 @@ public class CirclePicker extends RecyclerView {
                         int firstPos = mLayoutManager.findFirstVisibleItemPosition();
                         int lastPos = mLayoutManager.findLastVisibleItemPosition();
                         View child = recyclerView.getChildAt(0);
-                        Log.i(TAG, String.format("静止 %d %d", firstPos, lastPos));
+//                        Log.i(TAG, String.format("静止 %d %d", firstPos, lastPos));
 //                        Log.i(TAG, String.format("%d %d %d %d", child.getLeft(), child.getTop(), child.getRight(), child.getBottom()));
 //                        Log.i(TAG, String.format("%f %f", child.getX(), child.getY()));
                         int[] outLocation = new int[2];
@@ -73,7 +73,7 @@ public class CirclePicker extends RecyclerView {
                                 recyclerView.smoothScrollBy(child.getLeft(), 0);
                             }
                         } else {
-                            Log.i(TAG, "停止");
+//                            Log.i(TAG, "停止");
                             if (null != mSelectListener && null != mAdapter) {
                                 int pos = mAdapter.getMiddleItemPos(firstPos);
                                 mSelectListener.onItemSelected(pos, mAdapter.getItem(pos));
@@ -81,10 +81,10 @@ public class CirclePicker extends RecyclerView {
                         }
                         break;
                     case SCROLL_STATE_DRAGGING:
-                        Log.i(TAG, "拖动");
+//                        Log.i(TAG, "拖动");
                         break;
                     case SCROLL_STATE_SETTLING:
-                        Log.i(TAG, "滑动");
+//                        Log.i(TAG, "滑动");
                         break;
                 }
             }
