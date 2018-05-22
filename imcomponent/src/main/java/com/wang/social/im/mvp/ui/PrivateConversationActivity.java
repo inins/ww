@@ -37,6 +37,7 @@ import com.wang.social.im.helper.FriendShipHelper;
 import com.wang.social.im.helper.RepositoryHelper;
 import com.wang.social.im.interfaces.ImCallBack;
 import com.wang.social.im.mvp.model.entities.FriendProfile;
+import com.wang.social.im.mvp.ui.PersonalCard.PersonalCardActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -189,7 +190,7 @@ public class PrivateConversationActivity extends BasicConversationActivity imple
             });
             editDialog.show();
         } else if (resId == R.string.im_information_card) {
-
+            PersonalCardActivity.start(this, Integer.valueOf(targetId), PersonalCardActivity.TYPE_BROWS);
         }
     }
 

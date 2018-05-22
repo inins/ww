@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="89dp">
+    android:layout_height="85dp">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="81dp"
-        android:background="@drawable/common_bg_white_corners_normal">
+        android:background="@drawable/im_bg_team">
 
         <ImageView
             android:id="@+id/tl_iv_avatar"
@@ -80,10 +80,10 @@
         android:layout_height="16dp"
         android:background="@drawable/common_bg_btn_theme"
         android:gravity="center"
-        android:text="@string/im_joined_team"
         android:textColor="@color/common_white"
         android:textSize="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        tools:text="@string/im_join" />
 </android.support.constraint.ConstraintLayout>
