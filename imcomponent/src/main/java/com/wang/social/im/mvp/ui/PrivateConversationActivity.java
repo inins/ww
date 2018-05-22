@@ -190,7 +190,7 @@ public class PrivateConversationActivity extends BasicConversationActivity imple
             });
             editDialog.show();
         } else if (resId == R.string.im_information_card) {
-            PersonalCardActivity.start(this, Integer.valueOf(targetId), PersonalCardActivity.TYPE_BROWS);
+            PersonalCardActivity.start(this, Integer.valueOf(targetId));
         }
     }
 
