@@ -10,10 +10,16 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/fc_message_list"
+        <com.liaoinstan.springview.widget.SpringView
+            android:id="@+id/fc_message_loader"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/fc_message_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.liaoinstan.springview.widget.SpringView>
 
         <ImageView
             android:id="@+id/fc_fun_point"
@@ -21,8 +27,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right|bottom"
             android:layout_marginEnd="8dp"
-            android:visibility="gone"
-            android:src="@drawable/im_icon_fun_point" />
+            android:src="@drawable/im_icon_fun_point"
+            android:visibility="gone" />
     </FrameLayout>
 
     <com.wang.social.im.view.IMInputView

@@ -83,6 +83,11 @@ public interface ConversationContract {
          * @param shadowInfo
          */
         void onShadowChanged(ShadowInfo shadowInfo);
+
+        /**
+         * 隐藏加载状态
+         */
+        void hideMessageLoad();
     }
 
     interface Model extends IModel {

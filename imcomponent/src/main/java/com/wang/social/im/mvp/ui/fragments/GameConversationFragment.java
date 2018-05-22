@@ -147,7 +147,7 @@ public class GameConversationFragment extends BaseFragment<GameConversationPrese
 
     @Override
     public void onEmotionClick(String codeName, String showName) {
-
+        mPresenter.sendFaceMessage(Integer.parseInt(codeName));
     }
 
     @Override

@@ -5,9 +5,6 @@ package com.wang.social.im.app;
  */
 public interface IMConstants {
 
-    String USRE_IDENTIFIER_1 = "10009";
-    String USRE_IDENTIFIER_2 = "10034";
-
     /**
      * 小米推送：bussId
      */
