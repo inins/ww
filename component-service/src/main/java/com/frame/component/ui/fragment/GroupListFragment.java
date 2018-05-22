@@ -12,6 +12,7 @@ import com.frame.component.api.CommonService;
 import com.frame.component.common.GridSpacingItemDecoration;
 import com.frame.component.common.NetParam;
 import com.frame.component.entities.dto.GroupBeanDTO;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.service.R;
 import com.frame.component.service.R2;
 import com.frame.di.component.AppComponent;
@@ -31,7 +32,7 @@ import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
 import com.frame.component.utils.EntitiesUtil;
 import com.frame.component.entities.GroupBean;
-import com.frame.component.ui.adapter.TalkAdapter;
+import com.frame.component.ui.adapter.GroupListAdapter;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -63,6 +64,10 @@ public class GroupListFragment extends BasicFragment implements IView {
     @interface GroupListType {
     }
 
+    /**
+     * 用户趣聊列表
+     * @param userId 用户id
+     */
     public static GroupListFragment newInstance(int userId) {
         GroupListFragment fragment = new GroupListFragment();
         Bundle bundle = new Bundle();
@@ -71,6 +76,9 @@ public class GroupListFragment extends BasicFragment implements IView {
         return fragment;
     }
 
+    /**
+     * 搜索趣聊
+     */
     public static GroupListFragment newSearchGroup() {
         GroupListFragment fragment = new GroupListFragment();
         Bundle bundle = new Bundle();
@@ -79,6 +87,9 @@ public class GroupListFragment extends BasicFragment implements IView {
         return fragment;
     }
 
+    /**
+     * 搜索觅聊
+     */
     public static GroupListFragment newSearchMi() {
         GroupListFragment fragment = new GroupListFragment();
         Bundle bundle = new Bundle();
@@ -87,6 +98,9 @@ public class GroupListFragment extends BasicFragment implements IView {
         return fragment;
     }
 
+    /**
+     * 搜索所有群聊
+     */
     public static GroupListFragment newSearchAll() {
         GroupListFragment fragment = new GroupListFragment();
         Bundle bundle = new Bundle();
@@ -99,7 +113,7 @@ public class GroupListFragment extends BasicFragment implements IView {
     SpringView mSpringView;
     @BindView(R2.id.recycler_view)
     RecyclerView mRecyclerView;
-    private TalkAdapter mAdapter;
+    private GroupListAdapter mAdapter;
 
     private int mUserId;
     private ApiHelper mApiHelper = new ApiHelper();
@@ -132,13 +146,18 @@ public class GroupListFragment extends BasicFragment implements IView {
             mType = getArguments().getInt("type");
         }
 
-        mAdapter = new TalkAdapter(mRecyclerView, mList);
+        mAdapter = new GroupListAdapter(mRecyclerView, mList);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2,
                 GridLayoutManager.VERTICAL, false));
         mRecyclerView.addItemDecoration(
                 new GridSpacingItemDecoration(2, SizeUtils.dp2px(14),
                         GridLayoutManager.VERTICAL, true));
         mRecyclerView.setAdapter(mAdapter);
+
+        // 点击事件
+        mAdapter.setGroupClickListener((GroupBean groupBean) -> {
+            CommonHelper.ImHelper.startGroupInviteBrowse(getActivity(), groupBean.getId());
+        });
 
         // 更新，加载更多
         mSpringView.setHeader(new AliHeader(mSpringView.getContext(), false));

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.frame.component.entities.Topic;
 import com.frame.component.helper.CommonHelper;
+import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.helper.NetPayStoneHelper;
 import com.frame.component.helper.NetZanHelper;
 import com.frame.component.service.R;
@@ -88,15 +89,16 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
         // 图片
         if (!TextUtils.isEmpty(topic.getBackgroundImage())) {
             holder.imageCV.setVisibility(View.VISIBLE);
-            FrameUtils.obtainAppComponentFromContext(mContext)
-                    .imageLoader()
-                    .loadImage(mContext,
-                            ImageConfigImpl.builder()
-                                    .imageView(holder.imageView)
-                                    .url(topic.getBackgroundImage())
-                                    .placeholder(R.drawable.default_rect)
-                                    .transformation(new RoundedCorners(SizeUtils.dp2px(8)))
-                                    .build());
+//            FrameUtils.obtainAppComponentFromContext(mContext)
+//                    .imageLoader()
+//                    .loadImage(mContext,
+//                            ImageConfigImpl.builder()
+//                                    .imageView(holder.imageView)
+//                                    .url(topic.getBackgroundImage())
+//                                    .placeholder(R.drawable.default_rect)
+//                                    .transformation(new RoundedCorners(SizeUtils.dp2px(8)))
+//                                    .build());
+            ImageLoaderHelper.loadImg(holder.imageView, topic.getBackgroundImage());
         } else {
             holder.imageCV.setVisibility(View.GONE);
         }
