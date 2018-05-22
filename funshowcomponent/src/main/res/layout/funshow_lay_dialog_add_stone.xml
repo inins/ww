@@ -52,7 +52,7 @@
         android:gravity="bottom|center_horizontal"
         android:hint="请输入"
         android:inputType="numberSigned"
-        android:maxLength="8"
+        android:maxLength="6"
         android:paddingBottom="5dp"
         android:paddingLeft="25dp"
         android:paddingRight="25dp"

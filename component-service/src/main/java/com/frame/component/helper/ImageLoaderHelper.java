@@ -18,6 +18,8 @@ import java.util.Random;
 
 import javax.inject.Inject;
 
+//import jp.wasabeef.glide.transformations.BlurTransformation;
+
 /**
  * Created by liaoinstan
  * 为mImageLoader提供简单的静态方法调用
@@ -81,11 +83,11 @@ public class ImageLoaderHelper {
     }
 
     //加载一张图进行高斯模糊处理
-    public static void loadBlurImg(Context context, ImageView imageView, String url) {
-//        url = getRealImgPath(url);
+    //暂时使用Glide，后面有时间封装到ImageLoader里面
+    public static void loadBlurImg(ImageView imageView, String url) {
 //        RequestOptions myOptions = new RequestOptions()
 //                .transform(new BlurTransformation(25));
-//        Glide.with(context)
+//        Glide.with(Utils.getContext())
 //                .load(url)
 //                .apply(myOptions)
 //                .transition(new DrawableTransitionOptions().crossFade(200))

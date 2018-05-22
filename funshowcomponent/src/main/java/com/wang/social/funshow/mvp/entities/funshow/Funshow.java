@@ -43,14 +43,15 @@ public class Funshow implements Serializable {
     private String content;
     private int talkShareNum;
     private String province;
-    private int isFree;
     private long createTime;
     private int price;
     private int talkId;
     private String userCover;
-    private int isShopping;
     private List<FunshowListRsc> talkImage;
     private FunshowVideoRsc resourceUrl;
+    //TODO:特别注意，这里的2个字段，0是true，1是false，非常坑
+    private int isFree;
+    private int isShopping;
 
     //////////////////////////////
 
@@ -88,7 +89,7 @@ public class Funshow implements Serializable {
         funshowBean.setCityName(city);
         funshowBean.setProvinceName(province);
         funshowBean.setPrice(price);
-        funshowBean.setPay(!isShopping());
+        funshowBean.setPay(isShopping());
 
         if (hasVideo()) {
             funshowBean.setVideoUrl(resourceUrl.getUrl());
@@ -117,18 +118,18 @@ public class Funshow implements Serializable {
     }
 
     public boolean isShopping() {
-        return isShopping == 1;
+        return isShopping == 0;
     }
 
     public void setIsShopping(boolean isShopping) {
-        this.isShopping = isShopping ? 1 : 0;
+        this.isShopping = isShopping ? 0 : 1;
     }
 
     public boolean isFree() {
-        return isFree == 1;
+        return isFree == 0;
     }
 
     public void setIsFree(boolean isFree) {
-        this.isFree = isFree ? 1 : 0;
+        this.isFree = isFree ? 0: 1;
     }
 }

@@ -84,6 +84,13 @@ public interface FunshowService {
     @POST("/app/talk/saveTalk?v=2.0.0")
     Observable<BaseJson<Object>> addFunshow(@Body FunshowAddPost postBean);
 
+    /**
+     * 删除趣晒
+     */
+    @FormUrlEncoded
+    @POST("/app/talk/delMyTalk?v=2.0.0")
+    Observable<BaseJson> delFunshow(@Field("id") int id);
+
 
     /**
      * 搜索趣晒

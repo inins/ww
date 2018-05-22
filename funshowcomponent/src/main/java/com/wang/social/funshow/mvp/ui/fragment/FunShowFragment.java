@@ -36,7 +36,7 @@ import butterknife.OnClick;
 
 /**
  */
-public class FunShowFragment extends BaseFragment<FunshowListPresonter> implements FunshowListContract.View{
+public class FunShowFragment extends BaseFragment<FunshowListPresonter> implements FunshowListContract.View {
 
     @BindView(R2.id.barview)
     BarView barview;
@@ -84,9 +84,13 @@ public class FunShowFragment extends BaseFragment<FunshowListPresonter> implemen
                 adapter.refreshShareById(talkId);
                 break;
             }
-            case EventBean.EVENT_FUNSHOW_DISSLIKE: {
+            //新增一条趣晒，收到通知刷新列表
+            case EventBean.EVENT_FUNSHOW_ADD:
+                //在详情页被删除了，收到通知刷新列表
+            case EventBean.EVENT_FUNSHOW_DEL:
                 //在详情页不喜欢，收到通知刷新列表
-                springView.callFreshDelay();
+            case EventBean.EVENT_FUNSHOW_DISSLIKE: {
+                mPresenter.netGetFunshowList(type, true);
                 break;
             }
             case EventBean.EVENT_FUNSHOW_LIST_TYPE_CHANGE: {

@@ -12,6 +12,7 @@ import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.utils.FrameUtils;
 import com.wang.social.im.R;
+import com.wang.social.im.R2;
 import com.wang.social.im.mvp.model.entities.TeamInfo;
 
 import java.util.Locale;
@@ -39,15 +40,15 @@ public class TeamListAdapter extends BaseAdapter<TeamInfo> {
 
     class ViewHolder extends BaseViewHolder<TeamInfo> {
 
-        @BindView(R.id.tl_iv_avatar)
+        @BindView(R2.id.tl_iv_avatar)
         ImageView tlIvAvatar;
-        @BindView(R.id.tl_tv_name)
+        @BindView(R2.id.tl_tv_name)
         TextView tlTvName;
-        @BindView(R.id.tl_tv_tag)
+        @BindView(R2.id.tl_tv_tag)
         TextView tlTvTag;
-        @BindView(R.id.tl_tv_member)
+        @BindView(R2.id.tl_tv_member)
         TextView tlTvMember;
-        @BindView(R.id.tl_tvb_join)
+        @BindView(R2.id.tl_tvb_join)
         TextView tlTvbJoin;
 
         ImageLoader mImageLoader;

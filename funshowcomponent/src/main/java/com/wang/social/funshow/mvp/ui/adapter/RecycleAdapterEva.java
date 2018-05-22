@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.utils.viewutils.FontUtils;
 import com.frame.mvp.IView;
@@ -81,6 +82,9 @@ public class RecycleAdapterEva extends BaseAdapter<Comment> {
                 NetZanHelper.newInstance().funshowCommentZan(iView, textZan, 1, bean.getCommentId(), !textZan.isSelected(), (isZan, zanCount) -> {
                     bean.setSupportTotal(zanCount);
                 });
+            });
+            imgHeader.setOnClickListener(v -> {
+                CommonHelper.ImHelper.startPersonalCardForBrowse(getContext(), bean.getUserId());
             });
         }
 

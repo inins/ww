@@ -46,6 +46,11 @@ public class FunshowBean {
     private String videoUrl;
 
 
+    //是否拥有查看权限
+    //收费且没有付费 没有权限，其他情况均可查看
+    public boolean hasAuth() {
+        return isFree || isPay;
+    }
 
     //获取省+市
     public String getPositionText() {

@@ -52,4 +52,5 @@ dependencies {
     api ('com.github.huburt-Hu:NewbieGuide:v2.1.0') {
         exclude group: 'com.android.support'
     }
+//    implementation 'jp.wasabeef:glide-transformations:3.3.0'
 }

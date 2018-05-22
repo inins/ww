@@ -3,6 +3,7 @@ package com.frame.component.helper;
 import android.content.Context;
 import android.os.Bundle;
 
+import com.frame.component.entities.User;
 import com.frame.component.enums.ConversationType;
 import com.frame.component.path.FunshowPath;
 import com.frame.component.path.AppPath;
@@ -22,6 +23,12 @@ public class CommonHelper {
 
         public static boolean isLogin() {
             return AppDataHelper.getUser() != null;
+        }
+
+        public static int getUserId() {
+            User user = AppDataHelper.getUser();
+            if (user != null) return user.getUserId();
+            else return 0;
         }
 
         public static void startLoginActivity(Context context) {
@@ -140,10 +147,11 @@ public class CommonHelper {
 
         /**
          * 个人名片
+         *
          * @param context context
-         * @param type 类型 （1.好友申请，底部会显示 拒绝 同意 按钮 2.浏览模式，底部显示 添加好友）
-         * @param userId 用户id
-         * @param msgId 消息id（如果是从通知消息中
+         * @param type    类型 （1.好友申请，底部会显示 拒绝 同意 按钮 2.浏览模式，底部显示 添加好友）
+         * @param userId  用户id
+         * @param msgId   消息id（如果是从通知消息中
          */
         private static void startPersonalCard(Context context, int type, int userId, int msgId) {
             Bundle bundle = new Bundle();
@@ -155,9 +163,10 @@ public class CommonHelper {
 
         /**
          * 从好友申请通知消息中进入个人名片
+         *
          * @param context context
-         * @param userId 用户id
-         * @param msgId 消息id
+         * @param userId  用户id
+         * @param msgId   消息id
          */
         public static void startPersonalCardForApplyFromMsg(Context context, int userId, int msgId) {
             startPersonalCard(context, 1, userId, msgId);
@@ -165,8 +174,9 @@ public class CommonHelper {
 
         /**
          * 浏览个人名片
+         *
          * @param context context
-         * @param userId 用户id
+         * @param userId  用户id
          */
         public static void startPersonalCardForBrowse(Context context, int userId) {
             startPersonalCard(context, 2, userId, -1);
@@ -174,10 +184,11 @@ public class CommonHelper {
 
         /**
          * 趣聊邀请和详情简要查看
+         *
          * @param context context
-         * @param type 类型（0.默认浏览模式（底部显示 立即加入） 1.趣聊邀请，底部显示（拒绝 同意））
+         * @param type    类型（0.默认浏览模式（底部显示 立即加入） 1.趣聊邀请，底部显示（拒绝 同意））
          * @param groupId 群id
-         * @param msgId 消息id
+         * @param msgId   消息id
          */
         private static void startGroupInvite(Context context, int type, int groupId, int msgId) {
             Bundle bundle = new Bundle();
@@ -189,9 +200,10 @@ public class CommonHelper {
 
         /**
          * 从趣聊邀请消息中启动趣聊名片
+         *
          * @param context context
          * @param groupId 群id
-         * @param msgId 消息id
+         * @param msgId   消息id
          */
         public static void startGroupInviteFromMsg(Context context, int groupId, int msgId) {
             startGroupInvite(context, 1, groupId, msgId);
@@ -199,6 +211,7 @@ public class CommonHelper {
 
         /**
          * 浏览趣聊详情，底部显示立即加入
+         *
          * @param context context
          * @param groupId 群id
          */
@@ -237,8 +250,9 @@ public class CommonHelper {
     public static class GameHelper {
         /**
          * 摇钱树游戏列表
+         *
          * @param context context
-         * @param type 创建类型 （1.从聊天室进入 2.从首页的活动与游戏进入）
+         * @param type    创建类型 （1.从聊天室进入 2.从首页的活动与游戏进入）
          * @param groupId 群id，类型为1时必须设置这个参数
          */
         private static void startMoneyTree(Context context, int type, int groupId) {
@@ -250,6 +264,7 @@ public class CommonHelper {
 
         /**
          * 从群进入游戏列表
+         *
          * @param context context
          * @param groupId 群id
          */
@@ -259,6 +274,7 @@ public class CommonHelper {
 
         /**
          * 从首页活动与游戏进入游戏列表
+         *
          * @param context context
          */
         public static void startMoneyTreeFromSquare(Context context) {

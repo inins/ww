@@ -5,31 +5,45 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
+import com.frame.component.helper.AppDataHelper;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.NetReportHelper;
 import com.frame.component.ui.base.BasicAppActivity;
+import com.frame.component.ui.base.BasicAppNoDiActivity;
 import com.frame.component.ui.dialog.DialogSure;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
+import com.frame.http.api.ApiHelperEx;
+import com.frame.http.api.BaseJson;
+import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.mvp.IView;
 import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.FocusUtil;
+import com.frame.utils.ToastUtil;
 import com.liaoinstan.springview.widget.SpringView;
 import com.umeng.socialize.UMShareAPI;
 import com.wang.social.funshow.R;
 import com.wang.social.funshow.R2;
 import com.wang.social.funshow.di.component.DaggerSingleActivityComponent;
+import com.wang.social.funshow.mvp.entities.funshow.FunshowDetail;
+import com.wang.social.funshow.mvp.model.api.FunshowService;
 import com.wang.social.funshow.mvp.ui.controller.FunshowDetailContentBoardController;
 import com.wang.social.funshow.mvp.ui.controller.FunshowDetailEditController;
 import com.wang.social.funshow.mvp.ui.controller.FunshowDetailEvaController;
 import com.wang.social.funshow.mvp.ui.controller.FunshowDetailZanController;
 
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 @RouteNode(path = "/detail", desc = "趣晒详情")
-public class FunshowDetailActivity extends BasicAppActivity implements IView {
+public class FunshowDetailActivity extends BasicAppNoDiActivity implements IView {
 
     @BindView(R2.id.spring)
     SpringView springView;
@@ -37,6 +51,8 @@ public class FunshowDetailActivity extends BasicAppActivity implements IView {
     AppBarLayout appbarlayout;
     @BindView(R2.id.edit_eva)
     EditText editEva;
+    @BindView(R2.id.btn_right)
+    TextView btnRight;
 
     private FunshowDetailContentBoardController contentBoardController;
     private FunshowDetailZanController zanController;
@@ -49,6 +65,25 @@ public class FunshowDetailActivity extends BasicAppActivity implements IView {
         Intent intent = new Intent(context, FunshowDetailActivity.class);
         intent.putExtra("talkId", talkId);
         context.startActivity(intent);
+    }
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        switch (event.getEvent()) {
+            case EventBean.EVENT_CTRL_FUNSHOW_DETAIL_DATA:
+                int userId = (int) event.get("userId");
+                if (userId == CommonHelper.LoginHelper.getUserId()) {
+                    btnRight.setText(R.string.funshow_home_funshow_detail_btn_right_del);
+                } else {
+                    btnRight.setText(R.string.funshow_home_funshow_detail_btn_right);
+                }
+                break;
+        }
+    }
+
+    @Override
+    public boolean useEventBus() {
+        return true;
     }
 
     @Override
@@ -66,16 +101,20 @@ public class FunshowDetailActivity extends BasicAppActivity implements IView {
         zanController = new FunshowDetailZanController(findViewById(R.id.include_zan), appbarlayout, editEva, talkId);
         evaController = new FunshowDetailEvaController(findViewById(R.id.include_eva), springView, editEva, talkId);
         editController = new FunshowDetailEditController(findViewById(R.id.include_edit), talkId);
-
-
     }
 
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.btn_right) {
-            DialogSure.showDialog(this, "确定要举报该趣晒？", () -> {
-                NetReportHelper.newInstance().netReportFunshow(this, talkId, () -> finish());
-            });
+            if (btnRight.getText().equals(getString(R.string.funshow_home_funshow_detail_btn_right))) {
+                DialogSure.showDialog(this, "确定要举报该趣晒？", () -> {
+                    NetReportHelper.newInstance().netReportFunshow(this, talkId, () -> finish());
+                });
+            } else if (btnRight.getText().equals(getString(R.string.funshow_home_funshow_detail_btn_right_del))) {
+                DialogSure.showDialog(this, "确定要删除该趣晒？", () -> {
+                    netDelFunshow();
+                });
+            }
         }
     }
 
@@ -94,22 +133,24 @@ public class FunshowDetailActivity extends BasicAppActivity implements IView {
         if (editController != null) editController.onDestory();
     }
 
-    @Override
-    public void setupActivityComponent(@NonNull AppComponent appComponent) {
-        DaggerSingleActivityComponent
-                .builder()
-                .appComponent(appComponent)
-                .build()
-                .inject(this);
+    ///////////////////////////
+
+    private void netDelFunshow() {
+        ApiHelperEx.execute(this, true,
+                ApiHelperEx.getService(FunshowService.class).delFunshow(talkId),
+                new ErrorHandleSubscriber<BaseJson>() {
+                    @Override
+                    public void onNext(BaseJson basejson) {
+                        ToastUtil.showToastShort("删除成功");
+                        EventBus.getDefault().post(new EventBean(EventBean.EVENT_FUNSHOW_DEL).put("talkId", talkId));
+                        finish();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        ToastUtil.showToastLong(e.getMessage());
+                    }
+                });
     }
 
-    @Override
-    public void showLoading() {
-        showLoadingDialog();
-    }
-
-    @Override
-    public void hideLoading() {
-        dismissLoadingDialog();
-    }
 }

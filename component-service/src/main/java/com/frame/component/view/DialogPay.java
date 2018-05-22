@@ -78,6 +78,35 @@ public class DialogPay extends DialogFragment {
                 callback);
     }
 
+    public static DialogPay showPayFunshow(IView bindView,
+                                           FragmentManager manager,
+                                           int price,
+                                           int balance,
+                                           DialogPayCallback callback) {
+        String[] strings = {
+                "查看该趣晒需支付",
+                Integer.toString(price),
+                "宝石"};
+        int[] colors = {
+                ContextCompat.getColor(Utils.getContext(), R.color.common_text_blank),
+                ContextCompat.getColor(Utils.getContext(), R.color.common_blue_deep),
+                ContextCompat.getColor(Utils.getContext(), R.color.common_text_blank)
+        };
+        SpannableStringBuilder titleText = SpannableStringUtil.createV2(strings, colors);
+
+        return showPay(TYPE_PAY_GEM,
+                bindView,
+                manager,
+                titleText,
+                "您当前余额为%1d宝石",
+                "再逛逛",
+                "立即支付",
+                "去充值",
+                price,
+                balance,
+                callback);
+    }
+
     /**
      * 使用钻石支付
      */
@@ -117,11 +146,11 @@ public class DialogPay extends DialogFragment {
      * @Param balance 余额，当余额为 < 0 时，会调用 accountBalance 查询余额
      */
     private static DialogPay showPay(int type, IView bindView,
-                                    FragmentManager manager,
-                                    SpannableStringBuilder titleText, String hintText,
-                                    String cancelText, String payText, String rechargeText,
-                                    int price, int balance,
-                                    DialogPayCallback callback) {
+                                     FragmentManager manager,
+                                     SpannableStringBuilder titleText, String hintText,
+                                     String cancelText, String payText, String rechargeText,
+                                     int price, int balance,
+                                     DialogPayCallback callback) {
         DialogPay dialog = new DialogPay();
         dialog.setFragmentManager(manager);
         dialog.setTitleText(titleText);
