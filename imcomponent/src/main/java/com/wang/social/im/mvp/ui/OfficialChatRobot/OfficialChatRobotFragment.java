@@ -86,7 +86,6 @@ public class OfficialChatRobotFragment extends BasicFragment implements IView,
 
     }
 
-
     private void userLeavingMsgList() {
         mApiHelper.execute(this,
                 netUserLeavingMsgList(),
@@ -97,8 +96,14 @@ public class OfficialChatRobotFragment extends BasicFragment implements IView,
                         mLeavingMsgs.addAll(pageList.getList());
                         if (null != mAdapter) {
                             mAdapter.notifyDataSetChanged();
+
+                            fcMessageList.smoothScrollToPosition(mAdapter.getItemCount() - 1);
                         }
-                        fcMessageList.smoothScrollToPosition(mAdapter.getItemCount() - 1);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        ToastUtil.showToastShort(e.getMessage());
                     }
                 });
     }
