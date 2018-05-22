@@ -76,7 +76,7 @@ public class QrcodeActivity extends BasicAppActivity implements IView {
     private void setUserData(UserBoard user) {
         if (user != null) {
             ImageLoaderHelper.loadCircleImg(imgHeader,user.getAvatar());
-            ImageLoaderHelper.loadImg(imgQrcode,user.getAvatar());
+            ImageLoaderHelper.loadImg(imgQrcode,user.getQrcodeImg());
             textName.setText(user.getNickname());
             textDetail.setText(user.getTagTextDot());
             textLableGender.setSelected(!user.isMale());

@@ -60,6 +60,9 @@ public class FunshowDetail {
 
     ////////////////////////////////////
 
+    public boolean hasVideo() {
+        return resourceUrl != null && resourceUrl.isVidoe();
+    }
 
     public String getUserNickname() {
         return !isHideName() ? userNickname : "匿名用户";

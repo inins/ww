@@ -68,12 +68,6 @@ public class RecycleAdapterCommonFunshow extends BaseAdapter<FunshowBean> {
             });
             itemView.setOnClickListener(v -> {
                 if (!bean.isFree() && !bean.isPay()) {
-//                    DialogSureFunshowPay.showDialog(getContext(), bean.getPrice(), () -> {
-//                        NetPayStoneHelper.newInstance().netPayFunshow(getIView(), bean.getId(), bean.getPrice(), () -> {
-//                            CommonHelper.FunshowHelper.startDetailActivity(getContext(), bean.getId());
-//                            refreshNeedPayById(bean.getId());
-//                        });
-//                    });
                     DialogPay.showPayFunshow(getIView(), getFragmentManager(), bean.getPrice(), -1, () -> {
                         NetPayStoneHelper.newInstance().netPayFunshow(getIView(), bean.getId(), bean.getPrice(), () -> {
                             CommonHelper.FunshowHelper.startDetailActivity(getContext(), bean.getId());

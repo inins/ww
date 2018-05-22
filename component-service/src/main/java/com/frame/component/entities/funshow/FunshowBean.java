@@ -45,6 +45,7 @@ public class FunshowBean {
     private String provinceName;
 
     //视频链接：非必需//如果是视频趣晒，并且又没有封面，则会去解析视频第一帧图像作为封面
+    //现在这个字段不再使用，解析在线视频太耗费性能，统一加载封面图
     private String videoUrl;
 
 

@@ -14,6 +14,7 @@ import com.frame.component.helper.NetPayStoneHelper;
 import com.frame.component.helper.NetZanHelper;
 import com.frame.component.ui.base.BaseController;
 import com.frame.component.ui.dialog.DialogSureFunshowPay;
+import com.frame.component.view.DialogPay;
 import com.frame.component.view.FunshowView;
 import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelperEx;
@@ -35,24 +36,6 @@ import butterknife.BindView;
 
 public class DetailFunshowController extends BaseController {
 
-    //    @BindView(R2.id.img_pic)
-//    ImageView imgPic;
-//    @BindView(R2.id.text_title)
-//    TextView textTitle;
-//    @BindView(R2.id.img_player)
-//    ImageView imgPlayer;
-//    @BindView(R2.id.img_tag_pay)
-//    ImageView imgTagPay;
-//    @BindView(R2.id.text_pic_count)
-//    TextView textPicCount;
-//    @BindView(R2.id.text_position)
-//    TextView textPosition;
-//    @BindView(R2.id.text_zan)
-//    TextView textZan;
-//    @BindView(R2.id.text_comment)
-//    TextView textComment;
-//    @BindView(R2.id.text_share)
-//    TextView textShare;
     @BindView(R2.id.funshow_view)
     FunshowView funshowView;
 
@@ -120,11 +103,12 @@ public class DetailFunshowController extends BaseController {
             FunshowBean funshowBean = bean.tans2FunshowBean();
             funshowView.setData(funshowBean);
             getRoot().setOnClickListener(v -> {
-                if (!funshowBean.isFree() && !funshowBean.isPay()) {
-                    DialogSureFunshowPay.showDialog(getContext(), funshowBean.getPrice(), () -> {
+                if (!funshowBean.hasAuth()) {
+                    DialogPay.showPayFunshow(getIView(), getFragmentManager(), funshowBean.getPrice(), -1, () -> {
                         NetPayStoneHelper.newInstance().netPayFunshow(getIView(), funshowBean.getId(), funshowBean.getPrice(), () -> {
                             CommonHelper.FunshowHelper.startDetailActivity(getContext(), funshowBean.getId());
                             currentFunshow.setTalkPayed(1);
+                            setFunshowData(currentFunshow);
                         });
                     });
                 } else {

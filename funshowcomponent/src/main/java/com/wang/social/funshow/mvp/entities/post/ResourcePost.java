@@ -13,6 +13,5 @@ public class ResourcePost {
 
     private int mediaType;
     private int picOrder;
-    private int picType;
     private String url;
 }
