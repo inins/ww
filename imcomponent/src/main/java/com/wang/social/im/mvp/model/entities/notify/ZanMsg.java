@@ -30,6 +30,7 @@ public class ZanMsg {
     private String msgContent;
     private int modePkId;
     private int modeId;
+    private String modeDesc;
     private String modeName;
     private int modeType;
     private int state;
@@ -51,10 +52,13 @@ public class ZanMsg {
         CommonMsg commonMsg = new CommonMsg();
         commonMsg.setId(msgId);
         commonMsg.setAvatar(sendAvatar);
-        commonMsg.setPicUrl("");
+        commonMsg.setPicUrl(modeDesc);
         commonMsg.setName(sendNickname);
         commonMsg.setTime(createTime);
         commonMsg.setContent(msgContent);
+        commonMsg.setModeType(modeType);
+        commonMsg.setModeId(modeId);
+        commonMsg.setModePkId(modePkId);
         return commonMsg;
     }
 

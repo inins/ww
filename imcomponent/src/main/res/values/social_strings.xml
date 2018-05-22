@@ -32,6 +32,8 @@
     <string name="im_self_group_name">我的群名称</string>
     <string name="im_group_name_setting">设置群名称</string>
     <string name="im_happy_wood">快活林</string>
+    <string name="im_joined_team">已加入觅聊</string>
+    <string name="im_team_list">觅聊列表</string>
 
     <!-- 觅聊详情 -->
     <string name="im_team_name">觅聊名称</string>
@@ -39,6 +41,7 @@
     <string name="im_team_apply_join">申请加入</string>
     <string name="im_dissolve_team">解散觅聊</string>
     <string name="im_exit_team">退出觅聊</string>
+    <string name="im_join_team_pay_tip">加入觅聊需支付%d宝石</string>
 
     <!-- 创建趣聊 -->
     <string name="im_create">创建</string>

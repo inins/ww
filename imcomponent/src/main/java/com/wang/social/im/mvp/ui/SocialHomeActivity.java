@@ -35,6 +35,7 @@ import com.frame.di.component.AppComponent;
 import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.http.imageloader.glide.RoundedCornersTransformation;
+import com.frame.integration.AppManager;
 import com.frame.router.facade.annotation.Autowired;
 import com.frame.utils.ScreenUtils;
 import com.frame.utils.SizeUtils;
@@ -192,6 +193,8 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
     String socialId;
     @Inject
     ImageLoader mImageLoader;
+    @Inject
+    AppManager mAppManager;
 
     PhotoHelperEx mPhotoHelper;
 
@@ -528,6 +531,7 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
 
     @Override
     public void onExitOrDissolve() {
+        mAppManager.killActivity(GroupConversationActivity.class);
         finish();
     }
 
@@ -542,7 +546,7 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
         if (mPhotoHelper != null) {
             mPhotoHelper.onActivityResult(requestCode, resultCode, data);
         }
-        if (mPhotoHelperEx != null){
+        if (mPhotoHelperEx != null) {
             mPhotoHelperEx.onActivityResult(requestCode, resultCode, data);
         }
         if (resultCode == RESULT_OK) {

@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import com.frame.base.BaseAdapter;
 import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.BaseListWrap;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
 import com.frame.component.view.TitleView;
 import com.frame.http.api.ApiHelperEx;
@@ -84,6 +85,11 @@ public class NotifyEvaListActivity extends BasicAppNoDiActivity implements IView
 
     @Override
     public void onItemClick(CommonMsg bean, int position) {
+        if (bean.isFunshow()) {
+            CommonHelper.FunshowHelper.startDetailActivity(this, bean.getModePkId());
+        } else if (bean.isTopic()) {
+            CommonHelper.TopicHelper.startTopicDetail(this, bean.getModePkId());
+        }
     }
 
     //////////////////////分页查询////////////////////

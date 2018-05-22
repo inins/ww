@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import com.frame.base.BaseAdapter;
 import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.BaseListWrap;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
 import com.frame.component.view.TitleView;
 import com.frame.http.api.ApiHelperEx;
@@ -84,6 +85,8 @@ public class NotifyAiteListActivity extends BasicAppNoDiActivity implements IVie
 
     @Override
     public void onItemClick(CommonMsg bean, int position) {
+        //TODO:这里是否需要付费？需产品确认需求再开发
+        CommonHelper.FunshowHelper.startDetailActivity(this, bean.getModeId());
     }
 
     //////////////////////分页查询////////////////////

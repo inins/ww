@@ -24,6 +24,7 @@ import com.tencent.imsdk.ext.message.TIMMessageExt;
 import com.tencent.imsdk.ext.message.TIMMessageLocator;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
+import com.wang.social.im.app.IMConstants;
 import com.wang.social.im.di.component.DaggerConversationListComponent;
 import com.wang.social.im.di.modules.ConversationListModule;
 import com.frame.component.enums.ConversationType;
@@ -237,7 +238,8 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
     }
 
     private void doUpdate(TIMMessage message) {
-        if (message.getConversation().getType() != TIMConversationType.C2C && message.getConversation().getType() != TIMConversationType.Group) {
+        if ((message.getConversation().getType() != TIMConversationType.C2C && message.getConversation().getType() != TIMConversationType.Group) ||
+                (message.getConversation().getType() == TIMConversationType.C2C && message.getConversation().getPeer().equals(IMConstants.SERVER_PUSH_MESSAGE_ACCOUNT))) {
             return;
         }
         UIConversation uiConversation = new UIConversation(message.getConversation());

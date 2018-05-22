@@ -122,7 +122,7 @@ public class HomeFunshowController extends BaseController {
                 popupWindow.showPopupWindow(view);
             });
             getRoot().setOnClickListener(v -> {
-                if (!funshowBean.isPay()) {
+                if (!funshowBean.isFree() && !funshowBean.isPay()) {
                     DialogSureFunshowPay.showDialog(getContext(), funshowBean.getPrice(), () -> {
                         NetPayStoneHelper.newInstance().netPayFunshow(getIView(), funshowBean.getId(), funshowBean.getPrice(), () -> {
                             CommonHelper.FunshowHelper.startDetailActivity(getContext(), funshowBean.getId());
