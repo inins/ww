@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -62,6 +63,10 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
         super(context, attrs, defStyleAttr);
         setOrientation(VERTICAL);
         init(context);
+    }
+
+    public EditText getEditText() {
+        return mEditText;
     }
 
     private void init(Context context) {

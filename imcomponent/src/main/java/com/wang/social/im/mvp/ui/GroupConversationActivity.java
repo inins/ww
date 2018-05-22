@@ -20,6 +20,7 @@ import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.ui.dialog.PayDialog;
 import com.frame.component.utils.UIUtil;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
 import com.frame.router.facade.annotation.Autowired;
 import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.SizeUtils;
@@ -38,6 +39,9 @@ import com.wang.social.im.mvp.ui.fragments.TeamConversationFragment;
 import com.wang.social.im.utils.ActivitySwitcher;
 import com.wang.social.im.view.drawer.SlidingRootNav;
 import com.wang.social.im.view.drawer.SlidingRootNavBuilder;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -206,6 +210,7 @@ public class GroupConversationActivity extends BaseAppActivity<GroupConversation
     public void onClick(View v) {
         if (v.getId() == R.id.gd_joined_create || v.getId() == R.id.gd_list_create) {
             CreateTeamActivity.start(this, ImHelper.imId2WangId(targetId));
+            mRootNav.closeMenu();
         }
     }
 
@@ -246,5 +251,19 @@ public class GroupConversationActivity extends BaseAppActivity<GroupConversation
     @Override
     public void onJoinClick(TeamInfo teamInfo) {
         mPresenter.checkJoinStatus(ImHelper.imId2WangId(targetId), teamInfo.getTeamId());
+    }
+
+
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        if (event.getEvent() == EventBean.EVENT_NOTIFY_CREATE_TEAM) {
+            mPresenter.getSelfMiList(ImHelper.imId2WangId(targetId));
+            mPresenter.getMiList(ImHelper.imId2WangId(targetId));
+        }
     }
 }

@@ -1,14 +1,20 @@
 package com.wang.social.im.helper;
 
+import com.frame.entities.EventBean;
 import com.tencent.imsdk.TIMUserProfile;
 import com.tencent.imsdk.ext.sns.TIMFriendGroup;
 import com.tencent.imsdk.ext.sns.TIMFriendshipProxy;
+import com.wang.social.im.app.RefreshEvent;
 import com.wang.social.im.mvp.model.entities.FriendProfile;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * ============================================
@@ -17,7 +23,7 @@ import java.util.Map;
  * Create by ChenJing on 2018-04-17 13:35
  * ============================================
  */
-public class FriendShipHelper {
+public class FriendShipHelper implements Observer {
 
     //好友分组
     private List<String> mGroups;
@@ -29,6 +35,7 @@ public class FriendShipHelper {
         mGroups = new ArrayList<>();
         mFriends = new HashMap<>();
 
+        RefreshEvent.getInstance().addObserver(this);
         refresh();
     }
 
@@ -56,6 +63,7 @@ public class FriendShipHelper {
             }
             mFriends.put(group.getGroupName(), profiles);
         }
+        EventBus.getDefault().post(new EventBean(EventBean.EVENT_NOTIFY_PROFILE_UPDATED));
     }
 
     /**
@@ -75,7 +83,8 @@ public class FriendShipHelper {
         return null;
     }
 
-    public void onAdd(){
-
+    @Override
+    public void update(Observable o, Object arg) {
+        refresh();
     }
 }
