@@ -18,7 +18,7 @@ import java.util.Random;
 
 import javax.inject.Inject;
 
-//import jp.wasabeef.glide.transformations.BlurTransformation;
+import jp.wasabeef.glide.transformations.BlurTransformation;
 
 /**
  * Created by liaoinstan
@@ -85,13 +85,15 @@ public class ImageLoaderHelper {
     //加载一张图进行高斯模糊处理
     //暂时使用Glide，后面有时间封装到ImageLoader里面
     public static void loadBlurImg(ImageView imageView, String url) {
-//        RequestOptions myOptions = new RequestOptions()
-//                .transform(new BlurTransformation(25));
-//        Glide.with(Utils.getContext())
-//                .load(url)
-//                .apply(myOptions)
-//                .transition(new DrawableTransitionOptions().crossFade(200))
-//                .into(imageView);
+        getImageLoader().loadImage(Utils.getContext(), ImageConfigImpl.
+                builder()
+                .imageView(imageView)
+                .placeholder(R.drawable.default_rect)
+                .errorPic(R.drawable.default_rect)
+                .isCircle(false)
+                .transformation(new BlurTransformation(50))
+                .url(url)
+                .build());
     }
 
     public static ImageLoader getImageLoader() {

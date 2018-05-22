@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.frame.component.helper.AppDataHelper;
+import com.frame.component.helper.AppValiHelper;
 import com.frame.component.helper.QiNiuManager;
 import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.component.utils.BitmapUtil;
@@ -99,6 +100,13 @@ public class FunshowAddActivity extends BasicAppActivity implements IView {
             List<String> photoPaths = bundleController.getImgPaths();
             String videoPath = bundleController.getVideoPath();
             String musicPath = musicBoardController.getMusicPath();
+
+            //输入验证
+            String msg = AppValiHelper.addFunshow(editController.getContent(), photoPaths, videoPath);
+            if (msg != null) {
+                ToastUtil.showToastShort(msg);
+                return;
+            }
 
             //如果存在视频，需要解析第一帧图片在图片资源中添加一张图片作为封面
             if (!TextUtils.isEmpty(videoPath)) {

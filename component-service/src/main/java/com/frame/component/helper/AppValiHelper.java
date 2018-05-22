@@ -1,8 +1,11 @@
-package com.wang.social.personal.helper;
+package com.frame.component.helper;
 
 import android.text.TextUtils;
 
 import com.frame.utils.RegexUtils;
+import com.frame.utils.StrUtil;
+
+import java.util.List;
 
 public class AppValiHelper {
 
@@ -23,6 +26,16 @@ public class AppValiHelper {
             return "请输入支付宝账户";
         } else if (TextUtils.isEmpty(realName)) {
             return "请输入支付宝真实姓名";
+        } else {
+            return null;
+        }
+    }
+
+    public static String addFunshow(String content, List<String> photoPaths, String videoPath) {
+        if (TextUtils.isEmpty(content)) {
+            return "请输入趣晒内容";
+        } else if (StrUtil.isEmpty(photoPaths) && TextUtils.isEmpty(videoPath)) {
+            return "请添加图片或视频";
         } else {
             return null;
         }

@@ -8,9 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
-import com.frame.di.component.AppComponent;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
@@ -18,13 +16,10 @@ import com.frame.utils.StrUtil;
 import com.frame.utils.ToastUtil;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
-import com.wang.social.personal.helper.AppValiHelper;
-import com.wang.social.personal.mvp.entities.AccountBalance;
+import com.frame.component.helper.AppValiHelper;
 import com.wang.social.personal.mvp.model.api.UserService;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import retrofit2.http.Field;
 
 public class AccountDepositActivity extends BasicAppNoDiActivity {
 

@@ -125,6 +125,14 @@ public class FunshowDetailActivity extends BasicAppNoDiActivity implements IView
     }
 
     @Override
+    public void onBackPressed() {
+        if (contentBoardController != null && contentBoardController.onBackPressed()) {
+            return;
+        }
+        super.onBackPressed();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         if (contentBoardController != null) contentBoardController.onDestory();

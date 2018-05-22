@@ -90,7 +90,7 @@ public class FunShowFragment extends BaseFragment<FunshowListPresonter> implemen
             case EventBean.EVENT_FUNSHOW_DEL:
                 //在详情页不喜欢，收到通知刷新列表
             case EventBean.EVENT_FUNSHOW_DISSLIKE: {
-                mPresenter.netGetFunshowList(type, true);
+                springView.callFreshDelay();
                 break;
             }
             case EventBean.EVENT_FUNSHOW_LIST_TYPE_CHANGE: {

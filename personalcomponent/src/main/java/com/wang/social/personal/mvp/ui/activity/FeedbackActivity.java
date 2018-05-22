@@ -32,7 +32,7 @@ import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
 import com.frame.component.common.SimpleTextWatcher;
 import com.wang.social.personal.di.component.DaggerSingleActivityComponent;
-import com.wang.social.personal.helper.AppValiHelper;
+import com.frame.component.helper.AppValiHelper;
 import com.frame.http.api.ApiHelperEx;
 import com.wang.social.pictureselector.helper.PhotoHelper;
 import com.wang.social.personal.helper.PicPhotoHelperEx;
