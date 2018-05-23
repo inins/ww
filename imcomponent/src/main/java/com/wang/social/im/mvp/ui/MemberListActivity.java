@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,12 +17,15 @@ import android.widget.TextView;
 import com.frame.component.enums.Gender;
 import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.component.ui.base.BaseAppActivity;
+import com.frame.component.ui.dialog.DialogSure;
+import com.frame.component.ui.dialog.DialogValiRequest;
 import com.frame.component.utils.UIUtil;
 import com.frame.component.view.TitleView;
 import com.frame.di.component.AppComponent;
 import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.router.facade.annotation.Autowired;
+import com.frame.utils.ToastUtil;
 import com.tencent.imsdk.TIMManager;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
@@ -153,7 +157,7 @@ public class MemberListActivity extends BaseAppActivity<MemberListPresenter> imp
 
     @OnClick(R2.id.ml_iv_search)
     public void onViewClicked() {
-        // TODO: 2018-05-10 搜索
+        SearchActivity.start(this);
     }
 
     private void showMasterInfo(MemberInfo master) {
@@ -186,11 +190,22 @@ public class MemberListActivity extends BaseAppActivity<MemberListPresenter> imp
 
     @Override
     public void onFriendly(MemberInfo memberInfo) {
-        // TODO: 2018-05-10 添加好友
+        DialogValiRequest.showDialog(this, content -> {
+            if (TextUtils.isEmpty(content)) {
+                ToastUtil.showToastShort("请输入申请理由");
+                return;
+            }
+            mPresenter.friendRequest(memberInfo.getMemberId(), content);
+        });
     }
 
     @Override
     public void onTakeOut(MemberInfo memberInfo, int position) {
-        mPresenter.kickOutMember(groupId, memberInfo);
+        DialogSure.showDialog(this, UIUtil.getString(R.string.im_take_out_sure, memberInfo.getNickname()), new DialogSure.OnSureCallback() {
+            @Override
+            public void onOkClick() {
+                mPresenter.kickOutMember(groupId, memberInfo);
+            }
+        });
     }
 }

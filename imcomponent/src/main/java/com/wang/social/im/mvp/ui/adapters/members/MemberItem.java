@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.frame.component.enums.Gender;
+import com.frame.component.helper.AppDataHelper;
 import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
@@ -112,7 +113,10 @@ public class MemberItem extends AbstractExpandableAdapterItem {
             }
             tvTags.setText(tags);
 
-            if (member.isFriendly()) {
+            if (member.getMemberId().equals(String.valueOf(AppDataHelper.getUser().getUserId()))) {
+                ivFriendly.setVisibility(View.GONE);
+                tvbFriendly.setVisibility(View.GONE);
+            } else if (member.isFriendly()) {
                 ivFriendly.setVisibility(View.VISIBLE);
                 tvbFriendly.setVisibility(View.GONE);
             } else {
@@ -120,9 +124,9 @@ public class MemberItem extends AbstractExpandableAdapterItem {
                 tvbFriendly.setVisibility(View.VISIBLE);
             }
 
-            if (isMaster){
+            if (isMaster) {
                 tvbTakeOut.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 tvbTakeOut.setVisibility(View.GONE);
             }
             menuLayout.quickClose();
