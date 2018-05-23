@@ -13,6 +13,7 @@ import com.frame.component.entities.dto.AddGroupRspDTO;
 import com.wang.social.im.mvp.model.entities.dto.AnonymousInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.CreateGroupResultDTO;
 import com.wang.social.im.mvp.model.entities.dto.DistributionGroupDTO;
+import com.wang.social.im.mvp.model.entities.dto.GroupGameCheckResultDTO;
 import com.wang.social.im.mvp.model.entities.dto.GroupJoinCheckResultDTO;
 import com.wang.social.im.mvp.model.entities.dto.IndexFriendInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.IndexMemberInfoDTO;
@@ -447,4 +448,14 @@ public interface GroupService {
      */
     @POST("app/shadow/openOrCloseUserShadow")
     Observable<BaseJson> updateShadowStatus(@Query("v") String version, @Query("groupId") String socialId, @Query("state") int state);
+
+    /**
+     * 检测群是否有游戏
+     *
+     * @param version
+     * @param socialId
+     * @return
+     */
+    @GET("app/moneyTree/isJoined")
+    Observable<BaseJson<GroupGameCheckResultDTO>> checkHasGame(@Query("v") String version, @Query("groupId") String socialId);
 }

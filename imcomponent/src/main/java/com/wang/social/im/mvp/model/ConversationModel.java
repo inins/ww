@@ -11,6 +11,7 @@ import com.wang.social.im.mvp.model.api.EnvelopService;
 import com.wang.social.im.mvp.model.api.GroupService;
 import com.wang.social.im.mvp.model.entities.dto.AnonymousInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.EnvelopInfoDTO;
+import com.wang.social.im.mvp.model.entities.dto.GroupGameCheckResultDTO;
 import com.wang.social.im.mvp.model.entities.dto.ShadowInfoDTO;
 
 import javax.inject.Inject;
@@ -64,5 +65,12 @@ public class ConversationModel extends BaseModel implements ConversationContract
         return mRepositoryManager
                 .obtainRetrofitService(GroupService.class)
                 .updateShadowStatus("2.0.0", socialId, isOpen ? GroupService.SHADOW_STATE_OPEN : GroupService.SHADOW_STATE_CLOSE);
+    }
+
+    @Override
+    public Observable<BaseJson<GroupGameCheckResultDTO>> checkHasGame(String socialId) {
+        return mRepositoryManager
+                .obtainRetrofitService(GroupService.class)
+                .checkHasGame("2.0.0", socialId);
     }
 }

@@ -26,12 +26,15 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.frame.base.BaseFragment;
+import com.frame.component.entities.NewMoneyTreeGame;
 import com.frame.component.entities.funpoint.Funpoint;
 import com.frame.component.enums.ConversationType;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.sound.AudioPlayManager;
 import com.frame.component.helper.sound.AudioRecordManager;
 import com.frame.component.ui.dialog.DialogLoading;
 import com.frame.component.utils.UIUtil;
+import com.frame.component.view.moneytree.DialogCreateGame;
 import com.frame.di.component.AppComponent;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.ToastUtil;
@@ -439,6 +442,26 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     }
 
     @Override
+    public void showCreateGameDialog() {
+        DialogCreateGame.createFromGroup(this, getChildFragmentManager(), Integer.parseInt(ImHelper.imId2WangId(mTargetId)), new DialogCreateGame.CreateGameCallback() {
+            @Override
+            public boolean onCreateSuccess(NewMoneyTreeGame newMoneyTreeGame) {
+                return true;
+            }
+
+            @Override
+            public void onPayCreateGameSuccess() {
+                mPresenter.sendGameMessage("", 0);
+            }
+        });
+    }
+
+    @Override
+    public void gotoGameRoom(String roomId) {
+
+    }
+
+    @Override
     public void onPluginClick(PluginModule pluginModule) {
         switch (pluginModule.getPluginType()) {
             case IMAGE: //图片选择
@@ -503,6 +526,9 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
                 } else {
                     mPresenter.updateShadowStatus(ImHelper.imId2WangId(mTargetId));
                 }
+                break;
+            case GAME:
+                mPresenter.checkHasGame(ImHelper.imId2WangId(mTargetId));
                 break;
         }
     }

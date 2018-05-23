@@ -120,6 +120,7 @@
     <string name="im_add_friend">加好友</string>
     <string name="im_take_out">踢出群</string>
     <string name="im_send_invite">发送邀请</string>
+    <string name="im_take_out_sure">确认将%s踢出?</string>
 
     <!--Toast-->
     <string name="im_toast_clear_fail">清除失败</string>
