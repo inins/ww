@@ -1,6 +1,7 @@
 package com.wang.social.im.mvp.ui.adapters;
 
 import android.content.Context;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,6 +26,8 @@ public class RecycleAdapterFriendRequest extends BaseAdapter<RequestBean> {
     }
 
     public class Holder extends BaseViewHolder<RequestBean> {
+        @BindView(R2.id.img_dot)
+        ImageView imgDot;
         @BindView(R2.id.img_header)
         ImageView imgHeader;
         @BindView(R2.id.text_lable_gender)
@@ -50,6 +53,7 @@ public class RecycleAdapterFriendRequest extends BaseAdapter<RequestBean> {
             textLableGender.setText(TimeUtils.getBirthdaySpan(bean.getBirthday()));
             textLableAstro.setText(TimeUtils.getAstro(bean.getBirthday()));
             textTag.setText(getContext().getResources().getString(isGroup ? R.string.im_notify_findchat_request_reason : R.string.im_notify_friend_request_reason) + bean.getReason());
+            imgDot.setVisibility(bean.isRead() ? View.GONE : View.VISIBLE);
             textDo.setEnabled(!bean.isDeal());
             textDo.setText(bean.getStatusText());
             textDo.setOnClickListener(v -> {

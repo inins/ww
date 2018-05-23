@@ -21,7 +21,7 @@
 
         <View style="@style/common_Line_H" />
 
-        <RadioGroup
+        <com.frame.component.view.XRadioGroup
             android:id="@+id/group_tab"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -35,18 +35,34 @@
                 android:drawableTop="@drawable/select_home_tab_w"
                 android:text="@string/home_tab_w" />
 
-            <RadioButton
-                android:id="@+id/tab_2"
-                style="@style/RadioHomeTab"
-                android:drawableTop="@drawable/select_home_tab_a"
-                android:text="@string/home_tab_a" />
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <RadioButton
+                    android:id="@+id/tab_2"
+                    style="@style/RadioHomeTab"
+                    android:layout_width="match_parent"
+                    android:drawableTop="@drawable/select_home_tab_a"
+                    android:text="@string/home_tab_a" />
+
+                <ImageView
+                    android:id="@+id/img_dot_home"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_gravity="right"
+                    android:src="@drawable/common_shape_oval_dot_red"/>
+            </FrameLayout>
 
             <ImageView
                 android:id="@+id/img_add"
-                android:onClick="onClick"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:onClick="onClick"
                 android:scaleType="center"
                 android:src="@drawable/ic_home_tab_center" />
 
@@ -62,7 +78,7 @@
                 android:drawableTop="@drawable/select_home_tab_g"
                 android:text="@string/home_tab_g" />
 
-        </RadioGroup>
+        </com.frame.component.view.XRadioGroup>
     </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

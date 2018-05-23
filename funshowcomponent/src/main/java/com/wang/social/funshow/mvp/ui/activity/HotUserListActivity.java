@@ -22,6 +22,7 @@ import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.IView;
+import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.FocusUtil;
 import com.frame.utils.StrUtil;
 import com.frame.utils.ToastUtil;
@@ -41,6 +42,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 
+@RouteNode(path = "/hotUser", desc = "趣晒魔")
 public class HotUserListActivity extends BasicAppActivity implements IView, BaseAdapter.OnItemClickListener<TopUser> {
 
     @BindView(R2.id.spring)

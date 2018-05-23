@@ -12,6 +12,7 @@ import android.widget.RadioGroup;
 import com.frame.component.service.personal.PersonalFragmentInterface;
 import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
+import com.frame.component.view.XRadioGroup;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.router.facade.annotation.RouteNode;
@@ -25,10 +26,10 @@ import org.greenrobot.eventbus.EventBus;
 import butterknife.BindView;
 
 @RouteNode(path = "/main", desc = "首页")
-public class HomeActivity extends BasicAppNoDiActivity implements RadioGroup.OnCheckedChangeListener {
+public class HomeActivity extends BasicAppNoDiActivity implements XRadioGroup.OnCheckedChangeListener {
 
     @BindView(R.id.group_tab)
-    RadioGroup groupTab;
+    XRadioGroup groupTab;
     @BindView(R.id.pager)
     ViewPager pager;
 
@@ -84,7 +85,7 @@ public class HomeActivity extends BasicAppNoDiActivity implements RadioGroup.OnC
 
     //tab动作，切换viewpager
     @Override
-    public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
+    public void onCheckedChanged(XRadioGroup radioGroup, int checkedId) {
         for (int i = 0; i < tabsId.length; i++) {
             if (tabsId[i] == checkedId) {
                 pager.setCurrentItem(i, false);

@@ -18,8 +18,13 @@ public class RequestBean {
     private long birthday;
     private String reason;
     private long createTime;
+    private int readState;
 
     private int groupId;
+
+    public boolean isRead() {
+        return readState == 1;
+    }
 
     public boolean isMale() {
         return sex == 0;

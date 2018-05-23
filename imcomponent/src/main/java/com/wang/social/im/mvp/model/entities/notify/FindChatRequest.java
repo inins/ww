@@ -41,7 +41,11 @@ public class FindChatRequest {
     private String reason;
     private long createTime;
     private List<Tag> tags;
+    private int readState;
 
+    public boolean isRead() {
+        return readState == 1;
+    }
 
     public RequestBean trans2RequestBean() {
         RequestBean requestBean = new RequestBean();
@@ -55,6 +59,7 @@ public class FindChatRequest {
         requestBean.setReason(reason);
         requestBean.setCreateTime(createTime);
         requestBean.setGroupId(groupId);
+        requestBean.setReadState(readState);
         return requestBean;
     }
 

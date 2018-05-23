@@ -17,6 +17,7 @@ import com.frame.http.api.error.RxErrorHandler;
 import com.frame.http.imageloader.ImageLoader;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.IView;
+import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.FocusUtil;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.ToastUtil;
@@ -37,6 +38,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 
+@RouteNode(path = "/officialPhoto", desc = "官方图库")
 public class OfficialPhotoActivity extends BasicAppActivity implements IView, BaseAdapter.OnItemClickListener<OffiPic> {
 
     public static final String NAME_URL = "url";
@@ -53,8 +55,6 @@ public class OfficialPhotoActivity extends BasicAppActivity implements IView, Ba
     @BindView(R2.id.toolbar)
     Toolbar toolbar;
     private RecycleAdapterOfficialPhoto adapter;
-
-    private Photo modifyPhoto;
 
     public static void start(Activity activity, int requestCode) {
         Intent intent = new Intent(activity, OfficialPhotoActivity.class);

@@ -38,6 +38,11 @@ public class ZanMsg {
     private String sendNickname;
     private String sendAvatar;
     private int msgId;
+    private int readState;
+
+    public boolean isRead() {
+        return readState == 1;
+    }
 
     /**
      *     private int id;
@@ -59,6 +64,7 @@ public class ZanMsg {
         commonMsg.setModeType(modeType);
         commonMsg.setModeId(modeId);
         commonMsg.setModePkId(modePkId);
+        commonMsg.setReadState(readState);
         return commonMsg;
     }
 

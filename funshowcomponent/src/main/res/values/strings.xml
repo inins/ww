@@ -6,7 +6,7 @@
 
     <!--趣晒魔页面-->
     <string name="funshow_home_hotuserlist_title">趣晒魔</string>
-    <string name="funshow_home_hotuserlist_note">发布趣晒20条以上，他们都是爱秀的达人</string>
+    <string name="funshow_home_hotuserlist_note">他们都是爱秀的达人</string>
 
     <!--点赞列表页面-->
     <string name="funshow_home_zanuserlist_title">点赞列表</string>
