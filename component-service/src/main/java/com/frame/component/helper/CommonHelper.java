@@ -224,14 +224,23 @@ public class CommonHelper {
         /**
          * 趣聊主页
          *
-         * @param context
-         * @param socialId
+         * @param context context
+         * @param socialId 趣聊群id
          */
         public static void gotoSocialHome(Context context, String socialId) {
             Bundle bundle = new Bundle();
             bundle.putString("socialId", socialId);
             UIRouter.getInstance().openUri(context, ImPath.SOCIAL_HOME_URL, bundle);
         }
+
+        /**
+         * 启动往往官方号页面
+         * @param context context
+         */
+        public static void startOfficialChatRobot(Context context) {
+            UIRouter.getInstance().openUri(context, ImPath.OFFICIAL_CHAT_ROBOT_URL, null);
+        }
+
     }
 
     public static class TopicHelper {

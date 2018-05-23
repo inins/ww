@@ -12,11 +12,13 @@ import android.widget.TextView;
 import com.frame.base.BasicActivity;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
+import com.frame.router.facade.annotation.RouteNode;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 
 import butterknife.BindView;
 
+@RouteNode(path = "/official_chat_robot", desc = "往往官方号")
 public class OfficialChatRobotActivity extends BasicActivity {
 
     public static void start(Context context) {
