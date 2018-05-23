@@ -9,12 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import com.frame.base.BasicFragment;
 import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.BaseListWrap;
-import com.frame.component.entities.ShatDownUser;
-import com.frame.component.entities.TestEntity;
 import com.frame.di.component.AppComponent;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
-import com.frame.http.api.BaseListJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.mvp.IView;
 import com.frame.utils.StrUtil;
@@ -25,12 +22,10 @@ import com.liaoinstan.springview.widget.SpringView;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
 import com.wang.social.personal.di.component.DaggerFragmentComponent;
-import com.wang.social.personal.di.module.UserModule;
 import com.wang.social.personal.mvp.entities.income.DiamondStoneIncome;
 import com.wang.social.personal.mvp.model.api.UserService;
 import com.wang.social.personal.mvp.ui.adapter.RecycleAdapterDepositDetail;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;

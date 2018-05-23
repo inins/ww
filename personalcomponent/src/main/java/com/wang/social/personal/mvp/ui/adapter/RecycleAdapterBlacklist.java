@@ -8,8 +8,7 @@ import android.widget.TextView;
 
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
-import com.frame.component.entities.ShatDownUser;
-import com.frame.component.entities.User;
+import com.frame.component.entities.user.ShatDownUser;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.utils.StrUtil;
 import com.frame.utils.TimeUtils;
