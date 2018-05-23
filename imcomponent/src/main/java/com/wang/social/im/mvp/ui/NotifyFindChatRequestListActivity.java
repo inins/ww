@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import com.frame.base.BaseAdapter;
 import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.BaseListWrap;
+import com.frame.component.helper.NetFriendHelper;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
 import com.frame.component.view.TitleView;
 import com.frame.http.api.ApiHelperEx;
@@ -25,8 +26,7 @@ import com.liaoinstan.springview.widget.SpringView;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.mvp.model.api.NotifyService;
-import com.wang.social.im.mvp.model.entities.notify.FriendRequest;
-import com.wang.social.im.mvp.model.entities.notify.GroupRequest;
+import com.wang.social.im.mvp.model.entities.notify.FindChatRequest;
 import com.wang.social.im.mvp.model.entities.notify.RequestBean;
 import com.wang.social.im.mvp.ui.adapters.RecycleAdapterFriendRequest;
 
@@ -34,7 +34,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class FindChatRequestListActivity extends BasicAppNoDiActivity implements IView, BaseAdapter.OnItemClickListener<RequestBean> {
+public class NotifyFindChatRequestListActivity extends BasicAppNoDiActivity implements IView, BaseAdapter.OnItemClickListener<RequestBean> {
 
     @BindView(R2.id.spring)
     SpringView springView;
@@ -45,7 +45,7 @@ public class FindChatRequestListActivity extends BasicAppNoDiActivity implements
     private RecycleAdapterFriendRequest adapter;
 
     public static void start(Context context) {
-        Intent intent = new Intent(context, FindChatRequestListActivity.class);
+        Intent intent = new Intent(context, NotifyFindChatRequestListActivity.class);
         context.startActivity(intent);
     }
 
@@ -63,7 +63,9 @@ public class FindChatRequestListActivity extends BasicAppNoDiActivity implements
         adapter.setGroup(true);
         adapter.setOnItemClickListener(this);
         adapter.setOnAgreeClickListener((bean, position) -> {
-
+            NetFriendHelper.newInstance().netAgreeFindChatApply(NotifyFindChatRequestListActivity.this, bean.getGroupId(), bean.getUserId(), bean.getMsgId(), true, () -> {
+                netGetSysMsgList(true);
+            });
         });
         recycler.setNestedScrollingEnabled(false);
         recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -101,12 +103,12 @@ public class FindChatRequestListActivity extends BasicAppNoDiActivity implements
         if (isFresh) current = 0;
         ApiHelperEx.execute(this, false,
                 ApiHelperEx.getService(NotifyService.class).getGroupRequstList(current + 1, size),
-                new ErrorHandleSubscriber<BaseJson<BaseListWrap<GroupRequest>>>() {
+                new ErrorHandleSubscriber<BaseJson<BaseListWrap<FindChatRequest>>>() {
                     @Override
-                    public void onNext(BaseJson<BaseListWrap<GroupRequest>> basejson) {
-                        BaseListWrap<GroupRequest> warp = basejson.getData();
-                        //List<GroupRequest> list = warp != null ? warp.getList() : null;
-                        List<RequestBean> list = GroupRequest.tans2RequestBeanList(warp.getList());
+                    public void onNext(BaseJson<BaseListWrap<FindChatRequest>> basejson) {
+                        BaseListWrap<FindChatRequest> warp = basejson.getData();
+                        //List<FindChatRequest> list = warp != null ? warp.getList() : null;
+                        List<RequestBean> list = FindChatRequest.tans2RequestBeanList(warp.getList());
                         if (!StrUtil.isEmpty(list)) {
                             current = warp.getCurrent();
                             if (isFresh) {

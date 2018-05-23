@@ -144,6 +144,15 @@ public class FunshowView extends FrameLayout implements View.OnClickListener {
 
     ////////////////////////////// get & set //////////////////
 
+
+    public boolean isShowHeader() {
+        return isShowHeader;
+    }
+
+    public void setShowHeader(boolean showHeader) {
+        isShowHeader = showHeader;
+    }
+
     public ImageView getMoreBtn() {
         return imgMore;
     }

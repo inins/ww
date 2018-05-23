@@ -171,8 +171,10 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
         mPresenter.setGameRecord(getIntent().getParcelableExtra(NAME_GAME_RECORD));
         int roomId = getIntent().getIntExtra(Keys.NAME_ROOM_ID, -1);
         if (roomId > 0 && null == mPresenter.getGameBean()) {
+            // 重设GameBean
             GameBean gameBean = new GameBean();
             gameBean.setRoomId(roomId);
+            mPresenter.setGameBean(gameBean);
         }
 
         mToolbar.setOnButtonClickListener(clickType -> {

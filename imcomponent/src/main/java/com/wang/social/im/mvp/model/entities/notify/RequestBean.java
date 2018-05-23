@@ -19,6 +19,8 @@ public class RequestBean {
     private String reason;
     private long createTime;
 
+    private int groupId;
+
     public boolean isMale() {
         return sex == 0;
     }

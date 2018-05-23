@@ -81,6 +81,7 @@ public class FunshowMe {
 
         funshowBean.setId(id);
         funshowBean.setUserId(creatorId);
+        funshowBean.setAvatar(avatar);
         funshowBean.setNickname(nickname);
         funshowBean.setCreateTime(createTime);
         funshowBean.setContent(content);
@@ -96,6 +97,7 @@ public class FunshowMe {
         funshowBean.setProvinceName(provinceName);
         funshowBean.setPrice(gemstone);
         funshowBean.setPay(true);   //自己的趣晒不需要支付，默认为已经支付
+//        funshowBean.setHideName(isHideName());
         return funshowBean;
     }
 

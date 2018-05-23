@@ -167,6 +167,10 @@ public interface UserService {
     @GET("/app/userInfo/getMyShieldList?v=2.0.0")
     Observable<BaseJson<BaseListWrap<ShatDownUser>>> shatDownList();
 
+    //黑名单用户列表
+    @GET("/app/userInfo/getMyBlackList?v=2.0.0")
+    Observable<BaseJson<BaseListWrap<ShatDownUser>>> blankUserList();
+
     //钻石收支明细
     @GET("/app/userWallet/diamondIncomeList?v=2.0.0")
     Observable<BaseJson<BaseListWrap<DiamondStoneIncome>>> diamondIncomeList(@Query("type") int type, @Query("current") int current, @Query("size") int size);

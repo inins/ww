@@ -1,15 +1,14 @@
 package com.wang.social.home.mvp.ui.controller;
 
-import android.text.TextUtils;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.frame.component.helper.CommonHelper;
+import com.frame.component.ui.acticity.tags.TagSelectionActivity;
 import com.frame.component.ui.base.BaseController;
 import com.frame.component.utils.viewutils.FontUtils;
 import com.frame.mvp.IView;
-import com.frame.utils.ToastUtil;
 import com.wang.social.home.R;
 import com.wang.social.home.R2;
 import com.wang.social.home.mvp.ui.activity.CardActivity;
@@ -28,6 +27,8 @@ public class HomeNaviboardController extends BaseController implements View.OnCl
     View btnCircle;
     @BindView(R2.id.btn_active)
     View btnActive;
+    @BindView(R2.id.img_find_tag)
+    ImageView imgFindTag;
 
     public HomeNaviboardController(IView iView, View root) {
         super(iView, root);
@@ -44,6 +45,7 @@ public class HomeNaviboardController extends BaseController implements View.OnCl
         btnSamekind.setOnClickListener(this);
         btnCircle.setOnClickListener(this);
         btnActive.setOnClickListener(this);
+        imgFindTag.setOnClickListener(this);
     }
 
     @Override
@@ -61,6 +63,8 @@ public class HomeNaviboardController extends BaseController implements View.OnCl
             CardActivity.startGroup(getContext());
         } else if (id == R.id.btn_active) {
             CommonHelper.GameHelper.startMoneyTreeFromSquare(getContext());
+        } else if (id == R.id.img_find_tag) {
+            TagSelectionActivity.startSelection(getContext(), TagSelectionActivity.TAG_TYPE_INTEREST);
         }
     }
 }

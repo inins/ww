@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import com.frame.base.BasicActivity;
 import com.frame.component.helper.CommonHelper;
 import com.frame.di.component.AppComponent;
+import com.frame.utils.StatusBarUtil;
 import com.wang.social.R;
 
 import java.util.ArrayList;
@@ -49,6 +50,8 @@ public class SplashActivity extends BasicActivity {
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
+        StatusBarUtil.setTranslucent(this);
+
         initImageViews();
 
         mViewPager.setAdapter(new PagerAdapter() {
@@ -81,7 +84,7 @@ public class SplashActivity extends BasicActivity {
 
         for (int i = 0; i < pics.length; i++) {
             View view = LayoutInflater.from(this)
-                    .inflate(R.layout.lay_splash, mViewPager);
+                    .inflate(R.layout.lay_splash, null);
 
             ImageView iv = view.findViewById(R.id.image_view);
             // 为ImageView添加图片资源
@@ -100,7 +103,7 @@ public class SplashActivity extends BasicActivity {
                 });
             }
 
-            mImageViewList.add(iv);
+            mImageViewList.add(view);
         }
     }
 }

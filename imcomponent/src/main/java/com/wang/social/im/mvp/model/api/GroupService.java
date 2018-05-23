@@ -8,8 +8,6 @@ import com.wang.social.im.mvp.model.entities.IndexMemberInfo;
 import com.wang.social.im.mvp.model.entities.MemberInfo;
 import com.wang.social.im.mvp.model.entities.SimpleGroupInfo;
 import com.wang.social.im.mvp.model.entities.TeamInfo;
-import com.frame.component.entities.dto.AddGroupApplyRspDTO;
-import com.frame.component.entities.dto.AddGroupRspDTO;
 import com.wang.social.im.mvp.model.entities.dto.AnonymousInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.CreateGroupResultDTO;
 import com.wang.social.im.mvp.model.entities.dto.DistributionGroupDTO;
@@ -27,7 +25,6 @@ import com.wang.social.im.mvp.model.entities.dto.SocialDTO;
 import com.wang.social.im.mvp.model.entities.dto.SocialHomeDTO;
 import com.wang.social.im.mvp.model.entities.dto.TeamHomeDTO;
 import com.wang.social.im.mvp.model.entities.dto.TeamInfoDTO;
-import com.wang.social.im.mvp.model.entities.notify.GroupJoinRequest;
 
 import java.util.Map;
 

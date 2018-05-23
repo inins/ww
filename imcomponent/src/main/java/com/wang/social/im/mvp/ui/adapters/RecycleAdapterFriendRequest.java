@@ -11,7 +11,6 @@ import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.utils.TimeUtils;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
-import com.wang.social.im.mvp.model.entities.notify.FriendRequest;
 import com.wang.social.im.mvp.model.entities.notify.RequestBean;
 
 import butterknife.BindView;
@@ -76,13 +75,13 @@ public class RecycleAdapterFriendRequest extends BaseAdapter<RequestBean> {
 
     /////////////////////////////
 
-    private OnAgreeClickListener onAgreeClickListener;
+    private OnAgreeFriendClickListener onAgreeClickListener;
 
-    public void setOnAgreeClickListener(OnAgreeClickListener onAgreeClickListener) {
+    public void setOnAgreeClickListener(OnAgreeFriendClickListener onAgreeClickListener) {
         this.onAgreeClickListener = onAgreeClickListener;
     }
 
-    public interface OnAgreeClickListener {
+    public interface OnAgreeFriendClickListener {
         void onAgreeClick(RequestBean bean, int position);
     }
 }

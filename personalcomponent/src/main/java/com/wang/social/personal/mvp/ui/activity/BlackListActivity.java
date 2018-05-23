@@ -39,6 +39,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
 
 public class BlackListActivity extends BasicAppActivity implements IView, RecycleAdapterBlacklist.OnBlankListUserClickListener {
 
@@ -161,13 +162,14 @@ public class BlackListActivity extends BasicAppActivity implements IView, Recycl
     ///////////////////////////////
 
     private void netGetShatDownList() {
+        UserService service = ApiHelperEx.getService(UserService.class);
         ApiHelperEx.execute(this, false,
-                ApiHelperEx.getService(UserService.class).shatDownList(),
+                isBlankList ? service.blankUserList() : service.shatDownList(),
                 new ErrorHandleSubscriber<BaseJson<BaseListWrap<ShatDownUser>>>() {
                     @Override
                     public void onNext(BaseJson<BaseListWrap<ShatDownUser>> basejson) {
                         BaseListWrap<ShatDownUser> wrap = basejson.getData();
-                        List<ShatDownUser> list = wrap.getList();
+                        List<ShatDownUser> list = wrap != null ? wrap.getList() : null;
                         setUserData(list);
                         springView.onFinishFreshAndLoadDelay();
                     }
@@ -181,8 +183,9 @@ public class BlackListActivity extends BasicAppActivity implements IView, Recycl
     }
 
     private void netFreeUsers(String userIds) {
+        CommonService service = ApiHelperEx.getService(CommonService.class);
         ApiHelperEx.execute(this, true,
-                ApiHelperEx.getService(CommonService.class).shatDownUser(userIds, 2),
+                isBlankList ? service.blankUser(userIds, 2) : service.shatDownUser(userIds, 2),
                 new ErrorHandleSubscriber<BaseJson<Object>>() {
                     @Override
                     public void onNext(BaseJson<Object> basejson) {

@@ -36,6 +36,9 @@ import butterknife.BindView;
 
 public class RecycleAdapterCommonFunshow extends BaseAdapter<FunshowBean> {
 
+    private boolean isShowHeader = true;
+    private boolean isShowMoreBtn = true;
+
     @Override
     protected BaseViewHolder createViewHolder(Context context, ViewGroup parent, int viewType) {
         return new Holder(context, parent, R.layout.lay_item_funshow);
@@ -55,6 +58,8 @@ public class RecycleAdapterCommonFunshow extends BaseAdapter<FunshowBean> {
         @Override
         protected void bindData(FunshowBean bean, int position, OnItemClickListener onItemClickListener) {
             funshowView.setData(bean);
+            funshowView.setShowHeader(isShowHeader);
+            funshowView.getMoreBtn().setVisibility(isShowMoreBtn ? View.VISIBLE : View.GONE);
             funshowView.setZanCallback((isZan, zanCount) -> {
                 bean.setSupport(isZan);
                 bean.setSupportTotal(zanCount);
@@ -133,6 +138,16 @@ public class RecycleAdapterCommonFunshow extends BaseAdapter<FunshowBean> {
             funshow.setPay(true);
             notifyItemChanged(index);
         }
+    }
+
+    /////////////////////////////
+
+    public void setShowHeader(boolean showHeader) {
+        isShowHeader = showHeader;
+    }
+
+    public void setShowMoreBtn(boolean showMoreBtn) {
+        isShowMoreBtn = showMoreBtn;
     }
 
     /////////////////////////////
