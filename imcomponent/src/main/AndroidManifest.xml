@@ -221,6 +221,7 @@
 
         <activity
             android:name=".mvp.ui.PrivateConversationActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
@@ -233,6 +234,7 @@
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".mvp.ui.MirrorConversationActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
@@ -325,6 +327,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.ui.GroupConversationActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.ui.NotifyFunChatRequestListActivity"

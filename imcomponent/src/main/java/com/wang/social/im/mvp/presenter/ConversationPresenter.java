@@ -313,6 +313,7 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
         GameElemData gameElem = new GameElemData();
         gameElem.setRoomId(roomId);
         gameElem.setDiamond(diamond);
+        customElem.setData(gson.toJson(gameElem).getBytes());
         timMessage.addElement(customElem);
 
         doSendMessage(timMessage);
