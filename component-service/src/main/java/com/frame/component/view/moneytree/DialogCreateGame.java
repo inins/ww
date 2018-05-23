@@ -55,7 +55,7 @@ public class DialogCreateGame extends DialogFragment {
         /**
          * 创建游戏支付成功
          */
-        void onPayCreateGameSuccess();
+        void onPayCreateGameSuccess(int roomId, int diamond);
     }
 
     /**
@@ -417,7 +417,9 @@ public class DialogCreateGame extends DialogFragment {
                         ToastUtil.showToastLong("创建并支付成功");
 
                         if (null != mCreateGameCallback) {
-                            mCreateGameCallback.onPayCreateGameSuccess();
+                            mCreateGameCallback.onPayCreateGameSuccess(
+                                    newMoneyTreeGame.getRoomId(),
+                                    newMoneyTreeGame.getDiamond());
                         }
                     }
                 },

@@ -174,7 +174,7 @@ public class GameListActivity extends BaseAppActivity<GameListPresenter>
     }
 
     @Override
-    public void onPayCreateGameSuccess() {
+    public void onPayCreateGameSuccess(int roomId, int diamond) {
         // 刷新页面
         mSpringView.callFreshDelay();
     }

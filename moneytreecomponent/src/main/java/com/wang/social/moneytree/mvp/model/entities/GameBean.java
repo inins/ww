@@ -4,8 +4,10 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class GameBean implements Parcelable {
     /**
      * roomId：游戏房间id；
@@ -33,6 +35,17 @@ public class GameBean implements Parcelable {
     private String roomAvatar;
     private String roomNickname;
     private int resetTime;
+
+    public void copyRoomMsg(RoomMsg roomMsg) {
+        setGroupId(Integer.toString(roomMsg.getGroupId()));
+        setPeopleNum(roomMsg.getPeopleNum());
+        setJoinNum(roomMsg.getJoinNum());
+        setDiamond(roomMsg.getDiamond());
+        setIsJoined(roomMsg.getIsJoin());
+        setRoomNickname(roomMsg.getRoomName());
+        setResetTime(roomMsg.getResetTime());
+        setGameId(roomMsg.getGameId());
+    }
 
     protected GameBean(Parcel in) {
         roomId = in.readInt();

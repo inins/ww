@@ -29,4 +29,5 @@ public class RoomMsg {
     private int type;
     private int gameType;
     private int totalDiamond;
+    private int gameId;
 }

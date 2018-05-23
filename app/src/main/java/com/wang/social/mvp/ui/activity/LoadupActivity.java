@@ -21,11 +21,12 @@ public class LoadupActivity extends BasicAppActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (CommonHelper.LoginHelper.isLogin()) {
-                    HomeActivity.start(LoadupActivity.this);
-                } else {
-                    CommonHelper.LoginHelper.startLoginActivity(LoadupActivity.this);
-                }
+//                if (CommonHelper.LoginHelper.isLogin()) {
+//                    HomeActivity.start(LoadupActivity.this);
+//                } else {
+//                    CommonHelper.LoginHelper.startLoginActivity(LoadupActivity.this);
+//                }
+                SplashActivity.start(LoadupActivity.this);
                 finish();
             }
         }, 2000);

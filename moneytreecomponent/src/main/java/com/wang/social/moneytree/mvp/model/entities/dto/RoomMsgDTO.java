@@ -21,6 +21,7 @@ public class RoomMsgDTO implements Mapper<RoomMsg> {
     private Integer type;
     private Integer gameType;
     private Integer totalDiamond;
+    private Integer gameId;
 
     @Override
     public RoomMsg transform() {
@@ -39,6 +40,7 @@ public class RoomMsgDTO implements Mapper<RoomMsg> {
         object.setType(EntitiesUtil.assertNotNull(type));
         object.setGameType(EntitiesUtil.assertNotNull(gameType));
         object.setTotalDiamond(EntitiesUtil.assertNotNull(totalDiamond));
+        object.setGameId(EntitiesUtil.assertNotNull(gameId));
 
         return object;
     }
