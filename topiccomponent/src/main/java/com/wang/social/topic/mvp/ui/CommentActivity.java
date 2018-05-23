@@ -205,6 +205,7 @@ public class CommentActivity extends BaseAppActivity<CommentPresenter> implement
 
         // 评论id有效，则说明是二级页面
         if (mLevel == SECOND_LEVEL) {
+            mRecyclerView.setBackgroundColor(0xFFF2F2F2);
             // 评论回复
             mAdapter = new CommentReplyAdapter(mRecyclerView, mPresenter.getCommentList());
             ((CommentReplyAdapter) mAdapter).setClickListener(new CommentReplyAdapter.ClickListener() {
