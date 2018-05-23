@@ -64,6 +64,11 @@ public class CommonHelper {
         public static void startRechargeActivity(Context context) {
             UIRouter.getInstance().openUri(context, PersonalPath.RECHARGE_URL, null);
         }
+
+        //启动官方图库页面
+        public static void startOfficialPhotoActivity(Context context) {
+            UIRouter.getInstance().openUri(context, PersonalPath.OFFICIAL_URL, null);
+        }
     }
 
     public static class FunshowHelper {
