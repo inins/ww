@@ -489,9 +489,10 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
                     if (!isNeedValidation) {
 //                        // 重新加载群统计
 //                        loadDistribution(mGroupId);
-//                        // 人数增加
-//                        mSocial.setMemberNum(mSocial.getMemberNum() + 1);
-//                        resetMemberCount(mSocial.getMemberNum());
+                        // 人数增加
+                        mSocial.setMemberNum(mSocial.getMemberNum() + 1);
+                        resetMemberCount(mSocial.getMemberNum());
+
                         // 不需要群主验证，直接进入聊天页面
                         CommonHelper.ImHelper.gotoGroupConversation(
                                 this,

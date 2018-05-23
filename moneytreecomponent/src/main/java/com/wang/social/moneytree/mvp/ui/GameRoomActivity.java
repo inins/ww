@@ -28,6 +28,7 @@ import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.integration.AppManager;
+import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.StatusBarUtil;
 import com.frame.utils.ToastUtil;
@@ -65,6 +66,7 @@ import static com.wang.social.moneytree.utils.Keys.NAME_GAME_RECORD;
 import static com.wang.social.moneytree.utils.Keys.NAME_GAME_TYPE;
 import static com.wang.social.moneytree.utils.Keys.TYPE_FROM_SQUARE;
 
+@RouteNode(path = "/money_tree_room", desc = "游戏房间")
 public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
         implements GameRoomContract.View, CountDownTextView.CountDownListener,
         ShakeUtils.OnShakeListener, DialogGameEnd.GameOverListener,
@@ -133,8 +135,6 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
     AppManager mAppManager;
     private boolean mResumed = false;
 
-    // 是否已经摇过了
-    private boolean mShaked = false;
     private boolean mGameEnded = false;
     private int mShakeCount = 0;
 
@@ -162,12 +162,20 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
 
         mShakeUtils = new ShakeUtils(this);
         mShakeUtils.setOnShakeListener(this);
+
         // 从哪里创建的游戏
         mType = getIntent().getIntExtra(NAME_GAME_TYPE, TYPE_FROM_SQUARE);
         // 游戏信息
         mPresenter.setGameBean(getIntent().getParcelableExtra(NAME_GAME_BEAN));
         // 游戏记录信息
         mPresenter.setGameRecord(getIntent().getParcelableExtra(NAME_GAME_RECORD));
+        int roomId = getIntent().getIntExtra(Keys.NAME_ROOM_ID, -1);
+        if (roomId > 0 && null == mPresenter.getGameBean()) {
+            // 重设GameBean
+            GameBean gameBean = new GameBean();
+            gameBean.setRoomId(roomId);
+            mPresenter.setGameBean(gameBean);
+        }
 
         mToolbar.setOnButtonClickListener(clickType -> {
             if (clickType == SocialToolbar.ClickType.LEFT_ICON) {
@@ -177,19 +185,18 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
 
         // 摇钱树动画结束回调
         mMoneyTreeView.setAnimCallback(() -> {
-            if (null != mPresenter.getGameBean() && mPresenter.getGameBean().getIsJoined() == 1 && !mShaked) {
-                mShaked = true;
+            if (null != mPresenter.getGameBean() && mPresenter.getGameBean().getIsJoined() == 1 && !mGameEnded) {
                 DialogShaked.show(getSupportFragmentManager())
                         .setCallback(new DialogShaked.Callback() {
                             @Override
                             public void onResume() {
-                                mShakeHintTV.setVisibility(View.INVISIBLE);
+//                                mShakeHintTV.setVisibility(View.INVISIBLE);
                             }
 
                             @Override
                             public void onDestroy() {
-                                mShakeHintTV.setText(getString(R.string.mt_shaked_hint));
-                                mShakeHintTV.setVisibility(View.VISIBLE);
+//                                mShakeHintTV.setText(getString(R.string.mt_shaked_hint));
+//                                mShakeHintTV.setVisibility(View.VISIBLE);
                             }
                         });
             }
@@ -209,8 +216,6 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
 
             mPresenter.getRoomMsg(mPresenter.getRoomId());
         } else if (null != mPresenter.getGameRecord()) {
-            //  游戏结果，不播放钻石下落动画
-            mMoneyTreeView.setCanFly(false);
             // 显示地上钻石
             mMoneyTreeView.showGroundDiamond(true);
 
@@ -249,7 +254,7 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
         mGameRuleIV.setVisibility(View.INVISIBLE);
         mGameRuleIV.setClickable(false);
         mJoinGameIV.setVisibility(View.GONE);
-        mShakeHintTV.setVisibility(View.GONE);
+//        mShakeHintTV.setVisibility(View.GONE);
 
         // 房间名
         mTitleTV.setText(recordDetail.getRoomName());
@@ -302,8 +307,8 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
             // 已加入游戏
             mJoinGameIV.setVisibility(View.GONE);
 
-            // 已加入游戏，钻石可以飞下
-            mMoneyTreeView.setCanFly(true);
+            // 已加入游戏，显示地上钻石
+            mMoneyTreeView.showGroundDiamond(true);
 
             // 加载成员列表
             mPresenter.loadMemberList();
@@ -351,13 +356,15 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
         // 加入游戏支付成功
         ToastUtil.showToastLong("参与成功");
 
-        mMoneyTreeView.setCanFly(true);
         if (null != mPresenter.getGameBean()) {
             mPresenter.getGameBean().setIsJoined(1);
         }
 
         // 刷新游戏
         mPresenter.getRoomMsg(mPresenter.getRoomId());
+
+        // 播放钻石落下动画
+        mMoneyTreeView.startAnim(true);
     }
 
     @Override
@@ -436,10 +443,10 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
             (View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) -> {
                 if (v.getHeight() > v.getMinimumHeight()) {
                     mJoinNumLayout.setVisibility(View.INVISIBLE);
-                    mShakeHintTV.setVisibility(View.INVISIBLE);
+//                    mShakeHintTV.setVisibility(View.INVISIBLE);
                 } else {
                     mJoinNumLayout.setVisibility(View.VISIBLE);
-                    mShakeHintTV.setVisibility(View.VISIBLE);
+//                    mShakeHintTV.setVisibility(View.VISIBLE);
                 }
             };
     @Override
@@ -457,7 +464,7 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
 
         // 如果游戏已经结束，则加载游戏结果
         if (mGameEnded) {
-            mPresenter.loadGameEnd(mPresenter.getGameBeanGameId());
+            mPresenter.loadGameEnd(mPresenter.getGameId());
         }
     }
 
@@ -504,7 +511,7 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
 
     @Override
     public void onMemberMore() {
-        MemberListActivity.start(this, mPresenter.getGameBeanGameId());
+        MemberListActivity.start(this, mPresenter.getGameId());
     }
 
     @OnClick(R2.id.share_image_view)
@@ -588,14 +595,10 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
     private void gameEnd() {
         mGameEnded = true;
 
-        mShakeHintTV.setVisibility(View.GONE);
-        // 设置不是钻石不能飞下
-        mMoneyTreeView.setCanFly(false);
-        // 设置已经摇过了
-        mShaked = true;
+//        mShakeHintTV.setVisibility(View.GONE);
         // 游戏结束，加载结果
         if (mResumed) {
-            mPresenter.loadGameEnd(mPresenter.getGameBeanGameId());
+            mPresenter.loadGameEnd(mPresenter.getGameId());
         }
     }
 }

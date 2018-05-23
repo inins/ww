@@ -10,6 +10,7 @@ public class Keys {
     public final static String NAME_GAME_TYPE = "NAME_GAME_TYPE";
     public final static String NAME_GAME_BEAN = "NAME_GAME_BEAN";
     public final static String NAME_GAME_RECORD = "NAME_GAME_RECORD";
+    public final static String NAME_ROOM_ID = "NAME_ROOM_ID";
 
     // 从聊天室进入
     public final static int TYPE_FROM_GROUP = 1;

@@ -32,8 +32,6 @@ public class MoneyTreeView extends FrameLayout implements View.OnClickListener {
     private ImageView mGroundDiamondIV;
     private boolean mAnimPlaying = false;
     private AnimCallback mAnimCallback;
-    private boolean mFirstClick = true;
-    private boolean mCanFly = false;
 
 
     private SoundPool mSoundPool;
@@ -61,10 +59,6 @@ public class MoneyTreeView extends FrameLayout implements View.OnClickListener {
         mGroundDiamondIV.setVisibility(visible ? VISIBLE : INVISIBLE);
     }
 
-    public void setCanFly(boolean canFly) {
-        mCanFly = canFly;
-    }
-
     private void init(Context context) {
         View view = LayoutInflater.from(context)
                 .inflate(R.layout.mt_view_money_tree_bg, this, true);
@@ -80,23 +74,12 @@ public class MoneyTreeView extends FrameLayout implements View.OnClickListener {
         mSoundActionId = mSoundPool.load(getContext(), R.raw.action, 1);
     }
 
-    public void setFirstClick(boolean firstClick) {
-        mFirstClick = firstClick;
-    }
-
     @Override
     public void onClick(View view) {
         startAnim();
     }
 
     private void flyDiamond(ImageView v) {
-        if (!mFirstClick) return;
-        mFirstClick = false;
-        if (!mCanFly) return;
-
-        // 播放音效
-        mSoundPool.play(mSoundActionId, 0.8f, 0.8f, 1, 0, 1);
-
         FlyDiamond diamond = new FlyDiamond(getContext());
         diamond.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -113,6 +96,10 @@ public class MoneyTreeView extends FrameLayout implements View.OnClickListener {
     }
 
     public void startAnim() {
+        startAnim(false);
+    }
+
+    public void startAnim(boolean fly) {
         if (mAnimPlaying) return;
         mAnimPlaying = true;
 
@@ -124,16 +111,22 @@ public class MoneyTreeView extends FrameLayout implements View.OnClickListener {
         animator.setDuration(1000);
         animator.start();
 
-        int diamondCount = 0;
-        for (int i = 1; i < mTreeView.getChildCount(); i++) {
-            if (mTreeView.getChildAt(i).getTag() != null && mTreeView.getChildAt(i).getTag().equals("diamond")) {
-                diamondCount++;
+        // 播放音效
+        mSoundPool.play(mSoundActionId, 0.8f, 0.8f, 1, 0, 1);
+
+        int diamondIndex = 0;
+        if (fly) {
+            int diamondCount = 0;
+            for (int i = 1; i < mTreeView.getChildCount(); i++) {
+                if (mTreeView.getChildAt(i).getTag() != null && mTreeView.getChildAt(i).getTag().equals("diamond")) {
+                    diamondCount++;
+                }
             }
+
+            diamondIndex = new Random().nextInt(diamondCount) + 1;
+
+            Timber.i("钻石 " + diamondIndex);
         }
-
-        int diamondIndex = new Random().nextInt(diamondCount) + 1;
-
-        Timber.i("钻石 " + diamondIndex);
 
         for (int i = 1; i < mTreeView.getChildCount(); i++) {
             if (mTreeView.getChildAt(i).getTag() == null ||
@@ -143,7 +136,7 @@ public class MoneyTreeView extends FrameLayout implements View.OnClickListener {
                 //moneyAnimator.setInterpolator(new OvershootInterpolator());
                 moneyAnimator.setDuration(1500);
 
-                if (i == diamondIndex) {
+                if (fly && i == diamondIndex) {
                     flyDiamond((ImageView)mTreeView.getChildAt(i));
                 }
 

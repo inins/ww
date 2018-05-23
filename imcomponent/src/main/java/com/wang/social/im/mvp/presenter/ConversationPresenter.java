@@ -37,6 +37,8 @@ import com.wang.social.im.mvp.model.entities.CarryUserInfo;
 import com.wang.social.im.mvp.model.entities.EnvelopElemData;
 import com.wang.social.im.mvp.model.entities.EnvelopInfo;
 import com.wang.social.im.mvp.model.entities.EnvelopMessageCacheInfo;
+import com.wang.social.im.mvp.model.entities.GameElemData;
+import com.wang.social.im.mvp.model.entities.GroupGameCheckResult;
 import com.wang.social.im.mvp.model.entities.LocationAddressInfo;
 import com.wang.social.im.mvp.model.entities.ShadowInfo;
 import com.wang.social.im.mvp.model.entities.UIMessage;
@@ -300,6 +302,24 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
     }
 
     /**
+     * 发送一个游戏消息
+     *
+     * @param roomId
+     * @param diamond
+     */
+    public void sendGameMessage(String roomId, int diamond) {
+        TIMMessage timMessage = new TIMMessage();
+        TIMCustomElem customElem = new TIMCustomElem();
+        GameElemData gameElem = new GameElemData();
+        gameElem.setRoomId(roomId);
+        gameElem.setDiamond(diamond);
+        customElem.setData(gson.toJson(gameElem).getBytes());
+        timMessage.addElement(customElem);
+
+        doSendMessage(timMessage);
+    }
+
+    /**
      * 获取红包详情
      *
      * @param uiMessage
@@ -351,7 +371,7 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
      */
     public void getFunPoint(String teamId) {
         ApiHelperEx.execute(mRootView, false, mModel.getFunPointList(teamId),
-                new ErrorHandleSubscriber<BaseJson<BaseListWrap<Funpoint>>>() {
+                new ErrorHandleSubscriber<BaseJson<BaseListWrap<Funpoint>>>(mErrorHandler) {
                     @Override
                     public void onNext(BaseJson<BaseListWrap<Funpoint>> baseListWrapBaseJson) {
                         if (baseListWrapBaseJson.getData() != null && baseListWrapBaseJson.getData().getList() != null &&
@@ -371,7 +391,7 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
     public ShadowInfo getShadowInfo(String socialId) {
         if (mShadowInfo == null) {
             mApiHelper.execute(mRootView, mModel.getShadowInfo(socialId),
-                    new ErrorHandleSubscriber<ShadowInfo>() {
+                    new ErrorHandleSubscriber<ShadowInfo>(mErrorHandler) {
                         @Override
                         public void onNext(ShadowInfo shadowInfo) {
                             mShadowInfo = shadowInfo;
@@ -387,7 +407,7 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
      */
     public void getAnonymousInfo() {
         mApiHelper.execute(mRootView, mModel.getAnonymousInfo(),
-                new ErrorHandleSubscriber<AnonymousInfo>() {
+                new ErrorHandleSubscriber<AnonymousInfo>(mErrorHandler) {
                     @Override
                     public void onNext(AnonymousInfo anonymousInfo) {
                         mAnonymousInfo = anonymousInfo;
@@ -402,12 +422,41 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
      */
     public void updateShadowStatus(String socialId) {
         mApiHelper.executeNone(mRootView, mModel.updateShadowStatus(socialId, mShadowInfo.getStatus() == ShadowInfo.STATUS_CLOSE),
-                new ErrorHandleSubscriber<BaseJson>() {
+                new ErrorHandleSubscriber<BaseJson>(mErrorHandler) {
                     @Override
                     public void onNext(BaseJson baseJson) {
                         int newStatus = mShadowInfo.getStatus() == ShadowInfo.STATUS_CLOSE ? ShadowInfo.STATUS_OPEN : ShadowInfo.STATUS_CLOSE;
                         mShadowInfo.setStatus(newStatus);
                         mRootView.onShadowChanged(mShadowInfo);
+                    }
+                }, new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                        mRootView.showLoading();
+                    }
+                }, new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mRootView.hideLoading();
+                    }
+                });
+    }
+
+    /**
+     * 检测该趣聊当前是否有游戏
+     *
+     * @param socialId
+     */
+    public void checkHasGame(String socialId) {
+        mApiHelper.execute(mRootView, mModel.checkHasGame(socialId),
+                new ErrorHandleSubscriber<GroupGameCheckResult>(mErrorHandler) {
+                    @Override
+                    public void onNext(GroupGameCheckResult groupGameCheckResult) {
+                        if (groupGameCheckResult.isHasGame()) {
+                            mRootView.gotoGameRoom(groupGameCheckResult.getRoomId());
+                        } else {
+                            mRootView.showCreateGameDialog();
+                        }
                     }
                 }, new Consumer<Disposable>() {
                     @Override

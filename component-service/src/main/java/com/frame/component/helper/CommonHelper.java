@@ -287,6 +287,18 @@ public class CommonHelper {
         }
 
         /**
+         * 趣聊群进入游戏房间
+         * @param context context
+         * @param roomId 房间id
+         */
+        public static void startGameRoom(Context context, int roomId) {
+            Bundle bundle = new Bundle();
+            bundle.putInt("NAME_GAME_TYPE", 1);
+            bundle.putInt("NAME_ROOM_ID", roomId);
+            UIRouter.getInstance().openUri(context, MoneyTreePath.MONEY_TREE_ROOM_URL, bundle);
+        }
+
+        /**
          * 从首页活动与游戏进入游戏列表
          *
          * @param context context

@@ -3,8 +3,7 @@ package com.wang.social.topic.mvp.model.api;
 import com.frame.component.entities.Topic;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.PageListDTO;
-import com.wang.social.topic.mvp.model.entities.dto.CommentsDTO;
-import com.wang.social.topic.mvp.model.entities.dto.SearchResultsDTO;
+import com.wang.social.topic.mvp.model.entities.CommentRspDTO;
 import com.wang.social.topic.mvp.model.entities.dto.TemplatesDTO;
 import com.wang.social.topic.mvp.model.entities.dto.TopicDTO;
 import com.wang.social.topic.mvp.model.entities.dto.TopicDetailDTO;
@@ -67,7 +66,7 @@ public interface TopicService {
      * 话题评论列表
      */
     @GET("app/topic/commentList")
-    Observable<BaseJson<CommentsDTO>> commentList(@QueryMap Map<String, Object> param);
+    Observable<BaseJson<CommentRspDTO>> commentList(@QueryMap Map<String, Object> param);
 
 
     /**

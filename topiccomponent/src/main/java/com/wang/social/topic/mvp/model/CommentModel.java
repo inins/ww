@@ -5,10 +5,9 @@ import com.frame.di.scope.ActivityScope;
 import com.frame.http.api.BaseJson;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.BaseModel;
-import com.wang.social.topic.BuildConfig;
 import com.wang.social.topic.mvp.contract.CommentContract;
 import com.wang.social.topic.mvp.model.api.TopicService;
-import com.wang.social.topic.mvp.model.entities.dto.CommentsDTO;
+import com.wang.social.topic.mvp.model.entities.CommentRspDTO;
 
 import java.util.Map;
 
@@ -34,7 +33,7 @@ public class CommentModel extends BaseModel implements CommentContract.Model {
      * @return
      */
     @Override
-    public Observable<BaseJson<CommentsDTO>> commentList(int topicId, int commentId, int size, int current) {
+    public Observable<BaseJson<CommentRspDTO>> commentList(int topicId, int commentId, int size, int current) {
         NetParam netParam = new NetParam();
 
         netParam.put("topicId", topicId);

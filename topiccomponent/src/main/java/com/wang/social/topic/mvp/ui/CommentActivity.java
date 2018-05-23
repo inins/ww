@@ -49,23 +49,46 @@ public class CommentActivity extends BaseAppActivity<CommentPresenter> implement
     public final static String KEY_COMMENT_ID = "COMMENT_ID";
     public final static String KEY_UI_LEVEL = "UI_LEVEL";
 
+    // 话题评论
     public final static int FIRST_LEVEL = 1;
+    // 评论的评论
     public final static int SECOND_LEVEL = 2;
 
     @IntDef({FIRST_LEVEL, SECOND_LEVEL})
     @Retention(RetentionPolicy.SOURCE)
-    public @interface CommentUiLevel {
+    @interface CommentUiLevel {
     }
 
+    /**
+     * 启动话题评论页面
+     * @param context context
+     * @param topicId 话题id
+     * @param creatorId 创建者id
+     */
     public static void startFirstLevel(Context context, int topicId, int creatorId) {
         start(context, topicId, creatorId, -1, FIRST_LEVEL);
     }
 
+    /**
+     * 启动评论的评论页面
+     * @param context context
+     * @param topicId 话题id
+     * @param creatorId 创建者id
+     * @param commentId 评论id
+     */
     public static void startSecondLevel(Context context, int topicId, int creatorId, int commentId) {
         start(context, topicId, creatorId, commentId, SECOND_LEVEL);
     }
 
-    public static void start(Context context, int topicId, int creatorId, int commentId, @CommentUiLevel int level) {
+    /**
+     * 启动评论页面
+     * @param context context
+     * @param topicId 话题id
+     * @param creatorId 创建者id
+     * @param commentId 评论id
+     * @param level 等级（1.话题评论 2.评论的评论）
+     */
+    private static void start(Context context, int topicId, int creatorId, int commentId, @CommentUiLevel int level) {
         if (null == context) return;
 
         Intent intent = new Intent(context, CommentActivity.class);
@@ -153,14 +176,11 @@ public class CommentActivity extends BaseAppActivity<CommentPresenter> implement
         // 发送不可点击
         resetSendTV(false);
 
-        mToolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
-            @Override
-            public void onButtonClick(SocialToolbar.ClickType clickType) {
+        mToolbar.setOnButtonClickListener((SocialToolbar.ClickType clickType) -> {
                 if (clickType == SocialToolbar.ClickType.LEFT_ICON) {
                     finish();
                 }
-            }
-        });
+            });
 
         // 不同页面评论框的提示不同
         resetCommentETHint();

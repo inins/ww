@@ -122,7 +122,7 @@ public class PersonalCardModel extends BaseModel implements PersonalCardContract
     @Override
     public Observable<BaseJson> changeMyBlack(int blackUserId, boolean black) {
         Map<String, Object> param = new NetParam()
-                .put("blackUserId", blackUserId)
+                .put("blackUserId", Integer.toString(blackUserId))
                 .put("type", black ? "1" : "2")
                 .put("v", "2.0.0")
                 .build();

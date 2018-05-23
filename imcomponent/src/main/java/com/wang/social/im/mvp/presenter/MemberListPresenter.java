@@ -7,6 +7,9 @@ import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
 import com.frame.utils.RxLifecycleUtils;
+import com.frame.utils.ToastUtil;
+import com.wang.social.im.helper.RepositoryHelper;
+import com.wang.social.im.interfaces.ImCallBack;
 import com.wang.social.im.mvp.contract.MemberListContract;
 import com.wang.social.im.mvp.model.entities.ListData;
 import com.wang.social.im.mvp.model.entities.MemberInfo;
@@ -78,7 +81,7 @@ public class MemberListPresenter extends BasePresenter<MemberListContract.Model,
                             memberCount++;
                             if (memberInfo.getRole() == MemberInfo.ROLE_MASTER) {
                                 master = memberInfo;
-//                                continue;
+                                continue;
                             }
                             if (memberInfo.isFriendly()) {
                                 friendCount++;
@@ -138,6 +141,7 @@ public class MemberListPresenter extends BasePresenter<MemberListContract.Model,
 
     /**
      * 踢出成员
+     *
      * @param groupId
      * @param memberInfo
      */
@@ -159,6 +163,29 @@ public class MemberListPresenter extends BasePresenter<MemberListContract.Model,
                         mRootView.hideLoading();
                     }
                 });
+    }
+
+    /**
+     * 好友申请
+     *
+     * @param userId
+     * @param reason
+     */
+    public void friendRequest(String userId, String reason) {
+        mRootView.showLoading();
+        RepositoryHelper.getInstance().sendFriendlyApply(mRootView, userId, reason, new ImCallBack() {
+            @Override
+            public void onSuccess(Object object) {
+                mRootView.hideLoading();
+                ToastUtil.showToastShort("申请成功");
+            }
+
+            @Override
+            public boolean onFail(Throwable e) {
+                mRootView.hideLoading();
+                return super.onFail(e);
+            }
+        });
     }
 
     private MembersLevelOne getLevelOne(String title, List<MemberInfo> members) {

@@ -34,6 +34,11 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".mvp.ui.activity.SplashActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+
         <!--首页-->
         <activity
             android:name=".mvp.ui.activity.HomeActivity"

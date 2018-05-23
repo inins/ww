@@ -26,15 +26,19 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.frame.base.BaseFragment;
+import com.frame.component.entities.NewMoneyTreeGame;
 import com.frame.component.entities.funpoint.Funpoint;
 import com.frame.component.enums.ConversationType;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.sound.AudioPlayManager;
 import com.frame.component.helper.sound.AudioRecordManager;
 import com.frame.component.ui.dialog.DialogLoading;
 import com.frame.component.utils.UIUtil;
+import com.frame.component.view.moneytree.DialogCreateGame;
 import com.frame.di.component.AppComponent;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.ToastUtil;
+import com.google.gson.Gson;
 import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
 import com.tbruyelle.rxpermissions2.Permission;
@@ -57,9 +61,11 @@ import com.wang.social.im.R2;
 import com.wang.social.im.di.component.DaggerConversationComponent;
 import com.wang.social.im.di.modules.ConversationModule;
 import com.wang.social.im.enums.ConnectionStatus;
+import com.wang.social.im.enums.CustomElemType;
 import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.mvp.contract.ConversationContract;
 import com.wang.social.im.mvp.model.entities.EnvelopInfo;
+import com.wang.social.im.mvp.model.entities.GameElemData;
 import com.wang.social.im.mvp.model.entities.MemberInfo;
 import com.wang.social.im.mvp.model.entities.ShadowInfo;
 import com.wang.social.im.mvp.model.entities.UIMessage;
@@ -84,6 +90,8 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -117,6 +125,9 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     ImageView fcFunPoint;
     @BindView(R2.id.fc_message_loader)
     SpringView fcMessageLoader;
+
+    @Inject
+    Gson mGson;
 
     private WeakReference<DialogLoading> mLoading;
 
@@ -439,6 +450,27 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     }
 
     @Override
+    public void showCreateGameDialog() {
+        DialogCreateGame.createFromGroup(this, getChildFragmentManager(), Integer.parseInt(ImHelper.imId2WangId(mTargetId)), new DialogCreateGame.CreateGameCallback() {
+            @Override
+            public boolean onCreateSuccess(NewMoneyTreeGame newMoneyTreeGame) {
+                return true;
+            }
+
+            @Override
+            public void onPayCreateGameSuccess(int roomId, int diamond) {
+                mPresenter.sendGameMessage(String.valueOf(roomId), diamond);
+                CommonHelper.GameHelper.startGameRoom(getContext(), roomId);
+            }
+        });
+    }
+
+    @Override
+    public void gotoGameRoom(String roomId) {
+        CommonHelper.GameHelper.startGameRoom(getContext(), Integer.valueOf(roomId));
+    }
+
+    @Override
     public void onPluginClick(PluginModule pluginModule) {
         switch (pluginModule.getPluginType()) {
             case IMAGE: //图片选择
@@ -503,6 +535,9 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
                 } else {
                     mPresenter.updateShadowStatus(ImHelper.imId2WangId(mTargetId));
                 }
+                break;
+            case GAME:
+                mPresenter.checkHasGame(ImHelper.imId2WangId(mTargetId));
                 break;
         }
     }
@@ -603,6 +638,10 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
                 break;
             case RED_ENVELOP:
                 mPresenter.getEnvelopInfo(uiMessage);
+                break;
+            case GAME_TREE:
+                GameElemData gameElem = (GameElemData) uiMessage.getCustomMessageElemData(CustomElemType.GAME, GameElemData.class, mGson);
+                CommonHelper.GameHelper.startGameRoom(getContext(), Integer.parseInt(gameElem.getRoomId()));
                 break;
         }
     }

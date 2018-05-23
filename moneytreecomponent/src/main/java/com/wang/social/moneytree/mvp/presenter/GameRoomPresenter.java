@@ -53,8 +53,13 @@ public class GameRoomPresenter extends
         return null == mGameBean ? -1 : mGameBean.getRoomId();
     }
 
-    public int getGameBeanGameId() {
-        return null == mGameBean ? -1 : mGameBean.getGameId();
+    public int getGameId() {
+        if (null != mRoomMsg) {
+            return mRoomMsg.getGameId();
+        }
+        else {
+            return null == mGameBean ? -1 : mGameBean.getGameId();
+        }
     }
 
     public void setGameBean(GameBean gameBean) {
@@ -86,7 +91,11 @@ public class GameRoomPresenter extends
     }
 
     public boolean isJoined() {
-        return null == mGameBean ? false : mGameBean.getIsJoined() != 0;
+        if (null != mRoomMsg) {
+            return mRoomMsg.getIsJoin() != 0;
+        } else {
+            return null == mGameBean ? false : mGameBean.getIsJoined() != 0;
+        }
     }
 
     /**
@@ -108,6 +117,10 @@ public class GameRoomPresenter extends
                     @Override
                     public void onNext(RoomMsg roomMsg) {
                         mRoomMsg = roomMsg;
+                        // 更新 游戏信息
+                        if (null != mGameBean) {
+                            mGameBean.copyRoomMsg(roomMsg);
+                        }
 
                         mRootView.onGetRoomMsgSuccess(roomMsg);
                     }
