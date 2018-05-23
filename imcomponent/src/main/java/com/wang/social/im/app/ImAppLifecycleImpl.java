@@ -87,14 +87,14 @@ public class ImAppLifecycleImpl implements AppDelegate {
         //初始化
         TIMManager.getInstance().init(application, config);
 
-        imUserInit();
+        imUserInit(application);
 
         //添加离线消息监听(只能在主进程中注册)
         if (MsfSdkUtils.isMainProcess(application)) {
             TIMManager.getInstance().setOfflinePushListener(new TIMOfflinePushListener() {
                 @Override
                 public void handleNotification(TIMOfflinePushNotification timOfflinePushNotification) {
-                    timOfflinePushNotification.doNotify(application, R.drawable.default_circle);
+                    timOfflinePushNotification.doNotify(application, R.drawable.im_luncher);
                 }
             });
         }
@@ -103,7 +103,7 @@ public class ImAppLifecycleImpl implements AppDelegate {
     /**
      * 初始化用户配置
      */
-    private void imUserInit() {
+    private void imUserInit(Application application) {
         TIMUserConfig userConfig = new TIMUserConfig()
                 .setUserStatusListener(new ImUserStatusListener())
                 .setConnectionListener(new ImConnectionListener())
@@ -127,6 +127,7 @@ public class ImAppLifecycleImpl implements AppDelegate {
         //将用户信息与通讯管理器进行绑定
         TIMManager.getInstance().setUserConfig(userConfig);
         RefreshEvent.getInstance().init(userConfig);
+        GlobalMessageEvent.getInstance().init(application);
     }
 
     private TIMFriendshipSettings getFriendShipSetting() {
