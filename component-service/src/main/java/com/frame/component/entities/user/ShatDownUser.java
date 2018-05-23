@@ -1,6 +1,7 @@
-package com.frame.component.entities;
+package com.frame.component.entities.user;
 
 import com.frame.component.api.Api;
+import com.frame.component.entities.Tag;
 import com.frame.utils.StrUtil;
 
 import java.io.Serializable;

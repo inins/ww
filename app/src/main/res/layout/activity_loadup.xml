@@ -7,28 +7,6 @@
     android:background="@color/common_white"
     android:fitsSystemWindows="false">
 
-    <!--<LinearLayout-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:layout_marginBottom="50dp"-->
-        <!--android:gravity="center"-->
-        <!--android:orientation="vertical">-->
-
-
-        <!--<ImageView-->
-            <!--android:layout_width="75dp"-->
-            <!--android:layout_height="75dp"-->
-            <!--android:scaleType="fitXY"-->
-            <!--android:src="@mipmap/ic_launcher" />-->
-
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="20dp"-->
-            <!--android:text="广告页" />-->
-    <!--</LinearLayout>-->
-
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

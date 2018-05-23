@@ -13,9 +13,9 @@
         android:id="@+id/text_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="标题(app:title)"
         android:textColor="@color/common_white"
-        android:textSize="17sp" />
+        android:textSize="17sp"
+        tools:text="标题(app:title)" />
 
     <TextView
         android:id="@+id/text_note"
@@ -23,9 +23,9 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="7dp"
         android:layout_marginTop="2dp"
-        android:text="副标题(app:note)"
         android:textColor="@color/common_white"
-        android:textSize="11sp" />
+        android:textSize="11sp"
+        tools:text="副标题(app:note)" />
 
     <Space style="@style/common_Space_H" />
 

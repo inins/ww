@@ -26,6 +26,8 @@ public class RecycleAdapterCommonMsg extends BaseAdapter<CommonMsg> {
     }
 
     public class Holder extends BaseViewHolder<CommonMsg> {
+        @BindView(R2.id.img_dot)
+        ImageView imgDot;
         @BindView(R2.id.img_header)
         ImageView imgHeader;
         @BindView(R2.id.text_time)
@@ -51,6 +53,7 @@ public class RecycleAdapterCommonMsg extends BaseAdapter<CommonMsg> {
             textTime.setText(TimeUtils.date2String(bean.getTime(), "MM-dd HH:mm"));
             textContent.setText(bean.getContent());
             cardImg.setVisibility(TextUtils.isEmpty(bean.getPicUrl()) ? View.GONE : View.VISIBLE);
+            imgDot.setVisibility(bean.isRead() ? View.GONE : View.VISIBLE);
         }
 
         @Override

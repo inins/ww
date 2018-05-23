@@ -1,7 +1,9 @@
 package com.wang.social.im.mvp.ui.adapters;
 
 import android.content.Context;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.frame.base.BaseAdapter;
@@ -22,6 +24,8 @@ public class RecycleAdapterSysMsg extends BaseAdapter<SysMsg> {
 
     public class Holder extends BaseViewHolder<SysMsg> {
 
+        @BindView(R2.id.img_dot)
+        ImageView imgDot;
         @BindView(R2.id.text_title)
         TextView textTitle;
         @BindView(R2.id.text_subtitle)
@@ -41,6 +45,7 @@ public class RecycleAdapterSysMsg extends BaseAdapter<SysMsg> {
             textSubtitle.setText(bean.getName());
             textContent.setText(bean.getContent());
             textTime.setText(TimeUtils.date2String(bean.getUpdateTime(), "MM-dd HH:mm"));
+            imgDot.setVisibility(bean.isRead() ? View.GONE : View.VISIBLE);
         }
 
         @Override

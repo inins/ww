@@ -14,6 +14,11 @@ public class CommonMsg {
     private int modeType;
     private int modeId;
     private int modePkId;
+    private int readState;
+
+    public boolean isRead() {
+        return readState == 1;
+    }
 
     ////////////////////////////
 

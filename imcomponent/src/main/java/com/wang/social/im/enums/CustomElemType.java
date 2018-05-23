@@ -8,10 +8,12 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 
 import static com.wang.social.im.app.IMConstants.CUSTOM_ELEM_ANONYMITY;
+import static com.wang.social.im.app.IMConstants.CUSTOM_ELEM_DYNAMIC_NOTIFY;
 import static com.wang.social.im.app.IMConstants.CUSTOM_ELEM_ENVELOP;
 import static com.wang.social.im.app.IMConstants.CUSTOM_ELEM_GAME;
 import static com.wang.social.im.app.IMConstants.CUSTOM_ELEM_GAME_NOTIFY;
 import static com.wang.social.im.app.IMConstants.CUSTOM_ELEM_SHADOW;
+import static com.wang.social.im.app.IMConstants.CUSTOM_ELEM_SYSTEM_NOTIFY;
 
 /**
  * ============================================
@@ -41,7 +43,15 @@ public enum CustomElemType {
     /*
      * 摇钱树游戏
      */
-    GAME(CUSTOM_ELEM_GAME);
+    GAME(CUSTOM_ELEM_GAME),
+    /*
+     * 系统消息通知
+     */
+    SYSTEM_NOTIFY(CUSTOM_ELEM_SYSTEM_NOTIFY),
+    /*
+     * 动态消息通知
+     */
+    DYNAMIC_NOTIFY(CUSTOM_ELEM_DYNAMIC_NOTIFY);
 
     String value;
 

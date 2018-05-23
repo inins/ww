@@ -33,7 +33,6 @@
                     android:layout_marginTop="15dp"
                     android:foreground="?attr/selectableItemBackground"
                     app:max_count="5"
-                    app:note="@string/funshow_home_bar_note"
                     app:title="@string/funshow_home_bar_title" />
 
                 <android.support.v7.widget.RecyclerView

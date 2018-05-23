@@ -68,6 +68,15 @@ public interface IMConstants {
     String CUSTOM_ELEM_GAME = "game_yqs";
 
     /**
+     * 自定义消息Elem类型：服务器系统消息推送
+     */
+    String CUSTOM_ELEM_SYSTEM_NOTIFY = "SysMsgNtf";
+    /**
+     * 自定义消息Elem类型：服务器动态消息推送
+     */
+    String CUSTOM_ELEM_DYNAMIC_NOTIFY = "DynMsgNtf";
+
+    /**
      * 个人红包上限
      */
     int PRIVATE_ENVELOP_DIAMOND_LIMIT = 2000;

@@ -268,7 +268,6 @@ public interface CommonService {
     getUserFriendList(@QueryMap Map<String, Object> param);
 
 
-
     /**
      * 聊天列表-搜索已添加的好友
      */
@@ -354,4 +353,18 @@ public interface CommonService {
     @FormUrlEncoded
     @POST("app/group/getMyGroupMemberInfo")
     Observable<BaseJson<GroupMemberInfoDTO>> getMyGroupMemberInfo(@FieldMap Map<String, Object> param);
+
+    /**
+     * 系统消息已读
+     */
+    @FormUrlEncoded
+    @POST("app/msg/readSysMsg?v=2.0.0")
+    Observable<BaseJson> readSysMsg(@Field("type") int type);
+
+    /**
+     * 动态消息已读
+     */
+    @FormUrlEncoded
+    @POST("app/msg/readDynMsg?v=2.0.0")
+    Observable<BaseJson> readDynMsg(@Field("type") int type);
 }

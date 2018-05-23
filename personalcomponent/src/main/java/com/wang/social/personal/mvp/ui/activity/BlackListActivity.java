@@ -14,9 +14,8 @@ import android.widget.TextView;
 import com.frame.component.api.CommonService;
 import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.BaseListWrap;
-import com.frame.component.entities.ShatDownUser;
+import com.frame.component.entities.user.ShatDownUser;
 import com.frame.component.ui.base.BasicAppActivity;
-import com.frame.component.ui.dialog.DialogSure;
 import com.frame.component.view.TitleView;
 import com.frame.di.component.AppComponent;
 import com.frame.http.api.ApiHelperEx;
@@ -38,8 +37,6 @@ import com.wang.social.personal.mvp.ui.adapter.RecycleAdapterBlacklist;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import io.reactivex.Observable;
 
 public class BlackListActivity extends BasicAppActivity implements IView, RecycleAdapterBlacklist.OnBlankListUserClickListener {
 
@@ -112,7 +109,8 @@ public class BlackListActivity extends BasicAppActivity implements IView, Recycl
                 ToastUtil.showToastShort("没有可选用户");
             }
 //            DialogSure.showDialog(this, "确定要释放所有囚犯？", () -> {
-            netFreeUsers(adapter.getAllItemIds());
+//            netFreeUsers(adapter.getAllItemIds());
+            netFreeUsers(adapter.getData().toArray(new ShatDownUser[]{}));
 //            });
         }
     }
@@ -125,7 +123,8 @@ public class BlackListActivity extends BasicAppActivity implements IView, Recycl
     @Override
     public void onFreeBtnClick(ShatDownUser user, int position) {
 //        DialogSure.showDialog(this, "确定要释放该囚犯？", () -> {
-        netFreeUsers(String.valueOf(user.getShieldUserId()));
+//        netFreeUsers(String.valueOf(user.getShieldUserId()));
+        netFreeUsers(user);
 //        });
     }
 
@@ -180,6 +179,17 @@ public class BlackListActivity extends BasicAppActivity implements IView, Recycl
                         springView.onFinishFreshAndLoadDelay();
                     }
                 });
+    }
+
+    private void netFreeUsers(ShatDownUser... users) {
+        if (StrUtil.isEmpty(users)) return;
+        String ids = "";
+        for (ShatDownUser user : users) {
+            ids += isBlankList ? user.getUserId() : user.getShieldUserId() + ",";
+        }
+        ids = StrUtil.subLastChart(ids, ",");
+
+        netFreeUsers(ids);
     }
 
     private void netFreeUsers(String userIds) {

@@ -6,6 +6,7 @@ import com.wang.social.im.mvp.model.entities.UIConversation;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -24,7 +25,7 @@ public class StickHelper {
     private List<Stick> mSticks;
 
     private StickHelper() {
-        mSticks = new ArrayList<>();
+        mSticks = new LinkedList<>();
 
         refresh();
     }

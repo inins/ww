@@ -1,5 +1,7 @@
 package com.wang.social.im.mvp.ui;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.component.ui.acticity.tags.TagSelectionActivity;
 import com.frame.component.ui.base.BaseAppActivity;
@@ -26,6 +29,8 @@ import com.frame.http.imageloader.glide.RoundedCornersTransformation;
 import com.frame.utils.RegexUtils;
 import com.frame.utils.ToastUtil;
 import com.kyleduo.switchbutton.SwitchButton;
+import com.tbruyelle.rxpermissions2.Permission;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.app.IMConstants;
@@ -36,6 +41,7 @@ import com.wang.social.im.mvp.contract.CreateSocialContract;
 import com.wang.social.im.mvp.model.entities.CreateGroupResult;
 import com.wang.social.im.mvp.model.entities.SocialAttribute;
 import com.wang.social.im.mvp.presenter.CreateSocialPresenter;
+import com.wang.social.im.widget.ImageSelectDialog;
 import com.wang.social.pictureselector.helper.PhotoHelper;
 
 import java.util.ArrayList;
@@ -44,6 +50,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.functions.Consumer;
 
 /**
  * 创建趣聊
@@ -51,6 +58,7 @@ import butterknife.OnClick;
 public class CreateSocialActivity extends BaseAppActivity<CreateSocialPresenter> implements CreateSocialContract.View, PhotoHelper.OnPhotoCallback {
 
     private static final int REQUEST_CODE_ATTR = 1000;
+    private static final int REQUEST_CODE_OFFICIAL_PHOTO = 1001;
 
     @BindView(R2.id.cs_toolbar)
     SocialToolbar csToolbar;
@@ -170,7 +178,35 @@ public class CreateSocialActivity extends BaseAppActivity<CreateSocialPresenter>
         if (view.getId() == R.id.sc_cl_attribute) {
             SocialAttributeActivity.start(this, REQUEST_CODE_ATTR, mAttr);
         } else if (view.getId() == R.id.sc_iv_cover) {
-            mImageSelectHelper = ImageSelectHelper.newInstance(this, this);
+            mImageSelectHelper = ImageSelectHelper.newInstance(this, this, new ImageSelectDialog.OnItemSelectedListener() {
+                @Override
+                public void onGallerySelected() {
+                    CommonHelper.PersonalHelper.startOfficialPhotoActivity(CreateSocialActivity.this, REQUEST_CODE_OFFICIAL_PHOTO);
+                }
+
+                @SuppressLint("CheckResult")
+                @Override
+                public void onShootSelected() {
+                    new RxPermissions(CreateSocialActivity.this)
+                            .requestEach(Manifest.permission.CAMERA)
+                            .subscribe(new Consumer<Permission>() {
+                                @Override
+                                public void accept(Permission permission) throws Exception {
+                                    if (permission.granted) {
+                                        mImageSelectHelper.startCamera();
+                                    } else if (permission.shouldShowRequestPermissionRationale) {
+                                        ToastUtil.showToastShort("请在设置中打开相机权限");
+                                    }
+                                }
+                            });
+
+                }
+
+                @Override
+                public void onAlbumSelected() {
+                    mImageSelectHelper.startPhoto();
+                }
+            });
             mImageSelectHelper.showDialog();
         } else if (view.getId() == R.id.sc_cl_tags) {
             TagSelectionActivity.startForTagList(this, mSelectTags, 5);
@@ -188,6 +224,9 @@ public class CreateSocialActivity extends BaseAppActivity<CreateSocialPresenter>
                 case REQUEST_CODE_ATTR:
                     mAttr = data.getParcelableExtra(SocialAttributeActivity.EXTRA_ATTR);
                     showAttrInfo();
+                    break;
+                case REQUEST_CODE_OFFICIAL_PHOTO:
+                    onResult(data.getStringExtra("url"));
                     break;
             }
         }

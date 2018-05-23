@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 
+import com.frame.component.helper.CommonHelper;
 import com.frame.utils.ToastUtil;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -19,51 +20,26 @@ public class ImageSelectHelper extends PhotoHelper {
     //使用弱引用持有dialog，以便及时回收
     private WeakReference<ImageSelectDialog> dialogPhoto;
 
-    private ImageSelectHelper(Activity activity, PhotoHelper.OnPhotoCallback callback) {
+    ImageSelectDialog.OnItemSelectedListener mItemSelectedListener;
+
+    private ImageSelectHelper(Activity activity, PhotoHelper.OnPhotoCallback callback, ImageSelectDialog.OnItemSelectedListener itemSelectedListener) {
         super(activity, callback);
-        dialogPhoto = new WeakReference(newDialogInstance());
+        this.mItemSelectedListener = itemSelectedListener;
+        dialogPhoto = new WeakReference(newDialogInstance(mItemSelectedListener));
     }
 
-    public static ImageSelectHelper newInstance(Activity activity, PhotoHelper.OnPhotoCallback callback) {
-        return new ImageSelectHelper(activity, callback);
+    public static ImageSelectHelper newInstance(Activity activity, PhotoHelper.OnPhotoCallback callback, ImageSelectDialog.OnItemSelectedListener itemSelectedListener) {
+        return new ImageSelectHelper(activity, callback, itemSelectedListener);
     }
 
-    private ImageSelectDialog newDialogInstance() {
-        ImageSelectDialog dialog = new ImageSelectDialog(activity, new ImageSelectDialog.OnItemSelectedListener() {
-            @Override
-            public void onGallerySelected() {
-
-            }
-
-            @SuppressLint("CheckResult")
-            @Override
-            public void onShootSelected() {
-                new RxPermissions(activity)
-                        .requestEach(Manifest.permission.CAMERA)
-                        .subscribe(new Consumer<Permission>() {
-                            @Override
-                            public void accept(Permission permission) throws Exception {
-                                if (permission.granted){
-                                    startCamera();
-                                }else if (permission.shouldShowRequestPermissionRationale){
-                                    ToastUtil.showToastShort("请在设置中打开相机权限");
-                                }
-                            }
-                        });
-
-            }
-
-            @Override
-            public void onAlbumSelected() {
-                startPhoto();
-            }
-        });
+    private ImageSelectDialog newDialogInstance(ImageSelectDialog.OnItemSelectedListener itemSelectedListener) {
+        ImageSelectDialog dialog = new ImageSelectDialog(activity, itemSelectedListener);
         return dialog;
     }
 
     public void showDialog() {
         if (dialogPhoto == null || dialogPhoto.get() == null) {
-            dialogPhoto = new WeakReference(newDialogInstance());
+            dialogPhoto = new WeakReference(newDialogInstance(mItemSelectedListener));
         }
         dialogPhoto.get().show();
     }

@@ -1,5 +1,6 @@
 package com.frame.component.helper;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -64,13 +65,30 @@ public class CommonHelper {
         public static void startRechargeActivity(Context context) {
             UIRouter.getInstance().openUri(context, PersonalPath.RECHARGE_URL, null);
         }
+
+        //启动官方图库页面
+        public static void startOfficialPhotoActivity(Context context) {
+            UIRouter.getInstance().openUri(context, PersonalPath.OFFICIAL_URL, null);
+        }
+
+        //启动官方图库页面
+        public static void startOfficialPhotoActivity(Activity activity, int requestCode) {
+            UIRouter.getInstance().openUri(activity, PersonalPath.OFFICIAL_URL, null, requestCode);
+        }
     }
 
     public static class FunshowHelper {
+        //趣晒魔页面
+        public static void startHotUserActivity(Context context) {
+            UIRouter.getInstance().openUri(context, FunshowPath.FUNSHOW_HOTUSER_URL, null);
+        }
+
+        //发布趣晒页面
         public static void startAddActivity(Context context) {
             UIRouter.getInstance().openUri(context, FunshowPath.FUNSHOW_ADD_URL, null);
         }
 
+        //趣晒详情页面
         public static void startDetailActivity(Context context, int talkId) {
             Bundle bundle = new Bundle();
             bundle.putInt("talkId", talkId);
@@ -297,8 +315,9 @@ public class CommonHelper {
 
         /**
          * 趣聊群进入游戏房间
+         *
          * @param context context
-         * @param roomId 房间id
+         * @param roomId  房间id
          */
         public static void startGameRoom(Context context, int roomId) {
             Bundle bundle = new Bundle();
