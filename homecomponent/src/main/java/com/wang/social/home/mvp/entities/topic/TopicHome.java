@@ -37,14 +37,16 @@ public class TopicHome {
     private int topicReadNum;
     private int userId;
     private int topicId;
-    private int isFree;
     private long createTime;
     private int topicCommentNum;
     private int price;
     private int topicSupportNum;
     private String userCover;
-    private int isShopping;
     private List<Tag> topicTag;
+    //0免费 1 付费
+    private int isFree;
+    //是否需要付费 0 不需要， 1 需要
+    private int isShopping;
 
     //////////////////////////
 
@@ -56,8 +58,16 @@ public class TopicHome {
         return StrUtil.subLastChart(ret, ",");
     }
 
+    public void setIsPay(boolean isPay) {
+        isShopping = isPay ? 0 : 1;
+    }
+
+    public boolean isPay() {
+        return isShopping == 0;
+    }
+
     public boolean isFree() {
-        return isFree == 1;
+        return isFree == 0;
     }
 
     public boolean isSupport() {

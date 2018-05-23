@@ -67,6 +67,7 @@ public class CardUserFragment extends BasicNoDiFragment implements RecycleAdapte
     View btnLike;
 
     private RecycleAdapterCardUser adapter;
+    private ItemTouchHelper itemTouchHelper;
 
     private Integer gender = -1;
     private String age = "all";
@@ -135,8 +136,6 @@ public class CardUserFragment extends BasicNoDiFragment implements RecycleAdapte
 
         netGetCardUsers(true);
     }
-
-    private ItemTouchHelper itemTouchHelper;
 
     @Override
     public void setData(@Nullable Object data) {

@@ -102,6 +102,7 @@ public class DetailFunshowController extends BaseController {
             currentFunshow = bean;
             FunshowBean funshowBean = bean.tans2FunshowBean();
             funshowView.setData(funshowBean);
+            funshowView.getMoreBtn().setVisibility(View.GONE);
             getRoot().setOnClickListener(v -> {
                 if (!funshowBean.hasAuth()) {
                     DialogPay.showPayFunshow(getIView(), getFragmentManager(), funshowBean.getPrice(), -1, () -> {

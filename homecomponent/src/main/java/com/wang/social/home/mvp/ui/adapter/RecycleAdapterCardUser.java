@@ -61,10 +61,11 @@ public class RecycleAdapterCardUser extends BaseAdapter<CardUser> {
         @Override
         @SuppressWarnings("all")
         protected void bindData(CardUser bean, int position, OnItemClickListener onItemClickListener) {
+            //优先加载相册作为封面，如果没有则加载头像
             if (!StrUtil.isEmpty(bean.getPhotoList())) {
                 ImageLoaderHelper.loadImg(imgPic, bean.getPhotoList().get(0).getPhotoUrl());
             } else {
-                imgPic.setImageResource(R.drawable.default_rect);
+                ImageLoaderHelper.loadImg(imgPic, bean.getAvatar());
             }
             textName.setText(bean.getNickname());
             textLableGender.setSelected(!bean.isMale());

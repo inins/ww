@@ -129,7 +129,7 @@ public class Wave {
                     baseLine//结束点的Y
             );//只需要处理完半个波长，剩下的有for循环自已就添加了。
         }
-        //下面这三句话很重要，它是形成了一封闭区间，让曲线以下的面积填充一种颜色，大家可以把这3句话注释了看看效果。
+        //下面这三句话很重要，它是形成了一封闭区间，让曲线以下的面积填充一种颜色
         mPath.lineTo(width, height);
         mPath.lineTo(0, height);
         mPath.close();

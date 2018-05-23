@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import com.frame.base.BaseAdapter;
 import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.BaseListWrap;
+import com.frame.component.helper.NetFriendHelper;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
 import com.frame.component.view.TitleView;
 import com.frame.http.api.ApiHelperEx;
@@ -25,14 +26,14 @@ import com.liaoinstan.springview.widget.SpringView;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.mvp.model.api.NotifyService;
-import com.wang.social.im.mvp.model.entities.notify.GroupJoinRequest;
+import com.wang.social.im.mvp.model.entities.notify.GroupRequest;
 import com.wang.social.im.mvp.ui.adapters.RecycleAdapterGroupRequest;
 
 import java.util.List;
 
 import butterknife.BindView;
 
-public class NotifyFunChatRequestListActivity extends BasicAppNoDiActivity implements IView, BaseAdapter.OnItemClickListener<GroupJoinRequest> {
+public class NotifyGroupRequestListActivity extends BasicAppNoDiActivity implements IView, BaseAdapter.OnItemClickListener<GroupRequest> {
 
     @BindView(R2.id.spring)
     SpringView springView;
@@ -43,7 +44,7 @@ public class NotifyFunChatRequestListActivity extends BasicAppNoDiActivity imple
     private RecycleAdapterGroupRequest adapter;
 
     public static void start(Context context) {
-        Intent intent = new Intent(context, NotifyFunChatRequestListActivity.class);
+        Intent intent = new Intent(context, NotifyGroupRequestListActivity.class);
         context.startActivity(intent);
     }
 
@@ -60,7 +61,9 @@ public class NotifyFunChatRequestListActivity extends BasicAppNoDiActivity imple
         adapter = new RecycleAdapterGroupRequest();
         adapter.setOnItemClickListener(this);
         adapter.setOnJoinClickListener((bean, position) -> {
-
+            NetFriendHelper.newInstance().netAgreeGroupApply(NotifyGroupRequestListActivity.this, bean.getGroupId(), bean.getMsgId(), true, () -> {
+                netGetSysMsgList(true);
+            });
         });
         recycler.setNestedScrollingEnabled(false);
         recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -84,7 +87,7 @@ public class NotifyFunChatRequestListActivity extends BasicAppNoDiActivity imple
     }
 
     @Override
-    public void onItemClick(GroupJoinRequest bean, int position) {
+    public void onItemClick(GroupRequest bean, int position) {
     }
 
     //////////////////////分页查询////////////////////
@@ -95,11 +98,11 @@ public class NotifyFunChatRequestListActivity extends BasicAppNoDiActivity imple
         if (isFresh) current = 0;
         ApiHelperEx.execute(this, false,
                 ApiHelperEx.getService(NotifyService.class).getGroupJoinRequstList(current + 1, size),
-                new ErrorHandleSubscriber<BaseJson<BaseListWrap<GroupJoinRequest>>>() {
+                new ErrorHandleSubscriber<BaseJson<BaseListWrap<GroupRequest>>>() {
                     @Override
-                    public void onNext(BaseJson<BaseListWrap<GroupJoinRequest>> basejson) {
-                        BaseListWrap<GroupJoinRequest> warp = basejson.getData();
-                        List<GroupJoinRequest> list = warp != null ? warp.getList() : null;
+                    public void onNext(BaseJson<BaseListWrap<GroupRequest>> basejson) {
+                        BaseListWrap<GroupRequest> warp = basejson.getData();
+                        List<GroupRequest> list = warp != null ? warp.getList() : null;
                         if (!StrUtil.isEmpty(list)) {
                             current = warp.getCurrent();
                             if (isFresh) {

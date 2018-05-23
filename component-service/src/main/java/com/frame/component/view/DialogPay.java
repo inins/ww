@@ -49,11 +49,11 @@ public class DialogPay extends DialogFragment {
     }
 
     public static DialogPay showPayAddGroup(IView bindView,
-                                         FragmentManager manager,
-                                         boolean mi,
-                                         int price,
-                                         int balance,
-                                         DialogPayCallback callback) {
+                                            FragmentManager manager,
+                                            boolean mi,
+                                            int price,
+                                            int balance,
+                                            DialogPayCallback callback) {
         String[] strings = {
                 mi ? "加入此趣聊需要支付" : "加入此觅聊需要支付",
                 Integer.toString(price),
@@ -79,14 +79,18 @@ public class DialogPay extends DialogFragment {
                 callback);
     }
 
+    public static DialogPay showPayTopic(IView bindView, FragmentManager manager, Topic topic, int balance, DialogPayCallback callback) {
+        return showPayTopic(bindView, manager, topic.getRelateMoney(), balance, callback);
+    }
+
     public static DialogPay showPayTopic(IView bindView,
                                          FragmentManager manager,
-                                         Topic topic,
+                                         int price,
                                          int balance,
                                          DialogPayCallback callback) {
         String[] strings = {
                 "查看该话题需支付",
-                Integer.toString(topic.getRelateMoney()),
+                Integer.toString(price),
                 "宝石"};
         int[] colors = {
                 ContextCompat.getColor(Utils.getContext(), R.color.common_text_blank),
@@ -104,7 +108,7 @@ public class DialogPay extends DialogFragment {
                 "再逛逛",
                 "立即支付",
                 "去充值",
-                topic.getRelateMoney(),
+                price,
                 balance,
                 callback);
     }

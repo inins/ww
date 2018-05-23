@@ -9,10 +9,12 @@ import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.entities.funpoint.Funpoint;
 import com.frame.component.helper.CommonHelper;
+import com.frame.component.helper.NetPayStoneHelper;
 import com.frame.component.helper.NetReadHelper;
 import com.frame.component.ui.acticity.WebActivity;
 import com.frame.component.ui.base.BaseController;
 import com.frame.component.utils.viewutils.FontUtils;
+import com.frame.component.view.DialogPay;
 import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
@@ -103,7 +105,18 @@ public class HomeContentController extends BaseController implements RecycleAdap
 
     @Override
     public void onTopicClick(int position, TopicHome topic) {
-        CommonHelper.TopicHelper.startTopicDetail(getContext(), topic.getTopicId());
+        // 是否需要支付
+        if (!topic.isFree() && !topic.isPay()) {
+            // 处理支付
+            DialogPay.showPayTopic(getIView(), getFragmentManager(), topic.getPrice(), -1, () -> {
+                NetPayStoneHelper.newInstance().netPayTopic(getIView(), topic.getTopicId(), topic.getPrice(), () -> {
+                    topic.setIsPay(true);
+                    CommonHelper.TopicHelper.startTopicDetail(getContext(), topic.getTopicId());
+                });
+            });
+        } else {
+            CommonHelper.TopicHelper.startTopicDetail(getContext(), topic.getTopicId());
+        }
     }
 
     ////////////////////////////////////////////////
