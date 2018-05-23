@@ -9,10 +9,12 @@ import com.frame.mvp.IModel;
 import com.frame.mvp.IView;
 import com.wang.social.im.mvp.model.entities.AnonymousInfo;
 import com.wang.social.im.mvp.model.entities.EnvelopInfo;
+import com.wang.social.im.mvp.model.entities.GroupGameCheckResult;
 import com.wang.social.im.mvp.model.entities.ShadowInfo;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 import com.wang.social.im.mvp.model.entities.dto.AnonymousInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.EnvelopInfoDTO;
+import com.wang.social.im.mvp.model.entities.dto.GroupGameCheckResultDTO;
 import com.wang.social.im.mvp.model.entities.dto.ShadowInfoDTO;
 
 import java.util.List;
@@ -88,6 +90,18 @@ public interface ConversationContract {
          * 隐藏加载状态
          */
         void hideMessageLoad();
+
+        /**
+         * 显示创建游戏弹框
+         */
+        void showCreateGameDialog();
+
+        /**
+         * 跳转到游戏房间
+         *
+         * @param roomId
+         */
+        void gotoGameRoom(String roomId);
     }
 
     interface Model extends IModel {
@@ -130,5 +144,13 @@ public interface ConversationContract {
          * @return
          */
         Observable<BaseJson> updateShadowStatus(String socialId, boolean isOpen);
+
+        /**
+         * 检测是否有游戏
+         *
+         * @param socialId
+         * @return
+         */
+        Observable<BaseJson<GroupGameCheckResultDTO>> checkHasGame(String socialId);
     }
 }
