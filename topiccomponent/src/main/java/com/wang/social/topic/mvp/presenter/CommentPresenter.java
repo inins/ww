@@ -8,6 +8,7 @@ import com.frame.mvp.BasePresenter;
 import com.google.gson.Gson;
 import com.wang.social.topic.mvp.contract.CommentContract;
 import com.wang.social.topic.mvp.model.entities.Comment;
+import com.wang.social.topic.mvp.model.entities.CommentRsp;
 import com.wang.social.topic.mvp.model.entities.Comments;
 
 import java.util.ArrayList;
@@ -186,7 +187,6 @@ public class CommentPresenter extends
      * 话题评论列表
      * @param topicId 话题ID
      * @param refresh 是否刷新
-     * @return
      */
     public void loadCommentList(int topicId, int commentId, boolean refresh) {
         if (refresh) {
@@ -196,17 +196,21 @@ public class CommentPresenter extends
 
         mApiHelper.execute(mRootView,
                 mModel.commentList(topicId, commentId, mSize, mCurrent + 1),
-                new ErrorHandleSubscriber<Comments>(mErrorHandler) {
+                new ErrorHandleSubscriber<CommentRsp>(mErrorHandler) {
                     @Override
-                    public void onNext(Comments comments) {
-//                        mRootView.setReplyCount(comments.getTotal());
+                    public void onNext(CommentRsp rsp) {
+                        if (null != rsp.getPage()) {
+                            Comments page = rsp.getPage();
 
-//                        mCurrent = comments.getCurrent();
+                            mCurrent = page.getCurrent();
 
-                        mRootView.setReplyCount(comments.getCount());
-                        mCurrent++;
+                            if (null != page.getRecords()) {
+                                mCommentList.addAll(page.getRecords());
+                            }
+                        }
 
-                        mCommentList.addAll(comments.getList());
+                        // 评论总数
+                        mRootView.setReplyCount(rsp.getCount());
 
                         mRootView.onLoadCommentSuccess();
                     }

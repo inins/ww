@@ -80,6 +80,9 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
     AppBarLayout mAppBarLayout;
     @BindView(R2.id.report_text_view)
     GradualColorTextView mReportTV;
+    // 顶部返回按钮
+    @BindView(R2.id.back_image_view)
+    GradualImageView mBackGIV;
     // 顶部播放状态显示
     @BindView(R2.id.play_image_view)
     GradualImageView mGradualImageView;
@@ -189,7 +192,7 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
-        StatusBarUtil.setTranslucent(this);
+//        StatusBarUtil.setTranslucent(this);
 
         mTopicId = getIntent().getIntExtra(NAME_TOPIC_ID, -1);
         mCreatorId = getIntent().getIntExtra(NAME_CREATOR_ID, -1);
@@ -205,23 +208,24 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
                 mTagTV.setRate(rate);
                 mCreateDateTV.setRate(rate);
                 mGradualImageView.setRate(rate);
+                mBackGIV.setRate(rate);
             }
 
             @Override
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
                 if (state == State.EXPANDED) {
                     //展开状态
-                    if (mHasCoverImage) {
-                        StatusBarUtil.setStatusBarColor(TopicDetailActivity.this,
-                                android.R.color.transparent);
-                    } else {
-                        StatusBarUtil.setStatusBarColor(TopicDetailActivity.this,
-                                R.color.common_text_dark_light);
-                    }
+//                    if (mHasCoverImage) {
+//                        StatusBarUtil.setStatusBarColor(TopicDetailActivity.this,
+//                                android.R.color.transparent);
+//                    } else {
+//                        StatusBarUtil.setStatusBarColor(TopicDetailActivity.this,
+//                                R.color.common_text_dark_light);
+//                    }
                 } else if (state == AppBarStateChangeListener.State.COLLAPSED) {
                     //折叠状态
-                    StatusBarUtil.setStatusBarColor(TopicDetailActivity.this,
-                            R.color.common_text_dark_light);
+//                    StatusBarUtil.setStatusBarColor(TopicDetailActivity.this,
+//                            R.color.common_text_dark_light);
                 } else {
                     //中间状态
                 }
@@ -283,6 +287,9 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
             StatusBarUtil.setStatusBarColor(TopicDetailActivity.this,
                     R.color.common_text_dark_light);
 
+            // 没有背景图，返回按钮一直白色
+            mBackGIV.setGradual(false);
+
             // 没有背景图时候的配色方案
             mBackgroundIV.setVisibility(View.GONE);
             mGradualImageView.setVisibility(View.GONE);
@@ -313,6 +320,10 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
             StatusBarUtil.setStatusBarColor(TopicDetailActivity.this,
                     android.R.color.transparent);
 
+            // 有背景图，返回按钮白黑
+            mBackGIV.setGradual(true);
+            mBackGIV.setDrawable(R.drawable.common_ic_back_white, R.drawable.common_ic_back);
+            // 标签颜色变化
             mTagTV.setGradual(true);
             mTagTV.setGradualColor(Color.parseColor("#FFFFFF"),
                     Color.TRANSPARENT);
@@ -320,7 +331,7 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
             mCreateDateTV.setGradual(true);
             mCreateDateTV.setGradualColor(Color.parseColor("#FFFFFF"),
                     Color.TRANSPARENT);
-
+            // 右上角举报文字颜色变化
             mReportTV.setGradual(true);
             mReportTV.setGradualColor(Color.WHITE, getResources().getColor(R.color.common_text_blank));
             // 大标题颜色变化
