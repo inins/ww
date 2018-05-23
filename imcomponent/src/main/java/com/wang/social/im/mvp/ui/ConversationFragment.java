@@ -450,9 +450,10 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
             }
 
             @Override
-            public void onPayCreateGameSuccess() {
-                mPresenter.sendGameMessage("", 0);
+            public void onPayCreateGameSuccess(int roomId, int diamond) {
+                mPresenter.sendGameMessage(Integer.toString(roomId), diamond);
             }
+
         });
     }
 
