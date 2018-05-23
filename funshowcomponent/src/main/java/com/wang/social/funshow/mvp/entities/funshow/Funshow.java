@@ -43,6 +43,7 @@ public class Funshow implements Serializable {
     private String content;
     private int talkShareNum;
     private String province;
+    private String isAnonymous;
     private long createTime;
     private int price;
     private int talkId;
@@ -54,6 +55,10 @@ public class Funshow implements Serializable {
     private int isShopping;
 
     //////////////////////////////
+
+    public boolean isHideName() {
+        return "1".equals(isAnonymous);
+    }
 
     public boolean hasVideo() {
         return (resourceUrl != null && resourceUrl.isVidoe());
@@ -90,6 +95,7 @@ public class Funshow implements Serializable {
         funshowBean.setProvinceName(province);
         funshowBean.setPrice(price);
         funshowBean.setPay(isShopping());
+        funshowBean.setHideName(isHideName());
 
         if (hasVideo()) {
             funshowBean.setVideoUrl(resourceUrl.getUrl());
@@ -130,6 +136,6 @@ public class Funshow implements Serializable {
     }
 
     public void setIsFree(boolean isFree) {
-        this.isFree = isFree ? 0: 1;
+        this.isFree = isFree ? 0 : 1;
     }
 }

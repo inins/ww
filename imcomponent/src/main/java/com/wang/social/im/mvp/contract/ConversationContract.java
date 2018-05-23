@@ -83,6 +83,11 @@ public interface ConversationContract {
          * @param shadowInfo
          */
         void onShadowChanged(ShadowInfo shadowInfo);
+
+        /**
+         * 隐藏加载状态
+         */
+        void hideMessageLoad();
     }
 
     interface Model extends IModel {
@@ -116,5 +121,14 @@ public interface ConversationContract {
          * @return
          */
         Observable<BaseJson<AnonymousInfoDTO>> getAnonymousInfo();
+
+        /**
+         * 修改分身状态
+         *
+         * @param socialId
+         * @param isOpen
+         * @return
+         */
+        Observable<BaseJson> updateShadowStatus(String socialId, boolean isOpen);
     }
 }

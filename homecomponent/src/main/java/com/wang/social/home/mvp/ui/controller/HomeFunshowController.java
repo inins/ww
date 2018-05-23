@@ -17,6 +17,7 @@ import com.frame.component.ui.base.BaseController;
 import com.frame.component.ui.dialog.DialogSureFunshowPay;
 import com.frame.component.ui.dialog.MorePopupWindow;
 import com.frame.component.utils.ListUtil;
+import com.frame.component.view.DialogPay;
 import com.frame.component.view.FunshowView;
 import com.frame.component.view.LoadingLayout;
 import com.frame.entities.EventBean;
@@ -103,7 +104,7 @@ public class HomeFunshowController extends BaseController {
 
     @Override
     protected void onInitData() {
-        netGetNewFunshow();
+        netGetNewFunshow(true);
     }
 
     private void setFunshowData(FunshowHome bean) {
@@ -122,11 +123,12 @@ public class HomeFunshowController extends BaseController {
                 popupWindow.showPopupWindow(view);
             });
             getRoot().setOnClickListener(v -> {
-                if (!funshowBean.isFree() && !funshowBean.isPay()) {
-                    DialogSureFunshowPay.showDialog(getContext(), funshowBean.getPrice(), () -> {
+                if (!funshowBean.hasAuth()) {
+                    DialogPay.showPayFunshow(getIView(), getFragmentManager(), funshowBean.getPrice(), -1, () -> {
                         NetPayStoneHelper.newInstance().netPayFunshow(getIView(), funshowBean.getId(), funshowBean.getPrice(), () -> {
                             CommonHelper.FunshowHelper.startDetailActivity(getContext(), funshowBean.getId());
                             currentFunshow.setTalkPayed(1);
+                            setFunshowData(currentFunshow);
                         });
                     });
                 } else {
@@ -144,7 +146,11 @@ public class HomeFunshowController extends BaseController {
         setFunshowData(funshow);
     }
 
-    public void netGetNewFunshow() {
+    public void refreshData() {
+        netGetNewFunshow(false);
+    }
+
+    public void netGetNewFunshow(boolean needLoading) {
         ApiHelperEx.execute(getIView(), false,
                 ApiHelperEx.getService(HomeService.class).getNewFunshow(),
                 new ErrorHandleSubscriber<BaseJson<BaseListWrap<FunshowHome>>>() {
@@ -163,9 +169,9 @@ public class HomeFunshowController extends BaseController {
                         ToastUtil.showToastLong(e.getMessage());
                     }
                 }, () -> {
-                    getLoadingLayout().showLoadingView();
+                    if (needLoading) getLoadingLayout().showLoadingView();
                 }, () -> {
-                    getLoadingLayout().showOut();
+                    if (needLoading) getLoadingLayout().showOut();
                 });
     }
 }

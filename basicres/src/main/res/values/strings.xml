@@ -33,4 +33,6 @@
 
     <string name="common_disagree">拒绝</string>
     <string name="common_agree">同意</string>
+
+    <string name="common_hidename">匿名用户</string>
 </resources>

@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.tencent.imsdk.TIMUserProfile;
+import com.wang.social.im.app.IMConstants;
 
 /**
  * ============================================
@@ -21,6 +22,10 @@ public class FriendProfile implements ProfileSummary {
 
     @Override
     public String getPortrait() {
+        byte[] portraitBytes = profile.getCustomInfo().get(IMConstants.IM_FIELD_FRIEND_PORTRAIT);
+        if (portraitBytes != null && portraitBytes.length > 0) {
+            return new String(portraitBytes);
+        }
         if (!TextUtils.isEmpty(profile.getFaceUrl())) {
             return profile.getFaceUrl();
         }

@@ -1,6 +1,8 @@
 package com.frame.component.ui.base;
 
 import android.content.Context;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -50,6 +52,13 @@ public abstract class BaseController {
         } else {
             return (getContext() instanceof IView) ? (IView) getContext() : null;
         }
+    }
+
+    /**
+     * 尝试获取FragmentManager失败返回null
+     */
+    public FragmentManager getFragmentManager() {
+        return getContext() instanceof AppCompatActivity ? ((AppCompatActivity) getContext()).getSupportFragmentManager() : null;
     }
 
     //########################################

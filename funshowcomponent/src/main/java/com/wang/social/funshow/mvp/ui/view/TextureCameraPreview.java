@@ -34,6 +34,7 @@ public class TextureCameraPreview extends TextureView implements TextureView.Sur
     private OnPictureTakenListener onPictureTakenListener;
     private MediaRecorder mMediaRecorder;
     private boolean isRecording = false;
+    private boolean isTakenPicing = false;
     private OnStartVideoListener onStartVideoListener;
     private SurfaceTexture mSurface;
 
@@ -132,9 +133,12 @@ public class TextureCameraPreview extends TextureView implements TextureView.Sur
     }
 
     public void takePicture(OnPictureTakenListener listener) {
+        //如果照片正常处理中，再次点击拍摄，直接返回，视为无效
+        if (isTakenPicing) return;
         if (listener != null) {
             onPictureTakenListener = listener;
             if (mCamera != null) {
+                isTakenPicing = true;
                 mCamera.takePicture(this, null, this);
             } else {
                 onPictureTakenListener.onFailed("拍照失败");
@@ -189,6 +193,7 @@ public class TextureCameraPreview extends TextureView implements TextureView.Sur
         // 使拍照结束后重新预览
         releaseCamera();
         openCamera();
+        isTakenPicing = false;
     }
 
     //水平翻转照片

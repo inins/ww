@@ -10,6 +10,7 @@ import com.frame.base.BaseAdapter;
 import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.ui.base.BaseController;
+import com.frame.component.view.LoadingLayout;
 import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
@@ -43,6 +44,8 @@ public class FunshowDetailEvaController extends BaseController implements BaseAd
     SpringView springView;
     @BindView(R2.id.text_eva_count)
     TextView textEvaCount;
+    @BindView(R2.id.loadingview)
+    LoadingLayout loadingview;
 
     private RecycleAdapterEva adapterEva;
     private EditText editEva;
@@ -125,17 +128,23 @@ public class FunshowDetailEvaController extends BaseController implements BaseAd
                         List<Comment> list = warp.getList();
                         Comment.convertList(list);
                         if (!StrUtil.isEmpty(list)) {
+                            loadingview.showOut();
                             current = warp.getCurrent();
                             if (isFresh) adapterEva.refreshItem(list);
                             else adapterEva.addItem(list);
                         } else {
-                            if (!isFresh) ToastUtil.showToastLong("没有更多数据了");
+                            if (!isFresh) {
+                                ToastUtil.showToastLong("没有更多数据了");
+                            } else {
+                                loadingview.showLackView();
+                            }
                         }
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         ToastUtil.showToastLong(e.getMessage());
+                        loadingview.showFailView();
                     }
                 }, null, () -> {
                     springView.onFinishFreshAndLoadDelay();

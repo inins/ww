@@ -35,6 +35,8 @@ import com.frame.component.utils.UIUtil;
 import com.frame.di.component.AppComponent;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.ToastUtil;
+import com.liaoinstan.springview.container.AliHeader;
+import com.liaoinstan.springview.widget.SpringView;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.imsdk.TIMConversation;
@@ -74,6 +76,7 @@ import com.wang.social.location.mvp.ui.LocationActivity;
 import com.wang.social.location.mvp.ui.LocationShowActivity;
 import com.wang.social.pictureselector.ActivityPicturePreview;
 import com.wang.social.pictureselector.PictureSelector;
+import com.wang.social.pictureselector.helper.PhotoHelper;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -112,11 +115,15 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     IMInputView fcInput;
     @BindView(R2.id.fc_fun_point)
     ImageView fcFunPoint;
+    @BindView(R2.id.fc_message_loader)
+    SpringView fcMessageLoader;
 
     private WeakReference<DialogLoading> mLoading;
 
     private ConversationType mConversationType;
     private String mTargetId;
+
+    private PhotoHelper mPhotoHelper;
 
     private MessageListAdapter mAdapter;
     private TIMConversation mConversation;
@@ -211,7 +218,7 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
             mPresenter.getFunPoint(ImHelper.imId2WangId(mTargetId));
         } else if (mConversationType == ConversationType.SOCIAL) {
             mPresenter.getShadowInfo(ImHelper.imId2WangId(mTargetId));
-        } else if (mConversationType == ConversationType.MIRROR){
+        } else if (mConversationType == ConversationType.MIRROR) {
             mPresenter.getAnonymousInfo();
         }
     }
@@ -232,6 +239,20 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
 
     @SuppressLint("ClickableViewAccessibility")
     private void setListener() {
+        fcMessageLoader.setEnableFooter(false);
+        fcMessageLoader.setHeader(new AliHeader(getContext()));
+
+        fcMessageLoader.setListener(new SpringView.OnFreshListener() {
+            @Override
+            public void onRefresh() {
+                mPresenter.getHistoryMessage();
+            }
+
+            @Override
+            public void onLoadmore() {
+
+            }
+        });
         fcMessageList.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -286,6 +307,9 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (mPhotoHelper != null) {
+            mPhotoHelper.onActivityResult(requestCode, resultCode, data);
+        }
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_SELECT_PICTURE: //图片选择
@@ -375,7 +399,8 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
 
             fcMessageList.scrollToPosition(mAdapter.getData().size() - 1);
         } else {
-            mAdapter.insertItem(0, uiMessages);
+            mAdapter.getData().addAll(0, uiMessages);
+            mAdapter.notifyDataSetChanged();
         }
     }
 
@@ -409,6 +434,11 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     }
 
     @Override
+    public void hideMessageLoad() {
+        fcMessageLoader.onFinishFreshAndLoadDelay();
+    }
+
+    @Override
     public void onPluginClick(PluginModule pluginModule) {
         switch (pluginModule.getPluginType()) {
             case IMAGE: //图片选择
@@ -417,7 +447,27 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
                         .forResult(REQUEST_SELECT_PICTURE);
                 break;
             case SHOOT: //拍摄
-
+                new RxPermissions(getActivity())
+                        .requestEach(Manifest.permission.CAMERA)
+                        .subscribe(new Consumer<Permission>() {
+                            @Override
+                            public void accept(Permission permission) throws Exception {
+                                if (permission.granted) {
+                                    if (mPhotoHelper == null) {
+                                        mPhotoHelper = new PhotoHelper(getActivity(), new PhotoHelper.OnPhotoCallback() {
+                                            @Override
+                                            public void onResult(String path) {
+                                                mPresenter.sendImageMessage(new String[]{path}, false);
+                                            }
+                                        });
+                                        mPhotoHelper.setClip(false);
+                                    }
+                                    mPhotoHelper.startCamera();
+                                } else if (permission.shouldShowRequestPermissionRationale) {
+                                    ToastUtil.showToastShort("请打开相机权限");
+                                }
+                            }
+                        });
                 break;
             case REDPACKET: //红包
                 switch (mConversationType) {
@@ -444,6 +494,15 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
                                 }
                             }
                         });
+                break;
+            case SHADOW:
+                if (mPresenter.getShadowInfo(ImHelper.imId2WangId(mTargetId)) == null) {
+                    ShadowInfo shadowInfo = new ShadowInfo();
+                    shadowInfo.setSocialId(ImHelper.imId2WangId(mTargetId));
+                    ShadowSettingActivity.start(getContext(), shadowInfo);
+                } else {
+                    mPresenter.updateShadowStatus(ImHelper.imId2WangId(mTargetId));
+                }
                 break;
         }
     }

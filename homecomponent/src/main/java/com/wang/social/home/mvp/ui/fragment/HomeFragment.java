@@ -14,6 +14,7 @@ import com.frame.base.BasicFragment;
 import com.frame.component.helper.GuidePageHelper;
 import com.frame.component.ui.base.BasicNoDiFragment;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
 import com.frame.mvp.IView;
 import com.frame.utils.FocusUtil;
 import com.frame.utils.SizeUtils;
@@ -56,6 +57,21 @@ public class HomeFragment extends BasicNoDiFragment implements HomeContract.View
     }
 
     @Override
+    public void onCommonEvent(EventBean event) {
+        switch (event.getEvent()) {
+            //新增一条趣晒，收到通知刷新列表
+            case EventBean.EVENT_FUNSHOW_ADD:
+                funshowController.refreshData();
+                break;
+        }
+    }
+
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
+    @Override
     public int initView(@Nullable Bundle savedInstanceState) {
         return R.layout.home_fragment;
     }
@@ -73,6 +89,7 @@ public class HomeFragment extends BasicNoDiFragment implements HomeContract.View
             @Override
             public void onRefresh() {
                 contentController.refreshData();
+                funshowController.refreshData();
             }
 
             @Override

@@ -77,6 +77,15 @@ public interface GroupService {
     String SHARE_WOOD_GROUP = "group";
 
     /**
+     * 分身状态：关闭
+     */
+    int SHADOW_STATE_CLOSE = 0;
+    /**
+     * 分身状态：开启
+     */
+    int SHADOW_STATE_OPEN = 1;
+
+    /**
      * 获取趣聊详情
      *
      * @param version
@@ -427,4 +436,15 @@ public interface GroupService {
      */
     @GET("system/nicknameLibrary")
     Observable<BaseJson<AnonymousInfoDTO>> getAnonymousInfo(@Query("v") String version);
+
+    /**
+     * 修改分身状态
+     *
+     * @param version
+     * @param socialId
+     * @param state
+     * @return
+     */
+    @POST("app/shadow/openOrCloseUserShadow")
+    Observable<BaseJson> updateShadowStatus(@Query("v") String version, @Query("groupId") String socialId, @Query("state") int state);
 }

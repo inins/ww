@@ -99,6 +99,8 @@ dependencies {
     implementation project(':springlibrary')
     implementation project(':locationlib')
     implementation project(':socializecomponent')
+    //视频播放器
+    implementation 'cn.jzvd:jiaozivideoplayer:6.2.10'
 }
 
 //if (!project.isRunAlone) {

@@ -5,6 +5,7 @@ import android.view.ViewStub;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.ui.base.BaseController;
 import com.frame.component.utils.viewutils.FontUtils;
@@ -14,11 +15,13 @@ import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.utils.SizeUtils;
+import com.frame.utils.StrUtil;
 import com.frame.utils.ToastUtil;
 import com.wang.social.funshow.R;
 import com.wang.social.funshow.R2;
 import com.wang.social.funshow.mvp.entities.funshow.FunshowDetail;
 import com.wang.social.funshow.mvp.entities.funshow.FunshowDetailVideoRsc;
+import com.wang.social.funshow.mvp.entities.funshow.Pic;
 import com.wang.social.funshow.mvp.model.api.FunshowService;
 import com.wang.social.funshow.mvp.ui.view.CtrlVideoView;
 import com.wang.social.funshow.mvp.ui.view.MusicBubbleView;
@@ -27,9 +30,12 @@ import com.wang.social.pictureselector.ActivityPicturePreview;
 
 import org.greenrobot.eventbus.EventBus;
 
-import butterknife.BindView;
+import java.util.List;
 
-public class FunshowDetailContentBoardController extends BaseController {
+import butterknife.BindView;
+import cn.jzvd.JZVideoPlayerStandard;
+
+public class FunshowDetailContentBoardController extends BaseController implements View.OnClickListener {
 
     @BindView(R2.id.text_name)
     TextView textName;
@@ -45,7 +51,7 @@ public class FunshowDetailContentBoardController extends BaseController {
     MusicBubbleView musicbubble;
 
     BundleImgView bundleview;
-    CtrlVideoView videoview;
+    JZVideoPlayerStandard videoview;
 
     private int talkId;
     private FunshowDetail funshowDetail;
@@ -63,6 +69,7 @@ public class FunshowDetailContentBoardController extends BaseController {
     protected void onInitCtrl() {
         FontUtils.boldText(textName);
         FontUtils.boldText(textTitle);
+        imgHeader.setOnClickListener(this);
     }
 
     @Override
@@ -78,10 +85,8 @@ public class FunshowDetailContentBoardController extends BaseController {
             textTime.setText(FunShowUtil.getFunshowTimeStr(funshowDetail.getCreateTime()));
             textPosition.setText(funshowDetail.getProvince() + funshowDetail.getCity());
 
-
-            FunshowDetailVideoRsc videoRsc = funshowDetail.getVideoRsc();
-            if (videoRsc != null) {
-                setVideoData(videoRsc);
+            if (funshowDetail.hasVideo()) {
+                setVideoData(funshowDetail);
             } else {
                 setPicData(funshowDetail);
                 setMusicData(funshowDetail.getMusicRsc());
@@ -89,12 +94,28 @@ public class FunshowDetailContentBoardController extends BaseController {
         }
     }
 
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        if (id == R.id.img_header) {
+            if (funshowDetail != null && !funshowDetail.isHideName())
+                CommonHelper.ImHelper.startPersonalCardForBrowse(getContext(), funshowDetail.getUserId());
+        }
+    }
+
     //初始化视频视图并设置视频
-    private void setVideoData(FunshowDetailVideoRsc videoRsc) {
+    private void setVideoData(FunshowDetail funshowDetail) {
+        //加载视频视图
         ViewStub stub = getRoot().findViewById(R.id.stub_video);
         videoview = stub.inflate().findViewById(R.id.videoview);
         videoview.getLayoutParams().height = SizeUtils.dp2px(360);
-        videoview.setVideoURL(videoRsc.getUrl());
+        //获取视频资源
+        FunshowDetailVideoRsc videoRsc = funshowDetail.getVideoRsc();
+        //获取视频封面图片(如果没有封面，解析视频第一帧作为封面，这里只有一个视频所以不必太担心解析视频的性能问题)
+        String picUrl = !StrUtil.isEmpty(funshowDetail.getPics()) ? funshowDetail.getPics().get(0).getUrl() : videoRsc.getUrl();
+        //初始化视频，并设置封面
+        videoview.setUp(videoRsc.getUrl(), JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, "");
+        ImageLoaderHelper.loadImg(videoview.thumbImageView, picUrl);
     }
 
     //设置音乐
@@ -130,6 +151,16 @@ public class FunshowDetailContentBoardController extends BaseController {
         } else {
             bundleview.setVisibility(View.GONE);
         }
+    }
+
+    public boolean onBackPressed() {
+        return videoview != null ? videoview.backPress() : false;
+    }
+
+    @Override
+    public void onDestory() {
+        super.onDestory();
+        if (videoview != null) videoview.releaseAllVideos();
     }
 
     /////////////////////////////////////////

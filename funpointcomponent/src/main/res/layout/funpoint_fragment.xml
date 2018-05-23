@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/common_white"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="false">
 
     <com.liaoinstan.springview.widget.SpringView
         android:id="@+id/spring"

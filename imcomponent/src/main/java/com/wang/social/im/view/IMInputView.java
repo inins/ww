@@ -362,14 +362,8 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
     }
 
     public void updateShadowText(int textRes) {
-        if (mPluginAdapter != null && mPluginAdapter.getPlugins() != null) {
-            for (PluginModule pluginModule : mPluginAdapter.getPlugins()) {
-                if (pluginModule.getPluginType() == PluginModule.PluginType.SHADOW) {
-                    pluginModule.setPluginName(textRes);
-                    break;
-                }
-            }
-            mPluginAdapter.refresh();
+        if (mPluginAdapter != null) {
+            mPluginAdapter.updateShadowText(textRes);
         }
     }
 
