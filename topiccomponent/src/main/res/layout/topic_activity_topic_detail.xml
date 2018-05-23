@@ -96,7 +96,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <com.wang.social.topic.mvp.ui.widget.GradualColorTextView
+                    <com.wang.social.topic.mvp.ui.widget.GradualImageView
                         android:id="@+id/back_image_view"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
