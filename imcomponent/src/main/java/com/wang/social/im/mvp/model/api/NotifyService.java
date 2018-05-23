@@ -5,8 +5,8 @@ import com.frame.http.api.BaseJson;
 import com.wang.social.im.mvp.model.entities.notify.AiteMsg;
 import com.wang.social.im.mvp.model.entities.notify.EvaMsg;
 import com.wang.social.im.mvp.model.entities.notify.FriendRequest;
-import com.wang.social.im.mvp.model.entities.notify.GroupJoinRequest;
 import com.wang.social.im.mvp.model.entities.notify.GroupRequest;
+import com.wang.social.im.mvp.model.entities.notify.FindChatRequest;
 import com.wang.social.im.mvp.model.entities.notify.SysMsg;
 import com.wang.social.im.mvp.model.entities.notify.ZanMsg;
 
@@ -38,13 +38,13 @@ public interface NotifyService {
      * 加入趣聊申请消息
      */
     @GET("/app/msg/joinGroupApply?v=2.0.0")
-    Observable<BaseJson<BaseListWrap<GroupRequest>>> getGroupRequstList(@Query("current") int current, @Query("size") int size);
+    Observable<BaseJson<BaseListWrap<FindChatRequest>>> getGroupRequstList(@Query("current") int current, @Query("size") int size);
 
     /**
      * 加群邀请
      */
     @GET("/app/msg/joinGroupInvite?v=2.0.0")
-    Observable<BaseJson<BaseListWrap<GroupJoinRequest>>> getGroupJoinRequstList(@Query("current") int current, @Query("size") int size);
+    Observable<BaseJson<BaseListWrap<GroupRequest>>> getGroupJoinRequstList(@Query("current") int current, @Query("size") int size);
 
     /**
      * 点赞消息列表

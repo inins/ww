@@ -99,6 +99,7 @@ public class MeFunshowFragment extends BasicNoDiFragment {
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         adapter = new RecycleAdapterCommonFunshow();
+        adapter.setShowMoreBtn(false);
         recycler.setNestedScrollingEnabled(false);
         recycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recycler.setAdapter(adapter);
@@ -124,6 +125,7 @@ public class MeFunshowFragment extends BasicNoDiFragment {
     @Override
     public void setData(@Nullable Object data) {
     }
+
 
     //////////////////////分页查询////////////////////
     private int current = 1;

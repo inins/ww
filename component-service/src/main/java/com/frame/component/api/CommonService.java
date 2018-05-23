@@ -63,6 +63,15 @@ public interface CommonService {
     Observable<BaseJson<Object>> shatDownUser(@Field("shieldUserId") String shieldUserId, @Field("type") int type);
 
     /**
+     * 拉黑/取消拉黑用户（我的/趣晒）
+     * shieldUserId  用户ID（多个ID，以逗号分隔）
+     * type  类型 1:屏蔽拉黑 2：取消屏蔽
+     */
+    @FormUrlEncoded
+    @POST("/app/userInfo/changeMyBlack?v=2.0.0")
+    Observable<BaseJson<Object>> blankUser(@Field("blackUserIds") String shieldUserId, @Field("type") int type);
+
+    /**
      * 登陆
      * mobile
      * password
@@ -193,7 +202,7 @@ public interface CommonService {
      */
     @FormUrlEncoded
     @POST("app/group/applyAddGroupOpera?v=2.0.0")
-    Observable<BaseJson> agreeGroupApply(@Field("groupId") int groupId, @Field("otherUserId") int otherUserId, @Field("msgId") int msgId, @Field("type") int type);
+    Observable<BaseJson> agreeFindChatApply(@Field("groupId") int groupId, @Field("otherUserId") int otherUserId, @Field("msgId") int msgId, @Field("type") int type);
 
     /**
      * 同意、拒绝邀请加入趣聊、觅聊（别人邀请我的）
@@ -203,7 +212,7 @@ public interface CommonService {
      */
     @FormUrlEncoded
     @POST("app/group/agreeOrRejectAdd?v=2.0.0")
-    Observable<BaseJson> agreeGroupJoinApply(@Field("groupId") int groupId, @Field("msgId") int msgId, @Field("type") int type);
+    Observable<BaseJson> agreeGroupApply(@Field("groupId") int groupId, @Field("msgId") int msgId, @Field("type") int type);
 
 
     /**

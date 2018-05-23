@@ -8,22 +8,20 @@ import android.widget.TextView;
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
 import com.frame.component.helper.ImageLoaderHelper;
-import com.frame.utils.TimeUtils;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
-import com.wang.social.im.mvp.model.entities.notify.GroupJoinRequest;
-import com.wang.social.im.mvp.model.entities.notify.RequestBean;
+import com.wang.social.im.mvp.model.entities.notify.GroupRequest;
 
 import butterknife.BindView;
 
-public class RecycleAdapterGroupRequest extends BaseAdapter<GroupJoinRequest> {
+public class RecycleAdapterGroupRequest extends BaseAdapter<GroupRequest> {
 
     @Override
     protected BaseViewHolder createViewHolder(Context context, ViewGroup parent, int viewType) {
         return new Holder(context, parent, R.layout.im_item_groupjoin_request);
     }
 
-    public class Holder extends BaseViewHolder<GroupJoinRequest> {
+    public class Holder extends BaseViewHolder<GroupRequest> {
         @BindView(R2.id.img_header)
         ImageView imgHeader;
         @BindView(R2.id.text_count)
@@ -42,7 +40,7 @@ public class RecycleAdapterGroupRequest extends BaseAdapter<GroupJoinRequest> {
         }
 
         @Override
-        protected void bindData(GroupJoinRequest bean, int position, OnItemClickListener onItemClickListener) {
+        protected void bindData(GroupRequest bean, int position, OnItemClickListener onItemClickListener) {
             ImageLoaderHelper.loadCircleImg(imgHeader, bean.getHeadUrl());
             textName.setText(bean.getGroupName());
             textCount.setText(bean.getMemberNum()+"人");
@@ -65,13 +63,13 @@ public class RecycleAdapterGroupRequest extends BaseAdapter<GroupJoinRequest> {
 
     /////////////////////////////
 
-    private OnJoinClickListener onJoinClickListener;
+    private OnAgreeGroupClickListener onJoinClickListener;
 
-    public void setOnJoinClickListener(OnJoinClickListener onJoinClickListener) {
+    public void setOnJoinClickListener(OnAgreeGroupClickListener onJoinClickListener) {
         this.onJoinClickListener = onJoinClickListener;
     }
 
-    public interface OnJoinClickListener {
-        void onJoinClick(GroupJoinRequest bean, int position);
+    public interface OnAgreeGroupClickListener {
+        void onJoinClick(GroupRequest bean, int position);
     }
 }

@@ -80,7 +80,7 @@ public class MeTopicFragment extends BasicNoDiFragment {
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        adapter = new TopicListAdapter(this, recycler, new ArrayList<Topic>());
+        adapter = new TopicListAdapter(this, getActivity(), getChildFragmentManager(), new ArrayList<Topic>());
         recycler.setNestedScrollingEnabled(false);
         recycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recycler.setAdapter(adapter);

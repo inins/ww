@@ -323,12 +323,12 @@
         <activity android:name=".mvp.ui.NotifySysMsgListActivity" />
         <activity android:name=".mvp.ui.NofityFriendRequestListActivity" />
         <activity android:name=".mvp.ui.NotifyFriendRequestDetailActivity" />
-        <activity android:name=".mvp.ui.FindChatRequestListActivity" />
+        <activity android:name=".mvp.ui.NotifyFindChatRequestListActivity" />
         <activity
             android:name=".mvp.ui.ScanActivity"
             android:exported="true" />
         <activity android:name=".mvp.ui.GroupConversationActivity" />
-        <activity android:name=".mvp.ui.NotifyFunChatRequestListActivity" />
+        <activity android:name=".mvp.ui.NotifyGroupRequestListActivity" />
         <activity android:name=".mvp.ui.NotifyZanListActivity" />
         <activity android:name=".mvp.ui.NotifyEvaListActivity" />
         <activity android:name=".mvp.ui.NotifyAiteListActivity" />

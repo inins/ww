@@ -318,7 +318,7 @@
             android:name=".mvp.ui.NotifyFriendRequestDetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".mvp.ui.FindChatRequestListActivity"
+            android:name=".mvp.ui.NotifyFindChatRequestListActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.ui.ScanActivity"
@@ -327,7 +327,7 @@
             android:name=".mvp.ui.GroupConversationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".mvp.ui.NotifyFunChatRequestListActivity"
+            android:name=".mvp.ui.NotifyGroupRequestListActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.ui.NotifyZanListActivity"

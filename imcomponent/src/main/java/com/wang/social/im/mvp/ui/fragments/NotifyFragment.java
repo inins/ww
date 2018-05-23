@@ -9,14 +9,13 @@ import com.frame.base.BasicFragment;
 import com.frame.di.component.AppComponent;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
-import com.wang.social.im.mvp.ui.FindChatRequestListActivity;
+import com.wang.social.im.mvp.ui.NotifyFindChatRequestListActivity;
 import com.wang.social.im.mvp.ui.NofityFriendRequestListActivity;
 import com.wang.social.im.mvp.ui.NotifyAiteListActivity;
 import com.wang.social.im.mvp.ui.NotifyEvaListActivity;
-import com.wang.social.im.mvp.ui.NotifyFunChatRequestListActivity;
+import com.wang.social.im.mvp.ui.NotifyGroupRequestListActivity;
 import com.wang.social.im.mvp.ui.NotifySysMsgListActivity;
 import com.wang.social.im.mvp.ui.NotifyZanListActivity;
-import com.wang.social.im.mvp.ui.QrcodeGroupActivity;
 
 import butterknife.OnClick;
 
@@ -60,15 +59,15 @@ public class NotifyFragment extends BasicFragment {
     public void onViewClicked(View view) {
         int id = view.getId();
         if (id == R.id.lay_official) {
-            QrcodeGroupActivity.start(getContext(), 26);
+
         } else if (id == R.id.text_sysmsg) {
             NotifySysMsgListActivity.start(getContext());
         } else if (id == R.id.text_friend) {
             NofityFriendRequestListActivity.start(getContext());
         } else if (id == R.id.text_findchat) {
-            FindChatRequestListActivity.start(getContext());
+            NotifyFindChatRequestListActivity.start(getContext());
         } else if (id == R.id.text_funchat) {
-            NotifyFunChatRequestListActivity.start(getContext());
+            NotifyGroupRequestListActivity.start(getContext());
         } else if (id == R.id.text_zan) {
             NotifyZanListActivity.start(getContext());
         } else if (id == R.id.text_eva) {
