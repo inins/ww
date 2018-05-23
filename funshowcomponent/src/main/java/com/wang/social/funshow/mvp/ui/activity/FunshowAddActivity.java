@@ -151,7 +151,7 @@ public class FunshowAddActivity extends BasicAppActivity implements IView {
             ResourcePost resourcePost = new ResourcePost();
             resourcePost.setMediaType(3);   //3：图片
             resourcePost.setUrl(url);
-            resourcePost.setPicOrder(i);
+            resourcePost.setPicOrder(i + 1);
             resources.add(resourcePost);
             postBean.setMediaType(3);
         }

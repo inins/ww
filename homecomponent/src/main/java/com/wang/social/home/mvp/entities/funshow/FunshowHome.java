@@ -44,12 +44,16 @@ public class FunshowHome {
     private int supportTotal;
     private int shareTotal;
     private int relateState;
-    private int relateMoney;
+    private int gemstone;
     private int talkLiked;
     private int talkPayed;
     private String isAnonymous;
     private String url;
     private int urls;
+
+    public boolean isHideName() {
+        return "1".equals(isAnonymous);
+    }
 
     public boolean isFree() {
         return relateState == 0;
@@ -90,8 +94,9 @@ public class FunshowHome {
         funshowBean.setSupport(isLiked());
         funshowBean.setCityName(city);
         funshowBean.setProvinceName(province);
-        funshowBean.setPrice(relateMoney);
+        funshowBean.setPrice(gemstone);
         funshowBean.setPay(isPay());
+        funshowBean.setHideName(isHideName());
         return funshowBean;
     }
 }
