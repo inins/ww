@@ -1,5 +1,6 @@
 package com.frame.component.helper;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -68,6 +69,11 @@ public class CommonHelper {
         //启动官方图库页面
         public static void startOfficialPhotoActivity(Context context) {
             UIRouter.getInstance().openUri(context, PersonalPath.OFFICIAL_URL, null);
+        }
+
+        //启动官方图库页面
+        public static void startOfficialPhotoActivity(Activity activity, int requestCode) {
+            UIRouter.getInstance().openUri(activity, PersonalPath.OFFICIAL_URL, null, requestCode);
         }
     }
 

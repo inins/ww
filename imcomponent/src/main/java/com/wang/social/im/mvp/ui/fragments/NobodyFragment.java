@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.frame.base.BaseFragment;
 import com.frame.component.helper.CommonHelper;
+import com.frame.component.router.ui.UIRouter;
 import com.frame.component.view.barview.BarUser;
 import com.frame.component.view.barview.BarView;
 import com.frame.di.component.AppComponent;
@@ -90,7 +91,7 @@ public class NobodyFragment extends BaseFragment<NobodyPresenter> implements Nob
         } else if (view.getId() == R.id.fn_knowledge) {
             CommonHelper.TopicHelper.startTopUser(getContext());
         } else if (view.getId() == R.id.fn_post) {
-            
+            CommonHelper.FunshowHelper.startHotUserActivity(getContext());
         } else if (view.getId() == R.id.fn_new_users) {
             NewUsersActivity.start(getContext());
         }

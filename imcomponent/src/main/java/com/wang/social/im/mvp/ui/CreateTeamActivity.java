@@ -1,5 +1,7 @@
 package com.wang.social.im.mvp.ui;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.frame.component.common.AppConstant;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.ui.acticity.WebActivity;
 import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.component.ui.acticity.tags.TagSelectionActivity;
@@ -24,6 +27,8 @@ import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.http.imageloader.glide.RoundedCornersTransformation;
 import com.frame.router.facade.annotation.Autowired;
 import com.frame.utils.ToastUtil;
+import com.tbruyelle.rxpermissions2.Permission;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.di.component.DaggerCreateTeamComponent;
@@ -33,6 +38,7 @@ import com.wang.social.im.mvp.contract.CreateTeamContract;
 import com.wang.social.im.mvp.model.entities.CreateGroupResult;
 import com.wang.social.im.mvp.model.entities.TeamAttribute;
 import com.wang.social.im.mvp.presenter.CreateTeamPresenter;
+import com.wang.social.im.widget.ImageSelectDialog;
 import com.wang.social.pictureselector.helper.PhotoHelper;
 
 import org.greenrobot.eventbus.EventBus;
@@ -43,6 +49,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.functions.Consumer;
 
 /**
  * 创建觅聊
@@ -50,6 +57,7 @@ import butterknife.OnClick;
 public class CreateTeamActivity extends BaseAppActivity<CreateTeamPresenter> implements CreateTeamContract.View, PhotoHelper.OnPhotoCallback {
 
     private final int REQUEST_CODE_ATTR = 1000;
+    private final int REQUEST_CODE_OFFICIAL_PHOTO = 1001;
 
     @BindView(R2.id.ct_toolbar)
     SocialToolbar ctToolbar;
@@ -163,7 +171,35 @@ public class CreateTeamActivity extends BaseAppActivity<CreateTeamPresenter> imp
         } else if (view.getId() == R.id.ct_cl_tags) { //觅聊标签
             TagSelectionActivity.startForTagList(this, mSelectTags, 1);
         } else if (view.getId() == R.id.ct_iv_cover) { //封面
-            mImageSelectHelper = ImageSelectHelper.newInstance(this, this);
+            mImageSelectHelper = ImageSelectHelper.newInstance(this, this, new ImageSelectDialog.OnItemSelectedListener() {
+                @Override
+                public void onGallerySelected() {
+                    CommonHelper.PersonalHelper.startOfficialPhotoActivity(CreateTeamActivity.this, REQUEST_CODE_OFFICIAL_PHOTO);
+                }
+
+                @SuppressLint("CheckResult")
+                @Override
+                public void onShootSelected() {
+                    new RxPermissions(CreateTeamActivity.this)
+                            .requestEach(Manifest.permission.CAMERA)
+                            .subscribe(new Consumer<Permission>() {
+                                @Override
+                                public void accept(Permission permission) throws Exception {
+                                    if (permission.granted) {
+                                        mImageSelectHelper.startCamera();
+                                    } else if (permission.shouldShowRequestPermissionRationale) {
+                                        ToastUtil.showToastShort("请在设置中打开相机权限");
+                                    }
+                                }
+                            });
+
+                }
+
+                @Override
+                public void onAlbumSelected() {
+                    mImageSelectHelper.startPhoto();
+                }
+            });
             mImageSelectHelper.showDialog();
         }
     }
@@ -179,6 +215,9 @@ public class CreateTeamActivity extends BaseAppActivity<CreateTeamPresenter> imp
                 case REQUEST_CODE_ATTR:
                     mAttribute = data.getParcelableExtra(TeamAttributeActivity.EXTRA_ATTR);
                     showAttrInfo();
+                    break;
+                case REQUEST_CODE_OFFICIAL_PHOTO:
+                    onResult(data.getStringExtra("url"));
                     break;
             }
         }
