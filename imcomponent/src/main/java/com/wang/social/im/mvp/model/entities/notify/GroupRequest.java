@@ -22,6 +22,11 @@ public class GroupRequest {
     private String headUrl;
     private int memberNum;
     private long createTime;
+    private int readState;
+
+    public boolean isRead() {
+        return readState == 1;
+    }
 
     public boolean isAgree() {
         return pass == 1;

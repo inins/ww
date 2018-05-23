@@ -74,91 +74,203 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp" />
 
-        <TextView
-            android:id="@+id/text_sysmsg"
-            style="@style/common_TextMeItem"
-            android:drawableLeft="@drawable/im_ic_notify_sysmsg"
-            android:drawablePadding="10dp"
-            android:drawableRight="@drawable/common_ic_next"
-            android:text="@string/im_notify_sysmsg" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+
+            <TextView
+                android:id="@+id/text_sysmsg"
+                style="@style/common_TextMeItem"
+                android:drawableLeft="@drawable/im_ic_notify_sysmsg"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/common_ic_next"
+                android:text="@string/im_notify_sysmsg" />
+
+            <ImageView
+                android:id="@+id/img_dot_notify_sys"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/common_shape_oval_dot_red"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+        </FrameLayout>
 
         <View
             style="@style/common_Line_H"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp" />
 
-        <TextView
-            android:id="@+id/text_friend"
-            style="@style/common_TextMeItem"
-            android:drawableLeft="@drawable/im_ic_notify_friend"
-            android:drawablePadding="10dp"
-            android:drawableRight="@drawable/common_ic_next"
-            android:text="@string/im_notify_friend_request" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+
+            <TextView
+                android:id="@+id/text_friend"
+                style="@style/common_TextMeItem"
+                android:drawableLeft="@drawable/im_ic_notify_friend"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/common_ic_next"
+                android:text="@string/im_notify_friend_request" />
+
+            <ImageView
+                android:id="@+id/img_dot_notify_frient"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/common_shape_oval_dot_red"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+        </FrameLayout>
 
         <View
             style="@style/common_Line_H"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp" />
 
-        <TextView
-            android:id="@+id/text_findchat"
-            style="@style/common_TextMeItem"
-            android:drawableLeft="@drawable/im_ic_notify_findchat"
-            android:drawablePadding="10dp"
-            android:drawableRight="@drawable/common_ic_next"
-            android:text="@string/im_notify_findchat_request" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+
+            <TextView
+                android:id="@+id/text_findchat"
+                style="@style/common_TextMeItem"
+                android:drawableLeft="@drawable/im_ic_notify_findchat"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/common_ic_next"
+                android:text="@string/im_notify_findchat_request" />
+
+            <ImageView
+                android:id="@+id/img_dot_notify_findchat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/common_shape_oval_dot_red"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+        </FrameLayout>
 
         <View
             style="@style/common_Line_H"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp" />
 
-        <TextView
-            android:id="@+id/text_funchat"
-            style="@style/common_TextMeItem"
-            android:drawableLeft="@drawable/im_ic_notify_funchat"
-            android:drawablePadding="10dp"
-            android:drawableRight="@drawable/common_ic_next"
-            android:text="@string/im_notify_funchat_request" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+
+            <TextView
+                android:id="@+id/text_funchat"
+                style="@style/common_TextMeItem"
+                android:drawableLeft="@drawable/im_ic_notify_funchat"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/common_ic_next"
+                android:text="@string/im_notify_funchat_request" />
+
+            <ImageView
+                android:id="@+id/img_dot_notify_funchat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/common_shape_oval_dot_red"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+        </FrameLayout>
 
         <View
             style="@style/common_Line_H"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp" />
 
-        <TextView
-            android:id="@+id/text_zan"
-            style="@style/common_TextMeItem"
-            android:drawableLeft="@drawable/im_ic_notify_zan"
-            android:drawablePadding="10dp"
-            android:drawableRight="@drawable/common_ic_next"
-            android:text="@string/im_notify_zan" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+
+            <TextView
+                android:id="@+id/text_zan"
+                style="@style/common_TextMeItem"
+                android:drawableLeft="@drawable/im_ic_notify_zan"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/common_ic_next"
+                android:text="@string/im_notify_zan" />
+
+            <ImageView
+                android:id="@+id/img_dot_notify_zan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/common_shape_oval_dot_red"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+        </FrameLayout>
 
         <View
             style="@style/common_Line_H"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp" />
 
-        <TextView
-            android:id="@+id/text_eva"
-            style="@style/common_TextMeItem"
-            android:drawableLeft="@drawable/im_ic_notify_eva"
-            android:drawablePadding="10dp"
-            android:drawableRight="@drawable/common_ic_next"
-            android:text="@string/im_notify_eva" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+
+            <TextView
+                android:id="@+id/text_eva"
+                style="@style/common_TextMeItem"
+                android:drawableLeft="@drawable/im_ic_notify_eva"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/common_ic_next"
+                android:text="@string/im_notify_eva" />
+
+            <ImageView
+                android:id="@+id/img_dot_notify_eva"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/common_shape_oval_dot_red"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+        </FrameLayout>
 
         <View
             style="@style/common_Line_H"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp" />
 
-        <TextView
-            android:id="@+id/text_aite"
-            style="@style/common_TextMeItem"
-            android:drawableLeft="@drawable/im_ic_notify_aite"
-            android:drawablePadding="10dp"
-            android:drawableRight="@drawable/common_ic_next"
-            android:text="@string/im_notify_aite" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+
+            <TextView
+                android:id="@+id/text_aite"
+                style="@style/common_TextMeItem"
+                android:drawableLeft="@drawable/im_ic_notify_aite"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/common_ic_next"
+                android:text="@string/im_notify_aite" />
+
+            <ImageView
+                android:id="@+id/img_dot_notify_aite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/common_shape_oval_dot_red"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+        </FrameLayout>
 
         <View
             style="@style/common_Line_H"

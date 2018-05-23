@@ -11,6 +11,7 @@ import com.frame.base.BaseAdapter;
 import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.helper.CommonHelper;
+import com.frame.component.helper.NetMsgHelper;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
 import com.frame.component.view.TitleView;
 import com.frame.http.api.ApiHelperEx;
@@ -115,6 +116,7 @@ public class NotifyEvaListActivity extends BasicAppNoDiActivity implements IView
                         } else {
                             ToastUtil.showToastLong("没有更多数据了");
                         }
+                        NetMsgHelper.newInstance().readEvaMsg();
                         springView.onFinishFreshAndLoadDelay();
                     }
 

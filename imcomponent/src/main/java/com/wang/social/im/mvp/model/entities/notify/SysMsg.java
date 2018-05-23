@@ -55,6 +55,9 @@ public class SysMsg {
     private long updateTime;
     private Object extras;
     private int msgId;
+    private int readState;
 
-
+    public boolean isRead() {
+        return readState == 1;
+    }
 }

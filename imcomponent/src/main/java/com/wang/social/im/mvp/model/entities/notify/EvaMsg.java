@@ -38,6 +38,11 @@ public class EvaMsg {
     private String sendNickname;
     private String sendAvatar;
     private int msgId;
+    private int readState;
+
+    public boolean isRead() {
+        return readState == 1;
+    }
 
     public CommonMsg trans2CommonMsg() {
         CommonMsg commonMsg = new CommonMsg();
@@ -50,6 +55,7 @@ public class EvaMsg {
         commonMsg.setModeType(modeType);
         commonMsg.setModeId(modeId);
         commonMsg.setModePkId(modePkId);
+        commonMsg.setReadState(readState);
         return commonMsg;
     }
 

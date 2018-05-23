@@ -39,6 +39,11 @@ public class FriendRequest implements Serializable{
     private String reason;
     private long createTime;
     private List<Tag> tags;
+    private int readState;
+
+    public boolean isRead() {
+        return readState == 1;
+    }
 
     public boolean isMale() {
         return sex == 0;
@@ -55,6 +60,7 @@ public class FriendRequest implements Serializable{
         requestBean.setBirthday(birthday);
         requestBean.setReason(reason);
         requestBean.setCreateTime(createTime);
+        requestBean.setReadState(readState);
         return requestBean;
     }
 
