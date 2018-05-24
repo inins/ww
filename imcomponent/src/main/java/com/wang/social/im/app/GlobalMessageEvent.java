@@ -19,8 +19,8 @@ import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageListener;
 import com.wang.social.im.R;
 import com.wang.social.im.enums.CustomElemType;
-import com.wang.social.im.mvp.model.entities.notify.DynamicMessage;
-import com.wang.social.im.mvp.model.entities.notify.SystemMessage;
+import com.frame.component.entities.DynamicMessage;
+import com.frame.component.entities.SystemMessage;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;

@@ -113,8 +113,20 @@ public class BackgroundSettingPresenter extends BasePresenter<BackgroundSettingC
                         return "";
                     }
                 })
-                .unsubscribeOn(Schedulers.io())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                        mRootView.showLoading();
+                    }
+                })
                 .observeOn(AndroidSchedulers.mainThread())
+                .doFinally(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mRootView.hideLoading();
+                    }
+                })
                 .subscribe(new Consumer<String>() {
                     @Override
                     public void accept(String s) throws Exception {
