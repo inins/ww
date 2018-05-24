@@ -34,6 +34,7 @@ public class CircularAutoSizeTextView extends AppCompatTextView {
     Paint mAutoSizeTextPaint;
     float mAutoSizeTextSize = 18.0f;
     int mAutoSizeTextColor = Color.WHITE;
+    private int mTextYOffset = 0;
 
     int mCenterX;
     int mCenterY;
@@ -94,12 +95,16 @@ public class CircularAutoSizeTextView extends AppCompatTextView {
 
     public void setBackgroundColor(int color) {
         mBgColor = color;
-        mPaint.setColor(mBorderColor);
+        mPaint.setColor(mBgColor);
     }
 
     public void setBorderColor(int color) {
         mBorderColor = color;
-        mBorderPaint.setColor(color);
+        mBorderPaint.setColor(mBorderColor);
+    }
+
+    public void setTextYOffset(int textYOffset) {
+        mTextYOffset = textYOffset;
     }
 
     public void setBorderWidth(int width) {
@@ -167,7 +172,16 @@ public class CircularAutoSizeTextView extends AppCompatTextView {
 
         Rect rect = new Rect();
         mAutoSizeTextPaint.getTextBounds(getText().toString(), 0, getText().toString().length(), rect);
-        canvas.drawText(getText().toString(), mCenterX, mCenterY + (rect.height() / 2), mAutoSizeTextPaint);
+
+
+//        Paint.FontMetrics fontMetrics = mAutoSizeTextPaint.getFontMetrics();
+//        float top = fontMetrics.top;//为 基线到字体上边框的距离,即上图中的top
+//        float bottom = fontMetrics.bottom;// 为基线到字体下边框的距离,即上图中的bottom
+//        Rect r = new Rect();
+//        r.set(getLeft(), getTop(), getRight(), getBottom());
+//        int baseLineY = (int) (r.centerY() - top/2 - bottom/2);// 基线中间点的y轴计算公式
+
+        canvas.drawText(getText().toString(), mCenterX, mCenterY + (rect.height() / 2) + mTextYOffset, mAutoSizeTextPaint);
 
         if (mBorderWidth > 0) {
             canvas.drawCircle(mCenterX, mCenterY, radius, mBorderPaint);

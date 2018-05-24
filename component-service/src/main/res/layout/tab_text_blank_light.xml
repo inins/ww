@@ -10,7 +10,7 @@
     android:gravity="center"
     android:textColor="@color/common_select_text_darklight_blank"
     android:textSize="18sp"
-    tools:drawableRight="@drawable/common_ic_down"
+    tools:drawableRight="@drawable/common_ic_up"
     tools:text="tabText">
 
 </TextView>
