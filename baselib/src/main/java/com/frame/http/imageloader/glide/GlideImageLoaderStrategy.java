@@ -6,11 +6,13 @@ import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.Key;
 import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.signature.ObjectKey;
 import com.frame.http.imageloader.BaseImageLoaderStrategy;
 import com.frame.utils.Preconditions;
 
@@ -64,19 +66,22 @@ public class GlideImageLoaderStrategy implements BaseImageLoaderStrategy<ImageCo
                 requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL);
                 break;
         }
-        if (config.getTransformation() != null){
+        if (config.getTransformation() != null) {
             requestOptions = requestOptions.transform(new MultiTransformation<>(new CenterCrop(), config.getTransformation()));
-        }else if (config.isCircle()){
+        } else if (config.isCircle()) {
             requestOptions = requestOptions.circleCrop();
         }
-        if (config.getPlaceholder() != 0){
+        if (config.getPlaceholder() != 0) {
             requestOptions = requestOptions.placeholder(config.getPlaceholder());
         }
-        if (config.getErrorPic() != 0){
+        if (config.getErrorPic() != 0) {
             requestOptions = requestOptions.error(config.getErrorPic());
         }
-        if (config.getFallback() != 0){
+        if (config.getFallback() != 0) {
             requestOptions = requestOptions.fallback(config.getFallback());
+        }
+        if (!TextUtils.isEmpty(config.getSignature())) {
+            requestOptions = requestOptions.signature(new ObjectKey(config.getSignature()));
         }
         glideRequest
                 .apply(requestOptions)
@@ -88,13 +93,13 @@ public class GlideImageLoaderStrategy implements BaseImageLoaderStrategy<ImageCo
         Preconditions.checkNotNull(cxt, "%s cannot be null!", Context.class.getName());
         Preconditions.checkNotNull(config, "ImageConfigImpl is required.");
 
-        if (config.getImageViews() != null && config.getImageViews().length > 0){
-            for (ImageView imageView : config.getImageViews()){
+        if (config.getImageViews() != null && config.getImageViews().length > 0) {
+            for (ImageView imageView : config.getImageViews()) {
                 WangSocialGlide.get(cxt).getRequestManagerRetriever().get(cxt).clear(imageView);
             }
         }
 
-        if (config.isClearDiskCache()){
+        if (config.isClearDiskCache()) {
             Observable.just(0)
                     .observeOn(Schedulers.io())
                     .subscribe(new Consumer<Integer>() {
@@ -105,7 +110,7 @@ public class GlideImageLoaderStrategy implements BaseImageLoaderStrategy<ImageCo
                     });
         }
 
-        if (config.isClearMemory()){
+        if (config.isClearMemory()) {
             Observable.just(0)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Consumer<Integer>() {

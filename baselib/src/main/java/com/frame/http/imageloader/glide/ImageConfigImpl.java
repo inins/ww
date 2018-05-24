@@ -9,7 +9,7 @@ import com.frame.http.imageloader.ImageConfig;
  * Created by Bo on 2018-03-26.
  */
 
-public class ImageConfigImpl extends ImageConfig{
+public class ImageConfigImpl extends ImageConfig {
 
     private DiskCacheStrategy cacheStrategy;
     private int fallback; //请求 url 为空,则使用此图片作为占位符
@@ -18,6 +18,7 @@ public class ImageConfigImpl extends ImageConfig{
     private ImageView[] imageViews;
     private boolean isClearMemory;//清理内存缓存
     private boolean isClearDiskCache;//清理本地缓存
+    private String signature; //一个签名
 
     private ImageConfigImpl(Builder builder) {
         this.url = builder.url;
@@ -31,6 +32,7 @@ public class ImageConfigImpl extends ImageConfig{
         this.imageViews = builder.imageViews;
         this.isClearMemory = builder.isClearMemory;
         this.isClearDiskCache = builder.isClearDiskCache;
+        this.signature = builder.signature;
     }
 
     public DiskCacheStrategy getCacheStrategy() {
@@ -61,6 +63,10 @@ public class ImageConfigImpl extends ImageConfig{
         return isCircle;
     }
 
+    public String getSignature() {
+        return signature;
+    }
+
     public static Builder builder() {
         return new Builder();
     }
@@ -77,6 +83,7 @@ public class ImageConfigImpl extends ImageConfig{
         private ImageView[] imageViews;
         private boolean isClearMemory;//清理内存缓存
         private boolean isClearDiskCache;//清理本地缓存
+        private String signature;
 
         private Builder() {
         }
@@ -131,8 +138,13 @@ public class ImageConfigImpl extends ImageConfig{
             return this;
         }
 
-        public Builder isCircle(boolean isCircle){
+        public Builder isCircle(boolean isCircle) {
             this.isCircle = isCircle;
+            return this;
+        }
+
+        public Builder signature(String signature) {
+            this.signature = signature;
             return this;
         }
 
@@ -141,7 +153,7 @@ public class ImageConfigImpl extends ImageConfig{
         }
     }
 
-    public enum DiskCacheStrategy{
-        ALL,NONE, SOURCE, DATA, AUTOMATIC
+    public enum DiskCacheStrategy {
+        ALL, NONE, SOURCE, DATA, AUTOMATIC
     }
 }
