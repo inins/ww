@@ -226,23 +226,18 @@
             app:cardBackgroundColor="#F2F2F2"
             app:cardElevation="0dp"
             app:cardCornerRadius="16dp">
+                <com.wang.social.topic.mvp.ui.widget.richeditor.RichEditor
+                    android:id="@+id/rich_editor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:orientation="vertical"
+                    android:layout_margin="14dp"
+                    android:background="@android:color/transparent">
 
-            <ImageView
-                android:id="@+id/rich_editor_bg_image_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"/>
+                </com.wang.social.topic.mvp.ui.widget.richeditor.RichEditor>
 
-            <com.wang.social.topic.mvp.ui.widget.richeditor.RichEditor
-                android:id="@+id/rich_editor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:orientation="vertical"
-                android:layout_margin="14dp"
-                android:background="@android:color/transparent">
 
-            </com.wang.social.topic.mvp.ui.widget.richeditor.RichEditor>
         </android.support.v7.widget.CardView>
 
     </LinearLayout>

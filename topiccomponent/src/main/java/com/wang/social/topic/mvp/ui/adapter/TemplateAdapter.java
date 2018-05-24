@@ -3,6 +3,7 @@ package com.wang.social.topic.mvp.ui.adapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -20,9 +21,9 @@ import com.wang.social.topic.mvp.model.entities.Template;
 
 public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.ViewHolder> {
 
-    Context mContext;
-    DataProvider mDataProvider;
-    ClickListener mClickListener;
+    private Context mContext;
+    private DataProvider mDataProvider;
+    private ClickListener mClickListener;
 
     public interface DataProvider {
         Template getTemplate(int position);
@@ -38,8 +39,9 @@ public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.ViewHo
         this.mContext = recyclerView.getContext().getApplicationContext();
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext)
                 .inflate(R.layout.topic_adapter_template, parent, false);
         return new ViewHolder(view);
@@ -70,7 +72,7 @@ public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Template t = getTemplate(position);
 
         if (null == t) return;
@@ -80,6 +82,7 @@ public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.ViewHo
             holder.descTV.setVisibility(View.VISIBLE);
             holder.templateIV.setImageDrawable(new ColorDrawable(Color.WHITE));
         } else {
+            holder.descTV.setVisibility(View.GONE);
             // 模板图片
             if (!TextUtils.isEmpty(t.getUrl())) {
                 FrameUtils.obtainAppComponentFromContext(mContext)
@@ -102,13 +105,9 @@ public class TemplateAdapter extends RecyclerView.Adapter<TemplateAdapter.ViewHo
         }
         // 点击
         holder.rootView.setTag(t);
-        holder.rootView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (null != mClickListener && v.getTag() instanceof Template) {
-                    mClickListener.onTemplateClick((Template) v.getTag());
-                }
+        holder.rootView.setOnClickListener((View v) -> {
+            if (null != mClickListener && v.getTag() instanceof Template) {
+                mClickListener.onTemplateClick((Template) v.getTag());
             }
         });
     }

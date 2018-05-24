@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import com.wang.social.pictureselector.R;
 import com.wang.social.pictureselector.model.Picture;
 import com.wang.social.pictureselector.model.SelectorSpec;
-import com.wang.social.pictureselector.ui.widget.CircularAutoSizeTextView;
+import com.frame.component.view.CircularAutoSizeTextView;
 import com.wang.social.pictureselector.ui.widget.ThumbnailLayout;
 
 /**

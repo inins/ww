@@ -265,8 +265,8 @@ RE.insertImage = function(url, alt) {
 //插入图片
 RE.insertAudioImage = function(url, img, w, h, alt) {
 //    var html = '<img onclick="playAudio(\''+url+'\');" id="audioImg" align=left src=' + img + ' alt="' + alt + '" /><br/><br/>';
-//    var html = '<img onclick="playAudio(\''+url+'\');" id="audioImg" align=center src=' + img + ' width:=' + w + ' height:=' + h +  ' alt="' + alt + '" /><br/><br/>';
-var html = '<img id="audioImg" align=center src=' + img + ' width=' + w + ' height=' + h +  ' alt="' + url + '" style="max-width: 100%;" /><br/><br/>';
+    var html = '<img onclick="playAudio(\''+url+'\');" id="audioImg" align=center src=' + img + ' width:=' + w + ' height:=' + h +  ' alt="' + alt + '" /><br/><br/>';
+//var html = '<img id="audioImg" align=center src=' + img + ' width=' + w + ' height=' + h +  ' alt="' + url + '" style="max-width: 100%;" /><br/><br/>';
     RE.insertHTML(html);
 }
 
