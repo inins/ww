@@ -42,6 +42,8 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/bs_rlv_images"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:paddingEnd="6dp"
+            android:paddingStart="6dp" />
     </com.liaoinstan.springview.widget.SpringView>
 </android.support.design.widget.CoordinatorLayout>
