@@ -36,6 +36,7 @@ import butterknife.BindView;
  * Create by ChenJing on 2018-04-23 11:51
  * ============================================
  */
+@Deprecated
 @RouteNode(path = ImPath.SOCIAL_PATH, desc = "趣聊会话")
 public class SocialConversationActivity extends BasicConversationActivity {
 
@@ -72,8 +73,6 @@ public class SocialConversationActivity extends BasicConversationActivity {
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
-        loadBackground(ConversationType.SOCIAL, targetId);
-
         GroupProfile profile = GroupHelper.getInstance().getGroupProfile(targetId);
         if (profile != null) {
             scTvTitle.setText(profile.getName());

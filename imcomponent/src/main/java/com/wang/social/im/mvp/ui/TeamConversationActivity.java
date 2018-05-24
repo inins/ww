@@ -34,6 +34,7 @@ import butterknife.BindView;
  * Create by ChenJing on 2018-04-23 14:39
  * ============================================
  */
+@Deprecated
 @RouteNode(path = ImPath.TEAM_PATH, desc = "觅聊会话")
 public class TeamConversationActivity extends BasicConversationActivity {
 
@@ -86,8 +87,6 @@ public class TeamConversationActivity extends BasicConversationActivity {
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
-        loadBackground(ConversationType.TEAM, targetId);
-
         GroupProfile profile = GroupHelper.getInstance().getGroupProfile(targetId);
         if (profile != null) {
             tcTvTitle.setText(profile.getName());
