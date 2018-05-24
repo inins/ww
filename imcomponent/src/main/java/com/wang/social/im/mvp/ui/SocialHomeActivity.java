@@ -401,7 +401,7 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
             });
             editDialog.show();
         } else if (view.getId() == R.id.sc_tv_background_chat) {//聊天背景
-
+            BackgroundSettingActivity.start(this, ConversationType.SOCIAL, ImHelper.wangId2ImId(socialId, ConversationType.SOCIAL));
         } else if (view.getId() == R.id.sc_tv_clear_message) {//清空消息
             mPresenter.clearMessages(ImHelper.wangId2ImId(socialId, ConversationType.SOCIAL));
         } else if (view.getId() == R.id.sc_tv_charge_setting) {//收费设置

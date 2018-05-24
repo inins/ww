@@ -36,6 +36,7 @@ import butterknife.BindView;
  * Create by ChenJing on 2018-04-23 11:51
  * ============================================
  */
+@Deprecated
 @RouteNode(path = ImPath.SOCIAL_PATH, desc = "趣聊会话")
 public class SocialConversationActivity extends BasicConversationActivity {
 
@@ -43,8 +44,8 @@ public class SocialConversationActivity extends BasicConversationActivity {
     SocialToolbar toolbar;
     @BindView(R2.id.sc_tv_title)
     TextView scTvTitle;
-    @BindView(R2.id.sc_tv_online)
-    TextView scTvOnline;
+//    @BindView(R2.id.sc_tv_online)
+//    TextView scTvOnline;
     @BindView(R2.id.background)
     ImageView background;
     @BindView(R2.id.sc_fl_conversation)
@@ -72,26 +73,24 @@ public class SocialConversationActivity extends BasicConversationActivity {
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
-        initBackground(ConversationType.SOCIAL, targetId);
-
         GroupProfile profile = GroupHelper.getInstance().getGroupProfile(targetId);
         if (profile != null) {
             scTvTitle.setText(profile.getName());
-            TIMGroupManagerExt.getInstance().getGroupDetailInfo(Arrays.asList(targetId), new TIMValueCallBack<List<TIMGroupDetailInfo>>() {
-                @Override
-                public void onError(int i, String s) {
-
-                }
-
-                @Override
-                public void onSuccess(List<TIMGroupDetailInfo> timGroupDetailInfos) {
-                    for (TIMGroupDetailInfo info : timGroupDetailInfos) {
-                        if (info.getGroupId().equals(targetId) && scTvOnline != null) {
-                            scTvOnline.setText(UIUtil.getString(R.string.im_online_number, info.getOnlineMemberNum()));
-                        }
-                    }
-                }
-            });
+//            TIMGroupManagerExt.getInstance().getGroupDetailInfo(Arrays.asList(targetId), new TIMValueCallBack<List<TIMGroupDetailInfo>>() {
+//                @Override
+//                public void onError(int i, String s) {
+//
+//                }
+//
+//                @Override
+//                public void onSuccess(List<TIMGroupDetailInfo> timGroupDetailInfos) {
+//                    for (TIMGroupDetailInfo info : timGroupDetailInfos) {
+//                        if (info.getGroupId().equals(targetId) && scTvOnline != null) {
+//                            scTvOnline.setText(UIUtil.getString(R.string.im_online_number, info.getOnlineMemberNum()));
+//                        }
+//                    }
+//                }
+//            });
         }
 
         ConversationFragment conversationFragment = ConversationFragment.newInstance(ConversationType.SOCIAL, targetId);

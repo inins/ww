@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.wang.social.im">
 
@@ -17,43 +18,49 @@
     <!-- 用于读取手机当前的状态 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
-    <!--小米推送Start-->
+    <!-- 小米推送Start -->
     <uses-permission android:name="android.permission.GET_TASKS" />
+
     <permission
         android:name="com.dongdongkeji.wangwangsocial.MIPUSH_RECEIVE"
         android:protectionLevel="signature" />
-    <uses-permission android:name="com.dongdongkeji.wangwangsocial.MIPUSH_RECEIVE" />
-    <!--小米推送End-->
 
-    <!-- 华为推送 Start-->
+    <uses-permission android:name="com.dongdongkeji.wangwangsocial.MIPUSH_RECEIVE" />
+    <!-- 小米推送End -->
+
+
+    <!-- 华为推送 Start -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
-    <!-- 华为推送 End-->
+    <!-- 华为推送 End -->
 
-    <!-- 魅族推送 start-->
-    <!-- 兼容 Flyme5.0 以下版本，魅族内部集成 pushSDK 必填，不然无法收到消息-->
+
+    <!-- 魅族推送 start -->
+    <!-- 兼容 Flyme5.0 以下版本，魅族内部集成 pushSDK 必填，不然无法收到消息 -->
     <uses-permission android:name="com.meizu.flyme.push.permission.RECEIVE" />
+
     <permission
         android:name="com.dongdongkeji.wangwangsocial.push.permission.MESSAGE"
         android:protectionLevel="signature" />
+
     <uses-permission android:name="com.dongdongkeji.wangwangsocial.push.permission.MESSAGE" />
-    <!--  兼容 Flyme3.0 配置权限-->
+    <!-- 兼容 Flyme3.0 配置权限 -->
     <uses-permission android:name="com.meizu.c2dm.permission.RECEIVE" />
+
     <permission
         android:name="com.dongdongkeji.wangwangsocial.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
+
     <uses-permission android:name="com.dongdongkeji.wangwangsocial.permission.C2D_MESSAGE" />
     <!-- 魅族推送END -->
-
     <application
         android:allowBackup="true"
         android:supportsRtl="true">
-
         <meta-data
             android:name="com.wang.social.im.app.IMConfiguration"
             android:value="ConfigModule" />
 
-        <!--  ************** IM Start ************** -->
+        <!-- ************** IM Start ************** -->
         <!-- 【必须】消息收发service -->
         <service
             android:name="com.tencent.qalsdk.service.QalService"
@@ -93,7 +100,7 @@
                 <action android:name="com.tencent.qalsdk.service.TASK_REMOVED" />
             </intent-filter>
         </receiver>
-        <!--  ************** IM End ************** -->
+        <!-- ************** IM End ************** -->
         <!-- 小米推送 Start -->
         <service
             android:name="com.xiaomi.push.service.XMJobService"
@@ -118,6 +125,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
@@ -143,7 +151,7 @@
             </intent-filter>
         </receiver>
         <!-- 小米推送 End -->
-        <!-- 华为推送 Start-->
+        <!-- 华为推送 Start -->
         <meta-data
             android:name="com.huawei.hms.client.appid"
             android:value="100011517" />
@@ -184,12 +192,14 @@
 
         <receiver android:name="com.huawei.hms.support.api.push.PushEventReceiver">
             <intent-filter>
+
                 <!-- 接收通道发来的通知栏消息 -->
                 <action android:name="com.huawei.intent.action.PUSH" />
             </intent-filter>
         </receiver>
         <receiver android:name=".receivers.HMSPushReceiver">
             <intent-filter>
+
                 <!-- 必须,用于接收TOKEN -->
                 <action android:name="com.huawei.android.push.intent.REGISTRATION" />
                 <!-- 必须，用于接收消息 -->
@@ -201,14 +211,15 @@
             </intent-filter>
         </receiver>
         <!-- 华为推送 End -->
-        <!-- 魅族推送 Start-->
+        <!-- 魅族推送 Start -->
         <receiver android:name=".receivers.MZPushReceiver">
             <intent-filter>
+
                 <!-- 接收 push 消息 -->
                 <action android:name="com.meizu.flyme.push.intent.MESSAGE" />
                 <!-- 接收 register 消息 -->
                 <action android:name="com.meizu.flyme.push.intent.REGISTER.FEEDBACK" />
-                <!-- 接收 unregister 消息-->
+                <!-- 接收 unregister 消息 -->
                 <action android:name="com.meizu.flyme.push.intent.UNREGISTER.FEEDBACK" />
                 <!-- 兼容低版本 Flyme3 推送服务配置 -->
                 <action android:name="com.meizu.c2dm.intent.REGISTRATION" />
@@ -343,6 +354,12 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.ui.QrcodeGroupActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.ui.BackgroundSettingActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
     </application>
+
 </manifest>

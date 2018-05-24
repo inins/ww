@@ -42,7 +42,7 @@
         app:layout_constraintBottom_toTopOf="@+id/mc_tv_description"
         app:layout_constraintLeft_toLeftOf="parent" />
 
-    <TextView
+    <!--<TextView
         android:id="@+id/mc_tv_online"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
         android:textSize="12dp"
         app:layout_constraintBottom_toBottomOf="@id/mc_tv_title"
         app:layout_constraintLeft_toRightOf="@id/mc_tv_title"
-        tools:text="(在线20人)" />
+        tools:text="(在线20人)" />-->
 
     <TextView
         android:id="@+id/mc_tv_description"

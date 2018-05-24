@@ -51,7 +51,7 @@ public class AlertUserListActivity extends BaseAppActivity<AlertUserListPresente
     private AlertUserSearchFragment mSearchFragment;
 
     public static void start(Activity activity, int requestCode, String groupId) {
-        Intent intent = new Intent();
+        Intent intent = new Intent(activity, AlertUserListActivity.class);
         intent.putExtra("groupId", groupId);
         activity.startActivityForResult(intent, requestCode);
     }

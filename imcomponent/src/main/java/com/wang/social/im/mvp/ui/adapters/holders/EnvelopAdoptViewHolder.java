@@ -73,7 +73,6 @@ public class EnvelopAdoptViewHolder extends BaseViewHolder<EnvelopAdoptInfo> {
     }
 
     protected String getTimeStr(long timestamp) {
-        timestamp = timestamp * 1000;
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date(timestamp));
         int messageYear = cal.get(Calendar.YEAR);

@@ -13,12 +13,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tc_iv_toolbar_background">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/background"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop" />
     </ScrollView>
 
     <ImageView
@@ -66,7 +67,7 @@
                 android:textSize="17dp"
                 tools:text="海贼王" />
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/tc_tv_online"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -74,7 +75,7 @@
                 android:layout_marginTop="3dp"
                 android:textColor="@color/common_white"
                 android:textSize="9dp"
-                tools:text="共50人，23人在线" />
+                tools:text="共50人，23人在线" />-->
         </LinearLayout>
     </FrameLayout>
 

@@ -17,7 +17,8 @@
         <ImageView
             android:id="@+id/background"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"/>
     </ScrollView>
 
     <com.frame.component.view.SocialToolbar
@@ -52,7 +53,7 @@
             android:textSize="17dp"
             tools:text="海贼王" />
 
-        <TextView
+        <!--<TextView
             android:id="@+id/sc_tv_online"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -60,7 +61,7 @@
             android:layout_marginTop="3dp"
             android:textColor="@color/common_text_blank"
             android:textSize="9dp"
-            tools:text="23人在线" />
+            tools:text="23人在线" />-->
     </LinearLayout>
 
     <FrameLayout

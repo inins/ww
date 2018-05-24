@@ -19,9 +19,10 @@ import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageListener;
 import com.wang.social.im.R;
 import com.wang.social.im.enums.CustomElemType;
-import com.wang.social.im.mvp.model.entities.notify.DynamicMessage;
-import com.wang.social.im.mvp.model.entities.notify.SystemMessage;
+import com.frame.component.entities.DynamicMessage;
+import com.frame.component.entities.SystemMessage;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -102,10 +103,12 @@ public class GlobalMessageEvent extends Observable implements TIMMessageListener
                             case SYSTEM_NOTIFY://系统消息
                                 SystemMessage systemMessage = mGson.fromJson(content, SystemMessage.class);
                                 showSystemNotify(systemMessage);
+                                EventBus.getDefault().post(systemMessage);
                                 break;
                             case DYNAMIC_NOTIFY://动态消息
                                 DynamicMessage dynamicMessage = mGson.fromJson(content, DynamicMessage.class);
                                 showDynamicNotify(dynamicMessage);
+                                EventBus.getDefault().post(dynamicMessage);
                                 break;
                         }
                     } catch (JSONException e) {

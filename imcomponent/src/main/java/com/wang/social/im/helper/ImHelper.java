@@ -71,6 +71,17 @@ public class ImHelper {
     }
 
     /**
+     * 获取背景图片缓存路径
+     *
+     * @return
+     */
+    public static String getBackgroundCachePath() {
+        File cacheFile = new File(FrameUtils.obtainAppComponentFromContext(Utils.getContext()).cacheFile(), AppConstant.Constant.BACKGROUND_CACHE_DIR);
+        FileUtils.createOrExistsDir(cacheFile);
+        return cacheFile.getPath();
+    }
+
+    /**
      * 判断缓存文件是否存在
      *
      * @param fileName
@@ -123,6 +134,7 @@ public class ImHelper {
      * @return
      */
     public static String wangId2ImId(String wangId, ConversationType type) {
+        wangId = imId2WangId(wangId);
         switch (type) {
             case GAME:
                 return IMConstants.IM_IDENTITY_PREFIX_GAME + wangId;
@@ -159,6 +171,24 @@ public class ImHelper {
             });
         } else if (MzSystemUtils.isBrandMeizu(application)) {
             PushManager.register(application, MZPUSH_APPID, MZPUSH_APPKEY);
+        }
+    }
+
+    /**
+     * 获取背景图片名称
+     *
+     * @param conversationType
+     * @param targetId
+     * @return
+     */
+    public static String getBackgroundFileName(ConversationType conversationType, String targetId) {
+        switch (conversationType) {
+            case SOCIAL:
+                return "social_" + targetId;
+            case TEAM:
+                return "team_" + targetId;
+            default:
+                return targetId;
         }
     }
 }

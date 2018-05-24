@@ -36,6 +36,7 @@ import com.frame.component.ui.dialog.DialogLoading;
 import com.frame.component.utils.UIUtil;
 import com.frame.component.view.moneytree.DialogCreateGame;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.ToastUtil;
 import com.google.gson.Gson;
@@ -339,7 +340,7 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
                 case REQUEST_ALERT_USER://@用户
                     MemberInfo memberInfo = data.getParcelableExtra(AlertUserListActivity.EXTRA_MEMBER);
                     if (memberInfo != null) {
-                        insertAlert(memberInfo.getNickname());
+                        insertAlert(memberInfo.getNickname(), false);
                     }
                     break;
             }
@@ -687,15 +688,20 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     public void onPortraitLongClick(View view, UIMessage uiMessage, int position) {
         if (mConversationType == ConversationType.TEAM ||
                 mConversationType == ConversationType.SOCIAL) {
-            insertAlert(uiMessage.getNickname(mConversationType));
+            insertAlert(uiMessage.getNickname(mConversationType), true);
         }
     }
 
-    private void insertAlert(String nickname) {
+    private void insertAlert(String nickname, boolean addAlert) {
         EditText editText = fcInput.getEditText();
         if (editText != null) {
             Editable editable = editText.getText();
-            String alertMessage = "@" + nickname;
+            String alertMessage;
+            if (addAlert) {
+                alertMessage = "@ " + nickname;
+            } else {
+                alertMessage = " " + nickname;
+            }
             editable.insert(editText.getSelectionStart(), alertMessage);
         }
     }
@@ -736,6 +742,16 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageChanged(UIMessage uiMessage) {
         refreshMessage(uiMessage);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageClear(EventBean eventBean) {
+        if (eventBean.getEvent() == EventBean.EVENT_NOTIFY_CLEAR_MESSAGE) {//消息清空
+            if (eventBean.get("groupId").equals(mTargetId)) {
+                mAdapter.getData().clear();
+                mAdapter.notifyDataSetChanged();
+            }
+        }
     }
 
     private class RecordListener implements AudioRecordManager.OnRecordListener {

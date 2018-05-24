@@ -6,9 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,26 +13,28 @@ import com.frame.component.enums.ConversationType;
 import com.frame.component.utils.UIUtil;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
+import com.frame.http.imageloader.ImageLoader;
 import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.ext.group.TIMGroupDetailInfo;
 import com.tencent.imsdk.ext.group.TIMGroupManagerExt;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.app.IMConstants;
+import com.wang.social.im.di.component.DaggerFragmentComponent;
 import com.wang.social.im.helper.GroupHelper;
 import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.mvp.model.entities.GroupProfile;
 import com.wang.social.im.mvp.ui.ConversationFragment;
 import com.wang.social.im.mvp.ui.SocialHomeActivity;
-import com.wang.social.im.mvp.ui.TeamHomeActivity;
 
 import java.util.Arrays;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 /**
  * ============================================
@@ -49,12 +48,15 @@ public class SocialConversationFragment extends BaseConversationFragment {
     SocialToolbar toolbar;
     @BindView(R2.id.sc_tv_title)
     TextView scTvTitle;
-    @BindView(R2.id.sc_tv_online)
-    TextView scTvOnline;
+    //    @BindView(R2.id.sc_tv_online)
+//    TextView scTvOnline;
     @BindView(R2.id.background)
     ImageView background;
 
     String targetId;
+
+    @Inject
+    ImageLoader mImageLoader;
 
     public static SocialConversationFragment newInstance(String targetId) {
         Bundle args = new Bundle();
@@ -75,6 +77,11 @@ public class SocialConversationFragment extends BaseConversationFragment {
 
     @Override
     public void setupFragmentComponent(@NonNull AppComponent appComponent) {
+        DaggerFragmentComponent
+                .builder()
+                .appComponent(appComponent)
+                .build()
+                .inject(this);
 
     }
 
@@ -87,30 +94,29 @@ public class SocialConversationFragment extends BaseConversationFragment {
     public void initData(@Nullable Bundle savedInstanceState) {
         setListener();
 
-        initBackground(ConversationType.SOCIAL, targetId, background);
+        loadBackground(ConversationType.SOCIAL, targetId, background, mImageLoader);
 
         GroupProfile profile = GroupHelper.getInstance().getGroupProfile(targetId);
         if (profile != null) {
             scTvTitle.setText(profile.getName());
-        }
-        TIMGroupManagerExt.getInstance().getGroupDetailInfo(Arrays.asList(targetId), new TIMValueCallBack<List<TIMGroupDetailInfo>>() {
-            @Override
-            public void onError(int i, String s) {
+        } else {
+            TIMGroupManagerExt.getInstance().getGroupDetailInfo(Arrays.asList(targetId), new TIMValueCallBack<List<TIMGroupDetailInfo>>() {
+                @Override
+                public void onError(int i, String s) {
 
-            }
+                }
 
-            @Override
-            public void onSuccess(List<TIMGroupDetailInfo> timGroupDetailInfos) {
-                for (TIMGroupDetailInfo info : timGroupDetailInfos) {
-                    if (info.getGroupId().equals(targetId) && scTvOnline != null) {
-                        if (scTvTitle.getText().toString().isEmpty()) {
+                @Override
+                public void onSuccess(List<TIMGroupDetailInfo> timGroupDetailInfos) {
+                    for (TIMGroupDetailInfo info : timGroupDetailInfos) {
+                        if (info.getGroupId().equals(targetId) && scTvTitle != null) {
                             scTvTitle.setText(info.getGroupName());
+//                            scTvOnline.setText(UIUtil.getString(R.string.im_online_number, info.getOnlineMemberNum()));
                         }
-                        scTvOnline.setText(UIUtil.getString(R.string.im_online_number, info.getOnlineMemberNum()));
                     }
                 }
-            }
-        });
+            });
+        }
 
         ConversationFragment conversationFragment = ConversationFragment.newInstance(ConversationType.SOCIAL, targetId);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
@@ -147,6 +153,21 @@ public class SocialConversationFragment extends BaseConversationFragment {
         Fragment fragment = getChildFragmentManager().findFragmentByTag(ConversationFragment.class.getName() + "social");
         if (fragment != null) {
             fragment.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        if (event.getEvent() == EventBean.EVENT_NOTIFY_BACKGROUND) {
+            if (ConversationType.values()[Integer.valueOf(event.get("typeOrdinal").toString())] == ConversationType.SOCIAL &&
+                    targetId.equals(event.get("targetId").toString())) {
+                loadBackground(ConversationType.SOCIAL, targetId, background, mImageLoader);
+            }
         }
     }
 }

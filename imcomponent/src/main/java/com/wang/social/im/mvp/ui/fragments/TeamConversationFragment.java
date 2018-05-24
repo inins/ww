@@ -7,9 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,6 +15,8 @@ import com.frame.component.enums.ConversationType;
 import com.frame.component.utils.UIUtil;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
+import com.frame.http.imageloader.ImageLoader;
 import com.frame.utils.BarUtils;
 import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.ext.group.TIMGroupDetailInfo;
@@ -25,6 +24,7 @@ import com.tencent.imsdk.ext.group.TIMGroupManagerExt;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.app.IMConstants;
+import com.wang.social.im.di.component.DaggerFragmentComponent;
 import com.wang.social.im.helper.GroupHelper;
 import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.mvp.model.entities.GroupProfile;
@@ -35,10 +35,10 @@ import com.wang.social.im.mvp.ui.TeamHomeActivity;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 /**
  * ============================================
@@ -52,14 +52,17 @@ public class TeamConversationFragment extends BaseConversationFragment {
     SocialToolbar toolbar;
     @BindView(R2.id.tc_tv_title)
     TextView tcTvTitle;
-    @BindView(R2.id.tc_tv_online)
-    TextView tcTvOnline;
+    //    @BindView(R2.id.tc_tv_online)
+//    TextView tcTvOnline;
     @BindView(R2.id.background)
     ImageView ivBackground;
     @BindView(R2.id.tc_fl_toolbar)
     FrameLayout flToolbar;
 
     private String targetId;
+
+    @Inject
+    ImageLoader mImageLoader;
 
     public static TeamConversationFragment newInstance(String targetId) {
         Bundle args = new Bundle();
@@ -82,7 +85,11 @@ public class TeamConversationFragment extends BaseConversationFragment {
 
     @Override
     public void setupFragmentComponent(@NonNull AppComponent appComponent) {
-
+        DaggerFragmentComponent
+                .builder()
+                .appComponent(appComponent)
+                .build()
+                .inject(this);
     }
 
     @Override
@@ -98,30 +105,29 @@ public class TeamConversationFragment extends BaseConversationFragment {
 
         setListener();
 
-        initBackground(ConversationType.TEAM, targetId, ivBackground);
+        loadBackground(ConversationType.TEAM, targetId, ivBackground, mImageLoader);
 
         GroupProfile profile = GroupHelper.getInstance().getGroupProfile(targetId);
         if (profile != null) {
             tcTvTitle.setText(profile.getName());
-        }
-        TIMGroupManagerExt.getInstance().getGroupDetailInfo(Arrays.asList(targetId), new TIMValueCallBack<List<TIMGroupDetailInfo>>() {
-            @Override
-            public void onError(int i, String s) {
+        } else {
+            TIMGroupManagerExt.getInstance().getGroupDetailInfo(Arrays.asList(targetId), new TIMValueCallBack<List<TIMGroupDetailInfo>>() {
+                @Override
+                public void onError(int i, String s) {
 
-            }
+                }
 
-            @Override
-            public void onSuccess(List<TIMGroupDetailInfo> timGroupDetailInfos) {
-                for (TIMGroupDetailInfo info : timGroupDetailInfos) {
-                    if (info.getGroupId().equals(targetId) && tcTvOnline != null) {
-                        if (tcTvTitle.getText().toString().isEmpty()) {
+                @Override
+                public void onSuccess(List<TIMGroupDetailInfo> timGroupDetailInfos) {
+                    for (TIMGroupDetailInfo info : timGroupDetailInfos) {
+                        if (info.getGroupId().equals(targetId) && tcTvTitle != null) {
                             tcTvTitle.setText(info.getGroupName());
+//                        tcTvOnline.setText(UIUtil.getString(R.string.im_online_total_number, info.getMemberNum(), info.getOnlineMemberNum()));
                         }
-                        tcTvOnline.setText(UIUtil.getString(R.string.im_online_total_number, info.getMemberNum(), info.getOnlineMemberNum()));
                     }
                 }
-            }
-        });
+            });
+        }
 
         ConversationFragment conversationFragment = ConversationFragment.newInstance(ConversationType.TEAM, targetId);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
@@ -162,6 +168,21 @@ public class TeamConversationFragment extends BaseConversationFragment {
         Fragment fragment = getChildFragmentManager().findFragmentByTag(ConversationFragment.class.getName() + "team");
         if (fragment != null) {
             fragment.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        if (event.getEvent() == EventBean.EVENT_NOTIFY_BACKGROUND) {
+            if (ConversationType.values()[Integer.valueOf(event.get("typeOrdinal").toString())] == ConversationType.TEAM &&
+                    targetId.equals(event.get("targetId").toString())) {
+                loadBackground(ConversationType.TEAM, targetId, ivBackground, mImageLoader);
+            }
         }
     }
 }
