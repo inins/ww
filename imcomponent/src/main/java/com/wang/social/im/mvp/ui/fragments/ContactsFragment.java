@@ -6,28 +6,26 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.frame.base.BasicFragment;
 import com.frame.component.entities.AutoPopupItemModel;
-import com.frame.component.helper.AppDataHelper;
+import com.frame.component.entities.DynamicMessage;
+import com.frame.component.entities.SystemMessage;
+import com.frame.component.helper.MsgHelper;
 import com.frame.component.ui.dialog.AutoPopupWindow;
 import com.frame.component.utils.UIUtil;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
 import com.frame.utils.ScreenUtils;
 import com.frame.utils.SizeUtils;
-import com.frame.utils.ToastUtil;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
-import com.tencent.imsdk.TIMCallBack;
-import com.tencent.imsdk.TIMManager;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
-import com.wang.social.im.enums.ConnectionStatus;
-import com.wang.social.im.helper.FriendShipHelper;
-import com.wang.social.im.helper.GroupHelper;
-import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.mvp.ui.ConversationListFragment;
 import com.wang.social.im.mvp.ui.CreateSocialActivity;
 import com.wang.social.im.mvp.ui.PhoneBookActivity;
@@ -43,7 +41,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 /**
  * ============================================
@@ -62,13 +62,38 @@ public class ContactsFragment extends BasicFragment implements AutoPopupWindow.O
     SmartTabLayout fcTabLayout;
     @BindView(R2.id.fc_viewpager)
     NoScrollViewPager fcViewpager;
+    @BindView(R2.id.img_dot)
+    ImageView imgDot;
 
     private AutoPopupWindow popupWindow;
 
+    @Override
+    public void onCommonEvent(EventBean event) {
+        switch (event.getEvent()) {
+            case EventBean.EVENT_MSG_READALL:
+                //消息已经全部阅读
+                imgDot.setVisibility(View.GONE);
+                break;
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMsgEvent(SystemMessage msg) {
+        imgDot.setVisibility(View.VISIBLE);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMsgEvent(DynamicMessage msg) {
+        imgDot.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
     public static ContactsFragment newInstance() {
-
         Bundle args = new Bundle();
-
         ContactsFragment fragment = new ContactsFragment();
         fragment.setArguments(args);
         return fragment;
@@ -129,6 +154,8 @@ public class ContactsFragment extends BasicFragment implements AutoPopupWindow.O
 
             }
         });
+
+        imgDot.setVisibility(MsgHelper.hasReadAllNotify() ? View.GONE : View.VISIBLE);
     }
 
     @Override

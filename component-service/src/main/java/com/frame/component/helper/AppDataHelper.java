@@ -2,6 +2,7 @@ package com.frame.component.helper;
 
 import com.frame.component.entities.User;
 import com.frame.component.entities.config.MsgConfig;
+import com.frame.component.entities.msg.NotifySave;
 import com.frame.utils.SPUtils;
 
 /**
@@ -15,6 +16,7 @@ public class AppDataHelper {
     private static final String KEY_TOKEN = "token";
     private static final String KEY_IM_SIGN = "sign";
     private static final String KEY_MSGCONFIG = "msg_config";
+    private static final String KEY_NOTIFY_SAVE = "notify_save";
 
     /////////////////// 用户对象持久化 ///////////////////
 
@@ -36,7 +38,7 @@ public class AppDataHelper {
         SPUtils.getInstance(SHARENAME).put(KEY_TOKEN, token);
     }
 
-    public static void saveImSign(String sign){
+    public static void saveImSign(String sign) {
         SPUtils.getInstance(SHARENAME).put(KEY_IM_SIGN, sign);
     }
 
@@ -67,5 +69,21 @@ public class AppDataHelper {
 
     public static void removeMsgConfig() {
         SPUtils.getInstance(SHARENAME).remove(KEY_MSGCONFIG);
+    }
+
+    /////////////////// 通知消息持久化 ///////////////////
+
+    public static void saveNotifySave(NotifySave notifySave) {
+        SPUtils.getInstance(SHARENAME).put(KEY_NOTIFY_SAVE, notifySave);
+    }
+
+    public static NotifySave getNotifySave() {
+        NotifySave notifySave = (NotifySave) SPUtils.getInstance(SHARENAME).get(KEY_NOTIFY_SAVE);
+        if (notifySave == null) return new NotifySave();
+        else return notifySave;
+    }
+
+    public static void removeNotifySave() {
+        SPUtils.getInstance(SHARENAME).remove(KEY_NOTIFY_SAVE);
     }
 }

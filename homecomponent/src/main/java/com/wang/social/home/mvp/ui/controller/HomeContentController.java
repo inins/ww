@@ -137,7 +137,7 @@ public class HomeContentController extends BaseController implements RecycleAdap
     public void netGetFunpointAndTopicList(boolean isFresh) {
         if (isFresh) current = 0;
         ApiHelperEx.execute(getIView(), false,
-                ApiHelperEx.getService(HomeService.class).getFunpointAndTopic(0, current + 1, size),
+                ApiHelperEx.getService(HomeService.class).getFunpointAndTopic(1, current + 1, size),
                 new ErrorHandleSubscriber<BaseJson<BaseListWrap<JsonObject>>>() {
                     @Override
                     public void onNext(BaseJson<BaseListWrap<JsonObject>> basejson) {

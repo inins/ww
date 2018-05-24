@@ -112,6 +112,9 @@ public class EventBean implements Serializable {
     //聊天背景改变
     public static final int EVENT_NOTIFY_BACKGROUND = 0xffa907;
 
+    //通知消息已经全部阅读
+    public static final int EVENT_MSG_READALL = 0xffb001;
+
     @IntDef({
             EVENTBUS_TAG_SELECTED,
             EVENTBUS_TAG_UNSELECT,
@@ -158,7 +161,8 @@ public class EventBean implements Serializable {
             EVENT_NOTIFY_FRIEND_ADD,
             EVENT_NOTIFY_PROFILE_UPDATED,
             EVENT_NOTIFY_CLEAR_MESSAGE,
-            EVENT_NOTIFY_BACKGROUND
+            EVENT_NOTIFY_BACKGROUND,
+            EVENT_MSG_READALL,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface EventBeanType {
