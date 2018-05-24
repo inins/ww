@@ -17,7 +17,7 @@ import com.frame.component.ui.dialog.AutoPopupWindow;
 import com.frame.component.ui.dialog.EditDialog;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
-import com.frame.http.api.ApiHelper;
+import com.frame.entities.EventBean;
 import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.mvp.IView;
@@ -25,10 +25,6 @@ import com.frame.router.facade.annotation.Autowired;
 import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.ToastUtil;
-import com.tencent.imsdk.TIMFriendshipManager;
-import com.tencent.imsdk.TIMManager;
-import com.tencent.imsdk.TIMUserProfile;
-import com.tencent.imsdk.TIMValueCallBack;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.di.component.DaggerActivityComponent;
@@ -40,14 +36,12 @@ import com.wang.social.im.mvp.model.entities.FriendProfile;
 import com.wang.social.im.mvp.ui.PersonalCard.PersonalCardActivity;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import timber.log.Timber;
 
 /**
  * ============================================
@@ -114,7 +108,7 @@ public class PrivateConversationActivity extends BasicConversationActivity imple
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
-        initBackground(ConversationType.PRIVATE, targetId);
+        loadBackground(ConversationType.PRIVATE, targetId, mImageLoader);
 
         ConversationFragment conversationFragment = ConversationFragment.newInstance(ConversationType.PRIVATE, targetId);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -203,5 +197,20 @@ public class PrivateConversationActivity extends BasicConversationActivity imple
     @Override
     public void hideLoading() {
 
+    }
+
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        if (event.getEvent() == EventBean.EVENT_NOTIFY_BACKGROUND) {
+            if (ConversationType.values()[((int) event.get("typeOrdinal"))] == ConversationType.PRIVATE &&
+                    targetId.equals(event.get("targetId").toString())) {
+                loadBackground(ConversationType.PRIVATE, targetId, mImageLoader);
+            }
+        }
     }
 }

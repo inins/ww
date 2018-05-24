@@ -104,6 +104,10 @@ public class EventBean implements Serializable {
     public static final int EVENT_NOTIFY_FRIEND_ADD = 0xffa904;
     //好友资料，群资料有更新的时候通知
     public static final int EVENT_NOTIFY_PROFILE_UPDATED = 0xffa905;
+    //清空消息
+    public static final int EVENT_NOTIFY_CLEAR_MESSAGE = 0xffa906;
+    //聊天背景改变
+    public static final int EVENT_NOTIFY_BACKGROUND = 0xffa907;
 
     @IntDef({
             EVENTBUS_TAG_SELECTED,
@@ -146,7 +150,9 @@ public class EventBean implements Serializable {
             EVENT_NOTIFY_GROUP_DELETE,
             EVENT_NOTIFY_FRIEND_DELETE,
             EVENT_NOTIFY_FRIEND_ADD,
-            EVENT_NOTIFY_PROFILE_UPDATED
+            EVENT_NOTIFY_PROFILE_UPDATED,
+            EVENT_NOTIFY_CLEAR_MESSAGE,
+            EVENT_NOTIFY_BACKGROUND
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface EventBeanType {

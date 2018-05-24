@@ -3,9 +3,11 @@ package com.wang.social.im.mvp.model.api;
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.entities.funpoint.Funpoint;
 import com.frame.http.api.BaseJson;
+import com.frame.http.api.PageListDTO;
 import com.wang.social.im.mvp.model.entities.IndexFriendInfo;
 import com.wang.social.im.mvp.model.entities.IndexMemberInfo;
 import com.wang.social.im.mvp.model.entities.MemberInfo;
+import com.wang.social.im.mvp.model.entities.OfficialImage;
 import com.wang.social.im.mvp.model.entities.SimpleGroupInfo;
 import com.wang.social.im.mvp.model.entities.TeamInfo;
 import com.wang.social.im.mvp.model.entities.dto.AnonymousInfoDTO;
@@ -18,6 +20,7 @@ import com.wang.social.im.mvp.model.entities.dto.IndexMemberInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.JoinGroupResultDTO;
 import com.wang.social.im.mvp.model.entities.dto.ListDataDTO;
 import com.wang.social.im.mvp.model.entities.dto.MemberInfoDTO;
+import com.wang.social.im.mvp.model.entities.dto.OfficialImageDTO;
 import com.wang.social.im.mvp.model.entities.dto.PayCheckInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.ShadowInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.SimpleGroupInfoDTO;
@@ -455,4 +458,12 @@ public interface GroupService {
      */
     @GET("app/moneyTree/isJoined")
     Observable<BaseJson<GroupGameCheckResultDTO>> checkHasGame(@Query("v") String version, @Query("groupId") String socialId);
+
+    /**
+     * 获取背景图片列表
+     * type：1. 群封面 2. 聊天背景 3. 头像
+     */
+    @GET("system/pictureLibrary")
+    Observable<BaseJson<PageListDTO<OfficialImageDTO, OfficialImage>>> getOfficialImages(@Query("v") String version, @Query("type") int type,
+                                                                                         @Query("current") int currentPage, @Query("size") int pageSize);
 }

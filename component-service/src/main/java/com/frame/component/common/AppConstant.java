@@ -12,6 +12,8 @@ public class AppConstant {
         public static final String GLIDE_CACHE_DIR = "Glide";
         //图片缓存目录
         public static final String IMAGE_CACHE_DIR = "Image";
+        //背景图片缓存目录
+        public static final String BACKGROUND_CACHE_DIR = "Background";
     }
 
     //key

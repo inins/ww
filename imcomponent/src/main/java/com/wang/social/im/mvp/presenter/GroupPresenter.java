@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.frame.component.helper.QiNiuManager;
 import com.frame.component.utils.UIUtil;
+import com.frame.entities.EventBean;
 import com.frame.http.api.ApiException;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.BaseJson;
@@ -23,6 +24,8 @@ import com.wang.social.im.mvp.contract.GroupContract;
 import com.wang.social.im.mvp.model.entities.ListData;
 import com.wang.social.im.mvp.model.entities.MemberInfo;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.Iterator;
 
 import javax.inject.Inject;
@@ -30,6 +33,8 @@ import javax.inject.Inject;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
+
+import static com.frame.entities.EventBean.EVENT_NOTIFY_CLEAR_MESSAGE;
 
 /**
  * ============================================
@@ -90,6 +95,9 @@ public class GroupPresenter<M extends GroupContract.GroupModel, V extends GroupC
             @Override
             public void onSuccess() {
                 ToastUtil.showToastShort(UIUtil.getString(R.string.im_toast_clear_success));
+                EventBean eventBean = new EventBean(EVENT_NOTIFY_CLEAR_MESSAGE);
+                eventBean.put("groupId", groupId);
+                EventBus.getDefault().post(eventBean);
             }
         });
     }

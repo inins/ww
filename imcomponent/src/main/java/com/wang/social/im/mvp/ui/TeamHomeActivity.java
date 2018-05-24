@@ -335,7 +335,7 @@ public class TeamHomeActivity extends BaseAppActivity<TeamHomePresenter> impleme
         } else if (view.getId() == R.id.th_tv_clear_message) {//清除聊天内容
             mPresenter.clearMessages(ImHelper.wangId2ImId(teamId, ConversationType.TEAM));
         } else if (view.getId() == R.id.th_tv_background_chat) {//背景图片
-
+            BackgroundSettingActivity.start(this, ConversationType.SOCIAL, ImHelper.wangId2ImId(teamId, ConversationType.TEAM));
         } else if (view.getId() == R.id.th_tv_charge_setting) {//收费设置
             TeamChargeSettingActivity.start(this, mTeam, REQUEST_CODE_CHARGE);
         } else if (view.getId() == R.id.th_tvb_handle) {//退出/解散觅聊

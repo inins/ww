@@ -72,7 +72,7 @@ public class SocialConversationActivity extends BasicConversationActivity {
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
-        initBackground(ConversationType.SOCIAL, targetId);
+        loadBackground(ConversationType.SOCIAL, targetId);
 
         GroupProfile profile = GroupHelper.getInstance().getGroupProfile(targetId);
         if (profile != null) {

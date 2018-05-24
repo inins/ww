@@ -7,9 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,6 +15,8 @@ import com.frame.component.enums.ConversationType;
 import com.frame.component.utils.UIUtil;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
+import com.frame.http.imageloader.ImageLoader;
 import com.frame.utils.BarUtils;
 import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.ext.group.TIMGroupDetailInfo;
@@ -25,6 +24,7 @@ import com.tencent.imsdk.ext.group.TIMGroupManagerExt;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.app.IMConstants;
+import com.wang.social.im.di.component.DaggerFragmentComponent;
 import com.wang.social.im.helper.GroupHelper;
 import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.mvp.model.entities.GroupProfile;
@@ -35,10 +35,10 @@ import com.wang.social.im.mvp.ui.TeamHomeActivity;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 /**
  * ============================================
@@ -61,6 +61,9 @@ public class TeamConversationFragment extends BaseConversationFragment {
 
     private String targetId;
 
+    @Inject
+    ImageLoader mImageLoader;
+
     public static TeamConversationFragment newInstance(String targetId) {
         Bundle args = new Bundle();
         if (!targetId.startsWith(IMConstants.IM_IDENTITY_PREFIX_TEAM)) {
@@ -82,7 +85,11 @@ public class TeamConversationFragment extends BaseConversationFragment {
 
     @Override
     public void setupFragmentComponent(@NonNull AppComponent appComponent) {
-
+        DaggerFragmentComponent
+                .builder()
+                .appComponent(appComponent)
+                .build()
+                .inject(this);
     }
 
     @Override
@@ -98,7 +105,7 @@ public class TeamConversationFragment extends BaseConversationFragment {
 
         setListener();
 
-        initBackground(ConversationType.TEAM, targetId, ivBackground);
+        loadBackground(ConversationType.TEAM, targetId, ivBackground, mImageLoader);
 
         GroupProfile profile = GroupHelper.getInstance().getGroupProfile(targetId);
         if (profile != null) {
@@ -162,6 +169,21 @@ public class TeamConversationFragment extends BaseConversationFragment {
         Fragment fragment = getChildFragmentManager().findFragmentByTag(ConversationFragment.class.getName() + "team");
         if (fragment != null) {
             fragment.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        if (event.getEvent() == EventBean.EVENT_NOTIFY_BACKGROUND) {
+            if (ConversationType.values()[((int) event.get("typeOrdinal"))] == ConversationType.TEAM &&
+                    targetId.equals(event.get("targetId").toString())) {
+                loadBackground(ConversationType.TEAM, targetId, ivBackground, mImageLoader);
+            }
         }
     }
 }

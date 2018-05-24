@@ -176,7 +176,7 @@ public class EnvelopDialog extends Dialog {
     private void showInfo() {
         if (envelopInfo.getStatus() == EnvelopInfo.Status.LIVING && envelopInfo.getGotDiamond() == 0) {
             drpTvMessage.setText(envelopInfo.getMessage());
-            if (envelopInfo.isSelf()) {
+            if (envelopInfo.isSelf() && envelopInfo.getType() != EnvelopInfo.EnvelopType.SPELL) {
                 drpTvbOpen.setVisibility(View.GONE);
                 drpTvbLookDetail.setVisibility(View.VISIBLE);
             }

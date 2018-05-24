@@ -86,7 +86,7 @@ public class TeamConversationActivity extends BasicConversationActivity {
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
-        initBackground(ConversationType.TEAM, targetId);
+        loadBackground(ConversationType.TEAM, targetId);
 
         GroupProfile profile = GroupHelper.getInstance().getGroupProfile(targetId);
         if (profile != null) {
