@@ -27,10 +27,9 @@ public class CommentModel extends BaseModel implements CommentContract.Model {
     /**
      * 话题评论列表
      * @param topicId 话题ID
-     * @Param commentId 评论ID
+     * @param commentId 评论ID
      * @param size 每页条数
      * @param current 当前页码
-     * @return
      */
     @Override
     public Observable<BaseJson<CommentRspDTO>> commentList(int topicId, int commentId, int size, int current) {

@@ -2,7 +2,7 @@
     <string name="topic_app_name">话题</string>
     <string name="topic_zhi_shi_mo">知识魔</string>
     <string name="topic_hint_1">发布话题50条以上</string>
-    <string name="topic_top_user_hint">评论话题20以上，他们都是优秀的学者</string>
+    <string name="topic_top_user_hint">他们都是优秀的学者</string>
     <string name="topic_tag_selected_colon">已选标签:</string>
     <string name="topic_newest">最新</string>
     <string name="topic_hottest">最热</string>

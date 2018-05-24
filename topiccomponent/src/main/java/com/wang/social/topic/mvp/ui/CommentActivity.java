@@ -48,6 +48,7 @@ public class CommentActivity extends BaseAppActivity<CommentPresenter> implement
     public final static String KEY_CREATOR_ID = "CREATOR_ID";
     public final static String KEY_COMMENT_ID = "COMMENT_ID";
     public final static String KEY_UI_LEVEL = "UI_LEVEL";
+    public final static String KEY_COMMENT = "KEY_COMMENT";
 
     // 话题评论
     public final static int FIRST_LEVEL = 1;
@@ -66,7 +67,7 @@ public class CommentActivity extends BaseAppActivity<CommentPresenter> implement
      * @param creatorId 创建者id
      */
     public static void startFirstLevel(Context context, int topicId, int creatorId) {
-        start(context, topicId, creatorId, -1, FIRST_LEVEL);
+        start(context, topicId, creatorId, -1, FIRST_LEVEL, null);
     }
 
     /**
@@ -76,8 +77,8 @@ public class CommentActivity extends BaseAppActivity<CommentPresenter> implement
      * @param creatorId 创建者id
      * @param commentId 评论id
      */
-    public static void startSecondLevel(Context context, int topicId, int creatorId, int commentId) {
-        start(context, topicId, creatorId, commentId, SECOND_LEVEL);
+    public static void startSecondLevel(Context context, int topicId, int creatorId, int commentId, Comment comment) {
+        start(context, topicId, creatorId, commentId, SECOND_LEVEL, comment);
     }
 
     /**
@@ -87,8 +88,11 @@ public class CommentActivity extends BaseAppActivity<CommentPresenter> implement
      * @param creatorId 创建者id
      * @param commentId 评论id
      * @param level 等级（1.话题评论 2.评论的评论）
+     * @param comment 评论，当跳转到二级页面时传入
      */
-    private static void start(Context context, int topicId, int creatorId, int commentId, @CommentUiLevel int level) {
+    private static void start(Context context,
+                              int topicId, int creatorId, int commentId, @CommentUiLevel int level,
+                              Comment comment) {
         if (null == context) return;
 
         Intent intent = new Intent(context, CommentActivity.class);
@@ -96,6 +100,7 @@ public class CommentActivity extends BaseAppActivity<CommentPresenter> implement
         intent.putExtra(KEY_CREATOR_ID, creatorId);
         intent.putExtra(KEY_COMMENT_ID, commentId);
         intent.putExtra(KEY_UI_LEVEL, level);
+        intent.putExtra(KEY_COMMENT, comment);
         context.startActivity(intent);
     }
 
@@ -164,13 +169,16 @@ public class CommentActivity extends BaseAppActivity<CommentPresenter> implement
         mCommentId = getIntent().getIntExtra(KEY_COMMENT_ID, -1);
         // 页面登记
         mLevel = getIntent().getIntExtra(KEY_UI_LEVEL, FIRST_LEVEL);
+        // 评论
+        mPresenter.setComment(getIntent().getParcelableExtra(KEY_COMMENT));
 
         // 二级页面
         if (mLevel == SECOND_LEVEL) {
             mTitleTV.setVisibility(View.GONE);
             mTitleHintTV.setVisibility(View.GONE);
             mReplyCountTV.setVisibility(View.GONE);
-            mSpringView.setBackgroundColor(getResources().getColor(R.color.common_bk_light));
+            mSpringView.setBackgroundColor(0xFFF2F2F2);
+//            mRecyclerView.setBackgroundColor(0xFFF2F2F2);
         }
 
         // 发送不可点击
@@ -205,7 +213,6 @@ public class CommentActivity extends BaseAppActivity<CommentPresenter> implement
 
         // 评论id有效，则说明是二级页面
         if (mLevel == SECOND_LEVEL) {
-            mRecyclerView.setBackgroundColor(0xFFF2F2F2);
             // 评论回复
             mAdapter = new CommentReplyAdapter(mRecyclerView, mPresenter.getCommentList());
             ((CommentReplyAdapter) mAdapter).setClickListener(new CommentReplyAdapter.ClickListener() {
@@ -216,7 +223,7 @@ public class CommentActivity extends BaseAppActivity<CommentPresenter> implement
                     mCommentET.setHint(
                             getString(R.string.topic_reply) +
                                     (TextUtils.isEmpty(comment.getNickname()) ?
-                                            comment.getUserId().toString() : comment.getNickname()));
+                                            Integer.toString(comment.getUserId()) : comment.getNickname()));
 
                     showSoftInputFromWindow();
                 }
@@ -241,7 +248,8 @@ public class CommentActivity extends BaseAppActivity<CommentPresenter> implement
                             CommentActivity.this,
                             mTopicId,
                             comment.getUserId(),
-                            comment.getCommentId());
+                            comment.getCommentId(),
+                            comment);
                 }
 
                 @Override
@@ -251,7 +259,7 @@ public class CommentActivity extends BaseAppActivity<CommentPresenter> implement
                     mCommentET.setHint(
                             getString(R.string.topic_reply) +
                                     (TextUtils.isEmpty(comment.getNickname()) ?
-                                            comment.getUserId().toString() : comment.getNickname()));
+                                            Integer.toString(comment.getUserId()) : comment.getNickname()));
 
                     showSoftInputFromWindow();
                 }

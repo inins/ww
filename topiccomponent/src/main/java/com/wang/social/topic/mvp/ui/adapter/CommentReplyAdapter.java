@@ -17,6 +17,7 @@ import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.utils.FrameUtils;
 import com.wang.social.topic.R;
 import com.wang.social.topic.mvp.model.entities.Comment;
+import com.wang.social.topic.utils.StringUtil;
 
 import java.util.List;
 
@@ -62,12 +63,32 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
             holder.divider1.setVisibility(View.GONE);
             holder.rootView.setBackgroundColor(Color.WHITE);
 
-            holder.supportCountTV.setVisibility(View.GONE);
-            holder.supportIV.setVisibility(View.GONE);
+            holder.supportCountTV.setVisibility(View.VISIBLE);
+            holder.supportIV.setVisibility(View.VISIBLE);
+
+            // 点赞
+            if (comment.getIsSupport() == 0) {
+                holder.supportIV.setImageResource(R.drawable.common_ic_zan);
+            } else {
+                holder.supportIV.setImageResource(R.drawable.common_ic_zan_hot);
+            }
+            // 点赞数
+            holder.supportCountTV.setText(Integer.toString(comment.getSupportTotal()));
+            // 点赞
+            holder.supportIV.setTag(comment);
+            holder.supportIV.setOnClickListener((View v) -> {
+                if (v.getTag() instanceof Comment) {
+                    if (null != mClickListener) {
+                        mClickListener.onSupport((Comment)v.getTag());
+                    }
+                }
+            });
         } else {
 //            holder.divider0.setVisibility(View.GONE);
 //            holder.divider1.setVisibility(View.VISIBLE);
-
+//            holder.rootView.setBackgroundColor(0xFFF2F2F2);
+            holder.supportIV.setVisibility(View.GONE);
+            holder.supportCountTV.setVisibility(View.GONE);
         }
 
         // 头像
@@ -84,20 +105,8 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
         }
         // 昵称
         holder.nickNameTV.setText(comment.getNickname());
-        // 点赞数
-        holder.supportCountTV.setText(comment.getSupportTotal().toString());
-        // 点赞
-        holder.supportIV.setTag(comment);
-        holder.supportIV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (v.getTag() instanceof Comment) {
-                    if (null != mClickListener) {
-                        mClickListener.onSupport((Comment)v.getTag());
-                    }
-                }
-            }
-        });
+        // 创建日期
+        holder.createDateTV.setText(StringUtil.formatCreateDate(mContext, comment.getCreateTime()));
         // 内容
         if (comment.getTargetUserId() > 0) {
             // 回复别人的内容
