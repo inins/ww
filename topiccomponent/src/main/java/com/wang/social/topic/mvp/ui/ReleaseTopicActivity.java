@@ -6,20 +6,28 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Shader;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.frame.component.helper.sound.AudioRecordManager;
 import com.frame.component.ui.acticity.BGMList.BGMListActivity;
 import com.frame.component.ui.acticity.BGMList.Music;
@@ -102,6 +110,10 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     NestedScrollView mNestedScrollView;
     @BindView(R2.id.toolbar)
     SocialToolbar mToolbar;
+
+    // 标题输入框
+    @BindView(R2.id.title_edit_text_layout)
+    View mTitleETLayout;
     @BindView(R2.id.title_edit_text)
     EditText mTitleET;
     @BindView(R2.id.title_count_text_view)
@@ -126,6 +138,12 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     // 文字样式控制
     @BindView(R2.id.style_picker)
     StylePicker mStylePicker;
+
+
+    @BindView(R2.id.rich_editor_layout)
+    View mRichEditorLayout;
+    @BindView(R2.id.rich_editor_bg_image_view)
+    ImageView mRichEditorBGIV;
     // 内容编辑器
     @BindView(R2.id.rich_editor)
     RichEditor mRichEditor;
@@ -196,6 +214,9 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
                 addTopic();
             }
         });
+
+        mTitleETLayout.setFocusable(true);
+        mTitleETLayout.setFocusableInTouchMode(true);
 
         //标题输入监听，主要控制文字数量
         mTitleET.addTextChangedListener(new TextWatcher() {
@@ -507,6 +528,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 //                padding,
 //                padding,
 //                padding);
+        mRichEditor.setBackgroundColor(0xFFF2F2F2);
 
         mRichEditor.setOnDecorationChangeListener((String text, List<RichEditor.Type> types) -> {
             Timber.i("onStateChangeListener : " + text);
@@ -516,7 +538,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
 
         mTitleET.setOnFocusChangeListener((View v, boolean hasFocus) -> {
-            Timber.i("编辑器焦点 " + Boolean.toString(hasFocus));
+            Timber.i("标题编辑器焦点 " + Boolean.toString(hasFocus));
             mTitltEditorFocused = hasFocus;
             if (hasFocus) {
                 editTextHasFocused();
@@ -531,10 +553,11 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         });
 
         mRichEditor.setOnFocusChangeListener((View v, boolean hasFocus) -> {
-            Timber.i("编辑器焦点 " + Boolean.toString(hasFocus));
+            Timber.i("内容编辑器焦点 " + Boolean.toString(hasFocus));
             mRichEditorFocused = hasFocus;
             if (hasFocus) {
                 editTextHasFocused();
+//                KeyboardUtils.showSoftInput(this);
             }
         });
 
@@ -585,7 +608,26 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
                     mPresenter.setTemplate(template);
 
                     // 改变内容编辑框背景
-                    mRichEditor.setBackground(mPresenter.getTemplate().getUrl());
+//                    mRichEditor.setBackground(mPresenter.getTemplate().getUrl());
+
+//                    ImageLoaderHelper.loadImg(mRichEditorBGIV, mPresenter.getTemplate().getUrl());
+//
+                    if (template.getId() == -1) {
+                        mRichEditorBGIV.setBackgroundColor(0xFFF2F2F2);
+                        mRichEditor.setBackgroundColor(0xFFF2F2F2);
+                    } else {
+                        mRichEditor.setBackgroundColor(android.R.color.transparent);
+                        SimpleTarget<Drawable> simpleTarget = new SimpleTarget<Drawable>() {
+                            @Override
+                            public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+                                BitmapDrawable bd = (BitmapDrawable) resource;
+                                bd.setTileModeXY(Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
+                                mRichEditorBGIV.setBackground(bd);
+                            }
+                        };
+//
+                        Glide.with(this).load(mPresenter.getTemplate().getUrl()).into(simpleTarget);
+                    }
                     break;
                 case REQUEST_CODE_BGM: // 背景音乐
                     Music music = Music.newInstance(data);
@@ -899,11 +941,26 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         dismissLoadingDialog();
     }
 
+    private View.OnLayoutChangeListener mRichEditLayoutChangeListener = new View.OnLayoutChangeListener() {
+        @Override
+        public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+
+            ViewGroup.LayoutParams layoutParams = mRichEditorBGIV.getLayoutParams();
+            int newH = bottom - top;
+            if (newH != layoutParams.height) {
+                Timber.i("重置内容编辑背景图片高度 ：" + newH);
+                layoutParams.height = newH;
+                mRichEditorBGIV.setLayoutParams(layoutParams);
+            }
+        }
+    };
+
     @Override
     protected void onResume() {
         super.onResume();
 
         mRootView.addOnLayoutChangeListener(this);
+        mRichEditorLayout.addOnLayoutChangeListener(mRichEditLayoutChangeListener);
     }
 
     @Override
@@ -913,6 +970,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         mMusicBoard.onPause();
 
         mRootView.removeOnLayoutChangeListener(this);
+        mRichEditorLayout.removeOnLayoutChangeListener(mRichEditLayoutChangeListener);
     }
 
     @Override
@@ -920,11 +978,11 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
                                int oldLeft, int oldTop, int oldRight, int oldBottom) {
         Timber.i(String.format("bottom=%d oldBottom=%d", bottom, oldBottom));
 
-        if (mRichEditor.isFocused()) {
-            Timber.i("焦点在内容编辑器");
-            // 上滚
-            mNestedScrollView.fullScroll(View.FOCUS_DOWN);
-        }
+//        if (mRichEditor.isFocused()) {
+//            Timber.i("焦点在内容编辑器");
+//            // 上滚
+//            mNestedScrollView.fullScroll(View.FOCUS_DOWN);
+//        }
 
         // 现在认为只要控件将Activity向上推的高度超过了1/3屏幕高，就认为软键盘弹起
         if (oldBottom != 0 && bottom != 0 && (oldBottom - bottom > mKeyboardHeight)) {

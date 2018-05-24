@@ -52,16 +52,20 @@
 
         <activity android:name=".mvp.ui.ReleaseTopicActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize">
+            android:windowSoftInputMode="stateHidden">
+        </activity>
+
+        <activity android:name=".mvp.ui.TemplateActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity android:name=".app.TestImageDownload"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <activity android:name=".mvp.ui.TemplateActivity"
-            android:screenOrientation="portrait">
         </activity>
 
     </application>

@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.ui.acticity.BGMList.Music;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.ui.dialog.DialogSure;
@@ -192,7 +193,7 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
-//        StatusBarUtil.setTranslucent(this);
+        StatusBarUtil.setTranslucent(this);
 
         mTopicId = getIntent().getIntExtra(NAME_TOPIC_ID, -1);
         mCreatorId = getIntent().getIntExtra(NAME_CREATOR_ID, -1);
@@ -215,17 +216,17 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
                 if (state == State.EXPANDED) {
                     //展开状态
-//                    if (mHasCoverImage) {
-//                        StatusBarUtil.setStatusBarColor(TopicDetailActivity.this,
-//                                android.R.color.transparent);
-//                    } else {
-//                        StatusBarUtil.setStatusBarColor(TopicDetailActivity.this,
-//                                R.color.common_text_dark_light);
-//                    }
+                    if (mHasCoverImage) {
+                        StatusBarUtil.setStatusBarColor(TopicDetailActivity.this,
+                                android.R.color.transparent);
+                    } else {
+                        StatusBarUtil.setStatusBarColor(TopicDetailActivity.this,
+                                R.color.common_text_dark_light);
+                    }
                 } else if (state == AppBarStateChangeListener.State.COLLAPSED) {
                     //折叠状态
-//                    StatusBarUtil.setStatusBarColor(TopicDetailActivity.this,
-//                            R.color.common_text_dark_light);
+                    StatusBarUtil.setStatusBarColor(TopicDetailActivity.this,
+                            R.color.common_text_dark_light);
                 } else {
                     //中间状态
                 }
@@ -348,13 +349,14 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
             mGradualImageView.setDrawable(R.drawable.common_ic_playing1, R.drawable.common_ic_playing2);
 
             mBackgroundIV.setVisibility(View.VISIBLE);
-            FrameUtils.obtainAppComponentFromContext(this)
-                    .imageLoader()
-                    .loadImage(this,
-                            ImageConfigImpl.builder()
-                                    .imageView(mBackgroundIV)
-                                    .url(detail.getBackgroundImage())
-                                    .build());
+//            FrameUtils.obtainAppComponentFromContext(this)
+//                    .imageLoader()
+//                    .loadImage(this,
+//                            ImageConfigImpl.builder()
+//                                    .imageView(mBackgroundIV)
+//                                    .url(detail.getBackgroundImage())
+//                                    .build());
+            ImageLoaderHelper.loadImg(mBackgroundIV, detail.getBackgroundImage());
         }
 
         // 标题
@@ -433,6 +435,8 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
             });
         } else {
             mMusicBoard.setVisibility(View.GONE);
+            // 没有音乐，不显示顶部播放状态指示器
+            mGradualImageView.setVisibility(View.GONE);
         }
 
         // 页面内容
@@ -475,7 +479,10 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
                                 + "})()"
                         );
                     } else{
-                        view.loadUrl("javascript:var imgs = document.getElementsByTagName('img');for(var i = 0; i<imgs.length; i++){imgs[i].style.width = '100%';imgs[i].style.height= 'auto';}");
+                        view.loadUrl("javascript:var imgs = document.getElementsByTagName('img');" +
+                                "for(var i = 0; i<imgs.length; i++)" +
+                                "{imgs[i].style.width = '100%';" +
+                                "imgs[i].style.height= 'auto';}");
 
                     }
                     //LogUtils.showTagE(wv_content.getContentHeight() + "");

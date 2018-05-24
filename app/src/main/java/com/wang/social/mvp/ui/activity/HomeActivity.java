@@ -100,12 +100,15 @@ public class HomeActivity extends BasicAppNoDiActivity implements XRadioGroup.On
             switch (tabsId[position]) {
                 case R.id.tab_1:
                     StatusBarUtil.setStatusBarColor(HomeActivity.this, R.color.common_white);
+                    EventBus.getDefault().post(new EventBean(EventBean.EVENT_TAB_HOME));
                     break;
                 case R.id.tab_2:
                     StatusBarUtil.setStatusBarColor(HomeActivity.this, R.color.common_white);
+                    EventBus.getDefault().post(new EventBean(EventBean.EVENT_TAB_WL));
                     break;
                 case R.id.tab_3:
                     StatusBarUtil.setStatusBarColor(HomeActivity.this, R.color.common_white);
+                    EventBus.getDefault().post(new EventBean(EventBean.EVENT_TAB_PLAZA));
                     break;
                 case R.id.tab_4:
                     StatusBarUtil.setStatusBarColor(HomeActivity.this, R.color.common_blue_deep);

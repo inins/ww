@@ -5,7 +5,6 @@ import com.frame.http.api.ApiHelper;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
-import com.google.gson.Gson;
 import com.wang.social.topic.mvp.contract.CommentContract;
 import com.wang.social.topic.mvp.model.entities.Comment;
 import com.wang.social.topic.mvp.model.entities.CommentRsp;
@@ -15,11 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
-
 @ActivityScope
 public class CommentPresenter extends
         BasePresenter<CommentContract.Model, CommentContract.View> {
@@ -30,9 +24,11 @@ public class CommentPresenter extends
     ApiHelper mApiHelper;
 
     private int mCurrent = 0;
-    private int mSize = 10;
+    private final static int mSize = 10;
 
-    List<Comment> mCommentList = new ArrayList<>();
+    private List<Comment> mCommentList = new ArrayList<>();
+    // 保存二级页面的主评论类容
+    private Comment mComment;
 
     @Inject
     public CommentPresenter(CommentContract.Model model, CommentContract.View view) {
@@ -43,65 +39,8 @@ public class CommentPresenter extends
         return mCommentList;
     }
 
-    public void testLoadCommentList() {
-        String json1 = "{\n" +
-                "               \"commentId\":1,\n" +
-                "               \"userId\":10000,\n" +
-                "               \"avatar\":\"http://static.wangsocial.com/userDefault.png\",\n" +
-                "               \"nickname\":\"婕欧巴的锅\",\n" +
-                "               \"content\":\"你好看，你最美！宇宙无敌就是你！!\",\n" +
-                "               \"supportTotal\":338,\n" +
-                "               \"commentReply\":[{\n" +
-                "               \t\t\t\"commentId\":2,\n" +
-                "               \t\t\t\"userId\":10000,\n" +
-                "\t\t\t            \"avatar\":\"http://static.wangsocial.com/userDefault.png\",\n" +
-                "\t\t\t            \"nickname\":\"卡西莫多\",\n" +
-                "\t\t\t            \"content\":\"洛洛洛霞\"\n" +
-                "               \t\t},{\n" +
-                "               \t\t\t\"commentId\":3,\n" +
-                "               \t\t\t\"userId\":10000,\n" +
-                "\t\t                \"avatar\":\"http://static.wangsocial.com/userDefault.png\",\n" +
-                "\t\t                \"nickname\":\"Mongo\",\n" +
-                "\t\t                \"content\":\"洛洛洛霞\"\n" +
-                "               \t\t}]\n" +
-                "            }";
-
-        String json2 = "{\n" +
-                "               \"commentId\":1,\n" +
-                "               \"userId\":10000,\n" +
-                "               \"avatar\":\"http://static.wangsocial.com/userDefault.png\",\n" +
-                "               \"nickname\":\"芒果小姐\",\n" +
-                "               \"content\":\"世界以痛吻我，我却报之以歌。\",\n" +
-                "               \"supportTotal\":1,\n" +
-                "               \"commentReply\":[{\n" +
-                "               \t\t\t\"commentId\":1   ,\n" +
-                "               \t\t\t\"userId\":10000,\n" +
-                "\t\t\t            \"avatar\":\"http://static.wangsocial.com/userDefault.png\",\n" +
-                "\t\t\t            \"nickname\":\"林飞\",\n" +
-                "\t\t\t            \"content\":\"给你在小黑屋加鸡腿。给你在小黑屋加鸡腿。给你在小黑屋加鸡腿。给你在小黑屋加鸡腿。给你在小黑屋加鸡腿。给你在小黑屋加鸡腿。给你在小黑屋加鸡腿。\"\n" +
-                "               \t\t},{\n" +
-                "               \t\t\t\"commentId\":3,\n" +
-                "               \t\t\t\"userId\":10000,\n" +
-                "\t\t                \"avatar\":\"http://static.wangsocial.com/userDefault.png\",\n" +
-                "\t\t                \"nickname\":\"Mongo\",\n" +
-                "\t\t                \"content\":\"洛洛洛霞\"\n" +
-                "               \t\t}]\n" +
-                "            }";
-
-
-        Comment comment1 = new Gson().fromJson(json1, Comment.class);
-        Comment comment2 = new Gson().fromJson(json2, Comment.class);
-
-        for (int i = 0; i < 5; i++) {
-            if (i % 2 == 0) {
-                mCommentList.add(comment1);
-            } else {
-                mCommentList.add(comment2);
-            }
-        }
-
-        mRootView.onLoadCommentSuccess();
-        mRootView.onLoadCommentCompleted();
+    public void setComment(Comment comment) {
+        mComment = comment;
     }
 
     /**
@@ -125,17 +64,9 @@ public class CommentPresenter extends
                         e.printStackTrace();
                         mRootView.showToastLong(e.getMessage());
                     }
-                }, new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        mRootView.showLoading();
-                    }
-                }, new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mRootView.hideLoading();
-                    }
-                });
+                },
+                disposable -> mRootView.showLoading(),
+                () -> mRootView.hideLoading());
     }
 
 
@@ -143,7 +74,7 @@ public class CommentPresenter extends
      * 话题评论点赞/取消评论点赞
      * @param topicId 话题ID
      * @param comment 话题评论
-     * @Note type 类型1点赞 2取消点赞
+     *  type 类型1点赞 2取消点赞
      */
     public void commentSupport(int topicId, Comment comment) {
         mApiHelper.executeForData(mRootView,
@@ -170,17 +101,9 @@ public class CommentPresenter extends
                         e.printStackTrace();
                         mRootView.showToastLong(e.getMessage());
                     }
-                }, new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        mRootView.showLoading();
-                    }
-                }, new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mRootView.hideLoading();
-                    }
-                });
+                },
+                disposable -> mRootView.showLoading(),
+                () -> mRootView.hideLoading());
     }
 
     /**
@@ -192,6 +115,11 @@ public class CommentPresenter extends
         if (refresh) {
             mCurrent = 0;
             mCommentList.clear();
+
+            // 如果记录的评论不为空，则添加到顶部，这是二级页面的主评论
+            if (null != mComment) {
+                mCommentList.add(mComment);
+            }
         }
 
         mApiHelper.execute(mRootView,
@@ -218,17 +146,9 @@ public class CommentPresenter extends
                     @Override
                     public void onError(Throwable e) {
                     }
-                }, new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-
-                    }
-                }, new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mRootView.onLoadCommentCompleted();
-                    }
-                });
+                },
+                disposable -> {},
+                () -> mRootView.onLoadCommentCompleted());
     }
 
     @Override

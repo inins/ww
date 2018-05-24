@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.frame.base.BasicFragment;
+import com.frame.component.ui.base.BasicLazyNoDiFragment;
 import com.frame.di.component.AppComponent;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.wang.social.R;
@@ -24,7 +25,7 @@ import butterknife.Unbinder;
 /**
  */
 
-public class PlazaFragment extends BasicFragment {
+public class PlazaFragment extends BasicLazyNoDiFragment {
 
     @BindView(R.id.tablayout)
     SmartTabLayout tablayout;
@@ -49,11 +50,11 @@ public class PlazaFragment extends BasicFragment {
     }
 
     @Override
-    public void initData(@Nullable Bundle savedInstanceState) {
+    public void initDataLazy() {
         popupWindow = new FunshowSortPopupWindow(getContext());
         pagerAdapter = new PagerAdapterPlaza(getChildFragmentManager(), titles);
         pager.setAdapter(pagerAdapter);
-        pager.setOffscreenPageLimit(3);
+        pager.setOffscreenPageLimit(1);
         tablayout.setViewPager(pager);
         tablayout.setOnTabClickListener(position -> {
             if (position == 0) {

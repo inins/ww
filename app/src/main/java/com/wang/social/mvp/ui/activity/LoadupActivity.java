@@ -15,6 +15,25 @@ import com.wang.social.R;
 
 public class LoadupActivity extends BasicAppActivity {
 
+    private Handler mHandler = new Handler();
+    private Runnable mRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (showGuideView()) {
+                SplashActivity.start(LoadupActivity.this);
+            } else {
+                if (CommonHelper.LoginHelper.isLogin()) {
+                    HomeActivity.start(LoadupActivity.this);
+                } else {
+                    CommonHelper.LoginHelper.startLoginActivity(LoadupActivity.this);
+                }
+            }
+
+            finish();
+        }
+    };
+
+
     @Override
     public int initView(@NonNull Bundle savedInstanceState) {
         return R.layout.activity_loadup;
@@ -24,22 +43,33 @@ public class LoadupActivity extends BasicAppActivity {
     public void initData(@NonNull Bundle savedInstanceState) {
         StatusBarUtil.setTranslucent(this);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (showGuideView()) {
-                    SplashActivity.start(LoadupActivity.this);
-                } else {
-                    if (CommonHelper.LoginHelper.isLogin()) {
-                        HomeActivity.start(LoadupActivity.this);
-                    } else {
-                        CommonHelper.LoginHelper.startLoginActivity(LoadupActivity.this);
-                    }
-                }
+        mHandler.postDelayed(mRunnable, 2000);
 
-                finish();
-            }
-        }, 2000);
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (showGuideView()) {
+//                    SplashActivity.start(LoadupActivity.this);
+//                } else {
+//                    if (CommonHelper.LoginHelper.isLogin()) {
+//                        HomeActivity.start(LoadupActivity.this);
+//                    } else {
+//                        CommonHelper.LoginHelper.startLoginActivity(LoadupActivity.this);
+//                    }
+//                }
+//
+//                finish();
+//            }
+//        }, 2000);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (null != mHandler) {
+            mHandler.removeCallbacks(mRunnable);
+        }
     }
 
     private boolean showGuideView() {

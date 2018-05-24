@@ -42,4 +42,8 @@ public interface ImPath extends BasePath {
     //趣聊详情页
     String SOCIAL_HOME = "/social_home";
     String SOCIAL_HOME_URL = SCHEME + HOST + SOCIAL_HOME;
+
+    // 往往官方号
+    String OFFICIAL_CHAT_ROBOT = "/official_chat_robot";
+    String OFFICIAL_CHAT_ROBOT_URL = SCHEME + HOST + OFFICIAL_CHAT_ROBOT;
 }

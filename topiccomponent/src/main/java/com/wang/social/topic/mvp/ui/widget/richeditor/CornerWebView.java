@@ -1,6 +1,7 @@
 package com.wang.social.topic.mvp.ui.widget.richeditor;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -12,35 +13,37 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.webkit.WebView;
 
-public class CornerWebView extends WebView {
+import com.frame.utils.SizeUtils;
+import com.wang.social.topic.R;
 
-    private Paint paint1;
-    private Paint paint2;
-    private float m_radius = 100;
-    private int width = 100;
-    private int height = 100;
+import timber.log.Timber;
+
+public class CornerWebView extends WebView {
+    private float top_left = 0;
+    private float top_right = 0;
+    private float bottom_left = 0;
+    private float bottom_right = 0;
+    private int vWidth;
+    private int vHeight;
     private int x;
     private int y;
+    private Paint paint1;
+    private Paint paint2;
 
-    public CornerWebView(Context context) {
-        super(context);
+    private float[] radiusArray = {0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f};
 
-        init(context);
-    }
 
     public CornerWebView(Context context, AttributeSet attrs) {
         super(context, attrs);
-
-        init(context);
+        init(context, attrs);
     }
 
-    public CornerWebView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-
-        init(context);
+    public CornerWebView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        init(context, attrs);
     }
 
-    private void init(Context context) {
+    private void init(Context context, AttributeSet attrs) {
         paint1 = new Paint();
         paint1.setColor(Color.WHITE);
         paint1.setAntiAlias(true);
@@ -48,84 +51,46 @@ public class CornerWebView extends WebView {
 
         paint2 = new Paint();
         paint2.setXfermode(null);
+
+        int size = SizeUtils.dp2px(16);
+        top_left = size;
+        top_right = size;
+        bottom_left = size;
+        bottom_right = size;
+
+        setRadius(top_left, top_right, bottom_right, bottom_left);
     }
 
-    public void setRadius(int w, int h, float radius) {
-        m_radius = radius;
-        width = w;
-        height = h;
+    /**
+     * 设置四个角的圆角半径
+     */
+    public void setRadius(float leftTop, float rightTop, float rightBottom, float leftBottom) {
+        radiusArray[0] = leftTop;
+        radiusArray[1] = leftTop;
+        radiusArray[2] = rightTop;
+        radiusArray[3] = rightTop;
+        radiusArray[4] = rightBottom;
+        radiusArray[5] = rightBottom;
+        radiusArray[6] = leftBottom;
+        radiusArray[7] = leftBottom;
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        //判断 避免 width，height值为0,否则Bitmap.createBitmap()报错
-        if (getMeasuredWidth() != 0) {
-            width = getMeasuredWidth();
-        }
-        if (getMeasuredHeight() != 0) {
-            height = getMeasuredHeight();
-        }
+        vWidth = getMeasuredWidth();
+        vHeight = getMeasuredHeight();
     }
+
 
     @Override
-    public void draw(Canvas canvas) {
-        super.draw(canvas);
+    public void onDraw(Canvas canvas) {
+        Timber.i("onDraw 圆角WebView");
         x = this.getScrollX();
         y = this.getScrollY();
-        Bitmap bitmap = Bitmap.createBitmap(x + width, y + height,
-                Bitmap.Config.RGB_565);
-        Canvas canvas2 = new Canvas(bitmap);
-        super.draw(canvas2);
-        drawLeftUp(canvas2);
-        drawRightUp(canvas2);
-        drawLeftDown(canvas2);
-        drawRightDown(canvas2);
-        canvas.drawBitmap(bitmap, 0, 0, paint2);
-        bitmap.recycle();
-    }
-
-    private void drawLeftUp(Canvas canvas) {
         Path path = new Path();
-        path.moveTo(x, m_radius);
-        path.lineTo(x, y);
-        path.lineTo(m_radius, y);
-        path.arcTo(new RectF(x, y, x + m_radius * 2, y + m_radius * 2), -90,
-                -90);
-        path.close();
-        canvas.drawPath(path, paint1);
-    }
-
-    private void drawLeftDown(Canvas canvas) {
-        Path path = new Path();
-        path.moveTo(x, y + height - m_radius);
-        path.lineTo(x, y + height);
-        path.lineTo(x + m_radius, y + height);
-        path.arcTo(new RectF(x, y + height - m_radius * 2, x + m_radius * 2, y
-                + height), 90, 90);
-        path.close();
-        canvas.drawPath(path, paint1);
-    }
-
-    private void drawRightDown(Canvas canvas) {
-        Path path = new Path();
-        path.moveTo(x + width - m_radius, y + height);
-        path.lineTo(x + width, y + height);
-        path.lineTo(x + width, y + height - m_radius);
-        path.arcTo(new RectF(x + width - m_radius * 2, y + height - m_radius
-                * 2, x + width, y + height), 0, 90);
-        path.close();
-        canvas.drawPath(path, paint1);
-    }
-
-    private void drawRightUp(Canvas canvas) {
-        Path path = new Path();
-        path.moveTo(x + width, y + m_radius);
-        path.lineTo(x + width, y);
-        path.lineTo(x + width - m_radius, y);
-        path.arcTo(new RectF(x + width - m_radius * 2, y, x + width, y
-                + m_radius * 2), -90, 90);
-        path.close();
-        canvas.drawPath(path, paint1);
+        path.addRoundRect(new RectF(0, y, x + vWidth, y + vHeight), radiusArray, Path.Direction.CW);        // 使用半角的方式，性能比较好
+        canvas.clipPath(path);
+        super.onDraw(canvas);
     }
 }

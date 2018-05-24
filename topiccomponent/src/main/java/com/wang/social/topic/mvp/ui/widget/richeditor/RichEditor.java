@@ -564,4 +564,5 @@ public class RichEditor extends WebView {
             return super.shouldOverrideUrlLoading(view, url);
         }
     }
+
 }

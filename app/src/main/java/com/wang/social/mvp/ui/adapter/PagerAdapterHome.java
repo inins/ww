@@ -33,10 +33,6 @@ public class PagerAdapterHome extends FragmentPagerAdapter {
     }
 
     @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-    }
-
-    @Override
     public int getCount() {
         return 4;
     }

@@ -6,17 +6,23 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
+import com.app.hubert.guide.NewbieGuide;
+import com.app.hubert.guide.model.GuidePage;
 import com.frame.base.BaseFragment;
 import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.funshow.FunshowBean;
+import com.frame.component.helper.GuidePageHelper;
 import com.frame.component.ui.adapter.RecycleAdapterCommonFunshow;
+import com.frame.component.ui.base.BaseLazyFragment;
 import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.component.view.barview.BarView;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.utils.SizeUtils;
+import com.frame.utils.ToastUtil;
 import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
@@ -34,9 +40,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.app.hubert.guide.model.HighLight.Shape.CIRCLE;
+import static com.app.hubert.guide.model.HighLight.Shape.ROUND_RECTANGLE;
+
 /**
  */
-public class FunShowFragment extends BaseFragment<FunshowListPresonter> implements FunshowListContract.View {
+public class FunShowFragment extends BaseLazyFragment<FunshowListPresonter> implements FunshowListContract.View {
 
     @BindView(R2.id.barview)
     BarView barview;
@@ -108,7 +117,7 @@ public class FunShowFragment extends BaseFragment<FunshowListPresonter> implemen
     }
 
     @Override
-    public void initData(@Nullable Bundle savedInstanceState) {
+    public void initDataLazy() {
         adapter = new RecycleAdapterCommonFunshow();
         adapter.setOnDislikeClickListener((v, funshow) -> mPresenter.shatDownUser(funshow.getUserId()));
         recycler.setNestedScrollingEnabled(false);
@@ -129,23 +138,21 @@ public class FunShowFragment extends BaseFragment<FunshowListPresonter> implemen
             }
         });
 
-        mPresenter.netGetFunshowList(type, false);
+        mPresenter.netGetFunshowList(type, true);
         mPresenter.netGetFunshowTopUserList();
-    }
 
-//    @Override
-//    public void onItemClick(Funshow funshow, int position) {
-//        if (funshow.isShopping()) {
-//            DialogSureFunshowPay.showDialog(getContext(), funshow.getPrice(), () -> {
-//                NetPayStoneHelper.newInstance().netPayFunshow(FunShowFragment.this, funshow.getTalkId(), funshow.getPrice(), () -> {
-//                    FunshowDetailActivity.start(getContext(), funshow.getTalkId());
-//                    adapter.refreshNeedPayById(funshow.getTalkId());
-//                });
-//            });
-//        } else {
-//            FunshowDetailActivity.start(getContext(), funshow.getTalkId());
-//        }
-//    }
+        NewbieGuide.with(this)
+                .setLabel("guide_funshow")
+                .alwaysShow(true)
+                .addGuidePage(GuidePage.newInstance()
+                        .addHighLight(barview, ROUND_RECTANGLE, SizeUtils.dp2px(25), 0)
+                        .addHighLight(getActivity().findViewById(R.id.img_add), CIRCLE)
+                        .setLayoutRes(R.layout.lay_guide_funshow, R.id.btn_go)
+                        .setEverywhereCancelable(false)
+                        .setEnterAnimation(GuidePageHelper.getEnterAnimation())
+                        .setExitAnimation(GuidePageHelper.getExitAnimation()))
+                .show();
+    }
 
     @OnClick({R2.id.barview})
     public void onViewClicked(View view) {

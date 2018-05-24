@@ -15,6 +15,8 @@ import com.frame.component.entities.Tag;
 import com.frame.component.ui.acticity.WebActivity;
 import com.frame.component.ui.acticity.tags.TagSelectionActivity;
 import com.frame.component.ui.adapter.RecycleAdapterFunpoint;
+import com.frame.component.ui.base.BaseLazyFragment;
+import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.utils.SizeUtils;
@@ -40,7 +42,7 @@ import butterknife.Unbinder;
 /**
  */
 
-public class FunPointFragment extends BaseFragment<FunpointListPresonter> implements FunpointListContract.View{
+public class FunPointFragment extends BaseLazyFragment<FunpointListPresonter> implements FunpointListContract.View {
 
     @BindView(R2.id.spring)
     SpringView springView;
@@ -85,7 +87,7 @@ public class FunPointFragment extends BaseFragment<FunpointListPresonter> implem
     }
 
     @Override
-    public void initData(@Nullable Bundle savedInstanceState) {
+    public void initDataLazy() {
         adapterLable = new RecycleAdapterLable();
         adapterLable.setOnMoreClickListener(v ->
                 TagSelectionActivity.startSelection(getActivity(), TagSelectionActivity.TAG_TYPE_INTEREST));
@@ -105,16 +107,16 @@ public class FunPointFragment extends BaseFragment<FunpointListPresonter> implem
         springView.setListener(new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
-                mPresenter.netGetFunpointList(true);
+                mPresenter.netGetFunpointList(true, false);
             }
 
             @Override
             public void onLoadmore() {
-                mPresenter.netGetFunpointList(false);
+                mPresenter.netGetFunpointList(false, false);
             }
         });
 
-        mPresenter.netGetFunpointList(true);
+        mPresenter.netGetFunpointList(true, true);
         mPresenter.netGetRecommendTag();
     }
 
@@ -140,10 +142,16 @@ public class FunPointFragment extends BaseFragment<FunpointListPresonter> implem
 
     @Override
     public void showLoading() {
+        if (getActivity() instanceof BasicAppActivity) {
+            ((BasicAppActivity) getActivity()).showLoadingDialog();
+        }
     }
 
     @Override
     public void hideLoading() {
+        if (getActivity() instanceof BasicAppActivity) {
+            ((BasicAppActivity) getActivity()).dismissLoadingDialog();
+        }
     }
 
     @Override

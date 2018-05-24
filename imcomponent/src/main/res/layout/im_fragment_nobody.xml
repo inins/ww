@@ -58,7 +58,6 @@
         android:layout_marginStart="@dimen/common_border_margin"
         android:layout_marginTop="18dp"
         app:layout_constraintTop_toBottomOf="@id/fn_recommend"
-        app:note="发布话题20条以上"
         app:title="知识魔" />
 
     <com.frame.component.view.barview.BarView
@@ -69,7 +68,6 @@
         android:layout_marginStart="@dimen/common_border_margin"
         android:layout_marginTop="18dp"
         app:layout_constraintTop_toBottomOf="@id/fn_knowledge"
-        app:note="发布趣晒20条以上"
         app:title="趣晒魔" />
 
     <com.frame.component.view.barview.BarView

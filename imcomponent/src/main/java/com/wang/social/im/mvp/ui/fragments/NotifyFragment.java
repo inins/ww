@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.frame.base.BasicFragment;
+import com.frame.component.helper.CommonHelper;
 import com.frame.di.component.AppComponent;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
@@ -80,7 +81,7 @@ public class NotifyFragment extends BasicFragment {
     public void onViewClicked(View view) {
         int id = view.getId();
         if (id == R.id.lay_official) {
-
+            CommonHelper.ImHelper.startOfficialChatRobot(getContext());
         } else if (id == R.id.text_sysmsg) {
             NotifySysMsgListActivity.start(getContext());
             imgDotNotifySys.setVisibility(View.GONE);
