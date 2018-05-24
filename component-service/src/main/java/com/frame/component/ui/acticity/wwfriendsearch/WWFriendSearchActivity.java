@@ -45,26 +45,35 @@ import io.reactivex.Observable;
 public class WWFriendSearchActivity extends BaseAppActivity implements IView,
         WWFriendSearchAdapter.ClickListener {
 
+    // 搜索输入框
     @BindView(R2.id.search_edit_text)
     EditText mSearchET;
+    // 好友列表
     @BindView(R2.id.friend_recycler_view)
     RecyclerView mFriendRV;
     WWFriendSearchAdapter mFriendAdapter;
+    // 更多联系人（点击展开或收起好友列表）
+    @BindView(R2.id.more_friend_layout)
+    View mMoreFriendLayout;
+    // 更多联系人文字
     @BindView(R2.id.more_friend_text_view)
     TextView mMoreFriendTV;
+    // 上下箭头图片
     @BindView(R2.id.arrow_icon_image_view)
     ImageView mArrowIV;
+    // 群组列表
     @BindView(R2.id.group_recycler_view)
     RecyclerView mGroupRV;
     WWFriendSearchAdapter mGroupAdapter;
+    // 搜索输入框一下的内容，初始时隐藏
     @BindView(R2.id.content_layout)
     View mContentLayout;
+    // 群组标题栏
     @BindView(R2.id.group_title_text_view)
     View mGroupTitleTV;
+    // 好友标题栏
     @BindView(R2.id.friend_title_text_view)
     View mFriendTitleTV;
-    @BindView(R2.id.more_friend_layout)
-    View mMoreFriendLayout;
 
     private List<SearchBase> mFriendList = new ArrayList<>();
     private List<SearchBase> mGroupList = new ArrayList<>();
@@ -108,6 +117,9 @@ public class WWFriendSearchActivity extends BaseAppActivity implements IView,
         mContentLayout.setVisibility(View.GONE);
     }
 
+    /**
+     * 右上角 取消 退出页面
+     */
     @OnClick(R2.id.cancel_text_view)
     public void cancelTV() {
         KeyboardUtils.hideSoftInput(this);
@@ -130,9 +142,13 @@ public class WWFriendSearchActivity extends BaseAppActivity implements IView,
         }
     }
 
+    /**
+     * 搜索
+     */
     private void doSearch() {
         String keyword = mSearchET.getText().toString();
 
+        // 关键字格式判断
 //        if (TextUtils.isEmpty(keyword)) {
 //            ToastUtil.showToastShort("请输入搜索关键字");
 //            return;
@@ -141,12 +157,17 @@ public class WWFriendSearchActivity extends BaseAppActivity implements IView,
         listFriendAndGroup(EntitiesUtil.assertNotNull(keyword));
     }
 
+    /**
+     * 搜索数据
+     * @param keyword 关键字
+     */
     private void listFriendAndGroup(String keyword) {
         mApiHelper.execute(this,
                 netListFriendAndGroup(keyword),
                 new ErrorHandleSubscriber<SearchResult>() {
                     @Override
                     public void onNext(SearchResult searchResult) {
+                        // 更新好友列表数据
                         mFriendList.clear();
                         mFriendList.addAll(searchResult.getUserFriend());
                         mFriendAdapter.notifyDataSetChanged();
@@ -159,6 +180,7 @@ public class WWFriendSearchActivity extends BaseAppActivity implements IView,
                             mMoreFriendLayout.setVisibility(View.VISIBLE);
                         }
 
+                        // 更新群组列表数据
                         mGroupList.clear();
                         mGroupList.addAll(searchResult.getGroup());
                         mGroupAdapter.notifyDataSetChanged();
@@ -181,6 +203,10 @@ public class WWFriendSearchActivity extends BaseAppActivity implements IView,
                 () -> hideLoading());
     }
 
+    /**
+     * 搜索数据
+     * @param keyword 关键字
+     */
     private Observable<BaseJson<SearchResultDTO>> netListFriendAndGroup(String keyword) {
         Map<String, Object> param = new NetParam()
                 .put("keyword", keyword)
@@ -201,11 +227,19 @@ public class WWFriendSearchActivity extends BaseAppActivity implements IView,
         dismissLoadingDialog();
     }
 
+    /**
+     * 好友选择
+     * @param friend 好友信息
+     */
     @Override
     public void onFriendClick(SearchFriend friend) {
         ToastUtil.showToastShort(friend.getNickname() + " " + friend.getUserId());
     }
 
+    /**
+     * 群组选择
+     * @param group 群组信息
+     */
     @Override
     public void onGroupClick(SearchGroup group) {
         ToastUtil.showToastShort(group.getGroup_name() + " " + group.getGroup_id());
