@@ -14,6 +14,7 @@ import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -21,7 +22,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -58,6 +61,7 @@ import com.wang.social.topic.mvp.presenter.ReleaseTopicPresenter;
 import com.wang.social.topic.mvp.ui.widget.DFSetPrice;
 import com.wang.social.topic.mvp.ui.widget.ReleaseTopicBottomBar;
 import com.wang.social.topic.mvp.ui.widget.StylePicker;
+import com.wang.social.topic.mvp.ui.widget.XFrameLayout;
 import com.wang.social.topic.mvp.ui.widget.richeditor.RichEditor;
 import com.wang.social.topic.utils.AudioImageUtil;
 import com.wang.social.topic.utils.FileUtil;
@@ -141,9 +145,9 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
 
     @BindView(R2.id.rich_editor_layout)
-    View mRichEditorLayout;
-    @BindView(R2.id.rich_editor_bg_image_view)
-    ImageView mRichEditorBGIV;
+    CardView mRichEditorLayout;
+//    @BindView(R2.id.rich_editor_bg_image_view)
+//    ImageView mRichEditorBGIV;
     // 内容编辑器
     @BindView(R2.id.rich_editor)
     RichEditor mRichEditor;
@@ -337,8 +341,8 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
             @Override
             public void onStyle(int position) {
-//                resetListStyleType(position);
-                setListStyleType(position);
+                resetListStyleType(position);
+//                setListStyleType(position);
             }
 
             @Override
@@ -613,7 +617,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 //                    ImageLoaderHelper.loadImg(mRichEditorBGIV, mPresenter.getTemplate().getUrl());
 //
                     if (template.getId() == -1) {
-                        mRichEditorBGIV.setBackgroundColor(0xFFF2F2F2);
+//                        mRichEditorBGIV.setBackgroundColor(0xFFF2F2F2);
                         mRichEditor.setBackgroundColor(0xFFF2F2F2);
                     } else {
                         mRichEditor.setBackgroundColor(android.R.color.transparent);
@@ -622,7 +626,9 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
                             public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
                                 BitmapDrawable bd = (BitmapDrawable) resource;
                                 bd.setTileModeXY(Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
-                                mRichEditorBGIV.setBackground(bd);
+//                                mRichEditor.setBackground(bd);
+                                mRichEditorLayout.setBackground(bd);
+//                                mRichEditorBGIV.setBackground(bd);
                             }
                         };
 //
@@ -708,9 +714,12 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         if (isclick) {
             mRichEditor.setOrderNumbers();
         }
-        isclick = true;
+        if (position != 0) {
+            isclick = true;
+        }
+
         if (TextUtils.isEmpty(mRichEditor.getHtml()) || (position == 0 && mRichEditor.getHtml().endsWith("</ol>"))) {
-            //mRichEditor.setNumbersNone();
+            mRichEditor.setNumbersNone();
             isclick = false;
         } else if (position == 1) {
             //mRichEditor.setBullets();
@@ -876,7 +885,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
             mPhotoHelperEx.setMaxSelectCount(1);
             mPhotoHelperEx.setClip(false);
         } else {
-            mPhotoHelperEx.setMaxSelectCount(9);
+            mPhotoHelperEx.setMaxSelectCount(19);
             mPhotoHelperEx.setClip(false);
         }
         mPhotoHelperEx.showDefaultDialog();
@@ -944,14 +953,49 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     private View.OnLayoutChangeListener mRichEditLayoutChangeListener = new View.OnLayoutChangeListener() {
         @Override
         public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+//
+//            ViewGroup.LayoutParams layoutParams = mRichEditorWrapper.getLayoutParams();
+//            int newH = bottom - top;
+//            if (newH != layoutParams.height) {
+//                Timber.i("重置内容编辑背景高度 ：" + newH);
+//                layoutParams.height = newH;
+//                mRichEditorWrapper.setLayoutParams(layoutParams);
+//            }
+        }
+    };
 
-            ViewGroup.LayoutParams layoutParams = mRichEditorBGIV.getLayoutParams();
+    private View.OnLayoutChangeListener mWebViewLayoutChangeListener = new View.OnLayoutChangeListener() {
+        @Override
+        public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
             int newH = bottom - top;
-            if (newH != layoutParams.height) {
-                Timber.i("重置内容编辑背景图片高度 ：" + newH);
-                layoutParams.height = newH;
-                mRichEditorBGIV.setLayoutParams(layoutParams);
-            }
+            int oldH = oldBottom - oldTop;
+
+            Timber.i("WebView编辑框高度变化 : " + oldH + " -> " + newH);
+
+            FrameLayout.LayoutParams wvP = (FrameLayout.LayoutParams)mRichEditor.getLayoutParams();
+
+            int h = wvP.height + wvP.topMargin + wvP.bottomMargin;
+            h = Math.max(h, SizeUtils.dp2px(118));
+
+//            Timber.i("重置编辑框父控件高度 : " + h);
+//            ViewGroup.LayoutParams ip = mRichEditorBGIV.getLayoutParams();
+//            ip.height = h;
+//            mRichEditorBGIV.setLayoutParams(ip);
+//            ViewGroup.LayoutParams pp = mRichEditorLayout.getLayoutParams();
+//            pp.height = h;
+//            mRichEditorLayout.setLayoutParams(pp);
+
+//            if (newH < oldH && oldH > minH) {
+//                ViewGroup.LayoutParams param = mRichEditorBGIV.getLayoutParams();
+//                int h = param.height - (oldH - newH);
+//                Timber.i("改变背景图高度 : " + param.height + " -> " + h);
+//                param.height = Math.max(h, minH);
+//                mRichEditorBGIV.setLayoutParams(param);
+//                mRichEditorLayout.requestLayout();
+//                ViewGroup.LayoutParams p = mRichEditorLayout.getLayoutParams();
+//                p.height = h;
+//                mRichEditorLayout.setLayoutParams(p);
+//            }
         }
     };
 
@@ -960,7 +1004,8 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         super.onResume();
 
         mRootView.addOnLayoutChangeListener(this);
-        mRichEditorLayout.addOnLayoutChangeListener(mRichEditLayoutChangeListener);
+//        mRichEditorLayout.addOnLayoutChangeListener(mRichEditLayoutChangeListener);
+//        mRichEditor.addOnLayoutChangeListener(mWebViewLayoutChangeListener);
     }
 
     @Override
@@ -970,7 +1015,8 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         mMusicBoard.onPause();
 
         mRootView.removeOnLayoutChangeListener(this);
-        mRichEditorLayout.removeOnLayoutChangeListener(mRichEditLayoutChangeListener);
+//        mRichEditorLayout.removeOnLayoutChangeListener(mRichEditLayoutChangeListener);
+        mRichEditor.removeOnLayoutChangeListener(mWebViewLayoutChangeListener);
     }
 
     @Override

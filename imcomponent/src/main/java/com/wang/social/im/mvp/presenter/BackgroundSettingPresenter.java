@@ -107,7 +107,9 @@ public class BackgroundSettingPresenter extends BasePresenter<BackgroundSettingC
                                 .get();
                         if (bitmap != null) {
                             File file = new File(ImHelper.getBackgroundCachePath(), ImHelper.getBackgroundFileName(conversationType, targetId));
-                            file.deleteOnExit();
+                            if (file.exists()) {
+                                file.delete();
+                            }
                             ImageUtils.save(bitmap, file, Bitmap.CompressFormat.JPEG);
                             return file.getPath();
                         }

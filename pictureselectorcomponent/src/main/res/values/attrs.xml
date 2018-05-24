@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="ps_CircularAutoSizeTextView">
-        <attr name="ps_Radius" format="dimension|reference"/>
-        <attr name="ps_BackgroundColor" format="color|reference"/>
-        <attr name="ps_BorderColor" format="color|reference"/>
-        <attr name="ps_BorderWidth" format="dimension|reference"/>
-        <attr name="ps_TextColor" format="color|reference"/>
-        <attr name="ps_TextSize" format="dimension|reference"/>
-    </declare-styleable>
 
     <declare-styleable name="ps_DotIndicator">
         <attr name="ps_diImage" format="reference" />

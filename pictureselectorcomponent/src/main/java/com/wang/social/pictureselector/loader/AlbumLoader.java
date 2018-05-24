@@ -52,7 +52,7 @@ public class AlbumLoader extends CursorLoader {
       }
     }
 
-    // 将 所有图片 添加到查询结果中
+    // 将所有图片 添加到查询结果中
     allAlbum.addRow(
         new String[] {
             Album.ALBUM_ID_ALL,

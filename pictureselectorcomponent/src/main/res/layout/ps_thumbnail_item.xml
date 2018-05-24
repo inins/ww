@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:scaleType="fitXY"/>
 
-    <com.wang.social.pictureselector.ui.widget.CircularAutoSizeTextView
+    <com.frame.component.view.CircularAutoSizeTextView
         android:id="@+id/flag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

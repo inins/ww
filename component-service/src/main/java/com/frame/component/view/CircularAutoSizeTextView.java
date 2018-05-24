@@ -1,4 +1,4 @@
-package com.wang.social.pictureselector.ui.widget;
+package com.frame.component.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -11,7 +11,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.util.Log;
 
-import com.wang.social.pictureselector.R;
+import com.frame.component.service.R;
 
 /**
  * Created by king on 2018/2/13.

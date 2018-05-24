@@ -13,6 +13,7 @@ import com.wang.social.im.R;
 import com.wang.social.im.helper.ImHelper;
 
 import java.io.File;
+import java.util.UUID;
 
 /**
  * ============================================
@@ -48,6 +49,7 @@ public abstract class BaseConversationFragment extends BasicFragment {
                         .builder()
                         .placeholder(defaultBackground)
                         .errorPic(defaultBackground)
+                        .signature(UUID.randomUUID().toString())
                         .url(file.getPath())
                         .imageView(background)
                         .build());
