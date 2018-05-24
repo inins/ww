@@ -12,10 +12,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.app.hubert.guide.NewbieGuide;
+import com.app.hubert.guide.model.GuidePage;
 import com.beloo.widget.chipslayoutmanager.SpacingItemDecoration;
 import com.frame.base.BaseAdapter;
 import com.frame.component.enums.ConversationType;
 import com.frame.component.helper.AppDataHelper;
+import com.frame.component.helper.GuidePageHelper;
 import com.frame.component.path.ImPath;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.ui.dialog.PayDialog;
@@ -45,6 +48,9 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
+
+import static com.app.hubert.guide.model.HighLight.Shape.CIRCLE;
+import static com.app.hubert.guide.model.HighLight.Shape.ROUND_RECTANGLE;
 
 /**
  * 趣聊/觅聊会话界面
@@ -147,14 +153,24 @@ public class GroupConversationActivity extends BaseAppActivity<GroupConversation
         mAllTeamsAdapter.setOnItemClickListener(this);
         rlvAllTeams.setAdapter(mAllTeamsAdapter);
 
-        if (conversationType == ConversationType.SOCIAL && !AppDataHelper.isTipShowed()) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    AppDataHelper.saveTipShowStatus(true);
-                    mRootNav.getLayout().startTipAnim();
-                }
-            }, 146);
+        if (conversationType == ConversationType.SOCIAL) {
+            NewbieGuide.with(this)
+                    .setLabel("guide_social_drag")
+                    .addGuidePage(GuidePage.newInstance()
+                            .setLayoutRes(R.layout.lay_guide_funchat2, R.id.btn_go)
+                            .setEverywhereCancelable(false)
+                            .setEnterAnimation(GuidePageHelper.getEnterAnimation())
+                            .setExitAnimation(GuidePageHelper.getExitAnimation()))
+                    .show();
+            if (!AppDataHelper.isTipShowed()) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        AppDataHelper.saveTipShowStatus(true);
+                        mRootNav.getLayout().startTipAnim();
+                    }
+                }, 146);
+            }
         }
 
     }

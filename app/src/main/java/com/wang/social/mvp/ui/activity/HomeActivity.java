@@ -14,6 +14,7 @@ import com.frame.component.entities.DynamicMessage;
 import com.frame.component.entities.SystemMessage;
 import com.frame.component.helper.MsgHelper;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
+import com.frame.component.utils.UIUtil;
 import com.frame.component.view.XRadioGroup;
 import com.frame.entities.EventBean;
 import com.frame.router.facade.annotation.RouteNode;
@@ -72,8 +73,18 @@ public class HomeActivity extends BasicAppNoDiActivity implements XRadioGroup.On
                 break;
             case EventBean.EVENT_NOTIFY_MESSAGE_UNREAD:
                 int count = (int) event.get("count");
-                textDot.setVisibility(count == 0 ? View.GONE : View.VISIBLE);
-                textDot.setText(count);
+                if (count > 0) {
+                    textDot.setVisibility(View.VISIBLE);
+                    String showText;
+                    if (count > 99) {
+                        showText = UIUtil.getString(com.wang.social.im.R.string.im_cvs_unread_max);
+                    } else {
+                        showText = String.valueOf(count);
+                    }
+                    textDot.setText(String.valueOf(showText));
+                } else {
+                    textDot.setVisibility(View.GONE);
+                }
                 break;
         }
     }
