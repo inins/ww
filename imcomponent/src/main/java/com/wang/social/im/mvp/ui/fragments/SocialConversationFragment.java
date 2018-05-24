@@ -165,9 +165,9 @@ public class SocialConversationFragment extends BaseConversationFragment {
     @Override
     public void onCommonEvent(EventBean event) {
         if (event.getEvent() == EventBean.EVENT_NOTIFY_BACKGROUND) {
-            if (ConversationType.values()[((int) event.get("typeOrdinal"))] == ConversationType.TEAM &&
+            if (ConversationType.values()[Integer.valueOf(event.get("typeOrdinal").toString())] == ConversationType.SOCIAL &&
                     targetId.equals(event.get("targetId").toString())) {
-                loadBackground(ConversationType.TEAM, targetId, background, mImageLoader);
+                loadBackground(ConversationType.SOCIAL, targetId, background, mImageLoader);
             }
         }
     }

@@ -207,7 +207,7 @@ public class PrivateConversationActivity extends BasicConversationActivity imple
     @Override
     public void onCommonEvent(EventBean event) {
         if (event.getEvent() == EventBean.EVENT_NOTIFY_BACKGROUND) {
-            if (ConversationType.values()[((int) event.get("typeOrdinal"))] == ConversationType.PRIVATE &&
+            if (ConversationType.values()[Integer.valueOf(event.get("typeOrdinal").toString())] == ConversationType.PRIVATE &&
                     targetId.equals(event.get("targetId").toString())) {
                 loadBackground(ConversationType.PRIVATE, targetId, mImageLoader);
             }
