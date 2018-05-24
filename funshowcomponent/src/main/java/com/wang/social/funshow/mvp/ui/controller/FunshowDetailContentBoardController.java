@@ -7,8 +7,10 @@ import android.widget.TextView;
 
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.ImageLoaderHelper;
+import com.frame.component.helper.NetPayStoneHelper;
 import com.frame.component.ui.base.BaseController;
 import com.frame.component.utils.viewutils.FontUtils;
+import com.frame.component.view.DialogPay;
 import com.frame.component.view.bundleimgview.BundleImgView;
 import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelperEx;
@@ -161,6 +163,13 @@ public class FunshowDetailContentBoardController extends BaseController implemen
     public void onDestory() {
         super.onDestory();
         if (videoview != null) videoview.releaseAllVideos();
+    }
+
+    private void showPayDialog(FunshowDetail funshowDetail){
+//        DialogPay dialogPay = DialogPay.showPayFunshow(getIView(), getFragmentManager(), funshowDetail.getPrice(), -1, () -> {
+//            NetPayStoneHelper.newInstance().netPayFunshow(getIView(), funshowDetail.get(), funshowDetail.getPrice(), () -> {
+//            });
+//        });
     }
 
     /////////////////////////////////////////

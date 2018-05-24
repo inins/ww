@@ -8,11 +8,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.frame.component.entities.DynamicMessage;
 import com.frame.component.entities.SystemMessage;
-import com.frame.component.entities.msg.NotifySave;
-import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.MsgHelper;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
 import com.frame.component.view.XRadioGroup;
@@ -38,6 +37,8 @@ public class HomeActivity extends BasicAppNoDiActivity implements XRadioGroup.On
     ViewPager pager;
     @BindView(R.id.img_dot)
     ImageView imgDot;
+    @BindView(R.id.text_dot)
+    TextView textDot;
 
 
     private DialogHomeAdd dialogHomeAdd;
@@ -68,6 +69,11 @@ public class HomeActivity extends BasicAppNoDiActivity implements XRadioGroup.On
             case EventBean.EVENT_MSG_READALL:
                 //消息已经全部阅读
                 imgDot.setVisibility(View.GONE);
+                break;
+            case EventBean.EVENT_NOTIFY_MESSAGE_UNREAD:
+                int count = (int) event.get("count");
+                textDot.setVisibility(count == 0 ? View.GONE : View.VISIBLE);
+                textDot.setText(count);
                 break;
         }
     }
