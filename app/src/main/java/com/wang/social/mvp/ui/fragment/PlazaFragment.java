@@ -3,14 +3,9 @@ package com.wang.social.mvp.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.frame.base.BasicFragment;
 import com.frame.component.ui.base.BasicLazyNoDiFragment;
 import com.frame.di.component.AppComponent;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
@@ -19,8 +14,6 @@ import com.wang.social.mvp.ui.adapter.PagerAdapterPlaza;
 import com.wang.social.mvp.ui.dialog.FunshowSortPopupWindow;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  */
@@ -62,7 +55,7 @@ public class PlazaFragment extends BasicLazyNoDiFragment {
             }
         });
         //第一个tab有一个下拉箭头
-        ((TextView) tablayout.getTabAt(0).findViewById(R.id.custom_text)).setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.common_ic_down, 0);
+        ((TextView) tablayout.getTabAt(0).findViewById(R.id.custom_text)).setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.common_ic_up, 0);
     }
 
     @Override

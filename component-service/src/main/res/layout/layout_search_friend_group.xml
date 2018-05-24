@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/root_view">
+
+    <ImageView
+        android:id="@+id/avatar_image_view"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="9dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@color/common_blue" />
+
+
+    <TextView
+        android:id="@+id/name_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:textColor="#ff189aff"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/avatar_image_view"
+        app:layout_constraintStart_toEndOf="@+id/avatar_image_view"
+        app:layout_constraintTop_toTopOf="@+id/avatar_image_view"
+        tools:text="阿刁" />
+
+    <com.frame.component.view.CircularAutoSizeTextView
+        android:id="@+id/flag_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="@+id/avatar_image_view"
+        app:layout_constraintTop_toTopOf="@+id/avatar_image_view"
+        app:ps_BorderWidth="0dp"
+        app:ps_Radius="8dp"
+        app:ps_TextColor="@color/common_white"
+        app:ps_TextSize="20sp"
+        tools:text="觅" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="14dp"
+        android:background="@color/common_list_divider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</android.support.constraint.ConstraintLayout>
