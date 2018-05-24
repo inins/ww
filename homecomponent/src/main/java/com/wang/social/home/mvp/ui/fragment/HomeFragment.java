@@ -3,6 +3,7 @@ package com.wang.social.home.mvp.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -12,6 +13,7 @@ import com.app.hubert.guide.model.GuidePage;
 import com.app.hubert.guide.model.HighLight;
 import com.frame.base.BasicFragment;
 import com.frame.component.helper.GuidePageHelper;
+import com.frame.component.ui.base.BasicLazyNoDiFragment;
 import com.frame.component.ui.base.BasicNoDiFragment;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
@@ -40,7 +42,7 @@ import static com.app.hubert.guide.model.HighLight.Shape.ROUND_RECTANGLE;
 /**
  */
 
-public class HomeFragment extends BasicNoDiFragment implements HomeContract.View {
+public class HomeFragment extends BasicLazyNoDiFragment implements HomeContract.View {
 
     @BindView(R2.id.spring)
     SpringView springView;
@@ -77,7 +79,7 @@ public class HomeFragment extends BasicNoDiFragment implements HomeContract.View
     }
 
     @Override
-    public void initData(@Nullable Bundle savedInstanceState) {
+    public void initDataLazy() {
         naviboardController = new HomeNaviboardController(this, getView().findViewById(R.id.include_naviboard));
         funshowController = new HomeFunshowController(this, getView().findViewById(R.id.include_funshow));
         contentController = new HomeContentController(this, getView().findViewById(R.id.include_content));
@@ -99,7 +101,7 @@ public class HomeFragment extends BasicNoDiFragment implements HomeContract.View
         });
 
         NewbieGuide.with(this)
-                .setLabel("guide1")
+                .setLabel("guide_home")
                 .alwaysShow(true)
                 .addGuidePage(GuidePage.newInstance()
                         .addHighLight(getView().findViewById(R.id.btn_samekind), ROUND_RECTANGLE, 30, 0)

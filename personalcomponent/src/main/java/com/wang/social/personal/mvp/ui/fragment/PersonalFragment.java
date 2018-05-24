@@ -17,6 +17,8 @@ import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.service.personal.PersonalFragmentInterface;
 import com.frame.component.ui.acticity.WebActivity;
+import com.frame.component.ui.base.BasicLazyFragment;
+import com.frame.component.ui.base.BasicLazyNoDiFragment;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.http.imageloader.ImageLoader;
@@ -53,7 +55,7 @@ import butterknife.OnClick;
  * ========================================
  */
 
-public class PersonalFragment extends BasicFragment implements PersonalFragmentInterface {
+public class PersonalFragment extends BasicLazyFragment implements PersonalFragmentInterface {
 
     @BindView(R2.id.toolbar)
     Toolbar toolbar;
@@ -105,7 +107,7 @@ public class PersonalFragment extends BasicFragment implements PersonalFragmentI
     }
 
     @Override
-    public void initData(@Nullable Bundle savedInstanceState) {
+    public void initDataLazy() {
         toolbar.bringToFront();
         setUserData();
         netGetUserInfo();

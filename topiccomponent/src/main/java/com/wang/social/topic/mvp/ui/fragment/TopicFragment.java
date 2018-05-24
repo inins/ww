@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.frame.base.BaseFragment;
 import com.frame.component.ui.acticity.tags.TagSelectionActivity;
+import com.frame.component.ui.base.BaseLazyFragment;
 import com.frame.component.view.barview.BarUser;
 import com.frame.component.view.barview.BarView;
 import com.frame.di.component.AppComponent;
@@ -40,7 +41,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 
-public class TopicFragment extends BaseFragment<TopicPresenter> implements TopicContract.View {
+public class TopicFragment extends BaseLazyFragment<TopicPresenter> implements TopicContract.View {
 
     @BindView(R2.id.app_bar_layout)
     AppBarLayout mAppBarLayout;
@@ -82,7 +83,7 @@ public class TopicFragment extends BaseFragment<TopicPresenter> implements Topic
     }
 
     @Override
-    public void initData(@Nullable Bundle savedInstanceState) {
+    public void initDataLazy() {
         // AppBarLayout 变化监听
         mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override

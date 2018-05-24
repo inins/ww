@@ -42,11 +42,14 @@ public class EventBean implements Serializable {
     //用户修改个人隐私
     public static final int EVENT_PRIVATE_UPDATE = 0xffa204;
     //用户进入个人中心tab分页
-    public static final int EVENT_TAB_USER = 0xffa205;
+    public static final int EVENT_TAB_HOME = 0xffa205;
+    public static final int EVENT_TAB_WL = 0xffa206;
+    public static final int EVENT_TAB_PLAZA = 0xffa207;
+    public static final int EVENT_TAB_USER = 0xffa208;
     //个人中心兑换宝石
-    public static final int EVENT_ACCOUNT_EXCHANGE_STONE = 0xffa206;
+    public static final int EVENT_ACCOUNT_EXCHANGE_STONE = 0xffa209;
     //个人中心充值成功
-    public static final int EVENT_ACCOUNT_RECHARGE_SUCCESS = 0xffa207;
+    public static final int EVENT_ACCOUNT_RECHARGE_SUCCESS = 0xffa210;
 
     //趣晒控制器通知点赞数量，评论数量，分享数量
     public static final int EVENT_CTRL_FUNSHOW_DETAIL_DATA = 0xffa301;
@@ -119,6 +122,9 @@ public class EventBean implements Serializable {
             EVENT_USERINFO_CHANGE,
             EVENT_LOGOUT,
             EVENT_PRIVATE_UPDATE,
+            EVENT_TAB_HOME,
+            EVENT_TAB_WL,
+            EVENT_TAB_PLAZA,
             EVENT_TAB_USER,
             EVENT_ACCOUNT_EXCHANGE_STONE,
             EVENT_ACCOUNT_RECHARGE_SUCCESS,

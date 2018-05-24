@@ -40,9 +40,9 @@ public class FunpointListPresonter extends BasePresenter<FunpointListContract.Mo
         super(model, view);
     }
 
-    public void netGetFunpointList(boolean isFresh) {
+    public void netGetFunpointList(boolean isFresh, boolean needLoading) {
         if (isFresh) current = 0;
-        ApiHelperEx.execute(mRootView, false,
+        ApiHelperEx.execute(mRootView, needLoading,
                 mModel.getFunpointList(1, current + 1, size),
                 new ErrorHandleSubscriber<BaseJson<BaseListWrap<Funpoint>>>(mErrorHandler) {
                     @Override
@@ -72,7 +72,7 @@ public class FunpointListPresonter extends BasePresenter<FunpointListContract.Mo
 
 
     public void netReadFunpoint(int newsId) {
-        NetReadHelper.newInstance().netReadFunpoint(newsId,()->{
+        NetReadHelper.newInstance().netReadFunpoint(newsId, () -> {
             mRootView.reFreshReadCountById(newsId);
         });
     }
