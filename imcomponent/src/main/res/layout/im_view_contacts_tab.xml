@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/ct_tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:paddingEnd="15dp"
+        android:paddingStart="15dp"
+        android:paddingTop="8dp"
+        android:textColor="@color/common_text_blank"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:text="聊天" />
+
+    <TextView
+        android:id="@+id/ct_tv_unread"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/common_bg_unread"
+        android:gravity="center"
+        android:textColor="@color/common_white"
+        android:textSize="11dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/ct_tv_name"
+        app:layout_constraintTop_toTopOf="@id/ct_tv_name"
+        tools:text="99+" />
+
+    <ImageView
+        android:id="@+id/ct_iv_unread_point"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="7dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/im_unread_point"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</android.support.constraint.ConstraintLayout>

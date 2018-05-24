@@ -16,6 +16,7 @@ import com.frame.component.helper.AppDataHelper;
 import com.frame.component.ui.dialog.AutoPopupWindow;
 import com.frame.component.utils.UIUtil;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
 import com.frame.utils.ScreenUtils;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.ToastUtil;
@@ -103,9 +104,10 @@ public class ContactsFragment extends BasicFragment implements AutoPopupWindow.O
 
         fcViewpager.setAdapter(new FragmentAdapter(getFragmentManager(), fragments, titles));
 
+        fcTabLayout.setCustomTabView(R.layout.im_view_contacts_tab, R.id.ct_tv_name);
         fcTabLayout.setViewPager(fcViewpager);
 
-        ((TextView) fcTabLayout.getTabAt(0)).setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30);
+        setSelectStatus(fcTabLayout.getTabAt(0));
 
         fcTabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -117,9 +119,9 @@ public class ContactsFragment extends BasicFragment implements AutoPopupWindow.O
             public void onPageSelected(int position) {
                 for (int i = 0; i < 3; i++) {
                     if (i == position) {
-                        ((TextView) fcTabLayout.getTabAt(i)).setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30);
+                        setSelectStatus(fcTabLayout.getTabAt(i));
                     } else {
-                        ((TextView) fcTabLayout.getTabAt(i)).setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
+                        setUnSelectStatus(fcTabLayout.getTabAt(i));
                     }
                 }
             }
@@ -172,6 +174,50 @@ public class ContactsFragment extends BasicFragment implements AutoPopupWindow.O
             ScanActivity.start(getActivity());
         } else if (resId == R.string.im_contacts) {
             PhoneBookActivity.start(getActivity());
+        }
+    }
+
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
+    private void setSelectStatus(View view) {
+        TextView tvName = view.findViewById(R.id.ct_tv_name);
+        tvName.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30);
+    }
+
+    private void setUnSelectStatus(View view) {
+        TextView tvName = view.findViewById(R.id.ct_tv_name);
+        tvName.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
+    }
+
+    /**
+     * 显示未读消息数量
+     *
+     * @param count
+     */
+    private void showMessageUnreadCount(int count) {
+        TextView tvUnread = fcTabLayout.getTabAt(0).findViewById(R.id.ct_tv_unread);
+        if (count > 0) {
+            tvUnread.setVisibility(View.VISIBLE);
+            String showText;
+            if (count > 99) {
+                showText = UIUtil.getString(R.string.im_cvs_unread_max);
+            } else {
+                showText = String.valueOf(count);
+            }
+            tvUnread.setText(String.valueOf(showText));
+        } else {
+            tvUnread.setVisibility(View.GONE);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageUnreadCountChanged(EventBean event) {
+        if (event.getEvent() == EventBean.EVENT_NOTIFY_MESSAGE_UNREAD) {
+            int count = (int) event.get("count");
+            showMessageUnreadCount(count);
         }
     }
 }
