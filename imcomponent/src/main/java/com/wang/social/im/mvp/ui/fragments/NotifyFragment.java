@@ -9,8 +9,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.frame.base.BasicFragment;
+import com.frame.component.entities.DynamicMessage;
+import com.frame.component.entities.SystemMessage;
+import com.frame.component.entities.msg.NotifySave;
+import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.CommonHelper;
+import com.frame.component.helper.MsgHelper;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.mvp.ui.NofityFriendRequestListActivity;
@@ -21,10 +27,15 @@ import com.wang.social.im.mvp.ui.NotifyGroupRequestListActivity;
 import com.wang.social.im.mvp.ui.NotifySysMsgListActivity;
 import com.wang.social.im.mvp.ui.NotifyZanListActivity;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import retrofit2.http.GET;
 
 /**
  * ============================================
@@ -57,9 +68,53 @@ public class NotifyFragment extends BasicFragment {
         return fragment;
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMsgEvent(SystemMessage msg) {
+        switch (MsgHelper.getSysMsgCate(msg)) {
+            case MsgHelper.CATE_SYS:
+                imgDotNotifySys.setVisibility(View.VISIBLE);
+                MsgHelper.modifyNotify(MsgHelper.CATE_SYS, true);
+                break;
+            case MsgHelper.CATE_FRIEND:
+                imgDotNotifyFrient.setVisibility(View.VISIBLE);
+                MsgHelper.modifyNotify(MsgHelper.CATE_FRIEND, true);
+                break;
+            case MsgHelper.CATE_GROUP:
+                imgDotNotifyFindchat.setVisibility(View.VISIBLE);
+                MsgHelper.modifyNotify(MsgHelper.CATE_GROUP, true);
+                break;
+            case MsgHelper.CATE_JOIN:
+                imgDotNotifyFunchat.setVisibility(View.VISIBLE);
+                MsgHelper.modifyNotify(MsgHelper.CATE_JOIN, true);
+                break;
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMsgEvent(DynamicMessage msg) {
+        switch (MsgHelper.getDynMsgCate(msg)) {
+            case MsgHelper.CATE_ZAN:
+                imgDotNotifyZan.setVisibility(View.VISIBLE);
+                MsgHelper.modifyNotify(MsgHelper.CATE_ZAN, true);
+                break;
+            case MsgHelper.CATE_EVA:
+                imgDotNotifyEva.setVisibility(View.VISIBLE);
+                MsgHelper.modifyNotify(MsgHelper.CATE_EVA, true);
+                break;
+            case MsgHelper.CATE_AITE:
+                imgDotNotifyAite.setVisibility(View.VISIBLE);
+                MsgHelper.modifyNotify(MsgHelper.CATE_AITE, true);
+                break;
+        }
+    }
+
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
     @Override
     public void setupFragmentComponent(@NonNull AppComponent appComponent) {
-
     }
 
     @Override
@@ -69,7 +124,15 @@ public class NotifyFragment extends BasicFragment {
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-
+        NotifySave notifySave = AppDataHelper.getNotifySave();
+        //回归已有消息提醒状态
+        imgDotNotifySys.setVisibility(notifySave.getSysMsgCount() != 0 ? View.VISIBLE : View.GONE);
+        imgDotNotifyFrient.setVisibility(notifySave.getFriendCount() != 0 ? View.VISIBLE : View.GONE);
+        imgDotNotifyFindchat.setVisibility(notifySave.getGroupCount() != 0 ? View.VISIBLE : View.GONE);
+        imgDotNotifyFunchat.setVisibility(notifySave.getJoinCount() != 0 ? View.VISIBLE : View.GONE);
+        imgDotNotifyZan.setVisibility(notifySave.getZanCount() != 0 ? View.VISIBLE : View.GONE);
+        imgDotNotifyEva.setVisibility(notifySave.getEvaCount() != 0 ? View.VISIBLE : View.GONE);
+        imgDotNotifyAite.setVisibility(notifySave.getAiteCount() != 0 ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -85,24 +148,39 @@ public class NotifyFragment extends BasicFragment {
         } else if (id == R.id.text_sysmsg) {
             NotifySysMsgListActivity.start(getContext());
             imgDotNotifySys.setVisibility(View.GONE);
+            MsgHelper.modifyNotify(MsgHelper.CATE_SYS, false);
         } else if (id == R.id.text_friend) {
             NofityFriendRequestListActivity.start(getContext());
             imgDotNotifyFrient.setVisibility(View.GONE);
+            MsgHelper.modifyNotify(MsgHelper.CATE_FRIEND, false);
         } else if (id == R.id.text_findchat) {
             NotifyFindChatRequestListActivity.start(getContext());
             imgDotNotifyFindchat.setVisibility(View.GONE);
+            MsgHelper.modifyNotify(MsgHelper.CATE_GROUP, false);
         } else if (id == R.id.text_funchat) {
             NotifyGroupRequestListActivity.start(getContext());
             imgDotNotifyFunchat.setVisibility(View.GONE);
+            MsgHelper.modifyNotify(MsgHelper.CATE_JOIN, false);
         } else if (id == R.id.text_zan) {
             NotifyZanListActivity.start(getContext());
             imgDotNotifyZan.setVisibility(View.GONE);
+            MsgHelper.modifyNotify(MsgHelper.CATE_ZAN, false);
         } else if (id == R.id.text_eva) {
             NotifyEvaListActivity.start(getContext());
             imgDotNotifyEva.setVisibility(View.GONE);
+            MsgHelper.modifyNotify(MsgHelper.CATE_EVA, false);
         } else if (id == R.id.text_aite) {
             NotifyAiteListActivity.start(getContext());
             imgDotNotifyAite.setVisibility(View.GONE);
+            MsgHelper.modifyNotify(MsgHelper.CATE_AITE, false);
+        }
+        checkHasNotifyAndPost();
+    }
+
+    //检查是否已经读完所有消息，并通知上级页面移除小红点
+    private void checkHasNotifyAndPost() {
+        if (MsgHelper.hasReadAllNotify()) {
+            EventBus.getDefault().post(new EventBean(EventBean.EVENT_MSG_READALL));
         }
     }
 }

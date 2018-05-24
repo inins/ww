@@ -114,6 +114,9 @@ public class EventBean implements Serializable {
     //聊天未读消息数量发生变化
     public static final int EVENT_NOTIFY_MESSAGE_UNREAD = 0xffa908;
 
+    //通知消息已经全部阅读
+    public static final int EVENT_MSG_READALL = 0xffb001;
+
     @IntDef({
             EVENTBUS_TAG_SELECTED,
             EVENTBUS_TAG_UNSELECT,
@@ -161,7 +164,8 @@ public class EventBean implements Serializable {
             EVENT_NOTIFY_PROFILE_UPDATED,
             EVENT_NOTIFY_CLEAR_MESSAGE,
             EVENT_NOTIFY_BACKGROUND,
-            EVENT_NOTIFY_MESSAGE_UNREAD
+            EVENT_NOTIFY_MESSAGE_UNREAD,
+            EVENT_MSG_READALL,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface EventBeanType {
