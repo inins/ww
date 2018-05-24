@@ -62,30 +62,8 @@ public class ContactsFragment extends BasicFragment implements AutoPopupWindow.O
     SmartTabLayout fcTabLayout;
     @BindView(R2.id.fc_viewpager)
     NoScrollViewPager fcViewpager;
-    @BindView(R2.id.img_dot)
-    ImageView imgDot;
 
     private AutoPopupWindow popupWindow;
-
-    @Override
-    public void onCommonEvent(EventBean event) {
-        switch (event.getEvent()) {
-            case EventBean.EVENT_MSG_READALL:
-                //消息已经全部阅读
-                imgDot.setVisibility(View.GONE);
-                break;
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMsgEvent(SystemMessage msg) {
-        imgDot.setVisibility(View.VISIBLE);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMsgEvent(DynamicMessage msg) {
-        imgDot.setVisibility(View.VISIBLE);
-    }
 
     @Override
     public boolean useEventBus() {
@@ -132,6 +110,7 @@ public class ContactsFragment extends BasicFragment implements AutoPopupWindow.O
         fcTabLayout.setViewPager(fcViewpager);
 
         setSelectStatus(fcTabLayout.getTabAt(0));
+        toggleNotifyUnread(!MsgHelper.hasReadAllNotify());
 
         fcTabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -155,8 +134,6 @@ public class ContactsFragment extends BasicFragment implements AutoPopupWindow.O
 
             }
         });
-
-        imgDot.setVisibility(MsgHelper.hasReadAllNotify() ? View.GONE : View.VISIBLE);
     }
 
     @Override
@@ -203,11 +180,6 @@ public class ContactsFragment extends BasicFragment implements AutoPopupWindow.O
         }
     }
 
-    @Override
-    public boolean useEventBus() {
-        return true;
-    }
-
     private void setSelectStatus(View view) {
         TextView tvName = view.findViewById(R.id.ct_tv_name);
         tvName.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30);
@@ -239,11 +211,32 @@ public class ContactsFragment extends BasicFragment implements AutoPopupWindow.O
         }
     }
 
+    private void toggleNotifyUnread(boolean show) {
+        ImageView ivUnread = fcTabLayout.getTabAt(2).findViewById(R.id.ct_iv_unread_point);
+        if (show) {
+            ivUnread.setVisibility(View.VISIBLE);
+        } else {
+            ivUnread.setVisibility(View.GONE);
+        }
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageUnreadCountChanged(EventBean event) {
         if (event.getEvent() == EventBean.EVENT_NOTIFY_MESSAGE_UNREAD) {
             int count = (int) event.get("count");
             showMessageUnreadCount(count);
+        } else if (event.getEvent() == EventBean.EVENT_MSG_READALL) {
+            toggleNotifyUnread(false);
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMsgEvent(SystemMessage msg) {
+        toggleNotifyUnread(true);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMsgEvent(DynamicMessage msg) {
+        toggleNotifyUnread(true);
     }
 }
