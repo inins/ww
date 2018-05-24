@@ -173,7 +173,6 @@ public class ImHelper {
             HMSAgent.Push.getToken(new GetTokenHandler() {
                 @Override
                 public void onResult(int rst) {
-                    Timber.d("--------------------" + rst);
                 }
             });
         } else if (MzSystemUtils.isBrandMeizu(application)) {

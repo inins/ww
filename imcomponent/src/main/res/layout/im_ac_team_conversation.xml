@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/tc_scroll"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
@@ -19,9 +20,8 @@
             android:id="@+id/background"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fitsSystemWindows="false"
             android:scaleType="centerCrop" />
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
     <ImageView
         android:id="@+id/tc_iv_toolbar_background"

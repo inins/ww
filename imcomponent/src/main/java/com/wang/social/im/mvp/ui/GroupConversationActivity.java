@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.beloo.widget.chipslayoutmanager.SpacingItemDecoration;
 import com.frame.base.BaseAdapter;
 import com.frame.component.enums.ConversationType;
+import com.frame.component.helper.AppDataHelper;
 import com.frame.component.path.ImPath;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.ui.dialog.PayDialog;
@@ -145,6 +146,17 @@ public class GroupConversationActivity extends BaseAppActivity<GroupConversation
         mAllTeamsAdapter = new TeamListAdapter(this);
         mAllTeamsAdapter.setOnItemClickListener(this);
         rlvAllTeams.setAdapter(mAllTeamsAdapter);
+
+        if (conversationType == ConversationType.SOCIAL && !AppDataHelper.isTipShowed()) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    AppDataHelper.saveTipShowStatus(true);
+                    mRootNav.getLayout().startTipAnim();
+                }
+            }, 146);
+        }
+
     }
 
     @Override
