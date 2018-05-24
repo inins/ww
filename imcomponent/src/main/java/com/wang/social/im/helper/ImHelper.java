@@ -13,19 +13,26 @@ import com.huawei.android.hms.agent.HMSAgent;
 import com.huawei.android.hms.agent.push.handler.GetTokenHandler;
 import com.meizu.cloud.pushsdk.PushManager;
 import com.meizu.cloud.pushsdk.util.MzSystemUtils;
+import com.tencent.imsdk.TIMConversation;
+import com.tencent.imsdk.TIMConversationType;
+import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMOfflinePushSettings;
 import com.tencent.imsdk.TIMOfflinePushToken;
+import com.tencent.imsdk.ext.message.TIMManagerExt;
 import com.wang.social.im.app.IMConstants;
+import com.wang.social.im.mvp.model.entities.UIConversation;
 import com.xiaomi.mipush.sdk.MiPushClient;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.List;
 
 import timber.log.Timber;
 
 import static com.wang.social.im.app.IMConstants.MZPUSH_APPID;
 import static com.wang.social.im.app.IMConstants.MZPUSH_APPKEY;
+import static com.wang.social.im.app.IMConstants.SERVER_PUSH_MESSAGE_ACCOUNT;
 
 /**
  * ============================================
@@ -166,7 +173,6 @@ public class ImHelper {
             HMSAgent.Push.getToken(new GetTokenHandler() {
                 @Override
                 public void onResult(int rst) {
-                    Timber.d("--------------------" + rst);
                 }
             });
         } else if (MzSystemUtils.isBrandMeizu(application)) {
@@ -190,5 +196,26 @@ public class ImHelper {
             default:
                 return targetId;
         }
+    }
+
+    /**
+     * 获取未读消息总数
+     *
+     * @return
+     */
+    public static int getTotalUnreadCount() {
+        List<TIMConversation> conversations = TIMManagerExt.getInstance().getConversationList();
+        int unread = 0;
+        for (TIMConversation conversation : conversations) {
+            UIConversation uiConversation = new UIConversation(conversation);
+            if ((conversation.getType() != TIMConversationType.Group && conversation.getType() != TIMConversationType.C2C) ||
+                    conversation.getPeer().startsWith(IMConstants.IM_IDENTITY_PREFIX_MIRROR) ||
+                    conversation.getPeer().startsWith(IMConstants.IM_IDENTITY_PREFIX_GAME) ||
+                    (conversation.getType() == TIMConversationType.C2C && conversation.getPeer().equals(SERVER_PUSH_MESSAGE_ACCOUNT))) {
+                continue;
+            }
+            unread += uiConversation.getUnreadNum();
+        }
+        return unread;
     }
 }

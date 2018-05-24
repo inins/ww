@@ -43,6 +43,7 @@ import com.wang.social.im.mvp.presenter.ConversationListPresenter;
 import com.wang.social.im.mvp.ui.adapters.ConversationAdapter;
 import com.wang.social.im.mvp.ui.fragments.NobodyFragment;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -224,6 +225,10 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
     private void refresh() {
         Collections.sort(mConversations);
         mAdapter.notifyDataSetChanged();
+
+        EventBean event = new EventBean(EventBean.EVENT_NOTIFY_MESSAGE_UNREAD);
+        event.put("count", getTotalUnreadCount());
+        EventBus.getDefault().post(event);
     }
 
     @Override
@@ -292,6 +297,19 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
                 mPresenter.getConversationList();
             }
         });
+    }
+
+    /**
+     * 获取总未读数
+     *
+     * @return
+     */
+    private int getTotalUnreadCount() {
+        int unread = 0;
+        for (UIConversation mConversation : mConversations) {
+            unread += mConversation.getUnreadNum();
+        }
+        return unread;
     }
 
     @Override

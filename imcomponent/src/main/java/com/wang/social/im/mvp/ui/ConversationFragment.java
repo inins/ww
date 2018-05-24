@@ -25,11 +25,14 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.app.hubert.guide.NewbieGuide;
+import com.app.hubert.guide.model.GuidePage;
 import com.frame.base.BaseFragment;
 import com.frame.component.entities.NewMoneyTreeGame;
 import com.frame.component.entities.funpoint.Funpoint;
 import com.frame.component.enums.ConversationType;
 import com.frame.component.helper.CommonHelper;
+import com.frame.component.helper.GuidePageHelper;
 import com.frame.component.helper.sound.AudioPlayManager;
 import com.frame.component.helper.sound.AudioRecordManager;
 import com.frame.component.ui.dialog.DialogLoading;
@@ -99,6 +102,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import io.reactivex.functions.Consumer;
+
+import static com.app.hubert.guide.model.HighLight.Shape.OVAL;
+import static com.app.hubert.guide.model.HighLight.Shape.ROUND_RECTANGLE;
 
 /**
  * ======================================
@@ -438,6 +444,16 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     public void showFunPoint(Funpoint funpoint) {
         mFunPoint = funpoint;
         fcFunPoint.setVisibility(View.VISIBLE);
+        NewbieGuide.with(this)
+                .setLabel("guide_team_point")
+                .addGuidePage(GuidePage.newInstance()
+                        .addHighLight(getParentFragment().getView().findViewById(R.id.toolbar_iv_right), OVAL, 0, 0)
+                        .addHighLight(getView().findViewById(R.id.fc_fun_point), OVAL, 0, 0)
+                        .setLayoutRes(R.layout.lay_guide_findchat, R.id.btn_go)
+                        .setEverywhereCancelable(false)
+                        .setEnterAnimation(GuidePageHelper.getEnterAnimation())
+                        .setExitAnimation(GuidePageHelper.getExitAnimation()))
+                .show();
     }
 
     @Override

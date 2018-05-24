@@ -69,7 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/common_border_margin"
-            android:background="@drawable/im_bg_conversation_unread"
+            android:background="@drawable/common_bg_unread"
             android:gravity="center"
             android:textColor="@color/common_white"
             android:textSize="9dp"

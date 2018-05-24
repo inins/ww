@@ -1,5 +1,6 @@
 package com.wang.social.im.mvp.ui.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -7,8 +8,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.NestedScrollView;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.frame.component.enums.ConversationType;
@@ -58,6 +63,8 @@ public class TeamConversationFragment extends BaseConversationFragment {
     ImageView ivBackground;
     @BindView(R2.id.tc_fl_toolbar)
     FrameLayout flToolbar;
+    @BindView(R2.id.tc_scroll)
+    NestedScrollView tcScroll;
 
     private String targetId;
 
@@ -140,6 +147,7 @@ public class TeamConversationFragment extends BaseConversationFragment {
 
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setListener() {
         toolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
             @Override
@@ -153,6 +161,12 @@ public class TeamConversationFragment extends BaseConversationFragment {
                         ((GroupConversationActivity) getActivity()).gotoMirror(mirrorId);
                         break;
                 }
+            }
+        });
+        tcScroll.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
             }
         });
     }

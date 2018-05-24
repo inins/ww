@@ -4,10 +4,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.ImageLoaderHelper;
+import com.frame.component.helper.NetPayStoneHelper;
 import com.frame.component.helper.NetZanHelper;
 import com.frame.component.ui.base.BaseController;
 import com.frame.component.view.ConerTextView;
+import com.frame.component.view.DialogPay;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
@@ -92,7 +95,18 @@ public class DetailTopicController extends BaseController {
                 });
             });
             getRoot().setOnClickListener(v -> {
-                ToastUtil.showToastShort("topcId:" + bean.getTopicId());
+                // 是否需要支付
+                if (!bean.isFree() && !bean.isPay()) {
+                    // 处理支付
+                    DialogPay.showPayTopic(getIView(), getFragmentManager(), bean.getPrice(), -1, () -> {
+                        NetPayStoneHelper.newInstance().netPayTopic(getIView(), bean.getTopicId(), bean.getPrice(), () -> {
+                            bean.setIsPay(true);
+                            CommonHelper.TopicHelper.startTopicDetail(getContext(), bean.getTopicId());
+                        });
+                    });
+                } else {
+                    CommonHelper.TopicHelper.startTopicDetail(getContext(), bean.getTopicId());
+                }
             });
         }
     }

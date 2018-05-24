@@ -1,12 +1,16 @@
 package com.wang.social.im.mvp.ui.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.frame.component.enums.ConversationType;
@@ -52,6 +56,8 @@ public class SocialConversationFragment extends BaseConversationFragment {
 //    TextView scTvOnline;
     @BindView(R2.id.background)
     ImageView background;
+    @BindView(R2.id.sc_scroll)
+    ScrollView scScroll;
 
     String targetId;
 
@@ -129,6 +135,7 @@ public class SocialConversationFragment extends BaseConversationFragment {
 
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setListener() {
         toolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
             @Override
@@ -138,6 +145,13 @@ public class SocialConversationFragment extends BaseConversationFragment {
                         getActivity().onBackPressed();
                         break;
                 }
+            }
+        });
+        scScroll.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                //禁止滑动
+                return true;
             }
         });
     }

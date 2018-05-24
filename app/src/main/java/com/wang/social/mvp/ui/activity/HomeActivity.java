@@ -7,13 +7,15 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.widget.RadioGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.frame.component.service.personal.PersonalFragmentInterface;
-import com.frame.component.ui.base.BasicAppActivity;
+import com.frame.component.entities.DynamicMessage;
+import com.frame.component.entities.SystemMessage;
+import com.frame.component.helper.MsgHelper;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
+import com.frame.component.utils.UIUtil;
 import com.frame.component.view.XRadioGroup;
-import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.StatusBarUtil;
@@ -22,6 +24,8 @@ import com.wang.social.mvp.ui.adapter.PagerAdapterHome;
 import com.wang.social.mvp.ui.dialog.DialogHomeAdd;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 
@@ -32,6 +36,11 @@ public class HomeActivity extends BasicAppNoDiActivity implements XRadioGroup.On
     XRadioGroup groupTab;
     @BindView(R.id.pager)
     ViewPager pager;
+    @BindView(R.id.img_dot)
+    ImageView imgDot;
+    @BindView(R.id.text_dot)
+    TextView textDot;
+
 
     private DialogHomeAdd dialogHomeAdd;
     private PagerAdapterHome pagerAdapter;
@@ -58,7 +67,36 @@ public class HomeActivity extends BasicAppNoDiActivity implements XRadioGroup.On
             case EventBean.EVENT_LOGOUT:
                 finish();
                 break;
+            case EventBean.EVENT_MSG_READALL:
+                //消息已经全部阅读
+                imgDot.setVisibility(View.GONE);
+                break;
+            case EventBean.EVENT_NOTIFY_MESSAGE_UNREAD:
+                int count = (int) event.get("count");
+                if (count > 0) {
+                    textDot.setVisibility(View.VISIBLE);
+                    String showText;
+                    if (count > 99) {
+                        showText = UIUtil.getString(com.wang.social.im.R.string.im_cvs_unread_max);
+                    } else {
+                        showText = String.valueOf(count);
+                    }
+                    textDot.setText(String.valueOf(showText));
+                } else {
+                    textDot.setVisibility(View.GONE);
+                }
+                break;
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMsgEvent(SystemMessage msg) {
+        imgDot.setVisibility(View.VISIBLE);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMsgEvent(DynamicMessage msg) {
+        imgDot.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -81,6 +119,8 @@ public class HomeActivity extends BasicAppNoDiActivity implements XRadioGroup.On
         pager.setOffscreenPageLimit(4);
         pager.setAdapter(pagerAdapter);
         pager.addOnPageChangeListener(onPageChangeListener);
+
+        imgDot.setVisibility(MsgHelper.hasReadAllNotify() ? View.GONE : View.VISIBLE);
     }
 
     //tab动作，切换viewpager

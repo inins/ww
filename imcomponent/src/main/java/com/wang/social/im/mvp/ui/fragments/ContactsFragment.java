@@ -6,28 +6,26 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.frame.base.BasicFragment;
 import com.frame.component.entities.AutoPopupItemModel;
-import com.frame.component.helper.AppDataHelper;
+import com.frame.component.entities.DynamicMessage;
+import com.frame.component.entities.SystemMessage;
+import com.frame.component.helper.MsgHelper;
 import com.frame.component.ui.dialog.AutoPopupWindow;
 import com.frame.component.utils.UIUtil;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
 import com.frame.utils.ScreenUtils;
 import com.frame.utils.SizeUtils;
-import com.frame.utils.ToastUtil;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
-import com.tencent.imsdk.TIMCallBack;
-import com.tencent.imsdk.TIMManager;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
-import com.wang.social.im.enums.ConnectionStatus;
-import com.wang.social.im.helper.FriendShipHelper;
-import com.wang.social.im.helper.GroupHelper;
-import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.mvp.ui.ConversationListFragment;
 import com.wang.social.im.mvp.ui.CreateSocialActivity;
 import com.wang.social.im.mvp.ui.PhoneBookActivity;
@@ -43,7 +41,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 /**
  * ============================================
@@ -65,10 +65,13 @@ public class ContactsFragment extends BasicFragment implements AutoPopupWindow.O
 
     private AutoPopupWindow popupWindow;
 
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
     public static ContactsFragment newInstance() {
-
         Bundle args = new Bundle();
-
         ContactsFragment fragment = new ContactsFragment();
         fragment.setArguments(args);
         return fragment;
@@ -103,9 +106,11 @@ public class ContactsFragment extends BasicFragment implements AutoPopupWindow.O
 
         fcViewpager.setAdapter(new FragmentAdapter(getFragmentManager(), fragments, titles));
 
+        fcTabLayout.setCustomTabView(R.layout.im_view_contacts_tab, R.id.ct_tv_name);
         fcTabLayout.setViewPager(fcViewpager);
 
-        ((TextView) fcTabLayout.getTabAt(0)).setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30);
+        setSelectStatus(fcTabLayout.getTabAt(0));
+        toggleNotifyUnread(!MsgHelper.hasReadAllNotify());
 
         fcTabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -117,9 +122,9 @@ public class ContactsFragment extends BasicFragment implements AutoPopupWindow.O
             public void onPageSelected(int position) {
                 for (int i = 0; i < 3; i++) {
                     if (i == position) {
-                        ((TextView) fcTabLayout.getTabAt(i)).setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30);
+                        setSelectStatus(fcTabLayout.getTabAt(i));
                     } else {
-                        ((TextView) fcTabLayout.getTabAt(i)).setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
+                        setUnSelectStatus(fcTabLayout.getTabAt(i));
                     }
                 }
             }
@@ -173,5 +178,65 @@ public class ContactsFragment extends BasicFragment implements AutoPopupWindow.O
         } else if (resId == R.string.im_contacts) {
             PhoneBookActivity.start(getActivity());
         }
+    }
+
+    private void setSelectStatus(View view) {
+        TextView tvName = view.findViewById(R.id.ct_tv_name);
+        tvName.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30);
+    }
+
+    private void setUnSelectStatus(View view) {
+        TextView tvName = view.findViewById(R.id.ct_tv_name);
+        tvName.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
+    }
+
+    /**
+     * 显示未读消息数量
+     *
+     * @param count
+     */
+    private void showMessageUnreadCount(int count) {
+        TextView tvUnread = fcTabLayout.getTabAt(0).findViewById(R.id.ct_tv_unread);
+        if (count > 0) {
+            tvUnread.setVisibility(View.VISIBLE);
+            String showText;
+            if (count > 99) {
+                showText = UIUtil.getString(R.string.im_cvs_unread_max);
+            } else {
+                showText = String.valueOf(count);
+            }
+            tvUnread.setText(String.valueOf(showText));
+        } else {
+            tvUnread.setVisibility(View.GONE);
+        }
+    }
+
+    private void toggleNotifyUnread(boolean show) {
+        ImageView ivUnread = fcTabLayout.getTabAt(2).findViewById(R.id.ct_iv_unread_point);
+        if (show) {
+            ivUnread.setVisibility(View.VISIBLE);
+        } else {
+            ivUnread.setVisibility(View.GONE);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageUnreadCountChanged(EventBean event) {
+        if (event.getEvent() == EventBean.EVENT_NOTIFY_MESSAGE_UNREAD) {
+            int count = (int) event.get("count");
+            showMessageUnreadCount(count);
+        } else if (event.getEvent() == EventBean.EVENT_MSG_READALL) {
+            toggleNotifyUnread(false);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMsgEvent(SystemMessage msg) {
+        toggleNotifyUnread(true);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMsgEvent(DynamicMessage msg) {
+        toggleNotifyUnread(true);
     }
 }
