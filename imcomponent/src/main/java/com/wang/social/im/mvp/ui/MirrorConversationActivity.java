@@ -36,8 +36,8 @@ import butterknife.OnClick;
  */
 public class MirrorConversationActivity extends BasicConversationActivity {
 
-    @BindView(R2.id.mc_tv_online)
-    TextView mcTvOnline;
+    //    @BindView(R2.id.mc_tv_online)
+//    TextView mcTvOnline;
     @BindView(R2.id.mc_iv_team)
     ImageView mcIvTeam;
 
@@ -74,24 +74,21 @@ public class MirrorConversationActivity extends BasicConversationActivity {
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
-        GroupProfile profile = GroupHelper.getInstance().getGroupProfile(targetId);
-        if (profile != null) {
-            TIMGroupManagerExt.getInstance().getGroupDetailInfo(Arrays.asList(targetId), new TIMValueCallBack<List<TIMGroupDetailInfo>>() {
-                @Override
-                public void onError(int i, String s) {
-
-                }
-
-                @Override
-                public void onSuccess(List<TIMGroupDetailInfo> timGroupDetailInfos) {
-                    for (TIMGroupDetailInfo info : timGroupDetailInfos) {
-                        if (info.getGroupId().equals(targetId) && mcTvOnline != null) {
-                            mcTvOnline.setText(UIUtil.getString(R.string.im_mirror_online_number, info.getOnlineMemberNum()));
-                        }
-                    }
-                }
-            });
-        }
+//            TIMGroupManagerExt.getInstance().getGroupDetailInfo(Arrays.asList(targetId), new TIMValueCallBack<List<TIMGroupDetailInfo>>() {
+//                @Override
+//                public void onError(int i, String s) {
+//
+//                }
+//
+//                @Override
+//                public void onSuccess(List<TIMGroupDetailInfo> timGroupDetailInfos) {
+//                    for (TIMGroupDetailInfo info : timGroupDetailInfos) {
+//                        if (info.getGroupId().equals(targetId) && mcTvOnline != null) {
+//                            mcTvOnline.setText(UIUtil.getString(R.string.im_mirror_online_number, info.getOnlineMemberNum()));
+//                        }
+//                    }
+//                }
+//            });
 
         ConversationFragment conversationFragment = ConversationFragment.newInstance(ConversationType.MIRROR, targetId);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

@@ -52,8 +52,8 @@ public class TeamConversationFragment extends BaseConversationFragment {
     SocialToolbar toolbar;
     @BindView(R2.id.tc_tv_title)
     TextView tcTvTitle;
-    @BindView(R2.id.tc_tv_online)
-    TextView tcTvOnline;
+    //    @BindView(R2.id.tc_tv_online)
+//    TextView tcTvOnline;
     @BindView(R2.id.background)
     ImageView ivBackground;
     @BindView(R2.id.tc_fl_toolbar)
@@ -110,25 +110,24 @@ public class TeamConversationFragment extends BaseConversationFragment {
         GroupProfile profile = GroupHelper.getInstance().getGroupProfile(targetId);
         if (profile != null) {
             tcTvTitle.setText(profile.getName());
-        }
-        TIMGroupManagerExt.getInstance().getGroupDetailInfo(Arrays.asList(targetId), new TIMValueCallBack<List<TIMGroupDetailInfo>>() {
-            @Override
-            public void onError(int i, String s) {
+        } else {
+            TIMGroupManagerExt.getInstance().getGroupDetailInfo(Arrays.asList(targetId), new TIMValueCallBack<List<TIMGroupDetailInfo>>() {
+                @Override
+                public void onError(int i, String s) {
 
-            }
+                }
 
-            @Override
-            public void onSuccess(List<TIMGroupDetailInfo> timGroupDetailInfos) {
-                for (TIMGroupDetailInfo info : timGroupDetailInfos) {
-                    if (info.getGroupId().equals(targetId) && tcTvOnline != null) {
-                        if (tcTvTitle.getText().toString().isEmpty()) {
+                @Override
+                public void onSuccess(List<TIMGroupDetailInfo> timGroupDetailInfos) {
+                    for (TIMGroupDetailInfo info : timGroupDetailInfos) {
+                        if (info.getGroupId().equals(targetId) && tcTvTitle != null) {
                             tcTvTitle.setText(info.getGroupName());
+//                        tcTvOnline.setText(UIUtil.getString(R.string.im_online_total_number, info.getMemberNum(), info.getOnlineMemberNum()));
                         }
-                        tcTvOnline.setText(UIUtil.getString(R.string.im_online_total_number, info.getMemberNum(), info.getOnlineMemberNum()));
                     }
                 }
-            }
-        });
+            });
+        }
 
         ConversationFragment conversationFragment = ConversationFragment.newInstance(ConversationType.TEAM, targetId);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
