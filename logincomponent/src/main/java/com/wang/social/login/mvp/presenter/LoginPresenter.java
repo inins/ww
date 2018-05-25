@@ -216,10 +216,11 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
      * @param mobile 手机号码
      * @param code 短信验证码
      * @param password 设置的密码
+     * @param inviteCode 邀请码
      */
-    public void register(String mobile, String code, String password) {
+    public void register(String mobile, String code, String password, String inviteCode) {
         mApiHelper.execute(mRootView,
-                mModel.userRegister(mobile, code, password, ""),
+                mModel.userRegister(mobile, code, password, "", inviteCode),
                 new ErrorHandleSubscriber<LoginInfo>(mErrorHandler) {
 
                     @Override
