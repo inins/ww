@@ -103,7 +103,7 @@ dependencies {
     //代替tablayout
     implementation 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
 
-    implementation project(':springlibrary')
+    implementation 'com.liaoinstan.springview:library:1.3.3'
     implementation project(':pictureselectorcomponent')
 }
 

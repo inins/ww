@@ -13,7 +13,8 @@ import java.util.Date;
 public class FunShowUtil {
 
     public static String getFunshowTimeStr(long time) {
-        return TimeUtils.date2String(new Date(time), new SimpleDateFormat("MM-dd HH:mm"));
+//        return TimeUtils.date2String(new Date(time), new SimpleDateFormat("MM-dd HH:mm"));
+        return TimeUtils.getFriendlyTimeSpanByNow(time);
     }
 
     //如果view是textView则根据isAdd把其文字（如果是数字）+1或-1

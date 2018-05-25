@@ -93,10 +93,7 @@ dependencies {
     implementation rootProject.ext.dependencies["constraint-layout"]
     implementation project(':component-service')
     annotationProcessor project(':router-anno-compiler')
-    //SpringView
-    //compile 'com.liaoinstan.springview:library:1.3.2'
     implementation project(':pictureselectorcomponent')
-    implementation project(':springlibrary')
     implementation project(':locationlib')
     implementation project(':socializecomponent')
     //视频播放器

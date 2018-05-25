@@ -99,7 +99,6 @@ dependencies {
     compile 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'
     implementation project(':pictureselectorcomponent')
     implementation project(':socializecomponent')
-    implementation project(':springlibrary')
     //代替tablayout
     implementation 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
     //    implementation files('libs/alipaySdk-20180403.jar'){

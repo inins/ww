@@ -15,6 +15,7 @@ public interface ImService {
 
     /**
      * 往来界面
+     *
      * @return
      */
     Fragment getContactsFragment();
@@ -24,5 +25,15 @@ public interface ImService {
      */
     BaseFragment getGameConversationFragment(String roomId);
 
+    /**
+     * IM登陆
+     *
+     * @param application
+     */
     void imLogin(Application application);
+
+    /**
+     * IM登出
+     */
+    void imLogout();
 }

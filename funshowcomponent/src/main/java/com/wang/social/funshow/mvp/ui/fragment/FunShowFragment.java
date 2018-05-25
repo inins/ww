@@ -143,7 +143,6 @@ public class FunShowFragment extends BaseLazyFragment<FunshowListPresonter> impl
 
         NewbieGuide.with(this)
                 .setLabel("guide_funshow")
-                .alwaysShow(true)
                 .addGuidePage(GuidePage.newInstance()
                         .addHighLight(barview, ROUND_RECTANGLE, SizeUtils.dp2px(25), 0)
                         .addHighLight(getActivity().findViewById(R.id.img_add), CIRCLE)

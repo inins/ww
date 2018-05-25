@@ -10,6 +10,9 @@ import android.widget.TextView;
 
 import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.CommonHelper;
+import com.frame.component.router.Router;
+import com.frame.component.service.funshow.FunshowService;
+import com.frame.component.service.im.ImService;
 import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
@@ -103,11 +106,8 @@ public class SettingActivity extends BasicAppActivity implements IView {
                 ToastUtil.showToastShort("没有需要清除的缓存");
                 return;
             }
-            //FIXME:清楚缓存不提示，直接清，这里注释掉提示代码
-//            DialogSure.showDialog(this, "清除缓存将会删除您应用内的本地图片及数据且无法恢复，确认继续？", () -> {
             ClearCacheUtil.clearAPPCache(SettingActivity.this);
             text_clear.setText(ClearCacheUtil.getAppCacheSize(SettingActivity.this));
-//            });
         } else if (i == R.id.btn_shutdownlist) {
             BlackListActivity.startShutdownList(this);
         } else if (i == R.id.btn_blacklist) {
@@ -116,9 +116,15 @@ public class SettingActivity extends BasicAppActivity implements IView {
             SettingMsgActivity.start(this);
         } else if (i == R.id.btn_logout) {
             DialogSure.showDialog(this, "确定要退出登录？", () -> {
+                //移除token和用户数据
                 AppDataHelper.removeToken();
                 AppDataHelper.removeUser();
+                //退出Im登录
+                ImService imService = (ImService) Router.getInstance().getService(ImService.class.getName());
+                if (imService != null) imService.imLogout();
+                //启动登录页面
                 CommonHelper.LoginHelper.startLoginActivity(SettingActivity.this);
+                //通知其他组件
                 EventBus.getDefault().post(new EventBean(EventBean.EVENT_LOGOUT));
             });
         }

@@ -25,6 +25,7 @@ import com.frame.component.utils.VideoCoverUtil;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.mvp.IView;
 import com.frame.utils.FrameUtils;
+import com.frame.utils.TimeUtils;
 import com.frame.utils.ToastUtil;
 import com.frame.utils.Utils;
 

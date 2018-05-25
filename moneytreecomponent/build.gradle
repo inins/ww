@@ -98,7 +98,6 @@ dependencies {
     implementation project(':component-service')
     annotationProcessor project(':router-anno-compiler')
 
-    implementation project(':springlibrary')
     implementation project(':socializecomponent')
     implementation project(':pictureselectorcomponent')
 }

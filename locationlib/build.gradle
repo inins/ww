@@ -33,5 +33,4 @@ dependencies {
         exclude module: 'support-annotations'
     }
     implementation project(':component-service')
-    implementation project(':springlibrary')
 }

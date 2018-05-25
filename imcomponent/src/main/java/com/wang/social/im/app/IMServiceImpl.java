@@ -32,6 +32,21 @@ public class IMServiceImpl implements ImService {
     }
 
     @Override
+    public void imLogout() {
+        TIMManager.getInstance().logout(new TIMCallBack() {
+            @Override
+            public void onError(int i, String s) {
+
+            }
+
+            @Override
+            public void onSuccess() {
+
+            }
+        });
+    }
+
+    @Override
     public void imLogin(Application application) {
         TIMManager.getInstance().login(String.valueOf(AppDataHelper.getUser().getUserId()), AppDataHelper.getSign(), new TIMCallBack() {
             @Override
