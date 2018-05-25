@@ -102,7 +102,6 @@ public class HomeFragment extends BasicLazyNoDiFragment implements HomeContract.
 
         NewbieGuide.with(this)
                 .setLabel("guide_home")
-                .alwaysShow(true)
                 .addGuidePage(GuidePage.newInstance()
                         .addHighLight(getView().findViewById(R.id.btn_samekind), ROUND_RECTANGLE, 30, 0)
                         .addHighLight(getView().findViewById(R.id.btn_circle), ROUND_RECTANGLE, 30, 0)
