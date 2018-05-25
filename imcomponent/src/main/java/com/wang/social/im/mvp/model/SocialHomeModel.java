@@ -44,13 +44,14 @@ public class SocialHomeModel extends GroupModel implements SocialHomeContract.Mo
     public Observable<BaseJson> updateSocialInfo(SocialInfo social) {
         HashMap<String, Object> params = new HashMap<>();
         params.put("v", "2.0.0");
+        params.put("groupId", social.getSocialId());
         params.put("groupName", social.getName());
         params.put("groupDesc", social.getDesc());
         params.put("groupCoverPlan", social.getCover());
         params.put("headUrl", social.getCover());
         params.put("isOpen", social.getAttr().isOpen() ? 1 : 0);
         params.put("isFree", social.getAttr().isCharge() ? 0 : 1);
-        params.put("totalDiamond", social.getAttr().getGem());
+        params.put("gemstone", social.getAttr().getGem());
         switch (social.getAttr().getGenderLimit()) {
             case MALE:
                 params.put("gender", 0);
@@ -81,7 +82,7 @@ public class SocialHomeModel extends GroupModel implements SocialHomeContract.Mo
             }
         }
         if (builder.length() > 0) {
-            builder.deleteCharAt(builder.length() - 2);
+            builder.deleteCharAt(builder.length() - 1);
             params.put("ageRange", builder.toString());
         }
         params.put("isCreateMi", social.isCreateTeam() ? 1 : 2);

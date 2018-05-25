@@ -1,5 +1,6 @@
 package com.wang.social.im.view.drawer;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.support.v4.widget.ViewDragHelper;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.FrameLayout;
 
 import com.wang.social.im.view.drawer.callback.DragListener;
@@ -64,8 +66,8 @@ public class SlidingRootNavLayout extends FrameLayout implements SlidingRootNav 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         return (!isMenuLocked
-            && dragHelper.shouldInterceptTouchEvent(ev))
-            || shouldBlockClick(ev);
+                && dragHelper.shouldInterceptTouchEvent(ev))
+                || shouldBlockClick(ev);
     }
 
     @Override
@@ -245,6 +247,21 @@ public class SlidingRootNavLayout extends FrameLayout implements SlidingRootNav 
 
     private boolean calculateIsMenuHidden() {
         return dragProgress == 0f;
+    }
+
+    public void startTipAnim() {
+        ValueAnimator animator = ValueAnimator.ofFloat(0f, 0.3f, 0f);
+        animator.setDuration(650);
+        animator.setInterpolator(new AccelerateInterpolator());
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float value = (float) animation.getAnimatedValue();
+                dragProgress = value;
+                requestLayout();
+            }
+        });
+        animator.start();
     }
 
     private class ViewDragCallback extends ViewDragHelper.Callback {

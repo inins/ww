@@ -1,5 +1,6 @@
 package com.wang.social.im.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.text.Editable;
@@ -13,6 +14,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.app.hubert.guide.NewbieGuide;
+import com.app.hubert.guide.model.GuidePage;
+import com.frame.component.helper.GuidePageHelper;
 import com.frame.utils.KeyboardUtils;
 import com.tencent.imsdk.TIMConversationType;
 import com.wang.social.im.R;
@@ -27,6 +31,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Setter;
+
+import static com.app.hubert.guide.model.HighLight.Shape.ROUND_RECTANGLE;
 
 /**
  * Created by Bo on 2018-03-28.

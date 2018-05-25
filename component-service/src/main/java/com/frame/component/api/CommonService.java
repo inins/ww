@@ -22,6 +22,7 @@ import com.frame.component.entities.dto.TalkBeanDTO;
 import com.frame.component.entities.dto.TopicDTO;
 import com.frame.component.entities.funshow.FunshowBean;
 import com.frame.component.entities.user.UserBoard;
+import com.frame.component.ui.acticity.wwfriendsearch.entities.dto.SearchResultDTO;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.PageListDTO;
 
@@ -367,4 +368,11 @@ public interface CommonService {
     @FormUrlEncoded
     @POST("app/msg/readDynMsg?v=2.0.0")
     Observable<BaseJson> readDynMsg(@Field("type") int type);
+
+    /**
+     * 动态消息已读
+     */
+    @Headers(HEADER_CONTENT_TYPE)
+    @GET("app/share/listFriendAndGroup")
+    Observable<BaseJson<SearchResultDTO>> listFriendAndGroup(@QueryMap Map<String, Object> param);
 }
