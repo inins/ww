@@ -81,6 +81,11 @@ public class LoginActivity extends BaseAppActivity<LoginPresenter> implements Lo
     TextView loginTV; // 登录
     @BindView(R2.id.user_protocol_layout)
     View userProtocolLayout;
+    // 推荐码
+    @BindView(R2.id.invitation_code_layout)
+            View mInvitationCodeLayout;
+    @BindView(R2.id.invitation_code_edit_text)
+            EditText mInvitationCodeET;
 
 
     String launchMode = LAUNCH_MODE_PASSWORD_LOGIN;
@@ -113,6 +118,7 @@ public class LoginActivity extends BaseAppActivity<LoginPresenter> implements Lo
 
         if (launchMode.equals(LAUNCH_MODE_PASSWORD_LOGIN)) {
             // 密码登录
+            mInvitationCodeLayout.setVisibility(View.GONE);
             passwordLoginLayout.setVisibility(View.VISIBLE);
             messageLoginLayout.setVisibility(View.GONE);
             switchLoginTV.setVisibility(View.VISIBLE);
@@ -126,6 +132,7 @@ public class LoginActivity extends BaseAppActivity<LoginPresenter> implements Lo
             switchLoginRegisterTV.setText(getString(R.string.login_go_to_register));
         } else if (launchMode.equals(LAUNCH_MODE_MESSAGE_LOGIN)) {
             // 短信登录
+            mInvitationCodeLayout.setVisibility(View.GONE);
             passwordLoginLayout.setVisibility(View.GONE);
             messageLoginLayout.setVisibility(View.VISIBLE);
             switchLoginTV.setVisibility(View.VISIBLE);
@@ -137,6 +144,7 @@ public class LoginActivity extends BaseAppActivity<LoginPresenter> implements Lo
             switchLoginRegisterTV.setText(getString(R.string.login_go_to_register));
         } else {
             // 注册
+            mInvitationCodeLayout.setVisibility(View.VISIBLE);
             passwordLoginLayout.setVisibility(View.VISIBLE);
             messageLoginLayout.setVisibility(View.VISIBLE);
             switchLoginTV.setVisibility(View.INVISIBLE);
@@ -438,7 +446,8 @@ public class LoginActivity extends BaseAppActivity<LoginPresenter> implements Lo
         // 注册
         mPresenter.register(phoneET.getText().toString(),
                 verifyCodeET.getText().toString(),
-                passwordET.getText().toString());
+                passwordET.getText().toString(),
+                mInvitationCodeET.getText().toString());
     }
 
     private boolean checkInputVerifyCode() {

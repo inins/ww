@@ -17,6 +17,8 @@
     <string name="login_login">登录</string>
     <string name="login_register">注册</string>
     <string name="login_phone_number">手机号</string>
+    <string name="login_invitation_code">邀请码</string>
+    <string name="login_invitation_code_hint">若无邀请码请留空</string>
     <string name="login_password">密码</string>
     <string name="login_forgot_password_mark">忘记密码？</string>
     <string name="login_message_login">短信登录</string>

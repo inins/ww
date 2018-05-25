@@ -50,6 +50,11 @@ public class RecycleAdapterZanUserList extends BaseAdapter<ZanUser> {
         }
 
         @Override
+        protected boolean useItemClickListener() {
+            return true;
+        }
+
+        @Override
         public void onRelease() {
         }
     }

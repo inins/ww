@@ -137,7 +137,7 @@ public class FunshowDetailContentBoardController extends BaseController implemen
         bundleview.setOnBundleClickListener(new BundleImgView.OnBundleSimpleClickListener() {
             @Override
             public void onPhotoShowClick(String path, int position) {
-                ActivityPicturePreview.start(getContext(), position, bundleview.getResultsStrArray().toArray(new String[]{}));
+                ActivityPicturePreview.startBrowse(getContext(), position, bundleview.getResultsStrArray().toArray(new String[]{}));
             }
         });
         if (funshowDetail.getPicCount() != 0) {

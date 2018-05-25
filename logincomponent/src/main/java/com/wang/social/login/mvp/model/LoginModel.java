@@ -82,11 +82,12 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
      * @return
      */
     @Override
-    public Observable<BaseJson<LoginInfoDTO>> userRegister(String mobile, String code, String password, String adCode) {
+    public Observable<BaseJson<LoginInfoDTO>> userRegister(String mobile, String code, String password, String adCode, String inviteCode) {
         Map<String, Object> param = new NetParam()
                 .put("mobile", mobile)
                 .put("code", code)
                 .put("password", password)
+                .put("inviteCode", inviteCode)
                 .put("adCode", adCode)
                 .put("v", "2.0.0")
                 .putSignature()

@@ -40,7 +40,7 @@ public interface LoginContract {
                 String mobile, String code, String adCode);
 
         Observable<BaseJson<LoginInfoDTO>> userRegister(
-                String mobile, String code, String password, String adCode);
+                String mobile, String code, String password, String adCode, String inviteCode);
 
         Observable<BaseJson> sendVerifyCode(
                 String mobile, int type);

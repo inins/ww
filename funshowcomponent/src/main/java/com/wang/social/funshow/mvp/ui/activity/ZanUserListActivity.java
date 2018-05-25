@@ -8,9 +8,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.frame.base.BaseAdapter;
 import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.BaseListWrap;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.ui.base.BasicAppActivity;
+import com.frame.component.ui.base.BasicAppNoDiActivity;
 import com.frame.di.component.AppComponent;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
@@ -32,7 +35,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class ZanUserListActivity extends BasicAppActivity implements IView {
+public class ZanUserListActivity extends BasicAppNoDiActivity implements IView,BaseAdapter.OnItemClickListener<ZanUser> {
 
     @BindView(R2.id.spring)
     SpringView springView;
@@ -59,6 +62,7 @@ public class ZanUserListActivity extends BasicAppActivity implements IView {
         talkId = getIntent().getIntExtra("talkId", 0);
 
         adapter = new RecycleAdapterZanUserList();
+        adapter.setOnItemClickListener(this);
         recycler.setNestedScrollingEnabled(false);
         recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recycler.setAdapter(adapter);
@@ -81,23 +85,13 @@ public class ZanUserListActivity extends BasicAppActivity implements IView {
     }
 
     @Override
-    public void setupActivityComponent(@NonNull AppComponent appComponent) {
-
-    }
-
-
-    @Override
-    public void showLoading() {
-        showLoadingDialog();
-    }
-
-    @Override
-    public void hideLoading() {
-        dismissLoadingDialog();
+    public void onItemClick(ZanUser bean, int position) {
+        CommonHelper.ImHelper.startPersonalCardForBrowse(this, bean.getUserId());
     }
 
     //////////////////////分页查询////////////////////
     private int current = 1;
+
     private int size = 20;
 
     public void netGetZanUserList(boolean needloading) {

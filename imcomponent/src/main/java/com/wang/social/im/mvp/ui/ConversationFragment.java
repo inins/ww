@@ -645,7 +645,7 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
                 if (imageElem != null) {
                     for (TIMImage image : imageElem.getImageList()) {
                         if (image.getType() == TIMImageType.Original) {
-                            ActivityPicturePreview.start(mActivity, image.getUrl());
+                            ActivityPicturePreview.startBrowse(mActivity, image.getUrl());
                             break;
                         }
                     }

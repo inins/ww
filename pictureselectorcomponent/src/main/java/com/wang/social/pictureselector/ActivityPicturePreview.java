@@ -4,9 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 
+import com.frame.base.BaseActivity;
+import com.frame.component.ui.base.BaseAppActivity;
+import com.frame.di.component.AppComponent;
+import com.frame.mvp.IView;
 import com.frame.utils.StatusBarUtil;
 import com.wang.social.pictureselector.ui.FragmentPicturePreview;
 
@@ -19,7 +24,7 @@ import static com.wang.social.pictureselector.PictureSelector.TYPE_CONFIRM;
  * Created by King on 2018/3/28.
  */
 
-public class ActivityPicturePreview extends AppCompatActivity {
+public class ActivityPicturePreview extends BaseAppActivity implements IView {
 
 
 
@@ -51,15 +56,19 @@ public class ActivityPicturePreview extends AppCompatActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void setupActivityComponent(@NonNull AppComponent appComponent) {
 
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);//remove title bar  即隐藏标题栏
-//        getSupportActionBar().hide();// 隐藏ActionBar
+    }
 
-        setContentView(R.layout.ps_activity_picture_preview);
+    @Override
+    public int initView(@NonNull Bundle savedInstanceState) {
+        return R.layout.ps_activity_picture_preview;
+    }
 
+    @Override
+    public void initData(@NonNull Bundle savedInstanceState) {
         FragmentPicturePreview fragment = new FragmentPicturePreview();
+        fragment.setIView(this);
         Bundle bundle = new Bundle();
         bundle.putInt(NAME_TYPE, getIntent().getIntExtra(NAME_TYPE, TYPE_CONFIRM));
         fragment.setArguments(bundle);
@@ -67,6 +76,16 @@ public class ActivityPicturePreview extends AppCompatActivity {
                 .beginTransaction()
                 .add(R.id.content_view, fragment)
                 .commit();
+    }
+
+    @Override
+    public void showLoading() {
+        showLoadingDialog();
+    }
+
+    @Override
+    public void hideLoading() {
+        dismissLoadingDialog();
     }
 
 //    @Override

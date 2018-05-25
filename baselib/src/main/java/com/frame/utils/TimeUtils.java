@@ -735,10 +735,10 @@ public final class TimeUtils {
         long span = now - millis;
         if (span < 0)
             return String.format("%tc", millis);// U can read http://www.apihome.cn/api/java/Formatter.html to understand it.
-        if (span < 1000) {
+        if (span < TimeConstants.MIN) { // 一分钟以内显示刚刚
             return "刚刚";
-        } else if (span < TimeConstants.MIN) {
-            return String.format(Locale.getDefault(), "%d秒前", span / TimeConstants.SEC);
+//        } else if (span < TimeConstants.MIN) {
+//            return String.format(Locale.getDefault(), "%d秒前", span / TimeConstants.SEC);
         } else if (span < TimeConstants.HOUR) {
             return String.format(Locale.getDefault(), "%d分钟前", span / TimeConstants.MIN);
         }
@@ -756,11 +756,13 @@ public final class TimeUtils {
     public static String getFriendTimeSpanByNow(long millis) {
         long now = System.currentTimeMillis();
         long span = now - millis;
-        if (span < 1000) {
+        if (span < TimeConstants.MIN) {
             return "刚刚";
-        } else if (span < TimeConstants.MIN) {
-            return String.format(Locale.getDefault(), "%d秒前", span / TimeConstants.SEC);
-        } else if (span < TimeConstants.HOUR) {
+        }
+//        else if (span < TimeConstants.MIN) {
+//            return String.format(Locale.getDefault(), "%d秒前", span / TimeConstants.SEC);
+//        }
+        else if (span < TimeConstants.HOUR) {
             return String.format(Locale.getDefault(), "%d分钟前", span / TimeConstants.MIN);
         } else if (span < TimeConstants.DAY) {
             return String.format(Locale.getDefault(), "%d小时前", span / TimeConstants.HOUR);

@@ -1,7 +1,7 @@
 //if (isRunAlone.toBoolean()) {
-//    apply plugin: 'com.android.application'
+    apply plugin: 'com.android.application'
 //} else {
-    apply plugin: 'com.component.build'
+//    apply plugin: 'com.component.build'
 //}
 //apply plugin: 'com.jakewharton.butterknife'
 

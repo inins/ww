@@ -69,11 +69,14 @@ public class GradualImageView extends AppCompatImageView {
         mDrawableStart = getResources().getDrawable(startResId);
         mDrawableEnd = getResources().getDrawable(endResId);
 
+        setAlpha(1.0f);
         setRate(mRate);
     }
 
     public void setRate(float rate) {
-        if (!isGradual()) return;
+        if (!isGradual()) {
+            return;
+        }
 
         this.mRate = Math.max(0, Math.min(rate, 1.0f));
 
