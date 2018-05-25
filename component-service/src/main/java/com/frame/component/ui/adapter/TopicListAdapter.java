@@ -72,8 +72,8 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
 
         if (null == topic) return;
 
-        // 是否付费
-        if (topic.getRelateState() == 0) {
+        // 是否付费(已付费也隐藏)
+        if (topic.getRelateState() == 0 || topic.isShopping()) {
             holder.payFlagIV.setVisibility(View.GONE);
             holder.blankView.setVisibility(View.GONE);
         } else {
@@ -81,7 +81,8 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
             holder.blankView.setVisibility(View.INVISIBLE);
         }
         // 创建时间
-        holder.createDateTV.setText(formatCreateDate(mContext, topic.getCreateTime()));
+//        holder.createDateTV.setText(formatCreateDate(mContext, topic.getCreateTime()));
+        holder.createDateTV.setText(TimeUtils.getFriendlyTimeSpanByNow(topic.getCreateTime()));
         // 话题标题
         holder.titleTV.setText(topic.getTitle());
         // 简要
@@ -208,10 +209,14 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
                             Timber.i("支付成功，打开详情");
                             topic.setShopping(true);
 
-                            // 打开话题详情
-                            CommonHelper.TopicHelper.startTopicDetail(mContext, topic.getTopicId());
-
                             notifyDataSetChanged();
+
+                            // 打开话题详情
+                            if (null != mActivity) {
+                                CommonHelper.TopicHelper.startTopicDetail(mActivity, topic.getTopicId());
+                            } else {
+                                Timber.e("activity is null");
+                            }
                         });
     }
 

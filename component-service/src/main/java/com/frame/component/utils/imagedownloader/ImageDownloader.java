@@ -17,12 +17,22 @@ import com.bumptech.glide.request.target.SizeReadyCallback;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.frame.mvp.IView;
+import com.frame.utils.RxLifecycleUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import timber.log.Timber;
 
 
@@ -41,15 +51,47 @@ public class ImageDownloader {
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                         Timber.i("onResourceReady");
 
-                        saveImageToGallery(context, resource, filepath);
+                        Observable.create(new ObservableOnSubscribe<Object>() {
+                            @Override
+                            public void subscribe(ObservableEmitter<Object> emitter) throws Exception {
+                                saveImageToGallery(context, resource, filepath);
+                                emitter.onComplete();
+                            }
+                        }).compose(RxLifecycleUtils.bindToLifecycle(view))
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Observer<Object>() {
+                                    @Override
+                                    public void onSubscribe(Disposable d) {
 
-                        if (null != callback) {
-                            callback.onDownloadSuccess();
-                        }
+                                    }
 
-                        if (null != view) {
-                            view.hideLoading();
-                        }
+                                    @Override
+                                    public void onNext(Object o) {
+
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        if (null != callback) {
+                                            callback.onDownloadFailed();
+                                        }
+
+                                        if (null != view) {
+                                            view.hideLoading();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onComplete() {
+                                        if (null != callback) {
+                                            callback.onDownloadSuccess();
+                                        }
+
+                                        if (null != view) {
+                                            view.hideLoading();
+                                        }
+                                    }
+                                });
                     }
 
                     @Override
