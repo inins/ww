@@ -26,9 +26,5 @@
             android:name="com.frame.component.ui.acticity.tags.TagSelectionActivity"
             android:screenOrientation="portrait"></activity>
         <activity android:name="com.frame.component.ui.acticity.FunshowTopicActivity" />
-
-        <activity android:name="com.frame.component.ui.acticity.wwfriendsearch.WWFriendSearchActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateVisible"/>
     </application>
 </manifest>

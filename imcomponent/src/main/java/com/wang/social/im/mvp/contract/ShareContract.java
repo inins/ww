@@ -11,7 +11,7 @@ import java.util.List;
  * Create by ChenJing on 2018-05-25 11:16
  * ============================================
  */
-public interface ShareRecentlyContract {
+public interface ShareContract {
 
     interface View extends IView {
 
@@ -21,5 +21,10 @@ public interface ShareRecentlyContract {
          * @param conversations
          */
         void showContacts(List<UIConversation> conversations);
+
+        /**
+         * 分享完成
+         */
+        void onShareComplete();
     }
 }

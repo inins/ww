@@ -369,5 +369,9 @@
             android:name=".mvp.ui.ShareRecentlyActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.ui.WWFriendSearchActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible" />
     </application>
 </manifest>

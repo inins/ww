@@ -18,12 +18,11 @@ import com.frame.router.facade.annotation.RouteNode;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.di.component.DaggerActivityComponent;
-import com.wang.social.im.mvp.contract.ShareRecentlyContract;
+import com.wang.social.im.mvp.contract.ShareContract;
 import com.wang.social.im.mvp.model.entities.UIConversation;
-import com.wang.social.im.mvp.presenter.ShareRecentlyPresenter;
+import com.wang.social.im.mvp.presenter.SharePresenter;
 import com.wang.social.im.mvp.ui.adapters.RecentlyAdapter;
 
-import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
@@ -35,7 +34,7 @@ import static com.frame.component.path.ImPath.SHARE_RECENTLY;
  * 分享到最近联系人
  */
 @RouteNode(path = SHARE_RECENTLY, desc = "分享到往往")
-public class ShareRecentlyActivity extends BaseAppActivity<ShareRecentlyPresenter> implements ShareRecentlyContract.View, BaseAdapter.OnItemClickListener<UIConversation> {
+public class ShareRecentlyActivity extends BaseAppActivity<SharePresenter> implements ShareContract.View, BaseAdapter.OnItemClickListener<UIConversation> {
 
     @BindView(R2.id.sr_toolbar)
     SocialToolbar srToolbar;
@@ -95,11 +94,17 @@ public class ShareRecentlyActivity extends BaseAppActivity<ShareRecentlyPresente
 
     @OnClick(R2.id.sr_tvb_search)
     public void onViewClicked() {
+        WWFriendSearchActivity.start(this, title, content, imageUrl, mShareSource, objectId);
     }
 
     @Override
     public void showContacts(List<UIConversation> conversations) {
         mAdapter.refreshData(conversations);
+    }
+
+    @Override
+    public void onShareComplete() {
+        finish();
     }
 
     @Override
@@ -120,7 +125,7 @@ public class ShareRecentlyActivity extends BaseAppActivity<ShareRecentlyPresente
 
     @Override
     public void onItemClick(UIConversation uiConversation, int position) {
-
+        mPresenter.sendMessage(uiConversation.getIdentify(), uiConversation.getConversationType(), title, content, imageUrl, objectId, mShareSource);
     }
 
     @Override
