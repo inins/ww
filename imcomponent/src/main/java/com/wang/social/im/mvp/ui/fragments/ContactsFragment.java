@@ -43,6 +43,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Optional;
 import butterknife.Unbinder;
 
 /**
@@ -141,6 +142,7 @@ public class ContactsFragment extends BasicFragment implements AutoPopupWindow.O
 
     }
 
+    @Nullable
     @OnClick({R2.id.fc_iv_more, R2.id.fc_iv_search})
     public void onViewClicked(View view) {
         if (view.getId() == R.id.fc_iv_more) {

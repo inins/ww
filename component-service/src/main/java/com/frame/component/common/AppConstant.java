@@ -100,6 +100,10 @@ public class AppConstant {
          */
         public static final String SHARE_SOCIAL_URL = Api.WEB_BASE_URL + "contentShared/group/index.html";
         public static final String SHARE_SOCIAL_TITLE = "趣聊分享";
+        // 话题分享标题
+        public static final String TOPIC_SHARE_TITLE = "话题分享";
+        // 话题分享内容
+        public static final String TOPIC_SHARE_CONTENT = "话题内容";
 
         //##################################
         //############  APP  ###############
@@ -108,5 +112,9 @@ public class AppConstant {
         //给个好评，跳转页面
         public static final String eva = "http://sj.qq.com/myapp/detail.htm?apkName=com.dongdongkeji.wangwangsocial";
 
+
     }
+
+
+
 }

@@ -21,7 +21,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.frame.component.common.AppConstant;
+import com.frame.component.enums.ShareSource;
 import com.frame.component.helper.AppDataHelper;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.ui.acticity.BGMList.Music;
 import com.frame.component.ui.base.BaseAppActivity;
@@ -571,14 +574,23 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
     public void share() {
         if (null == mTopicDetail) return;
 
+        /**
+         * @fixme
+         */
         SocializeUtil.shareWithWW(getSupportFragmentManager(),
                 null,
-                "http://wangsocial.com/share/v_2.0/test/contentShared/cashcow/index.html?userId=" + AppDataHelper.getUser().getUserId(),
+                AppConstant.Url.topic + "?topicId=" + mTopicId + "&userId=" + AppDataHelper.getUser().getUserId(),
                 mTopicDetail.getTitle(),
                 HtmlUtil.delHTMLTag(mTopicDetail.getContent()),
                 EntitiesUtil.assertNotNull(mTopicDetail.getBackgroundImage()),
                 (String url, String title, String content, String imageUrl) -> {
-                    showToastLong("往往分享");
+//                    showToastLong("往往分享");
+                    CommonHelper.ImHelper.startWangWangShare(this,
+                            AppConstant.Url.TOPIC_SHARE_TITLE,
+                            AppConstant.Url.TOPIC_SHARE_CONTENT,
+                            EntitiesUtil.assertNotNull(mTopicDetail.getBackgroundImage()),
+                            ShareSource.SOURCE_TOPIC,
+                            Integer.toString(mTopicId));
                 });
     }
 

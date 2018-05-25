@@ -19,7 +19,9 @@ import android.widget.TextView;
 
 import com.frame.base.BaseFragment;
 import com.frame.component.common.AppConstant;
+import com.frame.component.enums.ShareSource;
 import com.frame.component.helper.AppDataHelper;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.router.Router;
 import com.frame.component.service.im.ImService;
 import com.frame.component.ui.acticity.WebActivity;
@@ -521,12 +523,18 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
     public void share() {
         SocializeUtil.shareWithWW(getSupportFragmentManager(),
                 null,
-                "http://wangsocial.com/share/v_2.0/test/contentShared/cashcow/index.html?userId=" + AppDataHelper.getUser().getUserId(),
+                AppConstant.Url.cashcowindex + "?userId=" + AppDataHelper.getUser().getUserId(),
                 "往往",
                 "有点2的社交软件",
                 "",
                 (String url, String title, String content, String imageUrl) -> {
-                    showToastLong("往往分享");
+//                    showToastLong("往往分享");
+                    CommonHelper.ImHelper.startWangWangShare(this,
+                            "",
+                            Integer.toString(mPresenter.getRoomMsg().getDiamond()),
+                            "",
+                            ShareSource.SOURCE_GAME_TREE,
+                            Integer.toString(mPresenter.getRoomId()));
                 });
     }
 
