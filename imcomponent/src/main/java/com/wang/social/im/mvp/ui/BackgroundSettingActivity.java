@@ -3,11 +3,13 @@ package com.wang.social.im.mvp.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.View;
 
 import com.frame.base.BaseAdapter;
 import com.frame.component.common.GridSpacingItemDecoration;
@@ -45,6 +47,8 @@ public class BackgroundSettingActivity extends BaseAppActivity<BackgroundSetting
     String targetId;
     @Autowired
     int typeOrdinal;
+
+    private int space;
 
     private ConversationType mConversationType;
 
@@ -84,7 +88,21 @@ public class BackgroundSettingActivity extends BaseAppActivity<BackgroundSetting
         bsLoader.setFooter(new AliHeader(this, false));
 
         bsRlv.setLayoutManager(new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false));
-        bsRlv.addItemDecoration(new GridSpacingItemDecoration(2, SizeUtils.dp2px(7), GridLayoutManager.VERTICAL, false));
+        space = SizeUtils.dp2px(8);
+        bsRlv.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                super.getItemOffsets(outRect, view, parent, state);
+                outRect.left = space;
+                outRect.bottom = space;
+                if (parent.getChildLayoutPosition(view) < 3) {
+                    outRect.top = space;
+                }
+                if ((parent.getChildLayoutPosition(view) + 1) % 3 == 0) {
+                    outRect.right = space;
+                }
+            }
+        });
         mAdapter = new BackgroundImageAdapter();
         mAdapter.setOnItemClickListener(this);
         bsRlv.setAdapter(mAdapter);
