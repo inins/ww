@@ -18,6 +18,7 @@ import com.wang.social.im.mvp.ui.adapters.holders.GameViewHolder;
 import com.wang.social.im.mvp.ui.adapters.holders.ImageViewHolder;
 import com.wang.social.im.mvp.ui.adapters.holders.LocationViewHolder;
 import com.wang.social.im.mvp.ui.adapters.holders.NotifyViewHolder;
+import com.wang.social.im.mvp.ui.adapters.holders.ShareViewHolder;
 import com.wang.social.im.mvp.ui.adapters.holders.SoundViewHolder;
 import com.wang.social.im.mvp.ui.adapters.holders.TextViewHolder;
 import com.wang.social.im.mvp.ui.adapters.holders.UnknownViewHolder;
@@ -52,6 +53,9 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
     //游戏消息
     private final int TYPE_RECEIVE_GAME = 12;
     private final int TYPE_SEND_GAME = 13;
+    //分享消息
+    private final int TYPE_RECEIVE_SHARE = 14;
+    private final int TYPE_SEND_SHARE = 15;
     //通知消息
     private final int TYPE_NOTIFY = 101;
     //未知消息
@@ -129,6 +133,12 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
                     break;
                 case TYPE_SEND_GAME:
                     viewHolder = new GameViewHolder(context, parent, R.layout.im_item_msg_game_right);
+                    break;
+                case TYPE_RECEIVE_SHARE:
+                    viewHolder = new ShareViewHolder(context, parent, R.layout.im_item_msg_share_left);
+                    break;
+                case TYPE_SEND_SHARE:
+                    viewHolder = new ShareViewHolder(context, parent, R.layout.im_item_msg_share_right);
                     break;
                 case TYPE_NOTIFY:
                     viewHolder = new NotifyViewHolder(context, parent);
@@ -220,6 +230,13 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
                     viewType = TYPE_SEND_GAME;
                 } else {
                     viewType = TYPE_RECEIVE_GAME;
+                }
+                break;
+            case SHARE:
+                if (message.getTimMessage().isSelf()) {
+                    viewType = TYPE_SEND_SHARE;
+                } else {
+                    viewType = TYPE_RECEIVE_SHARE;
                 }
                 break;
             case GAME_NOTIFY:

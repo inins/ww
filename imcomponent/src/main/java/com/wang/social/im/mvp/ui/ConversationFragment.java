@@ -49,6 +49,7 @@ import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
+import com.tencent.imsdk.TIMCustomElem;
 import com.tencent.imsdk.TIMImage;
 import com.tencent.imsdk.TIMImageElem;
 import com.tencent.imsdk.TIMImageType;
@@ -72,6 +73,7 @@ import com.wang.social.im.mvp.model.entities.EnvelopInfo;
 import com.wang.social.im.mvp.model.entities.GameElemData;
 import com.wang.social.im.mvp.model.entities.MemberInfo;
 import com.wang.social.im.mvp.model.entities.ShadowInfo;
+import com.wang.social.im.mvp.model.entities.ShareElemData;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 import com.wang.social.im.mvp.presenter.ConversationPresenter;
 import com.wang.social.im.mvp.ui.adapters.MessageListAdapter;
@@ -659,6 +661,25 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
             case GAME_TREE:
                 GameElemData gameElem = (GameElemData) uiMessage.getCustomMessageElemData(CustomElemType.GAME, GameElemData.class, mGson);
                 CommonHelper.GameHelper.startGameRoom(getContext(), Integer.parseInt(gameElem.getRoomId()));
+                break;
+            case SHARE:
+                //获取自定义消息类型
+                TIMCustomElem customElem = (TIMCustomElem) uiMessage.getTimMessage().getElement(0);
+                CustomElemType elemType = CustomElemType.getElemType(customElem);
+                if (elemType == null) {
+                    return;
+                }
+                ShareElemData elemData = (ShareElemData) uiMessage.getCustomMessageElemData(elemType, ShareElemData.class, mGson);
+                switch (elemType) {
+                    case SHARE_TOPIC:
+                        CommonHelper.TopicHelper.startTopicDetail(getContext(), Integer.valueOf(elemData.getObjectId()));
+                        break;
+                    case SHARE_FUN_SHOW:
+                        CommonHelper.FunshowHelper.startDetailActivity(getContext(), Integer.valueOf(elemData.getObjectId()));
+                        break;
+                    default:
+                        break;
+                }
                 break;
         }
     }

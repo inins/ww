@@ -79,7 +79,7 @@ public class ImAppLifecycleImpl implements AppDelegate {
      */
     private void imSdkInit(Application application) {
         //初始化SDK基本配置
-        TIMSdkConfig config = new TIMSdkConfig(Constant.IM_APPID)
+        TIMSdkConfig config = new TIMSdkConfig(IMConstants.IM_APPID)
                 .enableCrashReport(false) //是否开启Crash上报
                 .enableLogPrint(BuildConfig.DEBUG) //设置是否打印日志
                 .setLogLevel(TIMLogLevel.DEBUG) //设置日志打印级别

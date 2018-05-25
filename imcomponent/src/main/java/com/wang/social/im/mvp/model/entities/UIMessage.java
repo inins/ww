@@ -144,6 +144,8 @@ public class UIMessage {
                     messageType = MessageType.GAME_NOTIFY;
                 } else if (elemType == CustomElemType.GAME) {
                     messageType = MessageType.GAME_TREE;
+                } else if (elemType == CustomElemType.SHARE_FUN_SHOW || elemType == CustomElemType.SHARE_TOPIC) {
+                    messageType = MessageType.SHARE;
                 }
             }
         }
