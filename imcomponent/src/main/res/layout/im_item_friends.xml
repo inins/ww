@@ -2,14 +2,14 @@
 <com.wang.social.im.view.SwipeMenuLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:background="?attr/selectableItemBackground"
-    android:clickable="true">
+    android:layout_height="80dp">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/if_cl_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true">
 
         <include layout="@layout/im_view_user" />
 
