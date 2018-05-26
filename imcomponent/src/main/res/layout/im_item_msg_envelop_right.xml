@@ -12,11 +12,9 @@
         android:layout_width="@dimen/im_msg_portrait_size"
         android:layout_height="@dimen/im_msg_portrait_size"
         android:layout_marginEnd="@dimen/common_border_margin"
-        android:layout_marginTop="10dp"
         android:scaleType="centerCrop"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/msg_tv_time"
-        app:layout_goneMarginTop="0dp"
         tools:src="@drawable/common_default_circle_placeholder" />
 
     <android.support.constraint.ConstraintLayout
@@ -24,7 +22,6 @@
         android:layout_width="218dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="9dp"
-        android:layout_marginTop="10dp"
         android:paddingBottom="15dp"
         android:paddingEnd="12dp"
         android:paddingStart="12dp"
@@ -32,7 +29,6 @@
         app:layout_constraintRight_toLeftOf="@id/msg_iv_portrait"
         app:layout_constraintTop_toBottomOf="@id/msg_tv_time"
         app:layout_goneMarginEnd="@dimen/common_border_margin"
-        app:layout_goneMarginTop="0dp"
         tools:background="@drawable/im_bg_msg_envelop_right">
 
         <ImageView

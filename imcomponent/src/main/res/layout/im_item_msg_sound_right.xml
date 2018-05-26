@@ -13,7 +13,7 @@
         android:layout_height="@dimen/im_msg_portrait_size"
         android:layout_marginEnd="@dimen/common_border_margin"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="@+id/msg_ll_sound"
+        app:layout_constraintTop_toTopOf="@+id/msg_ll_sound"
         app:layout_constraintRight_toRightOf="parent"
         tools:src="@drawable/common_default_circle_placeholder" />
 
@@ -22,7 +22,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="9dp"
-        android:layout_marginTop="10dp"
         android:background="@drawable/im_bg_message_right"
         android:orientation="horizontal"
         android:paddingBottom="8dp"
@@ -31,8 +30,7 @@
         android:paddingTop="8dp"
         app:layout_constraintRight_toLeftOf="@id/msg_iv_portrait"
         app:layout_constraintTop_toBottomOf="@id/msg_tv_time"
-        app:layout_goneMarginEnd="@dimen/common_border_margin"
-        app:layout_goneMarginTop="0dp">
+        app:layout_goneMarginEnd="@dimen/common_border_margin">
 
         <ImageView
             android:id="@+id/msg_iv_sound"
