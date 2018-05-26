@@ -116,7 +116,16 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
         mVoiceToggle.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                initStyle();
                 if (mVoiceInput.getVisibility() != VISIBLE) {
+                    switch (mConversationType) {
+                        case MIRROR:
+                            mVoiceToggle.setImageResource(R.drawable.im_ic_keyboard_mirror);
+                            break;
+                        default:
+                            mVoiceToggle.setImageResource(R.drawable.im_ic_keyboard);
+                            break;
+                    }
                     mVoiceInput.setVisibility(VISIBLE);
                     mEditText.setVisibility(GONE);
                     mEmotionToggle.setVisibility(GONE);
@@ -147,6 +156,7 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
         mPluginToggle.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                initStyle();
                 if (mPluginAdapter.isInitialed()) {
                     if (mPluginAdapter.getVisibility() == VISIBLE) {
                         mPluginAdapter.setVisibility(GONE);
@@ -161,6 +171,14 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
                             }, 350L);
                         }
                     } else {
+                        switch (mConversationType) {
+                            case MIRROR:
+                                mPluginToggle.setImageResource(R.drawable.im_ic_keyboard_mirror);
+                                break;
+                            default:
+                                mPluginToggle.setImageResource(R.drawable.im_ic_keyboard);
+                                break;
+                        }
                         if (isKeyBoardActive) {
                             getHandler().postDelayed(new Runnable() {
                                 @Override
@@ -181,6 +199,14 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
                         hideEmotionBoard();
                     }
                 } else {
+                    switch (mConversationType) {
+                        case MIRROR:
+                            mPluginToggle.setImageResource(R.drawable.im_ic_keyboard_mirror);
+                            break;
+                        default:
+                            mPluginToggle.setImageResource(R.drawable.im_ic_keyboard);
+                            break;
+                    }
                     mPluginAdapter.bindView(IMInputView.this);
                     mPluginAdapter.setVisibility(VISIBLE);
                     hideInputKeyBoard();
@@ -198,6 +224,7 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    initStyle();
                     hideEmotionBoard();
                     hidePluginBoard();
                     showInputKeyBoard();
@@ -218,6 +245,7 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
         mEmotionToggle.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                initStyle();
                 if (mEmotionAdapter.isInitialed()) {
                     if (mEmotionAdapter.getVisibility() == VISIBLE) {
                         mEmotionAdapter.setVisibility(GONE);
@@ -232,6 +260,14 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
                             }, 350L);
                         }
                     } else {
+                        switch (mConversationType) {
+                            case MIRROR:
+                                mEmotionToggle.setImageResource(R.drawable.im_ic_keyboard_mirror);
+                                break;
+                            default:
+                                mEmotionToggle.setImageResource(R.drawable.im_ic_keyboard);
+                                break;
+                        }
                         if (isKeyBoardActive) {
                             getHandler().postDelayed(new Runnable() {
                                 @Override
@@ -254,6 +290,14 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
                         hidePluginBoard();
                     }
                 } else {
+                    switch (mConversationType) {
+                        case MIRROR:
+                            mEmotionToggle.setImageResource(R.drawable.im_ic_keyboard_mirror);
+                            break;
+                        default:
+                            mEmotionToggle.setImageResource(R.drawable.im_ic_keyboard);
+                            break;
+                    }
                     mEmotionAdapter.bindView(IMInputView.this);
                     mPluginAdapter.setVisibility(VISIBLE);
                     hideInputKeyBoard();

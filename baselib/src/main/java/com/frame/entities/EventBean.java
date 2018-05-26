@@ -101,8 +101,6 @@ public class EventBean implements Serializable {
     public static final int EVENT_NOTIFY_CREATE_TEAM = 0xffa901;
     //有一个群被删除
     public static final int EVENT_NOTIFY_GROUP_DELETE = 0xffa902;
-    //删除了一个好友
-    public static final int EVENT_NOTIFY_FRIEND_DELETE = 0xffa903;
     //添加一个好友
     public static final int EVENT_NOTIFY_FRIEND_ADD = 0xffa904;
     //好友资料，群资料有更新的时候通知
@@ -159,7 +157,6 @@ public class EventBean implements Serializable {
             EVENT_GAME_INPUT_HEIGHT_CHANGED,
             EVENT_NOTIFY_CREATE_TEAM,
             EVENT_NOTIFY_GROUP_DELETE,
-            EVENT_NOTIFY_FRIEND_DELETE,
             EVENT_NOTIFY_FRIEND_ADD,
             EVENT_NOTIFY_PROFILE_UPDATED,
             EVENT_NOTIFY_CLEAR_MESSAGE,

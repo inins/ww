@@ -506,9 +506,11 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
         // 重置界面
         resetViewWithRelationship(mPersonalInfo);
 
-        EventBean eventBean = new EventBean(EventBean.EVENTBUS_FRIEND_DELETE);
-        eventBean.put("userid", mUserId);
-        EventBus.getDefault().post(eventBean);
+        /**删除好友事件发送转移至IM关系链监听中
+         EventBean eventBean = new EventBean(EventBean.EVENTBUS_FRIEND_DELETE);
+         eventBean.put("userid", mUserId);
+         EventBus.getDefault().post(eventBean);
+         */
     }
 
     @Override

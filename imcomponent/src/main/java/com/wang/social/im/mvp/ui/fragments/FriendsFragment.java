@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.frame.base.BaseFragment;
+import com.frame.component.ui.dialog.DialogLoading;
+import com.frame.component.ui.dialog.DialogSure;
 import com.frame.component.utils.UIUtil;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
@@ -25,12 +25,12 @@ import com.wang.social.im.di.component.DaggerFriendsComponent;
 import com.wang.social.im.di.modules.FriendsModule;
 import com.wang.social.im.mvp.contract.FriendsContract;
 import com.wang.social.im.mvp.model.entities.IndexFriendInfo;
-import com.wang.social.im.mvp.model.entities.UIConversation;
 import com.wang.social.im.mvp.presenter.FriendsPresenter;
 import com.wang.social.im.mvp.ui.PersonalCard.PersonalCardActivity;
 import com.wang.social.im.mvp.ui.SocialListActivity;
 import com.wang.social.im.mvp.ui.adapters.FriendsAdapter;
 
+import java.lang.ref.WeakReference;
 import java.util.Arrays;
 import java.util.List;
 
@@ -45,12 +45,16 @@ import me.yokeyword.indexablerv.IndexableLayout;
  * Create by ChenJing on 2018-05-07 19:50
  * ============================================
  */
-public class FriendsFragment extends BaseFragment<FriendsPresenter> implements FriendsContract.View, IndexableAdapter.OnItemContentClickListener<IndexFriendInfo> {
+public class FriendsFragment extends BaseFragment<FriendsPresenter> implements FriendsContract.View, IndexableAdapter.OnItemContentClickListener<IndexFriendInfo>, FriendsAdapter.OnHandleListener {
 
     @BindView(R2.id.ff_fl_friends)
     IndexableLayout ffFlFriends;
     @BindView(R2.id.ff_progress)
     ContentLoadingProgressBar ffProgress;
+
+    private WeakReference<DialogLoading> mLoading;
+
+    private FriendsAdapter mAdapter;
 
     public static FriendsFragment newInstance() {
         Bundle args = new Bundle();
@@ -96,27 +100,52 @@ public class FriendsFragment extends BaseFragment<FriendsPresenter> implements F
 
     @Override
     public void showFriends(List<IndexFriendInfo> friends) {
-        if (friends.isEmpty()) {
-            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-            transaction.add(R.id.ff_fragment, NobodyFragment.newInstance(), NobodyFragment.class.getName());
-            transaction.commitAllowingStateLoss();
-        } else {
+//        if (friends.isEmpty()) {
+//            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+//            transaction.add(R.id.ff_fragment, NobodyFragment.newInstance(), NobodyFragment.class.getName());
+//            transaction.commitAllowingStateLoss();
+//        } else {
+        if (mAdapter == null) {
             ffFlFriends.setLayoutManager(new LinearLayoutManager(getContext()));
-            FriendsAdapter adapter = new FriendsAdapter(getContext());
-            adapter.setOnItemContentClickListener(this);
-            ffFlFriends.setAdapter(adapter);
-            adapter.setDatas(friends);
+            mAdapter = new FriendsAdapter(getContext(), this);
+            mAdapter.setOnItemContentClickListener(this);
+            ffFlFriends.setAdapter(mAdapter);
+            mAdapter.setDatas(friends);
             ffFlFriends.showAllLetter(false);
             ffFlFriends.setOverlayStyle_MaterialDesign(ContextCompat.getColor(getContext(), R.color.common_colorAccent));
             ffFlFriends.setCompareMode(IndexableLayout.MODE_FAST);
 
             ffFlFriends.addHeaderAdapter(new HeaderAdapter(Arrays.asList(""), friends.size()));
+        } else {
+            mAdapter.setDatas(friends);
+            mAdapter.notifyDataSetChanged();
+        }
+//        }
+    }
+
+    @Override
+    public void onFriendDeleted(IndexFriendInfo friendInfo) {
+        mAdapter.getItems().remove(friendInfo);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showDialogLoading() {
+        if (mLoading == null || mLoading.get() == null) {
+            mLoading = new WeakReference<>(new DialogLoading(getActivity()));
+        }
+        mLoading.get().show();
+    }
+
+    @Override
+    public void hideDialogLoading() {
+        if (mLoading != null && mLoading.get() != null) {
+            mLoading.get().dismiss();
         }
     }
 
     @Override
     public void onItemClick(View v, int originalPosition, int currentPosition, IndexFriendInfo entity) {
-        PersonalCardActivity.start(getContext(), Integer.valueOf(entity.getFriendId()));
     }
 
     @Override
@@ -126,9 +155,26 @@ public class FriendsFragment extends BaseFragment<FriendsPresenter> implements F
 
     @Override
     public void onCommonEvent(EventBean event) {
-        if (event.getEvent() == EventBean.EVENT_NOTIFY_FRIEND_ADD) {
+        if (event.getEvent() == EventBean.EVENT_NOTIFY_FRIEND_ADD ||
+                event.getEvent() == EventBean.EVENTBUS_FRIEND_DELETE) {
             mPresenter.getFriendsList();
         }
+    }
+
+    @Override
+    public void onDelete(IndexFriendInfo friendInfo) {
+        String showMessage = UIUtil.getString(R.string.im_friend_delete_tip, friendInfo.getNickname());
+        DialogSure.showDialog(getContext(), showMessage, new DialogSure.OnSureCallback() {
+            @Override
+            public void onOkClick() {
+                mPresenter.deleteFriend(friendInfo);
+            }
+        });
+    }
+
+    @Override
+    public void onItemClick(IndexFriendInfo friendInfo) {
+        PersonalCardActivity.start(getContext(), Integer.valueOf(friendInfo.getFriendId()));
     }
 
     private class HeaderAdapter extends IndexableHeaderAdapter {
