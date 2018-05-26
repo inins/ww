@@ -321,7 +321,6 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
         mAdapter = null;
         mLayoutManager = null;
         mTargetId = null;
-        AudioRecordManager.getInstance().setRecordListener(null);
     }
 
     @Override
