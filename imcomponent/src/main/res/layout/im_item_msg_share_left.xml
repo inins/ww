@@ -40,6 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="9dp"
         android:layout_marginTop="3dp"
+        android:background="@drawable/im_bg_message_left_share"
         android:paddingBottom="7dp"
         android:paddingEnd="12dp"
         android:paddingStart="12dp"
@@ -47,8 +48,7 @@
         app:layout_constraintLeft_toRightOf="@id/msg_iv_portrait"
         app:layout_constraintTop_toBottomOf="@id/msg_tv_name"
         app:layout_goneMarginStart="@dimen/common_border_margin"
-        app:layout_goneMarginTop="10dp"
-        tools:background="@drawable/im_bg_message_left_share">
+        app:layout_goneMarginTop="10dp">
 
         <ImageView
             android:id="@+id/msg_iv_share"
