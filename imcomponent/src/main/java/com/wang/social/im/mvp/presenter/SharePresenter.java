@@ -20,6 +20,8 @@ import com.wang.social.im.mvp.model.entities.GameElemData;
 import com.wang.social.im.mvp.model.entities.ShareElemData;
 import com.wang.social.im.mvp.model.entities.UIConversation;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -100,6 +102,9 @@ public class SharePresenter extends BasePresenter {
             public void onSuccess(TIMMessage timMessage) {
                 ToastUtil.showToastShort("分享成功");
                 ((ShareContract.View) mRootView).onShareComplete();
+
+                //通知会话列表更新显示
+                EventBus.getDefault().post(timMessage);
             }
         });
     }
