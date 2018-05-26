@@ -55,8 +55,6 @@ import butterknife.Unbinder;
  */
 public class ContactsFragment extends BasicFragment implements AutoPopupWindow.OnItemClickListener {
 
-    @BindView(R2.id.fc_iv_search)
-    ImageView fcIvSearch;
     @BindView(R2.id.fc_iv_more)
     ImageView fcIvMore;
     @BindView(R2.id.fc_tab_layout)
@@ -65,11 +63,6 @@ public class ContactsFragment extends BasicFragment implements AutoPopupWindow.O
     NoScrollViewPager fcViewpager;
 
     private AutoPopupWindow popupWindow;
-
-    @Override
-    public boolean useEventBus() {
-        return true;
-    }
 
     public static ContactsFragment newInstance() {
         Bundle args = new Bundle();
@@ -142,7 +135,7 @@ public class ContactsFragment extends BasicFragment implements AutoPopupWindow.O
 
     }
 
-    @Nullable
+    @Optional
     @OnClick({R2.id.fc_iv_more, R2.id.fc_iv_search})
     public void onViewClicked(View view) {
         if (view.getId() == R.id.fc_iv_more) {
@@ -220,6 +213,11 @@ public class ContactsFragment extends BasicFragment implements AutoPopupWindow.O
         } else {
             ivUnread.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public boolean useEventBus() {
+        return true;
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

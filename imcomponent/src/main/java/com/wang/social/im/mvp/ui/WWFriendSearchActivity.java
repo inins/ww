@@ -17,8 +17,6 @@ import com.frame.component.api.CommonService;
 import com.frame.component.common.NetParam;
 import com.frame.component.enums.ConversationType;
 import com.frame.component.enums.ShareSource;
-import com.frame.component.service.R;
-import com.frame.component.service.R2;
 import com.frame.component.ui.acticity.wwfriendsearch.adapter.WWFriendSearchAdapter;
 import com.frame.component.ui.acticity.wwfriendsearch.entities.SearchBase;
 import com.frame.component.ui.acticity.wwfriendsearch.entities.SearchFriend;
@@ -36,6 +34,8 @@ import com.frame.integration.IRepositoryManager;
 import com.frame.router.facade.annotation.Autowired;
 import com.frame.utils.KeyboardUtils;
 import com.frame.utils.ToastUtil;
+import com.wang.social.im.R;
+import com.wang.social.im.R2;
 import com.wang.social.im.di.component.DaggerActivityComponent;
 import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.mvp.contract.ShareContract;
@@ -138,7 +138,7 @@ public class WWFriendSearchActivity extends BaseAppActivity<SharePresenter> impl
 
     @Override
     public int initView(@NonNull Bundle savedInstanceState) {
-        return R.layout.activity_ww_friend_search;
+        return R.layout.im_ac_share_friend_search;
     }
 
     @Override

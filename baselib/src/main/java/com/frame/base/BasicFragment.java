@@ -24,6 +24,8 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import javax.inject.Inject;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.Subject;
 
@@ -43,6 +45,7 @@ public abstract class BasicFragment extends Fragment implements IFragment, Fragm
 
     protected Activity mActivity;
     protected View mRootView;
+    private Unbinder mUnbinder;
 
     @Override
     public void onAttach(Context context) {
@@ -59,7 +62,8 @@ public abstract class BasicFragment extends Fragment implements IFragment, Fragm
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (mRootView == null) {
-            mRootView = inflater.inflate(initView(savedInstanceState), null);
+            mRootView = inflater.inflate(initView(savedInstanceState), container, false);
+            mUnbinder = ButterKnife.bind(this, mRootView);
         } else {
             //避免重复添加View
             ViewGroup parent = (ViewGroup) mRootView.getParent();
@@ -68,6 +72,20 @@ public abstract class BasicFragment extends Fragment implements IFragment, Fragm
             }
         }
         return mRootView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onDestroyView() {
+        if (mUnbinder != null){
+            mUnbinder.unbind();
+            mUnbinder = null;
+        }
+        super.onDestroyView();
     }
 
     @Override
