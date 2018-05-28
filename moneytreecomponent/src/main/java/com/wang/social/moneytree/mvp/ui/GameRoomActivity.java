@@ -19,10 +19,12 @@ import android.widget.TextView;
 
 import com.frame.base.BaseFragment;
 import com.frame.component.common.AppConstant;
+import com.frame.component.enums.ConversationType;
 import com.frame.component.enums.ShareSource;
 import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.router.Router;
+import com.frame.component.router.ui.UIRouter;
 import com.frame.component.service.im.ImService;
 import com.frame.component.ui.acticity.WebActivity;
 import com.frame.component.ui.base.BaseAppActivity;
@@ -58,6 +60,8 @@ import com.wang.social.moneytree.mvp.ui.widget.MoneyTreeView;
 import com.wang.social.moneytree.utils.Keys;
 import com.wang.social.moneytree.utils.ShakeUtils;
 import com.wang.social.socialize.SocializeUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import javax.inject.Inject;
 
@@ -142,6 +146,9 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
     private boolean mGameEnded = false;
     private int mShakeCount = 0;
 
+    // 聊天模块是否初始化
+    private boolean mChatFramgentInited = false;
+
     private @Keys.GameType
     int mType;
 
@@ -206,8 +213,20 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
             }
         });
 
+        if (mPresenter.getRoomId() > 0) {
+            ImService imService = (ImService) Router.getInstance().getService(ImService.class.getName());
+            mChatFragment = imService.getGameConversationFragment(Integer.toString(mPresenter.getRoomId()));
+            // 聊天
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.chat_layout,
+                            mChatFragment)
+                    .commit();
+        }
+
         // 游戏房间
         if (null != mPresenter.getGameBean()) {
+            mMoneyTreeView.setClickable(true);
             // 成员列表
             mMemberAdapter = new GameRoomMemberListAdapter(mMemberListRV, mPresenter.getMemberList());
             mMemberAdapter.setClickListener(this);
@@ -220,6 +239,8 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
 
             mPresenter.getRoomMsg(mPresenter.getRoomId());
         } else if (null != mPresenter.getGameRecord()) {
+            // 游戏记录
+            mMoneyTreeView.setClickable(false);
             // 显示地上钻石
             mMoneyTreeView.showGroundDiamond(true);
 
@@ -253,10 +274,12 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
         // 隐藏
         mCountDownLayout.setVisibility(View.GONE);
         mJoinNumLayout.setVisibility(View.GONE);
-        mGoChatIV.setVisibility(View.INVISIBLE);
-        mGoChatIV.setClickable(false);
-        mGameRuleIV.setVisibility(View.INVISIBLE);
-        mGameRuleIV.setClickable(false);
+
+        // 是否显示 进入群聊 按钮
+        showGoChat(recordDetail.getGroupId() > 0);
+
+//        mGameRuleIV.setVisibility(View.INVISIBLE);
+//        mGameRuleIV.setClickable(false);
         mJoinGameIV.setVisibility(View.GONE);
 //        mShakeHintTV.setVisibility(View.GONE);
 
@@ -283,15 +306,26 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
     private BaseFragment mChatFragment;
 
     /**
+     * 控制进入趣聊按钮显示
+     *
+     * @param visible 是否显示
+     */
+    private void showGoChat(boolean visible) {
+        mGoChatIV.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
+        mGoChatIV.setClickable(visible);
+    }
+
+    /**
      * 游戏房间信息加载完成
      */
     @Override
     public void onGetRoomMsgSuccess(RoomMsg roomMsg) {
-        // 如果不是从群里创建的游戏，则不显示 进入聊天
-        if (mType != Keys.TYPE_FROM_GROUP) {
-            mGoChatIV.setVisibility(View.INVISIBLE);
-            mGoChatIV.setClickable(false);
-        }
+        // 如果群id有效，则显示 进入趣聊 按钮
+        showGoChat(roomMsg.getGroupId() > 0);
+//        if (mType != Keys.TYPE_FROM_GROUP) {
+//            mGoChatIV.setVisibility(View.INVISIBLE);
+//            mGoChatIV.setClickable(false);
+//        }
 
         // 房间名
         mTitleTV.setText(roomMsg.getRoomName());
@@ -317,15 +351,6 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
             // 加载成员列表
             mPresenter.loadMemberList();
         }
-
-        ImService imService = (ImService) Router.getInstance().getService(ImService.class.getName());
-        mChatFragment = imService.getGameConversationFragment(Integer.toString(mPresenter.getRoomId()));
-        // 聊天
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.chat_layout,
-                        mChatFragment)
-                .commit();
 
         // 显示
         mContentLayout.setVisibility(View.VISIBLE);
@@ -369,6 +394,8 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
 
         // 播放钻石落下动画
         mMoneyTreeView.startAnim(true);
+
+        // 通知游戏列表刷新(通过IM发送的消息来刷新)
     }
 
     @Override
@@ -413,12 +440,23 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
     }
 
     /**
-     * 去聊
+     * 进入趣聊
      */
     @OnClick(R2.id.go_chat_image_view)
     public void goToChat() {
-        mAppManager.killActivity(GameListActivity.class);
-        finish();
+//        mAppManager.killActivity(GameListActivity.class);
+//        finish();
+        if (mPresenter.isGroupMember()) {
+            // 是群成员，进入趣聊
+            CommonHelper.ImHelper.gotoGroupConversation(
+                    this,
+                    Integer.toString(mPresenter.getGroupId()),
+                    ConversationType.SOCIAL,
+                    false);
+        } else {
+            // 不是群成员，进入群详情
+            CommonHelper.ImHelper.startGroupInviteBrowse(this, mPresenter.getGroupId());
+        }
     }
 
     /**
@@ -435,8 +473,15 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
      */
     @OnClick(R2.id.game_list_image_view)
     public void goToGameList() {
-        mAppManager.killActivity(GameRecordListActivity.class);
-        finish();
+//        mAppManager.killActivity(GameRecordListActivity.class);
+//        finish();
+//        if (mPresenter.getGroupId() > 0) {
+//            GameListActivity.startFromGroup(this, mPresenter.getGroupId());
+//        } else {
+//            GameListActivity.startFromSquare(this);
+//        }
+
+        GameListActivity.startFromSquare(this);
     }
 
     @Override
@@ -524,9 +569,9 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
         SocializeUtil.shareWithWW(getSupportFragmentManager(),
                 null,
                 AppConstant.Url.cashcowindex + "?userId=" + AppDataHelper.getUser().getUserId(),
-                "往往",
+                "摇钱树",
                 "有点2的社交软件",
-                "",
+                "http://resouce.dongdongwedding.com/activity_cashcow_moneyTree.png",
                 (String url, String title, String content, String imageUrl) -> {
 //                    showToastLong("往往分享");
                     CommonHelper.ImHelper.startWangWangShare(this,
@@ -558,11 +603,6 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
         }
     }
 
-    @Override
-    public boolean useEventBus() {
-        return true;
-    }
-
     private void resetMemberChatLayoutHeight(int height) {
         ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) mMemberChatLayout.getLayoutParams();
         if (height > 0) {
@@ -572,6 +612,11 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
             params.height = mMemberChatLayout.getMinimumHeight();
             mMemberChatLayout.setLayoutParams(params);
         }
+    }
+
+    @Override
+    public boolean useEventBus() {
+        return true;
     }
 
     @Override

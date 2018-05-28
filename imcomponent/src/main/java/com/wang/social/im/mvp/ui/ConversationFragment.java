@@ -13,8 +13,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.text.Editable;
 import android.text.InputFilter;
-import android.text.Spanned;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -67,6 +65,7 @@ import com.wang.social.im.di.component.DaggerConversationComponent;
 import com.wang.social.im.di.modules.ConversationModule;
 import com.wang.social.im.enums.ConnectionStatus;
 import com.wang.social.im.enums.CustomElemType;
+import com.wang.social.im.enums.MessageScope;
 import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.mvp.contract.ConversationContract;
 import com.wang.social.im.mvp.model.entities.EnvelopInfo;
@@ -100,13 +99,12 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import io.reactivex.functions.Consumer;
 
 import static com.app.hubert.guide.model.HighLight.Shape.OVAL;
-import static com.app.hubert.guide.model.HighLight.Shape.ROUND_RECTANGLE;
+import static com.frame.entities.EventBean.EVENT_NOTIFY_FRIEND_PROFILE;
+import static com.frame.entities.EventBean.EVENT_NOTIFY_GROUP_MEMBER_PROFILE;
 
 /**
  * ======================================
@@ -224,7 +222,7 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
                 outRect.bottom = itemSpace;
             }
         });
-        mAdapter = new MessageListAdapter(mConversationType);
+        mAdapter = new MessageListAdapter(mTargetId, mConversationType);
         mAdapter.setHandleListener(this);
         fcMessageList.setAdapter(mAdapter);
 
@@ -321,7 +319,6 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
         mAdapter = null;
         mLayoutManager = null;
         mTargetId = null;
-        AudioRecordManager.getInstance().setRecordListener(null);
     }
 
     @Override
@@ -725,7 +722,8 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     public void onPortraitLongClick(View view, UIMessage uiMessage, int position) {
         if (mConversationType == ConversationType.TEAM ||
                 mConversationType == ConversationType.SOCIAL) {
-            insertAlert(uiMessage.getNickname(mConversationType), true);
+            String nickname = uiMessage.getNickname(mConversationType);
+            insertAlert(nickname == null ? " " : nickname, true);
         }
     }
 
@@ -735,11 +733,45 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
             Editable editable = editText.getText();
             String alertMessage;
             if (addAlert) {
-                alertMessage = "@ " + nickname;
+                alertMessage = "@" + nickname;
             } else {
-                alertMessage = " " + nickname;
+                alertMessage = "" + nickname;
             }
             editable.insert(editText.getSelectionStart(), alertMessage);
+        }
+    }
+
+    /**
+     * 刷新用户信息
+     *
+     * @param identity
+     * @param nickname
+     * @param portrait
+     */
+    private void refreshUserInfo(String identity, String nickname, String portrait) {
+        if (mAdapter != null && mAdapter.getData() != null) {
+            for (UIMessage uiMessage : mAdapter.getData()) {
+                if (uiMessage.getTimMessage().getSender().equals(identity) && uiMessage.getMessageScope() == MessageScope.NORMAL) {
+                    uiMessage.setNickname(nickname);
+                    uiMessage.setPortrait(portrait);
+                }
+            }
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        if (event.getEvent() == EVENT_NOTIFY_GROUP_MEMBER_PROFILE) {
+            String groupId = (String) event.get("groupId");
+            if (mAdapter != null && groupId.equals(mTargetId)) {
+                refreshUserInfo((String) event.get("identity"), (String) event.get("nickname"), (String) event.get("portrait"));
+            }
+        } else if (event.getEvent() == EVENT_NOTIFY_FRIEND_PROFILE) {
+            String friendId = (String) event.get("identity");
+            if (mAdapter != null && friendId.equals(mTargetId)) {
+                refreshUserInfo((String) event.get("identity"), (String) event.get("nickname"), (String) event.get("portrait"));
+            }
         }
     }
 

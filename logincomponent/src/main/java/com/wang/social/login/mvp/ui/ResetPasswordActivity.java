@@ -13,7 +13,6 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.frame.base.BaseActivity;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
@@ -26,9 +25,8 @@ import com.wang.social.login.di.component.DaggerResetPasswordComponent;
 import com.wang.social.login.di.module.ResetPasswordModule;
 import com.wang.social.login.mvp.contract.ResetPasswordContract;
 import com.wang.social.login.mvp.presenter.ResetPasswordPresenter;
-import com.wang.social.login.mvp.ui.widget.DialogFragmentLoading;
 import com.wang.social.login.utils.Keys;
-import com.wang.social.login.utils.StringUtils;
+import com.frame.component.utils.StringUtils;
 import com.wang.social.login.utils.ViewUtils;
 
 import javax.inject.Inject;
@@ -36,7 +34,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
-import timber.log.Timber;
 
 @RouteNode(path = "/login_reset_password", desc = "修改/重置密码")
 public class ResetPasswordActivity extends BaseAppActivity<ResetPasswordPresenter> implements ResetPasswordContract.View {

@@ -76,7 +76,8 @@
         android:layout_height="1dp"
         android:layout_marginLeft="2dp"
         android:layout_marginRight="2dp"
-        android:background="@color/common_list_divider"/>
+        android:background="@color/common_list_divider"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/more_menu_add_black_list"
@@ -86,7 +87,8 @@
         android:padding="10dp"
         android:textSize="14sp"
         android:gravity="center"
-        android:text="@string/im_personal_card_more_menu_add_black_list"/>
+        android:text="@string/im_personal_card_more_menu_add_black_list"
+        android:visibility="gone"/>
 
 
 </LinearLayout>

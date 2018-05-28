@@ -8,11 +8,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.frame.base.BaseActivity;
-import com.frame.base.BasicActivity;
-import com.frame.component.router.Router;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
@@ -24,9 +20,8 @@ import com.wang.social.login.di.component.DaggerForgotPasswordComponent;
 import com.wang.social.login.di.module.ForgotPasswordModule;
 import com.wang.social.login.mvp.contract.ForgotPasswordContract;
 import com.wang.social.login.mvp.presenter.ForgotPasswordPresenter;
-import com.wang.social.login.mvp.ui.widget.DialogFragmentLoading;
 import com.wang.social.login.utils.Keys;
-import com.wang.social.login.utils.StringUtils;
+import com.frame.component.utils.StringUtils;
 import com.wang.social.login.utils.ViewUtils;
 
 import butterknife.BindView;

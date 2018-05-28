@@ -21,7 +21,7 @@ public class PWFriendMoreMenu extends BasePopupWindow implements View.OnClickLis
     private FriendMoreMenuCallback mCallback;
     // 是否黑名单
     private int mIsBlack;
-    private TextView mBlackListTV;
+//    private TextView mBlackListTV;
 
     public PWFriendMoreMenu(Context context) {
         super(context);
@@ -35,18 +35,18 @@ public class PWFriendMoreMenu extends BasePopupWindow implements View.OnClickLis
     public void setBlack(int black) {
         mIsBlack = black;
 
-        if (null == mBlackListTV) return;
-
-        // 0：未拉黑，大于0：黑名单
-        if (mIsBlack > 0) {
-            mBlackListTV.setText(getContentView()
-                    .getResources()
-                    .getString(R.string.im_personal_card_more_menu_delete_black_list));
-        } else {
-            mBlackListTV.setText(getContentView()
-                    .getResources()
-                    .getString(R.string.im_personal_card_more_menu_add_black_list));
-        }
+//        if (null == mBlackListTV) return;
+//
+//        // 0：未拉黑，大于0：黑名单
+//        if (mIsBlack > 0) {
+//            mBlackListTV.setText(getContentView()
+//                    .getResources()
+//                    .getString(R.string.im_personal_card_more_menu_delete_black_list));
+//        } else {
+//            mBlackListTV.setText(getContentView()
+//                    .getResources()
+//                    .getString(R.string.im_personal_card_more_menu_add_black_list));
+//        }
     }
 
     @Override
@@ -65,18 +65,18 @@ public class PWFriendMoreMenu extends BasePopupWindow implements View.OnClickLis
         getContentView().findViewById(R.id.more_menu_delete)
                 .setOnClickListener(this);
 
-        mBlackListTV = getContentView().findViewById(R.id.more_menu_add_black_list);
-        // 0：未拉黑，大于0：黑名单
-        if (mIsBlack > 0) {
-            mBlackListTV.setText(getContentView()
-                    .getResources()
-                    .getString(R.string.im_personal_card_more_menu_delete_black_list));
-        } else {
-            mBlackListTV.setText(getContentView()
-                    .getResources()
-                    .getString(R.string.im_personal_card_more_menu_add_black_list));
-        }
-        mBlackListTV.setOnClickListener(this);
+//        mBlackListTV = getContentView().findViewById(R.id.more_menu_add_black_list);
+//        // 0：未拉黑，大于0：黑名单
+//        if (mIsBlack > 0) {
+//            mBlackListTV.setText(getContentView()
+//                    .getResources()
+//                    .getString(R.string.im_personal_card_more_menu_delete_black_list));
+//        } else {
+//            mBlackListTV.setText(getContentView()
+//                    .getResources()
+//                    .getString(R.string.im_personal_card_more_menu_add_black_list));
+//        }
+//        mBlackListTV.setOnClickListener(this);
     }
 
 

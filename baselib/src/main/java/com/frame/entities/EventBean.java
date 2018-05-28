@@ -32,6 +32,11 @@ public class EventBean implements Serializable {
     public static final int EVENTBUS_FRIEND_DELETE = 0xffa130;
     // 用户拉入黑名单
     public static final int EVENTBUS_FRIEND_ADD_BLACK_LIST = 0xffa131;
+    // 加入趣聊成功
+    public static final int EVENTBUS_ADD_GROUP_SUCCESS = 0xffa140;
+
+    // 加入摇钱树游戏成功
+    public static final int EVENTBUS_ADD_MONEY_TREE_SUCCESS = 0xffa150;
 
     //相册数量已修改，通知个人详情页面重新刷新数量
     public static final int EVENT_MEPHOTO_CHANGE = 0xffa201;
@@ -107,7 +112,7 @@ public class EventBean implements Serializable {
     public static final int EVENT_NOTIFY_GROUP_DELETE = 0xffa902;
     //添加一个好友
     public static final int EVENT_NOTIFY_FRIEND_ADD = 0xffa904;
-    //好友资料，群资料有更新的时候通知
+    //好友资料，群资料有更新的时候通知(用于列表刷新)
     public static final int EVENT_NOTIFY_PROFILE_UPDATED = 0xffa905;
     //清空消息
     public static final int EVENT_NOTIFY_CLEAR_MESSAGE = 0xffa906;
@@ -115,6 +120,12 @@ public class EventBean implements Serializable {
     public static final int EVENT_NOTIFY_BACKGROUND = 0xffa907;
     //聊天未读消息数量发生变化
     public static final int EVENT_NOTIFY_MESSAGE_UNREAD = 0xffa908;
+    //群成员信息发生变动
+    public static final int EVENT_NOTIFY_GROUP_MEMBER_PROFILE = 0xffa909;
+    //群信息发生变动
+    public static final int EVENT_NOTIFY_GROUP_PROFILE = 0xffa910;
+    //好友信息发生变动
+    public static final int EVENT_NOTIFY_FRIEND_PROFILE = 0xffa911;
 
     //通知消息已经全部阅读
     public static final int EVENT_MSG_READALL = 0xffb001;
@@ -129,6 +140,7 @@ public class EventBean implements Serializable {
             EVENTBUS_BGM_SELECTED,
             EVENTBUS_FRIEND_DELETE,
             EVENTBUS_FRIEND_ADD_BLACK_LIST,
+            EVENTBUS_ADD_GROUP_SUCCESS,
             EVENT_MEPHOTO_CHANGE,
             EVENT_USERINFO_CHANGE,
             EVENT_LOGOUT,
@@ -167,6 +179,9 @@ public class EventBean implements Serializable {
             EVENT_NOTIFY_BACKGROUND,
             EVENT_NOTIFY_MESSAGE_UNREAD,
             EVENT_MSG_READALL,
+            EVENT_NOTIFY_GROUP_MEMBER_PROFILE,
+            EVENT_NOTIFY_GROUP_PROFILE,
+            EVENT_NOTIFY_FRIEND_PROFILE,
             EVENT_HOME_CARD_DETAIL_ADDFIREND,
             EVENT_FUNSHOW_PAYED,
     })

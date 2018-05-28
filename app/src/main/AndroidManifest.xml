@@ -20,8 +20,14 @@
         <meta-data
             android:name="com.wang.social.app.GlobalConfiguration"
             android:value="ConfigModule" />
-        <!-- ********* -->
 
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="591bac697f2c7466b000010c" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${UMENG_CHANNEL_VALUE}" />
+        <!-- ********* -->
 
         <!--启动页（广告页）-->
         <activity
@@ -34,7 +40,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".mvp.ui.activity.SplashActivity"
+        <activity
+            android:name=".mvp.ui.activity.SplashActivity"
             android:screenOrientation="portrait">
 
         </activity>
@@ -44,6 +51,6 @@
             android:name=".mvp.ui.activity.HomeActivity"
             android:launchMode="singleTask" />
 
-        <activity android:name=".mvp.ui.activity.SearchActivity"/>
+        <activity android:name=".mvp.ui.activity.SearchActivity" />
     </application>
 </manifest>

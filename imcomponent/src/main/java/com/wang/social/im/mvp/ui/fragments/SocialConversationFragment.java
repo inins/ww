@@ -20,6 +20,7 @@ import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.http.imageloader.ImageLoader;
 import com.tencent.imsdk.TIMValueCallBack;
+import com.tencent.imsdk.ext.group.TIMGroupCacheInfo;
 import com.tencent.imsdk.ext.group.TIMGroupDetailInfo;
 import com.tencent.imsdk.ext.group.TIMGroupManagerExt;
 import com.wang.social.im.R;
@@ -31,6 +32,9 @@ import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.mvp.model.entities.GroupProfile;
 import com.wang.social.im.mvp.ui.ConversationFragment;
 import com.wang.social.im.mvp.ui.SocialHomeActivity;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Arrays;
 import java.util.List;
@@ -182,6 +186,13 @@ public class SocialConversationFragment extends BaseConversationFragment {
                     targetId.equals(event.get("targetId").toString())) {
                 loadBackground(ConversationType.SOCIAL, targetId, background, mImageLoader);
             }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onGroupProfileChanged(TIMGroupCacheInfo timGroupCacheInfo) {
+        if (timGroupCacheInfo != null && timGroupCacheInfo.getGroupInfo().getGroupId().equals(targetId)) {
+            scTvTitle.setText(timGroupCacheInfo.getGroupInfo().getGroupName());
         }
     }
 }

@@ -1,8 +1,9 @@
-package com.wang.social.login.utils;
+package com.frame.component.utils;
 
 import android.text.TextUtils;
 
 import com.frame.component.ui.acticity.tags.Tag;
+import com.frame.utils.RegexUtils;
 
 import java.util.List;
 
@@ -92,9 +93,11 @@ public class StringUtils {
 
          198，199开头后面跟任意8位数；
          */
-        String telRegex =  "^((13[0-9])|(15[^4])|(166)|(17[0-8])|(18[0-9])|(19[8-9])|(147,145))\\d{8}$";
+//        String telRegex =  "^((13[0-9])|(15[^4])|(166)|(17[0-8])|(18[0-9])|(19[8-9])|(147,145))\\d{8}$";
+//
+//        return regexMatch(telRegex, mobile);
 
-        return regexMatch(telRegex, mobile);
+        return RegexUtils.isMobileExact(mobile);
     }
 
     public static boolean regexMatch(String regex, String str) {

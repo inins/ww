@@ -28,7 +28,6 @@ import com.frame.component.ui.acticity.FunshowTopicActivity;
 import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.ui.dialog.AutoPopupWindow;
-import com.frame.component.ui.dialog.DialogActionSheet;
 import com.frame.component.ui.dialog.EditDialog;
 import com.frame.component.utils.UIUtil;
 import com.frame.component.view.SocialToolbar;
@@ -83,6 +82,9 @@ import static com.frame.component.path.ImPath.SOCIAL_HOME;
  */
 @RouteNode(path = SOCIAL_HOME, desc = "趣聊主页")
 public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> implements SocialHomeContract.View, AutoPopupWindow.OnItemClickListener {
+
+    private static final int PHOTO_TYPE_MEMBER_PORTRAIT = 1;
+    private static final int PHOTO_TYPE_REPORT = 2;
 
     private static final String EXTRA_SOCIAL_ID = "socialId";
 
@@ -202,8 +204,6 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
     @Inject
     AppManager mAppManager;
 
-    PhotoHelperEx mPhotoHelper;
-
     private SocialInfo mSocial;
 
     //记录是否是通过用户点击修改状态
@@ -213,7 +213,8 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
 
     private AutoPopupWindow popupWindow;
     //举报
-    private PhotoHelperEx mPhotoHelperEx;
+    private PhotoHelperEx mPhotoHelper;
+    private int mPhotoType;
     private String mReportComment;
 
     public static void start(Context context, String socialId) {
@@ -270,7 +271,7 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (!notifyFromCode) {
                     mSocial.getMemberInfo().setNotifyType(isChecked ? MessageNotifyType.ALL : MessageNotifyType.NONE);
-                    mPresenter.updateNameCard(socialId, mSocial.getMemberInfo().getNickname(),
+                    mPresenter.updateNameCard(socialId, ConversationType.SOCIAL, mSocial.getMemberInfo().getNickname(),
                             mSocial.getMemberInfo().getPortrait(), mSocial.getMemberInfo().getNotifyType());
                 }
                 notifyFromCode = false;
@@ -306,14 +307,7 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
                 }
             }
         });
-        mPhotoHelperEx = PhotoHelperEx.newInstance(this, path -> {
-            // 弹出确认举报对话框
-            GroupPersonReportHelper.confirmReportGroup(this, this,
-                    "确定举报该趣聊？",
-                    Integer.valueOf(socialId),
-                    mReportComment,
-                    PhotoHelper.format2Array(path));
-        });
+        mPhotoHelper = PhotoHelperEx.newInstance(this, new PhotoCallBack());
     }
 
     @Override
@@ -359,7 +353,8 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
         } else if (view.getId() == R.id.sc_tv_member_dynamic) {//成员动态
             FunshowTopicActivity.startFunshowForGroup(this, Integer.valueOf(socialId));
         } else if (view.getId() == R.id.sc_ll_portrait) {//我的群头像
-            mPhotoHelper = PhotoHelperEx.newInstance(this, new PortraitCallBack());
+            mPhotoType = PHOTO_TYPE_MEMBER_PORTRAIT;
+            mPhotoHelper.setMaxSelectCount(1);
             mPhotoHelper.showDefaultDialog();
         } else if (view.getId() == R.id.sc_ll_nickname) {//我的群昵称
             String oldNickname = mSocial.getMemberInfo() == null ? "" : mSocial.getMemberInfo().getNickname();
@@ -373,7 +368,7 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
                     dialog.dismiss();
                     mSocial.getMemberInfo().setNickname(content);
                     scTvNickname.setText(content);
-                    mPresenter.updateNameCard(socialId, content, mSocial.getMemberInfo().getPortrait(), mSocial.getMemberInfo().getNotifyType());
+                    mPresenter.updateNameCard(socialId, ConversationType.SOCIAL, content, mSocial.getMemberInfo().getPortrait(), mSocial.getMemberInfo().getNotifyType());
                 }
             });
             editDialog.show();
@@ -552,9 +547,6 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
         if (mPhotoHelper != null) {
             mPhotoHelper.onActivityResult(requestCode, resultCode, data);
         }
-        if (mPhotoHelperEx != null) {
-            mPhotoHelperEx.onActivityResult(requestCode, resultCode, data);
-        }
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_CODE_CHARGE) {
                 mSocial = data.getParcelableExtra(SocialChargeSettingActivity.EXTRA_SOCIAL);
@@ -622,9 +614,10 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
     private void showReportDialog() {
         GroupPersonReportHelper.doReport(getSupportFragmentManager(), (position, text) -> {
             mReportComment = text;
+            mPhotoType = PHOTO_TYPE_REPORT;
             // 弹出图片选择
-            mPhotoHelperEx.setMaxSelectCount(5);
-            mPhotoHelperEx.showDefaultDialog();
+            mPhotoHelper.setMaxSelectCount(5);
+            mPhotoHelper.showDefaultDialog();
         });
     }
 
@@ -635,13 +628,30 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
     }
 
     /**
-     * 我的群头像选择回调
+     * 图片选择回调
      */
-    private class PortraitCallBack implements PhotoHelperEx.OnPhotoCallback {
+    private class PhotoCallBack implements PhotoHelperEx.OnPhotoCallback {
 
         @Override
         public void onResult(String path) {
-            mPresenter.updateNameCard(socialId, mSocial.getMemberInfo().getNickname(), path, mSocial.getMemberInfo().getNotifyType());
+            if (mPhotoType == PHOTO_TYPE_MEMBER_PORTRAIT) {
+                mImageLoader.loadImage(SocialHomeActivity.this, ImageConfigImpl.builder()
+                        .placeholder(R.drawable.common_default_circle_placeholder)
+                        .errorPic(R.drawable.common_default_circle_placeholder)
+                        .imageView(scIvPortrait)
+                        .url(path)
+                        .isCircle(true)
+                        .build());
+                
+                mPresenter.updateNameCard(socialId, ConversationType.SOCIAL, mSocial.getMemberInfo().getNickname(), path, mSocial.getMemberInfo().getNotifyType());
+            } else if (mPhotoType == PHOTO_TYPE_REPORT) {
+                // 弹出确认举报对话框
+                GroupPersonReportHelper.confirmReportGroup(SocialHomeActivity.this, SocialHomeActivity.this,
+                        "确定举报该趣聊？",
+                        Integer.valueOf(socialId),
+                        mReportComment,
+                        PhotoHelper.format2Array(path));
+            }
         }
     }
 }

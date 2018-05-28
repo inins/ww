@@ -64,7 +64,8 @@ public class HomeNaviboardController extends BaseController implements View.OnCl
         } else if (id == R.id.btn_active) {
             CommonHelper.GameHelper.startMoneyTreeFromSquare(getContext());
         } else if (id == R.id.img_find_tag) {
-            TagSelectionActivity.startSelection(getContext(), TagSelectionActivity.TAG_TYPE_INTEREST);
+//            TagSelectionActivity.startSelection(getContext(), TagSelectionActivity.TAG_TYPE_INTEREST);
+            TagSelectionActivity.startSelectionFromLogin(getContext());
         }
     }
 }

@@ -9,7 +9,9 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.text.Editable;
 import android.text.SpannableStringBuilder;
+import android.text.TextWatcher;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -148,6 +150,11 @@ public class DialogCreateGame extends DialogFragment {
         mNumberET.setSelection(mNumberET.getText().length());
     }
 
+    private void setPriceText(int price) {
+        mPriceET.setText(Integer.toString(price));
+        mPriceET.setSelection(mPriceET.getText().length());
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(
@@ -161,7 +168,7 @@ public class DialogCreateGame extends DialogFragment {
 
         // 默认值
         setTimeText(10);
-        setNumberText(2);
+        setNumberText(5);
 
         // 不限人数
         mUnlimitedCB.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> {
@@ -193,6 +200,34 @@ public class DialogCreateGame extends DialogFragment {
                 LinearLayout.LayoutParams.MATCH_PARENT));
 
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+//        mPriceET.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                int price = 0;
+//                try {
+//                    price = Integer.parseInt(s.toString());
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//
+//                if (price  < 1) {
+//                    mPriceET.setText("1");
+//                } else if (price > 20000) {
+//                    mPriceET.setText("20000");
+//                }
+//            }
+//        });
 
         // 关闭
         view.findViewById(R.id.shutdown_image_view)
@@ -251,42 +286,49 @@ public class DialogCreateGame extends DialogFragment {
     private int mPrice;
 
     private boolean checkInput() {
-
+        mResetTime = 0;
         try {
             mResetTime = Integer.parseInt(mTimeET.getText().toString());
         } catch (Exception e) {
             e.printStackTrace();
-            ToastUtil.showToastLong("请输入游戏时间");
-            return false;
         }
 
-        if (mResetTime > MAX_TIME) {
-            ToastUtil.showToastLong(String.format("游戏时间不超过%1d分钟", MAX_TIME));
-            setTimeText(MAX_TIME);
+        // 游戏时间限制
+        if (mResetTime < 1 || mResetTime > MAX_TIME) {
+            ToastUtil.showToastShort("游戏开始时间必须是1~300分钟");
+            setTimeText(mResetTime < 1 ? 1 : MAX_TIME);
             return false;
         }
 
         if (!mUnlimitedCB.isChecked()) {
+            mPeopleNum = 0;
             try {
                 mPeopleNum = Integer.parseInt(mNumberET.getText().toString());
             } catch (Exception e) {
                 e.printStackTrace();
-                ToastUtil.showToastLong("请输入游戏人数");
-                return false;
             }
 
             if (mPeopleNum < MIN_NUM) {
-                ToastUtil.showToastLong(String.format("游戏人数最低%1d人", MIN_NUM));
+                ToastUtil.showToastShort("人数必须大于1人才能创建游戏");
                 setNumberText(MIN_NUM);
                 return false;
             }
         }
 
+        mPrice = 0;
         try {
             mPrice = Integer.parseInt(mPriceET.getText().toString());
         } catch (Exception e) {
             e.printStackTrace();
-            ToastUtil.showToastLong("请输入支付钻石");
+        }
+
+        if (mPrice < 1) {
+            ToastUtil.showToastShort("参加游戏钻石必须大于1钻");
+            setPriceText(1);
+            return false;
+        } else if (mPrice > 20000) {
+            ToastUtil.showToastShort("参加游戏钻之必须小于20000钻");
+            setPriceText(20000);
             return false;
         }
 
@@ -324,7 +366,7 @@ public class DialogCreateGame extends DialogFragment {
                 new ErrorHandleSubscriber<NewMoneyTreeGame>() {
                     @Override
                     public void onNext(NewMoneyTreeGame newMoneyTreeGame) {
-//                        ToastUtil.showToastLong("创建游戏成功");
+//                        ToastUtil.showToastShort("创建游戏成功");
 
                         // 创建游戏成功
                         if (null != mCreateGameCallback) {
@@ -413,8 +455,8 @@ public class DialogCreateGame extends DialogFragment {
                 new ErrorHandleSubscriber<Object>() {
                     @Override
                     public void onNext(Object o) {
-//                        ToastUtil.showToastLong("支付成功");
-                        ToastUtil.showToastLong("创建并支付成功");
+//                        ToastUtil.showToastShort("支付成功");
+                        ToastUtil.showToastShort("创建并支付成功");
 
                         if (null != mCreateGameCallback) {
                             mCreateGameCallback.onPayCreateGameSuccess(

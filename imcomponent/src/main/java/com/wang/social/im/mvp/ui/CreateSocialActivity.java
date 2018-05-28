@@ -34,6 +34,7 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.app.IMConstants;
+import com.wang.social.im.common.InputLengthFilter;
 import com.wang.social.im.di.component.DaggerCreateSocialComponent;
 import com.wang.social.im.di.modules.CreateSocialModule;
 import com.wang.social.im.helper.ImageSelectHelper;
@@ -129,15 +130,12 @@ public class CreateSocialActivity extends BaseAppActivity<CreateSocialPresenter>
         scEtName.setFilters(new InputFilter[]{new InputFilter() {
             @Override
             public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-                if (source.length() + scEtName.getText().length() > 8) {
-                    return "";
-                }
                 if (!RegexUtils.isUsernameMe(source)) {
                     return "";
                 }
                 return source;
             }
-        }});
+        }, new InputLengthFilter(8, false)});
 
         csToolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
             @Override

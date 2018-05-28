@@ -56,6 +56,10 @@ public class UIMessage {
     @Getter
     @Setter
     private boolean showTime;
+    @Setter
+    private String nickname;
+    @Setter
+    private String portrait;
 
     public static UIMessage obtain(TIMMessage message) {
         UIMessage uiMessage = new UIMessage();
@@ -166,6 +170,7 @@ public class UIMessage {
                     if (elem instanceof TIMTextElem) {
                         TIMTextElem textElem = (TIMTextElem) elem;
                         summary = textElem.getText();
+                        break;
                     } else {
                         summary = "";
                     }
@@ -196,7 +201,7 @@ public class UIMessage {
                 summary = "";
                 break;
         }
-        return summary;
+        return summary == null ? "" : summary;
     }
 
     public String getRevokeSummary() {
@@ -260,6 +265,9 @@ public class UIMessage {
      * @return
      */
     public String getNickname(ConversationType conversationType) {
+        if (this.nickname != null) {
+            return this.nickname;
+        }
         String nickname = "";
         switch (conversationType) {
             case PRIVATE:
@@ -289,6 +297,7 @@ public class UIMessage {
                 }
                 break;
         }
+        this.nickname = nickname;
         return nickname;
     }
 
@@ -299,6 +308,9 @@ public class UIMessage {
      * @return
      */
     public String getPortrait(ConversationType conversationType) {
+        if (!TextUtils.isEmpty(this.portrait)) {
+            return this.portrait;
+        }
         String portrait = "";
         switch (conversationType) {
             case PRIVATE:
@@ -339,6 +351,7 @@ public class UIMessage {
             case MIRROR:
                 break;
         }
+        this.portrait = portrait;
         return portrait;
     }
 }

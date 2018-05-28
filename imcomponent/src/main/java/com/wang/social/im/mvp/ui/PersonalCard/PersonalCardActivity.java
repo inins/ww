@@ -9,6 +9,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,6 +26,7 @@ import com.frame.component.view.GradualImageView;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.router.facade.annotation.RouteNode;
+import com.frame.utils.RegexUtils;
 import com.frame.utils.StatusBarUtil;
 import com.frame.utils.TimeUtils;
 import com.frame.utils.ToastUtil;
@@ -354,14 +356,17 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
             setBottomButtonBg(R.drawable.im_personal_card_btn_unknown);
         }
 
-        // 头像
-        ImageLoaderHelper.loadCircleImg(mAvatarIV, personalInfo.getAvatar());
-        //
-        mNameTV.setText(personalInfo.getNickname());
+        // 头像(如果有备注头像，则使用备注头像)
+        ImageLoaderHelper.loadCircleImg(mAvatarIV,
+                TextUtils.isEmpty(personalInfo.getRemarkHeadImg()) ?
+                        personalInfo.getAvatar() : personalInfo.getRemarkHeadImg());
+        // 昵称（优先使用备注昵称）
+        mNameTV.setText(TextUtils.isEmpty(personalInfo.getRemarkName()) ?
+                personalInfo.getNickname() : personalInfo.getRemarkName());
         // 年纪标签
         mPropertyTV.setText(getBirthYears(personalInfo.getBirthday()) + "后");
         // 星座
-        mXingZuoTV.setText(TimeUtils.getZodiac(personalInfo.getBirthday()));
+        mXingZuoTV.setText(TimeUtils.getAstro(personalInfo.getBirthday()));
         // 标签
         mTagsTV.setText(TagUtils.formatTagNames(personalInfo.getTags()));
         // 签名
@@ -373,6 +378,8 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
         mGenderLayout.setVisibility(View.VISIBLE);
         mXingZuoTV.setVisibility(View.VISIBLE);
         mTabLayout.setVisibility(View.VISIBLE);
+
+        initTabLayout();
 
         // 加载用户数据统计
         mPresenter.loadUserStatistics(mUserId);
@@ -492,8 +499,6 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
                     break;
             }
         }
-
-        initTabLayout();
     }
 
     @Override
@@ -595,10 +600,21 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
                     12);
             mSetRemarkDialog.setOnInputListener(
                     text -> {
+                        boolean dismiss = true;
                         // 设置备注
-                        mPresenter.setFriendRemard(mUserId, text);
+                        if (!TextUtils.isEmpty(text)) {
+                            // 检测输入格式
+                            if (RegexUtils.isUsernameMe(text)) {
+                                mPresenter.setFriendRemard(mUserId, text);
+                            } else {
+                                ToastUtil.showToastShort("仅允许输入下划线符号");
+                                dismiss = false;
+                            }
+                        }
 
-                        mSetRemarkDialog.dismiss();
+                        if (dismiss) {
+                            mSetRemarkDialog.dismiss();
+                        }
                     }
             );
         }
