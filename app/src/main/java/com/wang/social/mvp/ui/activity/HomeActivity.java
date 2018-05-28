@@ -103,6 +103,7 @@ public class HomeActivity extends BasicAppNoDiActivity implements XRadioGroup.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         StatusBarUtil.setStatusBarColor(this, R.color.common_white);
+        StatusBarUtil.setTextDark(this);
         setNeedDoubleClickExit(true);
     }
 

@@ -12,6 +12,7 @@ import com.frame.base.BaseAdapter;
 import com.frame.component.common.GridSpacingItemDecoration;
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
+import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
@@ -51,6 +52,20 @@ public class AccountRechargeActivity extends BasicAppNoDiActivity implements IVi
         context.startActivity(intent);
     }
 
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        switch (event.getEvent()) {
+            case EventBean.EVENT_ACCOUNT_RECHARGE_SUCCESS:
+                //充值成功后关闭页面
+                finish();
+                break;
+        }
+    }
 
     @Override
     public int initView(@NonNull Bundle savedInstanceState) {

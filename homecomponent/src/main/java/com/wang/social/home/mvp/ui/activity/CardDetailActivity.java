@@ -21,6 +21,7 @@ import com.frame.component.ui.dialog.DialogValiRequest;
 import com.frame.component.view.ObservableNestedScrollView;
 import com.frame.component.view.bundleimgview.BundleImgEntity;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.StatusBarUtil;
@@ -35,6 +36,8 @@ import com.wang.social.home.mvp.ui.controller.DetailFunshowController;
 import com.wang.social.home.mvp.ui.controller.DetailTopicController;
 import com.wang.social.home.mvp.ui.fragment.CardUserFragment;
 import com.wang.social.pictureselector.helper.PhotoHelper;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -126,7 +129,8 @@ public class CardDetailActivity extends BasicAppNoDiActivity {
                                 @Override
                                 public void onSuccess(String url) {
                                     NetReportHelper.newInstance().netReportPerson(CardDetailActivity.this, userId, text, url, () -> {
-                                        finish();
+                                        //finish();
+                                        ToastUtil.showToastShort("举报成功");
                                     });
                                 }
 
@@ -142,6 +146,7 @@ public class CardDetailActivity extends BasicAppNoDiActivity {
             DialogValiRequest.showDialog(this, content -> {
                 NetFriendHelper.newInstance().netSendFriendlyApply(CardDetailActivity.this, userId, content, () -> {
                     ToastUtil.showToastShort("请求已发送");
+                    EventBus.getDefault().post(new EventBean(EventBean.EVENT_HOME_CARD_DETAIL_ADDFIREND));
                 });
             });
         }

@@ -93,6 +93,12 @@ public class FunShowFragment extends BaseLazyFragment<FunshowListPresonter> impl
                 adapter.refreshShareById(talkId);
                 break;
             }
+            case EventBean.EVENT_FUNSHOW_PAYED: {
+                //趣晒支付了
+                int talkId = (int) event.get("talkId");
+                adapter.refreshPayedById(talkId);
+                break;
+            }
             //新增一条趣晒，收到通知刷新列表
             case EventBean.EVENT_FUNSHOW_ADD:
                 //在详情页被删除了，收到通知刷新列表

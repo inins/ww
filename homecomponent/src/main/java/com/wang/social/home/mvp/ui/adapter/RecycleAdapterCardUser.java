@@ -21,6 +21,8 @@ import com.wang.social.home.R2;
 import com.wang.social.home.mvp.entities.card.CardUser;
 import com.wang.social.home.mvp.ui.holder.BaseCardViewHolder;
 
+import java.util.List;
+
 import butterknife.BindView;
 
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
@@ -61,12 +63,14 @@ public class RecycleAdapterCardUser extends BaseAdapter<CardUser> {
         @Override
         @SuppressWarnings("all")
         protected void bindData(CardUser bean, int position, OnItemClickListener onItemClickListener) {
+            //FIXME:产品需求在这里展示头像，迟早要改回来，暂且注释掉下面代码
             //优先加载相册作为封面，如果没有则加载头像
-            if (!StrUtil.isEmpty(bean.getPhotoList())) {
-                ImageLoaderHelper.loadImg(imgPic, bean.getPhotoList().get(0).getPhotoUrl());
-            } else {
-                ImageLoaderHelper.loadImg(imgPic, bean.getAvatar());
-            }
+            //if (!StrUtil.isEmpty(bean.getPhotoList())) {
+            //    ImageLoaderHelper.loadImg(imgPic, bean.getPhotoList().get(0).getPhotoUrl());
+            //} else {
+            //    ImageLoaderHelper.loadImg(imgPic, bean.getAvatar());
+            //}
+            ImageLoaderHelper.loadImg(imgPic, bean.getAvatar());
             textName.setText(bean.getNickname());
             textLableGender.setSelected(!bean.isMale());
             textLableGender.setText(TimeUtils.getBirthdaySpan(bean.getBirthday()));
@@ -119,5 +123,14 @@ public class RecycleAdapterCardUser extends BaseAdapter<CardUser> {
         void onItemClick(CardUser cardUser, Holder holder);
 
         void onItemScroll(CardUser cardUser, Holder holder);
+    }
+
+    //展示下一张卡牌
+    public void nextCard() {
+        List<CardUser> results = getData();
+        if (!StrUtil.isEmpty(results)) {
+            results.remove(results.size() - 1);
+            notifyDataSetChanged();
+        }
     }
 }

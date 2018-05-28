@@ -60,6 +60,7 @@ public class CardActivity extends BasicAppActivity {
         position = getIntent().getIntExtra("position", 0);
         appbar.bringToFront();
         StatusBarUtil.setTranslucent(this);
+        StatusBarUtil.setTextDark(this);
 
 
         pagerAdapter = new PagerAdapterCard(getSupportFragmentManager(), titles);

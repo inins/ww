@@ -7,8 +7,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.frame.component.common.SimpleTextWatcher;
+import com.frame.component.entities.User;
+import com.frame.component.helper.AppDataHelper;
 import com.frame.component.service.R;
 import com.frame.component.service.R2;
+import com.frame.component.utils.viewutils.EditTextUtil;
 import com.frame.utils.ToastUtil;
 
 import butterknife.BindView;
@@ -47,6 +50,10 @@ public class DialogValiRequest extends BaseDialogOkCancel {
                 textCount.setText(text.length() + "/100");
             }
         });
+        User user = AppDataHelper.getUser();
+        if (user != null) {
+            EditTextUtil.setTextWithSelectionAtLast(editContent, "我是" + user.getNickname());
+        }
     }
 
     private String getContent() {

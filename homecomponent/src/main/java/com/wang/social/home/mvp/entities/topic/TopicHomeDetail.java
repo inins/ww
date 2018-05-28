@@ -51,15 +51,14 @@ public class TopicHomeDetail {
         topicHome.setTitle(title);
         topicHome.setFirstStrff(content);
         topicHome.setCreateTime(createTime);
-        topicHome.setTopicImage("xxx");
+        topicHome.setTopicImage(backgroundImage);
         topicHome.setTopicSupportNum(supportTotal);
         topicHome.setTopicCommentNum(commentTotal);
         topicHome.setTopicReadNum(readTotal);
         topicHome.setTopicTag(topicTag);
-        topicHome.setUserCover(avatar);
         topicHome.setUserName(nickname);
         topicHome.setFirstStrff(firstStrff);
-        topicHome.setUserCover(backgroundImage);
+        topicHome.setUserCover(avatar);
         topicHome.setIsShopping(shopping ? 1 : 0);
         topicHome.setIsSupport(support ? 1 : 0);
         topicHome.setIsFree(relateState);

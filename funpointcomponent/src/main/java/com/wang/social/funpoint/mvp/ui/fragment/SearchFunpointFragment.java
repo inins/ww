@@ -122,7 +122,7 @@ public class SearchFunpointFragment extends BasicFragment implements IView, Base
         if (!TextUtils.isEmpty(adapter.getTags()) || !TextUtils.isEmpty(adapter.getKey())) {
             netGetSearchList(adapter.getTags(), adapter.getKey(), isFresh);
         } else {
-            ToastUtil.showToastShort("请输入搜索关键字");
+            //ToastUtil.showToastShort("请输入搜索关键字");
         }
     }
 

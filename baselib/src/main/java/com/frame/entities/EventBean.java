@@ -78,6 +78,8 @@ public class EventBean implements Serializable {
     public static final int EVENT_FUNSHOW_DEL = 0xffa309;
     //通知趣晒新增了
     public static final int EVENT_FUNSHOW_ADD = 0xffa311;
+    //趣晒支付了
+    public static final int EVENT_FUNSHOW_PAYED = 0xffa312;
 
     //选择地址
     public static final int EVENT_LOCATION_SELECT = 0xffa401;
@@ -98,6 +100,8 @@ public class EventBean implements Serializable {
     public static final int EVENT_HOME_CARD_GENDER_SELECT = 0xffa701;
     //首页卡牌选择年龄筛选条件
     public static final int EVENT_HOME_CARD_AGE_SELECT = 0xffa702;
+    //首页卡牌 在详情页进行了添加好友操作通知卡牌页面展示下一个用户
+    public static final int EVENT_HOME_CARD_DETAIL_ADDFIREND = 0xffa703;
 
     //通知好友申请详情，处理好友申请
     public static final int EVENT_NOTIFY_DETAIL_DEAL = 0xffa801;
@@ -177,7 +181,9 @@ public class EventBean implements Serializable {
             EVENT_MSG_READALL,
             EVENT_NOTIFY_GROUP_MEMBER_PROFILE,
             EVENT_NOTIFY_GROUP_PROFILE,
-            EVENT_NOTIFY_FRIEND_PROFILE
+            EVENT_NOTIFY_FRIEND_PROFILE,
+            EVENT_HOME_CARD_DETAIL_ADDFIREND,
+            EVENT_FUNSHOW_PAYED,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface EventBeanType {
