@@ -4,11 +4,12 @@ import com.frame.di.component.AppComponent;
 import com.frame.di.scope.ActivityScope;
 import com.wang.social.im.mvp.ui.NewUsersActivity;
 import com.wang.social.im.mvp.ui.ShareListActivity;
+import com.wang.social.im.mvp.ui.ShareRecentlyActivity;
 import com.wang.social.im.mvp.ui.SocialChargeSettingActivity;
 import com.wang.social.im.mvp.ui.PrivateConversationActivity;
 import com.wang.social.im.mvp.ui.SocialLimitActivity;
-import com.wang.social.im.mvp.ui.SocialListActivity;
 import com.wang.social.im.mvp.ui.TeamChargeSettingActivity;
+import com.wang.social.im.mvp.ui.WWFriendSearchActivity;
 
 import dagger.Component;
 
@@ -35,4 +36,8 @@ public interface ActivityComponent {
     void inject(SocialLimitActivity activity);
 
     void inject(ShareListActivity shareListActivity);
+
+    void inject(ShareRecentlyActivity activity);
+
+    void inject(WWFriendSearchActivity activity);
 }

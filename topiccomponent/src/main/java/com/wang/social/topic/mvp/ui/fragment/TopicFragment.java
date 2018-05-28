@@ -11,13 +11,17 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.TextView;
 
+import com.app.hubert.guide.NewbieGuide;
+import com.app.hubert.guide.model.GuidePage;
 import com.frame.base.BaseFragment;
+import com.frame.component.helper.GuidePageHelper;
 import com.frame.component.ui.acticity.tags.TagSelectionActivity;
 import com.frame.component.ui.base.BaseLazyFragment;
 import com.frame.component.view.barview.BarUser;
 import com.frame.component.view.barview.BarView;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
+import com.frame.utils.SizeUtils;
 import com.frame.utils.ToastUtil;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.wang.social.topic.R;
@@ -39,6 +43,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.app.hubert.guide.model.HighLight.Shape.CIRCLE;
+import static com.app.hubert.guide.model.HighLight.Shape.ROUND_RECTANGLE;
 
 
 public class TopicFragment extends BaseLazyFragment<TopicPresenter> implements TopicContract.View {
@@ -121,6 +128,20 @@ public class TopicFragment extends BaseLazyFragment<TopicPresenter> implements T
 
         // 加载标签数据
         mPresenter.myRecommendTag();
+
+
+
+        NewbieGuide.with(this)
+                .setLabel("guide_topic")
+                .alwaysShow(true)
+                .addGuidePage(GuidePage.newInstance()
+                        .addHighLight(mBarView, ROUND_RECTANGLE, SizeUtils.dp2px(25), 0)
+                        .addHighLight(getActivity().findViewById(R.id.img_add), CIRCLE)
+                        .setLayoutRes(R.layout.lay_guide_topic, R.id.btn_go)
+                        .setEverywhereCancelable(false)
+                        .setEnterAnimation(GuidePageHelper.getEnterAnimation())
+                        .setExitAnimation(GuidePageHelper.getExitAnimation()))
+                .show();
     }
 
     @Override

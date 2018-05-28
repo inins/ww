@@ -12,6 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.frame.component.utils.imagedownloader.ImageDownloader;
+import com.frame.mvp.IView;
+import com.frame.utils.ToastUtil;
 import com.wang.social.pictureselector.ActivityPicturePreview;
 import com.wang.social.pictureselector.PictureSelector;
 import com.wang.social.pictureselector.R;
@@ -37,6 +40,11 @@ public class FragmentPicturePreview extends Fragment {
     String[] files;
     private int mCurrent;
     private int mType;
+    private IView mIView;
+
+    public void setIView(IView IView) {
+        mIView = IView;
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -55,7 +63,22 @@ public class FragmentPicturePreview extends Fragment {
                 .setOnClickListener(v -> {});
 
         // 图片下载按钮点击
-        mDownloadIV.setOnClickListener(v -> {});
+        mDownloadIV.setOnClickListener(v -> {
+            int current = viewPager.getCurrentItem();
+            if (current >= 0 && current < files.length) {
+                ImageDownloader.start(getActivity(), mIView, files[current], null, new ImageDownloader.ImageDownloaderCallback() {
+                    @Override
+                    public void onDownloadSuccess() {
+                        ToastUtil.showToastShort("图片已保存");
+                    }
+
+                    @Override
+                    public void onDownloadFailed() {
+                        ToastUtil.showToastShort("图片保存失败");
+                    }
+                });
+            }
+        });
 
         return rootView;
     }

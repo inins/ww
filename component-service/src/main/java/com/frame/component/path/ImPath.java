@@ -46,4 +46,8 @@ public interface ImPath extends BasePath {
     // 往往官方号
     String OFFICIAL_CHAT_ROBOT = "/official_chat_robot";
     String OFFICIAL_CHAT_ROBOT_URL = SCHEME + HOST + OFFICIAL_CHAT_ROBOT;
+
+    //分享到往往
+    String SHARE_RECENTLY = "/share_recently";
+    String SHARE_RECENTLY_URL = SCHEME + HOST + SHARE_RECENTLY;
 }

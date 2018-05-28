@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.frame.base.delegate.AppDelegate;
 import com.frame.component.app.Constant;
+import com.frame.component.enums.ConversationType;
 import com.frame.entities.EventBean;
 import com.frame.utils.FrameUtils;
 import com.tencent.imsdk.TIMConnListener;
@@ -34,6 +35,7 @@ import com.wang.social.im.R;
 import com.wang.social.im.enums.ConnectionStatus;
 import com.wang.social.im.helper.FriendShipHelper;
 import com.wang.social.im.helper.GroupHelper;
+import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.helper.StickHelper;
 
 import org.greenrobot.eventbus.EventBus;
@@ -79,7 +81,7 @@ public class ImAppLifecycleImpl implements AppDelegate {
      */
     private void imSdkInit(Application application) {
         //初始化SDK基本配置
-        TIMSdkConfig config = new TIMSdkConfig(Constant.IM_APPID)
+        TIMSdkConfig config = new TIMSdkConfig(IMConstants.IM_APPID)
                 .enableCrashReport(false) //是否开启Crash上报
                 .enableLogPrint(BuildConfig.DEBUG) //设置是否打印日志
                 .setLogLevel(TIMLogLevel.DEBUG) //设置日志打印级别
@@ -214,7 +216,12 @@ public class ImAppLifecycleImpl implements AppDelegate {
             Timber.tag(TAG).d("OnDelFriends");
             FriendShipHelper.getInstance().refresh();
             if (list != null && !list.isEmpty()) {
-                EventBean eventBean = new EventBean(EventBean.EVENT_NOTIFY_FRIEND_DELETE);
+                //删除会话
+                for (String s : list) {
+                    ImHelper.dropConversation(ConversationType.PRIVATE, s);
+                }
+
+                EventBean eventBean = new EventBean(EventBean.EVENTBUS_FRIEND_DELETE);
                 eventBean.put("identity", list.get(0));
                 EventBus.getDefault().post(eventBean);
             }

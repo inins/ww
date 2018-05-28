@@ -6,6 +6,11 @@ package com.wang.social.im.app;
 public interface IMConstants {
 
     /**
+     * 云通信IM SDK AppID
+     */
+    int IM_APPID = 1400075076; //开发
+//    int IM_APPID = 1400095271; //测试
+    /**
      * 小米推送：bussId
      */
     long MIPUSH_BUSSID = 3720;
@@ -75,6 +80,14 @@ public interface IMConstants {
      * 自定义消息Elem类型：服务器动态消息推送
      */
     String CUSTOM_ELEM_DYNAMIC_NOTIFY = "DynMsgNtf";
+    /**
+     * 自定义消息Elem类型：趣晒分享
+     */
+    String CUSTOM_ELEM_SHARE_FUN_SHOW = "qushai";
+    /**
+     * 自定义消息Elem类型：话题分享
+     */
+    String CUSTOM_ELEM_SHARE_TOPIC = "topic";
 
     /**
      * 个人红包上限

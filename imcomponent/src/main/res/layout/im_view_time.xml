@@ -5,6 +5,7 @@
     android:id="@+id/msg_tv_time"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:paddingBottom="10dp"
     android:textColor="@color/common_text_dark_light"
     android:textSize="10dp"
     tools:text="17:32"

@@ -1,5 +1,6 @@
 package com.wang.social.im.mvp.contract;
 
+import com.frame.component.entities.FriendInfo;
 import com.frame.http.api.BaseJson;
 import com.frame.mvp.IModel;
 import com.frame.mvp.IView;
@@ -27,6 +28,17 @@ public interface FriendsContract {
          * @param friends
          */
         void showFriends(List<IndexFriendInfo> friends);
+
+        /**
+         * 好友删除完成
+         *
+         * @param friendInfo
+         */
+        void onFriendDeleted(IndexFriendInfo friendInfo);
+
+        void showDialogLoading();
+
+        void hideDialogLoading();
     }
 
     interface Model extends IModel {
@@ -37,5 +49,12 @@ public interface FriendsContract {
          * @return
          */
         Observable<BaseJson<ListDataDTO<IndexFriendInfoDTO, IndexFriendInfo>>> getFriendList();
+
+        /**
+         * 删除好友
+         *
+         * @return
+         */
+        Observable<BaseJson> deleteFriend(String friendId);
     }
 }

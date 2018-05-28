@@ -21,10 +21,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.frame.component.common.AppConstant;
+import com.frame.component.enums.ShareSource;
+import com.frame.component.helper.AppDataHelper;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.ui.acticity.BGMList.Music;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.ui.dialog.DialogSure;
+import com.frame.component.utils.EntitiesUtil;
 import com.frame.component.view.MusicBoard;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
@@ -36,8 +41,10 @@ import com.frame.utils.SizeUtils;
 import com.frame.utils.StatusBarUtil;
 import com.frame.utils.TimeUtils;
 import com.frame.utils.ToastUtil;
+import com.wang.social.socialize.SocializeUtil;
 import com.wang.social.topic.R;
 import com.wang.social.topic.R2;
+import com.wang.social.topic.utils.HtmlUtil;
 import com.wang.social.topic.utils.StringUtil;
 import com.wang.social.topic.di.component.DaggerTopicDetailComponent;
 import com.wang.social.topic.di.module.TopicDetailModule;
@@ -55,6 +62,8 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.OnClick;
 import timber.log.Timber;
+
+import static com.frame.utils.ToastUtil.showToastLong;
 
 @RouteNode(path = "/topic_detail", desc = "话题详情")
 public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> implements TopicDetailContract.View {
@@ -176,6 +185,7 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
     // 话题ID
     private int mTopicId;
     private int mCreatorId;
+    private TopicDetail mTopicDetail;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -281,6 +291,7 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
         if (null == detail) return;
         mTopicId = detail.getTopicId();
         mCreatorId = detail.getCreatorId();
+        mTopicDetail = detail;
 
         // 背景图
         if (TextUtils.isEmpty(detail.getBackgroundImage())) {
@@ -290,6 +301,7 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
 
             // 没有背景图，返回按钮一直白色
             mBackGIV.setGradual(false);
+            mBackGIV.setDrawable(R.drawable.common_ic_back, R.drawable.common_ic_back);
 
             // 没有背景图时候的配色方案
             mBackgroundIV.setVisibility(View.GONE);
@@ -560,7 +572,26 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
 
     @OnClick(R2.id.share_layout)
     public void share() {
+        if (null == mTopicDetail) return;
 
+        /**
+         * @fixme
+         */
+        SocializeUtil.shareWithWW(getSupportFragmentManager(),
+                null,
+                AppConstant.Url.topic + "?topicId=" + mTopicId + "&userId=" + AppDataHelper.getUser().getUserId(),
+                mTopicDetail.getTitle(),
+                HtmlUtil.delHTMLTag(mTopicDetail.getContent()),
+                EntitiesUtil.assertNotNull(mTopicDetail.getBackgroundImage()),
+                (String url, String title, String content, String imageUrl) -> {
+//                    showToastLong("往往分享");
+                    CommonHelper.ImHelper.startWangWangShare(this,
+                            AppConstant.Url.TOPIC_SHARE_TITLE,
+                            AppConstant.Url.TOPIC_SHARE_CONTENT,
+                            EntitiesUtil.assertNotNull(mTopicDetail.getBackgroundImage()),
+                            ShareSource.SOURCE_TOPIC,
+                            Integer.toString(mTopicId));
+                });
     }
 
     @OnClick(R2.id.back_image_view)
@@ -570,7 +601,7 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
 
     @Override
     public void showToast(String msg) {
-        ToastUtil.showToastLong(msg);
+        showToastLong(msg);
     }
 
     @Override
@@ -580,6 +611,7 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
         if (null != mContentWV) {
             mContentWV.onResume();
         }
+
     }
 
     @Override
@@ -588,6 +620,11 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
 
         if (null != mContentWV) {
             mContentWV.onPause();
+        }
+
+        // 一定要调用，否则后台时任会播放
+        if (null != mMusicBoard) {
+            mMusicBoard.onPause();
         }
     }
 
@@ -608,6 +645,10 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
             mContentLayout.removeAllViews();
             mContentWV.destroy();
             mContentWV = null;
+        }
+
+        if (null != mMusicBoard) {
+            mMusicBoard.onStop();
         }
 
         super.onDestroy();

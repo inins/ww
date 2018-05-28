@@ -41,6 +41,10 @@ public enum MessageType {
      */
     GAME_TREE,
     /*
+     * 分享
+     */
+    SHARE,
+    /*
      * 未知消息
      */
     UNKNOWN

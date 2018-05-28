@@ -18,6 +18,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.frame.base.BaseFragment;
+import com.frame.component.common.AppConstant;
+import com.frame.component.enums.ShareSource;
+import com.frame.component.helper.AppDataHelper;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.router.Router;
 import com.frame.component.service.im.ImService;
 import com.frame.component.ui.acticity.WebActivity;
@@ -221,7 +225,7 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
 
             mGameScoreAdapter = new GameScoreAdapter(mMemberListRV, mPresenter.getGameScoreList());
             // 游戏结果列表距离顶部的距离有变化
-            LinearLayout.LayoutParams listParam = (LinearLayout.LayoutParams)mMemberListRV.getLayoutParams();
+            LinearLayout.LayoutParams listParam = (LinearLayout.LayoutParams) mMemberListRV.getLayoutParams();
             listParam.topMargin = SizeUtils.dp2px(50);
             mMemberListRV.setLayoutParams(listParam);
 
@@ -423,7 +427,7 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
     @OnClick(R2.id.game_rule_image_view)
     public void goToGameRule() {
         WebActivity.start(this,
-                "http://wangsocial.com/share/v_2.0/test/contentShared/cashcow/rule.html");
+                AppConstant.Url.cashcowrule);
     }
 
     /**
@@ -449,6 +453,7 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
 //                    mShakeHintTV.setVisibility(View.VISIBLE);
                 }
             };
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -518,15 +523,18 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
     public void share() {
         SocializeUtil.shareWithWW(getSupportFragmentManager(),
                 null,
-                "http://www.wangsocial.com/",
+                AppConstant.Url.cashcowindex + "?userId=" + AppDataHelper.getUser().getUserId(),
                 "往往",
                 "有点2的社交软件",
-                "http://resouce.dongdongwedding.com/activity_cashcow_moneyTree.png",
-                new SocializeUtil.WWShareListener() {
-                    @Override
-                    public void onWWShare(String url, String title, String content, String imageUrl) {
-                        showToastLong("往往分享");
-                    }
+                "",
+                (String url, String title, String content, String imageUrl) -> {
+//                    showToastLong("往往分享");
+                    CommonHelper.ImHelper.startWangWangShare(this,
+                            "",
+                            Integer.toString(mPresenter.getRoomMsg().getDiamond()),
+                            "",
+                            ShareSource.SOURCE_GAME_TREE,
+                            Integer.toString(mPresenter.getRoomId()));
                 });
     }
 

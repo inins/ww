@@ -18,6 +18,7 @@ import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMOfflinePushSettings;
 import com.tencent.imsdk.TIMOfflinePushToken;
+import com.tencent.imsdk.ext.message.TIMConversationExt;
 import com.tencent.imsdk.ext.message.TIMManagerExt;
 import com.wang.social.im.app.IMConstants;
 import com.wang.social.im.mvp.model.entities.UIConversation;
@@ -217,5 +218,16 @@ public class ImHelper {
             unread += uiConversation.getUnreadNum();
         }
         return unread;
+    }
+
+    /**
+     * 删除会话并清空消息
+     *
+     * @param conversationType
+     * @param identity
+     * @return
+     */
+    public static void dropConversation(ConversationType conversationType, String identity) {
+        TIMManagerExt.getInstance().deleteConversationAndLocalMsgs(conversationType == ConversationType.PRIVATE ? TIMConversationType.C2C : TIMConversationType.Group, identity);
     }
 }

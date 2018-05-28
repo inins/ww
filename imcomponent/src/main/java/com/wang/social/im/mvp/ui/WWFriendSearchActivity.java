@@ -1,10 +1,11 @@
-package com.frame.component.ui.acticity.wwfriendsearch;
+package com.wang.social.im.mvp.ui;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -14,8 +15,8 @@ import android.widget.TextView;
 
 import com.frame.component.api.CommonService;
 import com.frame.component.common.NetParam;
-import com.frame.component.service.R;
-import com.frame.component.service.R2;
+import com.frame.component.enums.ConversationType;
+import com.frame.component.enums.ShareSource;
 import com.frame.component.ui.acticity.wwfriendsearch.adapter.WWFriendSearchAdapter;
 import com.frame.component.ui.acticity.wwfriendsearch.entities.SearchBase;
 import com.frame.component.ui.acticity.wwfriendsearch.entities.SearchFriend;
@@ -28,21 +29,30 @@ import com.frame.di.component.AppComponent;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
+import com.frame.integration.AppManager;
 import com.frame.integration.IRepositoryManager;
-import com.frame.mvp.IView;
-import com.frame.utils.FrameUtils;
+import com.frame.router.facade.annotation.Autowired;
 import com.frame.utils.KeyboardUtils;
 import com.frame.utils.ToastUtil;
+import com.wang.social.im.R;
+import com.wang.social.im.R2;
+import com.wang.social.im.di.component.DaggerActivityComponent;
+import com.wang.social.im.helper.ImHelper;
+import com.wang.social.im.mvp.contract.ShareContract;
+import com.wang.social.im.mvp.model.entities.UIConversation;
+import com.wang.social.im.mvp.presenter.SharePresenter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.Observable;
 
-public class WWFriendSearchActivity extends BaseAppActivity implements IView,
+public class WWFriendSearchActivity extends BaseAppActivity<SharePresenter> implements ShareContract.View,
         WWFriendSearchAdapter.ClickListener {
 
     // 搜索输入框
@@ -75,27 +85,64 @@ public class WWFriendSearchActivity extends BaseAppActivity implements IView,
     @BindView(R2.id.friend_title_text_view)
     View mFriendTitleTV;
 
+    @Autowired
+    String title;
+    @Autowired
+    String content;
+    @Autowired
+    String imageUrl;
+    @Autowired
+    int source;
+    @Autowired
+    String objectId;
+
+    @Inject
+    ApiHelper mApiHelper;
+    @Inject
+    IRepositoryManager mRepositoryManager;
+    @Inject
+    AppManager mAppManager;
+
     private List<SearchBase> mFriendList = new ArrayList<>();
     private List<SearchBase> mGroupList = new ArrayList<>();
+    private ShareSource mShareSource;
 
-    private ApiHelper mApiHelper;
-    private IRepositoryManager mRepositoryManager;
+    public static void start(Context context, String title, String content, String imageUrl, ShareSource source, String objectId) {
+        Bundle bundle = new Bundle();
+        bundle.putString("title", title);
+        bundle.putString("content", content);
+        bundle.putString("imageUrl", imageUrl);
+        bundle.putInt("source", source == null ? -1 : source.ordinal());
+        bundle.putString("objectId", objectId);
+        Intent intent = new Intent(context, WWFriendSearchActivity.class);
+        intent.putExtras(bundle);
+        context.startActivity(intent);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (source != -1) {
+            mShareSource = ShareSource.values()[source];
+        }
+    }
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
-
+        DaggerActivityComponent
+                .builder()
+                .appComponent(appComponent)
+                .build()
+                .inject(this);
     }
 
     @Override
     public int initView(@NonNull Bundle savedInstanceState) {
-        return R.layout.activity_ww_friend_search;
+        return R.layout.im_ac_share_friend_search;
     }
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
-        mApiHelper = FrameUtils.obtainAppComponentFromContext(this).apiHelper();
-        mRepositoryManager = FrameUtils.obtainAppComponentFromContext(this).repoitoryManager();
-
         mFriendAdapter = new WWFriendSearchAdapter(this, mFriendList);
         mFriendAdapter.setClickListener(this);
         mFriendRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -115,6 +162,8 @@ public class WWFriendSearchActivity extends BaseAppActivity implements IView,
         });
 
         mContentLayout.setVisibility(View.GONE);
+
+        mPresenter.setRootView(this);
     }
 
     /**
@@ -159,6 +208,7 @@ public class WWFriendSearchActivity extends BaseAppActivity implements IView,
 
     /**
      * 搜索数据
+     *
      * @param keyword 关键字
      */
     private void listFriendAndGroup(String keyword) {
@@ -205,6 +255,7 @@ public class WWFriendSearchActivity extends BaseAppActivity implements IView,
 
     /**
      * 搜索数据
+     *
      * @param keyword 关键字
      */
     private Observable<BaseJson<SearchResultDTO>> netListFriendAndGroup(String keyword) {
@@ -229,19 +280,33 @@ public class WWFriendSearchActivity extends BaseAppActivity implements IView,
 
     /**
      * 好友选择
+     *
      * @param friend 好友信息
      */
     @Override
     public void onFriendClick(SearchFriend friend) {
-        ToastUtil.showToastShort(friend.getNickname() + " " + friend.getUserId());
+        mPresenter.sendMessage(String.valueOf(friend.getUserId()), ConversationType.PRIVATE, title, content, imageUrl, objectId, mShareSource);
     }
 
     /**
      * 群组选择
+     *
      * @param group 群组信息
      */
     @Override
     public void onGroupClick(SearchGroup group) {
-        ToastUtil.showToastShort(group.getGroup_name() + " " + group.getGroup_id());
+        String targetId = ImHelper.wangId2ImId(String.valueOf(group.getGroup_id()), ConversationType.SOCIAL);
+        mPresenter.sendMessage(targetId, ConversationType.SOCIAL, title, content, imageUrl, objectId, mShareSource);
+    }
+
+    @Override
+    public void showContacts(List<UIConversation> conversations) {
+
+    }
+
+    @Override
+    public void onShareComplete() {
+        finish();
+        mAppManager.killActivity(ShareRecentlyActivity.class);
     }
 }

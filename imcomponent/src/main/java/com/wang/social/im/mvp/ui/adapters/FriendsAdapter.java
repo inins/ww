@@ -2,6 +2,7 @@ package com.wang.social.im.mvp.ui.adapters;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.utils.FrameUtils;
 import com.wang.social.im.R;
 import com.wang.social.im.mvp.model.entities.IndexFriendInfo;
+import com.wang.social.im.view.SwipeMenuLayout;
 
 import java.util.Calendar;
 
@@ -34,8 +36,11 @@ public class FriendsAdapter extends IndexableAdapter<IndexFriendInfo> {
     private LayoutInflater mInflater;
     private ImageLoader imageLoader;
 
-    public FriendsAdapter(Context context) {
+    private OnHandleListener handleListener;
+
+    public FriendsAdapter(Context context, OnHandleListener handleListener) {
         this.context = context;
+        this.handleListener = handleListener;
         mInflater = LayoutInflater.from(context);
         imageLoader = FrameUtils.obtainAppComponentFromContext(context).imageLoader();
     }
@@ -60,6 +65,7 @@ public class FriendsAdapter extends IndexableAdapter<IndexFriendInfo> {
     @Override
     public void onBindContentViewHolder(RecyclerView.ViewHolder holder, IndexFriendInfo entity) {
         FriendViewHolder viewHolder = (FriendViewHolder) holder;
+        ((SwipeMenuLayout) viewHolder.itemView).quickClose();
         imageLoader.loadImage(context, ImageConfigImpl.builder()
                 .placeholder(R.drawable.common_default_circle_placeholder)
                 .errorPic(R.drawable.common_default_circle_placeholder)
@@ -91,6 +97,23 @@ public class FriendsAdapter extends IndexableAdapter<IndexFriendInfo> {
             tags = tags + "#" + tag.getTagName() + " ";
         }
         viewHolder.tvTags.setText(tags);
+        viewHolder.tvbDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((SwipeMenuLayout) viewHolder.itemView).smoothClose();
+                if (handleListener != null) {
+                    handleListener.onDelete(entity);
+                }
+            }
+        });
+        viewHolder.clContent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (handleListener != null){
+                    handleListener.onItemClick(entity);
+                }
+            }
+        });
     }
 
     private class IndexViewHolder extends RecyclerView.ViewHolder {
@@ -110,6 +133,8 @@ public class FriendsAdapter extends IndexableAdapter<IndexFriendInfo> {
         private TextView tvAge;
         private TextView tvConstellation;
         private TextView tvTags;
+        private TextView tvbDelete;
+        private ConstraintLayout clContent;
 
         public FriendViewHolder(View itemView) {
             super(itemView);
@@ -118,6 +143,15 @@ public class FriendsAdapter extends IndexableAdapter<IndexFriendInfo> {
             tvAge = itemView.findViewById(R.id.if_tv_age);
             tvConstellation = itemView.findViewById(R.id.if_tv_constellation);
             tvTags = itemView.findViewById(R.id.if_tv_tags);
+            tvbDelete = itemView.findViewById(R.id.im_tvb_delete);
+            clContent = itemView.findViewById(R.id.if_cl_content);
         }
+    }
+
+    public interface OnHandleListener {
+
+        void onDelete(IndexFriendInfo friendInfo);
+
+        void onItemClick(IndexFriendInfo friendInfo);
     }
 }

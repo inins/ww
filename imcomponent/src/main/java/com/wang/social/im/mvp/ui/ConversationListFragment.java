@@ -325,7 +325,9 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
             }
         } else if (event.getEvent() == EventBean.EVENT_NOTIFY_FRIEND_ADD) {
             Fragment fragment = getChildFragmentManager().findFragmentByTag(NobodyFragment.class.getName());
-            getChildFragmentManager().beginTransaction().hide(fragment).commitAllowingStateLoss();
+            if (fragment != null) {
+                getChildFragmentManager().beginTransaction().hide(fragment).commitAllowingStateLoss();
+            }
         } else if (event.getEvent() == EventBean.EVENT_NOTIFY_PROFILE_UPDATED) {
             mAdapter.notifyDataSetChanged();
         }

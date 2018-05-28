@@ -142,7 +142,7 @@
                 android:id="@+id/comment_image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/common_ic_comment_hot"/>
+                android:src="@drawable/common_ic_comment"/>
 
             <TextView
                 android:id="@+id/comment_text_view"
@@ -169,7 +169,7 @@
                 android:id="@+id/share_image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/common_ic_share_hot"/>
+                android:src="@drawable/common_ic_share"/>
 
             <TextView
                 android:id="@+id/share_text_view"

@@ -1,6 +1,7 @@
 package com.wang.social.topic.utils;
 
 import android.content.Context;
+import android.net.Uri;
 import android.text.TextUtils;
 
 import com.frame.utils.TimeUtils;

@@ -13,6 +13,8 @@ import static com.wang.social.im.app.IMConstants.CUSTOM_ELEM_ENVELOP;
 import static com.wang.social.im.app.IMConstants.CUSTOM_ELEM_GAME;
 import static com.wang.social.im.app.IMConstants.CUSTOM_ELEM_GAME_NOTIFY;
 import static com.wang.social.im.app.IMConstants.CUSTOM_ELEM_SHADOW;
+import static com.wang.social.im.app.IMConstants.CUSTOM_ELEM_SHARE_FUN_SHOW;
+import static com.wang.social.im.app.IMConstants.CUSTOM_ELEM_SHARE_TOPIC;
 import static com.wang.social.im.app.IMConstants.CUSTOM_ELEM_SYSTEM_NOTIFY;
 
 /**
@@ -51,7 +53,15 @@ public enum CustomElemType {
     /*
      * 动态消息通知
      */
-    DYNAMIC_NOTIFY(CUSTOM_ELEM_DYNAMIC_NOTIFY);
+    DYNAMIC_NOTIFY(CUSTOM_ELEM_DYNAMIC_NOTIFY),
+    /*
+     * 趣晒分享
+     */
+    SHARE_FUN_SHOW(CUSTOM_ELEM_SHARE_FUN_SHOW),
+    /*
+     * 话题分享
+     */
+    SHARE_TOPIC(CUSTOM_ELEM_SHARE_TOPIC);
 
     String value;
 

@@ -10,6 +10,7 @@ import com.frame.http.api.ApiHelper;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
+import com.frame.utils.ToastUtil;
 import com.wang.social.topic.mvp.contract.ReleaseTopicContract;
 import com.wang.social.topic.mvp.model.entities.Template;
 import com.wang.social.topic.utils.FileUtil;
@@ -315,29 +316,28 @@ public class ReleaseTopicPresenter extends
 
                     @Override
                     public void onError(Throwable e) {
-
+                        ToastUtil.showToastShort(e.getMessage());
                     }
 
-                }, new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        mRootView.showLoading();
-                    }
-                }, new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mRootView.hideLoading();
-                    }
-                });
+                },
+                disposable -> {},
+                () -> mRootView.hideLoading());
     }
 
 
     //上传图片
     private void netUploadCommit(String path) {
+        path = path.replaceAll("&amp;", "&");
         qiNiuManager.uploadFile(mRootView, path, new QiNiuManager.OnSingleUploadListener() {
             @Override
             public void onSuccess(String url) {
                 Timber.i("上传资源成功 " + url);
+
+                if (TextUtils.isEmpty(url)) {
+                    onFail();
+                    return;
+                }
+
                 if (mCommitState == COMMIT_STATE_COVER_IMAGE) {
                      // 上传封面图片成功
                     mBackgroundImage = url;
@@ -365,6 +365,7 @@ public class ReleaseTopicPresenter extends
 
             @Override
             public void onFail() {
+                ToastUtil.showToastShort("上传资源失败");
                 // 上传附件失败
                 mRootView.hideLoading();
             }

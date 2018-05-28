@@ -144,6 +144,8 @@ public class UIMessage {
                     messageType = MessageType.GAME_NOTIFY;
                 } else if (elemType == CustomElemType.GAME) {
                     messageType = MessageType.GAME_TREE;
+                } else if (elemType == CustomElemType.SHARE_FUN_SHOW || elemType == CustomElemType.SHARE_TOPIC) {
+                    messageType = MessageType.SHARE;
                 }
             }
         }
@@ -183,6 +185,12 @@ public class UIMessage {
                 break;
             case RED_ENVELOP:
                 summary = UIUtil.getString(R.string.im_cvs_summary_red_envelope);
+                break;
+            case GAME_TREE:
+                UIUtil.getString(R.string.im_cvs_summary_game_tree);
+                break;
+            case SHARE:
+                summary = UIUtil.getString(R.string.im_cvs_summary_share);
                 break;
             default:
                 summary = "";

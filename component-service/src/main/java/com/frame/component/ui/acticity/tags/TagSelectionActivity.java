@@ -307,7 +307,7 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
         });
 
         // 只有兴趣标签，且不是从登录跳转的，才有大量知识
-        if (mTagType != TAG_TYPE_INTEREST && !fromLogin) {
+        if (mTagType != TAG_TYPE_INTEREST || fromLogin) {
             mTatAllLayout.setVisibility(View.GONE);
         } else {
             mTatAllLayout.setVisibility(View.VISIBLE);

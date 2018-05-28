@@ -2,6 +2,7 @@ package com.wang.social.im.mvp.presenter;
 
 import com.frame.di.scope.FragmentScope;
 import com.frame.http.api.ApiHelper;
+import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.mvp.BasePresenter;
 import com.wang.social.im.mvp.contract.FriendsContract;
@@ -33,6 +34,9 @@ public class FriendsPresenter extends BasePresenter<FriendsContract.Model, Frien
         super(model, view);
     }
 
+    /**
+     * 获取好友列表
+     */
     public void getFriendsList() {
         mApiHelper.execute(mRootView, mModel.getFriendList(),
                 new ErrorHandleSubscriber<ListData<IndexFriendInfo>>() {
@@ -44,7 +48,7 @@ public class FriendsPresenter extends BasePresenter<FriendsContract.Model, Frien
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
-                        if (e instanceof NullPointerException){
+                        if (e instanceof NullPointerException) {
                             mRootView.showFriends(new ArrayList<>());
                         }
                     }
@@ -57,6 +61,31 @@ public class FriendsPresenter extends BasePresenter<FriendsContract.Model, Frien
                     @Override
                     public void run() throws Exception {
                         mRootView.hideLoading();
+                    }
+                });
+    }
+
+    /**
+     * 删除好友
+     *
+     * @param friendInfo
+     */
+    public void deleteFriend(IndexFriendInfo friendInfo) {
+        mApiHelper.executeNone(mRootView, mModel.deleteFriend(friendInfo.getFriendId()),
+                new ErrorHandleSubscriber<BaseJson>() {
+                    @Override
+                    public void onNext(BaseJson baseJson) {
+                        mRootView.onFriendDeleted(friendInfo);
+                    }
+                }, new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                        mRootView.showDialogLoading();
+                    }
+                }, new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mRootView.hideDialogLoading();
                     }
                 });
     }

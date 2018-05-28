@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.frame.component.entities.User;
 import com.frame.component.enums.ConversationType;
+import com.frame.component.enums.ShareSource;
 import com.frame.component.path.FunshowPath;
 import com.frame.component.path.AppPath;
 import com.frame.component.path.ImPath;
@@ -242,7 +243,7 @@ public class CommonHelper {
         /**
          * 趣聊主页
          *
-         * @param context context
+         * @param context  context
          * @param socialId 趣聊群id
          */
         public static void gotoSocialHome(Context context, String socialId) {
@@ -253,12 +254,32 @@ public class CommonHelper {
 
         /**
          * 启动往往官方号页面
+         *
          * @param context context
          */
         public static void startOfficialChatRobot(Context context) {
             UIRouter.getInstance().openUri(context, ImPath.OFFICIAL_CHAT_ROBOT_URL, null);
         }
 
+        /**
+         * 往往内部分享
+         *
+         * @param context
+         * @param title    分享标题
+         * @param content  分享内容(若为分享游戏此字段表示游戏钻石数)
+         * @param imageUrl 图片URL
+         * @param source   来源
+         * @param objectId 分享对象ID
+         */
+        public static void startWangWangShare(Context context, String title, String content, String imageUrl, ShareSource source, String objectId) {
+            Bundle bundle = new Bundle();
+            bundle.putString("title", title);
+            bundle.putString("content", content);
+            bundle.putString("imageUrl", imageUrl);
+            bundle.putInt("source", source == null ? -1 : source.ordinal());
+            bundle.putString("objectId", objectId);
+            UIRouter.getInstance().openUri(context, ImPath.SHARE_RECENTLY_URL, bundle);
+        }
     }
 
     public static class TopicHelper {

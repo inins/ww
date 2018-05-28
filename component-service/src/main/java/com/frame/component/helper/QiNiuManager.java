@@ -1,5 +1,6 @@
 package com.frame.component.helper;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 
@@ -20,6 +21,7 @@ import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UploadManager;
 
 import java.io.File;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -34,6 +36,7 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 /**
  * 七牛文件上传工具类
@@ -249,9 +252,10 @@ public class QiNiuManager {
         if (StrUtil.isUrl(path)) {
             return path;
         }
-
+//        path = Uri.encode(path);
         final File file = new File(path);
         if (!file.exists()) {
+            Timber.e(path + " 不存在");
             return "";
         }
 

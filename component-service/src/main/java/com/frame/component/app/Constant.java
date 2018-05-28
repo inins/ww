@@ -10,11 +10,6 @@ package com.frame.component.app;
 public interface Constant {
 
     /**
-     * 云通信IM SDK AppID
-     */
-    int IM_APPID = 1400075076;
-
-    /**
      * 支付类型:创建趣聊
      */
     String PAY_OBJECT_TYPE_CREATE_SOCIAL = "creategroup";

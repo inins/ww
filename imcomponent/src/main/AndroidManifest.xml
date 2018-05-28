@@ -52,6 +52,7 @@
         android:protectionLevel="signature" />
 
     <uses-permission android:name="com.dongdongkeji.wangwangsocial.permission.C2D_MESSAGE" />
+
     <!-- 魅族推送END -->
     <application
         android:allowBackup="true"
@@ -353,6 +354,10 @@
             android:name=".mvp.ui.NotifyAiteListActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".mvp.ui.TeamFunPointActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".mvp.ui.QrcodeGroupActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
@@ -360,6 +365,13 @@
             android:name=".mvp.ui.BackgroundSettingActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.ui.ShareRecentlyActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.ui.WWFriendSearchActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible" />
     </application>
-
 </manifest>

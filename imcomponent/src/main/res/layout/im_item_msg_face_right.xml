@@ -22,11 +22,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="9dp"
-        android:layout_marginTop="10dp"
         app:layout_constraintRight_toLeftOf="@id/msg_iv_portrait"
         app:layout_constraintTop_toBottomOf="@id/msg_tv_time"
         app:layout_goneMarginEnd="@dimen/common_border_margin"
-        app:layout_goneMarginTop="0dp"
         tools:src="@drawable/im_ww_emoji_101" />
 
     <ImageView

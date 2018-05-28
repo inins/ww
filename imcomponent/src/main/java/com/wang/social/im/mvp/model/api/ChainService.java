@@ -71,4 +71,6 @@ public interface ChainService {
     @FormUrlEncoded
     @POST("app/userInfo/comparisonUserPhone")
     Observable<BaseJson<ListDataDTO<ContactCheckResultDTO, ContactCheckResult>>> checkPhoneBook(@Field("v") String version, @Field("phones") String phones);
+
+
 }

@@ -3,7 +3,7 @@
 //} else {
     apply plugin: 'com.component.build'
 //}
-//apply plugin: 'com.jakewharton.butterknife'
+apply plugin: 'com.jakewharton.butterknife'
 
 
 apply plugin: 'com.jakewharton.butterknife'

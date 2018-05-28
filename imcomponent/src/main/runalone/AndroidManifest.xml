@@ -335,7 +335,19 @@
         <activity android:name=".mvp.ui.TeamFunPointActivity"></activity>
         <activity android:name=".mvp.ui.QrcodeGroupActivity" />
 
-        <activity android:name=".mvp.ui.OfficialChatRobot.OfficialChatRobotActivity"></activity>
+        <activity android:name=".mvp.ui.OfficialChatRobot.OfficialChatRobotActivity"/>
+        <activity
+            android:name=".mvp.ui.BackgroundSettingActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.ui.ShareRecentlyActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.ui.WWFriendSearchActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible" />
     </application>
 
 </manifest>

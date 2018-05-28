@@ -7,6 +7,8 @@
     <string name="im_cvs_summary_location">[位置]</string>
     <string name="im_cvs_summary_emotion">[表情]</string>
     <string name="im_cvs_summary_red_envelope">[红包]</string>
+    <string name="im_cvs_summary_share">[分享]</string>
+    <string name="im_cvs_summary_game_tree">[摇钱树]</string>
     <string name="im_cvs_unread_max">99+</string>
     <string name="im_cvs_stick">置顶</string>
     <string name="im_cvs_unstick">取消置顶</string>
