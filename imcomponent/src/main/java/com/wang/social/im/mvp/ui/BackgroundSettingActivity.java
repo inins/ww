@@ -88,19 +88,15 @@ public class BackgroundSettingActivity extends BaseAppActivity<BackgroundSetting
         bsLoader.setFooter(new AliHeader(this, false));
 
         bsRlv.setLayoutManager(new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false));
-        space = SizeUtils.dp2px(8);
+        space = SizeUtils.dp2px(4);
         bsRlv.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
                 super.getItemOffsets(outRect, view, parent, state);
                 outRect.left = space;
                 outRect.bottom = space;
-                if (parent.getChildLayoutPosition(view) < 3) {
-                    outRect.top = space;
-                }
-                if ((parent.getChildLayoutPosition(view) + 1) % 3 == 0) {
-                    outRect.right = space;
-                }
+                outRect.right = space;
+                outRect.top = space;
             }
         });
         mAdapter = new BackgroundImageAdapter();

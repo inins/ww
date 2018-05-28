@@ -61,12 +61,14 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
     //未知消息
     private final int TYPE_UNKNOWN = 102;
 
+    private String mTargetId;
     private ConversationType mConversationType;
 
     @Setter
     private BaseMessageViewHolder.OnHandleListener handleListener;
 
-    public MessageListAdapter(ConversationType conversationType) {
+    public MessageListAdapter(String targetId, ConversationType conversationType) {
+        this.mTargetId = targetId;
         this.mConversationType = conversationType;
     }
 
@@ -165,6 +167,7 @@ public class MessageListAdapter extends BaseAdapter<UIMessage> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         UIMessage currentMessage = valueList.get(position);
+        ((BaseMessageViewHolder) holder).targetId = mTargetId;
         ((BaseMessageViewHolder) holder).conversationType = mConversationType;
         ((BaseMessageViewHolder) holder).mHandleListener = handleListener;
         if (position > 0) {

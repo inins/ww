@@ -10,6 +10,8 @@ import com.wang.social.im.mvp.model.entities.ListData;
 import com.wang.social.im.mvp.model.entities.SocialInfo;
 import com.wang.social.im.mvp.model.entities.TeamInfo;
 
+import org.greenrobot.eventbus.EventBus;
+
 import javax.inject.Inject;
 
 import io.reactivex.disposables.Disposable;
@@ -63,6 +65,7 @@ public class SocialHomePresenter extends GroupPresenter<SocialHomeContract.Model
 
     /**
      * 修改信息
+     *
      * @param social
      */
     public void updateSocialInfo(SocialInfo social) {
@@ -70,7 +73,6 @@ public class SocialHomePresenter extends GroupPresenter<SocialHomeContract.Model
                 new ErrorHandleSubscriber<BaseJson>(mErrorHandler) {
                     @Override
                     public void onNext(BaseJson baseJson) {
-
                     }
 
                     @Override
@@ -95,9 +97,10 @@ public class SocialHomePresenter extends GroupPresenter<SocialHomeContract.Model
 
     /**
      * 获取觅聊列表
+     *
      * @param socialId
      */
-    public void getTeamList(String socialId){
+    public void getTeamList(String socialId) {
         mApiHelper.execute(mRootView, mModel.getTeamList(socialId),
                 new ErrorHandleSubscriber<ListData<TeamInfo>>() {
                     @Override

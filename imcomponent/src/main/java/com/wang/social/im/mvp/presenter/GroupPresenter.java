@@ -2,6 +2,7 @@ package com.wang.social.im.mvp.presenter;
 
 import android.text.TextUtils;
 
+import com.frame.component.enums.ConversationType;
 import com.frame.component.helper.QiNiuManager;
 import com.frame.component.utils.UIUtil;
 import com.frame.entities.EventBean;
@@ -18,8 +19,10 @@ import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.ext.message.TIMConversationExt;
+import com.tencent.imsdk.ext.message.TIMManagerExt;
 import com.wang.social.im.R;
 import com.wang.social.im.enums.MessageNotifyType;
+import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.mvp.contract.GroupContract;
 import com.wang.social.im.mvp.model.entities.ListData;
 import com.wang.social.im.mvp.model.entities.MemberInfo;
@@ -35,6 +38,7 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 
 import static com.frame.entities.EventBean.EVENT_NOTIFY_CLEAR_MESSAGE;
+import static com.frame.entities.EventBean.EVENT_NOTIFY_GROUP_MEMBER_PROFILE;
 
 /**
  * ============================================
@@ -109,14 +113,14 @@ public class GroupPresenter<M extends GroupContract.GroupModel, V extends GroupC
      * @param nickname
      * @param portrait
      */
-    public void updateNameCard(String groupId, String nickname, String portrait, MessageNotifyType notifyType) {
+    public void updateNameCard(String groupId, ConversationType conversationType, String nickname, String portrait, MessageNotifyType notifyType) {
         if (!TextUtils.isEmpty(portrait) && !portrait.startsWith("http")) {
             QiNiuManager manager = new QiNiuManager(mRepositoryManager);
             mRootView.showLoading();
             manager.uploadFile(mRootView, portrait, new QiNiuManager.OnSingleUploadListener() {
                 @Override
                 public void onSuccess(String url) {
-                    updateNameCard(groupId, nickname, url, notifyType);
+                    updateNameCard(groupId, conversationType, nickname, url, notifyType);
                 }
 
                 @Override
@@ -130,7 +134,12 @@ public class GroupPresenter<M extends GroupContract.GroupModel, V extends GroupC
                     new ErrorHandleSubscriber<BaseJson>(mErrorHandler) {
                         @Override
                         public void onNext(BaseJson baseJson) {
-
+                            EventBean eventBean = new EventBean(EVENT_NOTIFY_GROUP_MEMBER_PROFILE);
+                            eventBean.put("groupId", ImHelper.wangId2ImId(groupId, conversationType));
+                            eventBean.put("identity", TIMManager.getInstance().getLoginUser());
+                            eventBean.put("nickname", nickname);
+                            eventBean.put("portrait", portrait);
+                            EventBus.getDefault().post(eventBean);
                         }
                     }, new Consumer<Disposable>() {
                         @Override

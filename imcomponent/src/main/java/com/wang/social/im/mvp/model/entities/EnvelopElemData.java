@@ -26,7 +26,7 @@ public class EnvelopElemData {
      */
     @Getter
     @Setter
-    @SerializedName("value")
+    @SerializedName("packId")
     private long envelopId;
     /**
      * 红包消息内容

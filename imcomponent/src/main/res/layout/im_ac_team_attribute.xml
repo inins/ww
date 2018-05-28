@@ -89,6 +89,7 @@
             android:layout_marginStart="5dp"
             android:text="@string/im_need_audit"
             android:textColor="@color/common_blue_gray"
+            android:visibility="gone"
             android:textSize="11dp"
             app:layout_constraintBottom_toBottomOf="@id/ta_tv_join_free"
             app:layout_constraintLeft_toRightOf="@id/ta_tv_join_free" />

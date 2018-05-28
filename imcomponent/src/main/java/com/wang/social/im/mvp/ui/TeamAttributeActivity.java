@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.frame.component.common.AppConstant;
+import com.frame.component.ui.acticity.WebActivity;
 import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.component.utils.UIUtil;
 import com.frame.component.view.SocialToolbar;
@@ -134,7 +136,7 @@ public class TeamAttributeActivity extends BasicAppActivity {
                     mAttribute.setGem(500);
 
                 }
-                if (!mFromTextChange){
+                if (!mFromTextChange) {
                     taEtGem.setText("");
                 }
                 mFromTextChange = false;
@@ -206,7 +208,7 @@ public class TeamAttributeActivity extends BasicAppActivity {
             mAttribute.setCharge(!mAttribute.isCharge());
             toggleJoin();
         } else if (view.getId() == R.id.sa_tv_notice) { //付费须知
-
+            WebActivity.start(this, AppConstant.Url.MI_NOTICE);
         }
     }
 

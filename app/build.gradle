@@ -23,7 +23,7 @@ android {
             }
         }
 
-        multiDexEnabled  true
+        multiDexEnabled true
 
         //三方平台配置
         manifestPlaceholders = [qqappid: "1106099147"]
@@ -75,11 +75,32 @@ android {
             }
         }
     }
-    //打包apk自动命名，规则：项目名-版本号-版本名-编译类型-打包时间.apk
+    //打包apk自动命名，规则：项目名_渠道名_版本号_编译类型.apk
     android.applicationVariants.all { variant ->
         variant.outputs.all {
-            def releaseTime = new Date().format("yyyyMMddHHmm");
-            outputFileName = "wangwang-${defaultConfig.versionCode}-${defaultConfig.versionName}-${variant.buildType.name}-${releaseTime}.apk"
+            outputFileName = "wangwang_${variant.productFlavors[0].name}_v${defaultConfig.versionName}_${variant.buildType.name}.apk"
+        }
+    }
+
+    //多渠道打包
+    flavorDimensions rootProject.ext.android["versionCode"].toString()
+    productFlavors {
+        yingyongbao {}
+        _360 {}
+        oppo {}
+        vivo {}
+        anzhi {}
+        baidu {}
+        huawei {}
+        lianxiang {}
+        wandoujia {}
+        xiaomi {}
+        sanxing {}
+        chuizi {}
+        other {}
+
+        productFlavors.all {
+            flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
         }
     }
 }

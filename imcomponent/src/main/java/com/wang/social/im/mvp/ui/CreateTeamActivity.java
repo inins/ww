@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -26,11 +28,13 @@ import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.http.imageloader.glide.RoundedCornersTransformation;
 import com.frame.router.facade.annotation.Autowired;
+import com.frame.utils.RegexUtils;
 import com.frame.utils.ToastUtil;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
+import com.wang.social.im.common.InputLengthFilter;
 import com.wang.social.im.di.component.DaggerCreateTeamComponent;
 import com.wang.social.im.di.modules.CreateTeamModule;
 import com.wang.social.im.helper.ImageSelectHelper;
@@ -119,6 +123,15 @@ public class CreateTeamActivity extends BaseAppActivity<CreateTeamPresenter> imp
     }
 
     private void init() {
+        ctEtName.setFilters(new InputFilter[]{new InputFilter() {
+            @Override
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                if (!RegexUtils.isUsernameMe(source)) {
+                    return "";
+                }
+                return source;
+            }
+        }, new InputLengthFilter(8, false)});
         ctToolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
             @Override
             public void onButtonClick(SocialToolbar.ClickType clickType) {

@@ -32,13 +32,6 @@ import butterknife.BindView;
  */
 public class EnvelopViewHolder extends BaseMessageViewHolder<UIMessage> {
 
-    @BindView(R2.id.msg_tv_time)
-    TextView msgTvTime;
-    @BindView(R2.id.msg_iv_portrait)
-    ImageView msgIvPortrait;
-    @BindView(R2.id.msg_tv_name)
-    @Nullable
-    TextView msgTvName;
     @BindView(R2.id.msg_tv_message)
     TextView msgTvMessage;
     @BindView(R2.id.msg_tv_status)
@@ -66,32 +59,7 @@ public class EnvelopViewHolder extends BaseMessageViewHolder<UIMessage> {
 
     @Override
     protected void bindData(UIMessage itemValue, int position, BaseAdapter.OnItemClickListener onItemClickListener) {
-        if (itemValue.isShowTime()) {
-            msgTvTime.setVisibility(View.VISIBLE);
-            msgTvTime.setText(getTimeStr(itemValue.getTimMessage().timestamp()));
-        } else {
-            msgTvTime.setVisibility(View.GONE);
-        }
-
-        if (showNickname && msgTvName != null) {
-            msgTvName.setVisibility(View.VISIBLE);
-            msgTvName.setText(itemValue.getNickname(conversationType));
-        } else if (msgTvName != null) {
-            msgTvName.setVisibility(View.GONE);
-        }
-
-        //头像
-        if (showHeader) {
-            msgIvPortrait.setVisibility(View.VISIBLE);
-            mImageLoader.loadImage(getContext(), ImageConfigImpl.builder()
-                    .placeholder(R.drawable.common_default_circle_placeholder)
-                    .imageView(msgIvPortrait)
-                    .isCircle(true)
-                    .url(itemValue.getPortrait(conversationType))
-                    .build());
-        } else {
-            msgIvPortrait.setVisibility(View.GONE);
-        }
+        super.bindData(itemValue, position, onItemClickListener);
 
         //显示红包信息
         EnvelopElemData elem = (EnvelopElemData) itemValue.getCustomMessageElemData(CustomElemType.RED_ENVELOP, EnvelopElemData.class, gson);
