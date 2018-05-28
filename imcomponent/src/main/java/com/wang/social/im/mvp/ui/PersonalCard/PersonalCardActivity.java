@@ -26,6 +26,7 @@ import com.frame.component.view.GradualImageView;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.router.facade.annotation.RouteNode;
+import com.frame.utils.RegexUtils;
 import com.frame.utils.StatusBarUtil;
 import com.frame.utils.TimeUtils;
 import com.frame.utils.ToastUtil;
@@ -378,6 +379,8 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
         mXingZuoTV.setVisibility(View.VISIBLE);
         mTabLayout.setVisibility(View.VISIBLE);
 
+        initTabLayout();
+
         // 加载用户数据统计
         mPresenter.loadUserStatistics(mUserId);
     }
@@ -496,8 +499,6 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
                     break;
             }
         }
-
-        initTabLayout();
     }
 
     @Override
@@ -599,10 +600,21 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
                     12);
             mSetRemarkDialog.setOnInputListener(
                     text -> {
+                        boolean dismiss = true;
                         // 设置备注
-                        mPresenter.setFriendRemard(mUserId, text);
+                        if (!TextUtils.isEmpty(text)) {
+                            // 检测输入格式
+                            if (RegexUtils.isUsernameMe(text)) {
+                                mPresenter.setFriendRemard(mUserId, text);
+                            } else {
+                                ToastUtil.showToastShort("仅允许输入下划线符号");
+                                dismiss = false;
+                            }
+                        }
 
-                        mSetRemarkDialog.dismiss();
+                        if (dismiss) {
+                            mSetRemarkDialog.dismiss();
+                        }
                     }
             );
         }
