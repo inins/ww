@@ -93,6 +93,8 @@ public class EventBean implements Serializable {
     public static final int EVENT_HOME_CARD_GENDER_SELECT = 0xffa701;
     //首页卡牌选择年龄筛选条件
     public static final int EVENT_HOME_CARD_AGE_SELECT = 0xffa702;
+    //首页卡牌 在详情页进行了添加好友操作通知卡牌页面展示下一个用户
+    public static final int EVENT_HOME_CARD_DETAIL_ADDFIREND = 0xffa703;
 
     //通知好友申请详情，处理好友申请
     public static final int EVENT_NOTIFY_DETAIL_DEAL = 0xffa801;
@@ -166,6 +168,7 @@ public class EventBean implements Serializable {
             EVENT_NOTIFY_BACKGROUND,
             EVENT_NOTIFY_MESSAGE_UNREAD,
             EVENT_MSG_READALL,
+            EVENT_HOME_CARD_DETAIL_ADDFIREND,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface EventBeanType {

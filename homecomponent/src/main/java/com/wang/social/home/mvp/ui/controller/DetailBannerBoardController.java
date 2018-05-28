@@ -70,7 +70,7 @@ public class DetailBannerBoardController extends BaseController {
             ImageLoaderHelper.loadCircleImg(imgHeader, user.getAvatar());
             textName.setText(user.getNickname());
             textLableGender.setSelected(!user.isMale());
-            textLableGender.setText(TimeUtils.getBirthdaySpan(user.getBirthday()));
+            textLableGender.setText(TimeUtils.getAgeByBirth(user.getBirthday()) + "");
             textLableAstro.setText(TimeUtils.getAstro(user.getBirthday()));
             textPosition.setText(user.getCityName());
             textSign.setText(user.getAutograph());

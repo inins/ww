@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.frame.component.entities.funshow.FunshowBean;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.helper.NetZanHelper;
 import com.frame.component.service.R;
@@ -128,6 +129,10 @@ public class FunshowView extends FrameLayout implements View.OnClickListener {
         } else {
             ImageLoaderHelper.loadBlurImg(imgPic, bean.getShowPic());
         }
+
+        imgHeader.setOnClickListener(v -> {
+            CommonHelper.ImHelper.startPersonalCardForBrowse(getContext(), bean.getUserId());
+        });
     }
 
     @Override

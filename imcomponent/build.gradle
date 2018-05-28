@@ -11,7 +11,7 @@ android {
     }
 
     defaultConfig {
-//        manifestPlaceholders = [qqappid: "1106099147"]
+        manifestPlaceholders = [qqappid: "1106099147"]
         minSdkVersion rootProject.ext.android["minSdkVersion"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
         versionCode rootProject.ext.android["versionCode"]

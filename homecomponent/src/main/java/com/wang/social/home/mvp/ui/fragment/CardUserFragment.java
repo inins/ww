@@ -90,6 +90,10 @@ public class CardUserFragment extends BasicNoDiFragment implements RecycleAdapte
                 age = (String) event.get("age");
                 netGetCardUsers(true);
                 break;
+            case EventBean.EVENT_HOME_CARD_DETAIL_ADDFIREND:
+                //在详情页进行了添加好友操作通知卡牌页面展示下一个用户
+                adapter.nextCard();
+                break;
         }
     }
 
@@ -126,6 +130,7 @@ public class CardUserFragment extends BasicNoDiFragment implements RecycleAdapte
                     });
                 });
             }
+            //FIXME:这个逻辑不对，不能是==5 ，如果移除
             //如果剩余卡片小于等于5 张，则开始请求下一页数据
             if (adapter.getItemCount() == 5) {
                 netGetCardUsers(false);
