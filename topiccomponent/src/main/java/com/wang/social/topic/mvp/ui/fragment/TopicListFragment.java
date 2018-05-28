@@ -224,6 +224,24 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
 
                 mSpringView.callFreshDelay();
                 break;
+            case EventBean.EVENTBUS_ADD_TOPIC_COMMENT:
+                int topicId = (int) event.get("topicId");
+                int topicCommentId = (int) event.get("topicCommentId");
+
+                Timber.i("话题-话题列表 评论增加 : " + topicId + " " + topicCommentId);
+
+                boolean changed = false;
+                for (Topic topic : mPresenter.getTopicList()) {
+                    if (topic.getTopicId() == topicId) {
+                        topic.setCommentTotal(topic.getCommentTotal() + 1);
+                        changed = true;
+                    }
+                }
+                if (changed && null != mAdapter) {
+                    mAdapter.notifyDataSetChanged();
+                }
+
+                break;
         }
     }
 

@@ -34,9 +34,8 @@ public class EventBean implements Serializable {
     public static final int EVENTBUS_FRIEND_ADD_BLACK_LIST = 0xffa131;
     // 加入趣聊成功
     public static final int EVENTBUS_ADD_GROUP_SUCCESS = 0xffa140;
-
-    // 加入摇钱树游戏成功
-    public static final int EVENTBUS_ADD_MONEY_TREE_SUCCESS = 0xffa150;
+    // 话题评论成功
+    public static final int EVENTBUS_ADD_TOPIC_COMMENT = 0xffa150;
 
     //相册数量已修改，通知个人详情页面重新刷新数量
     public static final int EVENT_MEPHOTO_CHANGE = 0xffa201;
@@ -137,6 +136,7 @@ public class EventBean implements Serializable {
             EVENTBUS_FRIEND_DELETE,
             EVENTBUS_FRIEND_ADD_BLACK_LIST,
             EVENTBUS_ADD_GROUP_SUCCESS,
+            EVENTBUS_ADD_TOPIC_COMMENT,
             EVENT_MEPHOTO_CHANGE,
             EVENT_USERINFO_CHANGE,
             EVENT_LOGOUT,

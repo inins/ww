@@ -1,6 +1,7 @@
 package com.wang.social.topic.mvp.presenter;
 
 import com.frame.di.scope.ActivityScope;
+import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
@@ -9,6 +10,8 @@ import com.wang.social.topic.mvp.contract.CommentContract;
 import com.wang.social.topic.mvp.model.entities.Comment;
 import com.wang.social.topic.mvp.model.entities.CommentRsp;
 import com.wang.social.topic.mvp.model.entities.Comments;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +59,12 @@ public class CommentPresenter extends
                 new ErrorHandleSubscriber(mErrorHandler) {
                     @Override
                     public void onNext(Object o) {
+                        // 评论成功，发出通知
+                        EventBean eventBean = new EventBean(EventBean.EVENTBUS_ADD_TOPIC_COMMENT);
+                        eventBean.put("topicId", topicId);
+                        eventBean.put("topicCommentId", topicCommentId);
+                        EventBus.getDefault().post(eventBean);
+
                         mRootView.onCommitCommentSuccess();
                     }
 

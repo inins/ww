@@ -33,6 +33,7 @@ import com.frame.component.utils.EntitiesUtil;
 import com.frame.component.view.MusicBoard;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.BarUtils;
@@ -652,5 +653,28 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
         }
 
         super.onDestroy();
+    }
+
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        switch (event.getEvent()) {
+            case EventBean.EVENTBUS_ADD_TOPIC_COMMENT:
+                int topicId = (int) event.get("topicId");
+                int topicCommentId = (int) event.get("topicCommentId");
+
+                Timber.i("话题详情 评论增加 : " + topicId + " " + topicCommentId);
+
+                if (mTopicId == topicId) {
+                    mTopicDetail.setCommentTotal(mTopicDetail.getCommentTotal() + 1);
+                    resetCommentLayout(mTopicDetail.getCommentTotal());
+                }
+
+                break;
+        }
     }
 }
