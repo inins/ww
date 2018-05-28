@@ -295,6 +295,10 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
         // 读取标签类型,默认为个人标签
         mTagType = getIntent().getIntExtra(NAME_TAG_TYPE, TAG_TYPE_PERSONAL);
 
+        if (fromLogin) {
+            toolbar.setLeftIcon(R.drawable.common_ic_close);
+        }
+
         // ToolBar左边按钮，返回
         toolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
             @Override

@@ -7,7 +7,8 @@
         android:name="com.frame.base.BaseApplication"
         android:allowBackup="true">
         <activity android:name=".mvp.ui.GameListActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask">
         </activity>
         <activity android:name=".mvp.ui.GameRecordListActivity"
             android:screenOrientation="portrait">

@@ -201,7 +201,7 @@ public class UIMessage {
                 summary = "";
                 break;
         }
-        return summary;
+        return summary == null ? "" : summary;
     }
 
     public String getRevokeSummary() {

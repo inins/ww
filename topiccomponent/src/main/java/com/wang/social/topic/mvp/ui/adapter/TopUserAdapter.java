@@ -72,7 +72,7 @@ public class TopUserAdapter extends RecyclerView.Adapter<TopUserAdapter.ViewHold
         // 年代
         holder.mPropertyTV.setText(StringUtil.getBirthYears(user.getBirthday()));
         // 星座
-        holder.mZodiacTV.setText(TimeUtils.getZodiac(user.getBirthday()));
+        holder.mZodiacTV.setText(TimeUtils.getAstro(user.getBirthday()));
         // 标签
         String tags = "";
         for (Tag tag : user.getTags()) {

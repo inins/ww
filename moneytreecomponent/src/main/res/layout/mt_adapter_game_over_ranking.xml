@@ -7,7 +7,8 @@
     android:background="@drawable/mt_bg_game_over_ranking"
     android:gravity="center_vertical"
     android:minHeight="40dp"
-    android:layout_marginBottom="10dp">
+    android:layout_marginBottom="10dp"
+    android:id="@+id/root_view">
 
     <FrameLayout
         android:id="@+id/mt_framelayout"

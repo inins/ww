@@ -37,6 +37,8 @@ public class GameRoomPresenter extends
     private GameBean mGameBean;
     // 游戏记录
     private GameRecord mGameRecord;
+    // 游戏记录详情
+    private GameRecordDetail mGameRecordDetail;
     // 游戏结果列表（在记录详情中使用）
     private List<GameScore> mGameScoreList = new ArrayList<>();
     // 成员列表
@@ -98,6 +100,29 @@ public class GameRoomPresenter extends
         }
     }
 
+
+    /**
+     * 判断是否是群成员
+     * @return 是否是群成员
+     */
+    public boolean isGroupMember() {
+        if (null != mRoomMsg) return mRoomMsg.getIsGroupMember() >= 1;
+        if (null != mGameRecordDetail) return mGameRecordDetail.getIsGroupMember() >= 1;
+
+        return false;
+    }
+
+    /**
+     * 获取群id（通过群创建的游戏有值）
+     * @return 群id
+     */
+    public int getGroupId() {
+        if (null != mRoomMsg) return mRoomMsg.getGroupId();
+        if (null != mGameRecordDetail) return mGameRecordDetail.getGroupId();
+
+        return -1;
+    }
+
     /**
      * 获取游戏记录游戏id
      * @return
@@ -143,6 +168,8 @@ public class GameRoomPresenter extends
                 new ErrorHandleSubscriber<GameRecordDetail>(mErrorHandler) {
                     @Override
                     public void onNext(GameRecordDetail recordDetail) {
+                        mGameRecordDetail = recordDetail;
+
                         if (null != recordDetail) {
                             if (null != recordDetail.getList()) {
                                 mGameScoreList.clear();

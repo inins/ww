@@ -1,10 +1,10 @@
 package com.wang.social.login.utils;
 
+import com.frame.component.utils.StringUtils;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class TagUtilsTest {
 

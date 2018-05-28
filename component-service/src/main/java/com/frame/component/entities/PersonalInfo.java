@@ -26,4 +26,6 @@ public class PersonalInfo {
     // Integer  是否拉黑用户
     // 0：未拉黑，大于0：黑名单
     private int isBlack;
+    private String remarkName;
+    private String remarkHeadImg;
 }

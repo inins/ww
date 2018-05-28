@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
+import com.frame.integration.AppManager;
 import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.ToastUtil;
 import com.liaoinstan.springview.container.AliFooter;
@@ -29,6 +31,7 @@ import com.wang.social.moneytree.utils.Keys;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 import static com.wang.social.moneytree.utils.Keys.NAME_GAME_TYPE;
 import static com.wang.social.moneytree.utils.Keys.NAME_GROUP_ID;
@@ -177,5 +180,34 @@ public class GameListActivity extends BaseAppActivity<GameListPresenter>
     public void onPayCreateGameSuccess(int roomId, int diamond) {
         // 刷新页面
         mSpringView.callFreshDelay();
+        // 进入游戏房间
+        GameBean gameBean = new GameBean();
+        gameBean.setRoomId(roomId);
+        GameRoomActivity.startGame(this, gameBean, mType);
     }
+
+
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        super.onCommonEvent(event);
+
+        switch (event.getEvent()) {
+            case EventBean.EVENT_GAME_RESULT:
+                Timber.i("游戏结束，刷新列表");
+                // 游戏结束,刷新页面
+                mSpringView.callFreshDelay();
+                break;
+            case EventBean.EVENT_GAME_JOIN:
+                Timber.i("有人加入游戏，刷新列表");
+                // 有人加入游戏，刷新列表
+                mSpringView.callFreshDelay();
+                break;
+        }
+    }
+
 }

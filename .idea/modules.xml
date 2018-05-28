@@ -21,7 +21,6 @@
       <module fileurl="file://$PROJECT_DIR$/router-anno-compiler/router-anno-compiler.iml" filepath="$PROJECT_DIR$/router-anno-compiler/router-anno-compiler.iml" />
       <module fileurl="file://$PROJECT_DIR$/router-annotation/router-annotation.iml" filepath="$PROJECT_DIR$/router-annotation/router-annotation.iml" />
       <module fileurl="file://$PROJECT_DIR$/socializecomponent/socializecomponent.iml" filepath="$PROJECT_DIR$/socializecomponent/socializecomponent.iml" />
-      <module fileurl="file://$PROJECT_DIR$/springlibrary/springlibrary.iml" filepath="$PROJECT_DIR$/springlibrary/springlibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/topiccomponent/topiccomponent.iml" filepath="$PROJECT_DIR$/topiccomponent/topiccomponent.iml" />
     </modules>
   </component>

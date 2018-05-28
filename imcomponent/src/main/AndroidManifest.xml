@@ -323,7 +323,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.ui.GroupInviteDetailActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".mvp.ui.HappyWoodActivity"
             android:screenOrientation="portrait" />

@@ -49,26 +49,36 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHo
 
         GameBean game = mList.get(position);
 
+        // 头像
         holder.avatarIV.setVisibility(View.INVISIBLE);
         if (!TextUtils.isEmpty(game.getRoomAvatar())) {
             holder.avatarIV.setVisibility(View.VISIBLE);
             ImageLoaderHelper.loadCircleImg(holder.avatarIV, game.getRoomAvatar());
         }
+        // 昵称
         holder.nameTV.setText(game.getRoomNickname());
+        // 参与人数
         holder.infoTV.setText(String.format(
                 mContext.getString(R.string.mt_format_number_of_person),
                 game.getJoinNum()));
+        // 右侧文字
+        if (game.getIsJoined() >= 1) {
+            // 已加入
+            holder.rightTV.setBackgroundResource(R.drawable.mt_shape_rect_corner_solid_yellow_light);
+            holder.rightTV.setText(R.string.mt_joined);
+        } else {
+            // 未加入
+            holder.rightTV.setBackgroundResource(R.drawable.mt_shape_rect_corner_solid_red_light);
+            holder.rightTV.setText(R.string.mt_enter);
+        }
+        // 支付钻石
         holder.priceTV.setText(Integer.toString(game.getDiamond()));
-
+        // 点击处理
         holder.rootView.setTag(game);
-        holder.rootView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mClickListener && v.getTag() instanceof GameBean) {
-                    mClickListener.onEnterGameRoom((GameBean) v.getTag());
-                }
-            }
-        });
+        holder.rootView.setOnClickListener((View v) -> {
+            if (null != mClickListener && v.getTag() instanceof GameBean) {
+                mClickListener.onEnterGameRoom((GameBean) v.getTag());
+            }});
     }
 
     @Override
