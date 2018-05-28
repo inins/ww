@@ -103,7 +103,7 @@ public class EventBean implements Serializable {
     public static final int EVENT_NOTIFY_GROUP_DELETE = 0xffa902;
     //添加一个好友
     public static final int EVENT_NOTIFY_FRIEND_ADD = 0xffa904;
-    //好友资料，群资料有更新的时候通知
+    //好友资料，群资料有更新的时候通知(用于列表刷新)
     public static final int EVENT_NOTIFY_PROFILE_UPDATED = 0xffa905;
     //清空消息
     public static final int EVENT_NOTIFY_CLEAR_MESSAGE = 0xffa906;
@@ -111,6 +111,12 @@ public class EventBean implements Serializable {
     public static final int EVENT_NOTIFY_BACKGROUND = 0xffa907;
     //聊天未读消息数量发生变化
     public static final int EVENT_NOTIFY_MESSAGE_UNREAD = 0xffa908;
+    //群成员信息发生变动
+    public static final int EVENT_NOTIFY_GROUP_MEMBER_PROFILE = 0xffa909;
+    //群信息发生变动
+    public static final int EVENT_NOTIFY_GROUP_PROFILE = 0xffa910;
+    //好友信息发生变动
+    public static final int EVENT_NOTIFY_FRIEND_PROFILE = 0xffa911;
 
     //通知消息已经全部阅读
     public static final int EVENT_MSG_READALL = 0xffb001;
@@ -163,6 +169,9 @@ public class EventBean implements Serializable {
             EVENT_NOTIFY_BACKGROUND,
             EVENT_NOTIFY_MESSAGE_UNREAD,
             EVENT_MSG_READALL,
+            EVENT_NOTIFY_GROUP_MEMBER_PROFILE,
+            EVENT_NOTIFY_GROUP_PROFILE,
+            EVENT_NOTIFY_FRIEND_PROFILE
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface EventBeanType {

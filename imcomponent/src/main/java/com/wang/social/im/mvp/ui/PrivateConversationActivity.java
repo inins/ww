@@ -115,19 +115,7 @@ public class PrivateConversationActivity extends BasicConversationActivity imple
         transaction.add(R.id.pc_fl_conversation, conversationFragment, ConversationFragment.class.getName() + "private");
         transaction.commitAllowingStateLoss();
 
-        FriendProfile profile = FriendShipHelper.getInstance().getFriendProfile(targetId);
-        if (profile != null) {
-            mImageLoader.loadImage(this, ImageConfigImpl
-                    .builder()
-                    .placeholder(R.drawable.common_default_circle_placeholder)
-                    .errorPic(R.drawable.common_default_circle_placeholder)
-                    .isCircle(true)
-                    .imageView(pcIvPortrait)
-                    .url(profile.getPortrait())
-                    .build());
-
-            pcTvNickname.setText(profile.getName());
-        }
+        showProfile();
     }
 
     @Override
@@ -154,6 +142,22 @@ public class PrivateConversationActivity extends BasicConversationActivity imple
         }
         if (!popupWindow.isShowing()) {
             popupWindow.showAsDropDown(pcTvNickname, 0, -SizeUtils.dp2px(5), Gravity.RIGHT);
+        }
+    }
+
+    private void showProfile() {
+        FriendProfile profile = FriendShipHelper.getInstance().getFriendProfile(targetId);
+        if (profile != null) {
+            mImageLoader.loadImage(this, ImageConfigImpl
+                    .builder()
+                    .placeholder(R.drawable.common_default_circle_placeholder)
+                    .errorPic(R.drawable.common_default_circle_placeholder)
+                    .isCircle(true)
+                    .imageView(pcIvPortrait)
+                    .url(profile.getPortrait())
+                    .build());
+
+            pcTvNickname.setText(profile.getName());
         }
     }
 
@@ -211,6 +215,8 @@ public class PrivateConversationActivity extends BasicConversationActivity imple
                     targetId.equals(event.get("targetId").toString())) {
                 loadBackground(ConversationType.PRIVATE, targetId, mImageLoader);
             }
+        } else if (event.getEvent() == EventBean.EVENT_NOTIFY_FRIEND_PROFILE) { //好友信息发生变化
+            showProfile();
         }
     }
 }

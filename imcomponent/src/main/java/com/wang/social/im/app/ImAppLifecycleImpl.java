@@ -2,6 +2,7 @@ package com.wang.social.im.app;
 
 import android.app.Application;
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.frame.base.delegate.AppDelegate;
 import com.frame.component.app.Constant;
@@ -37,6 +38,7 @@ import com.wang.social.im.helper.FriendShipHelper;
 import com.wang.social.im.helper.GroupHelper;
 import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.helper.StickHelper;
+import com.wang.social.im.mvp.model.entities.FriendProfile;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -44,6 +46,8 @@ import java.util.List;
 
 import timber.log.Timber;
 
+import static com.frame.entities.EventBean.EVENT_NOTIFY_FRIEND_PROFILE;
+import static com.frame.entities.EventBean.EVENT_NOTIFY_GROUP_MEMBER_PROFILE;
 import static com.wang.social.im.app.IMConstants.IM_FIELD_FRIEND_PORTRAIT;
 
 /**
@@ -231,6 +235,18 @@ public class ImAppLifecycleImpl implements AppDelegate {
         public void OnFriendProfileUpdate(List<TIMUserProfile> list) {
             Timber.tag(TAG).d("OnFriendProfileUpdate");
             FriendShipHelper.getInstance().refresh();
+
+            //通知其他显示好友信息的地方更新界面
+            if (list != null && !list.isEmpty()) {
+                for (TIMUserProfile profile : list) {
+                    EventBean eventBean = new EventBean(EVENT_NOTIFY_FRIEND_PROFILE);
+                    eventBean.put("identity", profile.getIdentifier());
+                    FriendProfile friendProfile = FriendShipHelper.getInstance().getFriendProfile(profile.getIdentifier());
+                    eventBean.put("nickname", friendProfile.getName());
+                    eventBean.put("portrait", friendProfile.getPortrait());
+                    EventBus.getDefault().post(eventBean);
+                }
+            }
         }
 
         @Override
@@ -283,6 +299,9 @@ public class ImAppLifecycleImpl implements AppDelegate {
         public void onGroupUpdate(TIMGroupCacheInfo timGroupCacheInfo) {
             Timber.tag(TAG).d("onGroupUpdate");
             GroupHelper.getInstance().refresh();
+
+            //通知界面刷新信息
+            EventBus.getDefault().post(timGroupCacheInfo);
         }
     }
 

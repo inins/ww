@@ -105,7 +105,7 @@ public class GameConversationFragment extends BaseFragment<GameConversationPrese
             }
         });
         ((SimpleItemAnimator) fgcMessages.getItemAnimator()).setSupportsChangeAnimations(false);
-        mAdapter = new MessageListAdapter(ConversationType.GAME);
+        mAdapter = new MessageListAdapter(mIdentity, ConversationType.GAME);
         fgcMessages.setAdapter(mAdapter);
         mPresenter.setAdapter(mAdapter);
     }

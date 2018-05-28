@@ -39,6 +39,8 @@ import me.yokeyword.indexablerv.IndexableAdapter;
 import me.yokeyword.indexablerv.IndexableHeaderAdapter;
 import me.yokeyword.indexablerv.IndexableLayout;
 
+import static com.frame.entities.EventBean.EVENT_NOTIFY_FRIEND_PROFILE;
+
 /**
  * ============================================
  * <p>
@@ -158,6 +160,18 @@ public class FriendsFragment extends BaseFragment<FriendsPresenter> implements F
         if (event.getEvent() == EventBean.EVENT_NOTIFY_FRIEND_ADD ||
                 event.getEvent() == EventBean.EVENTBUS_FRIEND_DELETE) {
             mPresenter.getFriendsList();
+        } else if (event.getEvent() == EVENT_NOTIFY_FRIEND_PROFILE) {
+            String friendId = (String) event.get("identity");
+            if (mAdapter != null && mAdapter.getItems() != null) {
+                for (IndexFriendInfo friendInfo : mAdapter.getItems()) {
+                    if (friendInfo.getFriendId().equals(friendId)) {
+                        friendInfo.setNickname((String) event.get("nickname"));
+                        friendInfo.setPortrait((String) event.get("portrait"));
+                        break;
+                    }
+                }
+                mAdapter.notifyDataSetChanged();
+            }
         }
     }
 

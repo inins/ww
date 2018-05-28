@@ -38,8 +38,10 @@ public class AppConstant {
         public static final String notice = Api.WEB_BASE_URL + "about/common/notice.html";
         //邀请码
         public static final String InvitationCode = Api.WEB_BASE_URL + "about/common/InvitationCode.html";
-        //付费Fan聊创建须知
+        //趣聊付费须知
         public static final String fanNotice = Api.WEB_BASE_URL + "about/common/fanNotice.html";
+        //觅聊付费须知
+        public static final String MI_NOTICE  = Api.WEB_BASE_URL + "about/common/MiNotice.html";
         //往往免责声明
         public static final String disclaimer = Api.WEB_BASE_URL + "about/common/disclaimer.html";
         //账户常见问题

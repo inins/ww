@@ -253,7 +253,7 @@ public class TeamHomeActivity extends BaseAppActivity<TeamHomePresenter> impleme
                 if (!notifyFromCode) {
                     MemberInfo selfProfile = mTeam.getSelfProfile();
                     if (selfProfile != null) {
-                        mPresenter.updateNameCard(mTeam.getTeamId(), selfProfile.getNickname(), selfProfile.getPortrait(), isChecked ? MessageNotifyType.ALL : MessageNotifyType.NONE);
+                        mPresenter.updateNameCard(mTeam.getTeamId(), ConversationType.TEAM, selfProfile.getNickname(), selfProfile.getPortrait(), isChecked ? MessageNotifyType.ALL : MessageNotifyType.NONE);
                     }
                 }
                 notifyFromCode = false;
