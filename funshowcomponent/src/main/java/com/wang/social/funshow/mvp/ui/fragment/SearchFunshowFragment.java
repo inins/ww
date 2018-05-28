@@ -129,10 +129,10 @@ public class SearchFunshowFragment extends BasicNoDiFragment implements IView, B
     }
 
     private void search(boolean isFresh) {
-        if (!TextUtils.isEmpty(adapter.getTags()) || !TextUtils.isEmpty(adapter.getKey())) {
+        if (!TextUtils.isEmpty(adapter.getKey())) {
             netGetSearchList(adapter.getKey(), isFresh);
         } else {
-            ToastUtil.showToastShort("请输入搜索关键字");
+            //ToastUtil.showToastShort("请输入搜索关键字");
         }
     }
 

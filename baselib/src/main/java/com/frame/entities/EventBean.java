@@ -73,6 +73,8 @@ public class EventBean implements Serializable {
     public static final int EVENT_FUNSHOW_DEL = 0xffa309;
     //通知趣晒新增了
     public static final int EVENT_FUNSHOW_ADD = 0xffa311;
+    //趣晒支付了
+    public static final int EVENT_FUNSHOW_PAYED = 0xffa312;
 
     //选择地址
     public static final int EVENT_LOCATION_SELECT = 0xffa401;
@@ -166,6 +168,7 @@ public class EventBean implements Serializable {
             EVENT_NOTIFY_MESSAGE_UNREAD,
             EVENT_MSG_READALL,
             EVENT_HOME_CARD_DETAIL_ADDFIREND,
+            EVENT_FUNSHOW_PAYED,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface EventBeanType {

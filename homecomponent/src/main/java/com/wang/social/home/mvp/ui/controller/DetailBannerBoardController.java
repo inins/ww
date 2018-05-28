@@ -10,15 +10,19 @@ import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.ui.base.BaseController;
 import com.frame.component.view.ConerTextView;
 import com.frame.component.view.bannerview.BannerView;
+import com.frame.component.view.bannerview.Image;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
+import com.frame.utils.StrUtil;
 import com.frame.utils.TimeUtils;
 import com.frame.utils.ToastUtil;
 import com.wang.social.home.R;
 import com.wang.social.home.R2;
 import com.wang.social.home.mvp.entities.card.CardUser;
 import com.wang.social.home.mvp.ui.activity.CardDetailActivity;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 
@@ -75,7 +79,14 @@ public class DetailBannerBoardController extends BaseController {
             textPosition.setText(user.getCityName());
             textSign.setText(user.getAutograph());
             connertextLable.setTagText(user.getTagTextDot());
-            banner.setDatas(user.getBannerImageList());
+            if (!StrUtil.isEmpty(user.getPicList())) {
+                banner.setDatas(user.getBannerImageList());
+            } else {
+                //如果相册是空，则添加一张默认图
+                banner.setDatas(new ArrayList<Image>() {{
+                    add(new Image(String.valueOf(R.drawable.home_bg_carddetail_default)));
+                }});
+            }
             //设置添加按钮可见性
             if (getContext() instanceof CardDetailActivity) {
                 ((CardDetailActivity) getContext()).setAddBtnVisible(!user.isFriend());

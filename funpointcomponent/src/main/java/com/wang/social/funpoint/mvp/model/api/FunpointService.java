@@ -9,6 +9,7 @@ import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
@@ -28,6 +29,7 @@ public interface FunpointService {
     /**
      * 搜索趣点
      */
+    @Headers(HEADER_CONTENT_TYPE)
     @GET("/app/news/searchList?v=2.0.0")
     Observable<BaseJson<BaseListWrap<Funpoint>>> getSearchFunpointList(@Query("tags") String tags, @Query("key") String key, @Query("current") int current, @Query("size") int size);
 

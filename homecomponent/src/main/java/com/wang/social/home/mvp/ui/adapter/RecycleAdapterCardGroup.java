@@ -21,6 +21,8 @@ import com.wang.social.home.mvp.entities.card.CardGroup;
 import com.wang.social.home.mvp.entities.card.CardUser;
 import com.wang.social.home.mvp.ui.holder.BaseCardViewHolder;
 
+import java.util.List;
+
 import butterknife.BindView;
 
 public class RecycleAdapterCardGroup extends BaseAdapter<CardGroup> {
@@ -104,5 +106,14 @@ public class RecycleAdapterCardGroup extends BaseAdapter<CardGroup> {
         void onItemClick(CardGroup cardGroup, Holder holder);
 
         void onItemScroll(CardGroup cardGroup, Holder holder);
+    }
+
+    //展示下一张卡牌
+    public void nextCard() {
+        List<CardGroup> results = getData();
+        if (!StrUtil.isEmpty(results)) {
+            results.remove(results.size() - 1);
+            notifyDataSetChanged();
+        }
     }
 }

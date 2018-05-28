@@ -10,6 +10,8 @@ import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.widget.FrameLayout;
 
 import com.frame.base.BasicFragment;
 import com.frame.component.common.NetParam;
@@ -20,11 +22,13 @@ import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.component.ui.base.BasicNoDiFragment;
 import com.frame.component.utils.viewutils.MotionEventHelper;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.mvp.IView;
 import com.frame.utils.ScreenUtils;
+import com.frame.utils.SizeUtils;
 import com.frame.utils.StrUtil;
 import com.frame.utils.ToastUtil;
 import com.wang.social.home.R;
@@ -60,11 +64,29 @@ public class CardGroupFragment extends BasicNoDiFragment implements RecycleAdapt
     private RecycleAdapterCardGroup adapter;
     private ItemTouchHelper itemTouchHelper;
 
+    private boolean hasLoad;
+
     public static CardGroupFragment newInstance() {
         Bundle args = new Bundle();
         CardGroupFragment fragment = new CardGroupFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        switch (event.getEvent()) {
+            //TODO:在详情页加入了该群后需要发出一条通知通知该页面刷新列表到下一条，这里暂时填123
+            case 123:
+                //在详情页加入了该群
+                adapter.nextCard();
+                break;
+        }
+    }
+
+    @Override
+    public boolean useEventBus() {
+        return true;
     }
 
     @Override
@@ -93,8 +115,8 @@ public class CardGroupFragment extends BasicNoDiFragment implements RecycleAdapt
                     ToastUtil.showToastShort("加群成功");
                 });
             }
-            //如果剩余卡片小于等于5 张，则开始请求下一页数据
-            if (adapter.getItemCount() == 5) {
+            //如果剩余卡片小于小于10 张，则开始请求下一页数据
+            if (adapter.getItemCount() < 10 && !hasLoad) {
                 netGetCardGroups(false);
             } else if (adapter.getItemCount() == 0) {
                 ToastUtil.showToastLong("没有更多数据了");
@@ -102,6 +124,7 @@ public class CardGroupFragment extends BasicNoDiFragment implements RecycleAdapt
         });
 
         netGetCardGroups(true);
+        layoutMeasure();
     }
 
     @Override
@@ -138,7 +161,7 @@ public class CardGroupFragment extends BasicNoDiFragment implements RecycleAdapt
 
     //////////////////////分页查询////////////////////
     private int current = 0;
-    private int size = 6;
+    private int size = 20;
     private String orderByField;
     private String strategy;
     private String asc;
@@ -176,6 +199,37 @@ public class CardGroupFragment extends BasicNoDiFragment implements RecycleAdapt
                     public void onError(Throwable e) {
                         ToastUtil.showToastLong(e.getMessage());
                     }
+                }, () -> {
+                    hasLoad = true;
+                }, () -> {
+                    hasLoad = false;
                 });
+    }
+
+    /**
+     * 这个页面考虑到card的遮挡和绘制区域问题，recycler是铺满全屏并且位于布局最底部的（card拖拽的时候需要在屏幕任何位置可以绘制）
+     * 由于布局特殊，无法通过传统方法通过布局依赖关系进行多屏幕适配，这里不得不自行根据屏幕尺寸计算必要的view的边距
+     */
+    private void layoutMeasure() {
+        getView().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int screenHeight = ScreenUtils.getScreenHeight();
+                int screenWidth = ScreenUtils.getScreenWidth();
+                int cardHight = screenWidth - recycler.getPaddingLeft() * 2 + SizeUtils.dp2px(70);
+                int wishTopSpace = (screenHeight - cardHight) / 3;
+                int topSpace = wishTopSpace > SizeUtils.dp2px(76) ? wishTopSpace : SizeUtils.dp2px(76); //顶部距离不得小于80（会遮挡toolbar）
+                int bottomSpace = screenHeight - cardHight - topSpace;
+                int btnHight = btnLike.getMeasuredHeight();
+                //计算floatingButton底外边距
+                int btnBottomMargin = (bottomSpace - btnHight) / 2;
+                //设置必要的边距数据
+                ((FrameLayout.LayoutParams) btnLike.getLayoutParams()).bottomMargin = btnBottomMargin;
+                ((FrameLayout.LayoutParams) btnDislike.getLayoutParams()).bottomMargin = btnBottomMargin;
+                recycler.setPadding(recycler.getPaddingLeft(), topSpace, recycler.getPaddingRight(), recycler.getPaddingBottom());
+                //移除observer
+                getView().getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
     }
 }
