@@ -16,6 +16,7 @@ import com.frame.component.entities.dto.SearchUserInfoDTO;
 import com.frame.component.service.R;
 import com.frame.component.service.R2;
 import com.frame.component.utils.EntitiesUtil;
+import com.frame.component.utils.StringUtils;
 import com.frame.component.view.WrapContentLinearLayoutManager;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
@@ -40,6 +41,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import io.reactivex.Observable;
+import timber.log.Timber;
 
 public class FriendListFragment extends BasicFragment implements
         IView {
@@ -261,8 +263,7 @@ public class FriendListFragment extends BasicFragment implements
                 },
                 disposable -> {
                 },
-                () -> {
-                });
+                () -> mSpringView.onFinishFreshAndLoadDelay());
     }
 
     public Observable<BaseJson<PageListDTO<SearchUserInfoDTO, PersonalInfo>>> netSearchGroupUser(
@@ -285,7 +286,7 @@ public class FriendListFragment extends BasicFragment implements
      * 搜索用户
      * @param keyword 关键字
      * @param tagNames 标签中文名，多个以逗号隔开
-     * @param refresh
+     * @param refresh 是否刷新
      */
     public void searchUser(String keyword, String tagNames, boolean refresh) {
         refreshList(refresh);
@@ -300,17 +301,18 @@ public class FriendListFragment extends BasicFragment implements
                 },
                 disposable -> {
                 },
-                () -> {
-                });
+                () -> mSpringView.onFinishFreshAndLoadDelay());
     }
 
     public Observable<BaseJson<PageListDTO<SearchUserInfoDTO, PersonalInfo>>> netSearchUser(
             String keyword, String tagNames,
             int size, int current) {
+        boolean mobile = StringUtils.isMobileNO(keyword);
+
         Map<String, Object> param = new NetParam()
-                .put("keyword", EntitiesUtil.assertNotNull(keyword))
+                .put("keyword", mobile ? "" : EntitiesUtil.assertNotNull(keyword))
                 .put("tagNames", EntitiesUtil.assertNotNull(tagNames))
-                .put("mobile", "")
+                .put("mobile", mobile ? EntitiesUtil.assertNotNull(keyword) : "")
                 .put("current", current)
                 .put("size", size)
                 .put("v", "2.0.0")
@@ -319,7 +321,6 @@ public class FriendListFragment extends BasicFragment implements
                 .obtainRetrofitService(CommonService.class)
                 .searchUser(param);
     }
-
 
     @Override
     public boolean useEventBus() {

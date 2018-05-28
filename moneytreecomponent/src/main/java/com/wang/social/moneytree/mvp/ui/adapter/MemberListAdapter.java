@@ -84,7 +84,7 @@ public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.Vi
         holder.mPropertyTV.setText(getBirthYears(member.getBirthday()));
         // 星座
         if (TextUtils.isEmpty(member.getConstellation())) {
-            holder.mZodiacTV.setText(TimeUtils.getZodiac(member.getBirthday()));
+            holder.mZodiacTV.setText(TimeUtils.getAstro(member.getBirthday()));
         } else {
             holder.mZodiacTV.setText(member.getConstellation());
         }

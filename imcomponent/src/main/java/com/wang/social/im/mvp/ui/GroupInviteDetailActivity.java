@@ -23,6 +23,7 @@ import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.utils.UIUtil;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
@@ -50,6 +51,8 @@ import com.wang.social.im.mvp.ui.adapters.DistributionSexAdapter;
 import com.wang.social.im.mvp.ui.adapters.HomeTagAdapter;
 import com.wang.social.pictureselector.helper.PhotoHelper;
 import com.wang.social.pictureselector.helper.PhotoHelperEx;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -135,6 +138,8 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
     // 申请入群按钮
     @BindView(R2.id.apply_layout)
     View mApplyLayout;
+    @BindView(R2.id.apply_text_view)
+    TextView mApplyTV;
     // 申请入群提示
     @BindView(R2.id.apply_hint_text_view)
     TextView mApplyHintTV;
@@ -163,6 +168,8 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
     private PhotoHelperEx mPhotoHelperEx;
     // 选择的举报内容
     private String mReportComment;
+    // 是否是该群成员，外部传入，当 值 为1时表示用户是该群成员
+    private int mIsGroupMember;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -179,6 +186,7 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
         mType = getIntent().getIntExtra("type", TYPE_BROWSE);
         mGroupId = getIntent().getIntExtra("groupid", -1);
         mMsgId = getIntent().getIntExtra("msgid", -1);
+        mIsGroupMember = getIntent().getIntExtra("isGroupMember", -1);
 
         mRepositoryManager = FrameUtils.obtainAppComponentFromContext(Utils.getContext()).repoitoryManager();
 
@@ -196,12 +204,12 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
         mPhotoHelperEx = PhotoHelperEx.newInstance(this,
                 path -> {
                     Timber.i("图片返回 : " + path);
-                        // 弹出确认举报对话框
-                        GroupPersonReportHelper.confirmReportGroup(this, this,
-                                "确定要举报该趣聊？",
-                                mGroupId,
-                                mReportComment,
-                                PhotoHelper.format2Array(path));
+                    // 弹出确认举报对话框
+                    GroupPersonReportHelper.confirmReportGroup(this, this,
+                            "确定要举报该趣聊？",
+                            mGroupId,
+                            mReportComment,
+                            PhotoHelper.format2Array(path));
                 });
 
         if (null != scToolbar.getTvRight()) {
@@ -290,6 +298,7 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
         // 底部栏
         mBottomLayout.setVisibility(View.VISIBLE);
         if (mType == TYPE_INVITE) {
+            // 邀请模式，底部显示 拒绝 和 加入
             mRefuseTV.setVisibility(View.VISIBLE);
             mAgreeTV.setVisibility(View.VISIBLE);
             mApplyLayout.setVisibility(View.GONE);
@@ -305,7 +314,18 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
             } else {
                 mApplyHintTV.setVisibility(View.GONE);
             }
+
+            if (mIsGroupMember == 1) {
+                // 已经是该趣聊群的成员了，底部直接显示 进入趣聊
+                setApplyTextToGoChat();
+            }
         }
+    }
+
+    private void setApplyTextToGoChat() {
+        mApplyTV.setText("进入趣聊");
+
+        mApplyHintTV.setVisibility(View.GONE);
     }
 
     /**
@@ -436,9 +456,10 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
 
     /**
      * 同意、拒绝邀请加入趣聊、觅聊（别人邀请我的）
+     *
      * @param groupId 趣聊/觅聊群id
-     * @param msgId 消息id
-     * @param type 类型（0：同意，1：拒绝）
+     * @param msgId   消息id
+     * @param type    类型（0：同意，1：拒绝）
      */
     private Observable<BaseJson> agreeOrRejectAddCommit(int groupId, int msgId, int type) {
         return mRepositoryManager
@@ -477,31 +498,47 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
      */
     @OnClick(R2.id.apply_text_view)
     public void apply() {
-        NetGroupHelper.newInstance().addGroup(
-                this,
-                this,
-                getSupportFragmentManager(),
-                mGroupId,
-                isNeedValidation -> {
-                    // 隐藏底部栏
-                    mBottomLayout.setVisibility(View.GONE);
+        // 加入成功后点击可直接进入趣聊
+        if (mApplyTV.getText().equals("进入趣聊")) {
+            CommonHelper.ImHelper.gotoGroupConversation(
+                    this,
+                    Integer.toString(mGroupId),
+                    ConversationType.SOCIAL,
+                    false);
+            finish();
+        } else {
+            NetGroupHelper.newInstance().addGroup(
+                    this,
+                    this,
+                    getSupportFragmentManager(),
+                    mGroupId,
+                    isNeedValidation -> {
+                        // 隐藏底部栏
+//                    mBottomLayout.setVisibility(View.GONE);
 
-                    if (!isNeedValidation) {
+                        // 加群成功，发出通知
+                        EventBus.getDefault().post(new EventBean(EventBean.EVENTBUS_ADD_GROUP_SUCCESS));
+
+                        if (!isNeedValidation) {
 //                        // 重新加载群统计
 //                        loadDistribution(mGroupId);
-                        // 人数增加
-                        mSocial.setMemberNum(mSocial.getMemberNum() + 1);
-                        resetMemberCount(mSocial.getMemberNum());
+                            // 人数增加
+                            mSocial.setMemberNum(mSocial.getMemberNum() + 1);
+                            resetMemberCount(mSocial.getMemberNum());
 
-                        // 不需要群主验证，直接进入聊天页面
-                        CommonHelper.ImHelper.gotoGroupConversation(
-                                this,
-                                Integer.toString(mGroupId),
-                                ConversationType.SOCIAL,
-                                false);
-                        finish();
-                    }
-                });
+                            // 不需要群主验证，直接进入聊天页面
+//                        CommonHelper.ImHelper.gotoGroupConversation(
+//                                this,
+//                                Integer.toString(mGroupId),
+//                                ConversationType.SOCIAL,
+//                                false);
+//                        finish();
+
+                            // 修改状态为进入趣聊
+                            setApplyTextToGoChat();
+                        }
+                    });
+        }
     }
 
     @Override

@@ -210,12 +210,14 @@ public class CommonHelper {
          * @param type    类型（0.默认浏览模式（底部显示 立即加入） 1.趣聊邀请，底部显示（拒绝 同意））
          * @param groupId 群id
          * @param msgId   消息id
+         * @param isGroupMember 是否是群成员
          */
-        private static void startGroupInvite(Context context, int type, int groupId, int msgId) {
+        private static void startGroupInvite(Context context, int type, int groupId, int msgId, int isGroupMember) {
             Bundle bundle = new Bundle();
             bundle.putInt("type", type);
             bundle.putInt("groupid", groupId);
             bundle.putInt("msgid", msgId);
+            bundle.putInt("isGroupMember", isGroupMember);
             UIRouter.getInstance().openUri(context, ImPath.GROUP_INVITE_URL, bundle);
         }
 
@@ -227,7 +229,7 @@ public class CommonHelper {
          * @param msgId   消息id
          */
         public static void startGroupInviteFromMsg(Context context, int groupId, int msgId) {
-            startGroupInvite(context, 1, groupId, msgId);
+            startGroupInvite(context, 1, groupId, msgId, -1);
         }
 
         /**
@@ -237,7 +239,17 @@ public class CommonHelper {
          * @param groupId 群id
          */
         public static void startGroupInviteBrowse(Context context, int groupId) {
-            startGroupInvite(context, 0, groupId, -1);
+            startGroupInvite(context, 0, groupId, -1, -1);
+        }
+
+        /**
+         * 浏览趣聊详情，参数中带有是用户是否是该群成员
+         * @param context context
+         * @param groupId 群id
+         * @param isGroupMember 是否是该群成员
+         */
+        public static void startGroupInviteBrowse(Context context, int groupId, int isGroupMember) {
+            startGroupInvite(context, 0, groupId, -1, isGroupMember);
         }
 
         /**

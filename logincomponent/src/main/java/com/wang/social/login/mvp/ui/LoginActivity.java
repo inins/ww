@@ -32,7 +32,7 @@ import com.wang.social.login.di.module.LoginModule;
 import com.wang.social.login.mvp.contract.LoginContract;
 import com.wang.social.login.mvp.presenter.LoginPresenter;
 import com.wang.social.login.mvp.ui.widget.CountDownView;
-import com.wang.social.login.utils.StringUtils;
+import com.frame.component.utils.StringUtils;
 import com.wang.social.login.utils.ViewUtils;
 
 import butterknife.BindView;

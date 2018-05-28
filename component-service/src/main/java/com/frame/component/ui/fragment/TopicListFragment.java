@@ -38,6 +38,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import io.reactivex.Observable;
+import timber.log.Timber;
 
 /**
  * 话题列表
@@ -266,6 +267,8 @@ public class TopicListFragment extends BasicFragment implements IView {
     public void onDestroy() {
         super.onDestroy();
         mApiHelper = null;
+
+        Timber.i("onPause");
     }
 
     @Override

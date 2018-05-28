@@ -36,6 +36,7 @@ public class GameEndRankingAdapter extends RecyclerView.Adapter<GameEndRankingAd
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        holder.rootView.setVisibility(View.GONE);
         holder.rankingTV.setVisibility(View.GONE);
         holder.rankingIV.setVisibility(View.GONE);
         switch (position) {
@@ -68,6 +69,7 @@ public class GameEndRankingAdapter extends RecyclerView.Adapter<GameEndRankingAd
 
         if (null == score) return;
 
+        holder.rootView.setVisibility(View.VISIBLE);
         holder.diamondIV.setVisibility(View.VISIBLE);
         // 头像
         if (!TextUtils.isEmpty(score.getAvatar())) {
@@ -88,6 +90,7 @@ public class GameEndRankingAdapter extends RecyclerView.Adapter<GameEndRankingAd
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+        View rootView;
         ImageView rankingIV;
         TextView rankingTV;
         ImageView avatarIV;
@@ -98,6 +101,7 @@ public class GameEndRankingAdapter extends RecyclerView.Adapter<GameEndRankingAd
         public ViewHolder(View itemView) {
             super(itemView);
 
+            rootView = itemView.findViewById(R.id.root_view);
             rankingIV = itemView.findViewById(R.id.ranking_image_view);
             rankingTV = itemView.findViewById(R.id.ranking_text_view);
             avatarIV = itemView.findViewById(R.id.avatar_image_view);

@@ -1,4 +1,4 @@
-package com.wang.social.login.utils;
+package com.frame.component.utils;
 
 import android.text.TextUtils;
 

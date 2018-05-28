@@ -29,7 +29,6 @@ import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.IView;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.SizeUtils;
-import com.frame.utils.ToastUtil;
 import com.frame.utils.Utils;
 import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.container.AliHeader;
@@ -168,17 +167,16 @@ public class GroupListFragment extends BasicFragment implements IView {
         mRecyclerView.setAdapter(mAdapter);
 
         // 点击事件
-        mAdapter.setGroupClickListener(new GroupListAdapter.GroupClickListener() {
-            @Override
-            public void onGroupClick(GroupBean groupBean) {
-                if (mType == TYPE_SEARCH_MY_GROUP || mType == TYPE_SEARCH_MY_MI) {
-                    // 如果是搜索的已加入的趣聊觅聊，直接进入聊天页面
-                    startConversation(groupBean.getGroupId());
-                } else {
-                    // 获取用户群信息，判断是否在该群，再进行跳转
-                    getMyGroupMemberInfo(groupBean.getGroupId());
-                }
-            }
+        mAdapter.setGroupClickListener((GroupBean groupBean) -> {
+//            if (mType == TYPE_SEARCH_MY_GROUP || mType == TYPE_SEARCH_MY_MI) {
+//                // 如果是搜索的已加入的趣聊觅聊，直接进入聊天页面
+//                startConversation(groupBean.getGroupId());
+//            } else {
+//                // 获取用户群信息，判断是否在该群，再进行跳转
+//                getMyGroupMemberInfo(groupBean.getGroupId());
+//            }
+
+            getMyGroupMemberInfo(groupBean.getGroupId());
         });
 
         // 更新，加载更多
@@ -414,7 +412,8 @@ public class GroupListFragment extends BasicFragment implements IView {
                     public void onNext(GroupMemberInfo groupMemberInfo) {
 //                        Timber.i("在群");
 //                        ToastUtil.showToastShort("进入趣聊详情");
-                        startConversation(groupId);
+//                        startConversation(groupId);
+                        CommonHelper.ImHelper.startGroupInviteBrowse(getActivity(), groupId, 1);
                     }
 
                     @Override
@@ -466,7 +465,8 @@ public class GroupListFragment extends BasicFragment implements IView {
         super.onCommonEvent(event);
 
         switch (event.getEvent()) {
-            case EventBean.EVENT_IM_SEARCH: // 往来内的搜索
+            case EventBean.EVENT_IM_SEARCH:
+                // 往来内的搜索
                 if (mType != TYPE_SEARCH_MY_GROUP && mType != TYPE_SEARCH_MY_MI) break;
 
                 mKey = (String) event.get("key");
@@ -475,7 +475,8 @@ public class GroupListFragment extends BasicFragment implements IView {
                 mSpringView.callFreshDelay();
 
                 break;
-            case EventBean.EVENT_APP_SEARCH: // 首页搜索，所有所有群
+            case EventBean.EVENT_APP_SEARCH:
+                // 首页搜索，所有所有群
                 if (mType != TYPE_SEARCH_ALL_GROUP) break;
                 mKey = (String) event.get("key");
 //                String tags = (String) event.get("tags");

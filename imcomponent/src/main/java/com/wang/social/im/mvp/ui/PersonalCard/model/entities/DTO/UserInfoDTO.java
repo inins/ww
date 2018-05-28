@@ -24,6 +24,8 @@ public class UserInfoDTO implements Mapper<PersonalInfo> {
     private List<Tag> tags;
     private Integer isFirend;
     private Integer isBlack;
+    private String remarkName;
+    private String remarkHeadImg;
 
     @Override
     public PersonalInfo transform() {
@@ -43,6 +45,8 @@ public class UserInfoDTO implements Mapper<PersonalInfo> {
         object.setTags(null == tags ? new ArrayList<>() : tags);
         object.setIsFriend(EntitiesUtil.assertNotNull(isFirend));
         object.setIsBlack(EntitiesUtil.assertNotNull(isBlack));
+        object.setRemarkName(EntitiesUtil.assertNotNull(remarkName));
+        object.setRemarkHeadImg(EntitiesUtil.assertNotNull(remarkHeadImg));
 
         return object;
     }

@@ -9,6 +9,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -354,14 +355,17 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
             setBottomButtonBg(R.drawable.im_personal_card_btn_unknown);
         }
 
-        // 头像
-        ImageLoaderHelper.loadCircleImg(mAvatarIV, personalInfo.getAvatar());
-        //
-        mNameTV.setText(personalInfo.getNickname());
+        // 头像(如果有备注头像，则使用备注头像)
+        ImageLoaderHelper.loadCircleImg(mAvatarIV,
+                TextUtils.isEmpty(personalInfo.getRemarkHeadImg()) ?
+                        personalInfo.getAvatar() : personalInfo.getRemarkHeadImg());
+        // 昵称（优先使用备注昵称）
+        mNameTV.setText(TextUtils.isEmpty(personalInfo.getRemarkName()) ?
+                personalInfo.getNickname() : personalInfo.getRemarkName());
         // 年纪标签
         mPropertyTV.setText(getBirthYears(personalInfo.getBirthday()) + "后");
         // 星座
-        mXingZuoTV.setText(TimeUtils.getZodiac(personalInfo.getBirthday()));
+        mXingZuoTV.setText(TimeUtils.getAstro(personalInfo.getBirthday()));
         // 标签
         mTagsTV.setText(TagUtils.formatTagNames(personalInfo.getTags()));
         // 签名

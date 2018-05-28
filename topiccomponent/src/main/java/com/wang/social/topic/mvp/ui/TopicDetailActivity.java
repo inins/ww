@@ -415,7 +415,7 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
                 getResources().getString(R.string.topic_age));
 
         // 星座
-        mConstellationTV.setText(TimeUtils.getZodiac(detail.getBirthday()));
+        mConstellationTV.setText(TimeUtils.getAstro(detail.getBirthday()));
 
         // 背景音乐
         if (!TextUtils.isEmpty(detail.getBackgroundMusicUrl())) {
