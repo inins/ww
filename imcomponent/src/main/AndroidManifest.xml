@@ -28,12 +28,10 @@
     <uses-permission android:name="com.dongdongkeji.wangwangsocial.MIPUSH_RECEIVE" />
     <!-- 小米推送End -->
 
-
     <!-- 华为推送 Start -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <!-- 华为推送 End -->
-
 
     <!-- 魅族推送 start -->
     <!-- 兼容 Flyme5.0 以下版本，魅族内部集成 pushSDK 必填，不然无法收到消息 -->
@@ -215,7 +213,6 @@
         <!-- 魅族推送 Start -->
         <receiver android:name=".receivers.MZPushReceiver">
             <intent-filter>
-
                 <!-- 接收 push 消息 -->
                 <action android:name="com.meizu.flyme.push.intent.MESSAGE" />
                 <!-- 接收 register 消息 -->
@@ -229,6 +226,14 @@
                 <category android:name="com.dongdongkeji.wangwangsocial" />
             </intent-filter>
         </receiver>
+
+        <meta-data
+            android:name="APP_ID"
+            android:value="1000160" />
+
+        <meta-data
+            android:name="APP_KEY"
+            android:value="3379086898464c90bc7914ed668496dd" />
         <!-- 魅族推送 End -->
 
         <activity
