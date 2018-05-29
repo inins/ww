@@ -594,8 +594,9 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
 
                         NetShareHelper.newInstance().netShareTopic(
                                 TopicDetailActivity.this,
-                                0,
+                                null,
                                 mTopicId,
+                                1,
                                 () -> {
                                     // 发送通知分享增加
                                     EventBean bean = new EventBean(EventBean.EVENTBUS_ADD_TOPIC_SHARE);
