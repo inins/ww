@@ -1745,7 +1745,7 @@ public final class TimeUtils {
     public static String getAstro(long time) {
         int month = getTimeCell(time, Calendar.MONTH);
         int day = getTimeCell(time, Calendar.DAY_OF_MONTH);
-        return getAstro(month, day);
+        return getAstro(month + 1, day);
     }
 
     public static String getBirthdaySpan(long time) {

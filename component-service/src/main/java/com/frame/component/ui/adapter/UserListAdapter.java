@@ -43,10 +43,16 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
         PersonalInfo user = mList.get(position);
         if (null == user) return;
 
+        // 头像
         ImageLoaderHelper.loadCircleImg(holder.avatarIV, user.getAvatar());
+        // 昵称
         holder.nameTV.setText(user.getNickname());
+        // 性别 年代
         holder.genderLableTV.setSelected(!(user.getSex() == 0));
         holder.genderLableTV.setText(TimeUtils.getBirthdaySpan(user.getBirthday()));
+        // 星座
+        holder.astroTV.setText(TimeUtils.getAstro(user.getBirthday()));
+        // 标签
         String tags = "";
         if (null != user.getTags()) {
             for (int i = 0; i < Math.min(5, user.getTags().size()); i++) {

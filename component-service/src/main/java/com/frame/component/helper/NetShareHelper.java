@@ -36,6 +36,17 @@ public class NetShareHelper {
         netShare(view, targetUserId, talkId, "talk", callback);
     }
 
+    /**
+     * 分享话题
+     * @param view IView
+     * @param targetUserId 目标用户id
+     * @param topicId 话题id
+     * @param callback 回调
+     */
+    public void netShareTopic(IView view, Integer targetUserId, int topicId, OnShareCallback callback) {
+        netShare(view, targetUserId, topicId, "topic", callback);
+    }
+
     private void netShare(IView view, Integer targetUserId, int objectId, String type, OnShareCallback callback) {
         ApiHelperEx.execute(view, true,
                 ApiHelperEx.getService(CommonService.class).sharefun(targetUserId, objectId, type),

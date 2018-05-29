@@ -133,7 +133,7 @@ public class TopicFragment extends BaseLazyFragment<TopicPresenter> implements T
 
         NewbieGuide.with(this)
                 .setLabel("guide_topic")
-                .alwaysShow(true)
+                .alwaysShow(false)
                 .addGuidePage(GuidePage.newInstance()
                         .addHighLight(mBarView, ROUND_RECTANGLE, SizeUtils.dp2px(25), 0)
                         .addHighLight(getActivity().findViewById(R.id.img_add), CIRCLE)

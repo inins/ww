@@ -26,6 +26,7 @@ import com.frame.component.enums.ShareSource;
 import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.ImageLoaderHelper;
+import com.frame.component.helper.NetShareHelper;
 import com.frame.component.ui.acticity.BGMList.Music;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.ui.dialog.DialogSure;
@@ -42,6 +43,7 @@ import com.frame.utils.SizeUtils;
 import com.frame.utils.StatusBarUtil;
 import com.frame.utils.TimeUtils;
 import com.frame.utils.ToastUtil;
+import com.umeng.socialize.UMShareAPI;
 import com.wang.social.socialize.SocializeUtil;
 import com.wang.social.topic.R;
 import com.wang.social.topic.R2;
@@ -56,6 +58,8 @@ import com.wang.social.topic.mvp.ui.widget.AppBarStateChangeListener;
 import com.wang.social.topic.mvp.ui.widget.GradualColorTextView;
 import com.wang.social.topic.mvp.ui.widget.GradualImageView;
 import com.wang.social.topic.utils.WebFontStyleUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -481,23 +485,23 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
                 }
 
                 public void onPageFinished(WebView view, String url) {
-                    if(android.os.Build.VERSION.SDK_INT >= 19) {
-                        mContentWV.loadUrl("javascript:(function(){"
-                                + "var objs = document.getElementsByTagName('img'); "
-                                + "for(var i=0;i<objs.length;i++) {"
-                                + // //webview图片自适应，android4.4之前都有用，4.4之后google优化后，无法支持，需要自己手动缩放
-                                " objs[i].style.width = '100%';" +
-                                "objs[i].style.height = 'auto';"
-                                + "}"
-                                + "})()"
-                        );
-                    } else{
-                        view.loadUrl("javascript:var imgs = document.getElementsByTagName('img');" +
-                                "for(var i = 0; i<imgs.length; i++)" +
-                                "{imgs[i].style.width = '100%';" +
-                                "imgs[i].style.height= 'auto';}");
-
-                    }
+//                    if(android.os.Build.VERSION.SDK_INT >= 19) {
+//                        mContentWV.loadUrl("javascript:(function(){"
+//                                + "var objs = document.getElementsByTagName('img'); "
+//                                + "for(var i=0;i<objs.length;i++) {"
+//                                + // //webview图片自适应，android4.4之前都有用，4.4之后google优化后，无法支持，需要自己手动缩放
+//                                " objs[i].style.width = '100%';" +
+//                                "objs[i].style.height = 'auto';"
+//                                + "}"
+//                                + "})()"
+//                        );
+//                    } else{
+//                        view.loadUrl("javascript:var imgs = document.getElementsByTagName('img');" +
+//                                "for(var i = 0; i<imgs.length; i++)" +
+//                                "{imgs[i].style.width = '100%';" +
+//                                "imgs[i].style.height= 'auto';}");
+//
+//                    }
                     //LogUtils.showTagE(wv_content.getContentHeight() + "");
                     //wv_content.loadUrl("javascript:window.jo.run(document.documentElement.scrollHeight+'');");
                     mContentWV.loadUrl("javascript:App.resize(document.body.getBoundingClientRect().height)");
@@ -579,7 +583,37 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
          * @fixme
          */
         SocializeUtil.shareWithWW(getSupportFragmentManager(),
-                null,
+                new SocializeUtil.ShareListener() {
+                    @Override
+                    public void onStart(int platform) {
+                    }
+
+                    @Override
+                    public void onResult(int platform) {
+                        Timber.i("分享成功");
+
+                        NetShareHelper.newInstance().netShareTopic(
+                                TopicDetailActivity.this,
+                                null,
+                                mTopicId,
+                                () -> {
+                                    // 发送通知分享增加
+                                    EventBean bean = new EventBean(EventBean.EVENTBUS_ADD_TOPIC_SHARE);
+                                    bean.put("topicId", mTopicId);
+                                    EventBus.getDefault().post(bean);
+                                });
+                    }
+
+                    @Override
+                    public void onError(int platform, Throwable t) {
+                        ToastUtil.showToastShort(t.getMessage());
+                    }
+
+                    @Override
+                    public void onCancel(int platform) {
+                        ToastUtil.showToastShort("分享取消");
+                    }
+                },
                 AppConstant.Url.topic + "?topicId=" + mTopicId + "&userId=" + AppDataHelper.getUser().getUserId(),
                 mTopicDetail.getTitle(),
                 HtmlUtil.delHTMLTag(mTopicDetail.getContent()),
@@ -675,6 +709,21 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
                 }
 
                 break;
+            case EventBean.EVENTBUS_ADD_TOPIC_SHARE:
+                // 转发成功，转发量加1
+                int shareTopicID = (int) event.get("topicId");
+                if (shareTopicID == mTopicId) {
+                    Timber.i("话题详情-转发成功 : " + shareTopicID);
+                    mTopicDetail.setShareTotal(mTopicDetail.getShareTotal() + 1);
+                    resetShareLayout(mTopicDetail.getShareTotal());
+                }
+                break;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 }
