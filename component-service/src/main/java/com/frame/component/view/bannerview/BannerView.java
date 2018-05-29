@@ -158,12 +158,18 @@ public class BannerView extends FrameLayout {
         public Object instantiateItem(ViewGroup container, final int position) {
             View root = LayoutInflater.from(container.getContext()).inflate(R.layout.lay_banner_item, null);
             ImageView imageView = (ImageView) root.findViewById(R.id.banner_img);
+            Image image = images.get(position);
 
-            //绑定网络图片
-            if (onLoadImgListener != null) {
-                onLoadImgListener.onloadImg(imageView, images.get(position).getImg(), R.drawable.default_rect);
+            if (image.isLocalSrc()) {
+                //本地资源图片
+                imageView.setImageResource(image.getLocalSrc());
             } else {
-                ImageLoaderHelper.loadImg(imageView, images.get(position).getImg());
+                //绑定网络图片
+                if (onLoadImgListener != null) {
+                    onLoadImgListener.onloadImg(imageView, image.getImg(), R.drawable.default_rect);
+                } else {
+                    ImageLoaderHelper.loadImg(imageView, image.getImg());
+                }
             }
 
             //点击事件
@@ -171,7 +177,7 @@ public class BannerView extends FrameLayout {
                 @Override
                 public void onClick(View v) {
                     if (onBannerClickListener != null) {
-                        onBannerClickListener.onBannerClick(position, images.get(position));
+                        onBannerClickListener.onBannerClick(position, image);
                     }
                 }
             });

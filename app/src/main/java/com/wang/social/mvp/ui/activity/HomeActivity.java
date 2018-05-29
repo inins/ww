@@ -103,7 +103,7 @@ public class HomeActivity extends BasicAppNoDiActivity implements XRadioGroup.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         StatusBarUtil.setStatusBarColor(this, R.color.common_white);
-        setNeedDoubleClickExit(true);
+        StatusBarUtil.setTextDark(this);
     }
 
     @Override
@@ -174,5 +174,10 @@ public class HomeActivity extends BasicAppNoDiActivity implements XRadioGroup.On
         Fragment personalFragment = pagerAdapter.getPersonalFragment();
         if (personalFragment != null)
             personalFragment.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
     }
 }

@@ -30,6 +30,8 @@ import com.wang.social.home.mvp.entities.funshow.FunshowHome;
 import com.wang.social.home.mvp.entities.funshow.FunshowHomeDetail;
 import com.wang.social.home.mvp.model.api.HomeService;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -75,6 +77,12 @@ public class DetailFunshowController extends BaseController {
                 }
                 break;
             }
+            case EventBean.EVENT_FUNSHOW_PAYED: {
+                //趣晒支付了
+                int talkId = (int) event.get("talkId");
+                setFunshowPayed(talkId);
+            }
+            break;
         }
     }
 
@@ -108,14 +116,21 @@ public class DetailFunshowController extends BaseController {
                     DialogPay.showPayFunshow(getIView(), getFragmentManager(), funshowBean.getPrice(), -1, () -> {
                         NetPayStoneHelper.newInstance().netPayFunshow(getIView(), funshowBean.getId(), funshowBean.getPrice(), () -> {
                             CommonHelper.FunshowHelper.startDetailActivity(getContext(), funshowBean.getId());
-                            currentFunshow.setTalkPayed(1);
-                            setFunshowData(currentFunshow);
+                            EventBus.getDefault().post(new EventBean(EventBean.EVENT_FUNSHOW_PAYED).put("talkId", funshowBean.getId()));
+//                            setFunshowPayed();
                         });
                     });
                 } else {
                     CommonHelper.FunshowHelper.startDetailActivity(getContext(), funshowBean.getId());
                 }
             });
+        }
+    }
+
+    private void setFunshowPayed(int talkId) {
+        if (talkId == currentFunshow.getTalkId()) {
+            currentFunshow.setTalkPayed(1);
+            setFunshowData(currentFunshow);
         }
     }
 

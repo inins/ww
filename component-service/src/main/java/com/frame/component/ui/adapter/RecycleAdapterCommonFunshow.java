@@ -1,36 +1,22 @@
 package com.frame.component.ui.adapter;
 
-import android.app.FragmentManager;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
-import com.frame.component.api.CommonService;
-import com.frame.component.entities.TestEntity;
 import com.frame.component.entities.funshow.FunshowBean;
-import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.CommonHelper;
-import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.helper.NetPayStoneHelper;
-import com.frame.component.helper.NetZanHelper;
 import com.frame.component.service.R;
 import com.frame.component.service.R2;
-import com.frame.component.ui.dialog.DialogSureFunshowPay;
 import com.frame.component.ui.dialog.MorePopupWindow;
-import com.frame.component.utils.FunShowUtil;
 import com.frame.component.view.DialogPay;
 import com.frame.component.view.FunshowView;
-import com.frame.http.api.ApiHelperEx;
-import com.frame.http.api.BaseJson;
-import com.frame.http.api.error.ErrorHandleSubscriber;
-import com.frame.mvp.IView;
-import com.frame.utils.ToastUtil;
+import com.frame.entities.EventBean;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 
@@ -76,7 +62,8 @@ public class RecycleAdapterCommonFunshow extends BaseAdapter<FunshowBean> {
                     DialogPay.showPayFunshow(getIView(), getFragmentManager(), bean.getPrice(), -1, () -> {
                         NetPayStoneHelper.newInstance().netPayFunshow(getIView(), bean.getId(), bean.getPrice(), () -> {
                             CommonHelper.FunshowHelper.startDetailActivity(getContext(), bean.getId());
-                            refreshNeedPayById(bean.getId());
+                            EventBus.getDefault().post(new EventBean(EventBean.EVENT_FUNSHOW_PAYED).put("talkId", bean.getId()));
+                            refreshPayedById(bean.getId());
                         });
                     });
                 } else {
@@ -131,7 +118,7 @@ public class RecycleAdapterCommonFunshow extends BaseAdapter<FunshowBean> {
         }
     }
 
-    public void refreshNeedPayById(int talkId) {
+    public void refreshPayedById(int talkId) {
         int index = getIndexById(talkId);
         if (index != -1) {
             FunshowBean funshow = getData().get(index);

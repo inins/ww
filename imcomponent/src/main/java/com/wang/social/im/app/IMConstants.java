@@ -31,11 +31,11 @@ public interface IMConstants {
     /**
      * 魅族推送：AppId
      */
-    String MZPUSH_APPID = "1000160";
+    String MZPUSH_APPID = "113639";
     /**
      * 魅族推送：AppKey
      */
-    String MZPUSH_APPKEY = "3379086898464c90bc7914ed668496dd";
+    String MZPUSH_APPKEY = "c58947c5644649e8a1a9f3e8cae2040d";
     /**
      * 华为推送：bussId
      */

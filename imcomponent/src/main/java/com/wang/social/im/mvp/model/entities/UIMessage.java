@@ -192,7 +192,7 @@ public class UIMessage {
                 summary = UIUtil.getString(R.string.im_cvs_summary_red_envelope);
                 break;
             case GAME_TREE:
-                UIUtil.getString(R.string.im_cvs_summary_game_tree);
+                summary = UIUtil.getString(R.string.im_cvs_summary_game_tree);
                 break;
             case SHARE:
                 summary = UIUtil.getString(R.string.im_cvs_summary_share);

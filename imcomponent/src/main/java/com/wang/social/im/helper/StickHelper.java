@@ -110,4 +110,11 @@ public class StickHelper {
             }
         }
     }
+
+    /**
+     * 清空置顶列表
+     */
+    public void clear() {
+        SPUtils.getInstance(SP_NAME).clear();
+    }
 }

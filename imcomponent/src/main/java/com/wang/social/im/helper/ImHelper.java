@@ -15,10 +15,7 @@ import com.meizu.cloud.pushsdk.PushManager;
 import com.meizu.cloud.pushsdk.util.MzSystemUtils;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
-import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMOfflinePushSettings;
-import com.tencent.imsdk.TIMOfflinePushToken;
-import com.tencent.imsdk.ext.message.TIMConversationExt;
 import com.tencent.imsdk.ext.message.TIMManagerExt;
 import com.wang.social.im.app.IMConstants;
 import com.wang.social.im.mvp.model.entities.UIConversation;
@@ -28,8 +25,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
-
-import timber.log.Timber;
 
 import static com.wang.social.im.app.IMConstants.MZPUSH_APPID;
 import static com.wang.social.im.app.IMConstants.MZPUSH_APPKEY;

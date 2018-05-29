@@ -91,7 +91,6 @@ public class ZanUserListActivity extends BasicAppNoDiActivity implements IView,B
 
     //////////////////////分页查询////////////////////
     private int current = 1;
-
     private int size = 20;
 
     public void netGetZanUserList(boolean needloading) {

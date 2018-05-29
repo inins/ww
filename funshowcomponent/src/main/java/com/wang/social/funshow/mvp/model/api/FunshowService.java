@@ -95,6 +95,7 @@ public interface FunshowService {
     /**
      * 搜索趣晒
      */
+    @Headers(HEADER_CONTENT_TYPE)
     @GET("/app/talk/searchTalk?v=2.0.0")
     Observable<BaseJson<BaseListWrap<FunshowSearch>>> searchFunshow(@Query("keyword") String keyword, @Query("current") int current, @Query("size") int size);
 

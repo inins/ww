@@ -1748,10 +1748,33 @@ public final class TimeUtils {
         return getAstro(month + 1, day);
     }
 
+    //根据生日计算是几0后
     public static String getBirthdaySpan(long time) {
         int year = getTimeCell(time, Calendar.YEAR);
         int templ = year % 100;
         int tempm = templ / 10;
         return tempm + "0后";
+    }
+
+    //根据生日计算年龄
+    public static int getAgeByBirth(long birthday) {
+        int age = 0;
+        try {
+            Calendar now = Calendar.getInstance();
+            now.setTime(new Date());// 当前时间
+            Calendar birth = Calendar.getInstance();
+            birth.setTime(new Date(birthday));
+            if (birth.after(now)) {//如果传入的时间，在当前时间的后面，返回0岁
+                age = 0;
+            } else {
+                age = now.get(Calendar.YEAR) - birth.get(Calendar.YEAR);
+                if (now.get(Calendar.DAY_OF_YEAR) > birth.get(Calendar.DAY_OF_YEAR)) {
+                    age += 1;
+                }
+            }
+            return age;
+        } catch (Exception e) {
+            return 0;
+        }
     }
 }

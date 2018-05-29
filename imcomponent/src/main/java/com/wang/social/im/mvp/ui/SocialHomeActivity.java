@@ -616,7 +616,7 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
             mReportComment = text;
             mPhotoType = PHOTO_TYPE_REPORT;
             // 弹出图片选择
-            mPhotoHelper.setMaxSelectCount(5);
+            mPhotoHelper.setMaxSelectCount(1);
             mPhotoHelper.showDefaultDialog();
         });
     }
@@ -642,7 +642,7 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
                         .url(path)
                         .isCircle(true)
                         .build());
-                
+
                 mPresenter.updateNameCard(socialId, ConversationType.SOCIAL, mSocial.getMemberInfo().getNickname(), path, mSocial.getMemberInfo().getNotifyType());
             } else if (mPhotoType == PHOTO_TYPE_REPORT) {
                 // 弹出确认举报对话框

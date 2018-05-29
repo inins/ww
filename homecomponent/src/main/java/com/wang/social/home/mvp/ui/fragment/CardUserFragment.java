@@ -17,7 +17,10 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 
 import com.frame.base.BasicFragment;
 import com.frame.component.common.NetParam;
@@ -35,6 +38,7 @@ import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.mvp.IView;
 import com.frame.utils.ScreenUtils;
+import com.frame.utils.SizeUtils;
 import com.frame.utils.StrUtil;
 import com.frame.utils.ToastUtil;
 import com.wang.social.home.R;
@@ -71,6 +75,7 @@ public class CardUserFragment extends BasicNoDiFragment implements RecycleAdapte
 
     private Integer gender = -1;
     private String age = "all";
+    private boolean hasLoad;
 
     public static CardUserFragment newInstance() {
         Bundle args = new Bundle();
@@ -84,11 +89,15 @@ public class CardUserFragment extends BasicNoDiFragment implements RecycleAdapte
         switch (event.getEvent()) {
             case EventBean.EVENT_HOME_CARD_GENDER_SELECT:
                 gender = (Integer) event.get("gender");
-                netGetCardUsers(true);
+                netGetCardUsers(true, true);
                 break;
             case EventBean.EVENT_HOME_CARD_AGE_SELECT:
                 age = (String) event.get("age");
-                netGetCardUsers(true);
+                netGetCardUsers(true, true);
+                break;
+            case EventBean.EVENT_HOME_CARD_DETAIL_ADDFIREND:
+                //在详情页进行了添加好友操作通知卡牌页面展示下一个用户
+                adapter.nextCard();
                 break;
         }
     }
@@ -126,15 +135,16 @@ public class CardUserFragment extends BasicNoDiFragment implements RecycleAdapte
                     });
                 });
             }
-            //如果剩余卡片小于等于5 张，则开始请求下一页数据
-            if (adapter.getItemCount() == 5) {
-                netGetCardUsers(false);
+            //如果剩余卡片小于小于5 张，则开始请求下一页数据
+            if (adapter.getItemCount() < 10 && !hasLoad) {
+                netGetCardUsers(false, false);
             } else if (adapter.getItemCount() == 0) {
                 ToastUtil.showToastLong("没有更多数据了");
             }
         });
 
-        netGetCardUsers(true);
+        netGetCardUsers(true, false);
+        layoutMeasure();
     }
 
     @Override
@@ -161,20 +171,24 @@ public class CardUserFragment extends BasicNoDiFragment implements RecycleAdapte
 
     @Override
     public void onItemClick(CardUser bean, RecycleAdapterCardUser.Holder holder) {
-        Intent intent = new Intent(getContext(), CardDetailActivity.class);
-        intent.putExtra("userId", bean.getUserId());
-        intent.putExtra("cardUser", bean);
-        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
-                Pair.create(holder.imgPic, "share_img"),
-                Pair.create(holder.textName, "share_name"),
-                Pair.create(holder.textLableGender, "share_gender"),
-                Pair.create(holder.textLableAstro, "share_astro")
-                //Pair.create(holder.layBoard, "share_board")
-                //Pair.create(holder.itemView, "share_root")
-                //Pair.create(holder.textPosition, "share_position"),
-                //Pair.create(holder.textTag, "share_lable")
-        );
-        startActivity(intent, options.toBundle());
+        //FIXME:这里本身有个转场动画（共享元素，类似探探），但是由于需求决定列表大图显示头像而详情大图显示相册第一张（？无法理解），ImageView内容不同导致动画生硬。注释掉动画相关代码直接启动activity
+        CardDetailActivity.start(getContext(), bean);
+        /**
+         Intent intent = new Intent(getContext(), CardDetailActivity.class);
+         intent.putExtra("userId", bean.getUserId());
+         intent.putExtra("cardUser", bean);
+         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
+         Pair.create(holder.imgPic, "share_img"),
+         Pair.create(holder.textName, "share_name"),
+         Pair.create(holder.textLableGender, "share_gender"),
+         Pair.create(holder.textLableAstro, "share_astro")
+         //Pair.create(holder.layBoard, "share_board")
+         //Pair.create(holder.itemView, "share_root")
+         //Pair.create(holder.textPosition, "share_position"),
+         //Pair.create(holder.textTag, "share_lable")
+         );
+         startActivity(intent, options.toBundle());
+         */
     }
 
     @Override
@@ -184,12 +198,19 @@ public class CardUserFragment extends BasicNoDiFragment implements RecycleAdapte
 
     //////////////////////分页查询////////////////////
     private int current = 0;
-    private int size = 6;
+    private int size = 20;
     private String orderByField;
     private String strategy;
     private String asc;
 
-    private void netGetCardUsers(boolean needLoading) {
+    private void netGetCardUsers(boolean needLoading, boolean isFresh) {
+        if (isFresh) {
+            //刷新的时候，重置搜索条件
+            current = 0;
+            orderByField = null;
+            strategy = null;
+            asc = null;
+        }
         Map<String, Object> map = NetParam.newInstance()
                 .put("sex", gender)
                 .put("ageRange", age)
@@ -214,6 +235,7 @@ public class CardUserFragment extends BasicNoDiFragment implements RecycleAdapte
                         if (!StrUtil.isEmpty(list)) {
                             Collections.reverse(list);
                             List<CardUser> results = adapter.getData();
+                            if (isFresh) adapter.getData().clear();
                             results.addAll(0, list);
                             adapter.notifyDataSetChanged();
                         } else {
@@ -224,6 +246,39 @@ public class CardUserFragment extends BasicNoDiFragment implements RecycleAdapte
                     public void onError(Throwable e) {
                         ToastUtil.showToastLong(e.getMessage());
                     }
+                }, () -> {
+                    hasLoad = true;
+                }, () -> {
+                    hasLoad = false;
                 });
+    }
+
+    ///////////////////
+
+    /**
+     * 这个页面考虑到card的遮挡和绘制区域问题，recycler是铺满全屏并且位于布局最底部的（card拖拽的时候需要在屏幕任何位置可以绘制）
+     * 由于布局特殊，无法通过传统方法通过布局依赖关系进行多屏幕适配，这里不得不自行根据屏幕尺寸计算必要的view的边距
+     */
+    private void layoutMeasure() {
+        getView().getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int screenHeight = ScreenUtils.getScreenHeight();
+                int screenWidth = ScreenUtils.getScreenWidth();
+                int cardHight = screenWidth - recycler.getPaddingLeft() * 2 + SizeUtils.dp2px(70);
+                int wishTopSpace = (screenHeight - cardHight) / 3;
+                int topSpace = wishTopSpace > SizeUtils.dp2px(76) ? wishTopSpace : SizeUtils.dp2px(76); //顶部距离不得小于80（会遮挡toolbar）
+                int bottomSpace = screenHeight - cardHight - topSpace;
+                int btnHight = btnLike.getMeasuredHeight();
+                //计算floatingButton底外边距
+                int btnBottomMargin = (bottomSpace - btnHight) / 2;
+                //设置必要的边距数据
+                ((FrameLayout.LayoutParams) btnLike.getLayoutParams()).bottomMargin = btnBottomMargin;
+                ((FrameLayout.LayoutParams) btnDislike.getLayoutParams()).bottomMargin = btnBottomMargin;
+                recycler.setPadding(recycler.getPaddingLeft(), topSpace, recycler.getPaddingRight(), recycler.getPaddingBottom());
+                //移除observer
+                getView().getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
     }
 }

@@ -162,6 +162,10 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
                 if (timMessages == null) {
                     return;
                 }
+                //如果为
+                if (mConversationType == ConversationType.MIRROR){
+
+                }
                 mRootView.insertMessages(UIMessage.obtain(timMessages));
             }
         });

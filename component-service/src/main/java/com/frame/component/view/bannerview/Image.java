@@ -1,5 +1,6 @@
 package com.frame.component.view.bannerview;
 
+import com.frame.utils.RegexUtils;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -14,28 +15,22 @@ import lombok.Data;
 public class Image implements Serializable {
 
     private int id;
-    @SerializedName("PromotionName")
-    private String title;
-    private String content;
-    @SerializedName("imgPath")
     private String img;
-    @SerializedName("URL")
     private String url;
 
     public Image() {
     }
 
-    public Image(int id, String img) {
-        this.id = id;
-        this.img = img;
-    }
     public Image(String img) {
         this.img = img;
     }
-    public Image(int id, String title, String img) {
-        this.id = id;
-        this.title = title;
-        this.img = img;
+
+    //img 可能是网络图片也可能是本地图片，也可能是工程res资源图片，如果是资源图片，则返回资源id，否则返回0
+    public int getLocalSrc() {
+        return isLocalSrc() ? Integer.parseInt(img) : 0;
     }
 
+    public boolean isLocalSrc() {
+        return RegexUtils.isInteger(img);
+    }
 }

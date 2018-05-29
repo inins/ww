@@ -226,9 +226,9 @@ public class AudioRecordManager implements Callback {
             }
 
             this.mMediaRecorder.setAudioChannels(1);
-            this.mMediaRecorder.setAudioSource(1);
-            this.mMediaRecorder.setOutputFormat(3);
-            this.mMediaRecorder.setAudioEncoder(1);
+            this.mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+            this.mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+            this.mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
             this.mAudioPath = Uri.fromFile(new File(getCacheDir(), System.currentTimeMillis() + "temp.voice"));
             this.mMediaRecorder.setOutputFile(this.mAudioPath.getPath());
             this.mMediaRecorder.prepare();
@@ -281,7 +281,7 @@ public class AudioRecordManager implements Callback {
 
     private void sendAudioFile() {
         int duration = (int) (SystemClock.elapsedRealtime() - this.smStartRecTime) / 1000;
-        if (recordListener != null){
+        if (recordListener != null) {
             recordListener.onCompleted(duration, mAudioPath.getPath());
         }
     }
@@ -289,7 +289,7 @@ public class AudioRecordManager implements Callback {
     private void audioDBChanged() {
         if (this.mMediaRecorder != null) {
             int db = this.mMediaRecorder.getMaxAmplitude() / 600;
-            if (recordListener != null){
+            if (recordListener != null) {
                 recordListener.onDBChanged(db);
             }
         }
@@ -457,7 +457,7 @@ public class AudioRecordManager implements Callback {
                     }
 
                     if (checked && !activityFinished) {
-                        if (recordListener != null){
+                        if (recordListener != null) {
                             recordListener.tooShort();
                         }
                         AudioRecordManager.this.mHandler.removeMessages(2);
@@ -598,7 +598,7 @@ public class AudioRecordManager implements Callback {
         void onDestroy();
     }
 
-    public abstract static class OnSimpleRecordListener implements OnRecordListener{
+    public abstract static class OnSimpleRecordListener implements OnRecordListener {
 
         @Override
         public void initView(View root) {
