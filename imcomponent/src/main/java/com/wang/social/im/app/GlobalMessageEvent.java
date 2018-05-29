@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
@@ -150,6 +151,7 @@ public class GlobalMessageEvent extends Observable implements TIMMessageListener
         }
         builder.setContentText(content);
         builder.setSmallIcon(R.drawable.im_luncher);
+        builder.setLargeIcon(BitmapFactory.decodeResource(mApplication.getResources(), R.drawable.im_luncher));
         builder.setAutoCancel(true);
         builder.setTicker(content);
         return builder;

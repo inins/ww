@@ -7,7 +7,9 @@ import android.text.TextUtils;
 import com.frame.base.delegate.AppDelegate;
 import com.frame.component.app.Constant;
 import com.frame.component.enums.ConversationType;
+import com.frame.component.helper.AppDataHelper;
 import com.frame.entities.EventBean;
+import com.frame.integration.AppManager;
 import com.frame.utils.FrameUtils;
 import com.tencent.imsdk.TIMConnListener;
 import com.tencent.imsdk.TIMFriendshipSettings;
@@ -39,6 +41,7 @@ import com.wang.social.im.helper.GroupHelper;
 import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.helper.StickHelper;
 import com.wang.social.im.mvp.model.entities.FriendProfile;
+import com.wang.social.im.mvp.ui.RemoteLoginDialogActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -60,6 +63,7 @@ import static com.wang.social.im.app.IMConstants.IM_FIELD_FRIEND_PORTRAIT;
 public class ImAppLifecycleImpl implements AppDelegate {
 
     private final String TAG = this.getClass().getCanonicalName();
+    private AppManager mAppManager;
 
     @Override
     public void attachBaseContext(Context base) {
@@ -68,6 +72,8 @@ public class ImAppLifecycleImpl implements AppDelegate {
 
     @Override
     public void onCreate(Application application) {
+        mAppManager = FrameUtils.obtainAppComponentFromContext(application).appManager();
+
         //初始化IM相关配置，须在SDK登陆之前进行
         imSdkInit(application);
 
@@ -166,6 +172,10 @@ public class ImAppLifecycleImpl implements AppDelegate {
         @Override
         public void onForceOffline() {
             Timber.tag(TAG).d("onForceOffline");
+            AppDataHelper.removeToken();
+            AppDataHelper.removeUser();
+
+            RemoteLoginDialogActivity.start(mAppManager.getTopActivity());
         }
 
         /**

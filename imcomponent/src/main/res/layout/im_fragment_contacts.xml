@@ -32,7 +32,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fc_iv_more"
-        app:stl_defaultTabTextSize="18dp"
         app:stl_dividerColor="#00000000"
         app:stl_indicatorColor="@color/common_colorAccent"
         app:stl_indicatorCornerRadius="4dp"
