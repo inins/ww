@@ -361,7 +361,7 @@ public class ReleaseTopicPresenter extends
 
             @Override
             public void onFail() {
-                ToastUtil.showToastShort("上传资源失败");
+                ToastUtil.showToastShort("发布失败");
                 // 上传附件失败
                 mRootView.hideLoading();
             }

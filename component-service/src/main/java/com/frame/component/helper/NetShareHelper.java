@@ -58,7 +58,7 @@ public class NetShareHelper {
 
                     @Override
                     public void onError(Throwable e) {
-                        ToastUtil.showToastShort(e.getMessage());
+//                        ToastUtil.showToastShort(e.getMessage());
                     }
                 });
     }

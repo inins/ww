@@ -590,11 +590,11 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
 
                     @Override
                     public void onResult(int platform) {
-                        Timber.i("分享成功");
+                        ToastUtil.showToastShort("分享成功");
 
                         NetShareHelper.newInstance().netShareTopic(
                                 TopicDetailActivity.this,
-                                null,
+                                0,
                                 mTopicId,
                                 () -> {
                                     // 发送通知分享增加
@@ -617,7 +617,8 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
                 AppConstant.Url.topic + "?topicId=" + mTopicId + "&userId=" + AppDataHelper.getUser().getUserId(),
                 mTopicDetail.getTitle(),
                 HtmlUtil.delHTMLTag(mTopicDetail.getContent()),
-                EntitiesUtil.assertNotNull(mTopicDetail.getBackgroundImage()),
+                TextUtils.isEmpty(EntitiesUtil.assertNotNull(mTopicDetail.getBackgroundImage())) ?
+                AppConstant.DEFAULT_SHARE_IMAGE : EntitiesUtil.assertNotNull(mTopicDetail.getBackgroundImage()),
                 (String url, String title, String content, String imageUrl) -> {
 //                    showToastLong("往往分享");
                     CommonHelper.ImHelper.startWangWangShare(this,

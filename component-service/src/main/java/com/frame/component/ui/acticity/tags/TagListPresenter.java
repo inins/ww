@@ -61,10 +61,8 @@ public class TagListPresenter extends
      * @param list 已经选择的标签列表
      */
     private void checkTagState(Tags tags, List<Tag> list) {
-        tagList = tags.getList();
-
         // 获取的新标签需要先判断是否已经被选择了
-        for (Tag t1 : tagList) {
+        for (Tag t1 : tags.getList()) {
             // 先设置为未选中，因为存在可能，加载的新列表里面是已选中状态，但是在
             // 兴趣大杂烩里面已经将他删除了,所以只有选中列表的Tag才是选中状态
             t1.setUnselected();
@@ -74,21 +72,44 @@ public class TagListPresenter extends
                     t2.setTagName(t1.getTagName());
                 }
             }
+
+            tagList.add(t1);
         }
     }
+//    private void checkTagState(Tags tags, List<Tag> list) {
+//        tagList = tags.getList();
+//
+//        // 获取的新标签需要先判断是否已经被选择了
+//        for (Tag t1 : tagList) {
+//            // 先设置为未选中，因为存在可能，加载的新列表里面是已选中状态，但是在
+//            // 兴趣大杂烩里面已经将他删除了,所以只有选中列表的Tag才是选中状态
+//            t1.setUnselected();
+//            for (Tag t2 : list) {
+//                if (t1.getId() == t2.getId()) {
+//                    t1.setSelected();
+//                    t2.setTagName(t1.getTagName());
+//                }
+//            }
+//        }
+//    }
 
     /**
      * 加载标签列表
      *
      * @param parentId
      */
+    private int mCurrent = 0;
     public void loadTagList(int parentId, List<Tag> list) {
         mApiHelper.execute(mRootView,
-                mModel.taglist(Integer.MAX_VALUE, 0, parentId),
+                mModel.taglist(Integer.MAX_VALUE, mCurrent + 1, parentId),
                 new ErrorHandleSubscriber<Tags>(mErrorHandler) {
 
                     @Override
                     public void onNext(Tags tags) {
+                        if (null != tags.getList() && tags.getList().size() > 0) {
+                            mCurrent = tags.getCurrent();
+                        }
+
                         Observable.create(new ObservableOnSubscribe<Integer>() {
 
                             @Override
@@ -113,12 +134,12 @@ public class TagListPresenter extends
 
                                     @Override
                                     public void onError(Throwable e) {
-
+                                        mRootView.onTagListLoadFailed();
                                     }
 
                                     @Override
                                     public void onComplete() {
-                                        mRootView.resetTagListView();
+                                        mRootView.onTagListLoadCompleted();
                                     }
                                 });
                     }
