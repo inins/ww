@@ -155,10 +155,10 @@ public class MemberListActivity extends BaseAppActivity<MemberListPresenter> imp
         }
     }
 
-    @OnClick(R2.id.ml_iv_search)
+    /*@OnClick(R2.id.ml_iv_search)
     public void onViewClicked() {
         SearchActivity.start(this);
-    }
+    }*/
 
     private void showMasterInfo(MemberInfo master) {
         mImageLoader.loadImage(this, ImageConfigImpl.builder()

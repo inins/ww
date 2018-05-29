@@ -218,7 +218,7 @@ public class AudioRecordManager implements Callback {
 
             try {
                 Resources e = this.mContext.getResources();
-                int bps = e.getInteger(e.getIdentifier("rc_audio_encoding_bit_rate", "integer", this.mContext.getPackageName()));
+                int bps = e.getInteger(e.getIdentifier("comm_audio_encoding_bit_rate", "integer", this.mContext.getPackageName()));
                 this.mMediaRecorder.setAudioSamplingRate(8000);
                 this.mMediaRecorder.setAudioEncodingBitRate(bps);
             } catch (NotFoundException var3) {

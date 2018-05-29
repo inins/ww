@@ -11,6 +11,7 @@
     <string name="im_search">搜索</string>
     <string name="im_joined">已加入</string>
     <string name="im_join">加入</string>
+    <string name="im_none">无</string>
     <!-- Message -->
     <string name="im_chat_input_hint">输入消息...</string>
     <string name="im_voice_input">按住 说话</string>

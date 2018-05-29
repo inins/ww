@@ -435,8 +435,13 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
 
     @Override
     public void showEnvelopDialog(UIMessage uiMessage, EnvelopInfo envelopInfo) {
-        EnvelopDialog envelopDialog = new EnvelopDialog(getActivity(), uiMessage, envelopInfo);
-        envelopDialog.show();
+        //如果已经领取了红包则直接进入详情
+        if (envelopInfo.getGotDiamond() > 0) {
+            EnvelopDetailActivity.start(getActivity(), envelopInfo);
+        } else {
+            EnvelopDialog envelopDialog = new EnvelopDialog(getActivity(), uiMessage, envelopInfo);
+            envelopDialog.show();
+        }
     }
 
     @Override
