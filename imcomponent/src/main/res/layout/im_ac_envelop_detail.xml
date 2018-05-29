@@ -44,8 +44,6 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/im_envelop_theme"
         app:toolbar_left_icon="@drawable/common_ic_back_white"
-        app:toolbar_right_text="@string/im_envelop_record"
-        app:toolbar_right_text_color="@color/im_envelop_text_color"
         app:toolbar_title_text="@string/im_envelop_detail_title"
         app:toolbar_title_text_color="@color/im_envelop_text_color" />
 </android.support.constraint.ConstraintLayout>

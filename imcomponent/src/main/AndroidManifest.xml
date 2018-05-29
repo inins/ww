@@ -65,11 +65,21 @@
         <service
             android:name="com.tencent.qalsdk.service.QalService"
             android:exported="true"
-            android:process=":QALSERVICE" />
+            android:process=":QALSERVICE">
+
+            <intent-filter android:priority="1000">
+                <action android:name="android.intent.action.RESPOND_VIA_MESSAGE" />
+            </intent-filter>
+        </service>
         <service
             android:name="com.tencent.qalsdk.service.QalAssistService"
             android:exported="false"
-            android:process=":QALSERVICE" />
+            android:process=":QALSERVICE">
+
+            <intent-filter android:priority="1000">
+                <action android:name="android.intent.action.RESPOND_VIA_MESSAGE" />
+            </intent-filter>
+        </service>
 
         <!-- 【必须】 离线消息广播接收器 -->
         <receiver
