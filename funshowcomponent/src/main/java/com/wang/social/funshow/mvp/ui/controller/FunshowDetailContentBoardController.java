@@ -37,7 +37,7 @@ import java.util.List;
 import butterknife.BindView;
 import cn.jzvd.JZVideoPlayerStandard;
 
-public class FunshowDetailContentBoardController extends BaseController implements View.OnClickListener {
+public class FunshowDetailContentBoardController extends FunshowDetailBaseController implements View.OnClickListener {
 
     @BindView(R2.id.text_name)
     TextView textName;
@@ -199,5 +199,12 @@ public class FunshowDetailContentBoardController extends BaseController implemen
                         ToastUtil.showToastLong(e.getMessage());
                     }
                 });
+    }
+
+    ////////////////// get & set ///////////////////
+
+
+    public FunshowDetail getFunshowDetail() {
+        return funshowDetail;
     }
 }

@@ -16,11 +16,14 @@ import com.frame.component.common.AppConstant;
 import com.frame.component.common.GridSpacingItemDecoration;
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.entities.User;
+import com.frame.component.enums.ShareSource;
 import com.frame.component.helper.AppDataHelper;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.NetShareHelper;
 import com.frame.component.helper.NetZanHelper;
 import com.frame.component.ui.base.BaseController;
 import com.frame.component.ui.dialog.MorePopupWindow;
+import com.frame.component.utils.EntitiesUtil;
 import com.frame.component.utils.FunShowUtil;
 import com.frame.component.view.LoadingLayout;
 import com.frame.entities.EventBean;
@@ -46,7 +49,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class FunshowDetailZanController extends BaseController implements View.OnClickListener {
+public class FunshowDetailZanController extends FunshowDetailBaseController implements View.OnClickListener {
 
     @BindView(R2.id.recycler_zan)
     RecyclerView recyclerZan;
@@ -154,11 +157,11 @@ public class FunshowDetailZanController extends BaseController implements View.O
 
     private void share() {
         if (getContext() instanceof AppCompatActivity) {
-            // FIXME: 2018-05-30 修改分享图片路径
             User loginUser = AppDataHelper.getUser();
             String shareUrl = String.format(AppConstant.Share.SHARE_FUN_SHOW_URL, String.valueOf(talkId), String.valueOf(loginUser.getUserId()));
             String shareContent = String.format(AppConstant.Share.SHARE_FUN_SHOW_CONTENT, loginUser.getNickname());
-            SocializeUtil.shareWeb(((AppCompatActivity) getContext()).getSupportFragmentManager(),
+            String shareImg = getContentBoardController().getFunshowDetail().getPics().get(0).getUrl();
+            SocializeUtil.shareWithWW(((AppCompatActivity) getContext()).getSupportFragmentManager(),
                     new SocializeUtil.SimpleShareListener() {
                         @Override
                         public void onResult(int platform) {
@@ -171,9 +174,16 @@ public class FunshowDetailZanController extends BaseController implements View.O
                     shareUrl,
                     AppConstant.Share.SHARE_FUN_SHOW_TITLE,
                     shareContent,
-                    "http://resouce.dongdongwedding.com/activity_cashcow_moneyTree.png");
+                    shareImg,
+                    (url, title, content, imageUrl) -> {
+                        CommonHelper.ImHelper.startWangWangShare(getContext(),
+                                AppConstant.Share.SHARE_FUN_SHOW_TITLE,
+                                content,
+                                imageUrl,
+                                ShareSource.SOURCE_FUN_SHOW,
+                                Integer.toString(talkId));
+                    });
         }
-
     }
 
     ////////////////////////////////////////////
