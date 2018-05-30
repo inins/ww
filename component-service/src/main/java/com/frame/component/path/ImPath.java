@@ -50,4 +50,8 @@ public interface ImPath extends BasePath {
     //分享到往往
     String SHARE_RECENTLY = "/share_recently";
     String SHARE_RECENTLY_URL = SCHEME + HOST + SHARE_RECENTLY;
+
+    // 觅聊名片
+    String TEAM_CARD = "/team_invite_card";
+    String TEAM_CARD_URL = SCHEME + HOST + TEAM_CARD;
 }

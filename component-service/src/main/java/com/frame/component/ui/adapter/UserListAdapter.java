@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.frame.component.entities.PersonalInfo;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.service.R;
 import com.frame.component.ui.acticity.tags.Tag;
@@ -61,6 +62,16 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
             }
         }
         holder.tagsTV.setText(tags);
+
+        // 点击打开用户名片
+        holder.rootView.setTag(user);
+        holder.rootView.setOnClickListener(v -> {
+            if (v.getTag() instanceof PersonalInfo) {
+                PersonalInfo pi = (PersonalInfo) v.getTag();
+
+                CommonHelper.ImHelper.startPersonalCardForBrowse(mContext, pi.getUserId());
+            }
+        });
     }
 
     @Override
@@ -69,6 +80,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+        View rootView;
         ImageView avatarIV;
         TextView nameTV;
         TextView genderLableTV;
@@ -78,6 +90,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
         public ViewHolder(View itemView) {
             super(itemView);
 
+            rootView = itemView.findViewById(R.id.root_view);
             avatarIV = itemView.findViewById(R.id.img_header);
             nameTV = itemView.findViewById(R.id.text_name);
             genderLableTV = itemView.findViewById(R.id.text_lable_gender);

@@ -130,10 +130,10 @@ public class MainActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                             if (mMsgId > 0) {
-                                GroupMiInviteDetailActivity.start(MainActivity.this,
+                                GroupMiInviteDetailActivity.startFromMsg(MainActivity.this,
                                         mGroupId, mMsgId);
                             } else {
-                                GroupMiInviteDetailActivity.start(MainActivity.this,
+                                GroupMiInviteDetailActivity.startBrowse(MainActivity.this,
                                         mGroupId);
                             }
 

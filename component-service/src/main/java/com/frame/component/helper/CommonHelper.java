@@ -292,6 +292,19 @@ public class CommonHelper {
             bundle.putString("objectId", objectId);
             UIRouter.getInstance().openUri(context, ImPath.SHARE_RECENTLY_URL, bundle);
         }
+
+        /**
+         * 从消息列表启动觅聊名片
+         * @param context context
+         * @param groupId 觅聊id
+         * @param msgId 消息id
+         */
+        public static void startTeamCardFromMsg(Context context, int groupId, int msgId) {
+            Bundle bundle = new Bundle();
+            bundle.putInt("groupid", groupId);
+            bundle.putInt("msgid", msgId);
+            UIRouter.getInstance().openUri(context, ImPath.TEAM_CARD_URL, bundle);
+        }
     }
 
     public static class TopicHelper {

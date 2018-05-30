@@ -228,8 +228,9 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
                     // 记录文字信息
                     mReportComment = text;
                     // 弹出图片选择
-                    mPhotoHelperEx.setMaxSelectCount(5);
-                    mPhotoHelperEx.showDefaultDialog();
+                    mPhotoHelperEx.setMaxSelectCount(1);
+//                    mPhotoHelperEx.showDefaultDialog();
+                    mPhotoHelperEx.startPhoto();
                 });
     }
 

@@ -21,7 +21,7 @@ public class SearchUserInfoDTO implements Mapper<PersonalInfo> {
     private String avatar;
     private String provinceName;
     private Integer userId;
-    private List<Tag> tags;
+    private List<Tag> userTags;
     private Integer isFirend;
 
     @Override
@@ -39,7 +39,7 @@ public class SearchUserInfoDTO implements Mapper<PersonalInfo> {
         object.setAvatar(EntitiesUtil.assertNotNull(avatar));
         object.setProvinceName(EntitiesUtil.assertNotNull(provinceName));
         object.setUserId(EntitiesUtil.assertNotNull(userId));
-        object.setTags(null == tags ? new ArrayList<>() : tags);
+        object.setTags(null == userTags ? new ArrayList<>() : userTags);
         object.setIsFriend(EntitiesUtil.assertNotNull(isFirend));
 
         return object;
