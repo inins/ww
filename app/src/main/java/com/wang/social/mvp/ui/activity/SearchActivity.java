@@ -90,11 +90,11 @@ public class SearchActivity extends BasicAppNoDiActivity implements IView, BaseA
         String tags = editSearch.getTagsStr();
         String key = editSearch.getKey();
         if (!TextUtils.isEmpty(tags) || !TextUtils.isEmpty(key)) {
+            loadingview.showOut();
             EventBean eventBean = new EventBean(EventBean.EVENT_APP_SEARCH);
             eventBean.put("tags",tags);
             eventBean.put("key",key);
             EventBus.getDefault().post(eventBean);
-            loadingview.showOut();
         } else {
             ToastUtil.showToastShort("请输入搜索关键字");
         }

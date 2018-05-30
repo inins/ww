@@ -49,11 +49,10 @@ public class HomeContentController extends BaseController implements RecycleAdap
     @Override
     public void onCommonEvent(EventBean event) {
         switch (event.getEvent()) {
-            case 123: {
-                //TODO:目前没有这个消息，后续添加
+            case EventBean.EVENTBUS_TOPIC_SUPPORT: {
                 //在详情页点赞，收到通知刷新点赞状态及其点赞数量
                 int topicId = (int) event.get("topicId");
-                boolean isZan = (boolean) event.get("isZan");
+                boolean isZan = (boolean) event.get("isSupport");
                 adapter.reFreshZanCountById(topicId, isZan);
                 break;
             }

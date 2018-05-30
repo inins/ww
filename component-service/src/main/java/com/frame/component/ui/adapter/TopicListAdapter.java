@@ -26,6 +26,7 @@ import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.mvp.IView;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.SizeUtils;
+import com.frame.utils.StrUtil;
 import com.frame.utils.TimeUtils;
 
 import java.text.SimpleDateFormat;
@@ -321,5 +322,30 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
         mList.addAll(items);
         notifyItemInserted(this.mList.size() - items.size());
         notifyItemRangeChanged(this.mList.size() - items.size(), this.mList.size() - 1);
+    }
+
+    ////////////////////////
+
+    public void reFreshZanCountById(int topicId, boolean isSupport) {
+        if (StrUtil.isEmpty(getResults())) return;
+        for (int i = 0; i < getResults().size(); i++) {
+            Topic topic = getResults().get(i);
+            if (topic.getTopicId() == topicId) {
+                topic.setSupport(isSupport);
+                topic.setSupportTotal(Math.max(0, topic.getSupportTotal() + (isSupport ? 1 : -1)));
+                notifyItemChanged(i);
+            }
+        }
+    }
+
+    public void reFreshCommentCountById(int topicId) {
+        if (StrUtil.isEmpty(getResults())) return;
+        for (int i = 0; i < getResults().size(); i++) {
+            Topic topic = getResults().get(i);
+            if (topic.getTopicId() == topicId) {
+                topic.setCommentTotal(topic.getCommentTotal() + 1);
+                notifyItemChanged(i);
+            }
+        }
     }
 }

@@ -186,7 +186,9 @@ public class RecycleAdapterCommonFunshow extends BaseAdapter<FunshowBean> {
     /////////////////////////////  eventBus
 
     public void registEventBus() {
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
     }
 
     public void unRegistEventBus() {
