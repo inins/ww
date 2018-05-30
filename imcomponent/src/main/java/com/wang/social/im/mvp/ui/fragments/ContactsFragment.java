@@ -47,6 +47,8 @@ import butterknife.OnClick;
 import butterknife.Optional;
 import butterknife.Unbinder;
 
+import static com.frame.entities.EventBean.EVENT_NOTIFY_SHOW_CONVERSATION_LIST;
+
 /**
  * ============================================
  * 往来
@@ -229,13 +231,15 @@ public class ContactsFragment extends BasicFragment implements AutoPopupWindow.O
         return true;
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageUnreadCountChanged(EventBean event) {
+    @Override
+    public void onCommonEvent(EventBean event) {
         if (event.getEvent() == EventBean.EVENT_NOTIFY_MESSAGE_UNREAD) {
             int count = (int) event.get("count");
             showMessageUnreadCount(count);
         } else if (event.getEvent() == EventBean.EVENT_MSG_READALL) {
             toggleNotifyUnread(false);
+        } else if (event.getEvent() == EVENT_NOTIFY_SHOW_CONVERSATION_LIST) {
+            fcViewpager.setCurrentItem(0);
         }
     }
 

@@ -19,6 +19,10 @@ import com.frame.utils.RegexUtils;
 import com.frame.utils.ScreenUtils;
 import com.frame.utils.SizeUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -70,6 +74,22 @@ public class EditDialog extends BaseDialog {
         lp.width = (int) (ScreenUtils.getScreenWidth() * 0.85f);
         lp.height = SizeUtils.dp2px(200f);
         win.setAttributes(lp);
+
+        InputFilter[] filters = new InputFilter[nameFilter ? 2 : 1];
+        filters[0] = new InputLengthFilter(maxLength, false);
+        if (nameFilter) {
+            filters[1] = new InputFilter() {
+                @Override
+                public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                    if (nameFilter && !RegexUtils.isUsernameMe(source)) {
+                        return "";
+                    }
+                    return source;
+                }
+            };
+        }
+
+        deEtContent.setFilters(filters);
     }
 
     @Override
@@ -79,15 +99,6 @@ public class EditDialog extends BaseDialog {
 
     @Override
     protected void intView(View root) {
-        deEtContent.setFilters(new InputFilter[]{new InputFilter() {
-            @Override
-            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-                if (!RegexUtils.isUsernameMe(source) && nameFilter) {
-                    return "";
-                }
-                return source;
-            }
-        }, new InputLengthFilter(maxLength, false)});
     }
 
     @Override

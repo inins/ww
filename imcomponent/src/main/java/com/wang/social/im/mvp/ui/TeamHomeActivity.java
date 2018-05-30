@@ -26,6 +26,7 @@ import com.frame.component.helper.AppDataHelper;
 import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.ui.dialog.AutoPopupWindow;
+import com.frame.component.ui.dialog.DialogSure;
 import com.frame.component.ui.dialog.EditDialog;
 import com.frame.component.utils.UIUtil;
 import com.frame.component.view.SocialToolbar;
@@ -333,16 +334,32 @@ public class TeamHomeActivity extends BaseAppActivity<TeamHomePresenter> impleme
             });
             editDialog.show();
         } else if (view.getId() == R.id.th_tv_clear_message) {//清除聊天内容
-            mPresenter.clearMessages(ImHelper.wangId2ImId(teamId, ConversationType.TEAM));
+            DialogSure.showDialog(this, "确认清空消息？", new DialogSure.OnSureCallback() {
+                @Override
+                public void onOkClick() {
+                    mPresenter.clearMessages(ImHelper.wangId2ImId(teamId, ConversationType.TEAM));
+                }
+            });
+
         } else if (view.getId() == R.id.th_tv_background_chat) {//背景图片
             BackgroundSettingActivity.start(this, ConversationType.TEAM, ImHelper.wangId2ImId(teamId, ConversationType.TEAM));
         } else if (view.getId() == R.id.th_tv_charge_setting) {//收费设置
             TeamChargeSettingActivity.start(this, mTeam, REQUEST_CODE_CHARGE);
         } else if (view.getId() == R.id.th_tvb_handle) {//退出/解散觅聊
             if (mTeam.getSelfProfile() != null && mTeam.getSelfProfile().getRole() == MemberInfo.ROLE_MASTER) {
-                mPresenter.dissolveGroup(teamId);
+                DialogSure.showDialog(this, "确认解散此觅聊？", new DialogSure.OnSureCallback() {
+                    @Override
+                    public void onOkClick() {
+                        mPresenter.dissolveGroup(teamId);
+                    }
+                });
             } else {
-                mPresenter.exitGroup(teamId);
+                DialogSure.showDialog(this, "确认退出此觅聊？", new DialogSure.OnSureCallback() {
+                    @Override
+                    public void onOkClick() {
+                        mPresenter.exitGroup(teamId);
+                    }
+                });
             }
         }
     }

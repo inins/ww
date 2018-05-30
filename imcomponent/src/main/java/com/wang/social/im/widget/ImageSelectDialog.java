@@ -22,8 +22,15 @@ public class ImageSelectDialog extends BaseDialog {
 
     private OnItemSelectedListener mItemSelectedListener;
 
+    private boolean showShoot;
+
     public ImageSelectDialog(Context context, OnItemSelectedListener itemSelectedListener) {
+        this(context, itemSelectedListener, true);
+    }
+
+    public ImageSelectDialog(Context context, OnItemSelectedListener itemSelectedListener, boolean showShoot) {
         super(context);
+        this.showShoot = showShoot;
         this.mItemSelectedListener = itemSelectedListener;
     }
 
@@ -40,8 +47,15 @@ public class ImageSelectDialog extends BaseDialog {
     }
 
     @Override
-    protected void intView(View root) {
+    protected void intViewOnCreate(View root) {
+        if (!showShoot) {
+            root.findViewById(R.id.dis_tv_shoot).setVisibility(View.GONE);
+            root.findViewById(R.id.dis_v_shoot).setVisibility(View.GONE);
+        }
+    }
 
+    @Override
+    protected void intView(View root) {
     }
 
     @OnClick({R2.id.dis_tv_gallery, R2.id.dis_tv_shoot, R2.id.dis_tv_album, R2.id.dis_tv_cancel})
@@ -60,6 +74,20 @@ public class ImageSelectDialog extends BaseDialog {
             }
         }
         dismiss();
+    }
+
+    public void setShootVisible(boolean showShoot) {
+        this.showShoot = showShoot;
+        if (root == null) {
+            return;
+        }
+        if (showShoot) {
+            root.findViewById(R.id.dis_tv_shoot).setVisibility(View.VISIBLE);
+            root.findViewById(R.id.dis_v_shoot).setVisibility(View.VISIBLE);
+        } else {
+            root.findViewById(R.id.dis_tv_shoot).setVisibility(View.GONE);
+            root.findViewById(R.id.dis_v_shoot).setVisibility(View.GONE);
+        }
     }
 
     public interface OnItemSelectedListener {

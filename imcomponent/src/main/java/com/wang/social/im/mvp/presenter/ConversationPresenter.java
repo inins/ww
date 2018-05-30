@@ -577,5 +577,6 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onShadowInfoChanged(ShadowInfo shadowInfo) {
         mShadowInfo = shadowInfo;
+        mRootView.onShadowChanged(mShadowInfo);
     }
 }

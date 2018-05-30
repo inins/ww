@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 
 import com.frame.component.common.AppConstant;
+import com.frame.component.common.InputLengthFilter;
 import com.frame.component.enums.Gender;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.ui.dialog.PayDialog;
@@ -139,15 +140,12 @@ public class ShadowSettingActivity extends BaseAppActivity<ShadowSettingPresente
         ssEtNickname.setFilters(new InputFilter[]{new InputFilter() {
             @Override
             public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-                if (source.length() + ssEtNickname.length() > 8) {
-                    return "";
-                }
                 if (!RegexUtils.isUsernameMe(source)) {
                     return "";
                 }
                 return source;
             }
-        }});
+        }, new InputLengthFilter(12, false)});
 
         ssToolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
             @Override
@@ -242,6 +240,7 @@ public class ShadowSettingActivity extends BaseAppActivity<ShadowSettingPresente
 
     @Override
     public void onUpdateComplete(ShadowInfo info) {
+        info.setStatus(ShadowInfo.STATUS_OPEN);
         EventBus.getDefault().post(info);
         finish();
     }

@@ -131,6 +131,8 @@ public class EventBean implements Serializable {
     public static final int EVENT_NOTIFY_GROUP_PROFILE = 0xffa910;
     //好友信息发生变动
     public static final int EVENT_NOTIFY_FRIEND_PROFILE = 0xffa911;
+    //显示聊天列表
+    public static final int EVENT_NOTIFY_SHOW_CONVERSATION_LIST = 0xffa912;
 
     //通知消息已经全部阅读
     public static final int EVENT_MSG_READALL = 0xffb001;
@@ -193,6 +195,7 @@ public class EventBean implements Serializable {
             EVENT_NOTIFY_FRIEND_PROFILE,
             EVENT_HOME_CARD_DETAIL_ADDFIREND,
             EVENT_FUNSHOW_PAYED,
+            EVENT_NOTIFY_SHOW_CONVERSATION_LIST,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface EventBeanType {

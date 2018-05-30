@@ -22,10 +22,11 @@ public class ImageSelectHelper extends PhotoHelper {
 
     ImageSelectDialog.OnItemSelectedListener mItemSelectedListener;
 
+    private boolean showShoot = true;
+
     private ImageSelectHelper(Activity activity, PhotoHelper.OnPhotoCallback callback, ImageSelectDialog.OnItemSelectedListener itemSelectedListener) {
         super(activity, callback);
         this.mItemSelectedListener = itemSelectedListener;
-        dialogPhoto = new WeakReference(newDialogInstance(mItemSelectedListener));
     }
 
     public static ImageSelectHelper newInstance(Activity activity, PhotoHelper.OnPhotoCallback callback, ImageSelectDialog.OnItemSelectedListener itemSelectedListener) {
@@ -37,10 +38,15 @@ public class ImageSelectHelper extends PhotoHelper {
         return dialog;
     }
 
+    public void setShowShoot(boolean show) {
+        this.showShoot = show;
+    }
+
     public void showDialog() {
         if (dialogPhoto == null || dialogPhoto.get() == null) {
             dialogPhoto = new WeakReference(newDialogInstance(mItemSelectedListener));
         }
+        dialogPhoto.get().setShootVisible(showShoot);
         dialogPhoto.get().show();
     }
 
