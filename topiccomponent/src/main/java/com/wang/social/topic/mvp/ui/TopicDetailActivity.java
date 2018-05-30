@@ -621,12 +621,13 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
                 mTopicDetail.getTitle(),
                 shareContent,
                 TextUtils.isEmpty(EntitiesUtil.assertNotNull(mTopicDetail.getBackgroundImage())) ?
-                        AppConstant.Share.SHARE_DEFAULT_IMAGE : EntitiesUtil.assertNotNull(mTopicDetail.getBackgroundImage()),
+                        AppConstant.Share.SHARE_DEFAULT_IMAGE :
+                        EntitiesUtil.assertNotNull(mTopicDetail.getBackgroundImage()),
                 (String url, String title, String content, String imageUrl) -> {
                     CommonHelper.ImHelper.startWangWangShare(this,
                             AppConstant.Share.SHARE_TOPIC_TITLE,
                             content,
-                            EntitiesUtil.assertNotNull(mTopicDetail.getBackgroundImage()),
+                            imageUrl,
                             ShareSource.SOURCE_TOPIC,
                             Integer.toString(mTopicId));
                 });
@@ -728,8 +729,8 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
                 if (supportTopicId == mTopicId) {
                     Timber.i("话题详情-点赞成功 : " + supportTopicId + " " + Boolean.toString(isSupport));
                     mTopicDetail.setIsSupport(isSupport ? 1 : 0);
-                    resetSupportLayout(mTopicDetail.getIsSupport(),
-                            Math.max(0, mTopicDetail.getShareTotal() + (isSupport ? 1 : -1)));
+                    mTopicDetail.setSupportTotal(Math.max(0, mTopicDetail.getSupportTotal() + (isSupport ? 1 : -1)));
+                    resetSupportLayout(mTopicDetail.getIsSupport(), mTopicDetail.getSupportTotal());
                 }
                 break;
         }
