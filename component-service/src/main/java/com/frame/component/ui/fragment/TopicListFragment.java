@@ -150,6 +150,10 @@ public class TopicListFragment extends BasicFragment implements IView {
 
     private void loadData(boolean refresh) {
         if (mType != TYPE_PERSON_TOPIC_SEARCH) {
+            if (null != mAdapter) {
+                mAdapter.setSearchTags(mTags);
+                mAdapter.setSearchKeyword(mKeys);
+            }
             searchTopic(mKeys, mTags, refresh);
         } else {
             getFriendTopicList(refresh);

@@ -12,10 +12,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.frame.component.entities.IsShoppingRsp;
 import com.frame.component.entities.Topic;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.ImageLoaderHelper;
+import com.frame.component.helper.NetIsShoppingHelper;
 import com.frame.component.helper.NetPayStoneHelper;
 import com.frame.component.helper.NetZanHelper;
 import com.frame.component.service.R;
@@ -25,7 +26,6 @@ import com.frame.component.view.DialogPay;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.mvp.IView;
 import com.frame.utils.FrameUtils;
-import com.frame.utils.SizeUtils;
 import com.frame.utils.TimeUtils;
 
 import java.text.SimpleDateFormat;
@@ -43,7 +43,8 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
     private FragmentManager mFragmentManager;
     private List<Topic> mList;
     // 是否是搜索的结果，是的话关键字高亮
-    private boolean mSearchResult = false;
+    private String mSearchKeyword;
+    private String mSearchTags;
 
     public TopicListAdapter(IView bindView, RecyclerView recyclerView, List<Topic> list) {
         mIView = bindView;
@@ -51,16 +52,20 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
         mList = list;
     }
 
-    public TopicListAdapter(IView IView, Activity activity, FragmentManager fragmentManager, List<Topic> list) {
-        mIView = IView;
+    public TopicListAdapter(IView iView, Activity activity, FragmentManager fragmentManager, List<Topic> list) {
+        mIView = (activity instanceof IView) ? (IView) activity : iView;
         mActivity = activity;
         mContext = activity.getApplicationContext();
         mFragmentManager = fragmentManager;
         mList = list;
     }
 
-    public void setSearchResult(boolean searchResult) {
-        mSearchResult = searchResult;
+    public void setSearchKeyword(String searchKeyword) {
+        mSearchKeyword = searchKeyword;
+    }
+
+    public void setSearchTags(String searchTags) {
+        mSearchTags = searchTags;
     }
 
     @Override
@@ -79,8 +84,8 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
 
         if (null == topic) return;
 
-        // 是否付费(已付费也隐藏)
-        if (topic.getRelateState() == 0 || topic.isShopping()) {
+        // 是否付费
+        if (topic.getRelateState() == 0) {
             holder.payFlagIV.setVisibility(View.GONE);
             holder.blankView.setVisibility(View.GONE);
         } else {
@@ -91,9 +96,9 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
 //        holder.createDateTV.setText(formatCreateDate(mContext, topic.getCreateTime()));
         holder.createDateTV.setText(TimeUtils.getFriendlyTimeSpanByNow(topic.getCreateTime()));
         // 话题标题
-        holder.titleTV.setText(mSearchResult ? SearchUtil.getHotText("", "", topic.getTitle()) : topic.getTitle());
+        holder.titleTV.setText(SearchUtil.getHotText(mSearchTags, mSearchKeyword, topic.getTitle()));
         // 简要
-        holder.contentTV.setText(topic.getFirstStrff());
+        holder.contentTV.setText(SearchUtil.getHotText(mSearchTags, mSearchKeyword, topic.getFirstStrff()));
         // 图片
         if (!TextUtils.isEmpty(topic.getBackgroundImage())) {
             holder.imageCV.setVisibility(View.VISIBLE);
@@ -182,19 +187,38 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
             if (v.getTag() instanceof Topic) {
                 Topic t = (Topic) v.getTag();
                 // 是否需要支付
-                if (t.getRelateState() == 1 && !t.isShopping()) {
-                    // 处理支付
-                    if (null != mFragmentManager) {
-                        DialogPay.showPayTopic(mIView, mFragmentManager,
-                                t,
-                                -1,
-                                () -> payTopic(t));
-                    } else {
-                        Timber.i("fragmentmanager is null");
-                    }
+                if (t.getRelateState() == 1) {
+                    // 话题需要支付，先请求是否已支付数据
+                    NetIsShoppingHelper.newInstance().isTopicShopping(mIView,
+                            t.getTopicId(),
+                            (IsShoppingRsp rsp) -> {
+                                /**
+                                 "isFree": "是否收费（0免费 1收费）",
+                                 "price": "收费价格,宝石数",
+                                 "isShopping": "是否需要购买（0 无需购买 1 购买）"
+                                 */
+                                if (rsp.getIsFree() >= 1 && rsp.getIsShopping() >= 1) {
+                                    // 可能之前的数据里面没有价格，所以这里要先设置价格
+                                    t.setRelateMoney(rsp.getPrice());
+                                    // 处理支付
+                                    if (null != mFragmentManager) {
+                                        // 弹出支付对话框
+                                        DialogPay.showPayTopic(mIView, mFragmentManager,
+                                                t,
+                                                -1,
+                                                () -> payTopic(t));
+                                    } else {
+                                        Timber.i("fragmentmanager is null");
+                                    }
+                                } else {
+                                    // 不需要支付，直接打开详情
+                                    openTopicDetail(t);
+                                }
+                            });
                 } else {
                     // 直接打开话题详情
                     if (null != mActivity) {
+                        // 不需要支付，直接打开详情
                         openTopicDetail(t);
                     } else {
                         Timber.e("activity is null");

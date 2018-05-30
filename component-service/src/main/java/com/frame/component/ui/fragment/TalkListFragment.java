@@ -79,6 +79,9 @@ public class TalkListFragment extends BasicFragment implements IView {
         }
 
         mAdapter = new RecycleAdapterCommonFunshow();
+        mAdapter.registEventBus();
+        mAdapter.setShowMoreBtn(false);
+        mAdapter.setShowHeader(false);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(mAdapter);
 
@@ -162,9 +165,6 @@ public class TalkListFragment extends BasicFragment implements IView {
     @Override
     public void onStart() {
         super.onStart();
-        if (null != mAdapter) {
-            mAdapter.registEventBus();
-        }
     }
 
     @Override
