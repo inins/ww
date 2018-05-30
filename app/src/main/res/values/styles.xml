@@ -11,4 +11,7 @@
         <item name="android:button">@null</item>
     </style>
 
+    <style name="activity_theme_splash" parent="common_AppTheme.NoTitleFullscreen">
+        <item name="android:background">@drawable/img_splash</item>
+    </style>
 </resources>

@@ -3,6 +3,8 @@ package com.wang.social.mvp.ui.activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.ui.base.BasicAppActivity;
@@ -13,7 +15,7 @@ import com.frame.utils.SPUtils;
 import com.frame.utils.StatusBarUtil;
 import com.wang.social.R;
 
-public class LoadupActivity extends BasicAppActivity {
+public class LoadupActivity extends AppCompatActivity {
 
     private Handler mHandler = new Handler();
     private Runnable mRunnable = new Runnable() {
@@ -33,40 +35,17 @@ public class LoadupActivity extends BasicAppActivity {
         }
     };
 
-
     @Override
-    public int initView(@NonNull Bundle savedInstanceState) {
-        return R.layout.activity_loadup;
-    }
-
-    @Override
-    public void initData(@NonNull Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         StatusBarUtil.setTranslucent(this);
 
         mHandler.postDelayed(mRunnable, 2000);
-
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                if (showGuideView()) {
-//                    SplashActivity.start(LoadupActivity.this);
-//                } else {
-//                    if (CommonHelper.LoginHelper.isLogin()) {
-//                        HomeActivity.start(LoadupActivity.this);
-//                    } else {
-//                        CommonHelper.LoginHelper.startLoginActivity(LoadupActivity.this);
-//                    }
-//                }
-//
-//                finish();
-//            }
-//        }, 2000);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         if (null != mHandler) {
             mHandler.removeCallbacks(mRunnable);
         }
@@ -86,11 +65,6 @@ public class LoadupActivity extends BasicAppActivity {
         }
 
         return false;
-    }
-
-    @Override
-    public void setupActivityComponent(@NonNull AppComponent appComponent) {
-
     }
 }
 
