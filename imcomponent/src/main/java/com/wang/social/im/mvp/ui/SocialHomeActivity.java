@@ -105,6 +105,8 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
     TextView scTvTag;
     @BindView(R2.id.sc_rlv_tags)
     RecyclerView scRlvTags;
+    @BindView(R2.id.sc_tv_tag_none)
+    TextView scTvTagNone;
     @BindView(R2.id.sc_tv_social_intro)
     TextView scTvSocialIntro;
     @BindView(R2.id.sc_iv_intro_edit)
@@ -562,14 +564,18 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
     }
 
     private void showTags(List<Tag> tags) {
-        scRlvTags.setNestedScrollingEnabled(false);
-        scRlvTags.setLayoutManager(
-                ChipsLayoutManager.newBuilder(this)
-                        .setOrientation(ChipsLayoutManager.HORIZONTAL)
-                        .build());
-        scRlvTags.addItemDecoration(
-                new SpacingItemDecoration(SizeUtils.dp2px(5), SizeUtils.dp2px(5)));
-        scRlvTags.setAdapter(new HomeTagAdapter(tags));
+        if (tags == null || tags.isEmpty()) {
+            scTvTagNone.setVisibility(View.VISIBLE);
+        } else {
+            scRlvTags.setNestedScrollingEnabled(false);
+            scRlvTags.setLayoutManager(
+                    ChipsLayoutManager.newBuilder(this)
+                            .setOrientation(ChipsLayoutManager.HORIZONTAL)
+                            .build());
+            scRlvTags.addItemDecoration(
+                    new SpacingItemDecoration(SizeUtils.dp2px(5), SizeUtils.dp2px(5)));
+            scRlvTags.setAdapter(new HomeTagAdapter(tags));
+        }
     }
 
     private void showShadow(ShadowInfo shadowInfo) {

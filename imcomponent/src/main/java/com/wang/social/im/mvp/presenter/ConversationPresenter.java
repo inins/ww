@@ -49,6 +49,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -162,11 +163,20 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
                 if (timMessages == null) {
                     return;
                 }
-                //如果为
-                if (mConversationType == ConversationType.MIRROR){
-
+                List<TIMMessage> messages;
+                //如果为镜像聊天则显示一小时内的消息
+                if (mConversationType == ConversationType.MIRROR) {
+                    long time = System.currentTimeMillis();
+                    messages = new ArrayList<>();
+                    for (TIMMessage timMessage : timMessages) {
+                        if (time - timMessage.timestamp() * 1000 < 60 * 60 * 1000) {
+                            messages.add(timMessage);
+                        }
+                    }
+                } else {
+                    messages = timMessages;
                 }
-                mRootView.insertMessages(UIMessage.obtain(timMessages));
+                mRootView.insertMessages(UIMessage.obtain(messages));
             }
         });
     }

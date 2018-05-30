@@ -59,7 +59,7 @@
                 app:layout_collapseMode="pin"
                 app:navigationIcon="@drawable/common_ic_back">
 
-                <FrameLayout
+                <!--<FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -72,7 +72,7 @@
                         android:clickable="true"
                         android:padding="@dimen/common_border_margin"
                         android:src="@drawable/im_ic_search" />
-                </FrameLayout>
+                </FrameLayout>-->
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>

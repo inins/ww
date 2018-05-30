@@ -85,9 +85,6 @@ public class ActivityLifecycle implements Application.ActivityLifecycleCallbacks
         if (activityDelegate != null) {
             activityDelegate.onResume();
         }
-
-        //清除通知
-        ((NotificationManager) mApplication.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE)).cancel(521);
     }
 
     @Override

@@ -63,9 +63,10 @@ public class RemoteLoginDialogActivity extends BasicActivity {
         if (view.getId() == R.id.rld_tvb_exit) {
             mAppManager.exitApp();
         } else if (view.getId() == R.id.rld_tvb_login) {
+            CommonHelper.LoginHelper.startLoginActivity(this);
+            mAppManager.removeActivity(this);
             finish();
             mAppManager.killAll();
-            CommonHelper.LoginHelper.startLoginActivity(this);
         }
     }
 

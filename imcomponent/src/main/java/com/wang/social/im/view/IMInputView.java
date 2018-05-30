@@ -409,6 +409,7 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
         hideInputKeyBoard();
         hideEmotionBoard();
         hidePluginBoard();
+        initStyle();
     }
 
     public void updateShadowText(int textRes) {
