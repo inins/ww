@@ -174,7 +174,7 @@ public class PrivateConversationActivity extends BasicConversationActivity imple
     public void onItemClick(AutoPopupWindow popupWindow, int resId) {
         popupWindow.dismiss();
         if (resId == R.string.im_remark_setting) {
-            EditDialog editDialog = new EditDialog(this, pcTvNickname.getText().toString(), getString(R.string.im_remark_setting), 8, new EditDialog.OnInputCompleteListener() {
+            EditDialog editDialog = new EditDialog(this, pcTvNickname.getText().toString(), getString(R.string.im_remark_setting), 12, new EditDialog.OnInputCompleteListener() {
                 @Override
                 public void onComplete(Dialog dialog, String content) {
                     dialog.dismiss();

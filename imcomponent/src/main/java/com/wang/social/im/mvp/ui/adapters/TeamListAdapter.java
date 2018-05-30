@@ -50,6 +50,8 @@ public class TeamListAdapter extends BaseAdapter<TeamInfo> {
         TextView tlTvMember;
         @BindView(R2.id.tl_tvb_join)
         TextView tlTvbJoin;
+        @BindView(R2.id.tl_iv_pay)
+        ImageView tlIvPay;
 
         ImageLoader mImageLoader;
 
@@ -68,6 +70,8 @@ public class TeamListAdapter extends BaseAdapter<TeamInfo> {
                     .url(itemValue.getCover())
                     .build());
 
+            tlIvPay.setVisibility(itemValue.isFree() ? View.GONE : View.VISIBLE);
+
             tlTvName.setText(itemValue.getName());
 
             if (itemValue.getTags() != null && itemValue.getTags().size() > 0) {
@@ -85,7 +89,7 @@ public class TeamListAdapter extends BaseAdapter<TeamInfo> {
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (onItemClickListener != null){
+                        if (onItemClickListener != null) {
                             onItemClickListener.onItemClick(itemValue, position);
                         }
                     }

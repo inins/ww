@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.frame.component.common.InputLengthFilter;
 import com.frame.component.service.R;
 import com.frame.component.service.R2;
 import com.frame.component.utils.UIUtil;
@@ -38,14 +39,20 @@ public class EditDialog extends BaseDialog {
 
     private String mContent, mTitle;
     private int maxLength;
+    private boolean nameFilter;
 
     private OnInputCompleteListener mInputCompleteListener;
 
     public EditDialog(Context context, String content, String title, int maxLength, OnInputCompleteListener inputCompleteListener) {
+        this(context, content, title, maxLength, inputCompleteListener, true);
+    }
+
+    public EditDialog(Context context, String content, String title, int maxLength, OnInputCompleteListener inputCompleteListener, boolean nameFilter) {
         super(context);
         this.mContent = content;
         this.mTitle = title;
         this.maxLength = maxLength;
+        this.nameFilter = nameFilter;
         this.mInputCompleteListener = inputCompleteListener;
         setCanceledOnTouchOutside(false);
     }
@@ -75,15 +82,12 @@ public class EditDialog extends BaseDialog {
         deEtContent.setFilters(new InputFilter[]{new InputFilter() {
             @Override
             public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-                if (deEtContent.getText().length() + source.length() > maxLength) {
-                    return "";
-                }
-                if (!RegexUtils.isUsernameMe(source)) {
+                if (!RegexUtils.isUsernameMe(source) && nameFilter) {
                     return "";
                 }
                 return source;
             }
-        }});
+        }, new InputLengthFilter(maxLength, false)});
     }
 
     @Override

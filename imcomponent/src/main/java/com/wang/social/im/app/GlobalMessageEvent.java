@@ -1,6 +1,7 @@
 package com.wang.social.im.app;
 
 import android.app.Application;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -180,11 +181,12 @@ public class GlobalMessageEvent extends Observable implements TIMMessageListener
         if (!TextUtils.isEmpty(title)) {
             builder.setContentTitle(title);
         }
-        builder.setContentText(content);
-        builder.setSmallIcon(R.drawable.im_ic_notification);
-        builder.setLargeIcon(BitmapFactory.decodeResource(mApplication.getResources(), R.drawable.im_luncher));
-        builder.setAutoCancel(true);
-        builder.setTicker(content);
+        builder.setContentText(content)
+                .setSmallIcon(R.drawable.im_ic_notification)
+                .setLargeIcon(BitmapFactory.decodeResource(mApplication.getResources(), R.drawable.im_luncher))
+                .setAutoCancel(true)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setTicker(content);
         return builder;
     }
 }

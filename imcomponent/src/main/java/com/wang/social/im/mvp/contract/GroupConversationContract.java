@@ -8,6 +8,7 @@ import com.wang.social.im.mvp.model.entities.TeamInfo;
 import com.wang.social.im.mvp.model.entities.dto.GroupJoinCheckResultDTO;
 import com.wang.social.im.mvp.model.entities.dto.JoinGroupResultDTO;
 import com.wang.social.im.mvp.model.entities.dto.ListDataDTO;
+import com.wang.social.im.mvp.model.entities.dto.SocialHomeDTO;
 import com.wang.social.im.mvp.model.entities.dto.TeamInfoDTO;
 
 import java.util.List;
@@ -29,6 +30,8 @@ public interface GroupConversationContract {
         void showSelfTeams(List<TeamInfo> teams);
 
         void showPayDialog(GroupJoinCheckResult checkResult);
+
+        void showCreateMi();
     }
 
     interface Model extends IModel {
@@ -64,5 +67,13 @@ public interface GroupConversationContract {
          * @return
          */
         Observable<BaseJson<JoinGroupResultDTO>> joinGroup(String applyId);
+
+        /**
+         * 获取趣聊详情
+         *
+         * @param socialId
+         * @return
+         */
+        Observable<BaseJson<SocialHomeDTO>> getSocialInfo(String socialId);
     }
 }

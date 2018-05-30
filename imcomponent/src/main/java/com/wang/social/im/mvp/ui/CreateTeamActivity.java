@@ -34,7 +34,7 @@ import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
-import com.wang.social.im.common.InputLengthFilter;
+import com.frame.component.common.InputLengthFilter;
 import com.wang.social.im.di.component.DaggerCreateTeamComponent;
 import com.wang.social.im.di.modules.CreateTeamModule;
 import com.wang.social.im.helper.ImageSelectHelper;

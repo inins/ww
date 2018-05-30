@@ -107,6 +107,16 @@ public class GroupConversationActivity extends BaseAppActivity<GroupConversation
 
         mPresenter.getMiList(ImHelper.imId2WangId(targetId));
         mPresenter.getSelfMiList(ImHelper.imId2WangId(targetId));
+
+        if (conversationType == ConversationType.SOCIAL) {
+            mPresenter.getSocialInfo(ImHelper.imId2WangId(targetId));
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
     }
 
     private void init(Bundle savedInstanceState, ConversationType conversationType) {
@@ -262,6 +272,12 @@ public class GroupConversationActivity extends BaseAppActivity<GroupConversation
             }
         }, message, String.valueOf(checkResult.getJoinCost()));
         dialog.show();
+    }
+
+    @Override
+    public void showCreateMi() {
+        tvbJoinedCreate.setVisibility(View.VISIBLE);
+        tvbListCreate.setVisibility(View.VISIBLE);
     }
 
     @Override

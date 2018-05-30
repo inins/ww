@@ -2,6 +2,7 @@ package com.wang.social.im.mvp.model.entities;
 
 
 import android.text.TextUtils;
+import android.view.View;
 
 import com.frame.component.helper.AppDataHelper;
 import com.frame.component.utils.UIUtil;
@@ -13,6 +14,7 @@ import com.tencent.imsdk.TIMElem;
 import com.tencent.imsdk.TIMElemType;
 import com.tencent.imsdk.TIMFriendshipManager;
 import com.tencent.imsdk.TIMGroupMemberInfo;
+import com.tencent.imsdk.TIMGroupTipsElem;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageStatus;
@@ -31,7 +33,9 @@ import com.wang.social.im.helper.FriendShipHelper;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -139,18 +143,26 @@ public class UIMessage {
             } else if (elem.getType() == TIMElemType.SNSTips) {
                 messageType = MessageType.NOTIFY;
                 break;
+            } else if (elem.getType() == TIMElemType.GroupTips) {
+                messageType = MessageType.NOTIFY;
+                break;
             } else if (elem.getType() == TIMElemType.Custom) {
                 TIMCustomElem customElem = (TIMCustomElem) elem;
                 CustomElemType elemType = CustomElemType.getElemType(customElem);
                 if (elemType == CustomElemType.RED_ENVELOP) {
                     messageType = MessageType.RED_ENVELOP;
+                    break;
                 } else if (elemType == CustomElemType.GAME_NOTIFY) {
                     messageType = MessageType.GAME_NOTIFY;
+                    break;
                 } else if (elemType == CustomElemType.GAME) {
                     messageType = MessageType.GAME_TREE;
+                    break;
                 } else if (elemType == CustomElemType.SHARE_FUN_SHOW || elemType == CustomElemType.SHARE_TOPIC) {
                     messageType = MessageType.SHARE;
+                    break;
                 }
+                break;
             }
         }
     }
@@ -197,6 +209,9 @@ public class UIMessage {
             case SHARE:
                 summary = UIUtil.getString(R.string.im_cvs_summary_share);
                 break;
+            case NOTIFY:
+                summary = getNotifySummary();
+                break;
             default:
                 summary = "";
                 break;
@@ -217,6 +232,53 @@ public class UIMessage {
             return UIUtil.getString(R.string.im_cvs_revoke, nickname);
         }
         return null;
+    }
+
+    public String getNotifySummary() {
+        String summary = "";
+        if (timMessage.getElementCount() > 0) {
+            TIMElem elem = timMessage.getElement(0);
+            if (elem instanceof TIMGroupTipsElem) {
+                summary = getGroupTipNotify((TIMGroupTipsElem) elem);
+            }
+        }
+        return summary;
+    }
+
+    /**
+     * 获取群提示消息内容
+     *
+     * @param tipsElem
+     * @return
+     */
+    public String getGroupTipNotify(TIMGroupTipsElem tipsElem) {
+        StringBuilder stringBuilder = new StringBuilder();
+        Iterator<Map.Entry<String, TIMUserProfile>> iterator = tipsElem.getChangedUserInfo().entrySet().iterator();
+        switch (tipsElem.getTipsType()) {
+            case Join:
+                while (iterator.hasNext()) {
+                    Map.Entry<String, TIMUserProfile> item = iterator.next();
+                    String name;
+                    if (TextUtils.isEmpty(item.getValue().getRemark())) {
+                        name = item.getValue().getNickName();
+                    } else {
+                        name = item.getValue().getRemark();
+                    }
+                    stringBuilder.append(name)
+                            .append("、");
+                }
+                if (stringBuilder.length() > 0) {
+                    stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+                }
+                if (timMessage.getConversation().getPeer().startsWith(IMConstants.IM_IDENTITY_PREFIX_SOCIAL)) {
+                    stringBuilder.append(UIUtil.getString(R.string.im_notify_member_join_social));
+                } else if (timMessage.getConversation().getPeer().startsWith(IMConstants.IM_IDENTITY_PREFIX_TEAM)) {
+                    stringBuilder.append(UIUtil.getString(R.string.im_notify_member_join_team));
+                }
+            default:
+                break;
+        }
+        return stringBuilder.toString();
     }
 
     /**

@@ -5,18 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.NetReportHelper;
-import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
 import com.frame.component.ui.dialog.DialogSure;
-import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
@@ -29,8 +25,6 @@ import com.liaoinstan.springview.widget.SpringView;
 import com.umeng.socialize.UMShareAPI;
 import com.wang.social.funshow.R;
 import com.wang.social.funshow.R2;
-import com.wang.social.funshow.di.component.DaggerSingleActivityComponent;
-import com.wang.social.funshow.mvp.entities.funshow.FunshowDetail;
 import com.wang.social.funshow.mvp.model.api.FunshowService;
 import com.wang.social.funshow.mvp.ui.controller.FunshowDetailContentBoardController;
 import com.wang.social.funshow.mvp.ui.controller.FunshowDetailEditController;
@@ -40,7 +34,6 @@ import com.wang.social.funshow.mvp.ui.controller.FunshowDetailZanController;
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 @RouteNode(path = "/detail", desc = "趣晒详情")
 public class FunshowDetailActivity extends BasicAppNoDiActivity implements IView {

@@ -1,5 +1,7 @@
 package com.wang.social.im.mvp.ui;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,12 +21,14 @@ import android.widget.TextView;
 
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.beloo.widget.chipslayoutmanager.SpacingItemDecoration;
+import com.frame.base.BaseAdapter;
 import com.frame.component.app.Constant;
 import com.frame.component.common.AppConstant;
 import com.frame.component.entities.AutoPopupItemModel;
 import com.frame.component.entities.User;
 import com.frame.component.enums.ConversationType;
 import com.frame.component.helper.AppDataHelper;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.ui.acticity.FunshowTopicActivity;
 import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.component.ui.base.BaseAppActivity;
@@ -43,6 +47,8 @@ import com.frame.utils.ScreenUtils;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.ToastUtil;
 import com.kyleduo.switchbutton.SwitchButton;
+import com.tbruyelle.rxpermissions2.Permission;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.di.component.DaggerSocialHomeComponent;
@@ -50,6 +56,7 @@ import com.wang.social.im.di.modules.SocialHomeModule;
 import com.wang.social.im.enums.MessageNotifyType;
 import com.wang.social.im.helper.GroupPersonReportHelper;
 import com.wang.social.im.helper.ImHelper;
+import com.wang.social.im.helper.ImageSelectHelper;
 import com.wang.social.im.mvp.contract.SocialHomeContract;
 import com.wang.social.im.mvp.model.entities.MemberInfo;
 import com.wang.social.im.mvp.model.entities.ShadowInfo;
@@ -59,6 +66,7 @@ import com.wang.social.im.mvp.presenter.SocialHomePresenter;
 import com.wang.social.im.mvp.ui.adapters.HomeMemberAdapter;
 import com.wang.social.im.mvp.ui.adapters.HomeTagAdapter;
 import com.wang.social.im.mvp.ui.adapters.SocialHomeTeamsAdapter;
+import com.wang.social.im.widget.ImageSelectDialog;
 import com.wang.social.pictureselector.helper.PhotoHelper;
 import com.wang.social.pictureselector.helper.PhotoHelperEx;
 import com.wang.social.socialize.SocializeUtil;
@@ -73,6 +81,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.functions.Consumer;
 
 import static com.frame.component.path.ImPath.SOCIAL_HOME;
 
@@ -86,11 +95,13 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
 
     private static final int PHOTO_TYPE_MEMBER_PORTRAIT = 1;
     private static final int PHOTO_TYPE_REPORT = 2;
+    private static final int PHOTO_TYPE_COVER = 3;
 
     private static final String EXTRA_SOCIAL_ID = "socialId";
 
     private static final int REQUEST_CODE_CHARGE = 1000;
     private static final int REQUEST_CODE_LIMIT = 1001;
+    private static final int REQUEST_CODE_OFFICIAL_PHOTO = 1002;
 
     @BindView(R2.id.sc_toolbar)
     SocialToolbar scToolbar;
@@ -215,6 +226,7 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
     private boolean notifyFromCode = false;
 
     private AutoPopupWindow popupWindow;
+    private ImageSelectHelper mImageSelectHelper;
     //举报
     private PhotoHelperEx mPhotoHelper;
     private int mPhotoType;
@@ -311,6 +323,37 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
             }
         });
         mPhotoHelper = PhotoHelperEx.newInstance(this, new PhotoCallBack());
+
+        mImageSelectHelper = ImageSelectHelper.newInstance(this, new PhotoCallBack(), new ImageSelectDialog.OnItemSelectedListener() {
+            @Override
+            public void onGallerySelected() {
+                CommonHelper.PersonalHelper.startOfficialPhotoActivity(SocialHomeActivity.this, REQUEST_CODE_OFFICIAL_PHOTO);
+            }
+
+            @SuppressLint("CheckResult")
+            @Override
+            public void onShootSelected() {
+                new RxPermissions(SocialHomeActivity.this)
+                        .requestEach(Manifest.permission.CAMERA)
+                        .subscribe(new Consumer<Permission>() {
+                            @Override
+                            public void accept(Permission permission) throws Exception {
+                                if (permission.granted) {
+                                    mPhotoType = PHOTO_TYPE_COVER;
+                                    mImageSelectHelper.startCamera();
+                                } else if (permission.shouldShowRequestPermissionRationale) {
+                                    ToastUtil.showToastShort("请在设置中打开相机权限");
+                                }
+                            }
+                        });
+            }
+
+            @Override
+            public void onAlbumSelected() {
+                mPhotoType = PHOTO_TYPE_COVER;
+                mImageSelectHelper.startPhoto();
+            }
+        });
     }
 
     @Override
@@ -334,10 +377,13 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
         dismissLoadingDialog();
     }
 
-    @OnClick({R2.id.sc_iv_qrcode, R2.id.sc_iv_intro_edit, R2.id.sc_tv_member_dynamic, R2.id.sc_ll_portrait, R2.id.sc_ll_nickname, R2.id.sc_ll_shadow, R2.id.sc_ll_social_name, R2.id.sc_tv_background_chat, R2.id.sc_tv_clear_message, R2.id.sc_tv_charge_setting, R2.id.sc_tv_join_limit, R2.id.sc_tvb_handle, R2.id.sc_tv_wood})
+    @OnClick({R2.id.sc_iv_qrcode, R2.id.sc_iv_cover, R2.id.sc_iv_intro_edit, R2.id.sc_tv_member_dynamic, R2.id.sc_ll_portrait, R2.id.sc_ll_nickname, R2.id.sc_ll_shadow, R2.id.sc_ll_social_name, R2.id.sc_tv_background_chat, R2.id.sc_tv_clear_message, R2.id.sc_tv_charge_setting, R2.id.sc_tv_join_limit, R2.id.sc_tvb_handle, R2.id.sc_tv_wood})
     public void onViewClicked(View view) {
         if (view.getId() == R.id.sc_iv_qrcode) {//二维码
             QrcodeGroupActivity.start(this, Integer.valueOf(socialId));
+        } else if (view.getId() == R.id.sc_iv_cover) {
+            mPhotoType = PHOTO_TYPE_COVER;
+            mImageSelectHelper.showDialog();
         } else if (view.getId() == R.id.sc_iv_intro_edit) { //简介编辑
             EditDialog editDialog = new EditDialog(this, mSocial.getDesc(), UIUtil.getString(R.string.im_group_desc_setting), 15, new EditDialog.OnInputCompleteListener() {
                 @Override
@@ -351,7 +397,7 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
                     scTvIntro.setText(content);
                     mPresenter.updateSocialInfo(mSocial);
                 }
-            });
+            }, false);
             editDialog.show();
         } else if (view.getId() == R.id.sc_tv_member_dynamic) {//成员动态
             FunshowTopicActivity.startFunshowForGroup(this, Integer.valueOf(socialId));
@@ -510,7 +556,19 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
             }
         });
         scRlvTeams.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        scRlvTeams.setAdapter(new SocialHomeTeamsAdapter(teams));
+        SocialHomeTeamsAdapter teamsAdapter = new SocialHomeTeamsAdapter(teams);
+        scRlvTeams.setAdapter(teamsAdapter);
+        teamsAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener<TeamInfo>() {
+            @Override
+            public void onItemClick(TeamInfo teamInfo, int position) {
+                if (teamInfo.isJoined()) {
+                    CommonHelper.ImHelper.gotoGroupConversation(SocialHomeActivity.this, teamInfo.getTeamId(), ConversationType.TEAM, false);
+                    finish();
+                } else {
+                    GroupMiInviteDetailActivity.start(SocialHomeActivity.this, Integer.valueOf(teamInfo.getTeamId()));
+                }
+            }
+        });
     }
 
     @Override
@@ -560,6 +618,16 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
                 } else {
                     scIvPayLogo.setVisibility(View.GONE);
                 }
+            } else if (requestCode == REQUEST_CODE_OFFICIAL_PHOTO) {
+                String coverUrl = data.getStringExtra("url");
+                mImageLoader.loadImage(this, ImageConfigImpl.builder()
+                        .placeholder(R.drawable.im_round_image_placeholder)
+                        .errorPic(R.drawable.im_round_image_placeholder)
+                        .transformation(new RoundedCornersTransformation(UIUtil.getDimen(R.dimen.im_round_image_radius), 0, RoundedCornersTransformation.CornerType.ALL))
+                        .imageView(scIvCover)
+                        .url(coverUrl)
+                        .build());
+                mPresenter.updateCover(coverUrl, mSocial);
             }
         }
     }
@@ -660,6 +728,8 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
                         Integer.valueOf(socialId),
                         mReportComment,
                         PhotoHelper.format2Array(path));
+            } else if (mPhotoType == PHOTO_TYPE_COVER) {
+                mPresenter.updateCover(path, mSocial);
             }
         }
     }

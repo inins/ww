@@ -39,6 +39,8 @@
     <string name="im_alter_friend">&#064;好友</string>
     <string name="im_game_message_format">%s开启了价值%d钻的摇钱树，参与一下</string>
     <string name="im_from_format">来自%s</string>
+    <string name="im_notify_member_join_social">加入趣聊</string>
+    <string name="im_notify_member_join_team">加入觅聊</string>
 
     <!-- Mirror -->
     <string name="im_mirror_title">镜像聊天</string>
