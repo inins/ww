@@ -20,6 +20,7 @@ import com.frame.component.service.R2;
 import com.frame.component.ui.adapter.TopicListAdapter;
 import com.frame.component.ui.base.BasicNoDiFragment;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
@@ -50,6 +51,30 @@ public class MeTopicFragment extends BasicNoDiFragment {
 
     private int groupId;
     private boolean isGroup;
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        switch (event.getEvent()) {
+            case EventBean.EVENTBUS_TOPIC_SUPPORT: {
+                //在详情页点赞，收到通知刷新点赞状态及其点赞数量
+                int topicId = (int) event.get("topicId");
+                boolean isSupport = (boolean) event.get("isSupport");
+                adapter.reFreshZanCountById(topicId, isSupport);
+                break;
+            }
+            case EventBean.EVENTBUS_ADD_TOPIC_COMMENT: {
+                //在详情页评论，收到通知刷新评论数量
+                int topicId = (int) event.get("topicId");
+                adapter.reFreshCommentCountById(topicId);
+                break;
+            }
+        }
+    }
+
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
 
     public static MeTopicFragment newInstance() {
         Bundle args = new Bundle();

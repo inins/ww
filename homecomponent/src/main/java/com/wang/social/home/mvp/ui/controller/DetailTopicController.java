@@ -11,6 +11,7 @@ import com.frame.component.helper.NetZanHelper;
 import com.frame.component.ui.base.BaseController;
 import com.frame.component.view.ConerTextView;
 import com.frame.component.view.DialogPay;
+import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
@@ -51,6 +52,34 @@ public class DetailTopicController extends BaseController {
     TextView textWatch;
 
     private int userId;
+    private TopicHome topicHome;
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        switch (event.getEvent()) {
+            case EventBean.EVENTBUS_TOPIC_SUPPORT: {
+                //在详情页点赞，收到通知刷新点赞状态及其点赞数量
+                int topicId = (int) event.get("topicId");
+                boolean isSupport = (boolean) event.get("isSupport");
+                if (topicHome != null && topicHome.getTopicId() == topicId) {
+                    topicHome.setIsSupportBool(isSupport);
+                    topicHome.setTopicSupportNum(topicHome.getTopicSupportNum() + 1);
+                    textZan.setSelected(topicHome.isSupport());
+                    textZan.setText(String.valueOf(topicHome.getTopicSupportNum()));
+                }
+                break;
+            }
+            case EventBean.EVENTBUS_ADD_TOPIC_COMMENT: {
+                //在详情页评论，收到通知刷新评论数量
+                int topicId = (int) event.get("topicId");
+                if (topicHome != null && topicHome.getTopicId() == topicId) {
+                    topicHome.setTopicCommentNum(topicHome.getTopicCommentNum() + 1);
+                    textEva.setText(String.valueOf(topicHome.getTopicCommentNum()));
+                }
+                break;
+            }
+        }
+    }
 
     public DetailTopicController(View root, int userId) {
         super(root);
@@ -73,6 +102,7 @@ public class DetailTopicController extends BaseController {
 
     private void setTopicData(TopicHome bean) {
         if (bean != null) {
+            topicHome = bean;
             ImageLoaderHelper.loadCircleImg(imgHeader, bean.getUserCover());
             ImageLoaderHelper.loadImgTest(imgPic);
             ImageLoaderHelper.loadImg(imgPic, bean.getTopicImage());
