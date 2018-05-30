@@ -38,37 +38,6 @@ public class MeFunshowFragment extends BasicNoDiFragment {
     private int groupId;
     private boolean isGroup;
 
-    @Override
-    public boolean useEventBus() {
-        return true;
-    }
-
-    @Override
-    public void onCommonEvent(EventBean event) {
-        switch (event.getEvent()) {
-            case EventBean.EVENT_FUNSHOW_UPDATE_ZAN: {
-                //在详情页点赞，收到通知刷新点赞状态及其点赞数量
-                int talkId = (int) event.get("talkId");
-                boolean isZan = (boolean) event.get("isZan");
-                int zanCount = (int) event.get("zanCount");
-                adapter.refreshZanById(talkId, isZan, zanCount);
-                break;
-            }
-            case EventBean.EVENT_FUNSHOW_DETAIL_ADD_EVA: {
-                //在详情页评论，收到通知刷新评论数量
-                int talkId = (int) event.get("talkId");
-                adapter.refreshCommentById(talkId);
-                break;
-            }
-            case EventBean.EVENT_FUNSHOW_DETAIL_ADD_SHARE: {
-                //在详情页分享，收到通知刷新分享数量
-                int talkId = (int) event.get("talkId");
-                adapter.refreshShareById(talkId);
-                break;
-            }
-        }
-    }
-
     public static MeFunshowFragment newInstance() {
         Bundle args = new Bundle();
         MeFunshowFragment fragment = new MeFunshowFragment();
@@ -99,6 +68,7 @@ public class MeFunshowFragment extends BasicNoDiFragment {
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         adapter = new RecycleAdapterCommonFunshow();
+        adapter.registEventBus();
         adapter.setShowMoreBtn(false);
         recycler.setNestedScrollingEnabled(false);
         recycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
@@ -120,6 +90,12 @@ public class MeFunshowFragment extends BasicNoDiFragment {
         });
 
         springView.callFreshDelay();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        adapter.unRegistEventBus();
     }
 
     @Override

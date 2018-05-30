@@ -210,4 +210,13 @@ public class RecycleAdapterHome extends BaseAdapter<FunpointAndTopic> {
             notifyItemChanged(index);
         }
     }
+
+    public void reFreshReadCountById(int topicId) {
+        int index = getTopicIndexById(topicId);
+        if (index != -1) {
+            TopicHome topic = getData().get(index).getTopic();
+            topic.setTopicReadNum(topic.getTopicReadNum() + 1);
+            notifyItemChanged(index);
+        }
+    }
 }

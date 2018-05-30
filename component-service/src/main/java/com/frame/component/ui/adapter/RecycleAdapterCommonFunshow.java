@@ -17,6 +17,8 @@ import com.frame.component.view.FunshowView;
 import com.frame.entities.EventBean;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 
@@ -24,6 +26,38 @@ public class RecycleAdapterCommonFunshow extends BaseAdapter<FunshowBean> {
 
     private boolean isShowHeader = true;
     private boolean isShowMoreBtn = true;
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCommonEvent(EventBean event) {
+        switch (event.getEvent()) {
+            case EventBean.EVENT_FUNSHOW_UPDATE_ZAN: {
+                //在详情页点赞，收到通知刷新点赞状态及其点赞数量
+                int talkId = (int) event.get("talkId");
+                boolean isZan = (boolean) event.get("isZan");
+                int zanCount = (int) event.get("zanCount");
+                this.refreshZanById(talkId, isZan, zanCount);
+                break;
+            }
+            case EventBean.EVENT_FUNSHOW_DETAIL_ADD_EVA: {
+                //在详情页评论，收到通知刷新评论数量
+                int talkId = (int) event.get("talkId");
+                this.refreshCommentById(talkId);
+                break;
+            }
+            case EventBean.EVENT_FUNSHOW_DETAIL_ADD_SHARE: {
+                //在详情页分享，收到通知刷新分享数量
+                int talkId = (int) event.get("talkId");
+                this.refreshShareById(talkId);
+                break;
+            }
+            case EventBean.EVENT_FUNSHOW_PAYED: {
+                //趣晒支付了
+                int talkId = (int) event.get("talkId");
+                this.refreshPayedById(talkId);
+                break;
+            }
+        }
+    }
 
     @Override
     protected BaseViewHolder createViewHolder(Context context, ViewGroup parent, int viewType) {
@@ -147,5 +181,15 @@ public class RecycleAdapterCommonFunshow extends BaseAdapter<FunshowBean> {
 
     public void setOnDislikeClickListener(OnDislikeClickListener onDislikeClickListener) {
         this.onDislikeClickListener = onDislikeClickListener;
+    }
+
+    /////////////////////////////  eventBus
+
+    public void registEventBus() {
+        EventBus.getDefault().register(this);
+    }
+
+    public void unRegistEventBus() {
+        EventBus.getDefault().unregister(this);
     }
 }

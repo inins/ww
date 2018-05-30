@@ -57,8 +57,7 @@ public class HomeContentController extends BaseController implements RecycleAdap
                 adapter.reFreshZanCountById(topicId, isZan);
                 break;
             }
-            case 1234: {
-                //TODO:目前没有这个消息，后续添加
+            case EventBean.EVENTBUS_ADD_TOPIC_COMMENT: {
                 //在详情页评论，收到通知刷新评论数量
                 int topicId = (int) event.get("topicId");
                 adapter.reFreshEvaCountById(topicId);
@@ -112,10 +111,12 @@ public class HomeContentController extends BaseController implements RecycleAdap
                 NetPayStoneHelper.newInstance().netPayTopic(getIView(), topic.getTopicId(), topic.getPrice(), () -> {
                     topic.setIsPay(true);
                     CommonHelper.TopicHelper.startTopicDetail(getContext(), topic.getTopicId());
+                    adapter.reFreshReadCountById(topic.getTopicId());   //阅读数+1
                 });
             });
         } else {
             CommonHelper.TopicHelper.startTopicDetail(getContext(), topic.getTopicId());
+            adapter.reFreshReadCountById(topic.getTopicId());   //阅读数+1
         }
     }
 

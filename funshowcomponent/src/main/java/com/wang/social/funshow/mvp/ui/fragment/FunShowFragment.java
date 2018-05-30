@@ -73,32 +73,6 @@ public class FunShowFragment extends BaseLazyFragment<FunshowListPresonter> impl
     @Override
     public void onCommonEvent(EventBean event) {
         switch (event.getEvent()) {
-            case EventBean.EVENT_FUNSHOW_UPDATE_ZAN: {
-                //在详情页点赞，收到通知刷新点赞状态及其点赞数量
-                int talkId = (int) event.get("talkId");
-                boolean isZan = (boolean) event.get("isZan");
-                int zanCount = (int) event.get("zanCount");
-                adapter.refreshZanById(talkId, isZan, zanCount);
-                break;
-            }
-            case EventBean.EVENT_FUNSHOW_DETAIL_ADD_EVA: {
-                //在详情页评论，收到通知刷新评论数量
-                int talkId = (int) event.get("talkId");
-                adapter.refreshCommentById(talkId);
-                break;
-            }
-            case EventBean.EVENT_FUNSHOW_DETAIL_ADD_SHARE: {
-                //在详情页分享，收到通知刷新分享数量
-                int talkId = (int) event.get("talkId");
-                adapter.refreshShareById(talkId);
-                break;
-            }
-            case EventBean.EVENT_FUNSHOW_PAYED: {
-                //趣晒支付了
-                int talkId = (int) event.get("talkId");
-                adapter.refreshPayedById(talkId);
-                break;
-            }
             //新增一条趣晒，收到通知刷新列表
             case EventBean.EVENT_FUNSHOW_ADD:
                 //在详情页被删除了，收到通知刷新列表
@@ -125,6 +99,7 @@ public class FunShowFragment extends BaseLazyFragment<FunshowListPresonter> impl
     @Override
     public void initDataLazy() {
         adapter = new RecycleAdapterCommonFunshow();
+        adapter.registEventBus();
         adapter.setOnDislikeClickListener((v, funshow) -> mPresenter.shatDownUser(funshow.getUserId()));
         recycler.setNestedScrollingEnabled(false);
         recycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
@@ -157,6 +132,12 @@ public class FunShowFragment extends BaseLazyFragment<FunshowListPresonter> impl
                         .setEnterAnimation(GuidePageHelper.getEnterAnimation())
                         .setExitAnimation(GuidePageHelper.getExitAnimation()))
                 .show();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        adapter.unRegistEventBus();
     }
 
     @OnClick({R2.id.barview})

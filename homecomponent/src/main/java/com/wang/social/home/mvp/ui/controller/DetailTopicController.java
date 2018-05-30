@@ -102,10 +102,16 @@ public class DetailTopicController extends BaseController {
                         NetPayStoneHelper.newInstance().netPayTopic(getIView(), bean.getTopicId(), bean.getPrice(), () -> {
                             bean.setIsPay(true);
                             CommonHelper.TopicHelper.startTopicDetail(getContext(), bean.getTopicId());
+                            //阅读数+1
+                            bean.setTopicReadNum(bean.getTopicReadNum() + 1);
+                            textWatch.setText(bean.getTopicReadNum());
                         });
                     });
                 } else {
                     CommonHelper.TopicHelper.startTopicDetail(getContext(), bean.getTopicId());
+                    //阅读数+1
+                    bean.setTopicReadNum(bean.getTopicReadNum() + 1);
+                    textWatch.setText(bean.getTopicReadNum());
                 }
             });
         }

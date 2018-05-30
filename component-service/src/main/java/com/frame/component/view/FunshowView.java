@@ -23,12 +23,17 @@ import com.frame.component.service.R;
 import com.frame.component.service.R2;
 import com.frame.component.utils.FunShowUtil;
 import com.frame.component.utils.VideoCoverUtil;
+import com.frame.entities.EventBean;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.mvp.IView;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.TimeUtils;
 import com.frame.utils.ToastUtil;
 import com.frame.utils.Utils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 
@@ -65,6 +70,44 @@ public class FunshowView extends FrameLayout implements View.OnClickListener {
         init(attrs);
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCommonEvent(EventBean event) {
+        switch (event.getEvent()) {
+            case EventBean.EVENT_FUNSHOW_UPDATE_ZAN: {
+                //在详情页点赞，收到通知刷新点赞状态及其点赞数量
+                int talkId = (int) event.get("talkId");
+                boolean isZan = (boolean) event.get("isZan");
+                if (funshowBean != null && talkId == funshowBean.getId()) {
+                    setSupport(isZan);
+                }
+                break;
+            }
+            case EventBean.EVENT_FUNSHOW_DETAIL_ADD_EVA: {
+                //在详情页评论，收到通知刷新评论数量
+                int talkId = (int) event.get("talkId");
+                if (funshowBean != null && talkId == funshowBean.getId()) {
+                    addComment();
+                }
+                break;
+            }
+            case EventBean.EVENT_FUNSHOW_DETAIL_ADD_SHARE: {
+                //在详情页分享，收到通知刷新分享数量
+                int talkId = (int) event.get("talkId");
+                if (funshowBean != null && talkId == funshowBean.getId()) {
+                    addShare();
+                }
+                break;
+            }
+            case EventBean.EVENT_FUNSHOW_PAYED: {
+                //趣晒支付了
+                int talkId = (int) event.get("talkId");
+                if (funshowBean != null && talkId == funshowBean.getId()) {
+                    setPayed();
+                }
+                break;
+            }
+        }
+    }
 
     private void init(AttributeSet attrs) {
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.FunshowView);
@@ -105,11 +148,11 @@ public class FunshowView extends FrameLayout implements View.OnClickListener {
         textName.setText(bean.getNickname());
         textTitle.setText(bean.getContent());
         textZan.setText(bean.getSupportTotal() + "");
+        textZan.setSelected(bean.isSupport());
         textComment.setText(bean.getCommentTotal() + "");
         textShare.setText(bean.getShareTotal() + "");
         textPicCount.setText("1/" + bean.getPicNum());
         textTime.setText(FunShowUtil.getFunshowTimeStr(bean.getCreateTime()));
-        textZan.setSelected(bean.isSupport());
         imgTagPay.setVisibility(!bean.isFree() ? View.VISIBLE : View.GONE);
         imgPlayer.setVisibility(bean.isVideo() ? View.VISIBLE : View.GONE);
         textPosition.setText(bean.getPositionText());
@@ -147,6 +190,29 @@ public class FunshowView extends FrameLayout implements View.OnClickListener {
             });
         }
     }
+    /////////////////////////////// public //////////////////
+
+    public void setSupport(boolean isZan) {
+        funshowBean.setSupport(isZan);
+        funshowBean.setSupportTotal(funshowBean.getSupportTotal() + 1);
+        textZan.setText(funshowBean.getSupportTotal() + "");
+        textZan.setSelected(funshowBean.isSupport());
+    }
+
+    public void addComment() {
+        funshowBean.setCommentTotal(funshowBean.getCommentTotal() + 1);
+        textComment.setText(funshowBean.getCommentTotal() + "");
+    }
+
+    public void addShare() {
+        funshowBean.setShareTotal(funshowBean.getShareTotal() + 1);
+        textShare.setText(funshowBean.getShareTotal() + "");
+    }
+
+    public void setPayed() {
+        funshowBean.setPay(true);
+        setData(funshowBean);
+    }
 
     ////////////////////////////// get & set //////////////////
 
@@ -173,5 +239,17 @@ public class FunshowView extends FrameLayout implements View.OnClickListener {
 
     public void setZanCallback(NetZanHelper.OnZanCallback callback) {
         this.onZanCallback = callback;
+    }
+
+    /////////////////////////////  eventBus
+
+    public void registEventBus() {
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        EventBus.getDefault().unregister(this);
     }
 }
