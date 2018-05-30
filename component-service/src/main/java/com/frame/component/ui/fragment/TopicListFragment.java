@@ -308,6 +308,8 @@ public class TopicListFragment extends BasicFragment implements IView {
             case EventBean.EVENTBUS_ADD_TOPIC_SHARE:
                 // 转发成功，转发量加1
                 int shareTopicID = (int) event.get("topicId");
+
+                Timber.i("公共-话题列表 话题分享 : " + shareTopicID);
                 for (Topic topic : mList) {
                     if (topic.getTopicId() == shareTopicID) {
                         topic.setShareTotal(topic.getShareTotal() + 1);
@@ -319,9 +321,15 @@ public class TopicListFragment extends BasicFragment implements IView {
                 // 点赞
                 int supportTopicId = (int) event.get("topicId");
                 boolean isSupport = (boolean) event.get("isSupport");
+
+                Timber.i("公共-话题列表 话题点赞 : " + supportTopicId + " " + Boolean.toString(isSupport));
+
                 for (Topic topic : mList) {
                     if (topic.getTopicId() == supportTopicId) {
-                        topic.setShareTotal(Math.max(0, topic.getShareTotal() + (isSupport ? 1 : -1)));
+                        topic.setSupport(isSupport);
+                        topic.setSupportTotal(
+                                Math.max(0,
+                                        topic.getSupportTotal() + (isSupport ? 1 : -1)));
                         changed = true;
                     }
                 }
