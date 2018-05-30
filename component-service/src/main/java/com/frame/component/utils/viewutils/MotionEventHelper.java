@@ -34,7 +34,7 @@ public class MotionEventHelper {
             } else {
                 motionEvent = MotionEvent.obtain(downTime, SystemClock.uptimeMillis(), MotionEvent.ACTION_MOVE, x, y, 0);
             }
-            Log.e("test", motionEvent.toString());
+            //Log.e("test", motionEvent.toString());
             view.dispatchTouchEvent(motionEvent);
         });
     }

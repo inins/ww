@@ -33,10 +33,12 @@ import com.wang.social.personal.di.component.DaggerLableActivityComponent;
 import com.wang.social.personal.di.module.LableModule;
 import com.wang.social.personal.mvp.contract.LableContract;
 import com.wang.social.personal.mvp.entities.lable.Lable;
+import com.wang.social.personal.mvp.entities.lable.MiChat;
 import com.wang.social.personal.mvp.presonter.LablePresonter;
 import com.wang.social.personal.mvp.ui.adapter.RecycleAdapterLable;
 import com.wang.social.personal.mvp.ui.dialog.DialogFragmentLable;
 import com.frame.component.ui.dialog.DialogSure;
+import com.wang.social.personal.net.helper.NetLableHelper;
 
 import java.util.List;
 
@@ -103,6 +105,7 @@ public class LableActivity extends BaseAppActivity<LablePresonter> implements La
         dialogLable = new DialogFragmentLable();
 
         adapter_show = new RecycleAdapterLable();
+        adapter_show.setOnItemClickListener(onShowItemClickListener);
         adapter_show.setOnLableDelClickListener(this);
         recycler_show.setNestedScrollingEnabled(false);
         recycler_show.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -129,15 +132,27 @@ public class LableActivity extends BaseAppActivity<LablePresonter> implements La
         mPresenter.getParentTags();
     }
 
+    private BaseAdapter.OnItemClickListener<Lable> onShowItemClickListener = (lable, position) -> {
+        if (lable.getShowTagBool()) {
+            dialogLable.show(getSupportFragmentManager(), lable);
+        }
+    };
 
     private BaseAdapter.OnItemClickListener<Lable> onMeItemClickListener = (lable, position) -> {
         //非编辑状态下不能添加标签
-        if (!adapter_me.isDeleteEnable()) return;
-        if (adapter_show.getItemCount() < 4) {
-            String ids = adapter_show.getIdsByAdd(lable);
-            mPresenter.updateShowtag(ids);
+        if (adapter_me.isDeleteEnable()) {
+            if (adapter_show.isIncludeLable(lable.getId())) {
+                ToastUtil.showToastLong("已经存在该标签了");
+            } else if (adapter_show.getItemCount() >= 4) {
+                ToastUtil.showToastLong("名片中只能展示4个标签");
+            } else {
+                String ids = adapter_show.getIdsByAdd(lable);
+                mPresenter.updateShowtag(ids);
+            }
         } else {
-            ToastUtil.showToastLong("名片中只能展示4个标签");
+            if (lable.getShowTagBool()) {
+                dialogLable.show(getSupportFragmentManager(), lable);
+            }
         }
     };
 
@@ -147,17 +162,27 @@ public class LableActivity extends BaseAppActivity<LablePresonter> implements La
             ToastUtil.showToastLong("至少展示一个标签");
             return;
         }
-        DialogSure.showDialog(this, "确认要删除该标签？", () -> {
-            if (adapter == adapter_show) {
-                //删除个性标签
-                String ids = adapter_show.getIdsByDel(lable);
-                mPresenter.updateShowtag(ids);
-            } else if (adapter == adapter_me) {
-                //删除个人标签
-                mPresenter.deltag(lable.getId());
-                adapter.removeItem(position);
-            }
-        });
+        if (lable.getShowTagBool()) {
+            NetLableHelper.newInstance().netGetMiCountByLible(this, true, lable, count -> {
+                DialogSure.showDialog(this, "删除该标签会退出" + count + "个觅聊聊天", "取消", "确定删除", () -> {
+                    deleteLable(adapter, lable, position);
+                });
+            });
+        } else {
+            deleteLable(adapter, lable, position);
+        }
+    }
+
+    private void deleteLable(RecycleAdapterLable adapter, Lable lable, int position) {
+        if (adapter == adapter_show) {
+            //删除个性标签
+            String ids = adapter_show.getIdsByDel(lable);
+            mPresenter.updateShowtag(ids);
+        } else if (adapter == adapter_me) {
+            //删除个人标签
+            mPresenter.deltag(lable.getId());
+            adapter.removeItem(position);
+        }
     }
 
     public void onClick(View v) {
@@ -177,7 +202,6 @@ public class LableActivity extends BaseAppActivity<LablePresonter> implements La
                 adapter_me.notifyDataSetChanged();
             }
         } else if (i == R.id.btn_add) {
-//            CommonHelper.LoginHelper.startTagSelectActivity(this);
             TagSelectionActivity.startSelection(this, TagSelectionActivity.TAG_TYPE_PERSONAL);
         }
     }

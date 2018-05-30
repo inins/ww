@@ -60,13 +60,13 @@ public class NetCommonFunshowHelper {
                     @Override
                     public void onNext(BaseJson<BaseListWrap<FunshowMe>> basejson) {
                         BaseListWrap<FunshowMe> warp = basejson.getData();
-                        List<FunshowBean> list = FunshowMe.tans2FunshowBeanList(warp.getList());
+                        List<FunshowBean> list = warp != null ? FunshowMe.tans2FunshowBeanList(warp.getList()) : null;
                         if (callback != null) callback.onSuccess(list);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        if (callback != null) onError(e);
+                        if (callback != null) callback.onError(e);
                     }
                 });
     }
@@ -78,13 +78,13 @@ public class NetCommonFunshowHelper {
                     @Override
                     public void onNext(BaseJson<BaseListWrap<FunshowGroup>> basejson) {
                         BaseListWrap<FunshowGroup> warp = basejson.getData();
-                        List<FunshowBean> list = FunshowGroup.tans2FunshowBeanList(warp.getList());
+                        List<FunshowBean> list = warp != null ? FunshowGroup.tans2FunshowBeanList(warp.getList()) : null;
                         if (callback != null) callback.onSuccess(list);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        if (callback != null) onError(e);
+                        if (callback != null) callback.onError(e);
                     }
                 });
     }

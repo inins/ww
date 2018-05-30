@@ -8,6 +8,10 @@ import com.frame.base.BasicFragment;
 import com.frame.di.component.AppComponent;
 import com.frame.mvp.IView;
 
+/**
+ * 懒加载fragment鸡肋
+ * 只在第一次可见时加载数据(lazyload)
+ */
 public abstract class BasicLazyFragment extends BasicFragment {
 
     private boolean isVisible;

@@ -3,7 +3,9 @@ package com.wang.social.home.common;
 import android.animation.ArgbEvaluator;
 import android.graphics.Color;
 import android.os.Build;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +57,6 @@ public class CardLayoutManager extends RecyclerView.LayoutManager {
             //第几层,举例子，count =7， 最后一个TopView（6）是第0层，
             int level = itemCount - position - 1;
 
-            view.setRotation(0);
             if (level == 0) {
                 //第一个
                 view.setTranslationY(0);

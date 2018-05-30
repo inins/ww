@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -13,8 +14,8 @@
         android:layout_marginRight="15dp"
         android:background="@drawable/common_shape_rect_white_coner"
         android:gravity="center_horizontal"
-        android:paddingTop="10dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="10dp">
 
         <include layout="@layout/personal_item_lable" />
 
@@ -25,18 +26,25 @@
             android:layout_gravity="left"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:text="加入的觅聊 (33)"
+            android:text="加入的觅聊"
             android:textColor="@color/common_text_dark"
             android:textSize="13sp" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler"
+        <com.frame.component.view.LoadingLayout
+            android:id="@+id/loadingview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            tools:layout_height="130dp" />
+            app:layout_fail="@layout/layout_fail"
+            app:layout_lack="@layout/layout_lack"
+            app:layout_loading="@layout/layout_loading">
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler"
+                android:layout_width="match_parent"
+                android:layout_height="165dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"/>
+        </com.frame.component.view.LoadingLayout>
 
     </LinearLayout>
 </FrameLayout>

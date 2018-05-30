@@ -162,7 +162,7 @@ public class ImHelper {
 
         String vendor = Build.MANUFACTURER;
         //初始化推送
-        if (vendor.toLowerCase().contains("xiaomi")) { //小米推送
+        if (vendor.toLowerCase().contains("xiaomi") || vendor.toLowerCase().contains("blackshark")) { //小米推送
             MiPushClient.registerPush(application, IMConstants.MIPUSH_APPID, IMConstants.MIPUSH_APPKEY);
         } else if (vendor.toLowerCase().contains("huawei")) {
             HMSAgent.init(application);

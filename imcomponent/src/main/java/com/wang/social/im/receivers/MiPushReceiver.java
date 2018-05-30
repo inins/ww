@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMOfflinePushToken;
 import com.wang.social.im.app.IMConstants;
@@ -14,6 +15,9 @@ import com.xiaomi.mipush.sdk.MiPushMessage;
 import com.xiaomi.mipush.sdk.PushMessageReceiver;
 
 import java.util.List;
+import java.util.Timer;
+
+import timber.log.Timber;
 
 /**
  * ============================================
@@ -151,7 +155,17 @@ public class MiPushReceiver extends PushMessageReceiver {
                 mRegId = cmdArg1;
 
                 TIMOfflinePushToken param = new TIMOfflinePushToken(IMConstants.MIPUSH_BUSSID, mRegId);
-                TIMManager.getInstance().setOfflinePushToken(param, null);
+                TIMManager.getInstance().setOfflinePushToken(param, new TIMCallBack() {
+                    @Override
+                    public void onError(int i, String s) {
+                        Timber.tag(TAG).e("s");
+                    }
+
+                    @Override
+                    public void onSuccess() {
+                        Timber.tag(TAG).d("setOfflinePushToken succ");
+                    }
+                });
             }
         }
 
