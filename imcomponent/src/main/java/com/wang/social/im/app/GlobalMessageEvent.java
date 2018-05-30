@@ -26,8 +26,10 @@ import com.wang.social.im.R;
 import com.wang.social.im.enums.CustomElemType;
 import com.frame.component.entities.DynamicMessage;
 import com.frame.component.entities.SystemMessage;
+import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.mvp.model.entities.UIConversation;
 import com.wang.social.im.mvp.model.entities.UIMessage;
+import com.wang.social.im.utils.badge.ShortcutBadger;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
@@ -139,6 +141,9 @@ public class GlobalMessageEvent extends Observable implements TIMMessageListener
         if (AppUtils.isAppForeground()) {
             return;
         }
+        //显示角标
+        ShortcutBadger.applyCount(mApplication, ImHelper.getTotalUnreadCount());
+        //显示通知
         UIMessage uiMessage = UIMessage.obtain(timMessage);
         NotificationCompat.Builder builder = getBuilder("新消息", uiMessage.getSummary());
         Intent intent = mApplication.getApplicationContext().getPackageManager().getLaunchIntentForPackage(mApplication.getPackageName());
