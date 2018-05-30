@@ -32,25 +32,31 @@
         <!--启动页（广告页）-->
         <activity
             android:name=".mvp.ui.activity.LoadupActivity"
-            android:theme="@style/common_AppTheme.NoTitleFullscreen">
+            android:theme="@style/activity_theme_splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="com.dongdongkeji.wangwangsocial"
+                    android:path="/wangwang"
+                    android:scheme="wang" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".mvp.ui.activity.SplashActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
-
+            android:screenOrientation="portrait" />
         <!--首页-->
         <activity
             android:name=".mvp.ui.activity.HomeActivity"
             android:launchMode="singleTask" />
-
         <activity android:name=".mvp.ui.activity.SearchActivity" />
     </application>
 </manifest>
