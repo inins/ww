@@ -565,7 +565,7 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
                     CommonHelper.ImHelper.gotoGroupConversation(SocialHomeActivity.this, teamInfo.getTeamId(), ConversationType.TEAM, false);
                     finish();
                 } else {
-                    GroupMiInviteDetailActivity.start(SocialHomeActivity.this, Integer.valueOf(teamInfo.getTeamId()));
+                    GroupMiInviteDetailActivity.startBrowse(SocialHomeActivity.this, Integer.valueOf(teamInfo.getTeamId()));
                 }
             }
         });
