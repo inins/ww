@@ -265,8 +265,9 @@ RE.insertImage = function(url, alt) {
 //插入图片
 RE.insertAudioImage = function(url, img, w, h, alt) {
 //    var html = '<img onclick="playAudio(\''+url+'\');" id="audioImg" align=left src=' + img + ' alt="' + alt + '" /><br/><br/>';
-    var html = '<img onclick="playAudio(\''+url+'\');" id="audioImg" align=center src=' + img + ' width:=' + w + ' height:=' + h +  ' alt="' + alt + '" /><br/><br/>';
-//var html = '<img id="audioImg" align=center src=' + img + ' width=' + w + ' height=' + h +  ' alt="' + url + '" style="max-width: 100%;" /><br/><br/>';
+//    var html = '<img onclick="playAudio(\''+url+'\');" id="audioImg" align=center src=' + img + ' width=' + w + ' height=' + h +  ' alt="' + alt + '" /><br/><br/>';
+//    var html = '<div><img onclick="playAudio(\''+url+'\');" id="audioImg"' + ' width=' + w + ' height=' + h + ' align=center src=' + img + ' alt="' + alt + '" /><br/><br/></div>';
+    var html = '<div><br><img onclick="playAudio(\''+url+'\');" id="audioImg"' + ' width=auto' + ' height=auto' + ' align=center src=' + img + ' alt="' + alt + '" /><br></div>';
     RE.insertHTML(html);
 }
 

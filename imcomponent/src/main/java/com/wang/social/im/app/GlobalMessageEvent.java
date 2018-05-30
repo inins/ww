@@ -5,12 +5,17 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 
+import com.frame.component.enums.ConversationType;
+import com.frame.component.utils.viewutils.AppUtil;
+import com.frame.utils.AppUtils;
 import com.frame.utils.FrameUtils;
 import com.google.gson.Gson;
+import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMCustomElem;
 import com.tencent.imsdk.TIMElem;
 import com.tencent.imsdk.TIMElemType;
@@ -21,6 +26,10 @@ import com.wang.social.im.R;
 import com.wang.social.im.enums.CustomElemType;
 import com.frame.component.entities.DynamicMessage;
 import com.frame.component.entities.SystemMessage;
+import com.wang.social.im.helper.ImHelper;
+import com.wang.social.im.mvp.model.entities.UIConversation;
+import com.wang.social.im.mvp.model.entities.UIMessage;
+import com.wang.social.im.utils.badge.ShortcutBadger;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
@@ -28,6 +37,8 @@ import org.json.JSONObject;
 
 import java.util.List;
 import java.util.Observable;
+
+import static com.wang.social.im.app.IMConstants.SERVER_PUSH_MESSAGE_ACCOUNT;
 
 /**
  * ============================================
@@ -77,6 +88,13 @@ public class GlobalMessageEvent extends Observable implements TIMMessageListener
                 if (message.getSender().equals(IMConstants.SERVER_PUSH_MESSAGE_ACCOUNT)) { //检测此条消息是否为服务器的推送消息
                     //解析推送消息内容
                     formatMessage(message);
+                } else {
+                    UIConversation conversation = new UIConversation(message.getConversation());
+                    if ((conversation.getConversationType() == ConversationType.PRIVATE && !conversation.getIdentify().equals(IMConstants.SERVER_PUSH_MESSAGE_ACCOUNT)) ||
+                            conversation.getConversationType() == ConversationType.SOCIAL ||
+                            conversation.getConversationType() == ConversationType.TEAM) {
+                        showMessageNotify(message);
+                    }
                 }
             }
         }
@@ -119,6 +137,20 @@ public class GlobalMessageEvent extends Observable implements TIMMessageListener
         }
     }
 
+    private void showMessageNotify(TIMMessage timMessage) {
+        if (AppUtils.isAppForeground()) {
+            return;
+        }
+        //显示角标
+        ShortcutBadger.applyCount(mApplication, ImHelper.getTotalUnreadCount());
+        //显示通知
+        UIMessage uiMessage = UIMessage.obtain(timMessage);
+        NotificationCompat.Builder builder = getBuilder("新消息", uiMessage.getSummary());
+        Intent intent = mApplication.getApplicationContext().getPackageManager().getLaunchIntentForPackage(mApplication.getPackageName());
+        builder.setContentIntent(PendingIntent.getActivity(mApplication, (int) SystemClock.uptimeMillis(), intent, PendingIntent.FLAG_UPDATE_CURRENT));
+        ((NotificationManager) mApplication.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE)).notify(IMConstants.SERVER_PUSH_MESSAGE_ACCOUNT, 521, builder.build());
+    }
+
     /**
      * 在通知栏中提醒:系统消息
      *
@@ -149,7 +181,8 @@ public class GlobalMessageEvent extends Observable implements TIMMessageListener
             builder.setContentTitle(title);
         }
         builder.setContentText(content);
-        builder.setSmallIcon(R.drawable.im_luncher);
+        builder.setSmallIcon(R.drawable.im_ic_notification);
+        builder.setLargeIcon(BitmapFactory.decodeResource(mApplication.getResources(), R.drawable.im_luncher));
         builder.setAutoCancel(true);
         builder.setTicker(content);
         return builder;

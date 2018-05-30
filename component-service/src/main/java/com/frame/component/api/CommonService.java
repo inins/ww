@@ -127,7 +127,10 @@ public interface CommonService {
      */
     @FormUrlEncoded
     @POST("/app/share/save?v=2.0.0")
-    Observable<BaseJson<Object>> sharefun(@Field("targetUserId") Integer targetUserId, @Field("objectId") int objectId, @Field("type") String type);
+    Observable<BaseJson<Object>> sharefun(@Field("shareUserId") int shareUserId,
+                                          @Field("targetUserId") Integer targetUserId,
+                                          @Field("objectId") int objectId, @Field("type") String type,
+                                          @Field("shareType") int shareType);
 
 
     /**

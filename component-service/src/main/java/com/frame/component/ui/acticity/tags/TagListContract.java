@@ -12,7 +12,8 @@ public interface TagListContract {
         void showToast(String msg);
 
         void tagListChanged();
-        void resetTagListView();
+        void onTagListLoadCompleted();
+        void onTagListLoadFailed();
     }
 
     interface Model extends IModel {

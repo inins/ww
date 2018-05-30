@@ -584,8 +584,10 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
                     mReportComment = text;
                     // 弹出图片选择
                     mRequestImageType = REQUEST_REPORT_IMAGE;
-                    mPhotoHelperEx.setMaxSelectCount(5);
-                    mPhotoHelperEx.showDefaultDialog();
+                    mPhotoHelperEx.setMaxSelectCount(1);
+                    mPhotoHelperEx.setClip(false);
+//                    mPhotoHelperEx.showDefaultDialog();
+                    mPhotoHelperEx.startPhoto();
                 });
     }
 

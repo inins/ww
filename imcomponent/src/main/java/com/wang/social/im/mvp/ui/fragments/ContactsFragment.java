@@ -3,6 +3,7 @@ package com.wang.social.im.mvp.ui.fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
@@ -177,11 +178,19 @@ public class ContactsFragment extends BasicFragment implements AutoPopupWindow.O
 
     private void setSelectStatus(View view) {
         TextView tvName = view.findViewById(R.id.ct_tv_name);
+        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) tvName.getLayoutParams();
+        layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        layoutParams.width = SizeUtils.dp2px(100);
+        tvName.setLayoutParams(layoutParams);
         tvName.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30);
     }
 
     private void setUnSelectStatus(View view) {
         TextView tvName = view.findViewById(R.id.ct_tv_name);
+        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) tvName.getLayoutParams();
+        layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+        tvName.setLayoutParams(layoutParams);
         tvName.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
     }
 

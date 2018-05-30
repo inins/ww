@@ -41,7 +41,7 @@ public class AppConstant {
         //趣聊付费须知
         public static final String fanNotice = Api.WEB_BASE_URL + "about/common/fanNotice.html";
         //觅聊付费须知
-        public static final String MI_NOTICE  = Api.WEB_BASE_URL + "about/common/MiNotice.html";
+        public static final String MI_NOTICE = Api.WEB_BASE_URL + "about/common/MiNotice.html";
         //往往免责声明
         public static final String disclaimer = Api.WEB_BASE_URL + "about/common/disclaimer.html";
         //账户常见问题
@@ -80,8 +80,6 @@ public class AppConstant {
         //############分享（文案）##########
         //##################################
 
-        //摇钱树
-        public static final String cashcowindex = Api.WEB_BASE_URL + "cashcow/index.html";
         //游戏玩法
         public static final String cashcowrule = Api.WEB_BASE_URL + "cashcow/rule.html";
         // 二维码
@@ -90,22 +88,6 @@ public class AppConstant {
         public static final String overall = Api.WEB_BASE_URL + "overall/index.html";
         //下载
         public static final String appdownload = Api.WEB_BASE_URL + "app/index.html";
-        //故事
-        public static final String story = Api.WEB_BASE_URL + "contentShared/story/index.html";
-        //话题
-        public static final String topic = Api.WEB_BASE_URL + "contentShared/topic/index.html";
-        /**
-         * 趣聊
-         * 参数:
-         * groupId 群ID
-         * userId 用户ID
-         */
-        public static final String SHARE_SOCIAL_URL = Api.WEB_BASE_URL + "contentShared/group/index.html";
-        public static final String SHARE_SOCIAL_TITLE = "趣聊分享";
-        // 话题分享标题
-        public static final String TOPIC_SHARE_TITLE = "话题分享";
-        // 话题分享内容
-        public static final String TOPIC_SHARE_CONTENT = "话题内容";
 
         //##################################
         //############  APP  ###############
@@ -113,10 +95,41 @@ public class AppConstant {
 
         //给个好评，跳转页面
         public static final String eva = "http://sj.qq.com/myapp/detail.htm?apkName=com.dongdongkeji.wangwangsocial";
-
-
     }
 
+    /**
+     * 分享文案
+     */
+    public static class Share {
+        public static final String SHARE_DEFAULT_IMAGE = "";
+
+        /*群分享*/
+        public static final String SHARE_GROUP_URL = Api.WEB_BASE_URL + "contentShared/group/index.html?groupId=%1$s&userId=%2$s";
+        public static final String SHARE_GROUP_TITLE = "整天哔哔哔不如当面来“怼”！";
+        public static final String SHARE_GROUP_CONTENT = "%s在往往等你！";
+
+        /*趣晒分享*/
+        public static final String SHARE_FUN_SHOW_URL = Api.WEB_BASE_URL + "contentShared/story/index.html?talkId=%1$s&userId=%2$s";
+        public static final String SHARE_FUN_SHOW_TITLE = "每个人都是这里的艺术家！";
+        public static final String SHARE_FUN_SHOW_CONTENT = "%s有趣晒，你有酒吗？";
+
+        /*话题分享*/
+        public static final String SHARE_TOPIC_URL = Api.WEB_BASE_URL + "contentShared/topic/index.html?topicId=%1$s&userId=%2$s";
+        public static final String SHARE_TOPIC_TITLE = "每个人都是这里的艺术家！";
+        public static final String SHARE_TOPIC_CONTENT = "%s有话题，你有酒吗？";
+
+        /*APP分享*/
+        public static final String SHARE_APP_URL = Api.WEB_BASE_URL + "app/index.html?userId=%s";
+        public static final String SHARE_APP_TITLE = "左手社交右手射钱，触手可得！";
+        public static final String SHARE_APP_CONTENT = "%s在往往等你！";
+        public static final String SHARE_APP_IMAGE = SHARE_DEFAULT_IMAGE;
+
+        /*摇钱树*/
+        public static final String SHARE_GAME_TREE_URL = Api.WEB_BASE_URL + "cashcow/index.html?userId=%s";
+        public static final String SHARE_GAME_TREE_TITLE = "就差你了-这棵摇钱树将于20秒后掉落钻石！";
+        public static final String SHARE_GAME_TREE_CONTENT = "%s想约你跟他一起分这波钻，快来！";
+        public static final String SHARE_GAME_DEFAULT_IMAGE = "http://resouce.dongdongwedding.com/activity_cashcow_moneyTree.png";
+    }
 
 
 }

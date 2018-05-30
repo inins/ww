@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.frame.base.BaseFragment;
 import com.frame.component.common.AppConstant;
+import com.frame.component.entities.User;
 import com.frame.component.enums.ConversationType;
 import com.frame.component.enums.ShareSource;
 import com.frame.component.helper.AppDataHelper;
@@ -566,14 +567,16 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
 
     @OnClick(R2.id.share_image_view)
     public void share() {
+        User loginUser = AppDataHelper.getUser();
+        String shareUrl = String.format(AppConstant.Share.SHARE_GAME_TREE_URL, String.valueOf(loginUser.getUserId()));
+        String shareContent = String.format(AppConstant.Share.SHARE_GAME_TREE_CONTENT, loginUser.getNickname());
         SocializeUtil.shareWithWW(getSupportFragmentManager(),
                 null,
-                AppConstant.Url.cashcowindex + "?userId=" + AppDataHelper.getUser().getUserId(),
-                "摇钱树",
-                "有点2的社交软件",
-                "http://resouce.dongdongwedding.com/activity_cashcow_moneyTree.png",
+                shareUrl,
+                AppConstant.Share.SHARE_GAME_TREE_TITLE,
+                shareContent,
+                AppConstant.Share.SHARE_GAME_DEFAULT_IMAGE,
                 (String url, String title, String content, String imageUrl) -> {
-//                    showToastLong("往往分享");
                     CommonHelper.ImHelper.startWangWangShare(this,
                             "",
                             Integer.toString(mPresenter.getRoomMsg().getDiamond()),

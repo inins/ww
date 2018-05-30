@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.frame.base.BasicFragment;
 import com.frame.component.common.AppConstant;
 import com.frame.component.entities.User;
 import com.frame.component.helper.AppDataHelper;
@@ -18,7 +17,6 @@ import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.service.personal.PersonalFragmentInterface;
 import com.frame.component.ui.acticity.WebActivity;
 import com.frame.component.ui.base.BasicLazyFragment;
-import com.frame.component.ui.base.BasicLazyNoDiFragment;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.http.imageloader.ImageLoader;
@@ -168,12 +166,14 @@ public class PersonalFragment extends BasicLazyFragment implements PersonalFragm
         } else if (v.getId() == R.id.btn_me_feedback) {
             FeedbackActivity.start(getContext());
         } else if (v.getId() == R.id.btn_me_share) {
+            User loginUser = AppDataHelper.getUser();
+            String shareUrl = String.format(AppConstant.Share.SHARE_APP_URL, String.valueOf(loginUser.getUserId()));
             SocializeUtil.shareWeb(getChildFragmentManager(),
                     null,
-                    "http://www.wangsocial.com/",
-                    "往往",
-                    "有点2的社交软件",
-                    "http://resouce.dongdongwedding.com/activity_cashcow_moneyTree.png");
+                    shareUrl,
+                    AppConstant.Share.SHARE_APP_TITLE,
+                    String.format(AppConstant.Share.SHARE_APP_CONTENT, loginUser.getNickname()),
+                    AppConstant.Share.SHARE_APP_IMAGE);
         } else if (v.getId() == R.id.btn_me_about) {
             AboutActivity.start(getContext(), AppConstant.Url.wwAbout);
         } else if (v.getId() == R.id.btn_me_eva) {

@@ -86,7 +86,7 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
             mFragmentType = getArguments().getInt(KEY_TYPE, FRAGMENT_NEW);
         }
 
-        mAdapter = new TopicListAdapter(getActivity() instanceof IView ? (IView)getActivity() : this,
+        mAdapter = new TopicListAdapter(getActivity() instanceof IView ? (IView) getActivity() : this,
                 getActivity(),
                 getChildFragmentManager(),
                 mPresenter.getTopicList());
@@ -157,7 +157,6 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
     }
 
 
-
     @Override
     public void setData(@Nullable Object data) {
 
@@ -209,6 +208,8 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onCommonEvent(EventBean event) {
 //        Timber.i("EventBuss 事件通知");
+        boolean changed = false;
+
         switch (event.getEvent()) {
             case EventBean.EVENTBUS_TAG_ALL:
                 Timber.i("大量知识");
@@ -224,6 +225,37 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
 
                 mSpringView.callFreshDelay();
                 break;
+            case EventBean.EVENTBUS_ADD_TOPIC_COMMENT:
+                int topicId = (int) event.get("topicId");
+                int topicCommentId = (int) event.get("topicCommentId");
+
+                Timber.i("话题-话题列表 评论增加 : " + topicId + " " + topicCommentId);
+
+                for (Topic topic : mPresenter.getTopicList()) {
+                    if (topic.getTopicId() == topicId) {
+                        topic.setCommentTotal(topic.getCommentTotal() + 1);
+                        changed = true;
+                    }
+                }
+                if (changed && null != mAdapter) {
+                    mAdapter.notifyDataSetChanged();
+                }
+
+                break;
+            case EventBean.EVENTBUS_ADD_TOPIC_SHARE:
+                // 转发成功，转发量加1
+                int shareTopicID = (int) event.get("topicId");
+                for (Topic topic : mPresenter.getTopicList()) {
+                    if (topic.getTopicId() == shareTopicID) {
+                        topic.setShareTotal(topic.getShareTotal() + 1);
+                        changed = true;
+                    }
+                }
+                break;
+        }
+
+        if (changed && null != mAdapter) {
+            mAdapter.notifyDataSetChanged();
         }
     }
 

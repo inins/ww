@@ -30,7 +30,7 @@ public class IMConfiguration implements ConfigModule {
 
     @Override
     public void injectActivityLifecycle(Context context, List<Application.ActivityLifecycleCallbacks> lifecycleCallbacks) {
-
+        lifecycleCallbacks.add(new ImActivityLifecycleImpl());
     }
 
     @Override

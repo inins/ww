@@ -22,6 +22,7 @@ import com.beloo.widget.chipslayoutmanager.SpacingItemDecoration;
 import com.frame.component.app.Constant;
 import com.frame.component.common.AppConstant;
 import com.frame.component.entities.AutoPopupItemModel;
+import com.frame.component.entities.User;
 import com.frame.component.enums.ConversationType;
 import com.frame.component.helper.AppDataHelper;
 import com.frame.component.ui.acticity.FunshowTopicActivity;
@@ -105,6 +106,8 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
     TextView scTvTag;
     @BindView(R2.id.sc_rlv_tags)
     RecyclerView scRlvTags;
+    @BindView(R2.id.sc_tv_tag_none)
+    TextView scTvTagNone;
     @BindView(R2.id.sc_tv_social_intro)
     TextView scTvSocialIntro;
     @BindView(R2.id.sc_iv_intro_edit)
@@ -562,14 +565,18 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
     }
 
     private void showTags(List<Tag> tags) {
-        scRlvTags.setNestedScrollingEnabled(false);
-        scRlvTags.setLayoutManager(
-                ChipsLayoutManager.newBuilder(this)
-                        .setOrientation(ChipsLayoutManager.HORIZONTAL)
-                        .build());
-        scRlvTags.addItemDecoration(
-                new SpacingItemDecoration(SizeUtils.dp2px(5), SizeUtils.dp2px(5)));
-        scRlvTags.setAdapter(new HomeTagAdapter(tags));
+        if (tags == null || tags.isEmpty()) {
+            scTvTagNone.setVisibility(View.VISIBLE);
+        } else {
+            scRlvTags.setNestedScrollingEnabled(false);
+            scRlvTags.setLayoutManager(
+                    ChipsLayoutManager.newBuilder(this)
+                            .setOrientation(ChipsLayoutManager.HORIZONTAL)
+                            .build());
+            scRlvTags.addItemDecoration(
+                    new SpacingItemDecoration(SizeUtils.dp2px(5), SizeUtils.dp2px(5)));
+            scRlvTags.setAdapter(new HomeTagAdapter(tags));
+        }
     }
 
     private void showShadow(ShadowInfo shadowInfo) {
@@ -599,8 +606,10 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
             if (mSocial == null) {
                 return;
             }
-            String shareUrl = AppConstant.Url.SHARE_SOCIAL_URL + "?groupId=" + socialId + "&userId=" + AppDataHelper.getUser().getUserId();
-            SocializeUtil.shareWithWW(getSupportFragmentManager(), null, shareUrl, AppConstant.Url.SHARE_SOCIAL_TITLE, mSocial.getName(), mSocial.getCover(), new SocializeUtil.WWShareListener() {
+            User loginUser = AppDataHelper.getUser();
+            String shareUrl = String.format(AppConstant.Share.SHARE_GROUP_URL, socialId, String.valueOf(loginUser.getUserId()));
+            String content = String.format(AppConstant.Share.SHARE_GROUP_CONTENT, loginUser.getNickname());
+            SocializeUtil.shareWithWW(getSupportFragmentManager(), null, shareUrl, AppConstant.Share.SHARE_GROUP_TITLE, content, mSocial.getCover(), new SocializeUtil.WWShareListener() {
                 @Override
                 public void onWWShare(String url, String title, String content, String imageUrl) {
                     InviteFriendActivity.start(SocialHomeActivity.this, socialId);
@@ -616,7 +625,7 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
             mReportComment = text;
             mPhotoType = PHOTO_TYPE_REPORT;
             // 弹出图片选择
-            mPhotoHelper.setMaxSelectCount(5);
+            mPhotoHelper.setMaxSelectCount(1);
             mPhotoHelper.showDefaultDialog();
         });
     }
@@ -642,7 +651,7 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
                         .url(path)
                         .isCircle(true)
                         .build());
-                
+
                 mPresenter.updateNameCard(socialId, ConversationType.SOCIAL, mSocial.getMemberInfo().getNickname(), path, mSocial.getMemberInfo().getNotifyType());
             } else if (mPhotoType == PHOTO_TYPE_REPORT) {
                 // 弹出确认举报对话框

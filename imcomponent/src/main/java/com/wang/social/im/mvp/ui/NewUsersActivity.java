@@ -22,6 +22,7 @@ import com.wang.social.im.R2;
 import com.wang.social.im.di.component.DaggerActivityComponent;
 import com.wang.social.im.mvp.model.api.ChainService;
 import com.wang.social.im.mvp.model.entities.ListData;
+import com.wang.social.im.mvp.ui.PersonalCard.PersonalCardActivity;
 import com.wang.social.im.mvp.ui.adapters.NewUsersAdapter;
 
 import java.util.List;
@@ -114,6 +115,6 @@ public class NewUsersActivity extends BasicAppActivity implements IView, BaseAda
 
     @Override
     public void onItemClick(UserInfo userInfo, int position) {
-        // TODO: 2018-05-11 页面跳转
+        PersonalCardActivity.start(this, Integer.valueOf(userInfo.getUserId()));
     }
 }
