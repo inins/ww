@@ -315,6 +315,17 @@ public class TopicListFragment extends BasicFragment implements IView {
                     }
                 }
                 break;
+            case EventBean.EVENTBUS_TOPIC_SUPPORT:
+                // 点赞
+                int supportTopicId = (int) event.get("topicId");
+                boolean isSupport = (boolean) event.get("isSupport");
+                for (Topic topic : mList) {
+                    if (topic.getTopicId() == supportTopicId) {
+                        topic.setShareTotal(Math.max(0, topic.getShareTotal() + (isSupport ? 1 : -1)));
+                        changed = true;
+                    }
+                }
+                break;
         }
 
         if (changed && null != mAdapter) {

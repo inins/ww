@@ -2,12 +2,15 @@ package com.wang.social.topic.mvp.presenter;
 
 import com.frame.di.scope.ActivityScope;
 import com.frame.di.scope.FragmentScope;
+import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
 import com.wang.social.topic.mvp.contract.TopicDetailContract;
 import com.wang.social.topic.mvp.model.entities.TopicDetail;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -106,17 +109,23 @@ public class TopicDetailPresenter extends
                 new ErrorHandleSubscriber(mErrorHandler) {
                     @Override
                     public void onNext(Object o) {
-                        if (mTopicDetail.getIsSupport() == 0) {
-                            // 点赞成功
-                            mTopicDetail.setIsSupport(1);
-                            mTopicDetail.setSupportTotal(mTopicDetail.getSupportTotal() + 1);
-                        } else {
-                            // 取消点赞
-                            mTopicDetail.setIsSupport(0);
-                            mTopicDetail.setSupportTotal(mTopicDetail.getSupportTotal() - 1);
-                        }
+//                        if (mTopicDetail.getIsSupport() == 0) {
+//                            // 点赞成功
+//                            mTopicDetail.setIsSupport(1);
+//                            mTopicDetail.setSupportTotal(mTopicDetail.getSupportTotal() + 1);
+//                        } else {
+//                            // 取消点赞
+//                            mTopicDetail.setIsSupport(0);
+//                            mTopicDetail.setSupportTotal(mTopicDetail.getSupportTotal() - 1);
+//                        }
+//
+//                        mRootView.resetSupportLayout(mTopicDetail.getIsSupport(), mTopicDetail.getSupportTotal());
 
-                        mRootView.resetSupportLayout(mTopicDetail.getIsSupport(), mTopicDetail.getSupportTotal());
+                        // 发出通知点赞成功
+                        EventBean eventBean = new EventBean(EventBean.EVENTBUS_TOPIC_SUPPORT);
+                        eventBean.put("topicId", mTopicDetail.getTopicId());
+                        eventBean.put("isSupport", mTopicDetail.getIsSupport() == 0);
+                        EventBus.getDefault().post(eventBean);
                     }
 
                     @Override

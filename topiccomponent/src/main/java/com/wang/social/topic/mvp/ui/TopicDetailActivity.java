@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.frame.component.common.AppConstant;
+import com.frame.component.entities.Topic;
 import com.frame.component.entities.User;
 import com.frame.component.enums.ShareSource;
 import com.frame.component.helper.AppDataHelper;
@@ -172,9 +173,8 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
 
     /**
      * 重置底部点赞UI
-     *
      * @param isSupport 是否已点赞
-     * @param count     赞的数量
+     * @param count 赞的数量
      */
     @Override
     public void resetSupportLayout(int isSupport, int count) {
@@ -719,6 +719,17 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
                     Timber.i("话题详情-转发成功 : " + shareTopicID);
                     mTopicDetail.setShareTotal(mTopicDetail.getShareTotal() + 1);
                     resetShareLayout(mTopicDetail.getShareTotal());
+                }
+                break;
+            case EventBean.EVENTBUS_TOPIC_SUPPORT:
+                // 点赞
+                int supportTopicId = (int) event.get("topicId");
+                boolean isSupport = (boolean) event.get("isSupport");
+                if (supportTopicId == mTopicId) {
+                    Timber.i("话题详情-点赞成功 : " + supportTopicId + " " + Boolean.toString(isSupport));
+                    mTopicDetail.setIsSupport(isSupport ? 1 : 0);
+                    resetSupportLayout(mTopicDetail.getIsSupport(),
+                            Math.max(0, mTopicDetail.getShareTotal() + (isSupport ? 1 : -1)));
                 }
                 break;
         }

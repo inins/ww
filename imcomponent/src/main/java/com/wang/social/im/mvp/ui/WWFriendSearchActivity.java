@@ -183,11 +183,13 @@ public class WWFriendSearchActivity extends BaseAppActivity<SharePresenter> impl
         if (mFriendAdapter.getVisibleCount() <= 3) {
             mFriendAdapter.setVisibleCount(Integer.MAX_VALUE);
             mMoreFriendTV.setText("收起");
-            mArrowIV.setImageResource(R.drawable.common_ic_up);
+//            mArrowIV.setImageResource(R.drawable.common_ic_up);
+            mArrowIV.setRotation(180);
         } else {
             mFriendAdapter.setVisibleCount(3);
             mMoreFriendTV.setText("更多联系人");
-            mArrowIV.setImageResource(R.drawable.common_ic_down);
+//            mArrowIV.setImageResource(R.drawable.common_ic_down);
+            mArrowIV.setRotation(0);
         }
     }
 

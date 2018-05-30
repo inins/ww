@@ -20,6 +20,7 @@ import com.frame.component.helper.NetPayStoneHelper;
 import com.frame.component.helper.NetZanHelper;
 import com.frame.component.service.R;
 import com.frame.component.ui.acticity.tags.Tag;
+import com.frame.component.utils.SearchUtil;
 import com.frame.component.view.DialogPay;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.mvp.IView;
@@ -41,6 +42,8 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
     private Activity mActivity;
     private FragmentManager mFragmentManager;
     private List<Topic> mList;
+    // 是否是搜索的结果，是的话关键字高亮
+    private boolean mSearchResult = false;
 
     public TopicListAdapter(IView bindView, RecyclerView recyclerView, List<Topic> list) {
         mIView = bindView;
@@ -54,6 +57,10 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
         mContext = activity.getApplicationContext();
         mFragmentManager = fragmentManager;
         mList = list;
+    }
+
+    public void setSearchResult(boolean searchResult) {
+        mSearchResult = searchResult;
     }
 
     @Override
@@ -84,7 +91,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
 //        holder.createDateTV.setText(formatCreateDate(mContext, topic.getCreateTime()));
         holder.createDateTV.setText(TimeUtils.getFriendlyTimeSpanByNow(topic.getCreateTime()));
         // 话题标题
-        holder.titleTV.setText(topic.getTitle());
+        holder.titleTV.setText(mSearchResult ? SearchUtil.getHotText("", "", topic.getTitle()) : topic.getTitle());
         // 简要
         holder.contentTV.setText(topic.getFirstStrff());
         // 图片
@@ -125,21 +132,18 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
             holder.praiseIV.setImageResource(R.drawable.common_ic_zan);
         }
         holder.praiseIV.setTag(topic);
-        holder.praiseIV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (v.getTag() instanceof Topic) {
-                    Topic t = (Topic) v.getTag();
+        holder.praiseIV.setOnClickListener((View v) -> {
+            if (v.getTag() instanceof Topic) {
+                Topic t = (Topic) v.getTag();
 
-                    NetZanHelper.newInstance()
-                            .topicZan(mIView, holder.praiseTV, t.getTopicId(), !t.isSupport(),
-                                    (boolean isZan, int zanCount) -> {
-                                        t.setSupportTotal(zanCount);
-                                        t.setSupport(isZan);
+                NetZanHelper.newInstance()
+                        .topicZan(mIView, holder.praiseTV, t.getTopicId(), !t.isSupport(),
+                                (boolean isZan, int zanCount) -> {
+                                    t.setSupportTotal(zanCount);
+                                    t.setSupport(isZan);
 
-                                        notifyDataSetChanged();
-                                    });
-                }
+                                    notifyDataSetChanged();
+                                });
             }
         });
         // 点赞次数
@@ -191,13 +195,20 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
                 } else {
                     // 直接打开话题详情
                     if (null != mActivity) {
-                        CommonHelper.TopicHelper.startTopicDetail(mActivity, t.getTopicId());
+                        openTopicDetail(t);
                     } else {
                         Timber.e("activity is null");
                     }
                 }
             }
         });
+    }
+
+    private void openTopicDetail(Topic topic) {
+        CommonHelper.TopicHelper.startTopicDetail(mActivity, topic.getTopicId());
+
+        topic.setReadTotal(topic.getReadTotal() + 1);
+        notifyDataSetChanged();
     }
 
     private void payTopic(Topic topic) {
@@ -213,7 +224,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
 
                             // 打开话题详情
                             if (null != mActivity) {
-                                CommonHelper.TopicHelper.startTopicDetail(mActivity, topic.getTopicId());
+                                openTopicDetail(topic);
                             } else {
                                 Timber.e("activity is null");
                             }

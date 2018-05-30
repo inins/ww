@@ -26,6 +26,7 @@ public class TalkBeanDTO implements Mapper<FunshowBean> {
     private Integer talkPayed;
     private String isAnonymous;
     private Integer urls;
+    private String url;
 
     @Override
     public FunshowBean transform() {
@@ -43,6 +44,12 @@ public class TalkBeanDTO implements Mapper<FunshowBean> {
         object.setShareTotal(EntitiesUtil.assertNotNull(shareTotal));
         object.setFree(relateState == 0);
         object.setPrice(EntitiesUtil.assertNotNull(gemstone));
+        object.setShowPic(EntitiesUtil.assertNotNull(url));
+        object.setPicNum(EntitiesUtil.assertNotNull(urls));
+        object.setPay(talkPayed >= 1);
+        object.setSupport(talkLiked >= 1);
+        object.setVideo(mediaType == 2);
+        object.setHideName("1".equals(isAnonymous));
 
         return object;
     }
