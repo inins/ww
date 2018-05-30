@@ -228,11 +228,4 @@ public class MePhotoActivity extends BasicAppActivity implements IView, PhotoHel
             }
         });
     }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 }

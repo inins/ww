@@ -11,12 +11,14 @@ import android.widget.TextView;
 import com.frame.component.api.CommonService;
 import com.frame.component.common.NetParam;
 import com.frame.component.ui.base.BasicAppActivity;
+import com.frame.component.utils.ChannelUtils;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.mvp.IView;
+import com.frame.utils.AppUtils;
 import com.frame.utils.StrUtil;
 import com.frame.utils.ToastUtil;
 import com.wang.social.personal.R;
@@ -113,12 +115,14 @@ public class AccountExchangeActivity extends BasicAppActivity implements IView {
     }
 
     private void netExchange(int stoneCount) {
+        int versionCode = AppUtils.getAppVersionCode();
+        int channelCode = ChannelUtils.getChannelCode();
         Map<String, Object> param = NetParam.newInstance()
                 .put("price", stoneCount)
                 .put("objectType", "exchange")
                 .put("payChannels", "aliPay")
-                .put("versionCode", "2.0.0")
-                .put("channelCode", "1")
+                .put("versionCode", versionCode)
+                .put("channelCode", channelCode)
                 .put("v", "2.0.0")
                 .putSignature()
                 .build();

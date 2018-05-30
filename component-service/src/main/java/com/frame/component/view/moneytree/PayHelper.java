@@ -5,12 +5,14 @@ import android.support.annotation.IntDef;
 import com.frame.component.BuildConfig;
 import com.frame.component.api.CommonService;
 import com.frame.component.common.NetParam;
+import com.frame.component.utils.ChannelUtils;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.IView;
+import com.frame.utils.AppUtils;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.Utils;
 
@@ -62,13 +64,15 @@ public class PayHelper {
      *                    channelCode	String	渠道号
      */
     private Observable<BaseJson> gamePay(int applyId, int diamond, String payChannels, int gameType) {
+        int versionCode = AppUtils.getAppVersionCode();
+        int channelCode = ChannelUtils.getChannelCode();
         Map<String, Object> param = new NetParam()
                 .put("applyId", applyId)
                 .put("diamond", diamond)
                 .put("payChannels", payChannels)
                 .put("gameType", gameType)
-                .put("versionCode", BuildConfig.VERSION_CODE)
-                .put("channelCode", "15")
+                .put("versionCode", versionCode)
+                .put("channelCode", channelCode)
                 .put("v", "2.0.0")
                 .putSignature()
                 .build();

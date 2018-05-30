@@ -6,12 +6,14 @@ import com.frame.component.common.NetParam;
 import com.frame.component.entities.User;
 import com.frame.component.entities.UserWrap;
 import com.frame.component.helper.AppDataHelper;
+import com.frame.component.utils.ChannelUtils;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.IView;
+import com.frame.utils.AppUtils;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.ToastUtil;
 import com.frame.utils.Utils;
@@ -42,13 +44,15 @@ public class NetPayStoneHelper {
     }
 
     public void netPayFunshow(IView view, int talkId, int stoneCount, OnStonePayCallback callback) {
+        int versionCode = AppUtils.getAppVersionCode();
+        int channelCode = ChannelUtils.getChannelCode();
         Map<String, Object> param = NetParam.newInstance()
                 .put("price", stoneCount)
                 .put("objectId", talkId + "")
                 .put("objectType", "talk")
                 .put("payChannels", "gemstone")
-                .put("versionCode", "17")
-                .put("channelCode", "1")
+                .put("versionCode", versionCode)
+                .put("channelCode", channelCode)
                 .put("v", "2.0.0")
                 .putSignature()
                 .build();
@@ -69,13 +73,15 @@ public class NetPayStoneHelper {
      * @param callback
      */
     public void stonePay(IView view, int price, String objectType, String objectId, OnStonePayCallback callback) {
+        int versionCode = AppUtils.getAppVersionCode();
+        int channelCode = ChannelUtils.getChannelCode();
         Map<String, Object> param = NetParam.newInstance()
                 .put("price", price)
                 .put("objectId", objectId)
                 .put("objectType", objectType)
                 .put("payChannels", Constant.PAY_CHANNEL_STONE)
-                .put("versionCode", "17")
-                .put("channelCode", "1")
+                .put("versionCode", versionCode)
+                .put("channelCode", channelCode)
                 .put("v", "2.0.0")
                 .putSignature()
                 .build();
@@ -105,13 +111,15 @@ public class NetPayStoneHelper {
     }
 
     public void netPayTopic(IView view, int topicId, int stoneCount, OnStonePayCallback callback) {
+        int versionCode = AppUtils.getAppVersionCode();
+        int channelCode = ChannelUtils.getChannelCode();
         Map<String, Object> param = NetParam.newInstance()
                 .put("price", stoneCount)
                 .put("objectId", topicId + "")
                 .put("objectType", "topic")
                 .put("payChannels", "gemstone")
-                .put("versionCode", "17")
-                .put("channelCode", "1")
+                .put("versionCode", versionCode)
+                .put("channelCode", channelCode)
                 .put("v", "2.0.0")
                 .putSignature()
                 .build();

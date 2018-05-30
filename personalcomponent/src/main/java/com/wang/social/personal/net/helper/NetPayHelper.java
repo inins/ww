@@ -4,12 +4,15 @@ import android.app.Activity;
 
 import com.dongdongkeji.wangwangsocial.wxapi.WXPayEntryActivity;
 import com.frame.component.common.NetParam;
+import com.frame.component.utils.ChannelUtils;
+import com.frame.component.utils.viewutils.AppUtil;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.IView;
+import com.frame.utils.AppUtils;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.ToastUtil;
 import com.frame.utils.Utils;
@@ -40,13 +43,15 @@ public class NetPayHelper {
     }
 
     public void netPayAli(Activity activity, int rechargeId, float price) {
+        int versionCode = AppUtils.getAppVersionCode();
+        int channelCode = ChannelUtils.getChannelCode();
         Map<String, Object> param = NetParam.newInstance()
                 .put("price", price)
                 .put("objectId", rechargeId + "")
                 .put("objectType", "diamond")
                 .put("payChannels", "aliPay")
-                .put("versionCode", "17")
-                .put("channelCode", "1")
+                .put("versionCode", versionCode)
+                .put("channelCode", channelCode)
                 .put("v", "2.0.0")
                 .putSignature()
                 .build();
@@ -87,13 +92,15 @@ public class NetPayHelper {
     }
 
     public void netPayWX(IView view, int rechargeId, float price) {
+        int versionCode = AppUtils.getAppVersionCode();
+        int channelCode = ChannelUtils.getChannelCode();
         Map<String, Object> param = NetParam.newInstance()
                 .put("price", price)
                 .put("objectId", rechargeId + "")
                 .put("objectType", "diamond")
                 .put("payChannels", "weixinPay")
-                .put("versionCode", "17")
-                .put("channelCode", "1")
+                .put("versionCode", versionCode)
+                .put("channelCode", channelCode)
                 .put("v", "2.0.0")
                 .putSignature()
                 .build();

@@ -3,6 +3,7 @@ package com.wang.social.im.mvp.model;
 import android.text.TextUtils;
 
 import com.frame.component.common.NetParam;
+import com.frame.component.utils.ChannelUtils;
 import com.frame.di.scope.ActivityScope;
 import com.frame.http.api.BaseJson;
 import com.frame.integration.IRepositoryManager;
@@ -33,10 +34,8 @@ public class CreateEnvelopModel extends BaseModel implements CreateEnvelopContra
 
     @Override
     public Observable<BaseJson<CreateEnvelopResultDTO>> createEnvelop(EnvelopInfo.EnvelopType envelopType, int diamond, int count, String message, String groupId) {
-
         int versionCode = AppUtils.getAppVersionCode();
-        // FIXME: 2018-04-27 修改为ChannelUtils.getChannelCode()
-        int channelCode = 1;
+        int channelCode = ChannelUtils.getChannelCode();
         int type = 0;
         switch (envelopType) {
             case PRIVATE:
