@@ -4,6 +4,7 @@ import android.view.View;
 
 import com.frame.component.api.CommonService;
 import com.frame.component.utils.FunShowUtil;
+import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
@@ -13,6 +14,8 @@ import com.frame.mvp.IView;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.ToastUtil;
 import com.frame.utils.Utils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import io.reactivex.Observable;
 
@@ -60,12 +63,24 @@ public class NetZanHelper {
                 callback);
     }
 
+    public void topicSupportWithNotification(IView view, int topicId, boolean isSupport) {
+        commonZan(view, null,
+                ApiHelperEx.getService(CommonService.class).topicZan(topicId, isSupport ? 1 : 2),
+                isSupport,
+                (boolean isZan, int zanCount) -> {
+                    EventBean eventBean = new EventBean(EventBean.EVENTBUS_TOPIC_SUPPORT);
+                    eventBean.put("topicId", topicId);
+                    eventBean.put("isSupport", isZan);
+                    EventBus.getDefault().post(eventBean);
+                });
+    }
+
 
     /**
-     * @param view 绑定生命周期 可为null
-     * @param btn  点赞btn（textView）.点赞成功后会自动+1或-1
-     * @param call 请求
-     * @param isZan 点赞还是取消赞
+     * @param view     绑定生命周期 可为null
+     * @param btn      点赞btn（textView）.点赞成功后会自动+1或-1
+     * @param call     请求
+     * @param isZan    点赞还是取消赞
      * @param callback 回调（如果需要）
      */
     public void commonZan(IView view, View btn, Observable<BaseJson<Object>> call, boolean isZan, OnZanCallback callback) {
@@ -74,7 +89,9 @@ public class NetZanHelper {
                 new ErrorHandleSubscriber<BaseJson<Object>>() {
                     @Override
                     public void onNext(BaseJson<Object> basejson) {
-                        btn.setSelected(isZan);
+                        if (null != btn) {
+                            btn.setSelected(isZan);
+                        }
                         int num = FunShowUtil.addSubTextViewCount(btn, isZan);
                         if (callback != null) callback.onSuccess(isZan, num);
                     }
@@ -84,9 +101,13 @@ public class NetZanHelper {
                         ToastUtil.showToastLong(e.getMessage());
                     }
                 }, () -> {
-                    btn.setEnabled(false);
+                    if (null != btn) {
+                        btn.setEnabled(false);
+                    }
                 }, () -> {
-                    btn.setEnabled(true);
+                    if (null != btn) {
+                        btn.setEnabled(true);
+                    }
                 });
     }
 

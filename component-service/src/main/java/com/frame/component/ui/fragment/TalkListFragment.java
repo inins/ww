@@ -149,8 +149,6 @@ public class TalkListFragment extends BasicFragment implements IView {
                 .getFriendTalkList(param);
     }
 
-
-
     @Override
     public void showLoading() {
 
@@ -162,8 +160,19 @@ public class TalkListFragment extends BasicFragment implements IView {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        if (null != mAdapter) {
+            mAdapter.registEventBus();
+        }
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         mApiHelper = null;
+        if (null != mAdapter) {
+            mAdapter.unRegistEventBus();
+        }
     }
 }

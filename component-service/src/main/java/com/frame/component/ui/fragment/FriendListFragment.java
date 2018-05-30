@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 
 import com.frame.base.BasicFragment;
 import com.frame.component.api.CommonService;
@@ -231,7 +232,8 @@ public class FriendListFragment extends BasicFragment implements
                 () -> mSpringView.onFinishFreshAndLoadDelay());
     }
 
-    public Observable<BaseJson<PageListDTO<PersonalInfoDTO, PersonalInfo>>> netGetUserFriendList(int otherUserId, int current, int size) {
+    public Observable<BaseJson<PageListDTO<PersonalInfoDTO, PersonalInfo>>> netGetUserFriendList(
+            int otherUserId, int current, int size) {
         Map<String, Object> param = new NetParam()
                 .put("otherUserId", otherUserId)
                 .put("current", current)
@@ -268,7 +270,7 @@ public class FriendListFragment extends BasicFragment implements
 
     public Observable<BaseJson<PageListDTO<SearchUserInfoDTO, PersonalInfo>>> netSearchGroupUser(
             String key, String phone,
-            int size, int current) {
+            int current, int size) {
         Map<String, Object> param = new NetParam()
                 .put("key", EntitiesUtil.assertNotNull(key))
                 .put("phone", EntitiesUtil.assertNotNull(phone))
@@ -306,13 +308,13 @@ public class FriendListFragment extends BasicFragment implements
 
     public Observable<BaseJson<PageListDTO<SearchUserInfoDTO, PersonalInfo>>> netSearchUser(
             String keyword, String tagNames,
-            int size, int current) {
+            int current, int size) {
         boolean mobile = StringUtils.isMobileNO(keyword);
 
         Map<String, Object> param = new NetParam()
-                .put("keyword", mobile ? "" : EntitiesUtil.assertNotNull(keyword))
-                .put("tagNames", EntitiesUtil.assertNotNull(tagNames))
-                .put("mobile", mobile ? EntitiesUtil.assertNotNull(keyword) : "")
+                .put("keyword", mobile ? null : keyword)
+                .put("tagNames", TextUtils.isEmpty(tagNames) ? null : tagNames)
+                .put("mobile", mobile ? keyword : null)
                 .put("current", current)
                 .put("size", size)
                 .put("v", "2.0.0")
