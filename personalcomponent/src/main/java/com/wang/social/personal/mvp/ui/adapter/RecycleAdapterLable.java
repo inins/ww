@@ -95,6 +95,17 @@ public class RecycleAdapterLable extends BaseAdapter<Lable> {
         return getIds(tempList);
     }
 
+    //是否已经存在某标签了
+    public boolean isIncludeLable(int lableId) {
+        if (StrUtil.isEmpty(getData())) return false;
+        for (Lable lable : getData()) {
+            if (lable.getId() == lableId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /////////////////////
 
     public boolean isDeleteEnable() {

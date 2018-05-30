@@ -62,13 +62,12 @@ public class VersionHistoryActivity extends BasicAppActivity implements BaseAdap
         adapter.refreshData(results);
     }
 
-    public void onClick(View v) {
-        int i = v.getId();
-        if (i == R.id.btn_history) {
-            WebActivity.start(this, AppConstant.Url.aboutHistory);
-
-        }
-    }
+//    public void onClick(View v) {
+//        int i = v.getId();
+//        if (i == R.id.btn_history) {
+//            WebActivity.start(this, AppConstant.Url.aboutHistory);
+//        }
+//    }
 
     @Override
     public void onItemClick(VersionHistory version, int position) {

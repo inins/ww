@@ -55,15 +55,16 @@ public class DialogAddressPicker extends BaseDialog implements View.OnClickListe
 
     @Override
     protected void intView(View root) {
-        //省份
-        List<Province> provinces = AddressDataBaseManager.getInstance().queryProvince();
-        wheel_province.setDataList(provinces);
-
         wheel_province.setOnWheelChangeListener(new WheelPicker.OnWheelChangeListener<Province>() {
             @Override
             public void onWheelSelected(Province item, int position) {
                 List<City> cities = AddressDataBaseManager.getInstance().queryCityByProvinceId(item.getId());
                 wheel_city.setDataList(cities);
+                //如果city 当前位置在数据源最大长度之外，则设置当前位置到数据源最后的一条数据处
+                int cityPosition = wheel_city.getCurrentPosition();
+                if (cityPosition > cities.size() - 1) {
+                    wheel_city.setCurrentPosition(cities.size() - 1, false);
+                }
             }
         });
         wheel_city.setOnWheelChangeListener(new WheelPicker.OnWheelChangeListener<City>() {
@@ -71,6 +72,13 @@ public class DialogAddressPicker extends BaseDialog implements View.OnClickListe
             public void onWheelSelected(City item, int position) {
             }
         });
+        //设置省份
+        List<Province> provinces = AddressDataBaseManager.getInstance().queryProvince();
+        wheel_province.setDataList(provinces);
+        //设置首个城市
+        Province firstProvince = wheel_province.getSelectData();
+        List<City> cities = AddressDataBaseManager.getInstance().queryCityByProvinceId(firstProvince.getId());
+        wheel_city.setDataList(cities);
     }
 
     @OnClick({R2.id.btn_dialog_date_cancel, R2.id.btn_dialog_date_decide})

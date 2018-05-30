@@ -7,29 +7,32 @@
 
     <TextView
         android:id="@+id/text_name"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="3dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/personal_shape_rect_line_blue_conerfull"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginTop="7dp"
+        android:background="@drawable/personal_shape_rect_blue_conerfull"
         android:paddingBottom="6dp"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
         android:paddingTop="6dp"
         android:text="徒步旅行"
-        android:textColor="@color/common_blue_deep"
+        android:textColor="@color/common_white"
         android:textSize="14sp" />
 
     <ImageView
         android:id="@+id/img_tag"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/personal_ic_lable_tag"/>
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:scaleType="center"
+        android:src="@drawable/personal_ic_lable_tag" />
 
     <ImageView
         android:id="@+id/img_del"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_gravity="right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/common_ic_lable_del"/>
+        android:scaleType="center"
+        android:src="@drawable/common_ic_lable_del" />
 </FrameLayout>

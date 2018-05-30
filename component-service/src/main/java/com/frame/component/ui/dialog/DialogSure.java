@@ -40,7 +40,11 @@ public class DialogSure extends BaseDialogOkCancel {
     }
 
     public static void showDialog(Context context, CharSequence title, OnSureCallback callback) {
-        DialogSure dialogSure = new DialogSure(context, title);
+        showDialog(context, title, "取消", "确认", callback);
+    }
+
+    public static void showDialog(Context context, CharSequence title, String cancelText, String okText, OnSureCallback callback) {
+        DialogSure dialogSure = new DialogSure(context, title, cancelText, okText);
         dialogSure.setOkClickListener((view -> {
             if (callback != null) callback.onOkClick();
             dialogSure.dismiss();

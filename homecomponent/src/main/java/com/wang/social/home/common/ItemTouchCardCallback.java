@@ -59,11 +59,11 @@ public class ItemTouchCardCallback extends ItemTouchHelper.SimpleCallback {
     //阈值
     @Override
     public float getSwipeThreshold(RecyclerView.ViewHolder viewHolder) {
-        float x = viewHolder.itemView.getX();
-        float y = viewHolder.itemView.getY();
-        Rect rect = new Rect();
-        viewHolder.itemView.getLocalVisibleRect(rect);
-        Log.e("test", "x:" + x + " y:" + y + " rect:" + rect.toString());
+//        float x = viewHolder.itemView.getX();
+//        float y = viewHolder.itemView.getY();
+//        Rect rect = new Rect();
+//        viewHolder.itemView.getLocalVisibleRect(rect);
+        //Log.e("test", "x:" + x + " y:" + y + " rect:" + rect.toString());
         return fz;
     }
 
@@ -92,15 +92,19 @@ public class ItemTouchCardCallback extends ItemTouchHelper.SimpleCallback {
 //        mDatas.add(0, remove);
         mAdapter.notifyDataSetChanged();
 
+        if (onSwipedListener != null)
+            onSwipedListener.onSwiped(remove, direction);
+    }
+
+    @Override
+    public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+        super.clearView(recyclerView, viewHolder);
         //item复位
         viewHolder.itemView.setRotation(0);
         if (viewHolder instanceof BaseCardViewHolder) {
             ((BaseCardViewHolder) viewHolder).setLikeAlpha(0);
             ((BaseCardViewHolder) viewHolder).setDisLikeAlpha(0);
         }
-
-        if (onSwipedListener != null)
-            onSwipedListener.onSwiped(remove, direction);
     }
 
     @Override
@@ -119,14 +123,15 @@ public class ItemTouchCardCallback extends ItemTouchHelper.SimpleCallback {
             fraction = 1;
         }
         //对每个ChildView进行缩放 位移
-        int childCount = recyclerView.getChildCount();
+        int childCount = recyclerView.getLayoutManager().getChildCount();
         for (int i = 0; i < childCount; i++) {
-            View child = recyclerView.getChildAt(i);
+            View child = recyclerView.getLayoutManager().getChildAt(i);
             int viewCount = childCount > CardConfig.MAX_SHOW_COUNT ? CardConfig.MAX_SHOW_COUNT : childCount;
             //第几层,举例子，count =7， 最后一个TopView（6）是第0层，
             int level = childCount - i - 1;
 
             if (level == 0) {
+                child = viewHolder.itemView;
                 //第一个
                 //不位移，不缩放
                 child.setScaleY(1);

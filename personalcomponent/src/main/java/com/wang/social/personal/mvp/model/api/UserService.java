@@ -1,17 +1,18 @@
 package com.wang.social.personal.mvp.model.api;
 
+import com.frame.component.entities.BaseListWrap;
+import com.frame.component.entities.UserWrap;
+import com.frame.component.entities.photo.Photo;
 import com.frame.component.entities.user.ShatDownUser;
 import com.frame.http.api.BaseJson;
-import com.frame.component.entities.BaseListWrap;
 import com.wang.social.personal.mvp.entities.AccountBalance;
 import com.wang.social.personal.mvp.entities.CommonEntity;
 import com.wang.social.personal.mvp.entities.QiniuTokenWrap;
-import com.frame.component.entities.UserWrap;
 import com.wang.social.personal.mvp.entities.deposit.DepositRecord;
 import com.wang.social.personal.mvp.entities.income.DiamondStoneIncome;
 import com.wang.social.personal.mvp.entities.lable.LableWrap;
+import com.wang.social.personal.mvp.entities.lable.MiChat;
 import com.wang.social.personal.mvp.entities.photo.OffiPic;
-import com.frame.component.entities.photo.Photo;
 import com.wang.social.personal.mvp.entities.photo.PhotoListWrap;
 import com.wang.social.personal.mvp.entities.privates.PrivateDetail;
 import com.wang.social.personal.mvp.entities.recharge.PayInfo;
@@ -94,6 +95,10 @@ public interface UserService {
     //个人标签
     @GET("/app/tag/selftags?v=2.0.0")
     Observable<BaseJson<LableWrap>> getSelftags(@Query("parentId") int parentId);
+
+    //用户标签下觅聊列表
+    @GET("/app/tag/milist?v=2.0.0")
+    Observable<BaseJson<BaseListWrap<MiChat>>> getTagMiList(@Query("tagId") int tagId, @Query("tagName") String tagName, @Query("current") int current, @Query("size") int size);
 
     //获取一级标签
     @GET("/app/tag/parentTagList?v=2.0.0")

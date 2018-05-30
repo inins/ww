@@ -58,7 +58,7 @@
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
                 android:orientation="vertical"
-                android:paddingBottom="30dp">
+                android:paddingBottom="10dp">
 
                 <com.frame.component.view.TitleView
                     android:id="@+id/titleview"
@@ -90,6 +90,16 @@
                     android:id="@+id/include_bundle"
                     layout="@layout/funshow_lay_add_bundle" />
 
+                <Space style="@style/common_Space_V"/>
+
+                <include
+                    android:id="@+id/include_tagbar"
+                    layout="@layout/funshow_lay_add_bottomtag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="15dp"/>
+
             </LinearLayout>
         </com.wang.social.funshow.mvp.ui.view.DispatchTouchNestedScrollView>
 
@@ -100,16 +110,6 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:layout_height="40dp" />
-
-        <include
-            android:id="@+id/include_tagbar"
-            layout="@layout/funshow_lay_add_bottomtag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginRight="15dp"
-            app:layout_constraintBottom_toTopOf="@id/include_bottombar"
-            app:layout_constraintRight_toRightOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 </android.support.design.widget.CoordinatorLayout>
