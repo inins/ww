@@ -35,7 +35,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class FunshowDetailEvaController extends BaseController implements BaseAdapter.OnItemClickListener<Comment> {
+public class FunshowDetailEvaController extends FunshowDetailBaseController implements BaseAdapter.OnItemClickListener<Comment> {
 
     int layout = R.layout.funshow_lay_detail_eva;
 

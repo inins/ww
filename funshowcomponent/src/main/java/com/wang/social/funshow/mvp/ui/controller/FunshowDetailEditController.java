@@ -26,7 +26,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 
-public class FunshowDetailEditController extends BaseController implements View.OnClickListener {
+public class FunshowDetailEditController extends FunshowDetailBaseController implements View.OnClickListener {
 
     @BindView(R2.id.img_emoji)
     ImageView imgEmoji;

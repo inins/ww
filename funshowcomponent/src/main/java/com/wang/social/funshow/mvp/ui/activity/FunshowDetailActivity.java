@@ -161,4 +161,19 @@ public class FunshowDetailActivity extends BasicAppNoDiActivity implements IView
                 });
     }
 
+    public FunshowDetailContentBoardController getContentBoardController() {
+        return contentBoardController;
+    }
+
+    public FunshowDetailZanController getZanController() {
+        return zanController;
+    }
+
+    public FunshowDetailEvaController getEvaController() {
+        return evaController;
+    }
+
+    public FunshowDetailEditController getEditController() {
+        return editController;
+    }
 }
