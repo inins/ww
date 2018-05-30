@@ -44,20 +44,29 @@ public class WebFontStyleUtil {
                 "<meta name='MobileOptimized' content='320' />" +
                 "<meta name='viewport' content='width=device-width, initial-scale=1' />"
                 +
-
-//                "<style>" +
-//                "img{" +
-//                "-webkit-border-radius: 20px;border-radius: 20px;border: 0px solid black;" +
-//                "margin-top:10px;" +
-//                "margin-bottom:10px;" +
-//                "max-width:  100%;" +
-//                "}" +
-//                "body{" +
-//                "width: 100%;" +
-//                "word-wrap:break-word;" +
-//                "}" +
-//                "</style>" +
-                "<script>" +
+                "<style>"
+                +
+                "img {\n" +
+                "\tmargin-top: 5px;\n" +
+                "\tmargin-bottom: 5px;\n" +
+                "\tmax-width: 100%;\n" +
+                "\t-webkit-border-radius: 20px;\n" +
+                "\tborder-radius: 20px;\n" +
+                "\tborder: 0px solid black;\n" +
+                "\tp{line-height: 1.6rem !important;\n" +
+                "}}"
+                +
+                "#audioImg{\n" +
+                "  margin-top:5px;\n" +
+                "  margin-bottom:5px;\n" +
+                "\n" +
+                "  webkit-border-radius: 0px;border-radius: 0px;border: 0px solid black;\n" +
+                "}"
+                +
+                "</style>"
+                +
+                "<script>"
+                +
                 PLAY_AUDIO_S
                 +
                 "</script>" +
@@ -69,26 +78,43 @@ public class WebFontStyleUtil {
                 "</html>";
     }
 
+    private final static String PLAY_AUDIO_S = "" +
+            "function playAudio(url) {\n" +
+            "    var musicPlay = document.getElementById('musicPlay');\n" +
+            "    var originUrl = musicPlay.getAttribute('src');\n" +
+            "    if (originUrl == url) {\n" +
+            "        if (musicPlay.paused == false) {\n" +
+            "            musicPlay.pause();\n" +
+            "        } else {\n" +
+            "            musicPlay.play();\n" +
+            "        }\n" +
+            "    } else {\n" +
+            "        musicPlay.pause();\n" +
+            "        musicPlay.setAttribute('src', url);\n" +
+            "        musicPlay.play();\n" +
+            "    }\n" +
+            "}";
+
 //    String oldStr = "function playAudio(url){" +
 //            "var musicPlay=document.getElementById('musicPlay');" +
 //            "musicPlay.setAttribute('src',url);" +
 //            "musicPlay.play();" +
 //            "}";
 
-    private final static String PLAY_AUDIO_S = "function playAudio(url)" +
-            "{var musicPlay=document.getElementById('musicPlay');" +
-            "var musicPlay=document.getElementById('musicPlay');" +
-            "var originUrl = musicPlay.getAttribute('src');" +
-            "if(originUrl == url)" +
-            "{" +
-            "if(musicPlay.paused == false)" +
-            "{" +
-            "musicPlay.pause();" +
-            "}" +
-            "else" +
-            "{" +
-            "musicPlay.play();" +
-            "}}" +
-            "else" +
-            "{musicPlay.pause();musicPlay.setAttribute('src',url);musicPlay.play();}}";
+//    private final static String PLAY_AUDIO_S = "function playAudio(url)" +
+//            "{var musicPlay=document.getElementById('musicPlay');" +
+//            "var musicPlay=document.getElementById('musicPlay');" +
+//            "var originUrl = musicPlay.getAttribute('src');" +
+//            "if(originUrl == url)" +
+//            "{" +
+//            "if(musicPlay.paused == false)" +
+//            "{" +
+//            "musicPlay.pause();" +
+//            "}" +
+//            "else" +
+//            "{" +
+//            "musicPlay.play();" +
+//            "}}" +
+//            "else" +
+//            "{musicPlay.pause();musicPlay.setAttribute('src',url);musicPlay.play();}}";
 }

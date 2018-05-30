@@ -9,6 +9,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -52,6 +53,8 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
     public final static String NAME_SELECTED_LIST = "NAME_SELECTED_LIST";
     public final static String NAME_PARENT_ID = "NAME_PARENT_ID";
     public final static String NAME_MAX_SELECTION = "NAME_MAX_SELECTION";
+    public final static String NAME_TITLE = "NAME_TITLE";
+    public final static String NAME_SUBTITLE = "NAME_SUBTITLE";
     // 标签选择
     public final static String MODE_SELECTION = "MODE_SELECTION";
     // 确认标签选择
@@ -96,26 +99,44 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
      * @param selectedList 已选标签列表
      * @param fromLogin    是否是从Login页面跳转过来的
      * @param type         类型，兴趣标签或者个人标签，加载已选和提交更改时需要调用不同的接口
+     * @param title 标题
+     * @param subtitle 副标题
      */
     private static void start(Context context,
                               String mode,
                               ArrayList<Tag> selectedList,
                               boolean fromLogin,
                               @TagType int type,
-//                              String ids,
-//                              String names,
-                              int max) {
+                              int max,
+                              String title,
+                              String subtitle) {
         Intent intent = new Intent(context, TagSelectionActivity.class);
         intent.putExtra(NAME_MODE, mode);
         intent.putExtra(NAME_FROM_LOGIN, fromLogin);
         intent.putExtra(NAME_TAG_TYPE, type);
-//        intent.putExtra("ids", ids);
-//        intent.putExtra("names", names);
         intent.putExtra(NAME_MAX_SELECTION, max);
+        intent.putExtra(NAME_TITLE, title);
+        intent.putExtra(NAME_SUBTITLE, subtitle);
         if (null != selectedList) {
             intent.putParcelableArrayListExtra(NAME_SELECTED_LIST, selectedList);
         }
         context.startActivity(intent);
+    }
+
+    private static void start(Context context,
+                              String mode,
+                              ArrayList<Tag> selectedList,
+                              boolean fromLogin,
+                              @TagType int type,
+                              int max) {
+        start(context,
+                mode,
+                selectedList,
+                fromLogin,
+                type,
+                max,
+                "",
+                "");
     }
 
     /**
@@ -125,8 +146,11 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
      *                //     * @param ids 已选标签ID列表，以逗号隔开 id1,id2,id3.....
      */
     public static void startForTagList(Context context, ArrayList<Tag> list, int max) {
-//        start(context, MODE_SELECTION, null, false, TAG_TYPE_TAG_LIST, ids, names, max);
-        start(context, MODE_SELECTION, list, false, TAG_TYPE_TAG_LIST, max);
+        startForTagListWithTitle(context, list,  max, "", "");
+    }
+
+    public static void startForTagListWithTitle(Context context, ArrayList<Tag> list, int max, String title, String subtitle) {
+        start(context, MODE_SELECTION, list, false, TAG_TYPE_TAG_LIST, max, title, subtitle);
     }
 
     public static void startForTagList(Context context, ArrayList<Tag> list) {
@@ -195,6 +219,10 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
     boolean fromLogin = false;
     // 最多可以选择多少个
     private int mMax = Integer.MAX_VALUE;
+
+    // 标题和副标题
+    private String mTitle;
+    private String mSubtitle;
 
     @Inject
     AppManager appManager;
@@ -294,8 +322,11 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
         fromLogin = getIntent().getBooleanExtra(NAME_FROM_LOGIN, false);
         // 读取标签类型,默认为个人标签
         mTagType = getIntent().getIntExtra(NAME_TAG_TYPE, TAG_TYPE_PERSONAL);
+        // 标题和副标题
+        mTitle = getIntent().getStringExtra(NAME_TITLE);
+        mSubtitle = getIntent().getStringExtra(NAME_SUBTITLE);
 
-        if (fromLogin) {
+        if (fromLogin  && mode != MODE_CONFIRM) {
             toolbar.setLeftIcon(R.drawable.common_ic_close);
         }
 
@@ -324,6 +355,14 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
             case MODE_CONFIRM:
                 initConfirmData();
                 break;
+        }
+
+        // 是否设置了标题和副标题
+        if (!TextUtils.isEmpty(mTitle)) {
+            titleTV.setText(mTitle);
+        }
+        if (!TextUtils.isEmpty(mSubtitle)) {
+            titleHintTV.setText(mSubtitle);
         }
 
         // 根据不同模式确定ToolBar右边文字

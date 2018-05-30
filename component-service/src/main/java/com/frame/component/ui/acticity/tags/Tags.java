@@ -7,5 +7,6 @@ import lombok.Data;
 
 @Data
 public class Tags {
+    private int current;
     List<Tag> list = new ArrayList<>();
 }

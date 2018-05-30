@@ -21,6 +21,8 @@ import android.widget.TextView;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
+import com.frame.integration.AppManager;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.ToastUtil;
 import com.liaoinstan.springview.container.AliFooter;
@@ -40,8 +42,11 @@ import com.wang.social.topic.mvp.ui.widget.CommentSortPopWindow;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 public class CommentActivity extends BaseAppActivity<CommentPresenter> implements CommentContract.View {
     public final static String KEY_TOPIC_ID = "TOPIC_ID";
@@ -144,6 +149,9 @@ public class CommentActivity extends BaseAppActivity<CommentPresenter> implement
     // 几级页面
     private @CommentUiLevel
     int mLevel;
+
+    @Inject
+    AppManager mAppManager;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -432,5 +440,33 @@ public class CommentActivity extends BaseAppActivity<CommentPresenter> implement
 
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(mCommentET, 0);
+    }
+
+
+
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        switch (event.getEvent()) {
+            case EventBean.EVENTBUS_ADD_TOPIC_COMMENT:
+                int topicId = (int) event.get("topicId");
+                int topicCommentId = (int) event.get("topicCommentId");
+
+                Timber.i("评论页面 评论增加 : " + topicId + " " + topicCommentId);
+
+                if (mTopicId == topicId &&
+                        mAppManager.getTopActivity() != this &&
+                        mLevel == FIRST_LEVEL) {
+                    Timber.i("一级页面，并且不是顶层Activity，刷新列表");
+
+                    mSpringView.callFreshDelay();
+                }
+
+                break;
+        }
     }
 }

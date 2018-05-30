@@ -117,6 +117,6 @@ public class AppConstant {
 
     }
 
-
+    public static final String DEFAULT_SHARE_IMAGE = "http://resouce.dongdongwedding.com/activity_cashcow_moneyTree.png";
 
 }

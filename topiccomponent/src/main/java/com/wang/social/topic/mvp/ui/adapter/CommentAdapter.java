@@ -105,6 +105,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
             Comment reply = comment.getCommentReply().get(0);
             if (null == reply) return;
 
+            holder.replyTV.setVisibility(View.VISIBLE);
+
             if (comment.getReplyNum() > 1) {
                 // 多于一条，显示数量
                 String[] strings = {

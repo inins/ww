@@ -194,6 +194,8 @@ public class ReleaseTopicPresenter extends
                          int backgroundMusicId, String informUserIds) {
         setCommitState(COMMIT_STATE_IDLE);
 
+        mRootView.showLoading();
+
         // 不需要上传的参数先封装
         resetNetParam();
         // 标题
@@ -263,8 +265,6 @@ public class ReleaseTopicPresenter extends
 
         setCommitState(COMMIT_STATE_CONTENT_IMG);
 
-        mRootView.showLoading();
-
         netUploadCommit(mLocalImgPath);
     }
 
@@ -273,8 +273,6 @@ public class ReleaseTopicPresenter extends
         Timber.i("文件大小 : " + FileUtil.getFileSize(mLocalAudioPath));
 
         setCommitState(COMMIT_STATE_CONTENT_AUDIO);
-
-        mRootView.showLoading();
 
         netUploadCommit(mLocalAudioPath);
     }
@@ -288,9 +286,6 @@ public class ReleaseTopicPresenter extends
         setCommitState(COMMIT_STATE_COVER_IMAGE);
 
         netUploadCommit(path);
-
-        // 显示加载对话框
-        mRootView.showLoading();
     }
 
     public void setCommitState(int commitState) {
@@ -317,6 +312,7 @@ public class ReleaseTopicPresenter extends
                     @Override
                     public void onError(Throwable e) {
                         ToastUtil.showToastShort(e.getMessage());
+                        mRootView.hideLoading();
                     }
 
                 },
@@ -365,7 +361,7 @@ public class ReleaseTopicPresenter extends
 
             @Override
             public void onFail() {
-                ToastUtil.showToastShort("上传资源失败");
+                ToastUtil.showToastShort("发布失败");
                 // 上传附件失败
                 mRootView.hideLoading();
             }

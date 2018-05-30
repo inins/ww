@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.TextView;
 
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.beloo.widget.chipslayoutmanager.SpacingItemDecoration;
@@ -14,6 +16,8 @@ import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.ToastUtil;
+import com.liaoinstan.springview.container.AliFooter;
+import com.liaoinstan.springview.widget.SpringView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -101,6 +105,10 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
 
     @BindView(R2.id.recycler_view)
     RecyclerView recyclerView;
+    @BindView(R2.id.spring_view)
+    SpringView mSpringView;
+    @BindView(R2.id.load_more_text_view)
+    TextView mLoadMoreTV;
 
     TagAdapter tagAdapter;
     // 标签列表模式（选择或者编辑）
@@ -111,6 +119,8 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
     @TagSelectionActivity.TagType
     int tagListType = TAG_TYPE_PERSONAL;
     private MaxListener mMaxListener;
+
+    private List<Tag> selectedList = null;
 
     public void setMaxListener(MaxListener maxListener) {
         mMaxListener = maxListener;
@@ -223,7 +233,6 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        List<Tag> selectedList = null;
         if (getArguments() != null) {
             selectedList = getArguments().getParcelableArrayList(NAME_SELECTED_LIST);
             parentId = getArguments().getInt(NAME_PARENT_ID);
@@ -235,16 +244,30 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
             // 确认模式
             mPresenter.setSelectedList(selectedList);
 
-            resetTagListView();
+            onTagListLoadCompleted();
         } else {
             // 没有传入选中列表，则需要加载数据
             mPresenter.loadTagList(parentId, selectedList);
+
+            // 加载更多
+            mLoadMoreTV.setVisibility(View.VISIBLE);
+            mSpringView.setFooter(new AliFooter(mSpringView.getContext(), false));
+            mSpringView.setListener(new SpringView.OnFreshListener() {
+                @Override
+                public void onRefresh() {
+                }
+
+                @Override
+                public void onLoadmore() {
+                    mPresenter.loadTagList(parentId, selectedList);
+                }
+            });
         }
+
+        initTagListView();
     }
 
-
-    @Override
-    public void resetTagListView() {
+    private void initTagListView() {
         tagAdapter = new TagAdapter(getContext(), tagDataProvider, tagClickListener);
 
         // RecyclerView 相关设置
@@ -256,6 +279,22 @@ public class TagListFragment extends BaseFragment<TagListPresenter> implements
         recyclerView.addItemDecoration(
                 new SpacingItemDecoration(SizeUtils.dp2px(5), SizeUtils.dp2px(5)));
         recyclerView.setAdapter(tagAdapter);
+
+    }
+
+
+    @Override
+    public void onTagListLoadCompleted() {
+        mSpringView.onFinishFreshAndLoadDelay();
+
+        if (null != tagAdapter) {
+            tagAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onTagListLoadFailed() {
+        mSpringView.onFinishFreshAndLoadDelay();
     }
 
     /**

@@ -399,13 +399,13 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
             @Override
             public void onStartPrepare() {
                 // 开始准备
-                showLoadingDialog();
+                showLoading();
             }
 
             @Override
             public void onPrepared() {
                 // 准备完成
-                dismissLoadingDialog();
+                hideLoading();
             }
         });
 
@@ -905,7 +905,9 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 //        intent.putExtras(bundle);
 //
 //        startActivity(intent);
-        TagSelectionActivity.startForTagList(this, mTagLit, 3);
+        TagSelectionActivity.startForTagListWithTitle(this, mTagLit, 3,
+                "为话题贴上标签",
+                "选择话题所属的兴趣标签，最多选择3个");
     }
 
     @Override
@@ -942,11 +944,13 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
     @Override
     public void showLoading() {
+        Timber.i("显示加载对话框");
         showLoadingDialog();
     }
 
     @Override
     public void hideLoading() {
+        Timber.i("隐藏加载对话框");
         dismissLoadingDialog();
     }
 
@@ -1089,7 +1093,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
      */
     @Override
     public void onReleaseTopicSuccess() {
-        ToastUtil.showToastShort("话题发布成功");
+        ToastUtil.showToastShort("发布成功");
         finish();
     }
 

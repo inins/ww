@@ -571,7 +571,7 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
                 AppConstant.Url.cashcowindex + "?userId=" + AppDataHelper.getUser().getUserId(),
                 "摇钱树",
                 "有点2的社交软件",
-                "http://resouce.dongdongwedding.com/activity_cashcow_moneyTree.png",
+                AppConstant.DEFAULT_SHARE_IMAGE,
                 (String url, String title, String content, String imageUrl) -> {
 //                    showToastLong("往往分享");
                     CommonHelper.ImHelper.startWangWangShare(this,
