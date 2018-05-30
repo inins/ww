@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.frame.component.common.AppConstant;
+import com.frame.component.entities.User;
 import com.frame.component.enums.ShareSource;
 import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.CommonHelper;
@@ -171,8 +172,9 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
 
     /**
      * 重置底部点赞UI
+     *
      * @param isSupport 是否已点赞
-     * @param count 赞的数量
+     * @param count     赞的数量
      */
     @Override
     public void resetSupportLayout(int isSupport, int count) {
@@ -579,9 +581,9 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
     public void share() {
         if (null == mTopicDetail) return;
 
-        /**
-         * @fixme
-         */
+        User loginUser = AppDataHelper.getUser();
+        String shareUrl = String.format(AppConstant.Share.SHARE_TOPIC_URL, mTopicDetail.getTopicId().toString(), loginUser.getUserId());
+        String shareContent = String.format(AppConstant.Share.SHARE_TOPIC_CONTENT, AppDataHelper.getUser().getNickname());
         SocializeUtil.shareWithWW(getSupportFragmentManager(),
                 new SocializeUtil.ShareListener() {
                     @Override
@@ -615,16 +617,15 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
                         ToastUtil.showToastShort("分享取消");
                     }
                 },
-                AppConstant.Url.topic + "?topicId=" + mTopicId + "&userId=" + AppDataHelper.getUser().getUserId(),
+                shareUrl,
                 mTopicDetail.getTitle(),
-                HtmlUtil.delHTMLTag(mTopicDetail.getContent()),
+                shareContent,
                 TextUtils.isEmpty(EntitiesUtil.assertNotNull(mTopicDetail.getBackgroundImage())) ?
-                AppConstant.DEFAULT_SHARE_IMAGE : EntitiesUtil.assertNotNull(mTopicDetail.getBackgroundImage()),
+                        AppConstant.Share.SHARE_DEFAULT_IMAGE : EntitiesUtil.assertNotNull(mTopicDetail.getBackgroundImage()),
                 (String url, String title, String content, String imageUrl) -> {
-//                    showToastLong("往往分享");
                     CommonHelper.ImHelper.startWangWangShare(this,
-                            AppConstant.Url.TOPIC_SHARE_TITLE,
-                            AppConstant.Url.TOPIC_SHARE_CONTENT,
+                            AppConstant.Share.SHARE_TOPIC_TITLE,
+                            content,
                             EntitiesUtil.assertNotNull(mTopicDetail.getBackgroundImage()),
                             ShareSource.SOURCE_TOPIC,
                             Integer.toString(mTopicId));

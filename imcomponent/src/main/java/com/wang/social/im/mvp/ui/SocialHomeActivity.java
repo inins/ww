@@ -22,6 +22,7 @@ import com.beloo.widget.chipslayoutmanager.SpacingItemDecoration;
 import com.frame.component.app.Constant;
 import com.frame.component.common.AppConstant;
 import com.frame.component.entities.AutoPopupItemModel;
+import com.frame.component.entities.User;
 import com.frame.component.enums.ConversationType;
 import com.frame.component.helper.AppDataHelper;
 import com.frame.component.ui.acticity.FunshowTopicActivity;
@@ -605,8 +606,10 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
             if (mSocial == null) {
                 return;
             }
-            String shareUrl = AppConstant.Url.SHARE_SOCIAL_URL + "?groupId=" + socialId + "&userId=" + AppDataHelper.getUser().getUserId();
-            SocializeUtil.shareWithWW(getSupportFragmentManager(), null, shareUrl, AppConstant.Url.SHARE_SOCIAL_TITLE, mSocial.getName(), mSocial.getCover(), new SocializeUtil.WWShareListener() {
+            User loginUser = AppDataHelper.getUser();
+            String shareUrl = String.format(AppConstant.Share.SHARE_GROUP_URL, socialId, String.valueOf(loginUser.getUserId()));
+            String content = String.format(AppConstant.Share.SHARE_GROUP_CONTENT, loginUser.getNickname());
+            SocializeUtil.shareWithWW(getSupportFragmentManager(), null, shareUrl, AppConstant.Share.SHARE_GROUP_TITLE, content, mSocial.getCover(), new SocializeUtil.WWShareListener() {
                 @Override
                 public void onWWShare(String url, String title, String content, String imageUrl) {
                     InviteFriendActivity.start(SocialHomeActivity.this, socialId);

@@ -12,8 +12,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.frame.component.api.CommonService;
+import com.frame.component.common.AppConstant;
 import com.frame.component.common.GridSpacingItemDecoration;
 import com.frame.component.entities.BaseListWrap;
+import com.frame.component.entities.User;
 import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.NetShareHelper;
 import com.frame.component.helper.NetZanHelper;
@@ -152,6 +154,10 @@ public class FunshowDetailZanController extends BaseController implements View.O
 
     private void share() {
         if (getContext() instanceof AppCompatActivity) {
+            // FIXME: 2018-05-30 修改分享图片路径
+            User loginUser = AppDataHelper.getUser();
+            String shareUrl = String.format(AppConstant.Share.SHARE_FUN_SHOW_URL, String.valueOf(talkId), String.valueOf(loginUser.getUserId()));
+            String shareContent = String.format(AppConstant.Share.SHARE_FUN_SHOW_CONTENT, loginUser.getNickname());
             SocializeUtil.shareWeb(((AppCompatActivity) getContext()).getSupportFragmentManager(),
                     new SocializeUtil.SimpleShareListener() {
                         @Override
@@ -162,9 +168,9 @@ public class FunshowDetailZanController extends BaseController implements View.O
                             EventBus.getDefault().post(new EventBean(EventBean.EVENT_FUNSHOW_DETAIL_ADD_SHARE));
                         }
                     },
-                    "http://www.wangsocial.com/",
-                    "往往",
-                    "有点2的社交软件",
+                    shareUrl,
+                    AppConstant.Share.SHARE_FUN_SHOW_TITLE,
+                    shareContent,
                     "http://resouce.dongdongwedding.com/activity_cashcow_moneyTree.png");
         }
 
@@ -183,7 +189,7 @@ public class FunshowDetailZanController extends BaseController implements View.O
                         if (!StrUtil.isEmpty(zanUsers)) {
                             adapterZan.refreshData(zanUsers);
                             loadingview.showOut();
-                        }else {
+                        } else {
                             loadingview.showLackView();
                         }
                     }
