@@ -113,7 +113,7 @@ public class TopUserAdapter extends RecyclerView.Adapter<TopUserAdapter.ViewHold
         public ViewHolder(View itemView) {
             super(itemView);
 
-            mRootView = itemView;
+            mRootView = itemView.findViewById(R.id.root_view);
             mAvatarIV = itemView.findViewById(R.id.avatar_image_view);
             mNameTV = itemView.findViewById(R.id.name_text_view);
             mGenderLayout = itemView.findViewById(R.id.gender_layout);

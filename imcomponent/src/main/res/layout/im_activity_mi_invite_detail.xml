@@ -151,5 +151,38 @@
             android:layout_gravity="end|center_vertical"
             android:background="@drawable/common_shape_rect_gradient_blue_conerfull"/>
 
+
+        <LinearLayout
+            android:id="@+id/apply_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center_horizontal">
+            <TextView
+                android:id="@+id/apply_text_view"
+                android:layout_width="230dp"
+                android:layout_height="36dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:text="@string/im_personal_card_join"
+                android:textColor="@color/common_white"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:layout_gravity="end|center_vertical"
+                android:background="@drawable/common_shape_rect_gradient_blue_conerfull"/>
+
+            <TextView
+                android:id="@+id/apply_hint_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#ff999999"
+                android:textSize="12sp"
+                android:layout_marginBottom="6dp"
+                tools:text="加入此觅聊需要支付500宝石"
+                />
+
+        </LinearLayout>
     </FrameLayout>
 </RelativeLayout>

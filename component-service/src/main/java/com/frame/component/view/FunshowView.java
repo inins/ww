@@ -223,6 +223,8 @@ public class FunshowView extends FrameLayout implements View.OnClickListener {
 
     public void setShowHeader(boolean showHeader) {
         isShowHeader = showHeader;
+
+        groupHeader.setVisibility(isShowHeader ? VISIBLE : GONE);
     }
 
     public ImageView getMoreBtn() {

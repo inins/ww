@@ -65,21 +65,20 @@ public class SearchActivity extends BasicActivity {
             }
             return false;
         });
-        loadingview.showLackView();
+        //loadingview.showLackView();
         //延迟0.1秒后弹出软键盘
         new Handler().postDelayed(() -> KeyboardUtils.showSoftInput(editSearch), 100);
     }
 
     private void search() {
-        Log.e("text", "search");
         String tags = editSearch.getTagsStr();
         String key = editSearch.getKey();
         if (!TextUtils.isEmpty(tags) || !TextUtils.isEmpty(key)) {
-            EventBean eventBean = new EventBean(EventBean.EVENT_APP_SEARCH);
+            EventBean eventBean = new EventBean(EventBean.EVENT_IM_SEARCH);
             eventBean.put("tags", tags);
             eventBean.put("key", key);
             EventBus.getDefault().post(eventBean);
-            loadingview.showOut();
+            //loadingview.showOut();
         } else {
             ToastUtil.showToastShort("请输入搜索关键字");
         }
@@ -94,18 +93,16 @@ public class SearchActivity extends BasicActivity {
     private static String[] TAB_LAYOUT_TITLES = {"用户", "趣聊", "觅聊"};
 
     private void initTabLayout() {
+        pager.setOffscreenPageLimit(3);
         pager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
                 switch (position) {
                     case 0:
-//                        return BuildFragment.newInstance();
                         return FriendListFragment.newGroupSearch();
                     case 1:
-//                        return BuildFragment.newInstance();
                         return GroupListFragment.newSearchGroup();
                     case 2:
-//                        return BuildFragment.newInstance();
                         return GroupListFragment.newSearchMi();
                 }
                 return null;

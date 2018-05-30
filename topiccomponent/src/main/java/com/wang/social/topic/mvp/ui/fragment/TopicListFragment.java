@@ -263,7 +263,10 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
                 for (Topic topic : mPresenter.getTopicList()) {
                     if (topic.getTopicId() == supportTopicId) {
                         Timber.i("话题列表-话题点赞 更新 : "  + supportTopicId + " " + Boolean.toString(isSupport));
-                        topic.setShareTotal(Math.max(0, topic.getShareTotal() + (isSupport ? 1 : -1)));
+                        topic.setSupport(isSupport);
+                        topic.setSupportTotal(
+                                Math.max(0,
+                                        topic.getSupportTotal() + (isSupport ? 1 : -1)));
                         changed = true;
                     }
                 }

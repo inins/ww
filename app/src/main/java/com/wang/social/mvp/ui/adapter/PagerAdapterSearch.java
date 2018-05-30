@@ -45,13 +45,10 @@ public class PagerAdapterSearch extends FragmentPagerAdapter {
                 FunshowService funshowService = (FunshowService) Router.getInstance().getService(FunshowService.class.getName());
                 return funshowService.getSearchFunshowFragment();
             case 2:
-//                return BuildFragment.newInstance();
                 return TopicListFragment.newSquareSearch();
             case 3:
-//                return BuildFragment.newInstance();
                 return GroupListFragment.newSearchAll();
             case 4:
-//                return BuildFragment.newInstance();
                 return FriendListFragment.newSearchAll();
             default:
                 return null;

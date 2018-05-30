@@ -34,6 +34,8 @@ public class EventBean implements Serializable {
     public static final int EVENTBUS_FRIEND_ADD_BLACK_LIST = 0xffa131;
     // 加入趣聊成功
     public static final int EVENTBUS_ADD_GROUP_SUCCESS = 0xffa140;
+    // 加入觅聊成功
+    public static final int EVENTBUS_ADD_TEAM_SUCCESS = 0xffa141;
     // 话题评论成功
     public static final int EVENTBUS_ADD_TOPIC_COMMENT = 0xffa150;
     // 话题转发成功
@@ -144,6 +146,7 @@ public class EventBean implements Serializable {
             EVENTBUS_FRIEND_DELETE,
             EVENTBUS_FRIEND_ADD_BLACK_LIST,
             EVENTBUS_ADD_GROUP_SUCCESS,
+            EVENTBUS_ADD_TEAM_SUCCESS,
             EVENTBUS_ADD_TOPIC_COMMENT,
             EVENTBUS_ADD_TOPIC_SHARE,
             EVENTBUS_TOPIC_SUPPORT,

@@ -112,6 +112,7 @@
     <string name="im_personal_card_agree">同意</string>
     <string name="im_personal_card_join">立即加入</string>
     <string name="im_personal_card_join_hint">加入此趣聊需要支付%1d宝石</string>
+    <string name="im_group_mi_join_hint">加入此觅聊需要支付%1$d宝石</string>
     <string name="im_format_member_count">（%1d人）</string>
 
     <!--觅聊邀请-->

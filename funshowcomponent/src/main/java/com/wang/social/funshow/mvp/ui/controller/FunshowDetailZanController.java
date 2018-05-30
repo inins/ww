@@ -168,7 +168,7 @@ public class FunshowDetailZanController extends FunshowDetailBaseController impl
                             FunShowUtil.addSubTextViewCount(textShare, true);
                             NetShareHelper.newInstance().netShareFunshow(null, null, talkId, null);
                             //同时通知列表刷新数量
-                            EventBus.getDefault().post(new EventBean(EventBean.EVENT_FUNSHOW_DETAIL_ADD_SHARE));
+                            EventBus.getDefault().post(new EventBean(EventBean.EVENT_FUNSHOW_DETAIL_ADD_SHARE).put("talkId", talkId));
                         }
                     },
                     shareUrl,
