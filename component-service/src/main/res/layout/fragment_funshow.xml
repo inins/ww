@@ -7,11 +7,18 @@
     android:layout_height="match_parent"
     app:type="follow">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler"
+    <com.frame.component.view.LoadingLayoutEx
+        android:id="@+id/loadingview_ex"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:paddingBottom="10dp" />
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="10dp" />
+
+    </com.frame.component.view.LoadingLayoutEx>
 
 </com.liaoinstan.springview.widget.SpringView>

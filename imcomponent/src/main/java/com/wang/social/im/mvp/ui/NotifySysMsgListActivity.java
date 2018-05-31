@@ -12,6 +12,7 @@ import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.helper.NetMsgHelper;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
+import com.frame.component.view.LoadingLayoutEx;
 import com.frame.component.view.TitleView;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
@@ -41,6 +42,8 @@ public class NotifySysMsgListActivity extends BasicAppNoDiActivity implements IV
     RecyclerView recycler;
     @BindView(R2.id.titleview)
     TitleView titleview;
+    @BindView(R2.id.loadingview_ex)
+    LoadingLayoutEx loadingviewEx;
     private RecycleAdapterSysMsg adapter;
 
     public static void start(Context context) {
@@ -105,8 +108,9 @@ public class NotifySysMsgListActivity extends BasicAppNoDiActivity implements IV
                             } else {
                                 adapter.addItem(list);
                             }
+                            loadingviewEx.showOut();
                         } else {
-                            ToastUtil.showToastLong("没有更多数据了");
+                            if (isFresh) loadingviewEx.showFailViewNoMsg();
                         }
                         NetMsgHelper.newInstance().readSysMsg();
                         springView.onFinishFreshAndLoadDelay();
@@ -116,6 +120,7 @@ public class NotifySysMsgListActivity extends BasicAppNoDiActivity implements IV
                     public void onError(Throwable e) {
                         ToastUtil.showToastLong(e.getMessage());
                         springView.onFinishFreshAndLoadDelay();
+                        if (isFresh) loadingviewEx.showFailViewNoNet();
                     }
                 });
     }

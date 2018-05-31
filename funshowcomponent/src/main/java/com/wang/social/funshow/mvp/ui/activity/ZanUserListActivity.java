@@ -14,6 +14,7 @@ import com.frame.component.entities.BaseListWrap;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
+import com.frame.component.view.LoadingLayoutEx;
 import com.frame.di.component.AppComponent;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
@@ -27,6 +28,7 @@ import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
 import com.wang.social.funshow.R;
 import com.wang.social.funshow.R2;
+import com.wang.social.funshow.mvp.entities.user.TopUser;
 import com.wang.social.funshow.mvp.entities.user.ZanUser;
 import com.wang.social.funshow.mvp.model.api.FunshowService;
 import com.wang.social.funshow.mvp.ui.adapter.RecycleAdapterZanUserList;
@@ -41,6 +43,8 @@ public class ZanUserListActivity extends BasicAppNoDiActivity implements IView,B
     SpringView springView;
     @BindView(R2.id.recycler)
     RecyclerView recycler;
+    @BindView(R2.id.loadingview_ex)
+    LoadingLayoutEx loadingviewEx;
     private RecycleAdapterZanUserList adapter;
 
     private int talkId;
@@ -101,13 +105,19 @@ public class ZanUserListActivity extends BasicAppNoDiActivity implements IView,B
                     @Override
                     public void onNext(BaseJson<BaseListWrap<ZanUser>> basejson) {
                         BaseListWrap<ZanUser> warp = basejson.getData();
-                        List<ZanUser> list = warp.getList();
+                        List<ZanUser> list = warp != null ? warp.getList() : null;
                         adapter.refreshData(list);
+                        if (!StrUtil.isEmpty(list)) {
+                            loadingviewEx.showOut();
+                        } else {
+                            loadingviewEx.showFailViewNoData();
+                        }
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         ToastUtil.showToastLong(e.getMessage());
+                        loadingviewEx.showFailViewNoNet();
                     }
                 }, null, () -> {
                     springView.onFinishFreshAndLoadDelay();

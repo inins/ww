@@ -62,11 +62,18 @@
                     app:personal_textNote="@string/personal_blacklist_title_note"
                     app:personal_textTitle="@string/personal_blacklist_title" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycler"
+                <com.frame.component.view.LoadingLayoutEx
+                    android:id="@+id/loadingview_ex"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp" />
+                    android:layout_height="wrap_content">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp" />
+
+                </com.frame.component.view.LoadingLayoutEx>
 
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>

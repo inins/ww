@@ -13,6 +13,7 @@ import com.frame.component.entities.BaseListWrap;
 import com.frame.component.helper.NetFriendHelper;
 import com.frame.component.helper.NetMsgHelper;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
+import com.frame.component.view.LoadingLayoutEx;
 import com.frame.component.view.TitleView;
 import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelperEx;
@@ -44,6 +45,8 @@ public class NofityFriendRequestListActivity extends BasicAppNoDiActivity implem
     RecyclerView recycler;
     @BindView(R2.id.titleview)
     TitleView titleview;
+    @BindView(R2.id.loadingview_ex)
+    LoadingLayoutEx loadingviewEx;
     private RecycleAdapterFriendRequest adapter;
     private List<FriendRequest> friendRequests;
 
@@ -124,7 +127,6 @@ public class NofityFriendRequestListActivity extends BasicAppNoDiActivity implem
                     @Override
                     public void onNext(BaseJson<BaseListWrap<FriendRequest>> basejson) {
                         BaseListWrap<FriendRequest> warp = basejson.getData();
-//                        List<FriendRequest> list = warp != null ? warp.getList() : null;
                         friendRequests = warp.getList();
                         List<RequestBean> list = FriendRequest.tans2RequestBeanList(warp.getList());
                         if (!StrUtil.isEmpty(list)) {
@@ -134,8 +136,9 @@ public class NofityFriendRequestListActivity extends BasicAppNoDiActivity implem
                             } else {
                                 adapter.addItem(list);
                             }
+                            loadingviewEx.showOut();
                         } else {
-                            ToastUtil.showToastLong("没有更多数据了");
+                            if (isFresh) loadingviewEx.showFailViewNoFriend();
                         }
                         NetMsgHelper.newInstance().readFriendMsg();
                         springView.onFinishFreshAndLoadDelay();
@@ -145,6 +148,7 @@ public class NofityFriendRequestListActivity extends BasicAppNoDiActivity implem
                     public void onError(Throwable e) {
                         ToastUtil.showToastLong(e.getMessage());
                         springView.onFinishFreshAndLoadDelay();
+                        if (isFresh) loadingviewEx.showFailViewNoNet();
                     }
                 });
     }

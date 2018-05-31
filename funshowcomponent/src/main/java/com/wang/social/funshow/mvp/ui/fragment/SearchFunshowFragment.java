@@ -20,6 +20,7 @@ import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.component.ui.base.BasicNoDiFragment;
 import com.frame.component.ui.dialog.DialogSureFunshowPay;
 import com.frame.component.view.LoadingLayout;
+import com.frame.component.view.LoadingLayoutEx;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelperEx;
@@ -54,8 +55,8 @@ public class SearchFunshowFragment extends BasicNoDiFragment implements IView, B
     RecyclerView recycler;
     @BindView(R2.id.spring)
     SpringView springView;
-    @BindView(R2.id.loadingview)
-    LoadingLayout loadingview;
+    @BindView(R2.id.loadingview_ex)
+    LoadingLayoutEx loadingviewEx;
 
     private RecycleAdapterSearch adapter;
 
@@ -111,7 +112,7 @@ public class SearchFunshowFragment extends BasicNoDiFragment implements IView, B
                 search(false);
             }
         });
-        loadingview.showLackView();
+        loadingviewEx.showLackView();
     }
 
     @Override
@@ -155,26 +156,23 @@ public class SearchFunshowFragment extends BasicNoDiFragment implements IView, B
                         //List<FunshowSearch> list = warp.getList();
                         List<FunshowBean> list = FunshowSearch.tans2FunshowBeanList(warp.getList());
                         if (!StrUtil.isEmpty(list)) {
-                            loadingview.showOut();
                             current = warp.getCurrent();
                             if (isFresh) {
                                 adapter.refreshData(list);
                             } else {
                                 adapter.addItem(list);
                             }
+                            loadingviewEx.showOut();
                         } else {
-                            if (isFresh) {
-                                loadingview.showLackView();
-                            }
-                            ToastUtil.showToastShort("没有更多数据了");
+                            if (isFresh) loadingviewEx.showFailViewNoSearch();
                         }
-                        springView.onFinishFreshAndLoadDelay();
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         ToastUtil.showToastShort(e.getMessage());
                         springView.onFinishFreshAndLoadDelay();
+                        if (isFresh) loadingviewEx.showFailViewNoNet();
                     }
                 });
     }

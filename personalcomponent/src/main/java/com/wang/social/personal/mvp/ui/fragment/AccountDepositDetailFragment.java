@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import com.frame.base.BasicFragment;
 import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.BaseListWrap;
+import com.frame.component.view.LoadingLayoutEx;
 import com.frame.di.component.AppComponent;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
@@ -45,6 +46,8 @@ public class AccountDepositDetailFragment extends BasicFragment implements IView
     SpringView springView;
     @BindView(R2.id.recycler)
     RecyclerView recycler;
+    @BindView(R2.id.loadingview_ex)
+    LoadingLayoutEx loadingviewEx;
     private RecycleAdapterDepositDetail adapter;
 
     public static AccountDepositDetailFragment newInstance(int position) {
@@ -111,14 +114,13 @@ public class AccountDepositDetailFragment extends BasicFragment implements IView
     private int size = 20;
 
     public void netDiamondIncomeList(boolean isReFresh) {
+        if (isReFresh) current = 0;
         Observable<BaseJson<BaseListWrap<DiamondStoneIncome>>> call;
         if (adapter.isDiamond()) {
-            call = ApiHelperEx.getService(UserService.class).diamondIncomeList(0, ++current, size);
+            call = ApiHelperEx.getService(UserService.class).diamondIncomeList(0, current + 1, size);
         } else {
-            call = ApiHelperEx.getService(UserService.class).toneIncomeList(0, ++current, size);
+            call = ApiHelperEx.getService(UserService.class).toneIncomeList(0, current + 1, size);
         }
-
-        if (isReFresh) current = 0;
         ApiHelperEx.execute(this, false, call,
                 new ErrorHandleSubscriber<BaseJson<BaseListWrap<DiamondStoneIncome>>>() {
                     @Override
@@ -126,16 +128,19 @@ public class AccountDepositDetailFragment extends BasicFragment implements IView
                         BaseListWrap<DiamondStoneIncome> wrap = basejson.getData();
                         List<DiamondStoneIncome> list = wrap != null ? wrap.getList() : null;
                         if (!StrUtil.isEmpty(list)) {
+                            current = wrap.getCurrent();
                             if (isReFresh) adapter.refreshData(list);
                             else adapter.addItem(list);
+                            loadingviewEx.showOut();
                         } else {
-                            ToastUtil.showToastLong("没有更多数据了");
+                            if (isReFresh) loadingviewEx.showFailViewNoData();
                         }
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         ToastUtil.showToastLong(e.getMessage());
+                        if (isReFresh) loadingviewEx.showFailViewNoNet();
                     }
                 }, null, () -> springView.onFinishFreshAndLoadDelay());
     }

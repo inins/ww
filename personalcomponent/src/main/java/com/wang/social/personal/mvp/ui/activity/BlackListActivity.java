@@ -16,6 +16,7 @@ import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.entities.user.ShatDownUser;
 import com.frame.component.ui.base.BasicAppActivity;
+import com.frame.component.view.LoadingLayoutEx;
 import com.frame.component.view.TitleView;
 import com.frame.di.component.AppComponent;
 import com.frame.http.api.ApiHelperEx;
@@ -50,6 +51,8 @@ public class BlackListActivity extends BasicAppActivity implements IView, Recycl
     SpringView springView;
     @BindView(R2.id.btn_right)
     TextView btnRight;
+    @BindView(R2.id.loadingview_ex)
+    LoadingLayoutEx loadingviewEx;
     private RecycleAdapterBlacklist adapter;
 
     private boolean isBlankList;
@@ -170,6 +173,11 @@ public class BlackListActivity extends BasicAppActivity implements IView, Recycl
                         BaseListWrap<ShatDownUser> wrap = basejson.getData();
                         List<ShatDownUser> list = wrap != null ? wrap.getList() : null;
                         setUserData(list);
+                        if (!StrUtil.isEmpty(list)) {
+                            loadingviewEx.showOut();
+                        } else {
+                            loadingviewEx.showFailViewNoData();
+                        }
                         springView.onFinishFreshAndLoadDelay();
                     }
 
@@ -177,6 +185,7 @@ public class BlackListActivity extends BasicAppActivity implements IView, Recycl
                     public void onError(Throwable e) {
                         ToastUtil.showToastShort(e.getMessage());
                         springView.onFinishFreshAndLoadDelay();
+                        loadingviewEx.showFailViewNoNet();
                     }
                 });
     }

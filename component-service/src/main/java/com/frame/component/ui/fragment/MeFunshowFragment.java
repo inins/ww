@@ -12,6 +12,7 @@ import com.frame.component.service.R;
 import com.frame.component.service.R2;
 import com.frame.component.ui.adapter.RecycleAdapterCommonFunshow;
 import com.frame.component.ui.base.BasicNoDiFragment;
+import com.frame.component.view.LoadingLayoutEx;
 import com.frame.entities.EventBean;
 import com.frame.utils.StrUtil;
 import com.frame.utils.ToastUtil;
@@ -32,6 +33,8 @@ public class MeFunshowFragment extends BasicNoDiFragment {
     RecyclerView recycler;
     @BindView(R2.id.spring)
     SpringView springView;
+    @BindView(R2.id.loadingview_ex)
+    LoadingLayoutEx loadingviewEx;
 
     private RecycleAdapterCommonFunshow adapter;
 
@@ -121,8 +124,9 @@ public class MeFunshowFragment extends BasicNoDiFragment {
                             } else {
                                 adapter.addItem(list);
                             }
+                            loadingviewEx.showOut();
                         } else {
-                            ToastUtil.showToastLong("没有更多数据了");
+                            if (isFresh) loadingviewEx.showFailViewNoFunshow();
                         }
                         springView.onFinishFreshAndLoadDelay();
                     }
@@ -131,6 +135,7 @@ public class MeFunshowFragment extends BasicNoDiFragment {
                     public void onError(Throwable e) {
                         ToastUtil.showToastLong(e.getMessage());
                         springView.onFinishFreshAndLoadDelay();
+                        if (isFresh) loadingviewEx.showFailViewNoNet();
                     }
                 });
     }

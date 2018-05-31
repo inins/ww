@@ -13,6 +13,7 @@ import com.frame.component.entities.BaseListWrap;
 import com.frame.component.helper.NetFriendHelper;
 import com.frame.component.helper.NetMsgHelper;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
+import com.frame.component.view.LoadingLayoutEx;
 import com.frame.component.view.TitleView;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
@@ -42,6 +43,8 @@ public class NotifyGroupRequestListActivity extends BasicAppNoDiActivity impleme
     RecyclerView recycler;
     @BindView(R2.id.titleview)
     TitleView titleview;
+    @BindView(R2.id.loadingview_ex)
+    LoadingLayoutEx loadingviewEx;
     private RecycleAdapterGroupRequest adapter;
 
     public static void start(Context context) {
@@ -111,8 +114,9 @@ public class NotifyGroupRequestListActivity extends BasicAppNoDiActivity impleme
                             } else {
                                 adapter.addItem(list);
                             }
+                            loadingviewEx.showOut();
                         } else {
-                            ToastUtil.showToastLong("没有更多数据了");
+                            if (isFresh) loadingviewEx.showFailViewNoGroup();
                         }
                         NetMsgHelper.newInstance().readGroupJoinMsg();
                         springView.onFinishFreshAndLoadDelay();
@@ -122,6 +126,7 @@ public class NotifyGroupRequestListActivity extends BasicAppNoDiActivity impleme
                     public void onError(Throwable e) {
                         ToastUtil.showToastLong(e.getMessage());
                         springView.onFinishFreshAndLoadDelay();
+                        if (isFresh) loadingviewEx.showFailViewNoNet();
                     }
                 });
     }
