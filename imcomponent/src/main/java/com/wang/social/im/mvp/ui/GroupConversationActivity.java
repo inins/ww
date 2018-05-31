@@ -279,12 +279,12 @@ public class GroupConversationActivity extends BaseAppActivity<GroupConversation
     }
 
     @Override
-    public void showPayDialog(GroupJoinCheckResult checkResult) {
+    public void showPayDialog(GroupJoinCheckResult checkResult, String teamId) {
         String message = UIUtil.getString(R.string.im_join_team_pay_tip, checkResult.getJoinCost());
         PayDialog dialog = new PayDialog(this, new PayDialog.OnPayListener() {
             @Override
             public void onPay() {
-                mPresenter.payForJoin(ImHelper.imId2WangId(targetId), checkResult);
+                mPresenter.payForJoin(ImHelper.imId2WangId(targetId), checkResult, teamId);
             }
         }, message, String.valueOf(checkResult.getJoinCost()));
         dialog.show();
@@ -297,8 +297,8 @@ public class GroupConversationActivity extends BaseAppActivity<GroupConversation
     }
 
     @Override
-    public void onItemClick(TeamInfo teamInfo, int position) {
-        showFragment(teamInfo.getTeamId(), ConversationType.TEAM);
+    public void showTeam(String teamId) {
+        showFragment(teamId, ConversationType.TEAM);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -308,6 +308,11 @@ public class GroupConversationActivity extends BaseAppActivity<GroupConversation
         }, 150);
         mAppManager.killAll(this.getClass().getName(), "com.wang.social.mvp.ui.activity.HomeActivity");
         EventBus.getDefault().post(new EventBean(EVENT_NOTIFY_SHOW_CONVERSATION_LIST));
+    }
+
+    @Override
+    public void onItemClick(TeamInfo teamInfo, int position) {
+        showTeam(teamInfo.getTeamId());
     }
 
     @Override

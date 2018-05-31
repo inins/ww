@@ -29,9 +29,11 @@ public interface GroupConversationContract {
 
         void showSelfTeams(List<TeamInfo> teams);
 
-        void showPayDialog(GroupJoinCheckResult checkResult);
+        void showPayDialog(GroupJoinCheckResult checkResult, String teamId);
 
         void showCreateMi();
+
+        void showTeam(String teamId);
     }
 
     interface Model extends IModel {

@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -739,7 +740,7 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
         if (mConversationType == ConversationType.TEAM ||
                 mConversationType == ConversationType.SOCIAL) {
             String nickname = uiMessage.getNickname(mConversationType);
-            insertAlert(nickname == null ? " " : nickname, true);
+            insertAlert(TextUtils.isEmpty(nickname) ? " " : nickname, true);
         }
     }
 
