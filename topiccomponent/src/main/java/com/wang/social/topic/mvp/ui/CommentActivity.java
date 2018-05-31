@@ -1,6 +1,5 @@
 package com.wang.social.topic.mvp.ui;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +12,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -38,6 +36,8 @@ import com.wang.social.topic.mvp.presenter.CommentPresenter;
 import com.wang.social.topic.mvp.ui.adapter.CommentAdapter;
 import com.wang.social.topic.mvp.ui.adapter.CommentReplyAdapter;
 import com.wang.social.topic.mvp.ui.widget.CommentSortPopWindow;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -318,12 +318,7 @@ public class CommentActivity extends BaseAppActivity<CommentPresenter> implement
     public void sort(View v) {
         if (null == mCommentSortPopWindow) {
             mCommentSortPopWindow = new CommentSortPopWindow(this);
-            mCommentSortPopWindow.setSortChangeListener(new CommentSortPopWindow.SortChangeListener() {
-                @Override
-                public void onSortChanged(int sort, String name) {
-                    mSortTypeTV.setText(name);
-                }
-            });
+            mCommentSortPopWindow.setSortChangeListener((int sort, String name) -> mSortTypeTV.setText(name));
         }
 
         mCommentSortPopWindow.showAsDropDown(v, -SizeUtils.dp2px(5), 0, Gravity.RIGHT);
@@ -427,9 +422,19 @@ public class CommentActivity extends BaseAppActivity<CommentPresenter> implement
         mSpringView.callFreshDelay();
     }
 
+    /**
+     * 点赞成功
+     * @param comment 评论
+     */
     @Override
     public void onSupportSuccess(Comment comment) {
-        refreshCommentList();
+        // 点赞成功，发送通知
+
+        EventBean bean = new EventBean(EventBean.EVENTBUS_TOPIC_COMMENT_SUPPORT);
+        bean.put("comment", comment);
+        EventBus.getDefault().post(bean);
+
+//        refreshCommentList();
     }
 
 
@@ -464,6 +469,36 @@ public class CommentActivity extends BaseAppActivity<CommentPresenter> implement
                     Timber.i("一级页面，并且不是顶层Activity，刷新列表");
 
                     mSpringView.callFreshDelay();
+                }
+
+                break;
+            case EventBean.EVENTBUS_TOPIC_COMMENT_SUPPORT:
+                Comment comment = (Comment) event.get("comment");
+                boolean refreshList = false;
+                if (null != comment && null != mPresenter.getCommentList()) {
+                    // 如果是二级页面，那么只需要检测第一个评论
+                    if (mLevel == SECOND_LEVEL &&
+                            mPresenter.getCommentList().size() >= 1 &&
+                            comment.getCommentId() == mPresenter.getCommentList().get(0).getCommentId()) {
+                        mPresenter.getCommentList().get(0).setIsSupport(comment.getIsSupport());
+                        mPresenter.getCommentList().get(0).setSupportTotal(comment.getSupportTotal());
+
+                        refreshList = true;
+                    } else {
+                        // 遍历
+                        for (Comment item : mPresenter.getCommentList()) {
+                            if (item.getCommentId() == comment.getCommentId()) {
+                                item.setIsSupport(comment.getIsSupport());
+                                item.setSupportTotal(comment.getSupportTotal());
+
+                                refreshList = true;
+                            }
+                        }
+                    }
+                }
+
+                if (refreshList && null != mAdapter) {
+                    mAdapter.notifyDataSetChanged();
                 }
 
                 break;

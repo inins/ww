@@ -1,6 +1,7 @@
 package com.frame.component.ui.adapter;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,10 +21,12 @@ import java.util.List;
 
 public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHolder> {
 
+    private Activity mActivity;
     private Context mContext;
     private List<PersonalInfo> mList;
 
-    public UserListAdapter(RecyclerView recyclerView, List<PersonalInfo> list) {
+    public UserListAdapter(Activity activity, RecyclerView recyclerView, List<PersonalInfo> list) {
+        mActivity = activity;
         mContext = recyclerView.getContext().getApplicationContext();
         mList = list;
     }
@@ -69,7 +72,9 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
             if (v.getTag() instanceof PersonalInfo) {
                 PersonalInfo pi = (PersonalInfo) v.getTag();
 
-                CommonHelper.ImHelper.startPersonalCardForBrowse(mContext, pi.getUserId());
+                if (null != mActivity) {
+                    CommonHelper.ImHelper.startPersonalCardForBrowse(mActivity, pi.getUserId());
+                }
             }
         });
     }

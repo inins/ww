@@ -73,11 +73,11 @@ public class LoadupActivity extends AppCompatActivity {
     }
 
     private boolean showGuideView() {
-        int bootCount = SPUtils.getInstance().getInt("bootCount", 0);
-        SPUtils.getInstance().put("bootCount", bootCount + 1);
-        if (bootCount <= 0) {
-            return true;
-        }
+//        int bootCount = SPUtils.getInstance().getInt("bootCount", 0);
+//        SPUtils.getInstance().put("bootCount", bootCount + 1);
+//        if (bootCount <= 0) {
+//            return true;
+//        }
 
         int versionCode = SPUtils.getInstance().getInt("versionCode", -111);
         if (AppUtils.getAppVersionCode() > versionCode) {

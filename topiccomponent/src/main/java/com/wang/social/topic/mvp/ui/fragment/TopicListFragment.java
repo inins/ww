@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import com.frame.base.BaseFragment;
 import com.frame.component.entities.Topic;
 import com.frame.component.ui.adapter.TopicListAdapter;
+import com.frame.component.view.LoadingLayoutEx;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.mvp.IView;
@@ -57,6 +58,8 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
     SpringView mSpringView;
     @BindView(R2.id.recycler_view)
     RecyclerView mRecyclerView;
+//    @BindView(R2.id.loading_layout_ex)
+//    LoadingLayoutEx mLoadingLayoutEx;
 
     TopicListAdapter mAdapter;
 
@@ -183,6 +186,12 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
 
     @Override
     public void onTopicLoadSuccess() {
+//        if (mPresenter.getTopicList().size() <= 0) {
+//            mLoadingLayoutEx.showFailViewNoTopic();
+//        } else {
+//            refreshTopicList();
+//        }
+
         refreshTopicList();
     }
 

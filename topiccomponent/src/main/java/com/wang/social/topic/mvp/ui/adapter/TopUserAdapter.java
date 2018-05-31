@@ -1,5 +1,6 @@
 package com.wang.social.topic.mvp.ui.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -22,10 +23,12 @@ import java.util.List;
 
 public class TopUserAdapter extends RecyclerView.Adapter<TopUserAdapter.ViewHolder> {
 
+    private Activity mActivity;
     private Context mContext;
     private List<TopicTopUser> mList;
 
-    public TopUserAdapter(RecyclerView recyclerView, List<TopicTopUser> list) {
+    public TopUserAdapter(Activity activity, RecyclerView recyclerView, List<TopicTopUser> list) {
+        mActivity = activity;
         mContext = recyclerView.getContext().getApplicationContext();
         mList = list;
     }
@@ -89,7 +92,9 @@ public class TopUserAdapter extends RecyclerView.Adapter<TopUserAdapter.ViewHold
             if (v.getTag() instanceof TopicTopUser) {
                 TopicTopUser tu = (TopicTopUser) v.getTag();
 
-                CommonHelper.ImHelper.startPersonalCardForBrowse(mContext, tu.getUserId());
+                if (null != mActivity) {
+                    CommonHelper.ImHelper.startPersonalCardForBrowse(mActivity, tu.getUserId());
+                }
             }
         });
     }
