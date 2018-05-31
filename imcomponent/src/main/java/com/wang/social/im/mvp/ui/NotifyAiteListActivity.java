@@ -13,6 +13,7 @@ import com.frame.component.entities.BaseListWrap;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.NetMsgHelper;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
+import com.frame.component.view.LoadingLayoutEx;
 import com.frame.component.view.TitleView;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
@@ -29,12 +30,12 @@ import com.wang.social.im.R2;
 import com.wang.social.im.mvp.model.api.NotifyService;
 import com.wang.social.im.mvp.model.entities.notify.AiteMsg;
 import com.wang.social.im.mvp.model.entities.notify.CommonMsg;
-import com.wang.social.im.mvp.model.entities.notify.ZanMsg;
 import com.wang.social.im.mvp.ui.adapters.RecycleAdapterCommonMsg;
 
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class NotifyAiteListActivity extends BasicAppNoDiActivity implements IView, BaseAdapter.OnItemClickListener<CommonMsg> {
 
@@ -44,6 +45,8 @@ public class NotifyAiteListActivity extends BasicAppNoDiActivity implements IVie
     RecyclerView recycler;
     @BindView(R2.id.titleview)
     TitleView titleview;
+    @BindView(R2.id.loadingview_ex)
+    LoadingLayoutEx loadingviewEx;
     private RecycleAdapterCommonMsg adapter;
 
     public static void start(Context context) {
@@ -110,8 +113,9 @@ public class NotifyAiteListActivity extends BasicAppNoDiActivity implements IVie
                             } else {
                                 adapter.addItem(list);
                             }
+                            loadingviewEx.showOut();
                         } else {
-                            ToastUtil.showToastLong("没有更多数据了");
+                            if (isFresh) loadingviewEx.showFailViewNoAite();
                         }
                         NetMsgHelper.newInstance().readAiteMsg();
                         springView.onFinishFreshAndLoadDelay();
@@ -121,8 +125,8 @@ public class NotifyAiteListActivity extends BasicAppNoDiActivity implements IVie
                     public void onError(Throwable e) {
                         ToastUtil.showToastLong(e.getMessage());
                         springView.onFinishFreshAndLoadDelay();
+                        if (isFresh) loadingviewEx.showFailViewNoNet();
                     }
                 });
     }
-
 }

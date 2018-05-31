@@ -27,11 +27,11 @@ public class LoadingLayout extends FrameLayout {
     private static final String TAG = "LoadingLayout";
 
     private Context context;
-    private View showin;
+    protected View showin;
 
-    private int loadingViewSrc;
-    private int lackViewSrc;
-    private int failViewSrc;
+    protected int loadingViewSrc;
+    protected int lackViewSrc;
+    protected int failViewSrc;
 
     private OnClickListener onRefreshListener;
 

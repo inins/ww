@@ -18,6 +18,7 @@ import com.frame.component.entities.funpoint.Funpoint;
 import com.frame.component.ui.acticity.WebActivity;
 import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.component.view.LoadingLayout;
+import com.frame.component.view.LoadingLayoutEx;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelperEx;
@@ -52,8 +53,8 @@ public class SearchFunpointFragment extends BasicFragment implements IView, Base
     RecyclerView recycler;
     @BindView(R2.id.spring)
     SpringView springView;
-    @BindView(R2.id.loadingview)
-    LoadingLayout loadingview;
+    @BindView(R2.id.loadingview_ex)
+    LoadingLayoutEx loadingviewEx;
 
     private RecycleAdapterSearch adapter;
 
@@ -109,7 +110,7 @@ public class SearchFunpointFragment extends BasicFragment implements IView, Base
                 search(false);
             }
         });
-        loadingview.showLackView();
+        loadingviewEx.showLackView();
     }
 
     @Override
@@ -167,18 +168,15 @@ public class SearchFunpointFragment extends BasicFragment implements IView, Base
                         BaseListWrap<Funpoint> warp = basejson.getData();
                         List<Funpoint> list = warp.getList();
                         if (!StrUtil.isEmpty(list)) {
-                            loadingview.showOut();
                             current = warp.getCurrent();
                             if (isFresh) {
                                 adapter.refreshData(list);
                             } else {
                                 adapter.addItem(list);
                             }
+                            loadingviewEx.showOut();
                         } else {
-                            if (isFresh) {
-                                loadingview.showLackView();
-                            }
-                            ToastUtil.showToastLong("没有更多数据了");
+                            if (isFresh) loadingviewEx.showFailViewNoSearch();
                         }
                         springView.onFinishFreshAndLoadDelay();
                     }
@@ -187,6 +185,7 @@ public class SearchFunpointFragment extends BasicFragment implements IView, Base
                     public void onError(Throwable e) {
                         ToastUtil.showToastLong(e.getMessage());
                         springView.onFinishFreshAndLoadDelay();
+                        if (isFresh) loadingviewEx.showFailViewNoNet();
                     }
                 });
     }

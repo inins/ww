@@ -14,6 +14,7 @@ import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.entities.TestEntity;
 import com.frame.component.ui.base.BasicAppActivity;
+import com.frame.component.view.LoadingLayoutEx;
 import com.frame.component.view.TitleView;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
@@ -49,8 +50,9 @@ public class AiteUserListActivity extends BasicAppActivity implements IView {
     SpringView springView;
     @BindView(R2.id.recycler)
     RecyclerView recycler;
+    @BindView(R2.id.loadingview_ex)
+    LoadingLayoutEx loadingviewEx;
     private RecycleAdapterAiteUserList adapter;
-
 
     public static void start(Context context) {
         Intent intent = new Intent(context, AiteUserListActivity.class);
@@ -127,15 +129,19 @@ public class AiteUserListActivity extends BasicAppActivity implements IView {
                     @Override
                     public void onNext(BaseJson<BaseListWrap<Friend>> basejson) {
                         BaseListWrap<Friend> warp = basejson.getData();
-                        if (warp != null) {
-                            List<Friend> list = warp.getList();
-                            adapter.refreshData(list);
+                        List<Friend> list = warp != null ? warp.getList() : null;
+                        adapter.refreshData(list);
+                        if (!StrUtil.isEmpty(list)) {
+                            loadingviewEx.showOut();
+                        } else {
+                            loadingviewEx.showFailViewNoData();
                         }
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         ToastUtil.showToastLong(e.getMessage());
+                        loadingviewEx.showFailViewNoNet();
                     }
                 }, null, () -> {
                     springView.onFinishFreshAndLoadDelay();

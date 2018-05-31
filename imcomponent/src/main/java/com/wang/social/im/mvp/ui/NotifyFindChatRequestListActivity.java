@@ -13,6 +13,7 @@ import com.frame.component.entities.BaseListWrap;
 import com.frame.component.helper.NetFriendHelper;
 import com.frame.component.helper.NetMsgHelper;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
+import com.frame.component.view.LoadingLayoutEx;
 import com.frame.component.view.TitleView;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
@@ -43,6 +44,8 @@ public class NotifyFindChatRequestListActivity extends BasicAppNoDiActivity impl
     RecyclerView recycler;
     @BindView(R2.id.titleview)
     TitleView titleview;
+    @BindView(R2.id.loadingview_ex)
+    LoadingLayoutEx loadingviewEx;
     private RecycleAdapterFriendRequest adapter;
 
     public static void start(Context context) {
@@ -108,7 +111,6 @@ public class NotifyFindChatRequestListActivity extends BasicAppNoDiActivity impl
                     @Override
                     public void onNext(BaseJson<BaseListWrap<FindChatRequest>> basejson) {
                         BaseListWrap<FindChatRequest> warp = basejson.getData();
-                        //List<FindChatRequest> list = warp != null ? warp.getList() : null;
                         List<RequestBean> list = FindChatRequest.tans2RequestBeanList(warp.getList());
                         if (!StrUtil.isEmpty(list)) {
                             current = warp.getCurrent();
@@ -117,8 +119,9 @@ public class NotifyFindChatRequestListActivity extends BasicAppNoDiActivity impl
                             } else {
                                 adapter.addItem(list);
                             }
+                            loadingviewEx.showOut();
                         } else {
-                            ToastUtil.showToastLong("没有更多数据了");
+                            if (isFresh) loadingviewEx.showFailViewNoFindChat();
                         }
                         NetMsgHelper.newInstance().readGroupMsg();
                         springView.onFinishFreshAndLoadDelay();
@@ -128,6 +131,7 @@ public class NotifyFindChatRequestListActivity extends BasicAppNoDiActivity impl
                     public void onError(Throwable e) {
                         ToastUtil.showToastLong(e.getMessage());
                         springView.onFinishFreshAndLoadDelay();
+                        if (isFresh) loadingviewEx.showFailViewNoNet();
                     }
                 });
     }

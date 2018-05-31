@@ -46,11 +46,11 @@ public class LoadingViewHelper {
      * showin 是否隐藏背景
      */
     public static View showin(ViewGroup root, int src, View preview, boolean needHide) {
-        if (preview != null) {
-            root.removeView(preview);
-        }
         if (root == null) {
             return null;
+        }
+        if (preview != null) {
+            root.removeView(preview);
         }
 
         //设置lack
