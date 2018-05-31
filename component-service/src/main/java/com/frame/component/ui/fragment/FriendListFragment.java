@@ -135,7 +135,7 @@ public class FriendListFragment extends BasicFragment implements
             }
         }
 
-        mAdapter = new UserListAdapter(mRecyclerView, mUserInfoList);
+        mAdapter = new UserListAdapter(getActivity(), mRecyclerView, mUserInfoList);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(
                 getContext(),

@@ -31,6 +31,7 @@ public class PersonalInfoDTO implements Mapper<PersonalInfo> {
     // Integer  是否拉黑用户
     // 0：未拉黑，大于0：黑名单
     private Integer isBlack;
+    private Integer friendId;
 
 
     @Override
@@ -47,7 +48,8 @@ public class PersonalInfoDTO implements Mapper<PersonalInfo> {
         object.setAutograph(EntitiesUtil.assertNotNull(autograph));
         object.setAvatar(EntitiesUtil.assertNotNull(avatar));
         object.setProvinceName(EntitiesUtil.assertNotNull(provinceName));
-        object.setUserId(EntitiesUtil.assertNotNull(userId));
+        object.setUserId( EntitiesUtil.assertNotNull(friendId) > 0 ? EntitiesUtil.assertNotNull(friendId):
+                EntitiesUtil.assertNotNull(userId));
         object.setTags(null == tags ? new ArrayList<>() : tags);
         object.setIsFriend(EntitiesUtil.assertNotNull(isFriend));
         object.setIsBlack(EntitiesUtil.assertNotNull(isBlack));

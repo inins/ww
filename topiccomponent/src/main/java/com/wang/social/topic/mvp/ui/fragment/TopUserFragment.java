@@ -59,7 +59,7 @@ public class TopUserFragment extends BaseFragment<TopicPresenter> implements Top
             }
         });
 
-        mAdapter = new TopUserAdapter(mRecyclerView, mPresenter.getTopicTopUserList());
+        mAdapter = new TopUserAdapter(getActivity(), mRecyclerView, mPresenter.getTopicTopUserList());
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(
                 new WrapContentLinearLayoutManager(
