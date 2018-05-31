@@ -3,21 +3,27 @@ package com.wang.social.mvp.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.frame.component.common.AppConstant;
 import com.frame.component.entities.DynamicMessage;
 import com.frame.component.entities.SystemMessage;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.MsgHelper;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
 import com.frame.component.utils.UIUtil;
 import com.frame.component.view.XRadioGroup;
 import com.frame.entities.EventBean;
+import com.frame.mvp.IView;
 import com.frame.router.facade.annotation.RouteNode;
+import com.frame.utils.RxLifecycleUtils;
 import com.frame.utils.StatusBarUtil;
 import com.wang.social.R;
 import com.wang.social.mvp.ui.adapter.PagerAdapterHome;
@@ -27,7 +33,13 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.concurrent.TimeUnit;
+
 import butterknife.BindView;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 
 @RouteNode(path = "/main", desc = "首页")
 public class HomeActivity extends BasicAppNoDiActivity implements XRadioGroup.OnCheckedChangeListener {
@@ -48,6 +60,13 @@ public class HomeActivity extends BasicAppNoDiActivity implements XRadioGroup.On
 
     public static void start(Context context) {
         Intent intent = new Intent(context, HomeActivity.class);
+        context.startActivity(intent);
+    }
+
+    public static void start(Context context, String target, String targetId) {
+        Intent intent = new Intent(context, HomeActivity.class);
+        intent.putExtra("target", target);
+        intent.putExtra("targetId", targetId);
         context.startActivity(intent);
     }
 
@@ -121,6 +140,8 @@ public class HomeActivity extends BasicAppNoDiActivity implements XRadioGroup.On
         pager.addOnPageChangeListener(onPageChangeListener);
 
         imgDot.setVisibility(MsgHelper.hasReadAllNotify() ? View.GONE : View.VISIBLE);
+
+        remoteCall();
     }
 
     //tab动作，切换viewpager
@@ -179,5 +200,46 @@ public class HomeActivity extends BasicAppNoDiActivity implements XRadioGroup.On
     @Override
     public void onBackPressed() {
         moveTaskToBack(true);
+    }
+
+
+    private Handler mHandler = new Handler();
+    private Runnable mRunnable = new Runnable() {
+        @Override
+        public void run() {
+            remoteCall();
+        }
+    };
+
+    /**
+     * 远程跳转页面
+     */
+    private void remoteCall() {
+        String target = getIntent().getStringExtra("target");
+        String id = getIntent().getStringExtra("targetId");
+
+        int intId = -1;
+        try {
+            intId = Integer.parseInt(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (!TextUtils.isEmpty(target) && intId > 0) {
+            switch (target) {
+                case AppConstant.Share.SHARE_TOPIC_OPEN_TARGET:
+                    CommonHelper.TopicHelper.startTopicDetail(this, intId);
+                    break;
+                case AppConstant.Share.SHARE_FUN_SHOW_OPEN_TARGET:
+                    CommonHelper.FunshowHelper.startDetailActivity(this, intId);
+                    break;
+                case AppConstant.Share.SHARE_GROUP_OPEN_TARGET:
+                    CommonHelper.ImHelper.startGroupInviteBrowse(this, intId);
+                    break;
+                case AppConstant.Share.SHARE_GAME_TREE_OPEN_TARGET:
+                    CommonHelper.GameHelper.startGameRoom(this, intId);
+                    break;
+            }
+        }
     }
 }

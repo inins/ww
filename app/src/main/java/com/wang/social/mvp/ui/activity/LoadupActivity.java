@@ -57,7 +57,7 @@ public class LoadupActivity extends AppCompatActivity {
                 String targetId = intent.getData().getQueryParameter("targetId");
                 String fromUserId = intent.getData().getQueryParameter("fromUserId");
 
-                HomeActivity.start(this);
+                HomeActivity.start(this, target, targetId);
             }
         } else {
             mHandler.postDelayed(mRunnable, 2000);
