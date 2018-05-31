@@ -77,7 +77,7 @@ public class HomeActivity extends BasicAppNoDiActivity implements XRadioGroup.On
                     textDot.setVisibility(View.VISIBLE);
                     String showText;
                     if (count > 99) {
-                        showText = UIUtil.getString(com.wang.social.im.R.string.im_cvs_unread_max);
+                        showText = "99+";
                     } else {
                         showText = String.valueOf(count);
                     }
