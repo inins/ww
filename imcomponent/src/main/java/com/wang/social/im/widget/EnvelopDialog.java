@@ -176,7 +176,7 @@ public class EnvelopDialog extends Dialog {
     private void showInfo() {
         if (envelopInfo.getStatus() == EnvelopInfo.Status.LIVING && envelopInfo.getGotDiamond() == 0) {
             drpTvMessage.setText(envelopInfo.getMessage());
-            if (envelopInfo.isSelf() && envelopInfo.getType() != EnvelopInfo.EnvelopType.SPELL) {
+            if (envelopInfo.isSelf() && envelopInfo.getType() == EnvelopInfo.EnvelopType.PRIVATE) {
                 drpTvbOpen.setVisibility(View.GONE);
                 drpTvbLookDetail.setVisibility(View.VISIBLE);
             }
@@ -195,10 +195,16 @@ public class EnvelopDialog extends Dialog {
             }
 
             //红包类型为等额红包时，未领到红包的人不能查看领取详情
-            if (envelopInfo.isSelf() || envelopInfo.getGotDiamond() > 0 || envelopInfo.getType() != EnvelopInfo.EnvelopType.EQUAL) {
-                drpTvbLookDetail.setVisibility(View.VISIBLE);
+            if (envelopInfo.getStatus() == EnvelopInfo.Status.OVERDUE) {
+                if (envelopInfo.isSelf() || envelopInfo.getGotDiamond() > 0) {
+                    drpTvbLookDetail.setVisibility(View.VISIBLE);
+                }
             } else {
-                drpTvTip.setVisibility(View.VISIBLE);
+                if (envelopInfo.isSelf() || envelopInfo.getGotDiamond() > 0 || envelopInfo.getType() != EnvelopInfo.EnvelopType.EQUAL) {
+                    drpTvbLookDetail.setVisibility(View.VISIBLE);
+                } else {
+                    drpTvTip.setVisibility(View.VISIBLE);
+                }
             }
         }
     }

@@ -13,6 +13,7 @@ import com.wang.social.im.mvp.model.entities.dto.AnonymousInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.EnvelopInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.GroupGameCheckResultDTO;
 import com.wang.social.im.mvp.model.entities.dto.ShadowInfoDTO;
+import com.wang.social.im.mvp.model.entities.dto.TeamInfoDTO;
 
 import javax.inject.Inject;
 
@@ -72,5 +73,12 @@ public class ConversationModel extends BaseModel implements ConversationContract
         return mRepositoryManager
                 .obtainRetrofitService(GroupService.class)
                 .checkHasGame("2.0.0", socialId);
+    }
+
+    @Override
+    public Observable<BaseJson<TeamInfoDTO>> getTeamInfo(String teamId) {
+        return mRepositoryManager
+                .obtainRetrofitService(GroupService.class)
+                .getTeamInfo("2.0.0", teamId);
     }
 }

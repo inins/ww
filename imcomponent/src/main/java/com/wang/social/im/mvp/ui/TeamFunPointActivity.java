@@ -46,12 +46,15 @@ public class TeamFunPointActivity extends BaseAppActivity<FunPointPresenter> imp
 
     @Autowired
     String teamId;
+    @Autowired
+    String tag;
 
     private RecycleAdapterFunpoint mAdapter;
 
-    public static void start(Context context, String teamId) {
+    public static void start(Context context, String teamId, String tagName) {
         Intent intent = new Intent(context, TeamFunPointActivity.class);
         intent.putExtra("teamId", teamId);
+        intent.putExtra("tag", tagName);
         context.startActivity(intent);
     }
 
@@ -78,6 +81,8 @@ public class TeamFunPointActivity extends BaseAppActivity<FunPointPresenter> imp
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
         initView();
+
+        tfpTitle.setTitle(tag);
 
         tfpLoader.callFreshDelay();
     }

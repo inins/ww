@@ -69,4 +69,13 @@ public class GroupProfile implements ProfileSummary {
     public TIMGroupReceiveMessageOpt getMessagOpt() {
         return selfInfo.getRecvMsgOption();
     }
+
+    /**
+     * 获取成员人数
+     *
+     * @return
+     */
+    public int getMemberNum() {
+        return (int) profile.getMemberNum();
+    }
 }

@@ -18,6 +18,8 @@ import com.wang.social.im.mvp.model.entities.MemberInfo;
 import com.wang.social.im.mvp.model.entities.SocialInfo;
 import com.wang.social.im.mvp.model.entities.TeamInfo;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 
 import io.reactivex.disposables.Disposable;
@@ -70,6 +72,15 @@ public class GroupConversationPresenter extends BasePresenter<GroupConversationC
                     public void onNext(ListData<TeamInfo> teamInfoListData) {
                         mRootView.showSelfTeams(teamInfoListData.getList());
                     }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (e instanceof NullPointerException) {
+                            mRootView.showSelfTeams(new ArrayList<>());
+                        } else {
+                            super.onError(e);
+                        }
+                    }
                 });
     }
 
@@ -84,9 +95,9 @@ public class GroupConversationPresenter extends BasePresenter<GroupConversationC
                     @Override
                     public void onNext(GroupJoinCheckResult groupJoinCheckResult) {
                         if (groupJoinCheckResult.isNeedPay()) {
-                            mRootView.showPayDialog(groupJoinCheckResult);
+                            mRootView.showPayDialog(groupJoinCheckResult, groupId);
                         } else {
-                            joinGroup(socialId, groupJoinCheckResult.getApplyId(), groupJoinCheckResult.isValidation());
+                            joinGroup(socialId, groupJoinCheckResult.getApplyId(), groupJoinCheckResult.isValidation(), groupId);
                         }
                     }
                 }, new Consumer<Disposable>() {
@@ -108,11 +119,11 @@ public class GroupConversationPresenter extends BasePresenter<GroupConversationC
      * @param socialId
      * @param checkResult
      */
-    public void payForJoin(String socialId, GroupJoinCheckResult checkResult) {
+    public void payForJoin(String socialId, GroupJoinCheckResult checkResult, String teamId) {
         NetPayStoneHelper.newInstance().stonePay(mRootView, checkResult.getJoinCost(), Constant.PAY_OBJECT_TYPE_ADD_GROUP, checkResult.getApplyId(), new NetPayStoneHelper.OnStonePayCallback() {
             @Override
             public void success() {
-                joinGroup(socialId, checkResult.getApplyId(), checkResult.isValidation());
+                joinGroup(socialId, checkResult.getApplyId(), checkResult.isValidation(), teamId);
             }
         });
     }
@@ -123,7 +134,7 @@ public class GroupConversationPresenter extends BasePresenter<GroupConversationC
      * @param socialId
      * @param applyId
      */
-    public void joinGroup(String socialId, String applyId, boolean isValidation) {
+    public void joinGroup(String socialId, String applyId, boolean isValidation, String teamId) {
         mApiHelper.execute(mRootView, mModel.joinGroup(applyId),
                 new ErrorHandleSubscriber<JoinGroupResult>() {
                     @Override
@@ -131,6 +142,8 @@ public class GroupConversationPresenter extends BasePresenter<GroupConversationC
                         if (!isValidation) {
                             getMiList(socialId);
                             getSelfMiList(socialId);
+
+                            mRootView.showTeam(teamId);
                         } else {
                             ToastUtil.showToastShort("申请成功");
                         }

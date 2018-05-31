@@ -10,7 +10,7 @@
     <string name="im_envelop_now_mode">当前为%s,&#160;</string>
     <string name="im_envelop_click_change">点击修改为%s</string>
     <string name="im_envelop_spell">拼手气红包</string>
-    <string name="im_envelop_equal">等额红包</string>
+    <string name="im_envelop_equal">普通红包</string>
     <string name="im_envelop_size">红包个数</string>
     <string name="im_envelop_size_input_hint">填写个数</string>
     <string name="im_envelop_piece">个</string>
@@ -39,4 +39,5 @@
 
     <string name="im_envelop_toast_limit">每个红包钻石数不能大于%d</string>
     <string name="im_envelop_toast_low_limit">每个红包至少一个钻石</string>
+    <string name="im_envelop_toast_count">红包个数不能超过成员人数</string>
 </resources>

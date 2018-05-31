@@ -2,6 +2,7 @@ package com.wang.social.im.widget;
 
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,16 +63,18 @@ public class TeamFunPointPopup extends PopupWindow {
 
         setContentView(view);
 
-        mImageLoader.loadImage(context, ImageConfigImpl
-                .builder()
-                .placeholder(R.drawable.im_round_image_placeholder)
-                .errorPic(R.drawable.im_round_image_placeholder)
-                .transformation(new RoundedCornersTransformation(UIUtil.getDimen(R.dimen.im_round_image_radius), 0, RoundedCornersTransformation.CornerType.ALL))
-                .imageView(ivCover)
-                .url(mCover)
-                .build());
+        if (!TextUtils.isEmpty(mCover)) {
+            mImageLoader.loadImage(context, ImageConfigImpl
+                    .builder()
+                    .placeholder(R.drawable.im_round_image_placeholder)
+                    .errorPic(R.drawable.im_round_image_placeholder)
+                    .transformation(new RoundedCornersTransformation(UIUtil.getDimen(R.dimen.im_round_image_radius), 0, RoundedCornersTransformation.CornerType.ALL))
+                    .imageView(ivCover)
+                    .url(mCover)
+                    .build());
+        }
 
-        tvSummary.setText(mSummary);
+        tvSummary.setText(mSummary == null ? "" : mSummary);
 
         tvbMore.setOnClickListener(new View.OnClickListener() {
             @Override

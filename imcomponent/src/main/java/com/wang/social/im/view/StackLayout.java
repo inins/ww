@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -170,6 +171,20 @@ public class StackLayout extends ViewGroup {
                 break;
         }
         return super.onTouchEvent(event);
+    }
+
+    /**
+     * 设置显示在上层的ID
+     *
+     * @param id
+     */
+    public void setShowViewId(@IdRes int id) {
+        if (id != R.id.im_sl_lower_view && id != R.id.im_sl_upper_view) {
+            return;
+        }
+        mShowViewId = id;
+        findViewById(mShowViewId).bringToFront();
+        requestLayout();
     }
 
     private void formatChildLocation(int moveX) {

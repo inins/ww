@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -49,6 +50,7 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMCustomElem;
+import com.tencent.imsdk.TIMGroupMemberInfo;
 import com.tencent.imsdk.TIMImage;
 import com.tencent.imsdk.TIMImageElem;
 import com.tencent.imsdk.TIMImageType;
@@ -57,6 +59,8 @@ import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMSoundElem;
 import com.tencent.imsdk.TIMValueCallBack;
+import com.tencent.imsdk.ext.group.TIMGroupDetailInfo;
+import com.tencent.imsdk.ext.group.TIMGroupManagerExt;
 import com.tencent.imsdk.ext.message.TIMConversationExt;
 import com.tencent.imsdk.ext.message.TIMMessageExt;
 import com.tencent.imsdk.ext.message.TIMMessageLocator;
@@ -67,6 +71,7 @@ import com.wang.social.im.di.modules.ConversationModule;
 import com.wang.social.im.enums.ConnectionStatus;
 import com.wang.social.im.enums.CustomElemType;
 import com.wang.social.im.enums.MessageScope;
+import com.wang.social.im.helper.GroupHelper;
 import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.mvp.contract.ConversationContract;
 import com.wang.social.im.mvp.model.entities.EnvelopInfo;
@@ -95,6 +100,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -234,7 +240,21 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
         setListener();
 
         if (mConversationType == ConversationType.TEAM) {
+            fcFunPoint.setVisibility(View.VISIBLE);
+
             mPresenter.getFunPoint(ImHelper.imId2WangId(mTargetId));
+            mPresenter.getTeamInfo(ImHelper.imId2WangId(mTargetId));
+
+            NewbieGuide.with(this)
+                    .setLabel("guide_team_point")
+                    .addGuidePage(GuidePage.newInstance()
+                            .addHighLight(getParentFragment().getView().findViewById(R.id.toolbar_iv_right), OVAL, 0, 0)
+                            .addHighLight(getView().findViewById(R.id.fc_fun_point), OVAL, 0, 0)
+                            .setLayoutRes(R.layout.lay_guide_findchat, R.id.btn_go)
+                            .setEverywhereCancelable(false)
+                            .setEnterAnimation(GuidePageHelper.getEnterAnimation())
+                            .setExitAnimation(GuidePageHelper.getExitAnimation()))
+                    .show();
         } else if (mConversationType == ConversationType.SOCIAL) {
             mPresenter.getShadowInfo(ImHelper.imId2WangId(mTargetId));
         } else if (mConversationType == ConversationType.MIRROR) {
@@ -356,10 +376,10 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
 
     @OnClick(R2.id.fc_fun_point)
     public void onViewClicked() {
-        TeamFunPointPopup window = new TeamFunPointPopup(getContext(), mFunPoint.getImgUrl(), mFunPoint.getNewsTitle(), new TeamFunPointPopup.OnMoreClickListener() {
+        TeamFunPointPopup window = new TeamFunPointPopup(getContext(), mFunPoint == null ? null : mFunPoint.getImgUrl(), mFunPoint == null ? null : mFunPoint.getNewsTitle(), new TeamFunPointPopup.OnMoreClickListener() {
             @Override
             public void onMoreClick() {
-                TeamFunPointActivity.start(getContext(), ImHelper.imId2WangId(mTargetId));
+                TeamFunPointActivity.start(getContext(), ImHelper.imId2WangId(mTargetId), mPresenter.getTeamTag());
             }
         });
         window.showAsDropDown(fcFunPoint, -SizeUtils.dp2px(192), -SizeUtils.dp2px(169));
@@ -449,17 +469,6 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     @Override
     public void showFunPoint(Funpoint funpoint) {
         mFunPoint = funpoint;
-        fcFunPoint.setVisibility(View.VISIBLE);
-        NewbieGuide.with(this)
-                .setLabel("guide_team_point")
-                .addGuidePage(GuidePage.newInstance()
-                        .addHighLight(getParentFragment().getView().findViewById(R.id.toolbar_iv_right), OVAL, 0, 0)
-                        .addHighLight(getView().findViewById(R.id.fc_fun_point), OVAL, 0, 0)
-                        .setLayoutRes(R.layout.lay_guide_findchat, R.id.btn_go)
-                        .setEverywhereCancelable(false)
-                        .setEnterAnimation(GuidePageHelper.getEnterAnimation())
-                        .setExitAnimation(GuidePageHelper.getExitAnimation()))
-                .show();
     }
 
     @Override
@@ -531,7 +540,8 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
                         break;
                     case TEAM:
                     case SOCIAL:
-                        CreateMultiEnvelopActivity.start(getActivity(), mTargetId, REQUEST_CREATE_ENVELOP);
+                        int memberNum = GroupHelper.getInstance().getGroupProfile(mTargetId).getMemberNum();
+                        CreateMultiEnvelopActivity.start(getActivity(), mTargetId, memberNum, REQUEST_CREATE_ENVELOP);
                         break;
                 }
                 break;
@@ -730,7 +740,7 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
         if (mConversationType == ConversationType.TEAM ||
                 mConversationType == ConversationType.SOCIAL) {
             String nickname = uiMessage.getNickname(mConversationType);
-            insertAlert(nickname == null ? " " : nickname, true);
+            insertAlert(TextUtils.isEmpty(nickname) ? " " : nickname, true);
         }
     }
 

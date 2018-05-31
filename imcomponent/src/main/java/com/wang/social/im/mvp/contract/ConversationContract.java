@@ -16,6 +16,7 @@ import com.wang.social.im.mvp.model.entities.dto.AnonymousInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.EnvelopInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.GroupGameCheckResultDTO;
 import com.wang.social.im.mvp.model.entities.dto.ShadowInfoDTO;
+import com.wang.social.im.mvp.model.entities.dto.TeamInfoDTO;
 
 import java.util.List;
 
@@ -152,5 +153,13 @@ public interface ConversationContract {
          * @return
          */
         Observable<BaseJson<GroupGameCheckResultDTO>> checkHasGame(String socialId);
+
+        /**
+         * 获取觅聊详情
+         *
+         * @param teamId
+         * @return
+         */
+        Observable<BaseJson<TeamInfoDTO>> getTeamInfo(String teamId);
     }
 }

@@ -57,13 +57,15 @@ public class CreateMultiEnvelopActivity extends BaseAppActivity<CreateEnvelopPre
     TextView cmrTvbPlug;
 
     private String groupId;
+    private int memberCount;
 
     //标识当前是否为拼手气模式
     private boolean isSpell = true;
 
-    public static void start(Activity activity, String groupId, int requestCode) {
+    public static void start(Activity activity, String groupId, int memberCount, int requestCode) {
         Intent intent = new Intent(activity, CreateMultiEnvelopActivity.class);
         intent.putExtra("groupId", groupId);
+        intent.putExtra("memberCount", memberCount);
         activity.startActivityForResult(intent, requestCode);
     }
 
@@ -89,6 +91,9 @@ public class CreateMultiEnvelopActivity extends BaseAppActivity<CreateEnvelopPre
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
         groupId = getIntent().getStringExtra("groupId");
+        memberCount = getIntent().getIntExtra("memberCount", 1);
+
+        cmrTvGroupMember.setText(UIUtil.getString(R.string.im_group_member, memberCount));
 
         init();
     }
@@ -179,7 +184,11 @@ public class CreateMultiEnvelopActivity extends BaseAppActivity<CreateEnvelopPre
         } else if (view.getId() == R.id.cmr_tvb_plug) {
             int inputDiamond = Integer.parseInt(cmrEtDiamond.getText().toString());
             int inputCount = Integer.parseInt(cmrEtCount.getText().toString());
-            if ((isSpell && inputDiamond / inputCount > IMConstants.MULTI_ENVELOP_DIAMOND_LIMIT) ||
+            if (inputCount > memberCount) {
+                ToastUtil.showToastShort(UIUtil.getString(R.string.im_envelop_toast_count));
+                return;
+            }
+            if ((isSpell && (float) inputDiamond / inputCount > IMConstants.MULTI_ENVELOP_DIAMOND_LIMIT) ||
                     (!isSpell && inputDiamond > IMConstants.MULTI_ENVELOP_DIAMOND_LIMIT)) {
                 ToastUtil.showToastShort(UIUtil.getString(R.string.im_envelop_toast_limit, IMConstants.MULTI_ENVELOP_DIAMOND_LIMIT));
                 return;
