@@ -81,7 +81,7 @@ public class HomeActivity extends BasicAppNoDiActivity implements XRadioGroup.On
                     } else {
                         showText = String.valueOf(count);
                     }
-                    textDot.setText(String.valueOf(showText));
+                    textDot.setText(showText);
                 } else {
                     textDot.setVisibility(View.GONE);
                 }
