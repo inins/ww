@@ -208,7 +208,7 @@ public final class ShortcutBadger {
 
         String currentHomePackage = resolveInfo.activityInfo.packageName;
 
-        Log.d(LOG_TAG, "packageName:"+currentHomePackage);
+        Log.d(LOG_TAG, "packageName:" + currentHomePackage);
 
         for (Class<? extends Badger> badger : BADGERS) {
             Badger shortcutBadger = null;
@@ -223,13 +223,13 @@ public final class ShortcutBadger {
         }
 
         if (sShortcutBadger == null) {
-            if (Build.MANUFACTURER.equalsIgnoreCase("ZUK"))
+            if (Build.MANUFACTURER.toUpperCase().contains("ZUK"))
                 sShortcutBadger = new ZukHomeBadger();
-            else if (Build.MANUFACTURER.equalsIgnoreCase("OPPO"))
+            else if (Build.MANUFACTURER.toUpperCase().contains("OPPO"))
                 sShortcutBadger = new OPPOHomeBader();
-            else if (Build.MANUFACTURER.equalsIgnoreCase("VIVO"))
+            else if (Build.MANUFACTURER.toUpperCase().contains("VIVO"))
                 sShortcutBadger = new VivoHomeBadger();
-            else if (Build.MANUFACTURER.equalsIgnoreCase("ZTE"))
+            else if (Build.MANUFACTURER.toUpperCase().contains("ZTE"))
                 sShortcutBadger = new ZTEHomeBadger();
             else
                 sShortcutBadger = new DefaultBadger();

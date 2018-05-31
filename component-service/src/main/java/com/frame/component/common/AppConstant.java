@@ -104,16 +104,19 @@ public class AppConstant {
         public static final String SHARE_DEFAULT_IMAGE = "";
 
         /*群分享*/
+        public static final String SHARE_GROUP_OPEN_TARGET = "group";
         public static final String SHARE_GROUP_URL = Api.WEB_BASE_URL + "contentShared/group/index.html?groupId=%1$s&userId=%2$s";
         public static final String SHARE_GROUP_TITLE = "整天哔哔哔不如当面来“怼”！";
         public static final String SHARE_GROUP_CONTENT = "%s在往往等你！";
 
         /*趣晒分享*/
-        public static final String SHARE_FUN_SHOW_URL = Api.WEB_BASE_URL + "contentShared/story/index.html?talkId=%1$s&userId=%2$s";
+        public static final String SHARE_FUN_SHOW_OPEN_TARGET = "story";
+        public static final String SHARE_FUN_SHOW_URL = Api.WEB_BASE_URL + "contentShared/talk/index.html?talkId=%1$s&userId=%2$s";
         public static final String SHARE_FUN_SHOW_TITLE = "每个人都是这里的艺术家！";
         public static final String SHARE_FUN_SHOW_CONTENT = "%s有趣晒，你有酒吗？";
 
         /*话题分享*/
+        public static final String SHARE_TOPIC_OPEN_TARGET = "story";
         public static final String SHARE_TOPIC_URL = Api.WEB_BASE_URL + "contentShared/topic/index.html?topicId=%1$s&userId=%2$s";
         public static final String SHARE_TOPIC_TITLE = "每个人都是这里的艺术家！";
         public static final String SHARE_TOPIC_CONTENT = "%s有话题，你有酒吗？";
@@ -125,7 +128,8 @@ public class AppConstant {
         public static final String SHARE_APP_IMAGE = SHARE_DEFAULT_IMAGE;
 
         /*摇钱树*/
-        public static final String SHARE_GAME_TREE_URL = Api.WEB_BASE_URL + "cashcow/index.html?userId=%s";
+        public static final String SHARE_GAME_TREE_OPEN_TARGET = "cashcow";
+        public static final String SHARE_GAME_TREE_URL = Api.WEB_BASE_URL + "contentShared/cashcow/index.html?userId=%1$s&cashcowld=%2$s";
         public static final String SHARE_GAME_TREE_TITLE = "就差你了-这棵摇钱树将于20秒后掉落钻石！";
         public static final String SHARE_GAME_TREE_CONTENT = "%s想约你跟他一起分这波钻，快来！";
         public static final String SHARE_GAME_DEFAULT_IMAGE = "http://resouce.dongdongwedding.com/activity_cashcow_moneyTree.png";

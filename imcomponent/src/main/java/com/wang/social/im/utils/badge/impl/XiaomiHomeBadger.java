@@ -52,7 +52,7 @@ public class XiaomiHomeBadger implements Badger {
             }
             return;
         }
-        if (Build.MANUFACTURER.equalsIgnoreCase("Xiaomi")) {
+        if (Build.MANUFACTURER.toLowerCase().contains("xiaomi") || Build.MANUFACTURER.toLowerCase().contains("blackshark")) {
             tryNewMiuiBadge(context, badgeCount);
         }
     }

@@ -568,7 +568,7 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
     @OnClick(R2.id.share_image_view)
     public void share() {
         User loginUser = AppDataHelper.getUser();
-        String shareUrl = String.format(AppConstant.Share.SHARE_GAME_TREE_URL, String.valueOf(loginUser.getUserId()));
+        String shareUrl = String.format(AppConstant.Share.SHARE_GAME_TREE_URL, String.valueOf(loginUser.getUserId()), String.valueOf(mPresenter.getRoomId()));
         String shareContent = String.format(AppConstant.Share.SHARE_GAME_TREE_CONTENT, loginUser.getNickname());
         SocializeUtil.shareWithWW(getSupportFragmentManager(),
                 null,
