@@ -1,6 +1,7 @@
 package com.wang.social.im.app;
 
 import android.app.Application;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -19,6 +20,7 @@ import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMCustomElem;
 import com.tencent.imsdk.TIMElem;
 import com.tencent.imsdk.TIMElemType;
+import com.tencent.imsdk.TIMGroupReceiveMessageOpt;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageListener;
@@ -138,7 +140,7 @@ public class GlobalMessageEvent extends Observable implements TIMMessageListener
     }
 
     private void showMessageNotify(TIMMessage timMessage) {
-        if (AppUtils.isAppForeground()) {
+        if (AppUtils.isAppForeground() || timMessage.getRecvFlag() == TIMGroupReceiveMessageOpt.ReceiveNotNotify) {
             return;
         }
         //显示角标
@@ -180,11 +182,12 @@ public class GlobalMessageEvent extends Observable implements TIMMessageListener
         if (!TextUtils.isEmpty(title)) {
             builder.setContentTitle(title);
         }
-        builder.setContentText(content);
-        builder.setSmallIcon(R.drawable.im_ic_notification);
-        builder.setLargeIcon(BitmapFactory.decodeResource(mApplication.getResources(), R.drawable.im_luncher));
-        builder.setAutoCancel(true);
-        builder.setTicker(content);
+        builder.setContentText(content)
+                .setSmallIcon(R.drawable.im_ic_notification)
+                .setLargeIcon(BitmapFactory.decodeResource(mApplication.getResources(), R.drawable.im_luncher))
+                .setAutoCancel(true)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setTicker(content);
         return builder;
     }
 }

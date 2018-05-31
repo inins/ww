@@ -1,6 +1,7 @@
 package com.wang.social.im.mvp.ui.adapters.holders;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -11,8 +12,11 @@ import com.frame.utils.FrameUtils;
 import com.google.gson.Gson;
 import com.tencent.imsdk.TIMCustomElem;
 import com.tencent.imsdk.TIMElem;
+import com.tencent.imsdk.TIMGroupMemberInfo;
+import com.tencent.imsdk.TIMGroupTipsElem;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageStatus;
+import com.tencent.imsdk.TIMUserProfile;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.enums.CustomElemType;
@@ -20,6 +24,8 @@ import com.wang.social.im.mvp.model.entities.GameNotifyElemData;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 
 import java.lang.annotation.ElementType;
+import java.util.Iterator;
+import java.util.Map;
 
 import butterknife.BindView;
 
@@ -60,10 +66,17 @@ public class NotifyViewHolder extends BaseMessageViewHolder<UIMessage> {
                         GameNotifyElemData elemData = (GameNotifyElemData) itemValue.getCustomMessageElemData(CustomElemType.GAME_NOTIFY, GameNotifyElemData.class, gson);
                         showGameNotify(elemData);
                     }
+                } else if (timElem instanceof TIMGroupTipsElem) {
+                    String content = itemValue.getGroupTipNotify((TIMGroupTipsElem) timElem);
+                    if (TextUtils.isEmpty(content)) {
+                        mnTvNotify.setVisibility(View.GONE);
+                    } else {
+                        mnTvNotify.setVisibility(View.VISIBLE);
+                        mnTvNotify.setText(content);
+                    }
                 }
             }
         }
-
     }
 
     @Override

@@ -11,12 +11,17 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.frame.component.common.InputLengthFilter;
 import com.frame.component.service.R;
 import com.frame.component.service.R2;
 import com.frame.component.utils.UIUtil;
 import com.frame.utils.RegexUtils;
 import com.frame.utils.ScreenUtils;
 import com.frame.utils.SizeUtils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -38,14 +43,20 @@ public class EditDialog extends BaseDialog {
 
     private String mContent, mTitle;
     private int maxLength;
+    private boolean nameFilter;
 
     private OnInputCompleteListener mInputCompleteListener;
 
     public EditDialog(Context context, String content, String title, int maxLength, OnInputCompleteListener inputCompleteListener) {
+        this(context, content, title, maxLength, inputCompleteListener, true);
+    }
+
+    public EditDialog(Context context, String content, String title, int maxLength, OnInputCompleteListener inputCompleteListener, boolean nameFilter) {
         super(context);
         this.mContent = content;
         this.mTitle = title;
         this.maxLength = maxLength;
+        this.nameFilter = nameFilter;
         this.mInputCompleteListener = inputCompleteListener;
         setCanceledOnTouchOutside(false);
     }
@@ -63,6 +74,22 @@ public class EditDialog extends BaseDialog {
         lp.width = (int) (ScreenUtils.getScreenWidth() * 0.85f);
         lp.height = SizeUtils.dp2px(200f);
         win.setAttributes(lp);
+
+        InputFilter[] filters = new InputFilter[nameFilter ? 2 : 1];
+        filters[0] = new InputLengthFilter(maxLength, false);
+        if (nameFilter) {
+            filters[1] = new InputFilter() {
+                @Override
+                public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                    if (nameFilter && !RegexUtils.isUsernameMe(source)) {
+                        return "";
+                    }
+                    return source;
+                }
+            };
+        }
+
+        deEtContent.setFilters(filters);
     }
 
     @Override
@@ -72,18 +99,6 @@ public class EditDialog extends BaseDialog {
 
     @Override
     protected void intView(View root) {
-        deEtContent.setFilters(new InputFilter[]{new InputFilter() {
-            @Override
-            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-                if (deEtContent.getText().length() + source.length() > maxLength) {
-                    return "";
-                }
-                if (!RegexUtils.isUsernameMe(source)) {
-                    return "";
-                }
-                return source;
-            }
-        }});
     }
 
     @Override

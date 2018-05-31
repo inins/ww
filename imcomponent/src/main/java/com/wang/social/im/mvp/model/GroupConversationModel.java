@@ -10,6 +10,7 @@ import com.wang.social.im.mvp.model.entities.TeamInfo;
 import com.wang.social.im.mvp.model.entities.dto.GroupJoinCheckResultDTO;
 import com.wang.social.im.mvp.model.entities.dto.JoinGroupResultDTO;
 import com.wang.social.im.mvp.model.entities.dto.ListDataDTO;
+import com.wang.social.im.mvp.model.entities.dto.SocialHomeDTO;
 import com.wang.social.im.mvp.model.entities.dto.TeamInfoDTO;
 
 import javax.inject.Inject;
@@ -56,5 +57,12 @@ public class GroupConversationModel extends BaseModel implements GroupConversati
         return mRepositoryManager
                 .obtainRetrofitService(GroupService.class)
                 .joinGroup("2.0.0", applyId);
+    }
+
+    @Override
+    public Observable<BaseJson<SocialHomeDTO>> getSocialInfo(String socialId) {
+        return mRepositoryManager
+                .obtainRetrofitService(GroupService.class)
+                .getSocialHomeInfo("2.0.0", socialId);
     }
 }

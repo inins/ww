@@ -10,6 +10,7 @@ import android.support.annotation.IntDef;
 import android.support.v4.app.FragmentManager;
 
 import com.frame.utils.Utils;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.ShareAction;
@@ -173,10 +174,10 @@ public class SocializeUtil {
          * 参数5:Push推送业务的secret
          */
         UMConfigure.init(application,
-                "",
-                "",
                 UMConfigure.DEVICE_TYPE_PHONE,
                 "");
+
+        MobclickAgent.setScenarioType(application, MobclickAgent.EScenarioType.E_UM_NORMAL);
 
         /*
          * 设置组件化的Log开关

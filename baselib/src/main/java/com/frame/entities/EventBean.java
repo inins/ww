@@ -34,6 +34,8 @@ public class EventBean implements Serializable {
     public static final int EVENTBUS_FRIEND_ADD_BLACK_LIST = 0xffa131;
     // 加入趣聊成功
     public static final int EVENTBUS_ADD_GROUP_SUCCESS = 0xffa140;
+    // 加入觅聊成功
+    public static final int EVENTBUS_ADD_TEAM_SUCCESS = 0xffa141;
     // 话题评论成功
     public static final int EVENTBUS_ADD_TOPIC_COMMENT = 0xffa150;
     // 话题转发成功
@@ -129,6 +131,8 @@ public class EventBean implements Serializable {
     public static final int EVENT_NOTIFY_GROUP_PROFILE = 0xffa910;
     //好友信息发生变动
     public static final int EVENT_NOTIFY_FRIEND_PROFILE = 0xffa911;
+    //显示聊天列表
+    public static final int EVENT_NOTIFY_SHOW_CONVERSATION_LIST = 0xffa912;
 
     //通知消息已经全部阅读
     public static final int EVENT_MSG_READALL = 0xffb001;
@@ -144,6 +148,7 @@ public class EventBean implements Serializable {
             EVENTBUS_FRIEND_DELETE,
             EVENTBUS_FRIEND_ADD_BLACK_LIST,
             EVENTBUS_ADD_GROUP_SUCCESS,
+            EVENTBUS_ADD_TEAM_SUCCESS,
             EVENTBUS_ADD_TOPIC_COMMENT,
             EVENTBUS_ADD_TOPIC_SHARE,
             EVENTBUS_TOPIC_SUPPORT,
@@ -190,6 +195,7 @@ public class EventBean implements Serializable {
             EVENT_NOTIFY_FRIEND_PROFILE,
             EVENT_HOME_CARD_DETAIL_ADDFIREND,
             EVENT_FUNSHOW_PAYED,
+            EVENT_NOTIFY_SHOW_CONVERSATION_LIST,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface EventBeanType {

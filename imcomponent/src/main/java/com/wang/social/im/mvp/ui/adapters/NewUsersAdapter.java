@@ -18,6 +18,7 @@ import com.frame.utils.FrameUtils;
 import com.frame.utils.TimeConstants;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
+import com.wang.social.im.helper.ImHelper;
 
 import java.util.List;
 import java.util.Locale;
@@ -73,7 +74,7 @@ public class NewUsersAdapter extends BaseAdapter<UserInfo> {
                     .url(itemValue.getPortrait())
                     .build());
             ifTvNickname.setText(itemValue.getNickname());
-            ifTvAge.setText(itemValue.getAgeRange());
+            ifTvAge.setText(ImHelper.getAgeRange(itemValue.getBirthMills()));
             Drawable genderDrawable;
             if (itemValue.getGender() == Gender.MALE) {
                 ifTvAge.setBackgroundResource(R.drawable.im_bg_male);

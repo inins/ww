@@ -1,4 +1,4 @@
-package com.wang.social.im.common;
+package com.frame.component.common;
 
 import android.text.InputFilter;
 import android.text.Spanned;

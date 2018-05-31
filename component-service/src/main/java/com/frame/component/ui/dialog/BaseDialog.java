@@ -24,7 +24,7 @@ import butterknife.ButterKnife;
  */
 public abstract class BaseDialog extends Dialog {
 
-    private View root;
+    protected View root;
 
     public BaseDialog(Context context) {
         this(context, R.style.common_MyDialog);

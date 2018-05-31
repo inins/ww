@@ -27,6 +27,8 @@ public class TalkBeanDTO implements Mapper<FunshowBean> {
     private String isAnonymous;
     private Integer urls;
     private String url;
+    private String province;
+    private String city;
 
     @Override
     public FunshowBean transform() {
@@ -50,6 +52,8 @@ public class TalkBeanDTO implements Mapper<FunshowBean> {
         object.setSupport(talkLiked >= 1);
         object.setVideo(mediaType == 2);
         object.setHideName("1".equals(isAnonymous));
+        object.setProvinceName(EntitiesUtil.assertNotNull(province));
+        object.setCityName(EntitiesUtil.assertNotNull(city));
 
         return object;
     }

@@ -55,6 +55,11 @@ public class SocialListPresenter extends BasePresenter<SocialListContract.Model,
                 .map(new Function<BaseJson<ListDataDTO<SimpleGroupInfoDTO, SimpleGroupInfo>>, ListData<SimpleGroupInfo>>() {
                     @Override
                     public ListData<SimpleGroupInfo> apply(BaseJson<ListDataDTO<SimpleGroupInfoDTO, SimpleGroupInfo>> t) throws Exception {
+                        if (t.getData() == null) {
+                            ListData<SimpleGroupInfo> listData = new ListData<SimpleGroupInfo>();
+                            listData.setList(new ArrayList<SimpleGroupInfo>());
+                            return listData;
+                        }
                         return t.getData().transform();
                     }
                 })
@@ -121,6 +126,22 @@ public class SocialListPresenter extends BasePresenter<SocialListContract.Model,
                     public void onNext(List<SocialListLevelOne> socialListLevelOnes) {
                         mRootView.showSocials(socialListLevelOnes);
                     }
+
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        if (e instanceof NullPointerException) {
+//                            List<SocialListLevelOne> list = new ArrayList<>();
+//                            SocialListLevelOne levelOneMaster = new SocialListLevelOne();
+//                            levelOneMaster.setTitle(UIUtil.getString(R.string.im_me_created_social));
+//                            levelOneMaster.setSocials(new ArrayList<>());
+//                            SocialListLevelOne levelOneMember = new SocialListLevelOne();
+//                            levelOneMember.setTitle(UIUtil.getString(R.string.im_me_joined_social));
+//                            levelOneMember.setSocials(new ArrayList<>());
+//                            mRootView.showSocials(list);
+//                        } else {
+//                            super.onError(e);
+//                        }
+//                    }
                 });
     }
 }

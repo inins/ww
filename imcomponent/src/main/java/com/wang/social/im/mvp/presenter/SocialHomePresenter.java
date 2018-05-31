@@ -1,5 +1,6 @@
 package com.wang.social.im.mvp.presenter;
 
+import com.frame.component.helper.QiNiuManager;
 import com.frame.di.scope.ActivityScope;
 import com.frame.http.api.ApiException;
 import com.frame.http.api.BaseJson;
@@ -93,6 +94,34 @@ public class SocialHomePresenter extends GroupPresenter<SocialHomeContract.Model
                         mRootView.hideLoading();
                     }
                 });
+    }
+
+    /**
+     * 修改封面信息
+     *
+     * @param path
+     * @param socialInfo
+     */
+    public void updateCover(String path, SocialInfo socialInfo) {
+        if (!path.startsWith("http")) {
+            QiNiuManager manager = new QiNiuManager(mRepositoryManager);
+            manager.uploadFile(mRootView, path, new QiNiuManager.OnSingleUploadListener() {
+                @Override
+                public void onSuccess(String url) {
+                    socialInfo.setCover(url);
+                    updateSocialInfo(socialInfo);
+                }
+
+                @Override
+                public void onFail() {
+                    ToastUtil.showToastShort("封面上传失败");
+                    mRootView.hideLoading();
+                }
+            });
+        } else {
+            socialInfo.setCover(path);
+            updateSocialInfo(socialInfo);
+        }
     }
 
     /**

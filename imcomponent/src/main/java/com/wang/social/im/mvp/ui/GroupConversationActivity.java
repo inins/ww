@@ -25,6 +25,7 @@ import com.frame.component.ui.dialog.PayDialog;
 import com.frame.component.utils.UIUtil;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
+import com.frame.integration.AppManager;
 import com.frame.router.facade.annotation.Autowired;
 import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.SizeUtils;
@@ -44,13 +45,17 @@ import com.wang.social.im.utils.ActivitySwitcher;
 import com.wang.social.im.view.drawer.SlidingRootNav;
 import com.wang.social.im.view.drawer.SlidingRootNavBuilder;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import static com.app.hubert.guide.model.HighLight.Shape.CIRCLE;
 import static com.app.hubert.guide.model.HighLight.Shape.ROUND_RECTANGLE;
+import static com.frame.entities.EventBean.EVENT_NOTIFY_SHOW_CONVERSATION_LIST;
 
 /**
  * 趣聊/觅聊会话界面
@@ -66,6 +71,9 @@ public class GroupConversationActivity extends BaseAppActivity<GroupConversation
     int typeOrdinal;
     @Autowired
     boolean fromMirror;
+
+    @Inject
+    AppManager mAppManager;
 
     private SlidingRootNav mRootNav;
 
@@ -107,6 +115,16 @@ public class GroupConversationActivity extends BaseAppActivity<GroupConversation
 
         mPresenter.getMiList(ImHelper.imId2WangId(targetId));
         mPresenter.getSelfMiList(ImHelper.imId2WangId(targetId));
+
+        if (conversationType == ConversationType.SOCIAL) {
+            mPresenter.getSocialInfo(ImHelper.imId2WangId(targetId));
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
     }
 
     private void init(Bundle savedInstanceState, ConversationType conversationType) {
@@ -265,6 +283,12 @@ public class GroupConversationActivity extends BaseAppActivity<GroupConversation
     }
 
     @Override
+    public void showCreateMi() {
+        tvbJoinedCreate.setVisibility(View.VISIBLE);
+        tvbListCreate.setVisibility(View.VISIBLE);
+    }
+
+    @Override
     public void onItemClick(TeamInfo teamInfo, int position) {
         showFragment(teamInfo.getTeamId(), ConversationType.TEAM);
         new Handler().postDelayed(new Runnable() {
@@ -274,6 +298,8 @@ public class GroupConversationActivity extends BaseAppActivity<GroupConversation
                 mRootNav.setMenuLocked(true);
             }
         }, 150);
+        mAppManager.killAll(this.getClass().getName(), "com.wang.social.mvp.ui.activity.HomeActivity");
+        EventBus.getDefault().post(new EventBean(EVENT_NOTIFY_SHOW_CONVERSATION_LIST));
     }
 
     @Override

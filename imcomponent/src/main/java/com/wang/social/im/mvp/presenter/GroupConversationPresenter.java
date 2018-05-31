@@ -14,6 +14,8 @@ import com.wang.social.im.mvp.contract.GroupConversationContract;
 import com.wang.social.im.mvp.model.entities.GroupJoinCheckResult;
 import com.wang.social.im.mvp.model.entities.JoinGroupResult;
 import com.wang.social.im.mvp.model.entities.ListData;
+import com.wang.social.im.mvp.model.entities.MemberInfo;
+import com.wang.social.im.mvp.model.entities.SocialInfo;
 import com.wang.social.im.mvp.model.entities.TeamInfo;
 
 import javax.inject.Inject;
@@ -142,6 +144,23 @@ public class GroupConversationPresenter extends BasePresenter<GroupConversationC
                     @Override
                     public void run() throws Exception {
                         mRootView.hideLoading();
+                    }
+                });
+    }
+
+    /**
+     * 获取趣聊资料
+     *
+     * @param socialId
+     */
+    public void getSocialInfo(String socialId) {
+        mApiHelper.execute(mRootView, mModel.getSocialInfo(socialId),
+                new ErrorHandleSubscriber<SocialInfo>() {
+                    @Override
+                    public void onNext(SocialInfo socialInfo) {
+                        if (socialInfo.isCreateTeam() || socialInfo.getMemberInfo().getRole() == MemberInfo.ROLE_MASTER) {
+                            mRootView.showCreateMi();
+                        }
                     }
                 });
     }

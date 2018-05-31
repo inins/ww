@@ -13,7 +13,7 @@ public interface IMConstants {
     /**
      * 小米推送：bussId
      */
-//    long MIPUSH_BUSSID = 3720; //测试
+//    long MIPUSH_BUSSID = 3777; //测试
     long MIPUSH_BUSSID = 3503; //开发
     /**
      * 小米推送：AppId
@@ -26,7 +26,7 @@ public interface IMConstants {
     /**
      * 魅族推送：bussId
      */
-//    long MZPUSH_BUSSID = 3721;// 测试
+//    long MZPUSH_BUSSID = 3778;// 测试
     long MZPUSH_BUSSID = 3504;//开发
     /**
      * 魅族推送：AppId
@@ -39,7 +39,7 @@ public interface IMConstants {
     /**
      * 华为推送：bussId
      */
-//    long HMSPUSH_BUSSID = 3719;//测试
+//    long HMSPUSH_BUSSID = 3776;//测试
     long HMSPUSH_BUSSID = 3502; //开发
 
     /**

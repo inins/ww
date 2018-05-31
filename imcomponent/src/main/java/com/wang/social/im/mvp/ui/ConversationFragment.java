@@ -38,6 +38,7 @@ import com.frame.component.utils.UIUtil;
 import com.frame.component.view.moneytree.DialogCreateGame;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
+import com.frame.utils.KeyboardUtils;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.ToastUtil;
 import com.google.gson.Gson;
@@ -305,6 +306,7 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     @Override
     public void onPause() {
         super.onPause();
+        KeyboardUtils.hideSoftInput(fcInput.getEditText());
 
         AudioPlayManager.getInstance().stopPlay();
 

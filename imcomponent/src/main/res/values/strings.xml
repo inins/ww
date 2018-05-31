@@ -39,6 +39,8 @@
     <string name="im_alter_friend">&#064;好友</string>
     <string name="im_game_message_format">%s开启了价值%d钻的摇钱树，参与一下</string>
     <string name="im_from_format">来自%s</string>
+    <string name="im_notify_member_join_social">加入趣聊</string>
+    <string name="im_notify_member_join_team">加入觅聊</string>
 
     <!-- Mirror -->
     <string name="im_mirror_title">镜像聊天</string>
@@ -110,6 +112,7 @@
     <string name="im_personal_card_agree">同意</string>
     <string name="im_personal_card_join">立即加入</string>
     <string name="im_personal_card_join_hint">加入此趣聊需要支付%1d宝石</string>
+    <string name="im_group_mi_join_hint">加入此觅聊需要支付%1$d宝石</string>
     <string name="im_format_member_count">（%1d人）</string>
 
     <!--觅聊邀请-->

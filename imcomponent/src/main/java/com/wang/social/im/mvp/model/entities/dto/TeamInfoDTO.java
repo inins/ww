@@ -23,7 +23,8 @@ public class TeamInfoDTO implements Mapper<TeamInfo> {
     private String groupName;
     private String groupCoverPlan;
     private int memberNum;
-    private int isFree; //1：不收费，0：收费
+    private Integer isFree; //1：不收费，0：收费
+    private Integer isFire; //1：不收费，0：收费
     private int validation; //是否验证（0（默认） 不需要 1需要）
     private int gemstone;
     private int isJoined;
@@ -40,7 +41,11 @@ public class TeamInfoDTO implements Mapper<TeamInfo> {
         teamInfo.setName(groupName == null ? "" : groupName);
         teamInfo.setCover(groupCoverPlan == null ? "" : groupCoverPlan);
         teamInfo.setMemberSize(memberNum);
-        teamInfo.setFree(isFree == 1);
+        if (isFree != null) {
+            teamInfo.setFree(isFree == 1);
+        } else if (isFire != null) {
+            teamInfo.setFree(isFire == 1);
+        }
         teamInfo.setJoinCost(gemstone);
         teamInfo.setJoined(isJoined == 1);
         teamInfo.setValidation(validation == 1);

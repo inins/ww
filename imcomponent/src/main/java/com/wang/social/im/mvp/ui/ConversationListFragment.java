@@ -229,6 +229,15 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
         EventBean event = new EventBean(EventBean.EVENT_NOTIFY_MESSAGE_UNREAD);
         event.put("count", getTotalUnreadCount());
         EventBus.getDefault().post(event);
+        if (!mConversations.isEmpty()) {
+            Fragment fragment = getChildFragmentManager().findFragmentByTag(NobodyFragment.class.getName());
+            if (fragment != null) {
+                getChildFragmentManager()
+                        .beginTransaction()
+                        .hide(fragment)
+                        .commitAllowingStateLoss();
+            }
+        }
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.frame.component.api;
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.entities.GroupBean;
 import com.frame.component.entities.dto.GroupMemberInfoDTO;
+import com.frame.component.entities.dto.IsShoppingRspDTO;
 import com.frame.component.entities.dto.NewMoneyTreeGameDTO;
 import com.frame.component.entities.PersonalInfo;
 import com.frame.component.entities.Topic;
@@ -35,6 +36,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 /**
@@ -380,4 +382,10 @@ public interface CommonService {
     @Headers(HEADER_CONTENT_TYPE)
     @GET("app/share/listFriendAndGroup")
     Observable<BaseJson<SearchResultDTO>> listFriendAndGroup(@QueryMap Map<String, Object> param);
+
+    /**
+     * 动态消息已读
+     */
+    @GET("/app/talk/isShopping")
+    Observable<BaseJson<IsShoppingRspDTO>> talkOrTopicIsShopping(@QueryMap Map<String, Object> param);
 }
