@@ -7,9 +7,14 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 
+import com.frame.component.entities.AutoPopupItemModel;
 import com.frame.component.ui.base.BaseAppActivity;
+import com.frame.component.ui.dialog.AutoPopupWindow;
 import com.frame.di.component.AppComponent;
+import com.frame.utils.ScreenUtils;
+import com.frame.utils.SizeUtils;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.di.component.DaggerSocialListComponent;
@@ -18,6 +23,7 @@ import com.wang.social.im.mvp.contract.SocialListContract;
 import com.wang.social.im.mvp.model.entities.SocialListLevelOne;
 import com.wang.social.im.mvp.presenter.SocialListPresenter;
 import com.wang.social.im.mvp.ui.adapters.socials.SocialListAdapter;
+import com.wang.social.im.mvp.ui.fragments.ContactsFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,12 +34,16 @@ import butterknife.OnClick;
 /**
  * 趣聊列表
  */
-public class SocialListActivity extends BaseAppActivity<SocialListPresenter> implements SocialListContract.View {
+public class SocialListActivity extends BaseAppActivity<SocialListPresenter> implements SocialListContract.View, AutoPopupWindow.OnItemClickListener {
 
+    @BindView(R2.id.sl_iv_add)
+    ImageView slIvAdd;
     @BindView(R2.id.sl_rlv_socials)
     RecyclerView slRlvSocials;
 
-    public static void start(Context context){
+    private AutoPopupWindow popupWindow;
+
+    public static void start(Context context) {
         Intent intent = new Intent(context, SocialListActivity.class);
         context.startActivity(intent);
     }
@@ -85,7 +95,37 @@ public class SocialListActivity extends BaseAppActivity<SocialListPresenter> imp
         if (view.getId() == R.id.sl_iv_search) {
             SearchActivity.start(this);
         } else if (view.getId() == R.id.sl_iv_add) {
+            if (popupWindow == null) {
+                popupWindow = new AutoPopupWindow(this, getMenuItems(), AutoPopupWindow.POINT_TO_RIGHT);
+                popupWindow.setItemClickListener(this);
+            }
+            if (!popupWindow.isShowing()) {
+                int showX = ScreenUtils.getScreenWidth() - getResources().getDimensionPixelSize(R.dimen.popup_auto_width) - SizeUtils.dp2px(5);
+                popupWindow.showAsDropDown(slIvAdd, showX, -SizeUtils.dp2px(15));
+            }
+        }
+    }
+
+    private List<AutoPopupItemModel> getMenuItems() {
+        List<AutoPopupItemModel> items = new ArrayList<>();
+        AutoPopupItemModel createModel = new AutoPopupItemModel(0, R.string.im_create_social);
+        AutoPopupItemModel scanModel = new AutoPopupItemModel(0, R.string.im_scan);
+        AutoPopupItemModel contactsModel = new AutoPopupItemModel(0, R.string.im_contacts);
+        items.add(createModel);
+        items.add(scanModel);
+        items.add(contactsModel);
+        return items;
+    }
+
+    @Override
+    public void onItemClick(AutoPopupWindow popupWindow, int resId) {
+        popupWindow.dismiss();
+        if (resId == R.string.im_create_social) {
             CreateSocialActivity.start(this);
+        } else if (resId == R.string.im_scan) {
+            ScanActivity.start(this);
+        } else if (resId == R.string.im_contacts) {
+            PhoneBookActivity.start(this);
         }
     }
 }

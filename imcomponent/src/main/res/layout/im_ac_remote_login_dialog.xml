@@ -57,7 +57,7 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingTop="6dp"
-            android:text="去登陆"
+            android:text="确定"
             android:textColor="@color/common_white"
             android:textSize="15sp" />
     </LinearLayout>

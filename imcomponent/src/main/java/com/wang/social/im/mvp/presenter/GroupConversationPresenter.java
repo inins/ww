@@ -18,6 +18,8 @@ import com.wang.social.im.mvp.model.entities.MemberInfo;
 import com.wang.social.im.mvp.model.entities.SocialInfo;
 import com.wang.social.im.mvp.model.entities.TeamInfo;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 
 import io.reactivex.disposables.Disposable;
@@ -69,6 +71,15 @@ public class GroupConversationPresenter extends BasePresenter<GroupConversationC
                     @Override
                     public void onNext(ListData<TeamInfo> teamInfoListData) {
                         mRootView.showSelfTeams(teamInfoListData.getList());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (e instanceof NullPointerException) {
+                            mRootView.showSelfTeams(new ArrayList<>());
+                        } else {
+                            super.onError(e);
+                        }
                     }
                 });
     }

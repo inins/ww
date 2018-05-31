@@ -41,6 +41,7 @@ import com.wang.social.im.mvp.model.entities.GameElemData;
 import com.wang.social.im.mvp.model.entities.GroupGameCheckResult;
 import com.wang.social.im.mvp.model.entities.LocationAddressInfo;
 import com.wang.social.im.mvp.model.entities.ShadowInfo;
+import com.wang.social.im.mvp.model.entities.TeamInfo;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 import com.wang.social.im.mvp.ui.adapters.MessageListAdapter;
 import com.wang.social.location.mvp.model.entities.LocationInfo;
@@ -90,6 +91,7 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
 
     private ShadowInfo mShadowInfo;
     private AnonymousInfo mAnonymousInfo;
+    private String mTeamTag;
 
     @Inject
     public ConversationPresenter(ConversationContract.Model model, ConversationContract.View view) {
@@ -394,6 +396,32 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
                         }
                     }
                 });
+    }
+
+    /**
+     * 获取觅聊信息
+     *
+     * @param teamId
+     */
+    public void getTeamInfo(String teamId) {
+        mApiHelper.execute(mRootView, mModel.getTeamInfo(teamId),
+                new ErrorHandleSubscriber<TeamInfo>(mErrorHandler) {
+                    @Override
+                    public void onNext(TeamInfo teamInfo) {
+                        if (teamInfo.getTags() != null && !teamInfo.getTags().isEmpty()) {
+                            mTeamTag = teamInfo.getTags().get(0).getTagName();
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 获取觅聊标签
+     *
+     * @return
+     */
+    public String getTeamTag() {
+        return mTeamTag == null ? "" : mTeamTag;
     }
 
     /**

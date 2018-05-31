@@ -19,6 +19,7 @@
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <com.wang.social.im.view.StackLayout
+        android:id="@+id/vgd_stack"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:im_sl_xoffset="25dp"

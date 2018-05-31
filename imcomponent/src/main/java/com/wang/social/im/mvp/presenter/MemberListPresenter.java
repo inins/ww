@@ -79,12 +79,12 @@ public class MemberListPresenter extends BasePresenter<MemberListContract.Model,
                         //组装数据
                         for (MemberInfo memberInfo : simpleGroupInfoListData.getList()) {
                             memberCount++;
+                            if (memberInfo.isFriendly()) {
+                                friendCount++;
+                            }
                             if (memberInfo.getRole() == MemberInfo.ROLE_MASTER) {
                                 master = memberInfo;
                                 continue;
-                            }
-                            if (memberInfo.isFriendly()) {
-                                friendCount++;
                             }
                             //根据年龄段划分
                             Calendar calendar = Calendar.getInstance();

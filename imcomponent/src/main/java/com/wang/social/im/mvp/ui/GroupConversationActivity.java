@@ -42,6 +42,7 @@ import com.wang.social.im.mvp.ui.adapters.TeamListAdapter;
 import com.wang.social.im.mvp.ui.fragments.SocialConversationFragment;
 import com.wang.social.im.mvp.ui.fragments.TeamConversationFragment;
 import com.wang.social.im.utils.ActivitySwitcher;
+import com.wang.social.im.view.StackLayout;
 import com.wang.social.im.view.drawer.SlidingRootNav;
 import com.wang.social.im.view.drawer.SlidingRootNavBuilder;
 
@@ -63,6 +64,7 @@ import static com.frame.entities.EventBean.EVENT_NOTIFY_SHOW_CONVERSATION_LIST;
 @RouteNode(path = ImPath.GROUP_PATH, desc = "群（趣聊/觅聊）会话")
 public class GroupConversationActivity extends BaseAppActivity<GroupConversationPresenter> implements GroupConversationContract.View, View.OnClickListener, BaseAdapter.OnItemClickListener<TeamInfo>, TeamListAdapter.OnJoinClickListener {
 
+    private StackLayout vgdStack;
     private TextView tvbJoinedCreate, tvbListCreate;
 
     @Autowired
@@ -113,10 +115,10 @@ public class GroupConversationActivity extends BaseAppActivity<GroupConversation
 
         showFragment(targetId, conversationType);
 
-        mPresenter.getMiList(ImHelper.imId2WangId(targetId));
-        mPresenter.getSelfMiList(ImHelper.imId2WangId(targetId));
-
         if (conversationType == ConversationType.SOCIAL) {
+            mPresenter.getMiList(ImHelper.imId2WangId(targetId));
+            mPresenter.getSelfMiList(ImHelper.imId2WangId(targetId));
+
             mPresenter.getSocialInfo(ImHelper.imId2WangId(targetId));
         }
     }
@@ -137,10 +139,12 @@ public class GroupConversationActivity extends BaseAppActivity<GroupConversation
 
         if (conversationType != ConversationType.SOCIAL) {
             mRootNav.setMenuLocked(true);
+            return;
         }
 
         tvbJoinedCreate = findViewById(R.id.gd_joined_create);
         tvbListCreate = findViewById(R.id.gd_list_create);
+        vgdStack = findViewById(R.id.vgd_stack);
         tvbJoinedCreate.setOnClickListener(this);
         tvbListCreate.setOnClickListener(this);
 
@@ -171,26 +175,23 @@ public class GroupConversationActivity extends BaseAppActivity<GroupConversation
         mAllTeamsAdapter.setOnItemClickListener(this);
         rlvAllTeams.setAdapter(mAllTeamsAdapter);
 
-        if (conversationType == ConversationType.SOCIAL) {
-            NewbieGuide.with(this)
-                    .setLabel("guide_social_drag")
-                    .addGuidePage(GuidePage.newInstance()
-                            .setLayoutRes(R.layout.lay_guide_funchat2, R.id.btn_go)
-                            .setEverywhereCancelable(false)
-                            .setEnterAnimation(GuidePageHelper.getEnterAnimation())
-                            .setExitAnimation(GuidePageHelper.getExitAnimation()))
-                    .show();
-            if (!AppDataHelper.isTipShowed()) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        AppDataHelper.saveTipShowStatus(true);
-                        mRootNav.getLayout().startTipAnim();
-                    }
-                }, 146);
-            }
+        NewbieGuide.with(this)
+                .setLabel("guide_social_drag")
+                .addGuidePage(GuidePage.newInstance()
+                        .setLayoutRes(R.layout.lay_guide_funchat2, R.id.btn_go)
+                        .setEverywhereCancelable(false)
+                        .setEnterAnimation(GuidePageHelper.getEnterAnimation())
+                        .setExitAnimation(GuidePageHelper.getExitAnimation()))
+                .show();
+        if (!AppDataHelper.isTipShowed()) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    AppDataHelper.saveTipShowStatus(true);
+                    mRootNav.getLayout().startTipAnim();
+                }
+            }, 146);
         }
-
     }
 
     @Override
@@ -262,12 +263,19 @@ public class GroupConversationActivity extends BaseAppActivity<GroupConversation
 
     @Override
     public void showAllTeams(List<TeamInfo> teams) {
-        mAllTeamsAdapter.refreshData(teams);
+        if (mAllTeamsAdapter != null) {
+            mAllTeamsAdapter.refreshData(teams);
+        }
     }
 
     @Override
     public void showSelfTeams(List<TeamInfo> teams) {
-        mJoinTeamsAdapter.refreshData(teams);
+        if (mAllTeamsAdapter != null) {
+            mJoinTeamsAdapter.refreshData(teams);
+        }
+        if (teams.isEmpty()) {
+            vgdStack.setShowViewId(R.id.im_sl_lower_view);
+        }
     }
 
     @Override
