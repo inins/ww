@@ -52,4 +52,5 @@ public class TopicDetail {
     private Integer gemstone;
     private Integer topicId;
     private Integer shareTotal;
+    private String templateUrl;
 }

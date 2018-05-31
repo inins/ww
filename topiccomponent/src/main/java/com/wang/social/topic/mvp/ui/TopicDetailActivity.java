@@ -3,6 +3,9 @@ package com.wang.social.topic.mvp.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Shader;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -21,6 +24,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.frame.component.common.AppConstant;
 import com.frame.component.entities.Topic;
 import com.frame.component.entities.User;
@@ -109,6 +115,9 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
     // 标题栏小的标题，合拢时显示
     @BindView(R2.id.toolbar_title_text_view)
     GradualColorTextView mToolbarTitleTV;
+
+    @BindView(R2.id.content_layout_wrapper)
+    LinearLayout mContentLayoutWrapper;
 
     @BindView(R2.id.nested_scroll_view)
     NestedScrollView mNestedScrollView;
@@ -398,6 +407,21 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
         String day = getString(R.string.topic_day);
         SimpleDateFormat format = new SimpleDateFormat("yyyy" + year + "MM" + month + "dd" + day, Locale.getDefault());
         mCreateDateTV.setText(format.format(TimeUtils.millis2Date(detail.getCreateTime())));
+
+        // 模板背景
+        if (!TextUtils.isEmpty(detail.getTemplateUrl())) {
+            SimpleTarget<Drawable> simpleTarget = new SimpleTarget<Drawable>() {
+                @Override
+                public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+                    BitmapDrawable bd = (BitmapDrawable) resource;
+                    bd.setTileModeXY(Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
+//                    mNestedScrollView.setBackground(bd);
+                    mContentLayoutWrapper.setBackground(bd);
+                }
+            };
+
+            Glide.with(this).load(detail.getTemplateUrl()).into(simpleTarget);
+        }
 
         // 头像
         FrameUtils.obtainAppComponentFromContext(this)

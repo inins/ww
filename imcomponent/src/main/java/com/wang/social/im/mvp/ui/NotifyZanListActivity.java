@@ -13,6 +13,7 @@ import com.frame.component.entities.BaseListWrap;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.NetMsgHelper;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
+import com.frame.component.view.LoadingLayoutEx;
 import com.frame.component.view.TitleView;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
@@ -43,6 +44,8 @@ public class NotifyZanListActivity extends BasicAppNoDiActivity implements IView
     RecyclerView recycler;
     @BindView(R2.id.titleview)
     TitleView titleview;
+    @BindView(R2.id.loadingview_ex)
+    LoadingLayoutEx loadingviewEx;
     private RecycleAdapterCommonMsg adapter;
 
     public static void start(Context context) {
@@ -112,8 +115,9 @@ public class NotifyZanListActivity extends BasicAppNoDiActivity implements IView
                             } else {
                                 adapter.addItem(list);
                             }
+                            loadingviewEx.showOut();
                         } else {
-                            ToastUtil.showToastLong("没有更多数据了");
+                            if (isFresh) loadingviewEx.showFailViewNoSupport();
                         }
                         NetMsgHelper.newInstance().readZanMsg();
                         springView.onFinishFreshAndLoadDelay();
@@ -123,6 +127,7 @@ public class NotifyZanListActivity extends BasicAppNoDiActivity implements IView
                     public void onError(Throwable e) {
                         ToastUtil.showToastLong(e.getMessage());
                         springView.onFinishFreshAndLoadDelay();
+                        if (isFresh) loadingviewEx.showFailViewNoNet();
                     }
                 });
     }

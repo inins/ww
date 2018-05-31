@@ -14,6 +14,8 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.frame.utils.SizeUtils;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -564,5 +566,4 @@ public class RichEditor extends WebView {
             return super.shouldOverrideUrlLoading(view, url);
         }
     }
-
 }

@@ -14,6 +14,7 @@ import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.ui.base.BasicAppActivity;
+import com.frame.component.view.LoadingLayoutEx;
 import com.frame.component.view.TitleView;
 import com.frame.di.component.AppComponent;
 import com.frame.http.api.ApiHelperEx;
@@ -32,6 +33,7 @@ import com.liaoinstan.springview.widget.SpringView;
 import com.wang.social.funshow.R;
 import com.wang.social.funshow.R2;
 import com.wang.social.funshow.di.component.DaggerSingleActivityComponent;
+import com.wang.social.funshow.mvp.entities.user.Friend;
 import com.wang.social.funshow.mvp.entities.user.TopUser;
 import com.wang.social.funshow.mvp.model.api.FunshowService;
 import com.wang.social.funshow.mvp.ui.adapter.RecycleAdapterHotUserList;
@@ -49,6 +51,8 @@ public class HotUserListActivity extends BasicAppActivity implements IView, Base
     SpringView springView;
     @BindView(R2.id.recycler)
     RecyclerView recycler;
+    @BindView(R2.id.loadingview_ex)
+    LoadingLayoutEx loadingviewEx;
     private RecycleAdapterHotUserList adapter;
 
     public static void start(Context context) {
@@ -126,13 +130,19 @@ public class HotUserListActivity extends BasicAppActivity implements IView, Base
                     @Override
                     public void onNext(BaseJson<BaseListWrap<TopUser>> basejson) {
                         BaseListWrap<TopUser> warp = basejson.getData();
-                        List<TopUser> list = warp.getList();
+                        List<TopUser> list = warp != null ? warp.getList() : null;
                         adapter.refreshData(list);
+                        if (!StrUtil.isEmpty(list)) {
+                            loadingviewEx.showOut();
+                        } else {
+                            loadingviewEx.showFailViewNoData();
+                        }
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         ToastUtil.showToastLong(e.getMessage());
+                        loadingviewEx.showFailViewNoNet();
                     }
                 }, null, () -> {
                     springView.onFinishFreshAndLoadDelay();

@@ -324,7 +324,7 @@ public class ReleaseTopicPresenter extends
     //上传图片
     private void netUploadCommit(String path) {
         path = path.replaceAll("&amp;", "&");
-        qiNiuManager.uploadFile(mRootView, path, new QiNiuManager.OnSingleUploadListener() {
+        qiNiuManager.uploadFile(mRootView, false, path, new QiNiuManager.OnSingleUploadListener() {
             @Override
             public void onSuccess(String url) {
                 Timber.i("上传资源成功 " + url);

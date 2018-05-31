@@ -62,7 +62,8 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
      * @param valueList 新的数据列表
      */
     public void refreshData(List<T> valueList) {
-        this.valueList = valueList;
+        this.valueList.clear();
+        if (valueList != null) this.valueList.addAll(valueList);
         notifyDataSetChanged();
     }
 

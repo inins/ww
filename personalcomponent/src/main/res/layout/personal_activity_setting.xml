@@ -139,17 +139,21 @@
                 android:onClick="onClick"
                 android:text="@string/personal_setting_shutdownlist" />
 
+            <!--黑名单功能被删除了，这里先隐藏掉-->
+
             <View
                 style="@style/common_Line_H"
                 android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp" />
+                android:layout_marginRight="15dp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/btn_blacklist"
                 style="@style/personal_TextMeItem"
                 android:drawableRight="@drawable/common_ic_next"
                 android:onClick="onClick"
-                android:text="@string/personal_setting_blanklist" />
+                android:text="@string/personal_setting_blanklist"
+                android:visibility="gone" />
 
             <TextView
                 android:layout_width="match_parent"

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nested_scroll_view">
+    android:id="@+id/nested_scroll_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,8 +14,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -50,7 +50,7 @@
                 android:inputType="textMultiLine"
                 android:maxLength="30"
                 android:textColor="@color/common_text_blank"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/title_count_text_view"
@@ -63,14 +63,13 @@
         </FrameLayout>
 
 
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
             android:text="@string/topic_topic_cover"
             android:textColor="@color/common_text_dark"
-            android:textSize="17sp"/>
+            android:textSize="17sp" />
 
         <FrameLayout
             android:id="@+id/cover_layout"
@@ -113,9 +112,9 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_marginTop="24dp"
             android:gravity="center_vertical"
-            android:layout_marginTop="24dp">
+            android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/topic_imageview5"
@@ -132,7 +131,6 @@
                 android:textColor="@color/common_text_dark"
                 android:textSize="17sp" />
         </LinearLayout>
-
 
 
         <TextView
@@ -152,22 +150,22 @@
             android:id="@+id/bg_music_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_marginTop="24dp"
+            android:orientation="vertical"
             android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/topic_imageview6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/topic_ic_star"
-                    android:visibility="invisible"/>
+                    android:visibility="invisible" />
 
                 <TextView
                     android:id="@+id/topic_textview11"
@@ -176,7 +174,7 @@
                     android:layout_marginStart="4dp"
                     android:text="@string/topic_music"
                     android:textColor="@color/common_text_dark"
-                    android:textSize="17sp"/>
+                    android:textSize="17sp" />
 
             </LinearLayout>
 
@@ -184,8 +182,8 @@
                 android:id="@+id/music_board_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
                 android:layout_marginTop="16dp"
+                android:adjustViewBounds="true"
                 android:background="@drawable/topic_shape_rect_corner_release_content_bg"
                 android:orientation="horizontal">
 
@@ -196,9 +194,9 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_marginTop="24dp"
             android:gravity="center_vertical"
-            android:layout_marginTop="24dp">
+            android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/topic_imageview7"
@@ -220,22 +218,34 @@
         <android.support.v7.widget.CardView
             android:id="@+id/rich_editor_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="640dp"
             android:minHeight="118dp"
             android:layout_marginTop="8dp"
             app:cardBackgroundColor="#F2F2F2"
             app:cardElevation="0dp"
             app:cardCornerRadius="16dp">
+            <ImageView
+                android:id="@+id/rich_editor_bg_image_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <android.support.v4.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
                 <com.wang.social.topic.mvp.ui.widget.richeditor.RichEditor
                     android:id="@+id/rich_editor"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:adjustViewBounds="true"
                     android:orientation="vertical"
                     android:layout_margin="14dp"
                     android:background="@android:color/transparent">
 
                 </com.wang.social.topic.mvp.ui.widget.richeditor.RichEditor>
+
+            </android.support.v4.widget.NestedScrollView>
+
 
 
         </android.support.v7.widget.CardView>
