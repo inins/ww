@@ -10,7 +10,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?android:actionBarSize"
-        app:toolbar_left_icon="@drawable/common_ic_back"
+        app:toolbar_left_icon="@drawable/common_ic_close"
         app:toolbar_right_text="@string/topic_release">
 
     </com.frame.component.view.SocialToolbar>

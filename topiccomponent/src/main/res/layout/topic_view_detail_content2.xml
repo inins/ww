@@ -1,114 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    app:cardCornerRadius="14dp"
+    app:cardElevation="0dp">
 
     <LinearLayout
+        android:id="@+id/content_layout_wrapper"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingTop="14dp"
-        android:paddingBottom="18dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/avatar_image_view"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="14dp"
-            tools:src="@color/common_blue_deep"/>
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp">
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingTop="14dp"
+            android:paddingBottom="18dp">
 
-            <TextView
-                android:id="@+id/nick_name_text_view"
+            <ImageView
+                android:id="@+id/avatar_image_view"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="14dp"
+                tools:src="@color/common_blue_deep"/>
+
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:textColor="#ff313131"
-                android:textSize="14sp"
-                tools:text="埃米尔" />
-
-            <LinearLayout
-                android:id="@+id/gender_age_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="6dp"
-                android:paddingRight="6dp"
-                android:paddingTop="3dp"
-                android:paddingBottom="3dp"
-                android:gravity="center_vertical"
-                android:layout_below="@+id/nick_name_text_view"
-                android:background="@drawable/topic_shape_rect_corner_solid_blue_gray">
-
-                <ImageView
-                    android:id="@+id/gender_image_view"
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
-                    android:layout_weight="1"
-                    tools:src="@drawable/common_ic_women" />
+                android:layout_marginStart="10dp">
 
                 <TextView
-                    android:id="@+id/age_text_view"
+                    android:id="@+id/nick_name_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_marginBottom="8dp"
+                    android:textColor="#ff313131"
+                    android:textSize="14sp"
+                    tools:text="埃米尔" />
+
+                <LinearLayout
+                    android:id="@+id/gender_age_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="6dp"
+                    android:paddingRight="6dp"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:gravity="center_vertical"
+                    android:layout_below="@+id/nick_name_text_view"
+                    android:background="@drawable/topic_shape_rect_corner_solid_blue_gray">
+
+                    <ImageView
+                        android:id="@+id/gender_image_view"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_weight="1"
+                        tools:src="@drawable/common_ic_women" />
+
+                    <TextView
+                        android:id="@+id/age_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="12sp"
+                        android:layout_marginStart="6dp"
+                        tools:text="22岁"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/constellation_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textColor="#ffffffff"
                     android:textSize="12sp"
-                    android:layout_marginStart="6dp"
-                    tools:text="22岁"/>
-            </LinearLayout>
+                    android:paddingLeft="6dp"
+                    android:paddingRight="6dp"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:background="@drawable/topic_shape_rect_corner_solid_text_blank_dark"
+                    android:layout_alignTop="@+id/gender_age_layout"
+                    android:layout_toEndOf="@+id/gender_age_layout"
+                    tools:text="白羊座" />
 
-            <TextView
-                android:id="@+id/constellation_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:textColor="#ffffffff"
-                android:textSize="12sp"
-                android:paddingLeft="6dp"
-                android:paddingRight="6dp"
-                android:paddingTop="3dp"
-                android:paddingBottom="3dp"
-                android:background="@drawable/topic_shape_rect_corner_solid_text_blank_dark"
-                android:layout_alignTop="@+id/gender_age_layout"
-                android:layout_toEndOf="@+id/gender_age_layout"
-                tools:text="白羊座" />
+            </RelativeLayout>
 
-        </RelativeLayout>
 
+        </LinearLayout>
+
+        <com.frame.component.view.MusicBoard
+            android:id="@+id/music_board_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginEnd="14dp"
+            android:background="@drawable/topic_shape_rect_corner_stroke_gray">
+
+        </com.frame.component.view.MusicBoard>
+
+
+        <FrameLayout
+            android:id="@+id/content_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="14dp"
+            android:layout_marginEnd="14dp"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="14dp"
+            app:layout_constraintBottom_toTopOf="@+id/topic_view3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constellation_text_view" />
 
     </LinearLayout>
-
-    <com.frame.component.view.MusicBoard
-        android:id="@+id/music_board_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="14dp"
-        android:layout_marginEnd="14dp"
-        android:background="@drawable/topic_shape_rect_corner_stroke_gray">
-
-    </com.frame.component.view.MusicBoard>
-
-
-    <FrameLayout
-        android:id="@+id/content_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="14dp"
-        android:layout_marginEnd="14dp"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="14dp"
-        app:layout_constraintBottom_toTopOf="@+id/topic_view3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constellation_text_view" />
-
-</LinearLayout>
+</android.support.v7.widget.CardView>

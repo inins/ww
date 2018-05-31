@@ -131,19 +131,23 @@ public class QiNiuManager {
         });
     }
 
+    public void uploadFile(final IView view, final String path, final OnSingleUploadListener onSingleUploadListener) {
+        uploadFile(view, true, path, onSingleUploadListener);
+    }
+
     /**
      * 上传单个文件
      *
      * @param path
      * @param onSingleUploadListener
      */
-    public void uploadFile(final IView view, final String path, final OnSingleUploadListener onSingleUploadListener) {
+    public void uploadFile(final IView view, boolean showLoding, final String path, final OnSingleUploadListener onSingleUploadListener) {
         //如果资源是空，那么直接返回
         if (TextUtils.isEmpty(path)) {
             if (onSingleUploadListener != null) onSingleUploadListener.onSuccess(path);
             return;
         }
-        if (view != null) view.showLoading();
+        if (view != null && showLoding) view.showLoading();
         getToken(view, new OnTokenListener() {
             @Override
             public void success(final String token) {
@@ -167,7 +171,7 @@ public class QiNiuManager {
 
                     @Override
                     public void onNext(String strings) {
-                        if (view != null) view.hideLoading();
+                        if (view != null && showLoding) view.hideLoading();
                         if (onSingleUploadListener != null) {
                             onSingleUploadListener.onSuccess(strings);
                         }
@@ -175,7 +179,7 @@ public class QiNiuManager {
 
                     @Override
                     public void onError(Throwable e) {
-                        if (view != null) view.hideLoading();
+                        if (view != null && showLoding) view.hideLoading();
                         if (onSingleUploadListener != null) {
                             onSingleUploadListener.onFail();
                         }

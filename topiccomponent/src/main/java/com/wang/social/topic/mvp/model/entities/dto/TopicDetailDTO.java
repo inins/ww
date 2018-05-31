@@ -1,6 +1,7 @@
 package com.wang.social.topic.mvp.model.entities.dto;
 
 
+import com.frame.component.utils.EntitiesUtil;
 import com.frame.http.api.Mapper;
 import com.wang.social.topic.utils.StringUtil;
 import com.wang.social.topic.mvp.model.entities.Tag;
@@ -33,6 +34,7 @@ public class TopicDetailDTO implements Mapper<TopicDetail> {
     private Integer gemstone;
     private Integer topicId;
     private Integer shareTotal;
+    private String templateUrl;
 
     private int assertNotNull(Integer i) {
         return i == null ? 0 : i;
@@ -68,6 +70,7 @@ public class TopicDetailDTO implements Mapper<TopicDetail> {
         object.setCreateTime(assertNotNull(createTime));
         object.setShareTotal(assertNotNull(shareTotal));
         object.setNickname(StringUtil.assertNotNull(nickname));
+        object.setTemplateUrl(EntitiesUtil.assertNotNull(templateUrl));
 
         return object;
     }

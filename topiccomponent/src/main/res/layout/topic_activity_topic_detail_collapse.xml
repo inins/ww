@@ -13,14 +13,14 @@
         tools:src="@color/common_blue"/>
 
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="8dp"
-        android:layout_gravity="bottom"
-        android:background="@drawable/topic_shape_rect_top_corner_solid_white"
-        app:layout_collapseMode="parallax">
+    <!--<FrameLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="8dp"-->
+        <!--android:layout_gravity="bottom"-->
+        <!--android:background="@drawable/topic_shape_rect_top_corner_solid_white"-->
+        <!--app:layout_collapseMode="parallax">-->
 
-    </FrameLayout>
+    <!--</FrameLayout>-->
 
     <LinearLayout
         android:id="@+id/image_layout"

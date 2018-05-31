@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -36,6 +37,7 @@ import com.frame.component.ui.acticity.BGMList.BGMListActivity;
 import com.frame.component.ui.acticity.BGMList.Music;
 import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.component.ui.base.BaseAppActivity;
+import com.frame.component.ui.dialog.DialogSure;
 import com.frame.component.view.MusicBoard;
 import com.frame.component.view.SocialToolbar;
 import com.frame.component.view.waveview.WaveView;
@@ -145,9 +147,9 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
 
     @BindView(R2.id.rich_editor_layout)
-    CardView mRichEditorLayout;
-//    @BindView(R2.id.rich_editor_bg_image_view)
-//    ImageView mRichEditorBGIV;
+    FrameLayout mRichEditorLayout;
+    @BindView(R2.id.rich_editor_bg_image_view)
+    ImageView mRichEditorBGIV;
     // 内容编辑器
     @BindView(R2.id.rich_editor)
     RichEditor mRichEditor;
@@ -213,7 +215,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         // 顶部状态栏控制
         mToolbar.setOnButtonClickListener(clickType -> {
             if (clickType == SocialToolbar.ClickType.LEFT_ICON) {
-                finish();
+                quit();
             } else if (clickType == SocialToolbar.ClickType.RIGHT_TEXT) {
                 addTopic();
             }
@@ -526,13 +528,14 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
         // 内容编辑器相关设置
         //        mRichEditor.setEditorBackgroundColor(Color.TRANSPARENT);
-//        int padding = SizeUtils.dp2px(5);
-//        mRichEditor.setPadding(
-//                padding,
-//                padding,
-//                padding,
-//                padding);
-        mRichEditor.setBackgroundColor(0xFFF2F2F2);
+        int padding = SizeUtils.dp2px(5);
+        int paddingSide = SizeUtils.dp2px(5);
+        mRichEditor.setPadding(
+                paddingSide,
+                padding,
+                paddingSide,
+                padding);
+        mRichEditor.setBackgroundColor(Color.TRANSPARENT);
 
         mRichEditor.setOnDecorationChangeListener((String text, List<RichEditor.Type> types) -> {
             Timber.i("onStateChangeListener : " + text);
@@ -612,27 +615,21 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
                     mPresenter.setTemplate(template);
 
                     // 改变内容编辑框背景
-//                    mRichEditor.setBackground(mPresenter.getTemplate().getUrl());
-
-//                    ImageLoaderHelper.loadImg(mRichEditorBGIV, mPresenter.getTemplate().getUrl());
-//
                     if (template.getId() == -1) {
-//                        mRichEditorBGIV.setBackgroundColor(0xFFF2F2F2);
-                        mRichEditor.setBackgroundColor(0xFFF2F2F2);
+                        mRichEditorBGIV.setBackgroundColor(0xFFF2F2F2);
                     } else {
-                        mRichEditor.setBackgroundColor(android.R.color.transparent);
                         SimpleTarget<Drawable> simpleTarget = new SimpleTarget<Drawable>() {
                             @Override
                             public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
                                 BitmapDrawable bd = (BitmapDrawable) resource;
                                 bd.setTileModeXY(Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
-//                                mRichEditor.setBackground(bd);
-                                mRichEditorLayout.setBackground(bd);
-//                                mRichEditorBGIV.setBackground(bd);
+                                mRichEditorBGIV.setBackground(bd);
                             }
                         };
-//
+
                         Glide.with(this).load(mPresenter.getTemplate().getUrl()).into(simpleTarget);
+
+//                        mRichEditor.setBackground(mPresenter.getTemplate().getUrl());
                     }
                     break;
                 case REQUEST_CODE_BGM: // 背景音乐
@@ -838,6 +835,10 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
         String content = HtmlUtil.delHTMLTag(mRichEditor.getHtml());
 
+        if (mPresenter.getTemplate() != null && mPresenter.getTemplate().getId() != -1) {
+            mRichEditor.setBackground(mPresenter.getTemplate().getUrl());
+        }
+
         mPresenter.addTopic(
                 mTitleET.getText().toString(),
                 mRichEditor.getHtml(),
@@ -1003,6 +1004,21 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         }
     };
 
+    private View.OnLayoutChangeListener mRichEditorLayoutChangeListener = new View.OnLayoutChangeListener() {
+        @Override
+        public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+            int newH = Math.max(bottom - top, SizeUtils.dp2px(118));
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mRichEditor.getLayoutParams();
+            if (params.height != newH) {
+                Timber.i("重置 WebView 高度 : " + newH);
+                params.height = newH;
+                mRichEditor.setLayoutParams(params);
+                params.height = LinearLayout.LayoutParams.WRAP_CONTENT;
+                mRichEditor.setLayoutParams(params);
+            }
+        }
+    };
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -1010,6 +1026,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         mRootView.addOnLayoutChangeListener(this);
 //        mRichEditorLayout.addOnLayoutChangeListener(mRichEditLayoutChangeListener);
 //        mRichEditor.addOnLayoutChangeListener(mWebViewLayoutChangeListener);
+//        mRichEditor.addOnLayoutChangeListener(mRichEditorLayoutChangeListener);
     }
 
     @Override
@@ -1020,7 +1037,8 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
         mRootView.removeOnLayoutChangeListener(this);
 //        mRichEditorLayout.removeOnLayoutChangeListener(mRichEditLayoutChangeListener);
-        mRichEditor.removeOnLayoutChangeListener(mWebViewLayoutChangeListener);
+//        mRichEditor.removeOnLayoutChangeListener(mWebViewLayoutChangeListener);
+//        mRichEditor.removeOnLayoutChangeListener(mRichEditorLayoutChangeListener);
     }
 
     @Override
@@ -1136,8 +1154,17 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         } else if (mVoicLayout.getVisibility() == View.VISIBLE) {
             showVoiceLayout(false);
         } else {
-            finish();
+//            finish();
+            quit();
         }
+    }
+
+    public void quit() {
+        DialogSure.showDialog(this,
+                "确认退出编辑？",
+                "取消" ,
+                "确定",
+                () -> finish());
     }
 
     @Override

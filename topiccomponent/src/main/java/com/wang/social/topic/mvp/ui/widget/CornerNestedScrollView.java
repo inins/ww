@@ -1,53 +1,50 @@
-package com.wang.social.topic.mvp.ui.widget.richeditor;
+package com.wang.social.topic.mvp.ui.widget;
 
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.widget.NestedScrollView;
 import android.util.AttributeSet;
 import android.view.View;
-import android.webkit.WebView;
 
-import com.frame.utils.SizeUtils;
-import com.wang.social.topic.R;
+public class CornerNestedScrollView extends NestedScrollView {
 
-import timber.log.Timber;
-
-public class CornerWebView extends WebView {
 
     private float[] radiusArray = {
             20f, 20f,
             20f, 20f,
-            20f, 20f,
-            20f, 20f};
+            0f, 0f,
+            0f, 0f};
 
     private Path mPath;
     private RectF mRectF;
     private int mWidth;
     private int mHeight;
 
-    public CornerWebView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+
+    public CornerNestedScrollView(@NonNull Context context) {
+        this(context, null);
+    }
+
+    public CornerNestedScrollView(@NonNull Context context, @Nullable AttributeSet attrs) {
+        this(context, attrs, 0);
+    }
+
+    public CornerNestedScrollView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+
         init(context, attrs);
     }
 
-    public CornerWebView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-        init(context, attrs);
-    }
 
     private void init(Context context, AttributeSet attrs) {
         mPath = new Path();
         mRectF = new RectF();
 
         setLayerType(View.LAYER_TYPE_SOFTWARE, null); //关闭硬件加速
-//        setBackgroundColor(Color.TRANSPARENT);
     }
 
     @Override
