@@ -15,6 +15,8 @@ import android.view.animation.AccelerateInterpolator;
 
 import com.wang.social.im.R;
 
+import timber.log.Timber;
+
 /**
  * ============================================
  * <p>
@@ -77,7 +79,7 @@ public class StackLayout extends ViewGroup {
         setMeasuredDimension(measureWidth, measureHeight);
 
         mCritical = (childWidth - mOffsetX) / 2;
-        mMaxMoveX = childWidth;
+        mMaxMoveX = mCritical * 2 + mOffsetX;
     }
 
     @Override
@@ -95,11 +97,6 @@ public class StackLayout extends ViewGroup {
         int hideWidth = hideView.getMeasuredWidth();
         int hideHeight = hideView.getMeasuredHeight();
         hideView.layout(0 - mMoveX, 0, hideWidth + (0 - mMoveX), hideHeight);
-
-        if (mMoveX == -mOffsetX && mShowViewChanged) {
-            mShowViewChanged = false;
-            changeShowView();
-        }
     }
 
     @Override
@@ -166,6 +163,9 @@ public class StackLayout extends ViewGroup {
                 int moveX = (int) (event.getX() - mTouchDownX);
                 if (moveX > 0 && moveX != mMaxMoveX) {
                     formatChildLocation(moveX);
+                } else if (mShowViewChanged) {
+                    mShowViewChanged = false;
+                    changeShowView();
                 }
                 break;
         }
@@ -202,6 +202,12 @@ public class StackLayout extends ViewGroup {
 
             @Override
             public void onAnimationEnd(Animator animation) {
+                if (mShowViewChanged) {
+                    mShowViewChanged = false;
+                    changeShowView();
+                }
+                mMoveX = 0;
+                requestLayout();
             }
 
             @Override

@@ -1,5 +1,6 @@
 package com.wang.social.im.mvp.presenter;
 
+import com.frame.component.helper.QiNiuManager;
 import com.frame.di.scope.ActivityScope;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
@@ -86,5 +87,33 @@ public class TeamHomePresenter extends GroupPresenter<TeamHomeContract.Model, Te
                         mRootView.hideLoading();
                     }
                 });
+    }
+
+    /**
+     * 修改觅聊图片
+     *
+     * @param cover
+     * @param teamInfo
+     */
+    public void updateCover(String cover, TeamInfo teamInfo) {
+        if (!cover.startsWith("http")) {
+            QiNiuManager manager = new QiNiuManager(mRepositoryManager);
+            manager.uploadFile(mRootView, cover, new QiNiuManager.OnSingleUploadListener() {
+                @Override
+                public void onSuccess(String url) {
+                    teamInfo.setCover(url);
+                    updateTeamInfo(teamInfo);
+                }
+
+                @Override
+                public void onFail() {
+                    ToastUtil.showToastShort("封面上传失败");
+                    mRootView.hideLoading();
+                }
+            });
+        } else {
+            teamInfo.setCover(cover);
+            updateTeamInfo(teamInfo);
+        }
     }
 }

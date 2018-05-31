@@ -1,5 +1,7 @@
 package com.wang.social.im.mvp.ui;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,6 +25,7 @@ import com.frame.component.common.AppConstant;
 import com.frame.component.entities.AutoPopupItemModel;
 import com.frame.component.enums.ConversationType;
 import com.frame.component.helper.AppDataHelper;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.ui.dialog.AutoPopupWindow;
@@ -31,29 +34,39 @@ import com.frame.component.ui.dialog.EditDialog;
 import com.frame.component.utils.UIUtil;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
 import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.http.imageloader.glide.RoundedCornersTransformation;
 import com.frame.integration.AppManager;
 import com.frame.router.facade.annotation.Autowired;
+import com.frame.utils.FileUtils;
 import com.frame.utils.ScreenUtils;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.ToastUtil;
 import com.kyleduo.switchbutton.SwitchButton;
+import com.tbruyelle.rxpermissions2.Permission;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.di.component.DaggerTeamHomeComponent;
 import com.wang.social.im.di.modules.TeamHomeModule;
 import com.wang.social.im.enums.MessageNotifyType;
 import com.wang.social.im.helper.ImHelper;
+import com.wang.social.im.helper.ImageSelectHelper;
 import com.wang.social.im.mvp.contract.TeamHomeContract;
 import com.wang.social.im.mvp.model.entities.MemberInfo;
 import com.wang.social.im.mvp.model.entities.TeamInfo;
 import com.wang.social.im.mvp.presenter.TeamHomePresenter;
 import com.wang.social.im.mvp.ui.adapters.HomeMemberAdapter;
 import com.wang.social.im.mvp.ui.adapters.HomeTagAdapter;
+import com.wang.social.im.widget.ImageSelectDialog;
+import com.wang.social.pictureselector.helper.PhotoHelper;
 import com.wang.social.socialize.SocializeUtil;
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,13 +74,24 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
+
+import static com.frame.entities.EventBean.EVENT_NOTIFY_BACKGROUND;
 
 /**
  * 觅聊详情
  */
-public class TeamHomeActivity extends BaseAppActivity<TeamHomePresenter> implements TeamHomeContract.View {
+public class TeamHomeActivity extends BaseAppActivity<TeamHomePresenter> implements TeamHomeContract.View, PhotoHelper.OnPhotoCallback {
+
+    private static final int PHOTO_TYPE_COVER = 1;
+    private static final int PHOTO_TYPE_BACKGROUND = 2;
 
     private static final int REQUEST_CODE_CHARGE = 1000;
+    private static final int REQUEST_CODE_OFFICIAL_PHOTO = 1001;
 
     @BindView(R2.id.th_toolbar)
     SocialToolbar thToolbar;
@@ -133,6 +157,9 @@ public class TeamHomeActivity extends BaseAppActivity<TeamHomePresenter> impleme
 
     private TeamInfo mTeam;
     private MemberInfo mSelfProfile;
+
+    private ImageSelectHelper mImageSelectHelper;
+    private int mPhotoType;
 
     //记录是否是通过用户点击修改状态
     private boolean applyFromCode = false;
@@ -282,6 +309,42 @@ public class TeamHomeActivity extends BaseAppActivity<TeamHomePresenter> impleme
                 }
             }
         });
+
+        mImageSelectHelper = ImageSelectHelper.newInstance(this, this, new ImageSelectDialog.OnItemSelectedListener() {
+            @Override
+            public void onGallerySelected() {
+                switch (mPhotoType) {
+                    case PHOTO_TYPE_COVER:
+                        CommonHelper.PersonalHelper.startOfficialPhotoActivity(TeamHomeActivity.this, REQUEST_CODE_OFFICIAL_PHOTO);
+                        break;
+                    case PHOTO_TYPE_BACKGROUND:
+                        BackgroundSettingActivity.start(TeamHomeActivity.this, ConversationType.TEAM, ImHelper.wangId2ImId(teamId, ConversationType.TEAM));
+                        break;
+                }
+            }
+
+            @SuppressLint("CheckResult")
+            @Override
+            public void onShootSelected() {
+                new RxPermissions(TeamHomeActivity.this)
+                        .requestEach(Manifest.permission.CAMERA)
+                        .subscribe(new Consumer<Permission>() {
+                            @Override
+                            public void accept(Permission permission) throws Exception {
+                                if (permission.granted) {
+                                    mImageSelectHelper.startCamera();
+                                } else if (permission.shouldShowRequestPermissionRationale) {
+                                    ToastUtil.showToastShort("请在设置中打开相机权限");
+                                }
+                            }
+                        });
+            }
+
+            @Override
+            public void onAlbumSelected() {
+                mImageSelectHelper.startPhoto();
+            }
+        });
     }
 
     @Override
@@ -315,7 +378,7 @@ public class TeamHomeActivity extends BaseAppActivity<TeamHomePresenter> impleme
 
     }
 
-    @OnClick({R2.id.th_ll_team_name, R2.id.th_tv_clear_message, R2.id.th_tv_background_chat, R2.id.th_tv_charge_setting, R2.id.th_tvb_handle})
+    @OnClick({R2.id.th_ll_team_name, R2.id.th_iv_cover, R2.id.th_tv_clear_message, R2.id.th_tv_background_chat, R2.id.th_tv_charge_setting, R2.id.th_tvb_handle})
     public void onViewClicked(View view) {
         if (view.getId() == R.id.th_ll_team_name) { //觅聊名称
             EditDialog editDialog = new EditDialog(this, mTeam.getName(), UIUtil.getString(R.string.im_group_name_setting), 8, new EditDialog.OnInputCompleteListener() {
@@ -333,6 +396,10 @@ public class TeamHomeActivity extends BaseAppActivity<TeamHomePresenter> impleme
                 }
             });
             editDialog.show();
+        } else if (view.getId() == R.id.th_iv_cover) {
+            mPhotoType = PHOTO_TYPE_COVER;
+            mImageSelectHelper.setShowShoot(true);
+            mImageSelectHelper.showDialog();
         } else if (view.getId() == R.id.th_tv_clear_message) {//清除聊天内容
             DialogSure.showDialog(this, "确认清空消息？", new DialogSure.OnSureCallback() {
                 @Override
@@ -342,7 +409,9 @@ public class TeamHomeActivity extends BaseAppActivity<TeamHomePresenter> impleme
             });
 
         } else if (view.getId() == R.id.th_tv_background_chat) {//背景图片
-            BackgroundSettingActivity.start(this, ConversationType.TEAM, ImHelper.wangId2ImId(teamId, ConversationType.TEAM));
+            mPhotoType = PHOTO_TYPE_BACKGROUND;
+            mImageSelectHelper.setShowShoot(false);
+            mImageSelectHelper.showDialog();
         } else if (view.getId() == R.id.th_tv_charge_setting) {//收费设置
             TeamChargeSettingActivity.start(this, mTeam, REQUEST_CODE_CHARGE);
         } else if (view.getId() == R.id.th_tvb_handle) {//退出/解散觅聊
@@ -378,6 +447,9 @@ public class TeamHomeActivity extends BaseAppActivity<TeamHomePresenter> impleme
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (mImageSelectHelper != null) {
+            mImageSelectHelper.onActivityResult(requestCode, resultCode, data);
+        }
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_CODE_CHARGE:
@@ -388,7 +460,65 @@ public class TeamHomeActivity extends BaseAppActivity<TeamHomePresenter> impleme
                         thIvPayLogo.setVisibility(View.VISIBLE);
                     }
                     break;
+                case REQUEST_CODE_OFFICIAL_PHOTO:
+                    String coverUrl = data.getStringExtra("url");
+                    mImageLoader.loadImage(this, ImageConfigImpl.builder()
+                            .placeholder(R.drawable.im_round_image_placeholder)
+                            .errorPic(R.drawable.im_round_image_placeholder)
+                            .transformation(new RoundedCornersTransformation(UIUtil.getDimen(R.dimen.im_round_image_radius), 0, RoundedCornersTransformation.CornerType.ALL))
+                            .imageView(thIvCover)
+                            .url(coverUrl)
+                            .build());
+                    mPresenter.updateCover(coverUrl, mTeam);
+                    break;
             }
+        }
+    }
+
+    @Override
+    public void onResult(String path) {
+        switch (mPhotoType) {
+            case PHOTO_TYPE_COVER:
+                mImageLoader.loadImage(this, ImageConfigImpl.builder()
+                        .placeholder(R.drawable.im_round_image_placeholder)
+                        .errorPic(R.drawable.im_round_image_placeholder)
+                        .transformation(new RoundedCornersTransformation(UIUtil.getDimen(R.dimen.im_round_image_radius), 0, RoundedCornersTransformation.CornerType.ALL))
+                        .imageView(thIvCover)
+                        .url(path)
+                        .build());
+                mPresenter.updateCover(path, mTeam);
+                break;
+            case PHOTO_TYPE_BACKGROUND:
+                Observable.just(path)
+                        .subscribeOn(Schedulers.io())
+                        .map(new Function<String, Boolean>() {
+                            @Override
+                            public Boolean apply(String s) throws Exception {
+                                File file = new File(ImHelper.getBackgroundCachePath(), ImHelper.getBackgroundFileName(ConversationType.TEAM, ImHelper.wangId2ImId(teamId, ConversationType.TEAM)));
+                                if (file.exists()) {
+                                    file.delete();
+                                }
+                                File selectFile = new File(path);
+                                return FileUtils.copyFile(selectFile, file);
+                            }
+                        })
+                        .unsubscribeOn(AndroidSchedulers.mainThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Consumer<Boolean>() {
+                            @Override
+                            public void accept(Boolean aBoolean) throws Exception {
+                                if (aBoolean) {
+                                    ToastUtil.showToastShort("设置成功");
+                                    EventBean event = new EventBean(EVENT_NOTIFY_BACKGROUND);
+                                    event.put("typeOrdinal", ConversationType.TEAM.ordinal());
+                                    event.put("targetId", ImHelper.wangId2ImId(teamId, ConversationType.TEAM));
+                                    EventBus.getDefault().post(event);
+                                } else {
+                                    ToastUtil.showToastShort("设置失败");
+                                }
+                            }
+                        });
+                break;
         }
     }
 }

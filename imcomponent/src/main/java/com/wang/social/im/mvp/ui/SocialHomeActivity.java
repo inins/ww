@@ -766,7 +766,7 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
                 mPresenter.updateCover(path, mSocial);
             } else if (mPhotoType == PHOTO_TYPE_BACKGROUND) {
                 Observable.just(path)
-                        .observeOn(Schedulers.io())
+                        .subscribeOn(Schedulers.io())
                         .map(new Function<String, Boolean>() {
                             @Override
                             public Boolean apply(String s) throws Exception {
@@ -778,7 +778,7 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
                                 return FileUtils.copyFile(selectFile, file);
                             }
                         })
-                        .subscribeOn(AndroidSchedulers.mainThread())
+                        .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Consumer<Boolean>() {
                             @Override
                             public void accept(Boolean aBoolean) throws Exception {
