@@ -47,6 +47,11 @@ public class IMServiceImpl implements ImService {
     }
 
     @Override
+    public void setOfflinePushEnable(boolean enable) {
+        ImHelper.setOfflineMessagePushStatus(enable);
+    }
+
+    @Override
     public void imLogin(Application application) {
         TIMManager.getInstance().login(String.valueOf(AppDataHelper.getUser().getUserId()), AppDataHelper.getSign(), new TIMCallBack() {
             @Override

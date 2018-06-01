@@ -36,4 +36,11 @@ public interface ImService {
      * IM登出
      */
     void imLogout();
+
+    /**
+     * 设置是否启用离线推送
+     *
+     * @param enable
+     */
+    void setOfflinePushEnable(boolean enable);
 }
