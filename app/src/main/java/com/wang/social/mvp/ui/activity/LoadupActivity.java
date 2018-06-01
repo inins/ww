@@ -1,5 +1,6 @@
 package com.wang.social.mvp.ui.activity;
 
+import android.app.ActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,9 +14,12 @@ import com.frame.component.helper.CommonHelper;
 import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.component.utils.viewutils.AppUtil;
 import com.frame.di.component.AppComponent;
+import com.frame.integration.AppManager;
 import com.frame.utils.AppUtils;
+import com.frame.utils.FrameUtils;
 import com.frame.utils.SPUtils;
 import com.frame.utils.StatusBarUtil;
+import com.frame.utils.Utils;
 import com.wang.social.R;
 
 import java.util.Set;
@@ -40,6 +44,9 @@ public class LoadupActivity extends AppCompatActivity {
         }
     };
 
+    private AppManager mAppManager = FrameUtils.obtainAppComponentFromContext(Utils.getContext())
+            .appManager();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,10 +64,19 @@ public class LoadupActivity extends AppCompatActivity {
                 String targetId = intent.getData().getQueryParameter("targetId");
                 String fromUserId = intent.getData().getQueryParameter("fromUserId");
 
-                HomeActivity.start(this, target, targetId);
+                // 判断HomeActivity是否在后台
+                if (mAppManager.activityClassIsLive(HomeActivity.class)) {
+                    HomeActivity activity = (HomeActivity) mAppManager.findActivity(HomeActivity.class);
+                    if (null != activity) {
+                        HomeActivity.start(this);
+                        activity.performRemoteCall(target, targetId);
+                    }
+                } else {
+                    HomeActivity.start(this, target, targetId);
+                }
             }
         } else {
-            mHandler.postDelayed(mRunnable, 2000);
+            mHandler.postDelayed(mRunnable, 1500);
         }
     }
 
