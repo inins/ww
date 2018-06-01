@@ -101,7 +101,7 @@ public class AppConstant {
      * 分享文案
      */
     public static class Share {
-        public static final String SHARE_DEFAULT_IMAGE = "";
+        public static final String SHARE_DEFAULT_IMAGE = "http://static.wangsocial.com/1024.png";
 
         /*群分享*/
         public static final String SHARE_GROUP_OPEN_TARGET = "group";

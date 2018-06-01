@@ -156,10 +156,6 @@ public class ImHelper {
      * 配置离线推送
      */
     public static void configurationOfflinePush(Application application) {
-        //登陆成功添加离线消息推送配置
-        TIMOfflinePushSettings offlinePushSettings = new TIMOfflinePushSettings();
-        offlinePushSettings.setEnabled(true);
-
         String vendor = Build.MANUFACTURER;
         //初始化推送
         if (vendor.toLowerCase().contains("xiaomi") || vendor.toLowerCase().contains("blackshark")) { //小米推送
@@ -224,5 +220,24 @@ public class ImHelper {
      */
     public static void dropConversation(ConversationType conversationType, String identity) {
         TIMManagerExt.getInstance().deleteConversationAndLocalMsgs(conversationType == ConversationType.PRIVATE ? TIMConversationType.C2C : TIMConversationType.Group, identity);
+    }
+
+    /**
+     * 设置是否开启离线推送
+     *
+     * @param isPush
+     */
+    public static void setOfflineMessagePushStatus(boolean isPush) {
+        TIMOfflinePushSettings offlinePushSettings = new TIMOfflinePushSettings();
+        offlinePushSettings.setEnabled(isPush);
+    }
+
+    /**
+     * 获取离线推送状态
+     *
+     * @return
+     */
+    public static boolean isOfflinePushEnable() {
+        return new TIMOfflinePushSettings().isEnabled();
     }
 }

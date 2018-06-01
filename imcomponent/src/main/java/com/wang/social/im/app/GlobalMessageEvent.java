@@ -140,7 +140,8 @@ public class GlobalMessageEvent extends Observable implements TIMMessageListener
     }
 
     private void showMessageNotify(TIMMessage timMessage) {
-        if (AppUtils.isAppForeground() || timMessage.getRecvFlag() == TIMGroupReceiveMessageOpt.ReceiveNotNotify) {
+        if (AppUtils.isAppForeground() || timMessage.getRecvFlag() == TIMGroupReceiveMessageOpt.ReceiveNotNotify ||
+                !ImHelper.isOfflinePushEnable()) {
             return;
         }
         //显示角标
@@ -159,7 +160,17 @@ public class GlobalMessageEvent extends Observable implements TIMMessageListener
      * @param message
      */
     private void showSystemNotify(SystemMessage message) {
+        if (!ImHelper.isOfflinePushEnable()) {
+            return;
+        }
         NotificationCompat.Builder builder = getBuilder(message.getTitle(), message.getPushContent());
+        switch (message.getType()) {
+            case SystemMessage.TYPE_ADD_FRIEND://好友申请
+                break;
+            case SystemMessage.TYPE_GROUP_APPLY:
+
+                break;
+        }
         Intent intent = mApplication.getApplicationContext().getPackageManager().getLaunchIntentForPackage(mApplication.getPackageName());
         builder.setContentIntent(PendingIntent.getActivity(mApplication, (int) SystemClock.uptimeMillis(), intent, PendingIntent.FLAG_UPDATE_CURRENT));
         ((NotificationManager) mApplication.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE)).notify(IMConstants.SERVER_PUSH_MESSAGE_ACCOUNT, 520, builder.build());
@@ -171,6 +182,9 @@ public class GlobalMessageEvent extends Observable implements TIMMessageListener
      * @param message
      */
     private void showDynamicNotify(DynamicMessage message) {
+        if (!ImHelper.isOfflinePushEnable()) {
+            return;
+        }
         NotificationCompat.Builder builder = getBuilder(null, message.getPushContent());
         Intent intent = mApplication.getApplicationContext().getPackageManager().getLaunchIntentForPackage(mApplication.getPackageName());
         builder.setContentIntent(PendingIntent.getActivity(mApplication, (int) SystemClock.uptimeMillis(), intent, PendingIntent.FLAG_UPDATE_CURRENT));
