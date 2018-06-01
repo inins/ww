@@ -435,16 +435,12 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
                 mBottomRightTV.setText("同意");
                 mBottomRightTV.setOnClickListener(v -> mPresenter.agreeApply(mUserId, mMsgId));
             } else {
-                // 浏览模式，如果不是好友显示 添加好友
-                if (personalInfo.getIsFriend() <= 0) {
-                    mBottomMiddleTV.setVisibility(View.VISIBLE);
-                    mBottomMiddleTV.setText("添加好友");
-                    mBottomMiddleTV.setOnClickListener(
-                            v -> DialogValiRequest.showDialog(PersonalCardActivity.this,
-                                    content -> mPresenter.addFriendApply(mUserId, content)));
-                } else {
-                    mBottomMiddleTV.setVisibility(View.GONE);
-                }
+                // 浏览模式，不是好友显示 添加好友
+                mBottomMiddleTV.setVisibility(View.VISIBLE);
+                mBottomMiddleTV.setText("添加好友");
+                mBottomMiddleTV.setOnClickListener(
+                        v -> DialogValiRequest.showDialog(PersonalCardActivity.this,
+                                content -> mPresenter.addFriendApply(mUserId, content)));
             }
         }
 

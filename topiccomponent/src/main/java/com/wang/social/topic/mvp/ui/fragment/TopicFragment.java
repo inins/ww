@@ -43,6 +43,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 import static com.app.hubert.guide.model.HighLight.Shape.CIRCLE;
 import static com.app.hubert.guide.model.HighLight.Shape.ROUND_RECTANGLE;
@@ -223,6 +224,17 @@ public class TopicFragment extends BaseLazyFragment<TopicPresenter> implements T
             }
         });
         mTabLayout.setViewPager(mViewPager);
+
+        for (int i = 0; i < TAB_TITLES.length; i++) {
+            View view = mTabLayout.getChildAt(i);
+            if (null != view && view.findViewById(R.id.custom_text) instanceof TextView) {
+                TextView tv = (TextView) view.findViewById(R.id.custom_text);
+                Timber.i("" + i + " " + tv.getText());
+                if (i <= 1) {
+                    tv.setEms(2);
+                }
+            }
+        }
     }
 
     @Override

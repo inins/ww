@@ -442,7 +442,9 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
         }
 
         // 年龄
-        mAgeTV.setText("" + StringUtil.getAgeFromBirthTime(TimeUtils.millis2Date(detail.getBirthday())) +
+//        mAgeTV.setText("" + StringUtil.getAgeFromBirthTime(TimeUtils.millis2Date(detail.getBirthday())) +
+//                getResources().getString(R.string.topic_age));
+        mAgeTV.setText("" + TimeUtils.getAgeByBirth(detail.getBirthday()) +
                 getResources().getString(R.string.topic_age));
 
         // 星座

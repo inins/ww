@@ -168,6 +168,7 @@
                 android:id="@+id/tab_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="42dp"
+                android:layout_marginStart="10dp"
                 android:layout_below="@+id/divider_view"
                 app:stl_customTabTextLayoutId="@layout/topic_tab_layout"
                 app:stl_customTabTextViewId="@id/custom_text"
@@ -177,6 +178,7 @@
                 app:stl_indicatorCornerRadius="2dp"
                 app:stl_indicatorInterpolation="smart"
                 app:stl_indicatorThickness="3dp"
+                app:stl_indicatorWidth="17dp"
                 app:stl_underlineColor="@android:color/transparent"
                 app:stl_underlineThickness="0px">
 

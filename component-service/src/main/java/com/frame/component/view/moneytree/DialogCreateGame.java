@@ -322,9 +322,9 @@ public class DialogCreateGame extends DialogFragment {
             e.printStackTrace();
         }
 
-        if (mPrice < 1) {
-            ToastUtil.showToastShort("参加游戏钻石必须大于1钻");
-            setPriceText(1);
+        if (mPrice < 2) {
+            ToastUtil.showToastShort("参加游戏钻石必须大于2钻");
+            setPriceText(2);
             return false;
         } else if (mPrice > 20000) {
             ToastUtil.showToastShort("参加游戏钻之必须小于20000钻");

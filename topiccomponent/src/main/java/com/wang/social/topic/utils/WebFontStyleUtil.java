@@ -63,6 +63,25 @@ public class WebFontStyleUtil {
                 "  webkit-border-radius: 0px;border-radius: 0px;border: 0px solid black;\n" +
                 "}"
                 +
+                "body {\n" +
+                "  word-wrap:break-word;\n" +
+                "  word-break:break-all;\n" +
+                "  overflow: hidden;\n" +
+                "  display: table;\n" +
+                "  table-layout: fixed;\n" +
+                "  width: 98%;\n" +
+                "  min-height:100%;\n" +
+                "}"
+                +
+                "blockquote{\n" +
+                "    background-color: whitesmoke;\n" +
+                "    border-left: 4px solid #999999;\n" +
+                "    font-size: 15px;\n" +
+                "    font-weight: 100;\n" +
+                "    margin-left: 0px;\n" +
+                "    margin-right : 0px;\n" +
+                "}"
+                +
                 "</style>"
                 +
                 "<script>"
