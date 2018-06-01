@@ -53,12 +53,12 @@ public class NetIsShoppingHelper {
     /**
      * 趣晒是否需要付费
      * @param view IView
-     * @param objectId 趣晒id
+     * @param talkId 趣晒id
      * @param callback 回调
      */
-    public void isTalkShopping(IView view, int objectId,
+    public void isTalkShopping(IView view, int talkId,
                                 OnIsShoppingCallback callback) {
-        netIsShopping(view, objectId, "talk", callback);
+        netIsShopping(view, talkId, "talk", callback);
     }
 
     /**

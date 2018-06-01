@@ -208,5 +208,10 @@ public interface UserService {
 
     //通知设置详情
     @GET("/app/userInfo/setting?v=2.0.0")
-    Observable<BaseJson<MsgSetting>> msgSetting(@Query("pushFlag") Integer pushFlag);
+    Observable<BaseJson<MsgSetting>> msgSetting();
+
+    //通知设置开启关闭
+    @FormUrlEncoded
+    @GET("/app/userInfo/setting?v=2.0.0")
+    Observable<BaseJson<MsgSetting>> msgSettingOpen(@Field("pushFlag") Integer pushFlag);
 }

@@ -11,10 +11,14 @@ import com.frame.base.BaseAdapter;
 import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.helper.CommonHelper;
+import com.frame.component.helper.NetIsShoppingHelper;
 import com.frame.component.helper.NetMsgHelper;
+import com.frame.component.helper.NetPayStoneHelper;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
+import com.frame.component.view.DialogPay;
 import com.frame.component.view.LoadingLayoutEx;
 import com.frame.component.view.TitleView;
+import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
@@ -31,6 +35,8 @@ import com.wang.social.im.mvp.model.api.NotifyService;
 import com.wang.social.im.mvp.model.entities.notify.AiteMsg;
 import com.wang.social.im.mvp.model.entities.notify.CommonMsg;
 import com.wang.social.im.mvp.ui.adapters.RecycleAdapterCommonMsg;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -89,8 +95,18 @@ public class NotifyAiteListActivity extends BasicAppNoDiActivity implements IVie
 
     @Override
     public void onItemClick(CommonMsg bean, int position) {
-        //TODO:这里是否需要付费？需产品确认需求再开发
-        CommonHelper.FunshowHelper.startDetailActivity(this, bean.getModeId());
+        NetIsShoppingHelper.newInstance().isTalkShopping(this, bean.getModeId(), rsp -> {
+            if (!rsp.isFree() && !rsp.isPay()) {
+                DialogPay.showPayFunshow(NotifyAiteListActivity.this, getSupportFragmentManager(), rsp.getPrice(), -1, () -> {
+                    NetPayStoneHelper.newInstance().netPayFunshow(NotifyAiteListActivity.this, bean.getModeId(), rsp.getPrice(), () -> {
+                        CommonHelper.FunshowHelper.startDetailActivity(NotifyAiteListActivity.this, bean.getModeId());
+                        EventBus.getDefault().post(new EventBean(EventBean.EVENT_FUNSHOW_PAYED).put("talkId", bean.getModeId()));
+                    });
+                });
+            } else {
+                CommonHelper.FunshowHelper.startDetailActivity(NotifyAiteListActivity.this, bean.getModeId());
+            }
+        });
     }
 
     //////////////////////分页查询////////////////////

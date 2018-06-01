@@ -225,7 +225,7 @@ public class FunshowDetailZanController extends FunshowDetailBaseController impl
                 new ErrorHandleSubscriber<BaseJson<Object>>() {
                     @Override
                     public void onNext(BaseJson<Object> basejson) {
-                        EventBus.getDefault().post(new EventBean(EventBean.EVENT_FUNSHOW_DISSLIKE));
+                        EventBus.getDefault().post(new EventBean(EventBean.EVENT_FUNSHOW_DISSLIKE).put("talkId", talkId));
                         if (getContext() instanceof Activity) ((Activity) getContext()).finish();
                     }
 
