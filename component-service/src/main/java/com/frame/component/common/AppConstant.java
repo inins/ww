@@ -116,7 +116,7 @@ public class AppConstant {
         public static final String SHARE_FUN_SHOW_CONTENT = "%s有趣晒，你有酒吗？";
 
         /*话题分享*/
-        public static final String SHARE_TOPIC_OPEN_TARGET = "topid";
+        public static final String SHARE_TOPIC_OPEN_TARGET = "topic";
         public static final String SHARE_TOPIC_URL = Api.WEB_BASE_URL + "contentShared/topic/index.html?topicId=%1$s&userId=%2$s";
         public static final String SHARE_TOPIC_TITLE = "每个人都是这里的艺术家！";
         public static final String SHARE_TOPIC_CONTENT = "%s有话题，你有酒吗？";
