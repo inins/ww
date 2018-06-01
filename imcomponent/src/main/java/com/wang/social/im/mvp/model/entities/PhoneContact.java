@@ -1,8 +1,9 @@
 package com.wang.social.im.mvp.model.entities;
 
+import com.wang.social.im.view.indexlist.IndexableEntity;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import me.yokeyword.indexablerv.IndexableEntity;
 
 /**
  * ============================================

@@ -18,12 +18,11 @@ import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.utils.FrameUtils;
 import com.wang.social.im.R;
 import com.wang.social.im.mvp.model.entities.IndexFriendInfo;
+import com.wang.social.im.view.indexlist.IndexableAdapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
-import me.yokeyword.indexablerv.IndexableAdapter;
 
 /**
  * ============================================
@@ -66,8 +65,13 @@ public class InviteFriendAdapter extends IndexableAdapter<IndexFriendInfo> {
     }
 
     @Override
-    public void onBindTitleViewHolder(RecyclerView.ViewHolder holder, String indexTitle) {
+    public void onBindTitleViewHolder(RecyclerView.ViewHolder holder, String indexTitle, boolean isSticky) {
         ((IndexViewHolder) holder).tvIndex.setText(indexTitle);
+        if (isSticky) {
+            ((IndexViewHolder) holder).tvIndex.setTextColor(ContextCompat.getColor(((IndexViewHolder) holder).tvIndex.getContext(), R.color.common_colorAccent));
+        } else {
+            ((IndexViewHolder) holder).tvIndex.setTextColor(ContextCompat.getColor(((IndexViewHolder) holder).tvIndex.getContext(), R.color.common_text_blank));
+        }
     }
 
     @Override

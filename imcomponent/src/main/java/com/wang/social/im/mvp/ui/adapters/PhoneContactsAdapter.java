@@ -1,6 +1,7 @@
 package com.wang.social.im.mvp.ui.adapters;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -8,10 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.frame.component.utils.UIUtil;
 import com.wang.social.im.R;
 import com.wang.social.im.mvp.model.entities.PhoneContact;
+import com.wang.social.im.view.indexlist.IndexableAdapter;
 
-import me.yokeyword.indexablerv.IndexableAdapter;
+import timber.log.Timber;
 
 /**
  * ============================================
@@ -42,8 +45,13 @@ public class PhoneContactsAdapter extends IndexableAdapter<PhoneContact> {
     }
 
     @Override
-    public void onBindTitleViewHolder(RecyclerView.ViewHolder holder, String indexTitle) {
+    public void onBindTitleViewHolder(RecyclerView.ViewHolder holder, String indexTitle, boolean isSticky) {
         ((IndexViewHolder) holder).tvIndex.setText(indexTitle);
+        if (isSticky) {
+            ((IndexViewHolder) holder).tvIndex.setTextColor(ContextCompat.getColor(((IndexViewHolder) holder).tvIndex.getContext(), R.color.common_colorAccent));
+        } else {
+            ((IndexViewHolder) holder).tvIndex.setTextColor(ContextCompat.getColor(((IndexViewHolder) holder).tvIndex.getContext(), R.color.common_text_blank));
+        }
     }
 
     @Override
