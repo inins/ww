@@ -303,6 +303,7 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
                 GroupHelper.getInstance();
                 FriendShipHelper.getInstance();
 
+                mPresenter.getUserSettingInfo();
                 mPresenter.getConversationList();
             }
         });

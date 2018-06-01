@@ -1,7 +1,10 @@
 package com.wang.social.im.mvp.presenter;
 
+import com.frame.component.entities.SettingInfo;
+import com.frame.component.entities.dto.SettingInfoDTO;
 import com.frame.di.scope.FragmentScope;
 import com.frame.http.api.ApiHelper;
+import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.mvp.BasePresenter;
 import com.frame.utils.ToastUtil;
@@ -14,6 +17,7 @@ import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.ext.message.TIMConversationExt;
 import com.tencent.imsdk.ext.message.TIMManagerExt;
 import com.wang.social.im.app.IMConstants;
+import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.mvp.contract.ConversationListContract;
 import com.wang.social.im.mvp.model.entities.IndexFriendInfo;
 import com.wang.social.im.mvp.model.entities.ListData;
@@ -157,6 +161,20 @@ public class ConversationListPresenter extends BasePresenter<ConversationListCon
                     @Override
                     public void run() throws Exception {
                         mRootView.hideLoading();
+                    }
+                });
+    }
+
+    /**
+     * 获取用户设置信息
+     * 设置离线推送
+     */
+    public void getUserSettingInfo() {
+        mApiHelper.execute(mRootView, mModel.getUserSetting(),
+                new ErrorHandleSubscriber<SettingInfo>() {
+                    @Override
+                    public void onNext(SettingInfo settingInfo) {
+                        ImHelper.setOfflineMessagePushStatus(settingInfo.isPushEnable());
                     }
                 });
     }

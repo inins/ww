@@ -1,5 +1,7 @@
 package com.wang.social.im.mvp.model;
 
+import com.frame.component.api.CommonService;
+import com.frame.component.entities.dto.SettingInfoDTO;
 import com.frame.di.scope.FragmentScope;
 import com.frame.http.api.BaseJson;
 import com.frame.integration.IRepositoryManager;
@@ -21,7 +23,7 @@ import io.reactivex.Observable;
  * ============================================
  */
 @FragmentScope
-public class ConversationListModel extends BaseModel implements ConversationListContract.Model{
+public class ConversationListModel extends BaseModel implements ConversationListContract.Model {
 
     @Inject
     public ConversationListModel(IRepositoryManager repositoryManager) {
@@ -33,5 +35,12 @@ public class ConversationListModel extends BaseModel implements ConversationList
         return mRepositoryManager
                 .obtainRetrofitService(ChainService.class)
                 .getFriendList("2.0.0");
+    }
+
+    @Override
+    public Observable<BaseJson<SettingInfoDTO>> getUserSetting() {
+        return mRepositoryManager
+                .obtainRetrofitService(CommonService.class)
+                .getUserSetting("2.0.0");
     }
 }
