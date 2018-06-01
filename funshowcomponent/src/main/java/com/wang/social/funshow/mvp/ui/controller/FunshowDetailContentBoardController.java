@@ -75,7 +75,7 @@ public class FunshowDetailContentBoardController extends FunshowDetailBaseContro
     }
 
     @Override
-    protected void onInitData() {
+    public void onInitData() {
         netGetFunshowDetail();
     }
 
@@ -93,6 +93,7 @@ public class FunshowDetailContentBoardController extends FunshowDetailBaseContro
                 setPicData(funshowDetail);
                 setMusicData(funshowDetail.getMusicRsc());
             }
+            showPayDialog(funshowDetail);
         }
     }
 
@@ -165,11 +166,18 @@ public class FunshowDetailContentBoardController extends FunshowDetailBaseContro
         if (videoview != null) videoview.releaseAllVideos();
     }
 
-    private void showPayDialog(FunshowDetail funshowDetail){
-//        DialogPay dialogPay = DialogPay.showPayFunshow(getIView(), getFragmentManager(), funshowDetail.getPrice(), -1, () -> {
-//            NetPayStoneHelper.newInstance().netPayFunshow(getIView(), funshowDetail.get(), funshowDetail.getPrice(), () -> {
-//            });
-//        });
+    private void showPayDialog(FunshowDetail bean) {
+        //如果是需要付费的内容，则弹出付费提示，并生产遮挡蒙层
+        if (!bean.isFree() && !bean.isPay()) {
+            //弹出付费弹出
+            DialogPay.showPayFunshow(getIView(), getFragmentManager(), bean.getPrice(), -1, () -> {
+                NetPayStoneHelper.newInstance().netPayFunshow(getIView(), talkId, bean.getPrice(), () -> {
+                    CommonHelper.FunshowHelper.startDetailActivity(getContext(), talkId);
+                    EventBus.getDefault().post(new EventBean(EventBean.EVENT_FUNSHOW_PAYED).put("talkId", talkId));
+                });
+            });
+            //TODO:遮挡蒙层
+        }
     }
 
     /////////////////////////////////////////

@@ -71,6 +71,16 @@ public class FunshowDetailActivity extends BasicAppNoDiActivity implements IView
                     btnRight.setText(R.string.funshow_home_funshow_detail_btn_right);
                 }
                 break;
+            case EventBean.EVENT_FUNSHOW_PAYED: {
+                //趣晒支付了
+                int talkId = (int) event.get("talkId");
+                if (talkId == this.talkId) {
+                    contentBoardController.onInitData();
+                    zanController.onInitData();
+                    evaController.onInitData();
+                }
+                break;
+            }
         }
     }
 

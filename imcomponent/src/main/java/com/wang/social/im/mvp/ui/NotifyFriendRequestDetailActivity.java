@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.helper.NetFriendHelper;
 import com.frame.component.helper.NetReportHelper;
@@ -20,6 +22,7 @@ import com.frame.utils.ToastUtil;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.mvp.model.entities.notify.FriendRequest;
+import com.wang.social.im.mvp.model.entities.notify.RequestBean;
 import com.wang.social.pictureselector.helper.PhotoHelper;
 
 import org.greenrobot.eventbus.EventBus;
@@ -40,12 +43,14 @@ public class NotifyFriendRequestDetailActivity extends BasicAppNoDiActivity {
     TextView textTag;
     @BindView(R2.id.text_reason)
     TextView textReason;
-    private FriendRequest friendRequest;
+    @BindView(R2.id.lay_deal)
+    LinearLayout layDeal;
+    private RequestBean requestBean;
     private PhotoHelper photoHelper;
 
-    public static void start(Context context, FriendRequest friendRequest) {
+    public static void start(Context context, RequestBean requestBean) {
         Intent intent = new Intent(context, NotifyFriendRequestDetailActivity.class);
-        intent.putExtra("friendRequest", friendRequest);
+        intent.putExtra("requestBean", requestBean);
         context.startActivity(intent);
     }
 
@@ -56,34 +61,35 @@ public class NotifyFriendRequestDetailActivity extends BasicAppNoDiActivity {
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
-        friendRequest = (FriendRequest) getIntent().getSerializableExtra("friendRequest");
+        requestBean = (RequestBean) getIntent().getSerializableExtra("requestBean");
         photoHelper = new PhotoHelper(this);
         setFriendData();
     }
 
     private void setFriendData() {
-        if (friendRequest != null) {
-            ImageLoaderHelper.loadCircleImg(imgHeader, friendRequest.getAvatar());
-            textName.setText(friendRequest.getNickname());
-            textLableGender.setSelected(!friendRequest.isMale());
-            textLableGender.setText(TimeUtils.getBirthdaySpan(friendRequest.getBirthday()));
-            textLableAstro.setText(TimeUtils.getAstro(friendRequest.getBirthday()));
-            textTag.setText(friendRequest.getTagText());
-            textReason.setText(friendRequest.getReason());
+        if (requestBean != null) {
+            ImageLoaderHelper.loadCircleImg(imgHeader, requestBean.getAvatar());
+            textName.setText(requestBean.getNickname());
+            textLableGender.setSelected(!requestBean.isMale());
+            textLableGender.setText(TimeUtils.getBirthdaySpan(requestBean.getBirthday()));
+            textLableAstro.setText(TimeUtils.getAstro(requestBean.getBirthday()));
+            textTag.setText(requestBean.getTagText());
+            textReason.setText(requestBean.getReason());
+            layDeal.setVisibility(requestBean.isRead() ? View.GONE : View.VISIBLE);
         }
     }
 
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.lay_nameboard) {
-
+            CommonHelper.ImHelper.startPersonalCardForBrowse(this, requestBean.getUserId());
         } else if (id == R.id.btn_agree) {
-            NetFriendHelper.newInstance().netAgreeFriendApply(this, friendRequest.getUserId(), friendRequest.getMsgId(), true, () -> {
+            NetFriendHelper.newInstance().netAgreeFriendApply(this, requestBean.getUserId(), requestBean.getMsgId(), true, () -> {
                 EventBus.getDefault().post(new EventBean(EventBean.EVENT_NOTIFY_DETAIL_DEAL).put("isAgree", true));
                 finish();
             });
         } else if (id == R.id.btn_disagree) {
-            NetFriendHelper.newInstance().netAgreeFriendApply(this, friendRequest.getUserId(), friendRequest.getMsgId(), false, () -> {
+            NetFriendHelper.newInstance().netAgreeFriendApply(this, requestBean.getUserId(), requestBean.getMsgId(), false, () -> {
                 EventBus.getDefault().post(new EventBean(EventBean.EVENT_NOTIFY_DETAIL_DEAL).put("isAgree", false));
                 finish();
             });
@@ -95,7 +101,7 @@ public class NotifyFriendRequestDetailActivity extends BasicAppNoDiActivity {
                             QiNiuManager.newInstance().uploadFile(NotifyFriendRequestDetailActivity.this, path, new QiNiuManager.OnSingleUploadListener() {
                                 @Override
                                 public void onSuccess(String url) {
-                                    NetReportHelper.newInstance().netReportPerson(NotifyFriendRequestDetailActivity.this, friendRequest.getUserId()
+                                    NetReportHelper.newInstance().netReportPerson(NotifyFriendRequestDetailActivity.this, requestBean.getUserId()
                                             , text, url, () -> {
                                                 finish();
                                             });

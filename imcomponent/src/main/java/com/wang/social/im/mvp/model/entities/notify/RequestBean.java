@@ -1,13 +1,15 @@
 package com.wang.social.im.mvp.model.entities.notify;
 
 import com.frame.component.entities.Tag;
+import com.frame.utils.StrUtil;
 
+import java.io.Serializable;
 import java.util.List;
 
 import lombok.Data;
 
 @Data
-public class RequestBean {
+public class RequestBean implements Serializable{
 
     private int msgId;
     private int userId;
@@ -20,6 +22,7 @@ public class RequestBean {
     private long createTime;
     private int readState;
 
+    private List<Tag> tags;
     private int groupId;
 
     public boolean isRead() {
@@ -47,5 +50,14 @@ public class RequestBean {
             default:
                 return "";
         }
+    }
+
+    public String getTagText() {
+        if (StrUtil.isEmpty(tags)) return "";
+        String tagText = "";
+        for (Tag tag : tags) {
+            tagText += "#" + tag.getTagName() + " ";
+        }
+        return tagText.trim();
     }
 }

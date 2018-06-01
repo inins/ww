@@ -61,6 +61,7 @@ public class FriendRequest implements Serializable{
         requestBean.setReason(reason);
         requestBean.setCreateTime(createTime);
         requestBean.setReadState(readState);
+        requestBean.setTags(tags);
         return requestBean;
     }
 

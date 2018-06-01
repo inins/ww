@@ -29,6 +29,7 @@ import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.mvp.model.api.NotifyService;
 import com.wang.social.im.mvp.model.entities.notify.FindChatRequest;
+import com.wang.social.im.mvp.model.entities.notify.FriendRequest;
 import com.wang.social.im.mvp.model.entities.notify.RequestBean;
 import com.wang.social.im.mvp.ui.adapters.RecycleAdapterFriendRequest;
 
@@ -94,9 +95,7 @@ public class NotifyFindChatRequestListActivity extends BasicAppNoDiActivity impl
 
     @Override
     public void onItemClick(RequestBean bean, int position) {
-        if (!bean.isDeal()) {
-
-        }
+        NotifyFriendRequestDetailActivity.start(this, bean);
     }
 
     //////////////////////分页查询////////////////////

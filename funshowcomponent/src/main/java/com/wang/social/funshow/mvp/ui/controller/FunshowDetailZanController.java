@@ -125,7 +125,7 @@ public class FunshowDetailZanController extends FunshowDetailBaseController impl
     }
 
     @Override
-    protected void onInitData() {
+    public void onInitData() {
         netGetFunshowZanList();
     }
 

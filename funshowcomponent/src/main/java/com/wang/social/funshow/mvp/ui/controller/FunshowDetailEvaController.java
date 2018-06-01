@@ -98,11 +98,11 @@ public class FunshowDetailEvaController extends FunshowDetailBaseController impl
                 netLoadEvaList(false);
             }
         });
-        springView.callFreshDelay();
     }
 
     @Override
-    protected void onInitData() {
+    public void onInitData() {
+        springView.callFreshDelay();
     }
 
 

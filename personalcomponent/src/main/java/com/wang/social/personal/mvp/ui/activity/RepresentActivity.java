@@ -151,7 +151,7 @@ public class RepresentActivity extends BasicAppActivity implements IView {
                     public void onNext(BaseJson<BaseListWrap<UserRepresent>> basejson) {
                         BaseListWrap<UserRepresent> warp = basejson.getData();
                         setUserRepresentData(warp);
-                        List<UserRepresent> list = warp.getList();
+                        List<UserRepresent> list = warp != null ? warp.getList() : null;
                         if (!StrUtil.isEmpty(list)) {
                             current = warp.getCurrent();
                             if (isFresh) {

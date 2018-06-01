@@ -12,6 +12,7 @@ import com.wang.social.personal.mvp.entities.deposit.DepositRecord;
 import com.wang.social.personal.mvp.entities.income.DiamondStoneIncome;
 import com.wang.social.personal.mvp.entities.lable.LableWrap;
 import com.wang.social.personal.mvp.entities.lable.MiChat;
+import com.wang.social.personal.mvp.entities.msg.MsgSetting;
 import com.wang.social.personal.mvp.entities.photo.OffiPic;
 import com.wang.social.personal.mvp.entities.photo.PhotoListWrap;
 import com.wang.social.personal.mvp.entities.privates.PrivateDetail;
@@ -204,4 +205,8 @@ public interface UserService {
     //提现记录
     @GET("/app/userWallet/withdrawList?v=2.0.0")
     Observable<BaseJson<BaseListWrap<DepositRecord>>> depositRecode(@Query("current") int current, @Query("size") int size);
+
+    //通知设置详情
+    @GET("/app/userInfo/setting?v=2.0.0")
+    Observable<BaseJson<MsgSetting>> msgSetting(@Query("pushFlag") Integer pushFlag);
 }

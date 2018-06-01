@@ -89,9 +89,9 @@ public class NotifyZanListActivity extends BasicAppNoDiActivity implements IView
     @Override
     public void onItemClick(CommonMsg bean, int position) {
         if (bean.isFunshow()) {
-            CommonHelper.FunshowHelper.startDetailActivity(this, bean.getModeId());
+            CommonHelper.FunshowHelper.startDetailActivity(this, bean.isEva() ? bean.getModePkId() : bean.getModeId());
         } else if (bean.isTopic()) {
-            CommonHelper.TopicHelper.startTopicDetail(this, bean.getModeId());
+            CommonHelper.TopicHelper.startTopicDetail(this, bean.isEva() ? bean.getModePkId() : bean.getModeId());
         }
     }
 

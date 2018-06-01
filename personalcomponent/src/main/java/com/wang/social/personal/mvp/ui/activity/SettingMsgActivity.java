@@ -7,18 +7,32 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.CompoundButton;
 
+import com.frame.component.entities.BaseListWrap;
 import com.frame.component.entities.config.MsgConfig;
 import com.frame.component.helper.AppDataHelper;
+import com.frame.component.router.Router;
+import com.frame.component.service.funshow.FunshowService;
+import com.frame.component.service.im.ImService;
 import com.frame.component.ui.base.BasicAppActivity;
+import com.frame.component.ui.base.BasicAppNoDiActivity;
 import com.frame.di.component.AppComponent;
+import com.frame.http.api.ApiHelperEx;
+import com.frame.http.api.BaseJson;
+import com.frame.http.api.error.ErrorHandleSubscriber;
+import com.frame.utils.StrUtil;
+import com.frame.utils.ToastUtil;
 import com.kyleduo.switchbutton.SwitchButton;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
+import com.wang.social.personal.mvp.entities.msg.MsgSetting;
+import com.wang.social.personal.mvp.model.api.UserService;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SettingMsgActivity extends BasicAppActivity implements CompoundButton.OnCheckedChangeListener {
+public class SettingMsgActivity extends BasicAppNoDiActivity implements CompoundButton.OnCheckedChangeListener {
 
     @BindView(R2.id.switch_msg)
     SwitchButton switchMsg;
@@ -34,7 +48,6 @@ public class SettingMsgActivity extends BasicAppActivity implements CompoundButt
         context.startActivity(intent);
     }
 
-
     @Override
     public int initView(@NonNull Bundle savedInstanceState) {
         return R.layout.personal_activity_setting_msg;
@@ -42,39 +55,63 @@ public class SettingMsgActivity extends BasicAppActivity implements CompoundButt
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
-        setMsgData();
         switchMsg.setOnCheckedChangeListener(this);
         switchShowdetail.setOnCheckedChangeListener(this);
         switchVoice.setOnCheckedChangeListener(this);
         switchVibration.setOnCheckedChangeListener(this);
+
+        netGetMsgSetting(true);
     }
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
-        MsgConfig msgConfig = AppDataHelper.getMsgConfig();
         int id = compoundButton.getId();
         if (id == R.id.switch_msg) {
-            msgConfig.setEnableMsg(checked);
+            netSetMsgSetting(checked);
         } else if (id == R.id.switch_showdetail) {
-            msgConfig.setShowDetail(checked);
         } else if (id == R.id.switch_voice) {
-            msgConfig.setMsgVoice(checked);
         } else if (id == R.id.switch_vibration) {
-            msgConfig.setMsgVibration(checked);
         }
-        AppDataHelper.saveMsgConfig(msgConfig);
     }
 
-    private void setMsgData() {
-        MsgConfig msgConfig = AppDataHelper.getMsgConfig();
-        switchMsg.setChecked(msgConfig.isEnableMsg());
-        switchShowdetail.setChecked(msgConfig.isShowDetail());
-        switchVoice.setChecked(msgConfig.isMsgVoice());
-        switchVibration.setChecked(msgConfig.isMsgVibration());
+    private void setMsgData(MsgSetting msgSetting) {
+        if (msgSetting != null) {
+            switchMsg.setCheckedNoEvent(msgSetting.isPushMsg());
+        }
     }
 
-    @Override
-    public void setupActivityComponent(@NonNull AppComponent appComponent) {
+    public void netGetMsgSetting(boolean needloading) {
+        ApiHelperEx.execute(this, needloading,
+                ApiHelperEx.getService(UserService.class).msgSetting(null),
+                new ErrorHandleSubscriber<BaseJson<MsgSetting>>() {
+                    @Override
+                    public void onNext(BaseJson<MsgSetting> basejson) {
+                        MsgSetting msgSetting = basejson.getData();
+                        setMsgData(msgSetting);
+                    }
 
+                    @Override
+                    public void onError(Throwable e) {
+                        ToastUtil.showToastLong(e.getMessage());
+                    }
+                });
+    }
+
+    public void netSetMsgSetting(boolean isOpen) {
+        ApiHelperEx.execute(this, true,
+                ApiHelperEx.getService(UserService.class).msgSetting(isOpen ? 1 : 0),
+                new ErrorHandleSubscriber<BaseJson<MsgSetting>>() {
+                    @Override
+                    public void onNext(BaseJson<MsgSetting> basejson) {
+                        ImService imService = (ImService) Router.getInstance().getService(ImService.class.getName());
+                        if (imService != null) imService.setOfflinePushEnable(isOpen);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        ToastUtil.showToastLong(e.getMessage());
+                        switchMsg.setCheckedNoEvent(false);
+                    }
+                });
     }
 }

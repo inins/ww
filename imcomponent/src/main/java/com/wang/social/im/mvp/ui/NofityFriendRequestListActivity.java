@@ -48,7 +48,6 @@ public class NofityFriendRequestListActivity extends BasicAppNoDiActivity implem
     @BindView(R2.id.loadingview_ex)
     LoadingLayoutEx loadingviewEx;
     private RecycleAdapterFriendRequest adapter;
-    private List<FriendRequest> friendRequests;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, NofityFriendRequestListActivity.class);
@@ -110,9 +109,7 @@ public class NofityFriendRequestListActivity extends BasicAppNoDiActivity implem
 
     @Override
     public void onItemClick(RequestBean bean, int position) {
-        if (!bean.isDeal()) {
-            NotifyFriendRequestDetailActivity.start(this, friendRequests.get(position));
-        }
+        NotifyFriendRequestDetailActivity.start(this, bean);
     }
 
     //////////////////////分页查询////////////////////
@@ -127,7 +124,6 @@ public class NofityFriendRequestListActivity extends BasicAppNoDiActivity implem
                     @Override
                     public void onNext(BaseJson<BaseListWrap<FriendRequest>> basejson) {
                         BaseListWrap<FriendRequest> warp = basejson.getData();
-                        friendRequests = warp.getList();
                         List<RequestBean> list = FriendRequest.tans2RequestBeanList(warp.getList());
                         if (!StrUtil.isEmpty(list)) {
                             current = warp.getCurrent();

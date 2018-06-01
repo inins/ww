@@ -41,4 +41,8 @@ public class CommonMsg {
     public boolean isTopic() {
         return modeType == 1 || modeType == 2 || modeType == 5 || modeType == 6;
     }
+
+    public boolean isEva() {
+        return modeType == 2 || modeType == 4 || modeType == 6 || modeType == 8;
+    }
 }

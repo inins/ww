@@ -51,8 +51,8 @@ public class FunshowDetail {
     private String constellation;
     private String province;
     private long createTime;
-    private float price;
-    private int isShopping;
+    private int price;
+    private int isShopping; //是否需要购买
     private int age;
     private int supportNum;
     private List<Pic> pics;
@@ -105,18 +105,26 @@ public class FunshowDetail {
     //////////////////////////////
 
     public boolean isSupport() {
-        return isSupport == 1;
+        return isSupport != 0;
     }
 
     public void setIsSupport(boolean isSupport) {
         this.isSupport = isSupport ? 1 : 0;
     }
 
-    public boolean isShopping() {
-        return isShopping == 1;
+    public boolean isPay() {
+        return isShopping == 0;
     }
 
-    public void setIsShopping(boolean isShopping) {
-        this.isShopping = isShopping ? 1 : 0;
+    public void setIsPay(boolean isShopping) {
+        this.isShopping = isShopping ? 0 : 1;
+    }
+
+    public boolean isFree() {
+        return isFree == 0;
+    }
+
+    public void setIsFree(boolean isFree) {
+        this.isFree = isFree ? 0 : 1;
     }
 }

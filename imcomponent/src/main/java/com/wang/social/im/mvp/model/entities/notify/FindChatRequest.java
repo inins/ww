@@ -60,6 +60,7 @@ public class FindChatRequest {
         requestBean.setCreateTime(createTime);
         requestBean.setGroupId(groupId);
         requestBean.setReadState(readState);
+        requestBean.setTags(tags);
         return requestBean;
     }
 
