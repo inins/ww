@@ -40,6 +40,7 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
+import timber.log.Timber;
 
 @RouteNode(path = "/main", desc = "首页")
 public class HomeActivity extends BasicAppNoDiActivity implements XRadioGroup.OnCheckedChangeListener {
@@ -132,6 +133,7 @@ public class HomeActivity extends BasicAppNoDiActivity implements XRadioGroup.On
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
+        Timber.i("HomeActivity initData");
         dialogHomeAdd = new DialogHomeAdd(this);
         groupTab.setOnCheckedChangeListener(this);
         pagerAdapter = new PagerAdapterHome(getSupportFragmentManager());
@@ -211,6 +213,13 @@ public class HomeActivity extends BasicAppNoDiActivity implements XRadioGroup.On
         }
     };
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        Timber.i("onNewIntent");
+    }
+
     /**
      * 远程跳转页面
      */
@@ -218,6 +227,10 @@ public class HomeActivity extends BasicAppNoDiActivity implements XRadioGroup.On
         String target = getIntent().getStringExtra("target");
         String id = getIntent().getStringExtra("targetId");
 
+        performRemoteCall(target, id);
+    }
+
+    public void performRemoteCall(String target, String id) {
         int intId = -1;
         try {
             intId = Integer.parseInt(id);

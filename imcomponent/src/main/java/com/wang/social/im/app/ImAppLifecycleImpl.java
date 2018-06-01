@@ -50,6 +50,7 @@ import java.util.List;
 import timber.log.Timber;
 
 import static com.frame.entities.EventBean.EVENT_NOTIFY_FRIEND_PROFILE;
+import static com.frame.entities.EventBean.EVENT_NOTIFY_GROUP_DELETE_OR_ADD;
 import static com.frame.entities.EventBean.EVENT_NOTIFY_GROUP_MEMBER_PROFILE;
 import static com.wang.social.im.app.IMConstants.IM_FIELD_FRIEND_PORTRAIT;
 
@@ -294,6 +295,8 @@ public class ImAppLifecycleImpl implements AppDelegate {
         public void onGroupAdd(TIMGroupCacheInfo timGroupCacheInfo) {
             Timber.tag(TAG).d("onGroupAdd");
             GroupHelper.getInstance().refresh();
+
+            EventBus.getDefault().post(new EventBean(EVENT_NOTIFY_GROUP_DELETE_OR_ADD));
         }
 
         @Override

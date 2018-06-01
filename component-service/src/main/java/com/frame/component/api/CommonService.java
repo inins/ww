@@ -15,6 +15,7 @@ import com.frame.component.entities.dto.GroupBeanDTO;
 import com.frame.component.entities.dto.PersonalInfoDTO;
 import com.frame.component.entities.dto.QiNiuDTO;
 import com.frame.component.entities.dto.SearchUserInfoDTO;
+import com.frame.component.entities.dto.SettingInfoDTO;
 import com.frame.component.entities.funshow.FunshowGroup;
 import com.frame.component.entities.funshow.FunshowMe;
 import com.frame.component.entities.topic.TopicGroup;
@@ -388,4 +389,13 @@ public interface CommonService {
      */
     @GET("/app/talk/isShopping")
     Observable<BaseJson<IsShoppingRspDTO>> talkOrTopicIsShopping(@QueryMap Map<String, Object> param);
+
+    /**
+     * 获取用户设置信息
+     *
+     * @param version
+     * @return
+     */
+    @GET("app/userInfo/setting")
+    Observable<BaseJson<SettingInfoDTO>> getUserSetting(@Query("v") String version);
 }

@@ -135,6 +135,8 @@ public class EventBean implements Serializable {
     public static final int EVENT_NOTIFY_FRIEND_PROFILE = 0xffa911;
     //显示聊天列表
     public static final int EVENT_NOTIFY_SHOW_CONVERSATION_LIST = 0xffa912;
+    //群删除或者添加
+    public static final int EVENT_NOTIFY_GROUP_DELETE_OR_ADD = 0xffa913;
 
     //通知消息已经全部阅读
     public static final int EVENT_MSG_READALL = 0xffb001;

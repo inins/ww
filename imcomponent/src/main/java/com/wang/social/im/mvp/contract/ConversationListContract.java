@@ -1,5 +1,6 @@
 package com.wang.social.im.mvp.contract;
 
+import com.frame.component.entities.dto.SettingInfoDTO;
 import com.frame.http.api.BaseJson;
 import com.frame.mvp.IModel;
 import com.frame.mvp.IView;
@@ -66,5 +67,12 @@ public interface ConversationListContract {
          * @return
          */
         Observable<BaseJson<ListDataDTO<IndexFriendInfoDTO, IndexFriendInfo>>> getFriendList();
+
+        /**
+         * 获取用户设置信息
+         *
+         * @return
+         */
+        Observable<BaseJson<SettingInfoDTO>> getUserSetting();
     }
 }
