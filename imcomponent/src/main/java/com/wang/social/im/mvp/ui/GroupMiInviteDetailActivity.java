@@ -202,6 +202,7 @@ public class GroupMiInviteDetailActivity extends BaseAppActivity implements IVie
                     mReportComment = text;
                     // 弹出图片选择
                     mPhotoHelperEx.setMaxSelectCount(1);
+                    mPhotoHelperEx.setClip(false);
 //                    mPhotoHelperEx.showDefaultDialog();
                     mPhotoHelperEx.startPhoto();
                 });

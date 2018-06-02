@@ -427,6 +427,9 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/im_remote_login" />
+
+        <activity android:name=".mvp.ui.OfficialChatRobot.OfficialChatRobotActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

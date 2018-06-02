@@ -248,6 +248,8 @@ public class TopicFragment extends BaseLazyFragment<TopicPresenter> implements T
         mSelectedTag2TV.setVisibility(View.GONE);
         mSelectedTag3TV.setVisibility(View.GONE);
 
+        if (null == list) return;
+
         for (int i = 0; i < Math.min(3, list.size()); i++) {
             Tag tag = list.get(i);
             switch (i) {

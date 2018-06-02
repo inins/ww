@@ -22,9 +22,9 @@
             android:layout_height="?attr/actionBarSize"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="14dp">
+            android:layout_marginEnd="14dp">
 
             <TextView
                 android:id="@+id/selected_count_hint_text_view"

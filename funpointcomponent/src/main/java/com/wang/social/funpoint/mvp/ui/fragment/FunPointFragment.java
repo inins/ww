@@ -171,7 +171,9 @@ public class FunPointFragment extends BaseLazyFragment<FunpointListPresonter> im
 
     @Override
     public void reFreshTags(List<Tag> tags) {
-        adapterLable.refreshData(tags);
+        if (null != adapterLable) {
+            adapterLable.refreshData(tags);
+        }
     }
 
     @Override
