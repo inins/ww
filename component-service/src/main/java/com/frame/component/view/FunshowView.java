@@ -144,8 +144,13 @@ public class FunshowView extends FrameLayout implements View.OnClickListener {
     public void setData(FunshowBean bean) {
         if (bean == null) return;
         funshowBean = bean;
-        ImageLoaderHelper.loadCircleImg(imgHeader, bean.getAvatar());
-        textName.setText(bean.getNickname());
+        if (!bean.isHideName()) {
+            ImageLoaderHelper.loadCircleImg(imgHeader, bean.getAvatar());
+            textName.setText(bean.getNickname());
+        } else {
+            imgHeader.setImageResource(R.drawable.ic_default_header);
+            textName.setText("匿名用户");
+        }
         textTitle.setText(bean.getContent());
         textZan.setText(bean.getSupportTotal() + "");
         textZan.setSelected(bean.isSupport());
@@ -174,7 +179,9 @@ public class FunshowView extends FrameLayout implements View.OnClickListener {
         }
 
         imgHeader.setOnClickListener(v -> {
-            CommonHelper.ImHelper.startPersonalCardForBrowse(getContext(), bean.getUserId());
+            if (!bean.isHideName()) {
+                CommonHelper.ImHelper.startPersonalCardForBrowse(getContext(), bean.getUserId());
+            }
         });
     }
 

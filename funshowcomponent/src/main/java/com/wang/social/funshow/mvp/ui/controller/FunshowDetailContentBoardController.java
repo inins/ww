@@ -81,8 +81,13 @@ public class FunshowDetailContentBoardController extends FunshowDetailBaseContro
 
     private void setData(FunshowDetail funshowDetail) {
         if (funshowDetail != null) {
-            ImageLoaderHelper.loadCircleImg(imgHeader, funshowDetail.getAvatar());
-            textName.setText(funshowDetail.getUserNickname());
+            if (!funshowDetail.isHideName()) {
+                ImageLoaderHelper.loadCircleImg(imgHeader, funshowDetail.getAvatar());
+                textName.setText(funshowDetail.getUserNickname());
+            } else {
+                imgHeader.setImageResource(R.drawable.ic_default_header);
+                textName.setText(funshowDetail.getUserNickname());
+            }
             textTitle.setText(funshowDetail.getTalkContent());
             textTime.setText(FunShowUtil.getFunshowTimeStr(funshowDetail.getCreateTime()));
             textPosition.setText(funshowDetail.getProvince() + funshowDetail.getCity());

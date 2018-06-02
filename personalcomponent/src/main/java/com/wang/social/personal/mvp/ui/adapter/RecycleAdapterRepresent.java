@@ -37,7 +37,7 @@ public class RecycleAdapterRepresent extends BaseAdapter<UserRepresent> {
         protected void bindData(UserRepresent bean, int position, OnItemClickListener onItemClickListener) {
             ImageLoaderHelper.loadCircleImg(imgHeader, bean.getAvatar());
             textName.setText(bean.getNickName());
-            textDiamond.setText(bean.getGemstone());
+            textDiamond.setText(bean.getGemstone() + "");
         }
 
         @Override

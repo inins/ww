@@ -56,7 +56,7 @@ public class HomeNaviboardController extends BaseController implements View.OnCl
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.btn_search) {
-            CommonHelper.HomeHelper.startSearchActivity(getContext());
+            CommonHelper.AppHelper.startSearchActivity(getContext());
         } else if (id == R.id.btn_samekind) {
             CardActivity.startUser(getContext());
         } else if (id == R.id.btn_circle) {

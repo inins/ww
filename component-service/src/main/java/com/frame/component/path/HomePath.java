@@ -7,10 +7,9 @@ package com.frame.component.path;
  * =========================================
  */
 
-public interface AppPath extends BasePath{
+public interface HomePath extends BasePath{
 
-    String HOST = "app";
+    String HOST = "home";
 
-    String HOME_URL = SCHEME + HOST + "/main";
-    String SEARCH_URL = SCHEME + HOST + "/search";
+    String USERDETAIL_URL = SCHEME + HOST + "/user_detail";
 }

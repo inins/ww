@@ -797,6 +797,9 @@ public class WheelPicker<T> extends View {
         if (mCurrentPosition == currentPosition) {
             return;
         }
+        if (mDataList == null || mDataList.size() == 0) {
+            return;
+        }
         if (currentPosition > mDataList.size()) {
             currentPosition = mDataList.size() - 1;
         }

@@ -112,7 +112,7 @@ public class CardGroupFragment extends BasicNoDiFragment implements RecycleAdapt
             //如果是右滑，则提示好友请求
             if (ItemTouchHelper.RIGHT == direction) {
                 NetGroupHelper.newInstance().addGroup(getContext(), CardGroupFragment.this, getChildFragmentManager(), bean.getGroupId(), isNeedValidation -> {
-                    ToastUtil.showToastShort("加群成功");
+                    //ToastUtil.showToastShort("加群成功");
                 });
             }
             //如果剩余卡片小于小于10 张，则开始请求下一页数据

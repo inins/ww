@@ -55,6 +55,7 @@ public abstract class BasicAppActivity extends BasicActivity {
     }
 
     private boolean isResume = false;
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -75,17 +76,31 @@ public abstract class BasicAppActivity extends BasicActivity {
     }
 
     public void showLoadingDialog() {
-        if (dialogLoading.get() == null) dialogLoading = new WeakReference(new DialogLoading(this));
-        if (!dialogLoading.get().isShowing()){
-            dialogLoading.get().show();
+        try {
+            if (dialogLoading.get() == null)
+                dialogLoading = new WeakReference(new DialogLoading(this));
+            if (!dialogLoading.get().isShowing()) {
+                dialogLoading.get().show();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            //某些手机有异常
         }
     }
 
     public final void dismissLoadingDialog() {
-        if (dialogLoading.get() != null) dialogLoading.get().dismiss();
+        try {
+            if (dialogLoading.get() != null) dialogLoading.get().dismiss();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public final void hideLoadingDialog() {
-        if (dialogLoading.get() != null) dialogLoading.get().hide();
+        try {
+            if (dialogLoading.get() != null) dialogLoading.get().hide();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

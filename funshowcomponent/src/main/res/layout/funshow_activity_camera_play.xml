@@ -5,12 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <VideoView
+    <com.frame.component.view.FullVideoView
         android:id="@+id/video_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <ImageView
+        android:scaleType="centerCrop"
         android:id="@+id/img_cover"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

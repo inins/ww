@@ -21,7 +21,6 @@ import com.frame.utils.TimeUtils;
 import com.frame.utils.ToastUtil;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
-import com.wang.social.im.mvp.model.entities.notify.FriendRequest;
 import com.wang.social.im.mvp.model.entities.notify.RequestBean;
 import com.wang.social.pictureselector.helper.PhotoHelper;
 
@@ -82,7 +81,7 @@ public class NotifyFriendRequestDetailActivity extends BasicAppNoDiActivity {
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.lay_nameboard) {
-            CommonHelper.ImHelper.startPersonalCardForBrowse(this, requestBean.getUserId());
+            CommonHelper.HomeHelper.startUserDetailActivity(this, requestBean.getUserId());
         } else if (id == R.id.btn_agree) {
             NetFriendHelper.newInstance().netAgreeFriendApply(this, requestBean.getUserId(), requestBean.getMsgId(), true, () -> {
                 EventBus.getDefault().post(new EventBean(EventBean.EVENT_NOTIFY_DETAIL_DEAL).put("isAgree", true));
