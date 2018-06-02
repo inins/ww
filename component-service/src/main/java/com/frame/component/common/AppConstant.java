@@ -81,7 +81,7 @@ public class AppConstant {
         //##################################
 
         //游戏玩法
-        public static final String cashcowrule = Api.WEB_BASE_URL + "cashcow/rule.html";
+        public static final String cashcowrule = Api.WEB_BASE_URL + "contentShared/cashcow/rule.html";
         // 二维码
         public static final String ewmCode = Api.WEB_BASE_URL + "ewmCode/qrcode.html";
         //榜单

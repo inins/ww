@@ -127,6 +127,8 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
     // 昵称
     @BindView(R2.id.nick_name_text_view)
     TextView mNickNameTV;
+    @BindView(R2.id.no_bg_img_nick_name_text_view)
+    TextView mNoBgImgNickNameTV;
     // 性别
     @BindView(R2.id.gender_image_view)
     ImageView mGenderIV;
@@ -433,7 +435,8 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
                                 .isCircle(true)
                                 .build());
         // 昵称
-        mNickNameTV.setText(detail.getNickname());
+//        mNickNameTV.setText(detail.getNickname());
+        showNickName(detail);
         // 性别
         if (detail.getSex() == 0) {
             mGenderIV.setImageResource(R.drawable.common_ic_man);
@@ -552,6 +555,22 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
         resetView(true);
     }
 
+    /**
+     * 显示昵称
+     * @param detail 话题详情
+     */
+    private void showNickName(TopicDetail detail) {
+        if (TextUtils.isEmpty(detail.getBackgroundImage())) {
+            // 没有背景图
+            mNickNameTV.setVisibility(View.GONE);
+            mNoBgImgNickNameTV.setVisibility(View.VISIBLE);
+            mNoBgImgNickNameTV.setText(detail.getNickname());
+        } else {
+            mNickNameTV.setVisibility(View.VISIBLE);
+            mNoBgImgNickNameTV.setVisibility(View.GONE);
+            mNickNameTV.setText(detail.getNickname());
+        }
+    }
 
     @JavascriptInterface
     public void resize(final float height) {

@@ -41,6 +41,22 @@
                     android:layout_marginBottom="8dp"
                     android:textColor="#ff313131"
                     android:textSize="14sp"
+                    android:visibility="gone"
+                    tools:text="埃米尔" />
+
+
+
+                <TextView
+                    android:id="@+id/no_bg_img_nick_name_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:textColor="#ff313131"
+                    android:textSize="14sp"
+                    android:layout_below="@+id/nick_name_text_view"
+                    android:layout_marginEnd="16dp"
+                    android:layout_centerVertical="true"
+                    android:visibility="gone"
                     tools:text="埃米尔" />
 
                 <LinearLayout
@@ -54,6 +70,7 @@
                     android:paddingBottom="3dp"
                     android:gravity="center_vertical"
                     android:layout_below="@+id/nick_name_text_view"
+                    android:layout_toEndOf="@+id/no_bg_img_nick_name_text_view"
                     android:background="@drawable/topic_shape_rect_corner_solid_blue_gray">
 
                     <ImageView
