@@ -102,7 +102,7 @@ public interface IMConstants {
     /**
      * 群红包每人上限
      */
-    int MULTI_ENVELOP_DIAMOND_LIMIT = 20000;
+    int MULTI_ENVELOP_DIAMOND_LIMIT = 2000;
 
     /**
      * 趣聊收费下限

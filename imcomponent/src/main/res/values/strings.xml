@@ -28,6 +28,7 @@
     <string name="im_input_voice_short">录音时间太短</string>
     <string name="im_input_voice_failure">录音失败！</string>
     <string name="im_message_handle_delete">删除</string>
+    <string name="im_message_handle_delete_friend">移除\n好友</string>
     <string name="im_message_handle_withdraw">撤回</string>
     <string name="im_message_tip_revoke">&#160;撤回了一条消息</string>
     <string name="im_self">你</string>

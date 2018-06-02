@@ -398,6 +398,7 @@ public class TeamHomeActivity extends BaseAppActivity<TeamHomePresenter> impleme
             editDialog.show();
         } else if (view.getId() == R.id.th_iv_cover) {
             mPhotoType = PHOTO_TYPE_COVER;
+            mImageSelectHelper.setClip(true);
             mImageSelectHelper.setShowShoot(true);
             mImageSelectHelper.showDialog();
         } else if (view.getId() == R.id.th_tv_clear_message) {//清除聊天内容
@@ -411,6 +412,7 @@ public class TeamHomeActivity extends BaseAppActivity<TeamHomePresenter> impleme
         } else if (view.getId() == R.id.th_tv_background_chat) {//背景图片
             mPhotoType = PHOTO_TYPE_BACKGROUND;
             mImageSelectHelper.setShowShoot(false);
+            mImageSelectHelper.setClip(false);
             mImageSelectHelper.showDialog();
         } else if (view.getId() == R.id.th_tv_charge_setting) {//收费设置
             TeamChargeSettingActivity.start(this, mTeam, REQUEST_CODE_CHARGE);

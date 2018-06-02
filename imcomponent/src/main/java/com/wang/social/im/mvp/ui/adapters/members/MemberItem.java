@@ -2,6 +2,7 @@ package com.wang.social.im.mvp.ui.adapters.members;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
@@ -28,6 +29,7 @@ import java.util.Calendar;
  */
 public class MemberItem extends AbstractExpandableAdapterItem {
 
+    private ConstraintLayout imClContent;
     private ImageView ivPortrait;
     private TextView tvNickname;
     private TextView tvAge;
@@ -74,6 +76,7 @@ public class MemberItem extends AbstractExpandableAdapterItem {
         ivFriendly = root.findViewById(R.id.im_iv_friendly);
         tvbFriendly = root.findViewById(R.id.im_tvb_friendly);
         tvbTakeOut = root.findViewById(R.id.im_tvb_take_out);
+        imClContent = root.findViewById(R.id.im_cl_content);
     }
 
     @Override
@@ -146,6 +149,14 @@ public class MemberItem extends AbstractExpandableAdapterItem {
                     menuLayout.smoothClose();
                     if (mHandleListener != null) {
                         mHandleListener.onFriendly(member);
+                    }
+                }
+            });
+            imClContent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mHandleListener != null) {
+                        mHandleListener.onItemClick(member, position);
                     }
                 }
             });

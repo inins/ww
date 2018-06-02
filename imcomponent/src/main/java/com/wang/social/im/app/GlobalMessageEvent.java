@@ -140,8 +140,12 @@ public class GlobalMessageEvent extends Observable implements TIMMessageListener
     }
 
     private void showMessageNotify(TIMMessage timMessage) {
-        if (AppUtils.isAppForeground() || timMessage.getRecvFlag() == TIMGroupReceiveMessageOpt.ReceiveNotNotify ||
+        if (timMessage.getRecvFlag() == TIMGroupReceiveMessageOpt.ReceiveNotNotify ||
                 !ImHelper.isOfflinePushEnable()) {
+            return;
+        }
+        if (AppUtils.isAppForeground()) {
+            ImHelper.playMessageNotify(mApplication);
             return;
         }
         //显示角标

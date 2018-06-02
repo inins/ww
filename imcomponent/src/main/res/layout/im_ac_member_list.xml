@@ -44,8 +44,11 @@
                     android:textSize="11dp" />
 
                 <android.support.constraint.ConstraintLayout
+                    android:id="@+id/ml_cl_master"
                     android:layout_width="match_parent"
-                    android:layout_height="80dp">
+                    android:layout_height="80dp"
+                    android:background="?selectableItemBackground"
+                    android:clickable="true">
 
                     <include layout="@layout/im_view_user" />
                 </android.support.constraint.ConstraintLayout>
