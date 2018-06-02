@@ -35,6 +35,7 @@ import com.wang.social.im.mvp.contract.MemberListContract;
 import com.wang.social.im.mvp.model.entities.MemberInfo;
 import com.wang.social.im.mvp.model.entities.MembersLevelOne;
 import com.wang.social.im.mvp.presenter.MemberListPresenter;
+import com.wang.social.im.mvp.ui.PersonalCard.PersonalCardActivity;
 import com.wang.social.im.mvp.ui.adapters.members.MembersAdapter;
 
 import java.util.ArrayList;
@@ -75,6 +76,7 @@ public class MemberListActivity extends BaseAppActivity<MemberListPresenter> imp
     @Inject
     ImageLoader mImageLoader;
 
+    private MemberInfo mMasterInfo;
     private MembersAdapter mAdapter;
 
     public static void start(Context context, String groupId, boolean isSocial) {
@@ -155,12 +157,13 @@ public class MemberListActivity extends BaseAppActivity<MemberListPresenter> imp
         }
     }
 
-    /*@OnClick(R2.id.ml_iv_search)
+    @OnClick(R2.id.ml_cl_master)
     public void onViewClicked() {
-        SearchActivity.start(this);
-    }*/
+        PersonalCardActivity.start(this, Integer.parseInt(mMasterInfo.getMemberId()));
+    }
 
     private void showMasterInfo(MemberInfo master) {
+        mMasterInfo = master;
         mImageLoader.loadImage(this, ImageConfigImpl.builder()
                 .placeholder(R.drawable.common_default_circle_placeholder)
                 .errorPic(R.drawable.common_default_circle_placeholder)
@@ -207,5 +210,10 @@ public class MemberListActivity extends BaseAppActivity<MemberListPresenter> imp
                 mPresenter.kickOutMember(groupId, memberInfo);
             }
         });
+    }
+
+    @Override
+    public void onItemClick(MemberInfo memberInfo, int position) {
+        PersonalCardActivity.start(this, Integer.parseInt(memberInfo.getMemberId()));
     }
 }

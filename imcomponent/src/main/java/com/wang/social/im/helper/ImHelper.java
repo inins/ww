@@ -1,13 +1,20 @@
 package com.wang.social.im.helper;
 
 import android.app.Application;
+import android.app.Service;
+import android.content.Context;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
+import android.os.Vibrator;
 import android.text.TextUtils;
 
 import com.frame.component.common.AppConstant;
 import com.frame.component.enums.ConversationType;
+import com.frame.component.helper.sound.AudioPlayManager;
 import com.frame.utils.FileUtils;
 import com.frame.utils.FrameUtils;
+import com.frame.utils.TimeUtils;
 import com.frame.utils.Utils;
 import com.huawei.android.hms.agent.HMSAgent;
 import com.huawei.android.hms.agent.push.handler.GetTokenHandler;
@@ -23,8 +30,10 @@ import com.xiaomi.mipush.sdk.MiPushClient;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import static com.wang.social.im.app.IMConstants.MZPUSH_APPID;
 import static com.wang.social.im.app.IMConstants.MZPUSH_APPKEY;
@@ -102,18 +111,27 @@ public class ImHelper {
      * @return
      */
     public static String getAgeRange(long birthdayMills) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(birthdayMills);
-        int year = calendar.get(Calendar.YEAR);
-        if (year > 2000) {
-            return "00后";
-        } else if (year >= 1995 && year < 2000) {
-            return "95后";
-        } else if (year >= 1990 && year < 1995) {
-            return "90后";
-        } else {
-            return "其他";
+        String ageRange = TimeUtils.millis2String(birthdayMills, new SimpleDateFormat("yy", Locale.getDefault()));
+        if (TextUtils.isEmpty(ageRange)) {
+            return "";
         }
+        int range = Integer.valueOf(ageRange);
+        if (range >= 95) {
+            return "95后";
+        }
+        return ageRange.substring(0, 1) + "0后";
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTimeInMillis(birthdayMills);
+//        int year = calendar.get(Calendar.YEAR);
+//        if (year > 2000) {
+//            return "00后";
+//        } else if (year >= 1995 && year < 2000) {
+//            return "95后";
+//        } else if (year >= 1990 && year < 1995) {
+//            return "90后";
+//        } else {
+//            return "其他";
+//        }
     }
 
     /**
@@ -239,5 +257,17 @@ public class ImHelper {
      */
     public static boolean isOfflinePushEnable() {
         return new TIMOfflinePushSettings().isEnabled();
+    }
+
+    /**
+     * 播放消息提醒
+     */
+    public static void playMessageNotify(Context context) {
+        if (!AudioPlayManager.getInstance().isPlaying()) {
+            Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            AudioPlayManager.getInstance().startPlay(context, uri, null, null);
+            Vibrator vibrator = (Vibrator) context.getSystemService(Service.VIBRATOR_SERVICE);
+            vibrator.vibrate(500);
+        }
     }
 }

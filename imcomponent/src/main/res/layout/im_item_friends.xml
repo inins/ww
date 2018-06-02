@@ -31,7 +31,7 @@
         android:clickable="true"
         android:foreground="?selectableItemBackground"
         android:gravity="center"
-        android:text="@string/im_message_handle_delete"
+        android:text="@string/im_message_handle_delete_friend"
         android:textColor="@color/common_white"
         android:textSize="12dp" />
 </com.wang.social.im.view.SwipeMenuLayout>

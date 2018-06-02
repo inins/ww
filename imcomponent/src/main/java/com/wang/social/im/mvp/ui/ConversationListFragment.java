@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -106,7 +107,7 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
     public void initData(@Nullable Bundle savedInstanceState) {
         initialView();
 
-        mPresenter.getFriendsList();
+//        mPresenter.getFriendsList();
     }
 
     private void initialView() {
@@ -210,9 +211,19 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
 
     @Override
     public void showNobody() {
+        FragmentManager fragmentManager = getChildFragmentManager();
+        Fragment fragment = fragmentManager.findFragmentByTag(NobodyFragment.class.getName());
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
         if (mConversations.isEmpty()) {
-            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-            transaction.add(R.id.cvl_fragment, NobodyFragment.newInstance(), NobodyFragment.class.getName());
+            if (fragment == null) {
+                transaction.add(R.id.cvl_fragment, NobodyFragment.newInstance(), NobodyFragment.class.getName());
+                transaction.commitAllowingStateLoss();
+            } else {
+                transaction.show(fragment);
+                transaction.commitAllowingStateLoss();
+            }
+        } else if (fragment != null) {
+            transaction.hide(fragment);
             transaction.commitAllowingStateLoss();
         }
     }
@@ -229,15 +240,8 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
         EventBean event = new EventBean(EventBean.EVENT_NOTIFY_MESSAGE_UNREAD);
         event.put("count", getTotalUnreadCount());
         EventBus.getDefault().post(event);
-        if (!mConversations.isEmpty()) {
-            Fragment fragment = getChildFragmentManager().findFragmentByTag(NobodyFragment.class.getName());
-            if (fragment != null) {
-                getChildFragmentManager()
-                        .beginTransaction()
-                        .hide(fragment)
-                        .commitAllowingStateLoss();
-            }
-        }
+
+        showNobody();
     }
 
     @Override

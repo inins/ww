@@ -9,8 +9,8 @@ import com.wang.social.pictureselector.PictureSelector;
 
 public class PhotoHelper {
 
-    private static final int PHOTO_PHOTO = 0xf112;
-    private static final int PHOTO_CROP = 0xf113;
+    public static final int PHOTO_PHOTO = 0xf112;
+    public static final int PHOTO_CROP = 0xf113;
 
     //最大选择数量，默认为1，超过1则不会裁剪
     protected int maxSelectCount = 1;

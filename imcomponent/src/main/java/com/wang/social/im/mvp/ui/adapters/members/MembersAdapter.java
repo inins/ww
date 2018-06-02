@@ -57,5 +57,7 @@ public class MembersAdapter extends BaseExpandableAdapter {
         void onFriendly(MemberInfo memberInfo);
 
         void onTakeOut(MemberInfo memberInfo, int position);
+
+        void onItemClick(MemberInfo memberInfo, int position);
     }
 }

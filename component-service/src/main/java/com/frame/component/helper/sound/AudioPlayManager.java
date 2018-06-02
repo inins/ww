@@ -48,7 +48,7 @@ public class AudioPlayManager implements SensorEventListener {
         float range = event.values[0];
         if (this._sensor != null && this._mediaPlayer != null) {
             if (this._mediaPlayer.isPlaying()) {
-                if ((double)range > 0.0D) {
+                if ((double) range > 0.0D) {
                     if (this._audioManager.getMode() == 0) {
                         return;
                     }
@@ -97,7 +97,7 @@ public class AudioPlayManager implements SensorEventListener {
                     this._audioManager.setSpeakerphoneOn(false);
                     this.replay();
                 }
-            } else if ((double)range > 0.0D) {
+            } else if ((double) range > 0.0D) {
                 if (this._audioManager.getMode() == 0) {
                     return;
                 }
@@ -156,6 +156,13 @@ public class AudioPlayManager implements SensorEventListener {
 
     }
 
+    public boolean isPlaying() {
+        if (_mediaPlayer != null && _mediaPlayer.isPlaying()) {
+            return true;
+        }
+        return false;
+    }
+
     public void startPlay(Context context, Uri audioUri, String playUUid, IAudioPlayListener playListener) {
         if (context != null && audioUri != null) {
             this.context = context;
@@ -177,10 +184,10 @@ public class AudioPlayManager implements SensorEventListener {
             };
 
             try {
-                this._powerManager = (PowerManager)context.getSystemService("power");
-                this._audioManager = (AudioManager)context.getSystemService("audio");
+                this._powerManager = (PowerManager) context.getSystemService("power");
+                this._audioManager = (AudioManager) context.getSystemService("audio");
                 if (!this._audioManager.isWiredHeadsetOn()) {
-                    this._sensorManager = (SensorManager)context.getSystemService("sensor");
+                    this._sensorManager = (SensorManager) context.getSystemService("sensor");
                     this._sensor = this._sensorManager.getDefaultSensor(8);
                     this._sensorManager.registerListener(this, this._sensor, 3);
                 }
@@ -283,7 +290,7 @@ public class AudioPlayManager implements SensorEventListener {
         return this._playingUri;
     }
 
-    public String getPlayUUid(){
+    public String getPlayUUid() {
         return this.playUUid;
     }
 
