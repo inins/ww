@@ -62,6 +62,12 @@ public class CommonHelper {
     }
 
     public static class PersonalHelper {
+
+        //启动个人账户页面
+        public static void startAccountActivity(Context context) {
+            UIRouter.getInstance().openUri(context, PersonalPath.ACCOUNT_URL, null);
+        }
+
         //启动充值页面
         public static void startRechargeActivity(Context context) {
             UIRouter.getInstance().openUri(context, PersonalPath.RECHARGE_URL, null);
@@ -206,10 +212,10 @@ public class CommonHelper {
         /**
          * 趣聊邀请和详情简要查看
          *
-         * @param context context
-         * @param type    类型（0.默认浏览模式（底部显示 立即加入） 1.趣聊邀请，底部显示（拒绝 同意））
-         * @param groupId 群id
-         * @param msgId   消息id
+         * @param context       context
+         * @param type          类型（0.默认浏览模式（底部显示 立即加入） 1.趣聊邀请，底部显示（拒绝 同意））
+         * @param groupId       群id
+         * @param msgId         消息id
          * @param isGroupMember 是否是群成员
          */
         private static void startGroupInvite(Context context, int type, int groupId, int msgId, int isGroupMember) {
@@ -244,8 +250,9 @@ public class CommonHelper {
 
         /**
          * 浏览趣聊详情，参数中带有是用户是否是该群成员
-         * @param context context
-         * @param groupId 群id
+         *
+         * @param context       context
+         * @param groupId       群id
          * @param isGroupMember 是否是该群成员
          */
         public static void startGroupInviteBrowse(Context context, int groupId, int isGroupMember) {
@@ -295,9 +302,10 @@ public class CommonHelper {
 
         /**
          * 从消息列表启动觅聊名片
+         *
          * @param context context
          * @param groupId 觅聊id
-         * @param msgId 消息id
+         * @param msgId   消息id
          */
         public static void startTeamCardFromMsg(Context context, int groupId, int msgId) {
             Bundle bundle = new Bundle();
