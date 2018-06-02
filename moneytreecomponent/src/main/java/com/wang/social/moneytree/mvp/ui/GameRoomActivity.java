@@ -534,6 +534,8 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
 
     @Override
     public void onShake() {
+        if (!mMoneyTreeView.isClickable()) return;
+
         Timber.i("摇一摇");
         // 模拟摇钱树点击
         if (++mShakeCount > 3) {
@@ -650,7 +652,7 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
 
     private void gameEnd() {
         mGameEnded = true;
-
+        mMoneyTreeView.setClickable(false);
 //        mShakeHintTV.setVisibility(View.GONE);
         // 游戏结束，加载结果
         if (mResumed) {

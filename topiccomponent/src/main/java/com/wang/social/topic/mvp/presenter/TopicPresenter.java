@@ -15,10 +15,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
-
 
 @FragmentScope
 public class TopicPresenter extends
@@ -29,9 +25,9 @@ public class TopicPresenter extends
     @Inject
     ApiHelper mApiHelper;
 
-    List<TopicTopUser> mTopicTopUserList = new ArrayList<>();
+    private List<TopicTopUser> mTopicTopUserList = new ArrayList<>();
 
-    private int mSize = 10;
+    private final static int mSize = 10;
     private int mCurrent = 0;
 
     @Inject
@@ -69,18 +65,9 @@ public class TopicPresenter extends
                     @Override
                     public void onError(Throwable e) {
                     }
-                }, new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-//                        mRootView.showLoading();
-                    }
-                }, new Action() {
-                    @Override
-                    public void run() throws Exception {
-//                        mRootView.hideLoading();
-                        mRootView.onTopicTopUserLoadCompleted();
-                    }
-                });
+                },
+                disposable -> {},
+                () -> mRootView.onTopicTopUserLoadCompleted());
     }
 
     /**
@@ -103,20 +90,13 @@ public class TopicPresenter extends
 
                     @Override
                     public void onError(Throwable e) {
+                        e.printStackTrace();
 
-
+                        mRootView.onMyRecommendTagListLoad(null);
                     }
-                }, new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-//                        mRootView.showLoading();
-                    }
-                }, new Action() {
-                    @Override
-                    public void run() throws Exception {
-//                        mRootView.hideLoading();
-                    }
-                });
+                },
+                disposable -> {},
+                () -> {});
     }
 
     /**

@@ -72,7 +72,9 @@ img{
 }
 
 body {
-  overflow: scroll;
+  word-wrap:break-word;
+  word-break:break-all;
+  overflow: hidden;
   display: table;
   table-layout: fixed;
   width: 100%;

@@ -335,7 +335,7 @@ public class CommentActivity extends BaseAppActivity<CommentPresenter> implement
             Comment comment = (Comment) mCommentET.getTag();
             // 回复
             mPresenter.commitComment(mTopicId,
-                    comment.getCommentId(),
+                    mLevel == SECOND_LEVEL ? mCommentId : comment.getCommentId(),
                     comment.getUserId(),
                     mCommentET.getText().toString());
         } else {

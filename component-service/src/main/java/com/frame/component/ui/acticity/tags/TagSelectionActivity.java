@@ -192,22 +192,31 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
         startConfirm(context, selectedList, fromLogin, type, Integer.MAX_VALUE);
     }
 
+    // 标题栏
     @BindView(R2.id.toolbar)
     SocialToolbar toolbar;
+    // 一级标签列表
     @BindView(R2.id.tab_layout)
     TabLayout tabLayout;
+    // ViewPager 二级标签页面
     @BindView(R2.id.view_pager)
     ViewPager viewPager;
+    // 已选 选定 等文字
     @BindView(R2.id.selected_count_hint_text_view)
     TextView selectedCountHintTV;
+    // 数量
     @BindView(R2.id.selected_count_text_view)
     TextView selectedCountTV;
+    //
     @BindView(R2.id.ts_content_layout)
     LinearLayout contentLayout;
+    // 标题
     @BindView(R2.id.title_text_view)
     TextView titleTV;
+    // 副标题
     @BindView(R2.id.title_hint_text_view)
     TextView titleHintTV;
+    // 右上角选中数量区域
     @BindView(R2.id.selected_count_layout)
     View selectedCountLayout;
     // 大量知识
@@ -266,7 +275,7 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
             selectedCountTV.setVisibility(View.GONE);
         }
 
-        if (mPresenter.getSelectedTagCount() <= 0) {
+        if (mPresenter.getSelectedTagCount() <= 0 && mTagType != TAG_TYPE_INTEREST) {
             selectedCountHintTV.setTextColor(getResources().getColor(R.color.common_text_dark));
             selectedCountTV.setTextColor(getResources().getColor(R.color.common_text_dark));
             selectedCountLayout.setEnabled(false);

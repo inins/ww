@@ -29,15 +29,15 @@ import com.wang.social.im.mvp.presenter.FriendsPresenter;
 import com.wang.social.im.mvp.ui.PersonalCard.PersonalCardActivity;
 import com.wang.social.im.mvp.ui.SocialListActivity;
 import com.wang.social.im.mvp.ui.adapters.FriendsAdapter;
+import com.wang.social.im.view.indexlist.IndexableAdapter;
+import com.wang.social.im.view.indexlist.IndexableHeaderAdapter;
+import com.wang.social.im.view.indexlist.IndexableLayout;
 
 import java.lang.ref.WeakReference;
 import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
-import me.yokeyword.indexablerv.IndexableAdapter;
-import me.yokeyword.indexablerv.IndexableHeaderAdapter;
-import me.yokeyword.indexablerv.IndexableLayout;
 
 import static com.frame.entities.EventBean.EVENT_NOTIFY_FRIEND_PROFILE;
 

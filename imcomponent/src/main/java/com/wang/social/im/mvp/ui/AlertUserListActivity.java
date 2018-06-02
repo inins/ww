@@ -23,13 +23,13 @@ import com.wang.social.im.mvp.model.entities.IndexMemberInfo;
 import com.wang.social.im.mvp.presenter.AlertUserListPresenter;
 import com.wang.social.im.mvp.ui.adapters.AlertUserAdapter;
 import com.wang.social.im.mvp.ui.fragments.AlertUserSearchFragment;
+import com.wang.social.im.view.indexlist.IndexableAdapter;
+import com.wang.social.im.view.indexlist.IndexableLayout;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import me.yokeyword.indexablerv.IndexableAdapter;
-import me.yokeyword.indexablerv.IndexableLayout;
 
 /**
  * @ 用户列表

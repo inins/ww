@@ -57,7 +57,7 @@ public abstract class BaseMessageViewHolder<T> extends BaseViewHolder<T> {
     @Nullable
     TextView msgTvName;
 
-    ImageLoader mImageLoader;
+    protected ImageLoader mImageLoader;
 
     public String targetId;
     public ConversationType conversationType;

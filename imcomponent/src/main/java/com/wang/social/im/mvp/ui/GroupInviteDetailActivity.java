@@ -229,6 +229,7 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
                     mReportComment = text;
                     // 弹出图片选择
                     mPhotoHelperEx.setMaxSelectCount(1);
+                    mPhotoHelperEx.setClip(false);
 //                    mPhotoHelperEx.showDefaultDialog();
                     mPhotoHelperEx.startPhoto();
                 });

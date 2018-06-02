@@ -1,10 +1,10 @@
 package com.wang.social.im.mvp.model.entities;
 
 import com.frame.component.entities.FriendInfo;
+import com.wang.social.im.view.indexlist.IndexableEntity;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.yokeyword.indexablerv.IndexableEntity;
 
 /**
  * ============================================

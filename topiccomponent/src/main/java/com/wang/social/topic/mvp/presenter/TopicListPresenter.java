@@ -100,8 +100,9 @@ public class TopicListPresenter extends
     public void getNewsList() {
         initHandler();
 
+        // 是否为大量知识(0:是，1：不是)
         mApiHelper.execute(mRootView,
-                mModel.getNewsList(mTagAll ? "1" : "0", mSize, mCurrent + 1),
+                mModel.getNewsList(mTagAll ? "0" : "1", mSize, mCurrent + 1),
                 mErrorHandleSubscriber,
                 mConsumer,
                 mAction);

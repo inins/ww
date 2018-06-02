@@ -1,6 +1,7 @@
 package com.wang.social.im.mvp.ui.adapters;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +14,7 @@ import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.utils.FrameUtils;
 import com.wang.social.im.R;
 import com.wang.social.im.mvp.model.entities.IndexMemberInfo;
-
-import me.yokeyword.indexablerv.IndexableAdapter;
+import com.wang.social.im.view.indexlist.IndexableAdapter;
 
 /**
  * ============================================
@@ -47,8 +47,13 @@ public class AlertUserAdapter extends IndexableAdapter<IndexMemberInfo> {
     }
 
     @Override
-    public void onBindTitleViewHolder(RecyclerView.ViewHolder holder, String indexTitle) {
+    public void onBindTitleViewHolder(RecyclerView.ViewHolder holder, String indexTitle, boolean isSticky) {
         ((IndexViewHolder) holder).tvIndex.setText(indexTitle);
+        if (isSticky) {
+            ((IndexViewHolder) holder).tvIndex.setTextColor(ContextCompat.getColor(((IndexViewHolder) holder).tvIndex.getContext(), R.color.common_colorAccent));
+        } else {
+            ((IndexViewHolder) holder).tvIndex.setTextColor(ContextCompat.getColor(((IndexViewHolder) holder).tvIndex.getContext(), R.color.common_text_blank));
+        }
     }
 
     @Override

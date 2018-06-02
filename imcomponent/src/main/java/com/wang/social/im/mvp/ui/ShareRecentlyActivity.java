@@ -61,6 +61,13 @@ public class ShareRecentlyActivity extends BaseAppActivity<SharePresenter> imple
         if (source != -1) {
             mShareSource = ShareSource.values()[source];
         }
+
+        srToolbar.setOnButtonClickListener(new SocialToolbar.OnButtonClickListener() {
+            @Override
+            public void onButtonClick(SocialToolbar.ClickType clickType) {
+                finish();
+            }
+        });
     }
 
     @Override

@@ -53,14 +53,15 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <me.yokeyword.indexablerv.IndexableLayout
+    <com.wang.social.im.view.indexlist.IndexableLayout
         android:id="@+id/if_il_friends"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/common_white"
-        app:indexBar_selectedTextColor="@color/common_colorAccent"
-        app:indexBar_textColor="@color/common_text_blank"
-        app:indexBar_textSize="9sp"
-        app:indexBar_textSpace="5dp"
+        app:im_indexBar_selectedBackgroundColor="@color/common_colorAccent"
+        app:im_indexBar_selectedTextColor="@color/common_white"
+        app:im_indexBar_textColor="@color/common_text_blank"
+        app:im_indexBar_textSize="9sp"
+        app:im_indexBar_textSpace="5dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 </android.support.design.widget.CoordinatorLayout>
