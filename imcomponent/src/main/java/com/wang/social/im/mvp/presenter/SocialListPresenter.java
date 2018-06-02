@@ -2,6 +2,7 @@ package com.wang.social.im.mvp.presenter;
 
 import com.frame.component.utils.UIUtil;
 import com.frame.di.scope.ActivityScope;
+import com.frame.entities.EventBean;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.mvp.BasePresenter;
@@ -16,6 +17,9 @@ import com.wang.social.im.mvp.model.entities.SocialListLevelTwo;
 import com.wang.social.im.mvp.model.entities.TeamInfo;
 import com.wang.social.im.mvp.model.entities.dto.ListDataDTO;
 import com.wang.social.im.mvp.model.entities.dto.SimpleGroupInfoDTO;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,13 +47,14 @@ public class SocialListPresenter extends BasePresenter<SocialListContract.Model,
         super(model, view);
     }
 
-    public void getSocials() {
+    public void getSocials(boolean needLoading) {
         mModel.getBeinGroups()
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(new Consumer<Disposable>() {
                     @Override
                     public void accept(Disposable disposable) throws Exception {
-                        mRootView.showLoading();
+                        if (needLoading)
+                            mRootView.showLoading();
                     }
                 })
                 .map(new Function<BaseJson<ListDataDTO<SimpleGroupInfoDTO, SimpleGroupInfo>>, ListData<SimpleGroupInfo>>() {
@@ -117,7 +122,8 @@ public class SocialListPresenter extends BasePresenter<SocialListContract.Model,
                 .doFinally(new Action() {
                     @Override
                     public void run() throws Exception {
-                        mRootView.hideLoading();
+                        if (needLoading)
+                            mRootView.hideLoading();
                     }
                 })
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
@@ -143,5 +149,18 @@ public class SocialListPresenter extends BasePresenter<SocialListContract.Model,
 //                        }
 //                    }
                 });
+    }
+
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void onCommentEvent(EventBean eventBean) {
+        if (eventBean.getEvent() == EventBean.EVENT_NOTIFY_GROUP_ADD
+                || eventBean.getEvent() == EventBean.EVENT_NOTIFY_GROUP_DELETE) {
+            getSocials(false);
+        }
     }
 }

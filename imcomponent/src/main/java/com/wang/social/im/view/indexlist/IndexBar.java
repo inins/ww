@@ -185,4 +185,22 @@ class IndexBar extends View {
             invalidate();
         }
     }
+
+    String getSelectionStr() {
+        for (String s : mIndexList) {
+            if (mIndexList.indexOf(s) == mSelectionPosition) {
+                return s;
+            }
+        }
+        return "";
+    }
+
+    void setSelection(String indexStr) {
+        for (String s : mIndexList) {
+            if (s.equals(indexStr)) {
+                setSelectionPosition(mIndexList.indexOf(s));
+                break;
+            }
+        }
+    }
 }

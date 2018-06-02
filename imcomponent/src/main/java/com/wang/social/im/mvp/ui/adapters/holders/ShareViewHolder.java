@@ -54,7 +54,6 @@ public class ShareViewHolder extends BaseMessageViewHolder<UIMessage> {
     ContentLoadingProgressBar msgPbProgress;
 
     private Gson mGson;
-    private ImageLoader mImageLoader;
 
     public ShareViewHolder(Context context, ViewGroup root, int layoutRes) {
         super(context, root, layoutRes);
@@ -83,7 +82,7 @@ public class ShareViewHolder extends BaseMessageViewHolder<UIMessage> {
                     .placeholder(R.drawable.im_image_placeholder)
                     .errorPic(R.drawable.im_image_placeholder)
                     .imageView(msgIvShare)
-                    .url(elemData.getContent())
+                    .url(elemData.getCover())
                     .build());
             if (elemType == CustomElemType.SHARE_FUN_SHOW) {
                 msgTvShareSource.setText(UIUtil.getString(R.string.im_from_format, "趣晒"));

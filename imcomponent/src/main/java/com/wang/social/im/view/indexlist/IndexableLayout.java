@@ -16,6 +16,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -424,6 +425,9 @@ public class IndexableLayout extends FrameLayout {
                     case MotionEvent.ACTION_CANCEL:
                         if (mCenterOverlay != null) mCenterOverlay.setVisibility(GONE);
                         if (mMDOverlay != null) mMDOverlay.setVisibility(GONE);
+                        if (!TextUtils.isEmpty(mStickyTitle) && !mStickyTitle.equals(mIndexBar.getSelectionStr())) {
+                            mIndexBar.setSelection(mStickyTitle);
+                        }
                         break;
                 }
                 return true;
@@ -614,6 +618,7 @@ public class IndexableLayout extends FrameLayout {
         addView(mCenterOverlay);
     }
 
+    @SuppressLint("RestrictedApi")
     private void initMDOverlay(int color) {
         mMDOverlay = new AppCompatTextView(mContext);
         mMDOverlay.setBackgroundResource(R.drawable.im_indexable_bg_md_overlay);
