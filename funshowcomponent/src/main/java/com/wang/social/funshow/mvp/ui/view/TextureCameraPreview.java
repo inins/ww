@@ -78,8 +78,8 @@ public class TextureCameraPreview extends TextureView implements TextureView.Sur
             mCamera.setDisplayOrientation(90);
             // 4.设置预览尺寸
             size = CameraUtil.getBestCameraResolution(parameters, new Point(getMeasuredWidth(), getMeasuredHeight()));
-            parameters.setPreviewSize(size.x, size.y);
-            parameters.setPictureSize(size.x, size.y);
+//            parameters.setPreviewSize(size.x, size.y);
+//            parameters.setPictureSize(size.x, size.y);
             if (!isFontCamera)
                 parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
             //5.调整拍照图片方向
@@ -94,7 +94,6 @@ public class TextureCameraPreview extends TextureView implements TextureView.Sur
                 mCamera.startPreview();
             } catch (Exception e) {
                 e.printStackTrace();
-                Toast.makeText(getContext(), "Error setting camera preview:" + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
     }

@@ -12,6 +12,7 @@ public interface Api {
     String DOMAIN = "http://frogking.top:8080";  //开发
 //    String DOMAIN = "http://192.168.1.147:8088";  //测试
 //    String DOMAIN = "http://www.wangsocial.com:8080/";
+//    String DOMAIN = "http://192.168.1.102:8080/";
 
     /**
      * 接口请求成功状态码

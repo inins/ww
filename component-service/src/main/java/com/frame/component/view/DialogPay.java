@@ -323,8 +323,7 @@ public class DialogPay extends DialogFragment {
         payText.setOnClickListener(v -> {
             if (null != mCallback) {
                 if (mPrice > mBalance) {
-//                    ToastUtil.showToastLong("去充值");
-                    CommonHelper.PersonalHelper.startRechargeActivity(getContext());
+                    CommonHelper.PersonalHelper.startAccountActivity(getContext());
                 } else {
                     mCallback.onPay();
                 }
