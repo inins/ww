@@ -62,9 +62,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/common_white"
-        app:indexBar_selectedTextColor="@color/common_colorAccent"
-        app:indexBar_textColor="@color/common_text_blank"
-        app:indexBar_textSize="9sp"
-        app:indexBar_textSpace="5dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 </android.support.design.widget.CoordinatorLayout>

@@ -82,7 +82,7 @@ public class SettingMsgActivity extends BasicAppNoDiActivity implements Compound
 
     public void netGetMsgSetting(boolean needloading) {
         ApiHelperEx.execute(this, needloading,
-                ApiHelperEx.getService(UserService.class).msgSetting(null),
+                ApiHelperEx.getService(UserService.class).msgSetting(),
                 new ErrorHandleSubscriber<BaseJson<MsgSetting>>() {
                     @Override
                     public void onNext(BaseJson<MsgSetting> basejson) {
@@ -99,7 +99,7 @@ public class SettingMsgActivity extends BasicAppNoDiActivity implements Compound
 
     public void netSetMsgSetting(boolean isOpen) {
         ApiHelperEx.execute(this, true,
-                ApiHelperEx.getService(UserService.class).msgSetting(isOpen ? 1 : 0),
+                ApiHelperEx.getService(UserService.class).msgSettingOpen(isOpen ? 1 : 0),
                 new ErrorHandleSubscriber<BaseJson<MsgSetting>>() {
                     @Override
                     public void onNext(BaseJson<MsgSetting> basejson) {

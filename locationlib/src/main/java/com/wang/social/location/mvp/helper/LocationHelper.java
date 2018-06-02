@@ -72,6 +72,7 @@ public class LocationHelper {
                 if (onLocationListener != null) onLocationListener.onLocation(locationInfo);
             } else {
                 ToastUtil.showToastShort("定位失败");
+                if (onLocationListener != null) onLocationListener.onLocation(null);
             }
         }
     };

@@ -43,6 +43,8 @@ public class SocialListActivity extends BaseAppActivity<SocialListPresenter> imp
 
     private AutoPopupWindow popupWindow;
 
+    private SocialListAdapter mAdapter;
+
     public static void start(Context context) {
         Intent intent = new Intent(context, SocialListActivity.class);
         context.startActivity(intent);
@@ -70,7 +72,7 @@ public class SocialListActivity extends BaseAppActivity<SocialListPresenter> imp
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
-        mPresenter.getSocials();
+        mPresenter.getSocials(true);
     }
 
     @Override
@@ -85,9 +87,14 @@ public class SocialListActivity extends BaseAppActivity<SocialListPresenter> imp
 
     @Override
     public void showSocials(List<SocialListLevelOne> socials) {
-        slRlvSocials.setLayoutManager(new LinearLayoutManager(this));
         List list = new ArrayList(socials);
-        slRlvSocials.setAdapter(new SocialListAdapter(list));
+        if (mAdapter != null) {
+            mAdapter.updateData(list);
+        } else {
+            slRlvSocials.setLayoutManager(new LinearLayoutManager(this));
+            mAdapter = new SocialListAdapter(list);
+            slRlvSocials.setAdapter(mAdapter);
+        }
     }
 
     @OnClick({R2.id.sl_iv_search, R2.id.sl_iv_add})

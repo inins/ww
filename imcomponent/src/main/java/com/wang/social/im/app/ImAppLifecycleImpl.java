@@ -2,10 +2,8 @@ package com.wang.social.im.app;
 
 import android.app.Application;
 import android.content.Context;
-import android.text.TextUtils;
 
 import com.frame.base.delegate.AppDelegate;
-import com.frame.component.app.Constant;
 import com.frame.component.enums.ConversationType;
 import com.frame.component.helper.AppDataHelper;
 import com.frame.entities.EventBean;
@@ -50,8 +48,7 @@ import java.util.List;
 import timber.log.Timber;
 
 import static com.frame.entities.EventBean.EVENT_NOTIFY_FRIEND_PROFILE;
-import static com.frame.entities.EventBean.EVENT_NOTIFY_GROUP_DELETE_OR_ADD;
-import static com.frame.entities.EventBean.EVENT_NOTIFY_GROUP_MEMBER_PROFILE;
+import static com.frame.entities.EventBean.EVENT_NOTIFY_GROUP_ADD;
 import static com.wang.social.im.app.IMConstants.IM_FIELD_FRIEND_PORTRAIT;
 
 /**
@@ -296,7 +293,7 @@ public class ImAppLifecycleImpl implements AppDelegate {
             Timber.tag(TAG).d("onGroupAdd");
             GroupHelper.getInstance().refresh();
 
-            EventBus.getDefault().post(new EventBean(EVENT_NOTIFY_GROUP_DELETE_OR_ADD));
+            EventBus.getDefault().post(new EventBean(EVENT_NOTIFY_GROUP_ADD));
         }
 
         @Override

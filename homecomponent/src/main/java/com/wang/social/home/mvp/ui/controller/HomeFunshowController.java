@@ -7,8 +7,11 @@ import android.view.ViewParent;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.frame.component.api.CommonService;
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.entities.funshow.FunshowBean;
+import com.frame.component.entities.user.ShatDownUser;
+import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.helper.NetPayStoneHelper;
@@ -46,7 +49,6 @@ public class HomeFunshowController extends BaseController {
 
     private MorePopupWindow popupWindow;
 
-    private List<FunshowHome> funshowList;
     private FunshowHome currentFunshow;
 
     @Override
@@ -89,8 +91,11 @@ public class HomeFunshowController extends BaseController {
                 break;
             }
             case EventBean.EVENT_FUNSHOW_DISSLIKE: {
-                //在详情页不喜欢，收到通知刷新下一条趣晒
-                nextFunshow();
+                //在详情页不喜欢，重新刷新列表
+                int talkId = (int) event.get("talkId");
+                if (currentFunshow != null && talkId == currentFunshow.getTalkId()) {
+                    netGetNewFunshow(false);
+                }
                 break;
             }
         }
@@ -126,7 +131,7 @@ public class HomeFunshowController extends BaseController {
             });
             funshowView.getMoreBtn().setOnClickListener(view -> {
                 popupWindow.setOnDislikeClickListener(v -> {
-                    nextFunshow();
+                    netShatDownUser();
                 });
                 popupWindow.showPopupWindow(view);
             });
@@ -136,7 +141,6 @@ public class HomeFunshowController extends BaseController {
                         NetPayStoneHelper.newInstance().netPayFunshow(getIView(), funshowBean.getId(), funshowBean.getPrice(), () -> {
                             CommonHelper.FunshowHelper.startDetailActivity(getContext(), funshowBean.getId());
                             EventBus.getDefault().post(new EventBean(EventBean.EVENT_FUNSHOW_PAYED).put("talkId", funshowBean.getId()));
-//                            setFunshowPayed();
                         });
                     });
                 } else {
@@ -153,20 +157,34 @@ public class HomeFunshowController extends BaseController {
         }
     }
 
-    private void nextFunshow() {
-        //移除最顶部的一条数据，取第下一条
-        if (StrUtil.isEmpty(funshowList)) return;
-        ListUtil.remove(funshowList, 0);
-        FunshowHome funshow = ListUtil.get(funshowList, 0);
-        setFunshowData(funshow);
-    }
-
     public void refreshData() {
         netGetNewFunshow(false);
     }
 
+    public void netShatDownUser() {
+        if (funshowView == null) return;
+        int userId = currentFunshow.getCreatorId();
+        if (userId == AppDataHelper.getUser().getUserId()) {
+            ToastUtil.showToastShort("不能屏蔽自己");
+            return;
+        }
+        ApiHelperEx.execute(getIView(), true,
+                ApiHelperEx.getService(CommonService.class).shatDownUser(userId + "", 1),
+                new ErrorHandleSubscriber<BaseJson<Object>>() {
+                    @Override
+                    public void onNext(BaseJson<Object> basejson) {
+                        netGetNewFunshow(true);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        ToastUtil.showToastLong(e.getMessage());
+                    }
+                });
+    }
+
     public void netGetNewFunshow(boolean needLoading) {
-        ApiHelperEx.execute(getIView(), false,
+        ApiHelperEx.execute(getIView(), needLoading,
                 ApiHelperEx.getService(HomeService.class).getNewFunshow(),
                 new ErrorHandleSubscriber<BaseJson<BaseListWrap<FunshowHome>>>() {
                     @Override
@@ -174,7 +192,6 @@ public class HomeFunshowController extends BaseController {
                         BaseListWrap<FunshowHome> wrap = basejson.getData();
                         List<FunshowHome> list = wrap.getList();
                         if (!StrUtil.isEmpty(list)) {
-                            funshowList = list;
                             setFunshowData(list.get(0));
                         }
                     }

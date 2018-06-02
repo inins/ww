@@ -93,8 +93,6 @@ public class PhoneBookPresenter extends BasePresenter<PhoneBookContract.Model, P
                 num = num.substring(3);
             } else if (num.startsWith("86")) {
                 num = num.substring(2);
-            } else if (num.startsWith("86")) {
-                num = num.substring(2);
             }
         } else {
             num = "";
@@ -132,7 +130,7 @@ public class PhoneBookPresenter extends BasePresenter<PhoneBookContract.Model, P
                                 if (contact.getPhoneNumber().equals(contactCheckResult.getPhoneNumber())) {
                                     contact.setJoined(!TextUtils.isEmpty(contactCheckResult.getUserId()));
                                     contact.setFriend(contactCheckResult.isFriend());
-                                    contact.setUserId(TextUtils.isEmpty(contactCheckResult.getUserId()) ? "" : contactCheckResult.getUserId());
+                                    contact.setUserId(TextUtils.isEmpty(contactCheckResult.getUserId()) ? "-1" : contactCheckResult.getUserId());
                                     break;
                                 }
                             }
@@ -157,7 +155,7 @@ public class PhoneBookPresenter extends BasePresenter<PhoneBookContract.Model, P
                 });
     }
 
-    public void friendRequest(String userId, String reason){
+    public void friendRequest(String userId, String reason) {
         mRootView.showLoading();
         RepositoryHelper.getInstance().sendFriendlyApply(mRootView, userId, reason, new ImCallBack() {
             @Override

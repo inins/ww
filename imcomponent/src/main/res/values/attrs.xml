@@ -14,4 +14,16 @@
     <declare-styleable name="im_StackLayout">
         <attr name="im_sl_xoffset" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="im_IndexableRecyclerView">
+        <attr name="im_indexBar_selectedTextColor" format="color" />
+        <attr name="im_indexBar_textColor" format="color" />
+        <attr name="im_indexBar_textSize" format="dimension" />
+        <attr name="im_indexBar_textSpace" format="dimension" />
+        <attr name="im_indexBar_background" format="reference|color" />
+        <attr name="im_indexBar_selectedBackgroundColor" format="color" />
+        <attr name="im_indexBar_layout_width" format="dimension">
+            <!--<enum name="wrap_content" value="-2" /> 暂不支持 -->
+        </attr>
+    </declare-styleable>
 </resources>

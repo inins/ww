@@ -89,8 +89,12 @@ public class FunshowAddBundleController extends FunshowAddBaseController impleme
         //开始定位
         locationHelper = LocationHelper.newInstance().startLocation();
         locationHelper.setOnLocationListener(locationInfo -> {
-            location = locationInfo;
-            textPosition.setText(location.getProvince() + location.getCity());
+            if (locationInfo != null) {
+                location = locationInfo;
+                textPosition.setText(location.getProvince() + location.getCity());
+            } else {
+                textPosition.setText("定位失败");
+            }
         });
     }
 

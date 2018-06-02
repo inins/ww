@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.frame.component.helper.AppDataHelper;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.ui.dialog.DialogValiRequest;
 import com.frame.component.view.SocialToolbar;
@@ -31,20 +32,22 @@ import com.wang.social.im.di.modules.PhoneBookModule;
 import com.wang.social.im.mvp.contract.PhoneBookContract;
 import com.wang.social.im.mvp.model.entities.PhoneContact;
 import com.wang.social.im.mvp.presenter.PhoneBookPresenter;
+import com.wang.social.im.mvp.ui.PersonalCard.PersonalCardActivity;
 import com.wang.social.im.mvp.ui.adapters.PhoneContactsAdapter;
+import com.wang.social.im.view.indexlist.IndexableAdapter;
+import com.wang.social.im.view.indexlist.IndexableHeaderAdapter;
+import com.wang.social.im.view.indexlist.IndexableLayout;
 
 import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
 import io.reactivex.functions.Consumer;
-import me.yokeyword.indexablerv.IndexableHeaderAdapter;
-import me.yokeyword.indexablerv.IndexableLayout;
 
 /**
  * 手机通讯录
  */
-public class PhoneBookActivity extends BaseAppActivity<PhoneBookPresenter> implements PhoneBookContract.View, PhoneContactsAdapter.OnHandleListener {
+public class PhoneBookActivity extends BaseAppActivity<PhoneBookPresenter> implements PhoneBookContract.View, PhoneContactsAdapter.OnHandleListener, IndexableAdapter.OnItemContentClickListener<PhoneContact> {
 
     @BindView(R2.id.pb_toolbar)
     SocialToolbar pbToolbar;
@@ -126,6 +129,7 @@ public class PhoneBookActivity extends BaseAppActivity<PhoneBookPresenter> imple
         pbFlFriends.setOverlayStyle_MaterialDesign(ContextCompat.getColor(this, R.color.common_colorAccent));
         pbFlFriends.setCompareMode(IndexableLayout.MODE_FAST);
 
+        adapter.setOnItemContentClickListener(this);
         pbFlFriends.addHeaderAdapter(new HeaderAdapter(Arrays.asList("")));
     }
 
@@ -134,7 +138,8 @@ public class PhoneBookActivity extends BaseAppActivity<PhoneBookPresenter> imple
         if (!contact.isJoined()) {
             Intent intent = new Intent(Intent.ACTION_SENDTO);
             intent.setData(Uri.parse("smsto:" + contact.getPhoneNumber()));
-            intent.putExtra("sms_body", IMConstants.CONTENT_INVITE_JOIN_APP);
+            String body = String.format(IMConstants.CONTENT_INVITE_JOIN_APP, AppDataHelper.getUser().getNickname());
+            intent.putExtra("sms_body", body);
             startActivity(intent);
         } else {
             DialogValiRequest.showDialog(this, new DialogValiRequest.OnSureCallback() {
@@ -147,6 +152,13 @@ public class PhoneBookActivity extends BaseAppActivity<PhoneBookPresenter> imple
                     mPresenter.friendRequest(contact.getUserId(), content);
                 }
             });
+        }
+    }
+
+    @Override
+    public void onItemClick(View v, int originalPosition, int currentPosition, PhoneContact entity) {
+        if (entity.isJoined()) {
+            PersonalCardActivity.start(this, Integer.parseInt(entity.getUserId()));
         }
     }
 

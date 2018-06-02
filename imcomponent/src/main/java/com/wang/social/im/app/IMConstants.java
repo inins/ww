@@ -1,5 +1,7 @@
 package com.wang.social.im.app;
 
+import com.frame.component.common.AppConstant;
+
 /**
  * 常量
  */
@@ -199,6 +201,6 @@ public interface IMConstants {
     /**
      * ----------------------文案--------------------------
      **/
-    String CONTENT_INVITE_JOIN_APP = "加入往往咯";
+    String CONTENT_INVITE_JOIN_APP = "%s邀请您加入往往" + AppConstant.Url.eva;
     /** ---------------------------------------------------- **/
 }

@@ -19,10 +19,9 @@ import com.frame.utils.FrameUtils;
 import com.wang.social.im.R;
 import com.wang.social.im.mvp.model.entities.IndexFriendInfo;
 import com.wang.social.im.view.SwipeMenuLayout;
+import com.wang.social.im.view.indexlist.IndexableAdapter;
 
 import java.util.Calendar;
-
-import me.yokeyword.indexablerv.IndexableAdapter;
 
 /**
  * ============================================
@@ -58,8 +57,13 @@ public class FriendsAdapter extends IndexableAdapter<IndexFriendInfo> {
     }
 
     @Override
-    public void onBindTitleViewHolder(RecyclerView.ViewHolder holder, String indexTitle) {
+    public void onBindTitleViewHolder(RecyclerView.ViewHolder holder, String indexTitle, boolean isSticky) {
         ((IndexViewHolder) holder).tvIndex.setText(indexTitle);
+        if (isSticky) {
+            ((IndexViewHolder) holder).tvIndex.setTextColor(ContextCompat.getColor(((IndexViewHolder) holder).tvIndex.getContext(), R.color.common_colorAccent));
+        } else {
+            ((IndexViewHolder) holder).tvIndex.setTextColor(ContextCompat.getColor(((IndexViewHolder) holder).tvIndex.getContext(), R.color.common_text_blank));
+        }
     }
 
     @Override
@@ -109,7 +113,7 @@ public class FriendsAdapter extends IndexableAdapter<IndexFriendInfo> {
         viewHolder.clContent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (handleListener != null){
+                if (handleListener != null) {
                     handleListener.onItemClick(entity);
                 }
             }

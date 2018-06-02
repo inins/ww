@@ -23,14 +23,14 @@ import com.wang.social.im.mvp.contract.InviteFriendContract;
 import com.wang.social.im.mvp.model.entities.IndexFriendInfo;
 import com.wang.social.im.mvp.presenter.InviteFriendPresenter;
 import com.wang.social.im.mvp.ui.adapters.InviteFriendAdapter;
+import com.wang.social.im.view.indexlist.IndexableAdapter;
+import com.wang.social.im.view.indexlist.IndexableLayout;
 
 import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import me.yokeyword.indexablerv.IndexableAdapter;
-import me.yokeyword.indexablerv.IndexableLayout;
 
 import static com.frame.utils.Utils.getContext;
 

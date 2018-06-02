@@ -1,6 +1,6 @@
 package com.wang.social.im.mvp.model.entities;
 
-import me.yokeyword.indexablerv.IndexableEntity;
+import com.wang.social.im.view.indexlist.IndexableEntity;
 
 /**
  * ============================================
