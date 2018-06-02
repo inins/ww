@@ -1768,8 +1768,13 @@ public final class TimeUtils {
                 age = 0;
             } else {
                 age = now.get(Calendar.YEAR) - birth.get(Calendar.YEAR);
+
+                if (now.get(Calendar.DAY_OF_YEAR) > birth.get(Calendar.DAY_OF_YEAR)) {
+                    age -= 1;
+                }
             }
-            return age;
+
+            return Math.max(0, age);
         } catch (Exception e) {
             return 0;
         }

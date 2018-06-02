@@ -126,17 +126,22 @@
         tools:text="恭喜你摇到钻石，游戏结束会揭晓结果，请耐心等待吧！" />
 
 
-
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_h"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.54"/>
 
 
     <LinearLayout
         android:id="@+id/member_chat_layout"
         android:layout_width="match_parent"
-        android:layout_height="266dp"
-        android:minHeight="266dp"
+        android:layout_height="0dp"
         android:background="@drawable/mt_shape_rect_top_corner_solid_alpha_white"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline_h">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/member_list_recycler_view"

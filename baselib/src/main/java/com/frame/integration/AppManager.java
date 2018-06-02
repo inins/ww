@@ -328,6 +328,20 @@ public class AppManager {
         }
     }
 
+    public void kill(String activityClass) {
+        synchronized (AppManager.class) {
+            Iterator<Activity> iterator = getActivityList().iterator();
+            while (iterator.hasNext()) {
+                Activity next = iterator.next();
+
+                if (activityClass.equals(next.getClass().getName())) {
+                    iterator.remove();
+                    next.finish();
+                }
+            }
+        }
+    }
+
     /**
      * 关闭所有 {@link Activity},排除指定的 {@link Activity}
      *

@@ -448,6 +448,7 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
 //        mAppManager.killActivity(GameListActivity.class);
 //        finish();
         if (mPresenter.isGroupMember()) {
+            mAppManager.kill("com.wang.social.im.mvp.ui.GroupConversationActivity");
             // 是群成员，进入趣聊
             CommonHelper.ImHelper.gotoGroupConversation(
                     this,
