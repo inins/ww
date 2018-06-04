@@ -70,7 +70,7 @@ public class AppConstant {
         //往往免责声明
         public static final String disclaimer = Api.WEB_BASE_URL + "about/common/disclaimer.html";
         //账户常见问题
-        public static final String commonProblem = Api.WEB_BASE_URL + "about/common/commonProblem.html";
+        public static final String commonProblem = Api.WEB_BASE_URL + "about/android/commonProblem.html";
         //大佬撒钱规则介绍
         public static final String bigMoneyNotice = Api.WEB_BASE_URL + "about/common/bigMoneyNotice.html";
         //关于往往
@@ -87,19 +87,19 @@ public class AppConstant {
         //##################################
 
         //关于账户
-        public static final String aboutAccount = Api.WEB_BASE_URL + "about/android/aboutAccount.html";
+        public static final String aboutAccount = Api.WEB_BASE_URL + "about/aboutAccount.html";
         //关于Fan聊/Mi聊
-        public static final String aboutFanliao = Api.WEB_BASE_URL + "about/android/aboutFanliao.html";
+        public static final String aboutFanliao = Api.WEB_BASE_URL + "about/aboutFanliao.html";
         //往往版本记录
-        public static final String aboutHistory = Api.WEB_BASE_URL + "about/android/aboutHistory.html";
+        public static final String aboutHistory = Api.WEB_BASE_URL + "about/aboutHistory.html";
         //其它问题(下载与注册，关于我们)
-        public static final String aboutOther = Api.WEB_BASE_URL + "about/android/aboutOther.html";
+        public static final String aboutOther = Api.WEB_BASE_URL + "about/aboutOther.html";
         //关于趣晒/话题
-        public static final String aboutQushai = Api.WEB_BASE_URL + "about/android/aboutQushai.html";
+        public static final String aboutQushai = Api.WEB_BASE_URL + "about/aboutQushai.html";
         //往往用户注册协议
-        public static final String userAgreement = Api.WEB_BASE_URL + "about/android/userAgreement.html";
+        public static final String userAgreement = Api.WEB_BASE_URL + "about/userAgreement.html";
         //v2.0
-        public static final String currentVersion = Api.WEB_BASE_URL + "about/android/currentVersion.html";
+        public static final String currentVersion = Api.WEB_BASE_URL + "about/currentVersion.html";
 
         //##################################
         //############分享（文案）##########
