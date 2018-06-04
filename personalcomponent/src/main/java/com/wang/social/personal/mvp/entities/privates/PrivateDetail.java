@@ -31,6 +31,7 @@ public class PrivateDetail implements Serializable {
     private boolean onlySelf;
     private boolean friend;
     private boolean groupFriend;
+    private List<Integer> groupIdList;
     private String showAge;
 
     public String getShowText() {
@@ -41,9 +42,9 @@ public class PrivateDetail implements Serializable {
         } else if (friend) {
             return "好友可见";
         } else if (groupFriend) {
-            return "仅自己可见";
-        } else {
             return "趣聊/觅聊可见";
+        } else {
+            return "";
         }
     }
 
