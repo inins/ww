@@ -59,10 +59,10 @@ public class LoadupActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (CommonHelper.LoginHelper.isLogin() && intent != null && !TextUtils.isEmpty(intent.getScheme()) && intent.getScheme().equals("wang")) {
             Set<String> params = intent.getData().getQueryParameterNames();
-            if (params.contains("target") && params.contains("targetId") && params.contains("fromUserId")) {
+            if (params.contains("target") && params.contains("targetId")) {
                 String target = intent.getData().getQueryParameter("target");
                 String targetId = intent.getData().getQueryParameter("targetId");
-                String fromUserId = intent.getData().getQueryParameter("fromUserId");
+//                String fromUserId = intent.getData().getQueryParameter("fromUserId");
 
                 // 判断HomeActivity是否在后台
                 if (mAppManager.activityClassIsLive(HomeActivity.class)) {
