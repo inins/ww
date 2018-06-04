@@ -73,7 +73,7 @@ public class RecycleAdapterCardUser extends BaseAdapter<CardUser> {
             ImageLoaderHelper.loadImg(imgPic, bean.getAvatar());
             textName.setText(bean.getNickname());
             textLableGender.setSelected(!bean.isMale());
-            textLableGender.setText(TimeUtils.getBirthdaySpan(bean.getBirthday()));
+            textLableGender.setText(TimeUtils.getAgeByBirth(bean.getBirthday()) + "");
             textLableAstro.setText(TimeUtils.getAstro(bean.getBirthday()));
             textTag.setText(bean.getTagText());
             textPosition.setText(bean.getCity());
