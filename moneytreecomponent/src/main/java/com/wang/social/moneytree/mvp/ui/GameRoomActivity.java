@@ -36,6 +36,8 @@ import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.integration.AppManager;
 import com.frame.router.facade.annotation.RouteNode;
+import com.frame.utils.FrameUtils;
+import com.frame.utils.RxLifecycleUtils;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.StatusBarUtil;
 import com.frame.utils.ToastUtil;
@@ -64,10 +66,16 @@ import com.wang.social.socialize.SocializeUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 import static com.wang.social.moneytree.utils.Keys.NAME_GAME_BEAN;
@@ -152,6 +160,8 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
 
     private @Keys.GameType
     int mType;
+    // 游戏结果加载延时
+    Disposable mGameEndDisposable;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -655,9 +665,24 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
         mGameEnded = true;
         mMoneyTreeView.setClickable(false);
 //        mShakeHintTV.setVisibility(View.GONE);
-        // 游戏结束，加载结果
-        if (mResumed) {
-            mPresenter.loadGameEnd(mPresenter.getGameId());
+
+        mGameEndDisposable = Observable.timer(1, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(aLong -> {
+                    // 游戏结束，加载结果
+                    if (mResumed) {
+                        Timber.i("加载游戏结果");
+                        mPresenter.loadGameEnd(mPresenter.getGameId());
+                    }
+                });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (null != mGameEndDisposable && !mGameEndDisposable.isDisposed()) {
+            mGameEndDisposable.dispose();
         }
     }
 }

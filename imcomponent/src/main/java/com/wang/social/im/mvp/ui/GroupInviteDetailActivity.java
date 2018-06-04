@@ -46,6 +46,7 @@ import com.wang.social.im.mvp.model.entities.DistributionSex;
 import com.wang.social.im.mvp.model.entities.SocialInfo;
 import com.wang.social.im.mvp.model.entities.dto.DistributionGroupDTO;
 import com.wang.social.im.mvp.model.entities.dto.SocialDTO;
+import com.wang.social.im.mvp.model.entities.dto.SocialHomeDTO;
 import com.wang.social.im.mvp.ui.adapters.DistributionAgeAdapter;
 import com.wang.social.im.mvp.ui.adapters.DistributionSexAdapter;
 import com.wang.social.im.mvp.ui.adapters.HomeTagAdapter;
@@ -271,6 +272,9 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
             scToolbar.getTvRight().setVisibility(View.VISIBLE);
         }
 
+        // 是否是群成员
+        mIsGroupMember = socialInfo.getMemberInfo() == null ? 0 : 1;
+
         // 群名称
         scTvTitle.setText(socialInfo.getName());
         // 群成员数量
@@ -366,10 +370,10 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
     /**
      * 加载群信息
      */
-    private Observable<BaseJson<SocialDTO>> getSocialInfo(String socialId) {
+    private Observable<BaseJson<SocialHomeDTO>> getSocialInfo(String socialId) {
         return mRepositoryManager
                 .obtainRetrofitService(GroupService.class)
-                .getSocialInfo("2.0.0", socialId);
+                .getSocialHomeInfo("2.0.0", socialId);
     }
 
     /**

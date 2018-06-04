@@ -51,7 +51,7 @@ public class FunshowAddBundleController extends FunshowAddBaseController impleme
         switch (event.getEvent()) {
             case EventBean.EVENT_LOCATION_SELECT:
                 location = (LocationInfo) event.get("location");
-                textPosition.setText(location.getProvince() + location.getCity());
+                textPosition.setText(location.getProvince() + location.getCity() + location.getAddress());
                 break;
         }
     }

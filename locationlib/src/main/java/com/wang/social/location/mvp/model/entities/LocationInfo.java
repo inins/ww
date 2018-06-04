@@ -1,5 +1,9 @@
 package com.wang.social.location.mvp.model.entities;
 
+import android.text.TextUtils;
+
+import com.frame.utils.StrUtil;
+
 import java.io.Serializable;
 
 import lombok.Data;
@@ -11,7 +15,7 @@ import lombok.Data;
  * ============================================
  */
 @Data
-public class LocationInfo implements Serializable{
+public class LocationInfo implements Serializable {
     /*
         纬度
      */
@@ -40,4 +44,12 @@ public class LocationInfo implements Serializable{
         行政区划代码
      */
     private String adCode;
+
+    public String getAddress() {
+        if (!TextUtils.isEmpty(address) && !TextUtils.isEmpty(province) && !TextUtils.isEmpty(city)) {
+            return StrUtil.subFirstChart(address, province + city);
+        } else {
+            return address;
+        }
+    }
 }
