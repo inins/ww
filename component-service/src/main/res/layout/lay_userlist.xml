@@ -38,9 +38,9 @@
             android:gravity="center"
             android:paddingLeft="7dp"
             android:paddingRight="8dp"
-            android:text="00后"
             android:textColor="@color/common_white"
-            android:textSize="11sp" />
+            android:textSize="11sp"
+            tools:text="00后" />
 
         <TextView
             android:id="@+id/text_lable_astro"
@@ -52,9 +52,9 @@
             android:gravity="center"
             android:paddingLeft="7dp"
             android:paddingRight="8dp"
-            android:text="白羊座"
             android:textColor="@color/common_white"
-            android:textSize="11sp" />
+            android:textSize="11sp"
+            tools:text="白羊座" />
 
     </LinearLayout>
 
@@ -64,23 +64,27 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:layout_marginTop="8dp"
-        android:text="埃米尔"
         android:textColor="@color/common_text_blank"
         android:textSize="17sp"
         app:layout_constraintStart_toEndOf="@+id/img_header"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="埃米尔" />
 
     <TextView
         android:id="@+id/text_tags"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginTop="5dp"
-        android:text="#周杰伦 #旅行 #深夜食堂 #成都"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:textColor="@color/common_text_dark_light"
         android:textSize="11sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/text_name"
-        app:layout_constraintTop_toBottomOf="@+id/personal_linearlayout" />
+        app:layout_constraintTop_toBottomOf="@+id/personal_linearlayout"
+        tools:text="#周杰伦 #旅行 #深夜食堂 #成都 #周杰伦 #旅行 #深夜食堂 #成都 #周杰伦 #旅行 #深夜食堂 #成都" />
 
 </android.support.constraint.ConstraintLayout>

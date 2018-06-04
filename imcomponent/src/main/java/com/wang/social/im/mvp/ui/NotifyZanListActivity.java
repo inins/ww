@@ -96,29 +96,29 @@ public class NotifyZanListActivity extends BasicAppNoDiActivity implements IView
     public void onItemClick(CommonMsg bean, int position) {
         if (bean.isFunshow()) {
             //检查是否需要支付，如果需要则先支付后进入详情
-            NetIsShoppingHelper.newInstance().isTalkShopping(this, bean.getModeId(), rsp -> {
+            NetIsShoppingHelper.newInstance().isTalkShopping(this, bean.getMainId(), rsp -> {
                 if (!rsp.isFree() && !rsp.isPay()) {
                     DialogPay.showPayFunshow(NotifyZanListActivity.this, getSupportFragmentManager(), rsp.getPrice(), -1, () -> {
-                        NetPayStoneHelper.newInstance().netPayFunshow(NotifyZanListActivity.this, bean.getModeId(), rsp.getPrice(), () -> {
-                            CommonHelper.FunshowHelper.startDetailActivity(this, bean.isEva() ? bean.getModePkId() : bean.getModeId());
-                            EventBus.getDefault().post(new EventBean(EventBean.EVENT_FUNSHOW_PAYED).put("talkId", bean.getModeId()));
+                        NetPayStoneHelper.newInstance().netPayFunshow(NotifyZanListActivity.this, bean.getMainId(), rsp.getPrice(), () -> {
+                            CommonHelper.FunshowHelper.startDetailActivity(this, bean.getMainId());
+                            EventBus.getDefault().post(new EventBean(EventBean.EVENT_FUNSHOW_PAYED).put("talkId", bean.getMainId()));
                         });
                     });
                 } else {
-                    CommonHelper.FunshowHelper.startDetailActivity(this, bean.isEva() ? bean.getModePkId() : bean.getModeId());
+                    CommonHelper.FunshowHelper.startDetailActivity(this, bean.getMainId());
                 }
             });
         } else if (bean.isTopic()) {
             //检查是否需要支付，如果需要则先支付后进入详情
-            NetIsShoppingHelper.newInstance().isTopicShopping(this, bean.getModeId(), rsp -> {
+            NetIsShoppingHelper.newInstance().isTopicShopping(this, bean.getMainId(), rsp -> {
                 if (!rsp.isFree() && !rsp.isPay()) {
                     DialogPay.showPayTopic(NotifyZanListActivity.this, getSupportFragmentManager(), rsp.getPrice(), -1, () -> {
-                        NetPayStoneHelper.newInstance().netPayTopic(NotifyZanListActivity.this, bean.getModeId(), rsp.getPrice(), () -> {
-                            CommonHelper.TopicHelper.startTopicDetail(this, bean.isEva() ? bean.getModePkId() : bean.getModeId());
+                        NetPayStoneHelper.newInstance().netPayTopic(NotifyZanListActivity.this, bean.getMainId(), rsp.getPrice(), () -> {
+                            CommonHelper.TopicHelper.startTopicDetail(this, bean.getMainId());
                         });
                     });
                 } else {
-                    CommonHelper.TopicHelper.startTopicDetail(this, bean.isEva() ? bean.getModePkId() : bean.getModeId());
+                    CommonHelper.TopicHelper.startTopicDetail(this, bean.getMainId());
                 }
             });
         }

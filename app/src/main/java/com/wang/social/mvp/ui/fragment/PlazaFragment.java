@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 import android.widget.TextView;
 
 import com.frame.component.ui.base.BasicLazyNoDiFragment;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.wang.social.R;
 import com.wang.social.mvp.ui.adapter.PagerAdapterPlaza;
@@ -38,6 +40,24 @@ public class PlazaFragment extends BasicLazyNoDiFragment {
     }
 
     @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        switch (event.getEvent()) {
+            case EventBean.EVENT_FUNSHOW_LIST_TYPE_CHANGE: {
+                //切换佬友筛选条件
+                int type = (int) event.get("type");
+                TextView textTab = tablayout.getTabAt(0).findViewById(R.id.custom_text);
+                if (textTab != null) textTab.setText(type == 0 ? "趣晒" : "佬友");
+                break;
+            }
+        }
+    }
+
+    @Override
     public int initView(@Nullable Bundle savedInstanceState) {
         return R.layout.fragment_plaza;
     }
@@ -47,7 +67,7 @@ public class PlazaFragment extends BasicLazyNoDiFragment {
         popupWindow = new FunshowSortPopupWindow(getContext());
         pagerAdapter = new PagerAdapterPlaza(getChildFragmentManager(), titles);
         pager.setAdapter(pagerAdapter);
-        pager.setOffscreenPageLimit(1);
+        pager.setOffscreenPageLimit(2);
         tablayout.setViewPager(pager);
         tablayout.setOnTabClickListener(position -> {
             if (position == 0) {

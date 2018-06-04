@@ -56,7 +56,7 @@ public class FindChatRequest {
         requestBean.setAvatar(avatar);
         requestBean.setSex(sex);
         requestBean.setBirthday(birthday);
-        requestBean.setReason(reason);
+        requestBean.setReason(groupName);
         requestBean.setCreateTime(createTime);
         requestBean.setGroupId(groupId);
         requestBean.setReadState(readState);

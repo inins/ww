@@ -108,7 +108,7 @@ public class ContactsFragment extends BasicFragment implements AutoPopupWindow.O
         fragments.add(FriendsFragment.newInstance());
         fragments.add(NotifyFragment.newInstance());
 
-        fcViewpager.setAdapter(new FragmentAdapter(getFragmentManager(), fragments, titles));
+        fcViewpager.setAdapter(new FragmentAdapter(getChildFragmentManager(), fragments, titles));
         fcViewpager.setOffscreenPageLimit(2);
 
         fcTabLayout.setCustomTabView(R.layout.im_view_contacts_tab, R.id.ct_tv_name);

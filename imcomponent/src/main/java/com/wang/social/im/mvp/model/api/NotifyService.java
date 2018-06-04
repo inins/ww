@@ -35,7 +35,7 @@ public interface NotifyService {
     Observable<BaseJson<BaseListWrap<FriendRequest>>> getFriendRequestList(@Query("current") int current, @Query("size") int size);
 
     /**
-     * 加入趣聊申请消息
+     * 加入觅聊申请消息
      */
     @GET("/app/msg/joinGroupApply?v=2.0.0")
     Observable<BaseJson<BaseListWrap<FindChatRequest>>> getGroupRequstList(@Query("current") int current, @Query("size") int size);

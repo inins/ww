@@ -52,7 +52,6 @@ public class RecycleAdapterFriendRequest extends BaseAdapter<RequestBean> {
             textLableGender.setSelected(!bean.isMale());
             textLableGender.setText(TimeUtils.getBirthdaySpan(bean.getBirthday()));
             textLableAstro.setText(TimeUtils.getAstro(bean.getBirthday()));
-            textTag.setVisibility(View.GONE); //产品核对，不需要显示留言了，隐藏掉
             textTag.setText(getContext().getResources().getString(isGroup ? R.string.im_notify_findchat_request_reason : R.string.im_notify_friend_request_reason) + bean.getReason());
             imgDot.setVisibility(bean.isRead() ? View.GONE : View.VISIBLE);
             textDo.setEnabled(!bean.isDeal());

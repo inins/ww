@@ -27,6 +27,7 @@ import com.wang.social.pictureselector.helper.PhotoHelper;
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class NotifyFriendRequestDetailActivity extends BasicAppNoDiActivity {
 
@@ -44,12 +45,17 @@ public class NotifyFriendRequestDetailActivity extends BasicAppNoDiActivity {
     TextView textReason;
     @BindView(R2.id.lay_deal)
     LinearLayout layDeal;
+    @BindView(R2.id.text_reason_title)
+    TextView textReasonTitle;
     private RequestBean requestBean;
     private PhotoHelper photoHelper;
+
+    private boolean isGroup;
 
     public static void start(Context context, RequestBean requestBean) {
         Intent intent = new Intent(context, NotifyFriendRequestDetailActivity.class);
         intent.putExtra("requestBean", requestBean);
+        intent.putExtra("isGroup", requestBean.isGroup());
         context.startActivity(intent);
     }
 
@@ -61,6 +67,7 @@ public class NotifyFriendRequestDetailActivity extends BasicAppNoDiActivity {
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
         requestBean = (RequestBean) getIntent().getSerializableExtra("requestBean");
+        isGroup = getIntent().getBooleanExtra("isGroup", false);
         photoHelper = new PhotoHelper(this);
         setFriendData();
     }
@@ -68,13 +75,14 @@ public class NotifyFriendRequestDetailActivity extends BasicAppNoDiActivity {
     private void setFriendData() {
         if (requestBean != null) {
             ImageLoaderHelper.loadCircleImg(imgHeader, requestBean.getAvatar());
+            textReasonTitle.setText(isGroup ? R.string.im_notify_friend_request_detail_group_reason_title : R.string.im_notify_friend_request_detail_reason_title);
             textName.setText(requestBean.getNickname());
             textLableGender.setSelected(!requestBean.isMale());
             textLableGender.setText(TimeUtils.getBirthdaySpan(requestBean.getBirthday()));
             textLableAstro.setText(TimeUtils.getAstro(requestBean.getBirthday()));
             textTag.setText(requestBean.getTagText());
             textReason.setText(requestBean.getReason());
-            layDeal.setVisibility(requestBean.isRead() ? View.GONE : View.VISIBLE);
+            layDeal.setVisibility(requestBean.isDeal() ? View.GONE : View.VISIBLE);
         }
     }
 
@@ -83,15 +91,29 @@ public class NotifyFriendRequestDetailActivity extends BasicAppNoDiActivity {
         if (id == R.id.lay_nameboard) {
             CommonHelper.HomeHelper.startUserDetailActivity(this, requestBean.getUserId());
         } else if (id == R.id.btn_agree) {
-            NetFriendHelper.newInstance().netAgreeFriendApply(this, requestBean.getUserId(), requestBean.getMsgId(), true, () -> {
-                EventBus.getDefault().post(new EventBean(EventBean.EVENT_NOTIFY_DETAIL_DEAL).put("isAgree", true));
-                finish();
-            });
+            if (isGroup) {
+                NetFriendHelper.newInstance().netAgreeFindChatApply(this, requestBean.getGroupId(), requestBean.getUserId(), requestBean.getMsgId(), true, () -> {
+                    EventBus.getDefault().post(new EventBean(EventBean.EVENT_NOTIFY_DETAIL_DEAL).put("isAgree", true));
+                    finish();
+                });
+            } else {
+                NetFriendHelper.newInstance().netAgreeFriendApply(this, requestBean.getUserId(), requestBean.getMsgId(), true, () -> {
+                    EventBus.getDefault().post(new EventBean(EventBean.EVENT_NOTIFY_DETAIL_DEAL).put("isAgree", true));
+                    finish();
+                });
+            }
         } else if (id == R.id.btn_disagree) {
-            NetFriendHelper.newInstance().netAgreeFriendApply(this, requestBean.getUserId(), requestBean.getMsgId(), false, () -> {
-                EventBus.getDefault().post(new EventBean(EventBean.EVENT_NOTIFY_DETAIL_DEAL).put("isAgree", false));
-                finish();
-            });
+            if (isGroup) {
+                NetFriendHelper.newInstance().netAgreeFindChatApply(this, requestBean.getGroupId(), requestBean.getUserId(), requestBean.getMsgId(), false, () -> {
+                    EventBus.getDefault().post(new EventBean(EventBean.EVENT_NOTIFY_DETAIL_DEAL).put("isAgree", false));
+                    finish();
+                });
+            } else {
+                NetFriendHelper.newInstance().netAgreeFriendApply(this, requestBean.getUserId(), requestBean.getMsgId(), false, () -> {
+                    EventBus.getDefault().post(new EventBean(EventBean.EVENT_NOTIFY_DETAIL_DEAL).put("isAgree", false));
+                    finish();
+                });
+            }
         } else if (id == R.id.btn_report) {
             String[] strings = {"语言谩骂/骚扰信息", "存在欺诈骗钱行为", "发布不适当内容"};
             DialogActionSheet.show(getSupportFragmentManager(), strings)
