@@ -17,6 +17,7 @@ import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.utils.FrameUtils;
 import com.wang.social.im.R;
+import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.mvp.model.entities.IndexFriendInfo;
 import com.wang.social.im.view.SwipeMenuLayout;
 import com.wang.social.im.view.indexlist.IndexableAdapter;
@@ -78,13 +79,7 @@ public class FriendsAdapter extends IndexableAdapter<IndexFriendInfo> {
                 .url(entity.getPortrait())
                 .build());
         viewHolder.tvNickname.setText(entity.getNickname());
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        String birYear = String.valueOf(year - entity.getAge());
-        if (birYear.length() > 2) {
-            String range = birYear.charAt(birYear.length() - 2) + "0后";
-            viewHolder.tvAge.setText(range);
-        }
+        viewHolder.tvAge.setText(ImHelper.getAgeRange(entity.getBirthday()));
         Drawable genderDrawable;
         if (entity.getGender() == Gender.MALE) {
             viewHolder.tvAge.setBackgroundResource(R.drawable.im_bg_male);

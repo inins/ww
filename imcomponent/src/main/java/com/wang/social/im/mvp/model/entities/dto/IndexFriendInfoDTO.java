@@ -23,6 +23,7 @@ public class IndexFriendInfoDTO implements Mapper<IndexFriendInfo> {
     private int sex;
     private int age;
     private String constellation;
+    private long birthday;
     private List<TagDTO> tags;
 
     @Override
@@ -33,6 +34,7 @@ public class IndexFriendInfoDTO implements Mapper<IndexFriendInfo> {
         friend.setPortrait(avatar == null ? "" : avatar);
         friend.setGender(sex == 0 ? Gender.MALE : Gender.FEMALE);
         friend.setAge(age);
+        friend.setBirthday(birthday);
         friend.setConstellation(constellation);
         List<Tag> tagList = new ArrayList<>();
         if (tags != null) {

@@ -111,6 +111,9 @@ public class ImHelper {
      * @return
      */
     public static String getAgeRange(long birthdayMills) {
+        if (String.valueOf(birthdayMills).length() == 9) {
+            birthdayMills = birthdayMills * 1000;
+        }
         String ageRange = TimeUtils.millis2String(birthdayMills, new SimpleDateFormat("yy", Locale.getDefault()));
         if (TextUtils.isEmpty(ageRange)) {
             return "";
