@@ -21,6 +21,7 @@ public class FriendInfoDTO implements Mapper<FriendInfo> {
     private String avatar;
     private int sex;
     private int age;
+    private long birthday;
     private String constellation;
     private List<TagDTO> tags;
 
@@ -32,6 +33,7 @@ public class FriendInfoDTO implements Mapper<FriendInfo> {
         friend.setPortrait(avatar == null ? "" : avatar);
         friend.setGender(sex == 0 ? Gender.MALE : Gender.FEMALE);
         friend.setAge(age);
+        friend.setBirthday(birthday);
         friend.setConstellation(constellation);
         List<Tag> tagList = new ArrayList<>();
         if (tags != null) {

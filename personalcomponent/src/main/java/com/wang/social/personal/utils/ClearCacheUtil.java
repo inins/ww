@@ -28,14 +28,14 @@ public class ClearCacheUtil {
     /**
      * 获取APP缓存大小总和
      */
-    public static String getAppCacheSize(Context context){
+    public static String getAppCacheSize(Context context) {
         return getFormatSize(getAppCacheSizeValue(context));
     }
 
     /**
      * 获取APP缓存大小总和(返回未格式化的原始大小：long)
      */
-    public static long getAppCacheSizeValue(Context context){
+    public static long getAppCacheSizeValue(Context context) {
         List<File> folders = new ArrayList<>();
         folders.add(new File(FileUtil.getAppStoragePath()));
 
@@ -61,14 +61,14 @@ public class ClearCacheUtil {
     /**
      * 获取数据和缓存大小总和
      */
-    public static String getTotalCacheSize(Context context){
+    public static String getTotalCacheSize(Context context) {
         return getFormatSize(getTotalCacheSizeValue(context));
     }
 
     /**
      * 获取数据和缓存大小总和(返回未格式化的原始大小：long)
      */
-    public static long getTotalCacheSizeValue(Context context){
+    public static long getTotalCacheSizeValue(Context context) {
         long cacheSize = 0;
         cacheSize += getCacheSizeValue(context);
         cacheSize += getExternalCacheSizeValue(context);
@@ -88,14 +88,14 @@ public class ClearCacheUtil {
     /**
      * 获取缓存大小
      */
-    public static String getExternalCacheSize(Context context){
+    public static String getExternalCacheSize(Context context) {
         return getFormatSize(getExternalCacheSizeValue(context));
     }
 
     /**
      * 获取缓存大小(返回未格式化的原始大小：long)
      */
-    public static long getExternalCacheSizeValue(Context context){
+    public static long getExternalCacheSizeValue(Context context) {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             return getFolderSize(context.getExternalCacheDir());
         } else {
@@ -106,14 +106,14 @@ public class ClearCacheUtil {
     /**
      * 获取数据大小
      */
-    public static String getCacheSize(Context context){
+    public static String getCacheSize(Context context) {
         return getFormatSize(getCacheSizeValue(context));
     }
 
     /**
      * 获取数据大小(返回未格式化的原始大小：long)
      */
-    public static long getCacheSizeValue(Context context){
+    public static long getCacheSizeValue(Context context) {
         return getFolderSize(context.getCacheDir());
     }
 
@@ -150,10 +150,12 @@ public class ClearCacheUtil {
     private static boolean deleteDir(File dir) {
         if (dir != null && dir.isDirectory()) {
             String[] children = dir.list();
-            for (int i = 0; i < children.length; i++) {
-                boolean success = deleteDir(new File(dir, children[i]));
-                if (!success) {
-                    return false;
+            if (children != null) {
+                for (int i = 0; i < children.length; i++) {
+                    boolean success = deleteDir(new File(dir, children[i]));
+                    if (!success) {
+                        return false;
+                    }
                 }
             }
         }

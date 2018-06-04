@@ -38,6 +38,9 @@ public class FriendInfo {
     private int age;
     @Getter
     @Setter
+    private long birthday;
+    @Getter
+    @Setter
     private String constellation;
     @Getter
     @Setter
