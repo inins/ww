@@ -252,6 +252,24 @@ public class HomeActivity extends BasicAppNoDiActivity implements XRadioGroup.On
                 case AppConstant.Share.SHARE_GAME_TREE_OPEN_TARGET:
                     CommonHelper.GameHelper.startGameRoom(this, intId);
                     break;
+                case AppConstant.Key.OPEN_TARGET_SYS_MESSAGE: //系统消息
+
+                    break;
+                case AppConstant.Key.OPEN_TARGET_FRIEND_APPLY: //好友申请
+
+                    break;
+                case AppConstant.Key.OPEN_TARGET_GROUP_APPLY: //群申请
+
+                    break;
+                case AppConstant.Key.OPEN_TARGET_GROUP_INVITE: //群邀请
+
+                    break;
+                case AppConstant.Key.OPEN_TARGET_DYNAMIC_FUN_SHOW: //趣晒
+                    CommonHelper.FunshowHelper.startDetailActivity(this, intId);
+                    break;
+                case AppConstant.Key.OPEN_TARGET_DYNAMIC_TOPIC: //话题
+                    CommonHelper.TopicHelper.startTopicDetail(this, intId);
+                    break;
             }
         }
     }

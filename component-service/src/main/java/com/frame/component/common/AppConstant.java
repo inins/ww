@@ -38,11 +38,11 @@ public class AppConstant {
         /**
          * 动态：趣晒
          */
-        public static final String OPEN_TARGET_DYNAMIC_FUN_SHOW = "fun_show";
+        public static final String OPEN_TARGET_DYNAMIC_FUN_SHOW = "dynamic_fun_show";
         /**
          * 动态：话题
          */
-        public static final String OPEN_TARGET_DYNAMIC_TOPIC = "topic";
+        public static final String OPEN_TARGET_DYNAMIC_TOPIC = "dynamic_topic";
         /************************************************************************************/
     }
 
