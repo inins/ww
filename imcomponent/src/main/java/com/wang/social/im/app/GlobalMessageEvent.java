@@ -7,10 +7,12 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 
+import com.frame.component.common.AppConstant;
 import com.frame.component.enums.ConversationType;
 import com.frame.component.utils.viewutils.AppUtil;
 import com.frame.utils.AppUtils;
@@ -175,7 +177,8 @@ public class GlobalMessageEvent extends Observable implements TIMMessageListener
 
                 break;
         }
-        Intent intent = mApplication.getApplicationContext().getPackageManager().getLaunchIntentForPackage(mApplication.getPackageName());
+//        Intent intent = mApplication.getApplicationContext().getPackageManager().getLaunchIntentForPackage(mApplication.getPackageName());
+        Intent intent = buildIntent(message);
         builder.setContentIntent(PendingIntent.getActivity(mApplication, (int) SystemClock.uptimeMillis(), intent, PendingIntent.FLAG_UPDATE_CURRENT));
         ((NotificationManager) mApplication.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE)).notify(IMConstants.SERVER_PUSH_MESSAGE_ACCOUNT, 520, builder.build());
     }
@@ -190,7 +193,8 @@ public class GlobalMessageEvent extends Observable implements TIMMessageListener
             return;
         }
         NotificationCompat.Builder builder = getBuilder(null, message.getPushContent());
-        Intent intent = mApplication.getApplicationContext().getPackageManager().getLaunchIntentForPackage(mApplication.getPackageName());
+//        Intent intent = mApplication.getApplicationContext().getPackageManager().getLaunchIntentForPackage(mApplication.getPackageName());
+        Intent intent = buildIntent(message);
         builder.setContentIntent(PendingIntent.getActivity(mApplication, (int) SystemClock.uptimeMillis(), intent, PendingIntent.FLAG_UPDATE_CURRENT));
         ((NotificationManager) mApplication.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE)).notify(IMConstants.SERVER_PUSH_MESSAGE_ACCOUNT, 520, builder.build());
     }
@@ -207,5 +211,51 @@ public class GlobalMessageEvent extends Observable implements TIMMessageListener
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setTicker(content);
         return builder;
+    }
+
+    private Intent buildIntent(Object msg) {
+        Uri.Builder uriBuilder = Uri.parse("wang://" + mApplication.getApplicationInfo().processName).buildUpon()
+                .appendPath("wangwang");
+        if (msg instanceof SystemMessage) {
+            SystemMessage message = (SystemMessage) msg;
+            switch (message.getType()) {
+                case SystemMessage.TYPE_ADD_FRIEND:
+                    uriBuilder.appendQueryParameter("target", AppConstant.Key.OPEN_TARGET_FRIEND_APPLY)
+                            .appendQueryParameter("targetId", "-1");
+                    break;
+                case SystemMessage.TYPE_GROUP_APPLY:
+                    uriBuilder.appendQueryParameter("target", AppConstant.Key.OPEN_TARGET_GROUP_APPLY)
+                            .appendQueryParameter("targetId", "-1");
+                    break;
+                case SystemMessage.TYPE_GROUP_INVITE:
+                    uriBuilder.appendQueryParameter("target", AppConstant.Key.OPEN_TARGET_GROUP_INVITE)
+                            .appendQueryParameter("targetId", "-1");
+                    break;
+                default:
+                    uriBuilder.appendQueryParameter("target", AppConstant.Key.OPEN_TARGET_SYS_MESSAGE)
+                            .appendQueryParameter("targetId", "-1");
+                    break;
+            }
+        } else if (msg instanceof DynamicMessage) {
+            DynamicMessage message = (DynamicMessage) msg;
+            switch (message.getModeType()) {
+                case DynamicMessage.TYPE_PRAISE_FUN_SHOW:
+                case DynamicMessage.TYPE_REPLY_FUN_SHOW_COMMENT:
+                case DynamicMessage.TYPE_COMMENT_FUN_SHOW:
+                case DynamicMessage.TYPE_REPLY_FUN_SHOW_AITE:
+                case DynamicMessage.TYPE_PRAISE_FUN_SHOW_COMMENT:
+                    uriBuilder.appendQueryParameter("target", AppConstant.Key.OPEN_TARGET_DYNAMIC_FUN_SHOW)
+                            .appendQueryParameter("targetId", message.getModeId());
+                    break;
+                case DynamicMessage.TYPE_COMMENT_TOPIC:
+                case DynamicMessage.TYPE_PRAISE_TOPIC:
+                case DynamicMessage.TYPE_PRAISE_TOPIC_COMMENT:
+                case DynamicMessage.TYPE_REPLY_TOPIC_COMMENT:
+                    uriBuilder.appendQueryParameter("target", AppConstant.Key.OPEN_TARGET_DYNAMIC_TOPIC)
+                            .appendQueryParameter("targetId", message.getModeId());
+                    break;
+            }
+        }
+        return new Intent("android.intent.action.VIEW", uriBuilder.build());
     }
 }

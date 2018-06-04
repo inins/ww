@@ -18,7 +18,32 @@ public class AppConstant {
 
     //key
     public static class Key {
-        //暂无
+        /********************************** 路由跳转Target ********************************/
+        /**
+         * 系统消息
+         */
+        public static final String OPEN_TARGET_SYS_MESSAGE = "sys_message";
+        /**
+         * 好友申请
+         */
+        public static final String OPEN_TARGET_FRIEND_APPLY = "friend_apply";
+        /**
+         * 群申请
+         */
+        public static final String OPEN_TARGET_GROUP_APPLY = "group_apply";
+        /**
+         * 群邀请
+         */
+        public static final String OPEN_TARGET_GROUP_INVITE = "group_invite";
+        /**
+         * 动态：趣晒
+         */
+        public static final String OPEN_TARGET_DYNAMIC_FUN_SHOW = "fun_show";
+        /**
+         * 动态：话题
+         */
+        public static final String OPEN_TARGET_DYNAMIC_TOPIC = "topic";
+        /************************************************************************************/
     }
 
     //静态web页面url

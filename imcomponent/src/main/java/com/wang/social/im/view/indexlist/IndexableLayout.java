@@ -673,9 +673,9 @@ public class IndexableLayout extends FrameLayout {
                 @Override
                 public int compare(String lhs, String rhs) {
                     if (lhs.equals(INDEX_SIGN)) {
-                        return rhs.equals(INDEX_SIGN) ? 0 : 1;
+                        return rhs.equals(INDEX_SIGN) ? 0 : -1;
                     } else if (rhs.equals(INDEX_SIGN)) {
-                        return -1;
+                        return 1;
                     }
                     return lhs.compareTo(rhs);
                 }
