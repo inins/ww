@@ -13,7 +13,6 @@ import java.util.Date;
 public class FunShowUtil {
 
     public static String getFunshowTimeStr(long time) {
-//        return TimeUtils.date2String(new Date(time), new SimpleDateFormat("MM-dd HH:mm"));
         return TimeUtils.getFriendlyTimeSpanByNow(time);
     }
 
