@@ -75,6 +75,8 @@ public class LoadupActivity extends AppCompatActivity {
                     HomeActivity.start(this, target, targetId);
                 }
             }
+
+            finish();
         } else {
             mHandler.postDelayed(mRunnable, 1500);
         }

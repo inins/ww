@@ -643,7 +643,8 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
             // 表情输入框弹出
             case EventBean.EVENT_GAME_INPUT_HEIGHT_CHANGED:
                 int height = (int) event.get("height");
-                resetMemberChatLayoutHeight(height);
+//                resetMemberChatLayoutHeight(height);
+                Timber.i("表情弹出 : " + height);
                 break;
             case EventBean.EVENT_GAME_JOIN:
                 Timber.i("用户加入游戏");
