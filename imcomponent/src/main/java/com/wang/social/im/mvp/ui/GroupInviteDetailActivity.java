@@ -329,7 +329,7 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
     }
 
     private void setApplyTextToGoChat() {
-        mApplyTV.setText("进入趣聊");
+        mApplyTV.setText("开始聊天");
 
         mApplyHintTV.setVisibility(View.GONE);
     }
@@ -505,7 +505,7 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
     @OnClick(R2.id.apply_text_view)
     public void apply() {
         // 加入成功后点击可直接进入趣聊
-        if (mApplyTV.getText().equals("进入趣聊")) {
+        if (mApplyTV.getText().equals("开始聊天")) {
             CommonHelper.ImHelper.gotoGroupConversation(
                     this,
                     Integer.toString(mGroupId),
