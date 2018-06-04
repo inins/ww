@@ -196,7 +196,8 @@ public class FriendsFragment extends BaseFragment<FriendsPresenter> implements F
         int friendSize;
 
         public HeaderAdapter(List datas, int friendsSize) {
-            super("↑", null, datas);
+//            super("↑", null, datas);
+            super(null, null, datas);
             this.friendSize = friendsSize;
         }
 

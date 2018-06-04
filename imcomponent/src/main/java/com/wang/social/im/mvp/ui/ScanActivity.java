@@ -48,27 +48,23 @@ public class ScanActivity extends BasicAppActivity implements QRCodeView.Delegat
     LinearLayout scLlMask;
 
     private Disposable disposable;
+    private boolean resumed;
 
     @SuppressLint("CheckResult")
     public static void start(Activity context) {
-        new RxPermissions(context)
-                .requestEach(Manifest.permission.CAMERA)
-                .subscribe(new Consumer<Permission>() {
-                    @Override
-                    public void accept(Permission permission) throws Exception {
-                        if (permission.granted) {
-                            Intent intent = new Intent(context, ScanActivity.class);
-                            context.startActivity(intent);
-                        } else if (permission.shouldShowRequestPermissionRationale) {
-                            ToastUtil.showToastShort("请在设置中打开相机权限");
-                        }
-                    }
-                });
+        Intent intent = new Intent(context, ScanActivity.class);
+        context.startActivity(intent);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        resumed = true;
     }
 
     @Override
@@ -150,7 +146,9 @@ public class ScanActivity extends BasicAppActivity implements QRCodeView.Delegat
 
     @Override
     public void onScanQRCodeOpenCameraError() {
-        ToastUtil.showToastShort("请在设置中打开相机权限");
+        if (resumed) {
+            ToastUtil.showToastShort("请在设置中打开相机权限");
+        }
     }
 
     @OnClick(R2.id.sc_ll_mask)

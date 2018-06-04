@@ -2,6 +2,7 @@ package com.wang.social.personal.mvp.model.api;
 
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.entities.UserWrap;
+import com.frame.component.entities.dto.GroupBeanDTO;
 import com.frame.component.entities.photo.Photo;
 import com.frame.component.entities.user.ShatDownUser;
 import com.frame.http.api.BaseJson;
@@ -33,6 +34,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 /**
  */
@@ -214,4 +216,10 @@ public interface UserService {
     @FormUrlEncoded
     @GET("/app/userInfo/setting?v=2.0.0")
     Observable<BaseJson<MsgSetting>> msgSettingOpen(@Field("pushFlag") Integer pushFlag);
+
+    /**
+     * 趣聊列表隐私设置
+     */
+    @GET("app/group/list?v=2.0.0")
+    Observable<BaseJson<BaseListWrap<GroupBeanDTO>>> getGroupList(@Query("queryUserId") int queryUserId, @Query("current") int current, @Query("size") int size);
 }

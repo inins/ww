@@ -64,8 +64,8 @@ public class ListAdapterPrivacyShowList extends BaseAdapter {
             public void onClick(View view) {
                 bean.setSelect(!bean.isSelect());
                 notifyDataSetChanged();
-                if (checkView != null) {
-                    checkView.setSelected(!SelectHelper.isUnSelectAll(results));
+                if (onCheckCallback != null) {
+                    onCheckCallback.onCheck(!SelectHelper.isUnSelectAll(results));
                 }
             }
         });
@@ -79,9 +79,13 @@ public class ListAdapterPrivacyShowList extends BaseAdapter {
 
     ////////////////
 
-    private TextView checkView;
+    private OnCheckCallback onCheckCallback;
 
-    public void setCheckView(TextView checkView) {
-        this.checkView = checkView;
+    public void setOnCheckCallback(OnCheckCallback onCheckCallback) {
+        this.onCheckCallback = onCheckCallback;
+    }
+
+    public interface OnCheckCallback{
+        void onCheck(boolean hasCheck);
     }
 }

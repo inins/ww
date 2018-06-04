@@ -18,6 +18,7 @@ import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.mvp.IView;
+import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.FocusUtil;
 import com.frame.utils.StrUtil;
 import com.frame.utils.ToastUtil;
@@ -34,6 +35,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
+@RouteNode(path = "/notify_sys", desc = "系统消息页面")
 public class NotifySysMsgListActivity extends BasicAppNoDiActivity implements IView, BaseAdapter.OnItemClickListener<SysMsg> {
 
     @BindView(R2.id.spring)

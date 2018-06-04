@@ -54,4 +54,20 @@ public interface ImPath extends BasePath {
     // 觅聊名片
     String TEAM_CARD = "/team_invite_card";
     String TEAM_CARD_URL = SCHEME + HOST + TEAM_CARD;
+
+    // 系统消息
+    String NOTIFY_SYS = "/notify_sys";
+    String NOTIFY_SYS_URL = SCHEME + HOST + NOTIFY_SYS;
+
+    // 好友申请
+    String NOTIFY_FRIEND = "/notify_friend_request";
+    String NOTIFY_FRIEND_URL = SCHEME + HOST + NOTIFY_FRIEND;
+
+    // 加入觅聊申请页面
+    String NOTIFY_GROUP = "/notify_group_request";
+    String NOTIFY_GROUP_URL = SCHEME + HOST + NOTIFY_GROUP;
+
+    // 趣聊邀请
+    String NOTIFY_GROUP_JOIN = "/notify_group_join";
+    String NOTIFY_GROUP_JOIN_URL = SCHEME + HOST + NOTIFY_GROUP_JOIN;
 }

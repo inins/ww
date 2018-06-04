@@ -73,7 +73,7 @@ public class FunshowMe {
     }
 
     public boolean hasVideo() {
-        return showPicMediaType == 3;
+        return showPicMediaType == 2;
     }
 
     public FunshowBean tans2FunshowBean() {

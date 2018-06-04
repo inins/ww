@@ -256,7 +256,8 @@ public class EnvelopDialog extends Dialog {
                 .doFinally(new Action() {
                     @Override
                     public void run() throws Exception {
-                        drpLoading.setVisibility(View.GONE);
+                        if (drpLoading != null)
+                            drpLoading.setVisibility(View.GONE);
                     }
                 })
                 .map(new Function<BaseJson<EnvelopAdoptInfoDTO>, EnvelopAdoptInfo>() {
@@ -269,9 +270,11 @@ public class EnvelopDialog extends Dialog {
                     @Override
                     public void onNext(EnvelopAdoptInfo envelopAdoptInfo) {
                         envelopInfo.setGotDiamond(envelopAdoptInfo.getGotDiamondNumber());
-                        showInfo();
-
+//                        showInfo();
+                        EnvelopDetailActivity.start(getContext(), envelopInfo);
                         updateEnvelopMessageCache(envelopAdoptInfo.getGotDiamondNumber(), EnvelopMessageCacheInfo.STATUS_ADOPTED);
+
+                        dismiss();
                     }
 
                     @Override

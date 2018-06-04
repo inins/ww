@@ -20,6 +20,7 @@ import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.mvp.IView;
+import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.FocusUtil;
 import com.frame.utils.StrUtil;
 import com.frame.utils.ToastUtil;
@@ -37,6 +38,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
+@RouteNode(path = "/notify_friend_request", desc = "好友申请页面")
 public class NofityFriendRequestListActivity extends BasicAppNoDiActivity implements IView, BaseAdapter.OnItemClickListener<RequestBean> {
 
     @BindView(R2.id.spring)

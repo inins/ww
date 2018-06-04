@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.frame.component.api.CommonService;
 import com.frame.component.entities.user.UserBoard;
+import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.ui.base.BaseController;
 import com.frame.component.view.ConerTextView;
@@ -75,6 +76,7 @@ public class DetailBannerBoardController extends BaseController {
             textName.setText(user.getNickname());
             textLableGender.setSelected(!user.isMale());
             textLableGender.setText(TimeUtils.getAgeByBirth(user.getBirthday()) + "");
+            textLableGender.setVisibility(AppDataHelper.getShowAge() ? View.VISIBLE : View.GONE);
             textLableAstro.setText(TimeUtils.getAstro(user.getBirthday()));
             textPosition.setText(user.getCityName());
             textSign.setText(user.getAutograph());

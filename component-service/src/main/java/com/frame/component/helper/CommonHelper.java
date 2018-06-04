@@ -323,6 +323,34 @@ public class CommonHelper {
             bundle.putInt("msgid", msgId);
             UIRouter.getInstance().openUri(context, ImPath.TEAM_CARD_URL, bundle);
         }
+
+        /**
+         * 系统消息
+         */
+        public static void startNotifySysMsgActivity(Context context) {
+            UIRouter.getInstance().openUri(context, ImPath.NOTIFY_SYS_URL, null);
+        }
+
+        /**
+         * 好友申请
+         */
+        public static void startNotifyFriendRequestActivity(Context context) {
+            UIRouter.getInstance().openUri(context, ImPath.NOTIFY_FRIEND_URL, null);
+        }
+
+        /**
+         * 加入觅聊申请页面
+         */
+        public static void startNotifyGroupRequestActivity(Context context) {
+            UIRouter.getInstance().openUri(context, ImPath.NOTIFY_GROUP_URL, null);
+        }
+
+        /**
+         * 趣聊邀请
+         */
+        public static void startNotifyGroupJoinActivity(Context context) {
+            UIRouter.getInstance().openUri(context, ImPath.NOTIFY_GROUP_JOIN_URL, null);
+        }
     }
 
     public static class TopicHelper {

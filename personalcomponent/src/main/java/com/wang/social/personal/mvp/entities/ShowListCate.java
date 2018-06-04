@@ -2,6 +2,7 @@ package com.wang.social.personal.mvp.entities;
 
 import com.frame.component.entities.BaseSelectBean;
 import com.frame.component.helper.SelectHelper;
+import com.frame.utils.StrUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,7 +16,6 @@ public class ShowListCate extends BaseSelectBean implements Serializable {
 
     private String title;
     private String paraName;
-    private int count;
     private List<ShowListGroup> groupList;
     private boolean isShow;
 
@@ -40,6 +40,10 @@ public class ShowListCate extends BaseSelectBean implements Serializable {
     public void setSelect(boolean select) {
         isSelect = select;
         SelectHelper.selectAllSelectBeans(groupList, select);
+    }
+
+    public void setSelectOnly(boolean select) {
+        isSelect = select;
     }
 
     //////////////////////////////////////////////////
@@ -70,11 +74,12 @@ public class ShowListCate extends BaseSelectBean implements Serializable {
     }
 
     public int getCount() {
-        return count;
+        return groupList != null ? groupList.size() : 0;
     }
 
-    public void setCount(int count) {
-        this.count = count;
+    public int getSelectChildCount() {
+        List<ShowListGroup> selectBeans = SelectHelper.getSelectBeans(groupList);
+        return selectBeans != null ? selectBeans.size() : 0;
     }
 
     public List<ShowListGroup> getGroupList() {

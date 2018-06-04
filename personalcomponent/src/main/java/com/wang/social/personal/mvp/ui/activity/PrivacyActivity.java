@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
 
+import com.frame.component.helper.AppDataHelper;
 import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
@@ -163,6 +164,8 @@ public class PrivacyActivity extends BasicAppActivity implements IView {
                 new ErrorHandleSubscriber<BaseJson<Object>>(mErrorHandler) {
                     @Override
                     public void onNext(BaseJson<Object> basejson) {
+                        //boolean checked = switchShow.isChecked();
+                        //AppDataHelper.saveShowAge(checked);
                     }
 
                     @Override

@@ -8,12 +8,16 @@ import android.widget.TextView;
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
 import com.frame.component.helper.SelectHelper;
+import com.frame.component.utils.ListUtil;
+import com.frame.utils.StrUtil;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
 import com.wang.social.personal.mvp.entities.ShowListCate;
 import com.frame.component.view.ListViewLinearLayout;
+import com.wang.social.personal.mvp.entities.ShowListGroup;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -65,11 +69,20 @@ public class RecycleAdapterPrivacyShowList extends BaseAdapter<ShowListCate> {
             });
             text_title.setText(bean.getTitle());
             text_title.setSelected(bean.isSelect());
-            text_count.setText("已选" + bean.getCount());
+            text_count.setText("已选" + bean.getSelectChildCount());
             text_count.setVisibility(bean.getCount() != 0 ? View.VISIBLE : View.GONE);
             listlayout.setVisibility(bean.isShow() ? View.VISIBLE : View.GONE);
 
-            adapter.setCheckView(text_title);
+            adapter.setOnCheckCallback(hasCheck -> {
+                for (ShowListCate cate : getData()) {
+                    if (bean != cate) {
+                        cate.setSelectOnly(false);
+                    } else {
+                        bean.setSelectOnly(hasCheck);
+                    }
+                }
+                notifyItemRangeChanged(0, getItemCount());
+            });
             adapter.getResults().clear();
             adapter.getResults().addAll(bean.getGroupList());
             adapter.notifyDataSetChanged();
@@ -81,6 +94,24 @@ public class RecycleAdapterPrivacyShowList extends BaseAdapter<ShowListCate> {
     }
 
     ///////////////////////////////////
+
+    public String getSelectGroupIds() {
+        ShowListCate showListCate = getData().get(3);
+        List<ShowListGroup> selectBeans = SelectHelper.getSelectBeans(showListCate.getGroupList());
+        String ids = "";
+        for (ShowListGroup group : selectBeans) {
+            ids += group.getId() + ",";
+        }
+        return StrUtil.subLastChart(ids, ",");
+    }
+
+    public boolean isSelectByPosition(int position) {
+        ShowListCate showListCate = ListUtil.get(getData(), position);
+        if (showListCate != null) {
+            return showListCate.isSelect();
+        }
+        return false;
+    }
 
     public String getSelectParamName() {
         ShowListCate selectBean = SelectHelper.getSelectBean(getData());
