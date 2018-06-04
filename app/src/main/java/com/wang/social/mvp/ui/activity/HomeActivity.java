@@ -238,7 +238,7 @@ public class HomeActivity extends BasicAppNoDiActivity implements XRadioGroup.On
             e.printStackTrace();
         }
 
-        if (!TextUtils.isEmpty(target) && intId > 0) {
+        if (!TextUtils.isEmpty(target)) {
             switch (target) {
                 case AppConstant.Share.SHARE_TOPIC_OPEN_TARGET:
                     CommonHelper.TopicHelper.startTopicDetail(this, intId);

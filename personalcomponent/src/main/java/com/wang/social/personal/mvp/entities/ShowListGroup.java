@@ -10,12 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * Created by Administrator on 2018/3/30.
  */
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class ShowListGroup extends BaseSelectBean implements Serializable {
 
     private int id;
