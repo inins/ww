@@ -288,7 +288,6 @@ public class FriendListFragment extends BasicFragment implements
                 .chatListSearchUser(param);
     }
 
-
     /**
      * 搜索用户
      * @param keyword 关键字

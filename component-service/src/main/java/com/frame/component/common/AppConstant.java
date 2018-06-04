@@ -129,7 +129,7 @@ public class AppConstant {
 
         /*摇钱树*/
         public static final String SHARE_GAME_TREE_OPEN_TARGET = "cashcow";
-        public static final String SHARE_GAME_TREE_URL = Api.WEB_BASE_URL + "contentShared/cashcow/index.html?userId=%1$s&cashcowld=%2$s";
+        public static final String SHARE_GAME_TREE_URL = Api.WEB_BASE_URL + "contentShared/cashcow/index.html?userId=%1$s&cashcowId=%2$s";
         public static final String SHARE_GAME_TREE_TITLE = "就差你了-这棵摇钱树将于20秒后掉落钻石！";
         public static final String SHARE_GAME_TREE_CONTENT = "%s想约你跟他一起分这波钻，快来！";
         public static final String SHARE_GAME_DEFAULT_IMAGE = "http://resouce.dongdongwedding.com/activity_cashcow_moneyTree.png";

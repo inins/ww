@@ -218,7 +218,7 @@
         <android.support.v7.widget.CardView
             android:id="@+id/rich_editor_layout"
             android:layout_width="match_parent"
-            android:layout_height="640dp"
+            android:layout_height="420dp"
             android:minHeight="118dp"
             android:layout_marginTop="8dp"
             app:cardBackgroundColor="#F2F2F2"
