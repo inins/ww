@@ -97,7 +97,9 @@ public class OfficialChatRobotFragment extends BasicFragment implements IView,
                         if (null != mAdapter) {
                             mAdapter.notifyDataSetChanged();
 
-                            fcMessageList.smoothScrollToPosition(mAdapter.getItemCount() - 1);
+                            if (mLeavingMsgs.size() > 1) {
+                                fcMessageList.smoothScrollToPosition(mAdapter.getItemCount() - 1);
+                            }
                         }
                     }
 

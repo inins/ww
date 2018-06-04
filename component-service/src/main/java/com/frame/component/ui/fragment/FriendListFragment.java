@@ -271,9 +271,14 @@ public class FriendListFragment extends BasicFragment implements
     public Observable<BaseJson<PageListDTO<SearchUserInfoDTO, PersonalInfo>>> netSearchGroupUser(
             String key, String phone,
             int current, int size) {
+        boolean mobile = StringUtils.isMobileNO(key);
+        if (mobile) {
+            phone = key;
+        }
+
         Map<String, Object> param = new NetParam()
-                .put("key", EntitiesUtil.assertNotNull(key))
-                .put("phone", EntitiesUtil.assertNotNull(phone))
+                .put("key", mobile ? "" : key)
+                .put("phone", mobile ? phone : "")
                 .put("current", current)
                 .put("size", size)
                 .put("v", "2.0.0")
@@ -313,8 +318,8 @@ public class FriendListFragment extends BasicFragment implements
 
         Map<String, Object> param = new NetParam()
                 .put("keyword", mobile ? null : keyword)
-                .put("tagNames", TextUtils.isEmpty(tagNames) ? null : tagNames)
                 .put("mobile", mobile ? keyword : null)
+                .put("tagNames", TextUtils.isEmpty(tagNames) ? null : tagNames)
                 .put("current", current)
                 .put("size", size)
                 .put("v", "2.0.0")

@@ -10,6 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="-6dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
 
@@ -125,14 +127,11 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         tools:text="恭喜你摇到钻石，游戏结束会揭晓结果，请耐心等待吧！" />
 
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline_h"
+    <View
+        android:id="@+id/member_chat_layout_anchor"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.54"/>
-
+        android:layout_height="32dp"
+        app:layout_constraintBottom_toBottomOf="@+id/money_tree_layout"/>
 
     <LinearLayout
         android:id="@+id/member_chat_layout"
@@ -141,7 +140,7 @@
         android:background="@drawable/mt_shape_rect_top_corner_solid_alpha_white"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline_h">
+        app:layout_constraintTop_toTopOf="@+id/member_chat_layout_anchor">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/member_list_recycler_view"

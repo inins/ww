@@ -448,7 +448,7 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
 //        mAppManager.killActivity(GameListActivity.class);
 //        finish();
         if (mPresenter.isGroupMember()) {
-            mAppManager.kill("com.wang.social.im.mvp.ui.GroupConversationActivity");
+//            mAppManager.kill("com.wang.social.im.mvp.ui.GroupConversationActivity");
             // 是群成员，进入趣聊
             CommonHelper.ImHelper.gotoGroupConversation(
                     this,
@@ -510,9 +510,9 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
             mShakeUtils.onResume();
         }
 
-        if (null != mPresenter.getGameBean() && mPresenter.isJoined()) {
-            mMemberChatLayout.addOnLayoutChangeListener(mLayoutChangeListener);
-        }
+//        if (null != mPresenter.getGameBean() && mPresenter.isJoined()) {
+//            mMemberChatLayout.addOnLayoutChangeListener(mLayoutChangeListener);
+//        }
 
         // 如果游戏已经结束，则加载游戏结果
         if (mGameEnded) {
@@ -530,7 +530,7 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
             mShakeUtils.onPause();
         }
 
-        mMemberChatLayout.removeOnLayoutChangeListener(mLayoutChangeListener);
+//        mMemberChatLayout.removeOnLayoutChangeListener(mLayoutChangeListener);
     }
 
     @Override
