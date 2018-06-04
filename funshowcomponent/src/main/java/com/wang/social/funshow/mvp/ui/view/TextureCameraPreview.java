@@ -12,11 +12,14 @@ import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Environment;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Surface;
 import android.view.TextureView;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import java.io.File;
@@ -25,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Timer;
 
 public class TextureCameraPreview extends TextureView implements TextureView.SurfaceTextureListener, Camera.PictureCallback, Camera.ShutterCallback {
 
@@ -64,22 +68,16 @@ public class TextureCameraPreview extends TextureView implements TextureView.Sur
 
     private void openCamera() {
         // 1.打开相机
-        mCamera = getCameraInstance(getContext(), isFontCamera);
+        mCamera = getCameraInstance(getContext());
         if (mCamera != null) {
             // 2.设置相机参数
             Camera.Parameters parameters = mCamera.getParameters();
             // 3.调整预览方向
-//            CameraInfo cameraInfo = new CameraInfo();
-//            Camera.getCameraInfo(isFontCamera ? 1 : 0, cameraInfo);
-//            if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK)
-//                mCamera.setDisplayOrientation(cameraInfo.orientation);
-//            else
-//                mCamera.setDisplayOrientation((360 - cameraInfo.orientation) % 360);
-            mCamera.setDisplayOrientation(90);
+            paramDisplayOrientation();
             // 4.设置预览尺寸
             size = CameraUtil.getBestCameraResolution(parameters, new Point(getMeasuredWidth(), getMeasuredHeight()));
-//            parameters.setPreviewSize(size.x, size.y);
-//            parameters.setPictureSize(size.x, size.y);
+            parameters.setPreviewSize(size.x, size.y);
+            parameters.setPictureSize(size.x, size.y);
             if (!isFontCamera)
                 parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
             //5.调整拍照图片方向
@@ -87,7 +85,14 @@ public class TextureCameraPreview extends TextureView implements TextureView.Sur
                 parameters.setRotation(90);
             if (isFontCamera)
                 parameters.setRotation(270);
-            mCamera.setParameters(parameters);
+            try {
+                mCamera.setParameters(parameters);
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e("camera", e.getMessage());
+                Log.e("camera", Build.MODEL);
+                size = null;
+            }
             // 7.开始相机预览
             try {
                 mCamera.setPreviewTexture(mSurface);
@@ -96,6 +101,38 @@ public class TextureCameraPreview extends TextureView implements TextureView.Sur
                 e.printStackTrace();
             }
         }
+    }
+
+    private void paramDisplayOrientation() {
+        Camera.CameraInfo info = new Camera.CameraInfo();
+        Camera.getCameraInfo(getCameraId(), info);
+        WindowManager windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        int rotation = windowManager.getDefaultDisplay().getRotation();
+        int degrees = 0;
+        switch (rotation) {
+            case Surface.ROTATION_0:
+                degrees = 0;
+                break;
+            case Surface.ROTATION_90:
+                degrees = 90;
+                break;
+            case Surface.ROTATION_180:
+                degrees = 180;
+                break;
+            case Surface.ROTATION_270:
+                degrees = 270;
+                break;
+        }
+
+        int result;
+        if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+            result = (info.orientation + degrees) % 360;
+            result = (360 - result) % 360;  // compensate the mirror
+        } else {  // back-facing
+            result = (info.orientation - degrees + 360) % 360;
+        }
+        Log.e("camera", "setDisplayOrientation:" + result);
+        mCamera.setDisplayOrientation(result);
     }
 
     @Override
@@ -121,14 +158,18 @@ public class TextureCameraPreview extends TextureView implements TextureView.Sur
 
     }
 
-    public static Camera getCameraInstance(Context context, boolean isFontCamera) {
+    public Camera getCameraInstance(Context context) {
         Camera c = null;
         try {
-            c = Camera.open(isFontCamera ? 1 : 0);
+            c = Camera.open(getCameraId());
         } catch (Exception e) {
             Toast.makeText(context, "相机打开失败", Toast.LENGTH_SHORT).show();
         }
         return c;
+    }
+
+    private int getCameraId() {
+        return isFontCamera ? 1 : 0;
     }
 
     public void takePicture(OnPictureTakenListener listener) {
@@ -233,9 +274,15 @@ public class TextureCameraPreview extends TextureView implements TextureView.Sur
             mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
             mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
             // 3.设置CamcorderProfile（需要API级别8或更高版本）
-            mMediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_720P));
-            mMediaRecorder.setVideoSize(size.x, size.y);
-            mMediaRecorder.setVideoEncodingBitRate(2 * size.x * size.y);
+            CamcorderProfile profile = CamcorderProfile.get(CamcorderProfile.QUALITY_720P);
+            mMediaRecorder.setProfile(profile);
+            if (size != null) {
+                mMediaRecorder.setVideoSize(size.x, size.y);
+                mMediaRecorder.setVideoEncodingBitRate(2 * size.x * size.y);
+            } else {
+                mMediaRecorder.setVideoSize(profile.videoFrameWidth, profile.videoFrameHeight);
+                mMediaRecorder.setVideoEncodingBitRate(profile.videoBitRate);
+            }
             mMediaRecorder.setOrientationHint(isFontCamera ? 270 : 90);
             // 4.设置输出文件
             mMediaRecorder.setOutputFile(outputPath);
@@ -281,7 +328,11 @@ public class TextureCameraPreview extends TextureView implements TextureView.Sur
 
     public void stopRecord() {
         if (isRecording) {
-            mMediaRecorder.stop();
+            try {
+                mMediaRecorder.stop();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             releaseMediaRecorder();
             mCamera.lock();
             if (onStartVideoListener != null) onStartVideoListener.onStop(videoPath);
@@ -321,7 +372,11 @@ public class TextureCameraPreview extends TextureView implements TextureView.Sur
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            mMediaRecorder.start();
+            try {
+                mMediaRecorder.start();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             isRecording = true;
             return true;
         }
@@ -351,6 +406,7 @@ public class TextureCameraPreview extends TextureView implements TextureView.Sur
             float x_d_y = (float) screenResolution.x / (float) screenResolution.y;
             Camera.Size best = null;
             List<Camera.Size> supportedPreviewSizes = parameters.getSupportedPreviewSizes();
+            //排序，有些设备是升序，这里统一转换为降序
             if (supportedPreviewSizes.get(0).height < supportedPreviewSizes.get(supportedPreviewSizes.size() - 1).height) {
                 Collections.reverse(supportedPreviewSizes);
             }
@@ -360,6 +416,42 @@ public class TextureCameraPreview extends TextureView implements TextureView.Sur
                 if (tmp < mindiff) {
                     mindiff = tmp;
                     best = s;
+                }
+            }
+            Log.e("select", best.width + ":" + best.height);
+            return new Point(best.width, best.height);
+        }
+
+        public static Point getBestCameraResolutionV2(Camera.Parameters parameters, Point screenResolution) {
+            Log.e("root", screenResolution.x + ":" + screenResolution.y);
+            int w = screenResolution.x;
+            int h = screenResolution.y;
+            List<Camera.Size> sizes = parameters.getSupportedPreviewSizes();
+            final double ASPECT_TOLERANCE = 0.1;
+            double targetRatio = (double) w / h;
+            if (sizes == null) {
+                return null;
+            }
+            Camera.Size best = null;
+            double minDiff = Double.MAX_VALUE;
+            int targetHeight = h;
+            for (Camera.Size s : sizes) {
+                Log.e("size", s.width + ":" + s.height);
+                double ratio = (double) s.width / s.height;
+                if (Math.abs(ratio - targetRatio) > ASPECT_TOLERANCE)
+                    continue;
+                if (Math.abs(s.height - targetHeight) < minDiff) {
+                    best = s;
+                    minDiff = Math.abs(s.height - targetHeight);
+                }
+            }
+            if (best == null) {
+                minDiff = Double.MAX_VALUE;
+                for (Camera.Size size : sizes) {
+                    if (Math.abs(size.height - targetHeight) < minDiff) {
+                        best = size;
+                        minDiff = Math.abs(size.height - targetHeight);
+                    }
                 }
             }
             Log.e("select", best.width + ":" + best.height);

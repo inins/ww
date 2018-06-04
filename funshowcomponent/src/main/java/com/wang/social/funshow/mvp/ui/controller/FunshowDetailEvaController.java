@@ -78,6 +78,7 @@ public class FunshowDetailEvaController extends FunshowDetailBaseController impl
     @Override
     protected void onInitCtrl() {
         adapterEva = new RecycleAdapterEva();
+        adapterEva.setTalkId(talkId);
         adapterEva.setEditEva(editEva);
         adapterEva.setOnItemClickListener(this);
         recyclerEva.setNestedScrollingEnabled(false);

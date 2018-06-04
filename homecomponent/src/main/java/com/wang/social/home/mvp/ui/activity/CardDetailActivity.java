@@ -22,6 +22,7 @@ import com.frame.component.view.ObservableNestedScrollView;
 import com.frame.component.view.bundleimgview.BundleImgEntity;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
+import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.StatusBarUtil;
@@ -45,6 +46,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+@RouteNode(path = "/user_detail", desc = "个人详情页面（卡片页面进入）")
 public class CardDetailActivity extends BasicAppNoDiActivity {
 
     @BindView(R2.id.scroll_view)

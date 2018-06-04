@@ -5,8 +5,11 @@
     android:layout_height="80dp">
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/im_cl_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="?selectableItemBackground"
+        android:clickable="true">
 
         <ImageView
             android:id="@+id/im_iv_friendly"

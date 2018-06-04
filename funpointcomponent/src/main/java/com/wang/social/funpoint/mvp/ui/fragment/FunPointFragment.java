@@ -50,7 +50,6 @@ public class FunPointFragment extends BaseLazyFragment<FunpointListPresonter> im
     RecyclerView recyclerLable;
     @BindView(R2.id.recycler_content)
     RecyclerView recyclerContent;
-    Unbinder unbinder;
     @BindView(R2.id.btn_search)
     View btnSearch;
 
@@ -89,8 +88,7 @@ public class FunPointFragment extends BaseLazyFragment<FunpointListPresonter> im
     @Override
     public void initDataLazy() {
         adapterLable = new RecycleAdapterLable();
-        adapterLable.setOnMoreClickListener(v ->
-                TagSelectionActivity.startSelection(getActivity(), TagSelectionActivity.TAG_TYPE_INTEREST));
+        adapterLable.setOnMoreClickListener(v -> TagSelectionActivity.startSelection(getActivity(), TagSelectionActivity.TAG_TYPE_INTEREST));
         recyclerLable.setNestedScrollingEnabled(false);
         recyclerLable.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         recyclerLable.setAdapter(adapterLable);

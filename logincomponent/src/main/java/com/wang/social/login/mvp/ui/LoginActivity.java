@@ -518,7 +518,7 @@ public class LoginActivity extends BaseAppActivity<LoginPresenter> implements Lo
     @Override
     public void gotoMainPage() {
         // 路由跳转
-        CommonHelper.HomeHelper.startHomeActivity(this);
+        CommonHelper.AppHelper.startHomeActivity(this);
         finish();
     }
 

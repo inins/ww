@@ -70,6 +70,7 @@ import com.wang.social.im.mvp.ui.adapters.HomeMemberAdapter;
 import com.wang.social.im.mvp.ui.adapters.HomeTagAdapter;
 import com.wang.social.im.mvp.ui.adapters.SocialHomeTeamsAdapter;
 import com.wang.social.im.widget.ImageSelectDialog;
+import com.wang.social.pictureselector.PictureSelector;
 import com.wang.social.pictureselector.helper.PhotoHelper;
 import com.wang.social.pictureselector.helper.PhotoHelperEx;
 import com.wang.social.socialize.SocializeUtil;
@@ -94,6 +95,7 @@ import io.reactivex.schedulers.Schedulers;
 
 import static com.frame.component.path.ImPath.SOCIAL_HOME;
 import static com.frame.entities.EventBean.EVENT_NOTIFY_BACKGROUND;
+import static com.frame.entities.EventBean.EVENT_NOTIFY_SHOW_CONVERSATION_LIST;
 
 /**
  * 趣聊主页
@@ -238,8 +240,6 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
 
     private AutoPopupWindow popupWindow;
     private ImageSelectHelper mImageSelectHelper;
-    //举报
-    private PhotoHelperEx mPhotoHelper;
     private int mPhotoType;
     private String mReportComment;
 
@@ -333,8 +333,6 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
                 }
             }
         });
-        mPhotoHelper = PhotoHelperEx.newInstance(this, new PhotoCallBack());
-
         mImageSelectHelper = ImageSelectHelper.newInstance(this, new PhotoCallBack(), new ImageSelectDialog.OnItemSelectedListener() {
             @Override
             public void onGallerySelected() {
@@ -397,6 +395,7 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
         } else if (view.getId() == R.id.sc_iv_cover) {
             if (mSocial.getMemberInfo().getRole() == MemberInfo.ROLE_MASTER) {
                 mPhotoType = PHOTO_TYPE_COVER;
+                mImageSelectHelper.setClip(true);
                 mImageSelectHelper.setShowShoot(true);
                 mImageSelectHelper.showDialog();
             }
@@ -419,8 +418,9 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
             FunshowTopicActivity.startFunshowForGroup(this, Integer.valueOf(socialId));
         } else if (view.getId() == R.id.sc_ll_portrait) {//我的群头像
             mPhotoType = PHOTO_TYPE_MEMBER_PORTRAIT;
-            mPhotoHelper.setMaxSelectCount(1);
-            mPhotoHelper.showDefaultDialog();
+            mImageSelectHelper.setClip(true);
+            mImageSelectHelper.setShowShoot(true);
+            mImageSelectHelper.showDialog();
         } else if (view.getId() == R.id.sc_ll_nickname) {//我的群昵称
             String oldNickname = mSocial.getMemberInfo() == null ? "" : mSocial.getMemberInfo().getNickname();
             EditDialog editDialog = new EditDialog(this, oldNickname, UIUtil.getString(R.string.im_self_group_name), 8, new EditDialog.OnInputCompleteListener() {
@@ -462,6 +462,7 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
             editDialog.show();
         } else if (view.getId() == R.id.sc_tv_background_chat) {//聊天背景
             mPhotoType = PHOTO_TYPE_BACKGROUND;
+            mImageSelectHelper.setClip(false);
             mImageSelectHelper.setShowShoot(false);
             mImageSelectHelper.showDialog();
         } else if (view.getId() == R.id.sc_tv_clear_message) {//清空消息
@@ -595,8 +596,9 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
             @Override
             public void onItemClick(TeamInfo teamInfo, int position) {
                 if (teamInfo.isJoined()) {
+                    mAppManager.killAll("com.wang.social.mvp.ui.activity.HomeActivity");
                     CommonHelper.ImHelper.gotoGroupConversation(SocialHomeActivity.this, teamInfo.getTeamId(), ConversationType.TEAM, false);
-                    finish();
+                    EventBus.getDefault().post(new EventBean(EVENT_NOTIFY_SHOW_CONVERSATION_LIST));
                 } else {
                     GroupMiInviteDetailActivity.startBrowse(SocialHomeActivity.this, Integer.valueOf(teamInfo.getTeamId()));
                 }
@@ -638,8 +640,8 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (mPhotoHelper != null) {
-            mPhotoHelper.onActivityResult(requestCode, resultCode, data);
+        if (mImageSelectHelper != null) {
+            mImageSelectHelper.onActivityResult(requestCode, resultCode, data);
         }
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_CODE_CHARGE) {
@@ -726,8 +728,11 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
             mReportComment = text;
             mPhotoType = PHOTO_TYPE_REPORT;
             // 弹出图片选择
-            mPhotoHelper.setMaxSelectCount(1);
-            mPhotoHelper.showDefaultDialog();
+            PictureSelector.from(this)
+                    .maxSelection(1)
+                    .spanCount(2)
+                    .isClip(false)
+                    .forResult(PhotoHelper.PHOTO_PHOTO);
         });
     }
 
@@ -763,6 +768,13 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
                         mReportComment,
                         PhotoHelper.format2Array(path));
             } else if (mPhotoType == PHOTO_TYPE_COVER) {
+                mImageLoader.loadImage(SocialHomeActivity.this, ImageConfigImpl.builder()
+                        .placeholder(R.drawable.im_round_image_placeholder)
+                        .errorPic(R.drawable.im_round_image_placeholder)
+                        .transformation(new RoundedCornersTransformation(UIUtil.getDimen(R.dimen.im_round_image_radius), 0, RoundedCornersTransformation.CornerType.ALL))
+                        .imageView(scIvCover)
+                        .url(path)
+                        .build());
                 mPresenter.updateCover(path, mSocial);
             } else if (mPhotoType == PHOTO_TYPE_BACKGROUND) {
                 Observable.just(path)

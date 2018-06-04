@@ -602,7 +602,7 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
         // 跳转到首页
         if (fromLogin) {
             // 路由跳转
-            CommonHelper.HomeHelper.startHomeActivity(this);
+            CommonHelper.AppHelper.startHomeActivity(this);
         }
 
         finish();

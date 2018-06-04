@@ -115,14 +115,14 @@ public class PersonalFragment extends BasicLazyFragment implements PersonalFragm
     private void setUserData() {
         User user = AppDataHelper.getUser();
         if (user != null) {
-            ImageLoaderHelper.loadCircleImg(imgHeader, user.getAvatar());
+            ImageLoaderHelper.loadCircleImg(imgHeader, R.drawable.ic_default_header, user.getAvatar());
             textName.setText(user.getNickname());
         }
     }
 
     private void setUserData(QrcodeInfo qrcodeInfo) {
         if (qrcodeInfo != null) {
-            ImageLoaderHelper.loadCircleImg(imgHeader, qrcodeInfo.getUserAvatar());
+            ImageLoaderHelper.loadCircleImg(imgHeader, R.drawable.ic_default_header, qrcodeInfo.getUserAvatar());
             textName.setText(qrcodeInfo.getNickName());
         }
     }

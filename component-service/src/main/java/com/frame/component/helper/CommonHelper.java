@@ -9,6 +9,7 @@ import com.frame.component.enums.ConversationType;
 import com.frame.component.enums.ShareSource;
 import com.frame.component.path.FunshowPath;
 import com.frame.component.path.AppPath;
+import com.frame.component.path.HomePath;
 import com.frame.component.path.ImPath;
 import com.frame.component.path.LoginPath;
 import com.frame.component.path.MoneyTreePath;
@@ -51,13 +52,22 @@ public class CommonHelper {
         }
     }
 
-    public static class HomeHelper {
+    public static class AppHelper {
         public static void startHomeActivity(Context context) {
             UIRouter.getInstance().openUri(context, AppPath.HOME_URL, null);
         }
 
         public static void startSearchActivity(Context context) {
             UIRouter.getInstance().openUri(context, AppPath.SEARCH_URL, null);
+        }
+    }
+
+    public static class HomeHelper {
+
+        public static void startUserDetailActivity(Context context, int userId) {
+            Bundle bundle = new Bundle();
+            bundle.putInt("userId", userId);
+            UIRouter.getInstance().openUri(context, HomePath.USERDETAIL_URL, bundle);
         }
     }
 

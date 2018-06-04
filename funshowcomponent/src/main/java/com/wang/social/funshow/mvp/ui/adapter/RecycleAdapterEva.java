@@ -29,6 +29,7 @@ import butterknife.BindView;
 public class RecycleAdapterEva extends BaseAdapter<Comment> {
 
     private EditText editEva;
+    private int talkId;
 
     @Override
     protected BaseViewHolder createViewHolder(Context context, ViewGroup parent, int viewType) {
@@ -79,7 +80,7 @@ public class RecycleAdapterEva extends BaseAdapter<Comment> {
             });
             textZan.setOnClickListener(v -> {
                 IView iView = (getContext() instanceof IView) ? (IView) getContext() : null;
-                NetZanHelper.newInstance().funshowCommentZan(iView, textZan, 1, bean.getCommentId(), !textZan.isSelected(), (isZan, zanCount) -> {
+                NetZanHelper.newInstance().funshowCommentZan(iView, textZan, talkId, bean.getCommentId(), !textZan.isSelected(), (isZan, zanCount) -> {
                     bean.setSupportTotal(zanCount);
                 });
             });
@@ -100,5 +101,9 @@ public class RecycleAdapterEva extends BaseAdapter<Comment> {
 
     public void setEditEva(EditText editEva) {
         this.editEva = editEva;
+    }
+
+    public void setTalkId(int talkId) {
+        this.talkId = talkId;
     }
 }
