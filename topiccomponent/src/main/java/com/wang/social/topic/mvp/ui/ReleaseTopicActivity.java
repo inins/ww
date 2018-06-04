@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -68,6 +69,7 @@ import com.wang.social.topic.mvp.ui.widget.richeditor.RichEditor;
 import com.wang.social.topic.utils.AudioImageUtil;
 import com.wang.social.topic.utils.FileUtil;
 import com.wang.social.topic.utils.HtmlUtil;
+import com.wang.social.topic.utils.ViewUtils;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -1075,6 +1077,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
                 mBottomLayout.setVisibility(View.VISIBLE);
             }
+
         } else if (oldBottom != 0 && bottom != 0 && (bottom - oldBottom > mKeyboardHeight)) {
             // 关闭
             Timber.i("键盘关闭");
@@ -1092,6 +1095,12 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
                 mNeedShowVoiceLayout = false;
             }
         }
+
+        Timber.i("编辑框位置 : " + mRichEditorLayout.getY());
+        Timber.i("滚动控件位置 : " + mNestedScrollView.getY());
+        Rect rect = new Rect();
+        mNestedScrollView.getGlobalVisibleRect(rect);
+        Timber.i("滚动控件可见位置 : " + rect.top + " " + rect.height());
     }
 
     private void showStylePicker(boolean visible) {

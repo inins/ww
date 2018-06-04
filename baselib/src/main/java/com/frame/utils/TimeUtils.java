@@ -733,8 +733,8 @@ public final class TimeUtils {
     public static String getFriendlyTimeSpanByNow(long millis) {
         long now = System.currentTimeMillis();
         long span = now - millis;
-        if (span < 0)
-            return String.format("%tc", millis);// U can read http://www.apihome.cn/api/java/Formatter.html to understand it.
+//        if (span < 0)
+//            return String.format("%tc", millis);// U can read http://www.apihome.cn/api/java/Formatter.html to understand it.
         if (span < TimeConstants.MIN) { // 一分钟以内显示刚刚
             return "刚刚";
 //        } else if (span < TimeConstants.MIN) {
@@ -1769,7 +1769,9 @@ public final class TimeUtils {
             } else {
                 age = now.get(Calendar.YEAR) - birth.get(Calendar.YEAR);
 
-                if (now.get(Calendar.DAY_OF_YEAR) > birth.get(Calendar.DAY_OF_YEAR)) {
+                int nowDayOfYear = now.get(Calendar.DAY_OF_YEAR);
+                int birthDayOfYear = birth.get(Calendar.DAY_OF_YEAR);
+                if (nowDayOfYear < birthDayOfYear) {
                     age -= 1;
                 }
             }
