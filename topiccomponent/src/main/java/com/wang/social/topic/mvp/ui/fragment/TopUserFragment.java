@@ -68,7 +68,7 @@ public class TopUserFragment extends BaseFragment<TopicPresenter> implements Top
 
 
         mSpringView.setHeader(new AliHeader(mSpringView.getContext(), false));
-        mSpringView.setFooter(new AliFooter(mSpringView.getContext(), false));
+//        mSpringView.setFooter(new AliFooter(mSpringView.getContext(), false));
         mSpringView.setListener(new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {

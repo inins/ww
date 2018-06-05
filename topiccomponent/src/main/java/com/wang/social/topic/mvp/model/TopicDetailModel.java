@@ -77,4 +77,15 @@ public class TopicDetailModel extends BaseModel implements TopicDetailContract.M
                 .obtainRetrofitService(TopicService.class)
                 .report(param);
     }
+
+    @Override
+    public Observable<BaseJson> delMyTopic(int id) {
+        Map<String, Object> param = new NetParam()
+                .put("id", id)
+                .put("v", "2.0.0")
+                .build();
+        return mRepositoryManager
+                .obtainRetrofitService(TopicService.class)
+                .delMyTopic(param);
+    }
 }

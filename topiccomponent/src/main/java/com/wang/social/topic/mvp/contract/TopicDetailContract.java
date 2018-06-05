@@ -13,6 +13,7 @@ public interface TopicDetailContract {
         void onTopicDetailLoadSuccess(TopicDetail detail);
         void showToast(String msg);
         void resetSupportLayout(int isSupport, int count);
+        void onDelMyTopicSuccess(int topicId);
     }
 
 
@@ -25,5 +26,6 @@ public interface TopicDetailContract {
         Observable<BaseJson<TopicDetailDTO>> getTopicDetails(int topicId);
         Observable<BaseJson> topicSupport(int topicId, String type);
         Observable<BaseJson> report(int objectId, String type, String comment, String picUrl);
+        Observable<BaseJson> delMyTopic(int id);
     }
 }

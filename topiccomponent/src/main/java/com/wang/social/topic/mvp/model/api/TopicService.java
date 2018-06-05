@@ -113,4 +113,11 @@ public interface TopicService {
     @FormUrlEncoded
     @POST("app/topic/addTopic")
     Observable<BaseJson> addTopic(@FieldMap Map<String, Object> param);
+
+    /**
+     * 删除自己发布的话题
+     */
+    @FormUrlEncoded
+    @POST("app/topic/delMyTopic")
+    Observable<BaseJson> delMyTopic(@FieldMap Map<String, Object> param);
 }

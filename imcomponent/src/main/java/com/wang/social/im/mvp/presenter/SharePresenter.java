@@ -2,7 +2,9 @@ package com.wang.social.im.mvp.presenter;
 
 import com.frame.component.enums.ConversationType;
 import com.frame.component.enums.ShareSource;
+import com.frame.component.helper.NetShareHelper;
 import com.frame.di.scope.ActivityScope;
+import com.frame.entities.EventBean;
 import com.frame.mvp.BasePresenter;
 import com.frame.utils.ToastUtil;
 import com.google.gson.Gson;
@@ -100,11 +102,35 @@ public class SharePresenter extends BasePresenter {
 
             @Override
             public void onSuccess(TIMMessage timMessage) {
-                ToastUtil.showToastShort("分享成功");
-                ((ShareContract.View) mRootView).onShareComplete();
-
                 //通知会话列表更新显示
                 EventBus.getDefault().post(timMessage);
+
+                if (shareSource == ShareSource.SOURCE_FUN_SHOW || shareSource == ShareSource.SOURCE_TOPIC) {
+                    Integer targetUid = null;
+                    if (conversationType == ConversationType.PRIVATE) {
+                        targetUid = Integer.valueOf(targetId);
+                    }
+                    String type;
+                    if (shareSource == ShareSource.SOURCE_TOPIC) {
+                        type = NetShareHelper.SHARE_TYPE_TOPIC;
+                    } else {
+                        type = NetShareHelper.SHARE_TYPE_FUN_SHOW;
+                    }
+                    NetShareHelper.newInstance()
+                            .netShare(mRootView, targetUid, Integer.valueOf(objectId), type, 0, new NetShareHelper.OnShareCallback() {
+                                @Override
+                                public void success() {
+                                    ToastUtil.showToastShort("分享成功");
+                                    ((ShareContract.View) mRootView).onShareComplete();
+
+                                    if (shareSource == ShareSource.SOURCE_FUN_SHOW) {
+                                        EventBus.getDefault().post(new EventBean(EventBean.EVENT_FUNSHOW_DETAIL_ADD_SHARE));
+                                    } else {
+                                        EventBus.getDefault().post(new EventBean(EventBean.EVENTBUS_ADD_TOPIC_SHARE));
+                                    }
+                                }
+                            });
+                }
             }
         });
     }

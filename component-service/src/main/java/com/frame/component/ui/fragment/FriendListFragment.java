@@ -18,6 +18,7 @@ import com.frame.component.service.R;
 import com.frame.component.service.R2;
 import com.frame.component.utils.EntitiesUtil;
 import com.frame.component.utils.StringUtils;
+import com.frame.component.view.LoadingLayoutEx;
 import com.frame.component.view.WrapContentLinearLayoutManager;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
@@ -67,6 +68,10 @@ public class FriendListFragment extends BasicFragment implements
     SpringView mSpringView;
     @BindView(R2.id.recycler_view)
     RecyclerView mRecyclerView;
+
+    @BindView(R2.id.loadingview_ex)
+    LoadingLayoutEx loadingviewEx;
+
     private UserListAdapter mAdapter;
     private @FriendListType
     int mType;
@@ -161,6 +166,8 @@ public class FriendListFragment extends BasicFragment implements
         // 如果是好友列表，直接请求数据
         if (mType == TYPE_FRIEND_LIST) {
             mSpringView.callFreshDelay();
+        } else {
+            loadingviewEx.showLackView();
         }
     }
 
@@ -202,11 +209,22 @@ public class FriendListFragment extends BasicFragment implements
 
             if (null != pageList.getList()) {
                 mUserInfoList.addAll(pageList.getList());
+
+                loadingviewEx.showOut();
+
+                if (null != mAdapter) {
+                    mAdapter.notifyDataSetChanged();
+                }
             }
         }
 
-        if (null != mAdapter) {
-            mAdapter.notifyDataSetChanged();
+        if (mUserInfoList.size() <= 0) {
+            if (mType != TYPE_FRIEND_LIST) {
+                loadingviewEx.showFailViewNoSearch();
+            } else {
+                loadingviewEx.showFailViewCustomize(R.drawable.common_ic_default_nofriend,
+                        "什么都没有");
+            }
         }
     }
 

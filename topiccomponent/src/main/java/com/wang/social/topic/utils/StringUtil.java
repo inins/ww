@@ -161,6 +161,19 @@ public class StringUtil {
         return localAudio;
     }
 
+    public static int countAudio(String content) {
+        return count(content, TAG_AUDIO);
+    }
+
+    public static int count(String s, String key) {
+        int count=0;
+        int d=0;
+        while((d=s.indexOf(key,d))!=-1){
+            s=s.substring(d+key.length());
+            count++;
+        }
+        return count;
+    }
 
 
     public static String findBetween(String src, String start, String end, boolean mustEnd) {

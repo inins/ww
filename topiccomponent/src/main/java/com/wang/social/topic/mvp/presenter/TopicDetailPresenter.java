@@ -7,6 +7,7 @@ import com.frame.http.api.ApiHelper;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
 import com.frame.mvp.BasePresenter;
+import com.frame.utils.ToastUtil;
 import com.wang.social.topic.mvp.contract.TopicDetailContract;
 import com.wang.social.topic.mvp.model.entities.TopicDetail;
 
@@ -132,17 +133,28 @@ public class TopicDetailPresenter extends
                     public void onError(Throwable e) {
                         e.printStackTrace();
                     }
-                }, new Consumer<Disposable>() {
+                },
+                disposable -> mRootView.showLoading(),
+                () -> mRootView.hideLoading());
+    }
+
+
+    public void delMyTopic(int id) {
+        mApiHelper.executeForData(mRootView,
+                mModel.delMyTopic(id),
+                new ErrorHandleSubscriber() {
                     @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        mRootView.showLoading();
+                    public void onNext(Object o) {
+                        mRootView.onDelMyTopicSuccess(id);
                     }
-                }, new Action() {
+
                     @Override
-                    public void run() throws Exception {
-                        mRootView.hideLoading();
+                    public void onError(Throwable e) {
+                        ToastUtil.showToastShort(e.getMessage());
                     }
-                });
+                },
+                disposable -> mRootView.showLoading(),
+                () -> mRootView.hideLoading());
     }
 
     @Override

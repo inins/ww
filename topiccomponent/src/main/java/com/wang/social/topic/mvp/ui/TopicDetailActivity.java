@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -200,6 +202,15 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
         }
     }
 
+    @Override
+    public void onDelMyTopicSuccess(int topicId) {
+        Timber.i("删除话题成功");
+        EventBean eventBean = new EventBean(EventBean.EVENTBUS_DEL_TOPIC_SUCCESS);
+        eventBean.put("topicId", topicId);
+        EventBus.getDefault().post(eventBean);
+        finish();
+    }
+
     // 话题ID
     private int mTopicId;
     private int mCreatorId;
@@ -392,6 +403,11 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
         // 标题
         mTitleTV.setText(detail.getTitle());
         mToolbarTitleTV.setText(detail.getTitle());
+
+        // 如果是自己发布的话题，显示 删除
+        if (detail.getCreatorId() == AppDataHelper.getUser().getUserId()) {
+            mReportTV.setText("删除");
+        }
 
         // 标签
         String tag = "by";
@@ -607,9 +623,18 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
 
     @OnClick(R2.id.report_text_view)
     public void report() {
-        DialogSure.showDialog(this,
-                "确认举报该话题？",
-                () -> mPresenter.report());
+        if (mReportTV.getText().equals("删除")) {
+            DialogSure.showDialog(this,
+                    "确定删除?",
+                    () -> {
+                        Timber.i("删除话题");
+                        mPresenter.delMyTopic(mTopicId);
+                    });
+        } else {
+            DialogSure.showDialog(this,
+                    "确认举报该话题？",
+                    () -> mPresenter.report());
+        }
     }
 
     @OnClick(R2.id.support_layout)
@@ -786,4 +811,5 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
         super.onActivityResult(requestCode, resultCode, data);
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
+
 }
