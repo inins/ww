@@ -52,6 +52,7 @@ import com.frame.utils.ToastUtil;
 import com.kyleduo.switchbutton.SwitchButton;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.umeng.socialize.UMShareAPI;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.di.component.DaggerSocialHomeComponent;
@@ -640,6 +641,7 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, requestCode, data);
         if (mImageSelectHelper != null) {
             mImageSelectHelper.onActivityResult(requestCode, resultCode, data);
         }
@@ -712,7 +714,27 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
             User loginUser = AppDataHelper.getUser();
             String shareUrl = String.format(AppConstant.Share.SHARE_GROUP_URL, socialId, String.valueOf(loginUser.getUserId()));
             String content = String.format(AppConstant.Share.SHARE_GROUP_CONTENT, loginUser.getNickname());
-            SocializeUtil.shareWithWW(getSupportFragmentManager(), null, shareUrl, AppConstant.Share.SHARE_GROUP_TITLE, content, mSocial.getCover(), new SocializeUtil.WWShareListener() {
+            SocializeUtil.shareWithWW(getSupportFragmentManager(), new SocializeUtil.ShareListener() {
+                @Override
+                public void onStart(int platform) {
+
+                }
+
+                @Override
+                public void onResult(int platform) {
+                    mPresenter.recordShare(mSocial.getSocialId());
+                }
+
+                @Override
+                public void onError(int platform, Throwable t) {
+
+                }
+
+                @Override
+                public void onCancel(int platform) {
+
+                }
+            }, shareUrl, AppConstant.Share.SHARE_GROUP_TITLE, content, mSocial.getCover(), new SocializeUtil.WWShareListener() {
                 @Override
                 public void onWWShare(String url, String title, String content, String imageUrl) {
                     InviteFriendActivity.start(SocialHomeActivity.this, socialId);

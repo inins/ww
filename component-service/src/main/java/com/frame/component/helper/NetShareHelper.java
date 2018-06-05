@@ -46,11 +46,11 @@ public class NetShareHelper {
      * 分享趣晒
      */
     public void netShareFunshow(IView view, Integer targetUserId, int talkId, OnShareCallback callback) {
-        netShareFunshow(view, targetUserId, talkId, 1, callback);
+        netShareFunshow(view, targetUserId, talkId, 0, callback);
     }
 
     public void netShareFunshow(IView view, Integer targetUserId, int talkId, int shareType, OnShareCallback callback) {
-        netShare(view, targetUserId, talkId, SHARE_TYPE_FUN_SHOW, shareType, callback);
+        netShare(view, AppDataHelper.getUser().getUserId(), targetUserId, talkId, SHARE_TYPE_FUN_SHOW, shareType, callback);
     }
 
     /**
@@ -62,7 +62,7 @@ public class NetShareHelper {
      * @param callback     回调
      */
     public void netShareTopic(IView view, Integer targetUserId, int topicId, int shareType, OnShareCallback callback) {
-        netShare(view, targetUserId, topicId, SHARE_TYPE_TOPIC, shareType, callback);
+        netShare(view, AppDataHelper.getUser().getUserId(), targetUserId, topicId, SHARE_TYPE_TOPIC, shareType, callback);
     }
 
     /**
@@ -72,13 +72,13 @@ public class NetShareHelper {
      * @param targetUserId 分享的目标用户id(若分享至往往用户必传)
      * @param objectId     分享对象id
      * @param type         分享类型（topic:话题；group：趣聊；talk:趣晒; ）
-     * @param shareType    0:app内部分享，1：外部分享
+     * @param shareType    0:app分享时传，1：外部进入的时候传
      * @param callback     回调
      */
-    public void netShare(IView view, Integer targetUserId, int objectId, String type, int shareType, OnShareCallback callback) {
+    public void netShare(IView view, Integer shareUserId, Integer targetUserId, int objectId, String type, int shareType, OnShareCallback callback) {
         ApiHelperEx.execute(view, true,
                 ApiHelperEx.getService(CommonService.class).sharefun(
-                        AppDataHelper.getUser().getUserId(),
+                        shareUserId,
                         targetUserId, objectId, type, shareType),
                 new ErrorHandleSubscriber<BaseJson<Object>>() {
                     @Override
