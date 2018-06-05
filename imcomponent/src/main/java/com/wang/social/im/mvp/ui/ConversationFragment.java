@@ -71,6 +71,7 @@ import com.wang.social.im.di.modules.ConversationModule;
 import com.wang.social.im.enums.ConnectionStatus;
 import com.wang.social.im.enums.CustomElemType;
 import com.wang.social.im.enums.MessageScope;
+import com.wang.social.im.enums.MessageType;
 import com.wang.social.im.helper.GroupHelper;
 import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.mvp.contract.ConversationContract;
@@ -655,15 +656,26 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     public void onContentClick(View view, UIMessage uiMessage, int position) {
         switch (uiMessage.getMessageType()) {
             case IMAGE:
-                TIMImageElem imageElem = (TIMImageElem) uiMessage.getMessageElem(TIMImageElem.class);
-                if (imageElem != null) {
-                    for (TIMImage image : imageElem.getImageList()) {
-                        if (image.getType() == TIMImageType.Original) {
-                            ActivityPicturePreview.startBrowse(mActivity, image.getUrl());
-                            break;
+                List<String> images = new ArrayList<>();
+                int currentIndex = 0;
+                for (UIMessage message : mAdapter.getData()) {
+                    if (message.getMessageType() == MessageType.IMAGE) {
+                        TIMImageElem imageElem = (TIMImageElem) message.getMessageElem(TIMImageElem.class);
+                        if (imageElem != null) {
+                            for (TIMImage image : imageElem.getImageList()) {
+                                if (image.getType() == TIMImageType.Original) {
+                                    images.add(image.getUrl());
+                                    break;
+                                }
+                            }
+                        }
+                        if (message == uiMessage && images.size() > 0) {
+                            currentIndex = images.size() - 1;
                         }
                     }
                 }
+                String[] imageArr = new String[images.size()];
+                ActivityPicturePreview.startBrowse(getActivity(), currentIndex, images.toArray(imageArr));
                 break;
             case LOCATION:
                 TIMLocationElem locationElem = (TIMLocationElem) uiMessage.getMessageElem(TIMLocationElem.class);
