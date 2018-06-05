@@ -527,7 +527,9 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
 //                    mBottomLayout.setVisibility(View.GONE);
 
                         // 加群成功，发出通知
-                        EventBus.getDefault().post(new EventBean(EventBean.EVENTBUS_ADD_GROUP_SUCCESS));
+                        EventBean eventBean = new EventBean(EventBean.EVENTBUS_ADD_GROUP_SUCCESS);
+                        eventBean.put("groupId", mGroupId);
+                        EventBus.getDefault().post(eventBean);
 
                         if (!isNeedValidation) {
 //                        // 重新加载群统计

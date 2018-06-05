@@ -659,6 +659,12 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
                 Timber.i("游戏结束");
                 gameEnd();
                 break;
+            case EventBean.EVENTBUS_ADD_GROUP_SUCCESS:
+                int groupId = (int) event.get("groupId");
+                if (groupId == mPresenter.getGroupId()) {
+                    mPresenter.setIsGroupMember(true);
+                }
+                break;
         }
     }
 

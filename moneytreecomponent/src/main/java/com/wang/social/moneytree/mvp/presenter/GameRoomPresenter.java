@@ -113,6 +113,15 @@ public class GameRoomPresenter extends
     }
 
     /**
+     * 设置是否是群成员
+     * @param isGroupMember 是否是群成员
+     */
+    public void setIsGroupMember(boolean isGroupMember) {
+        if (null != mRoomMsg) mRoomMsg.setIsGroupMember(isGroupMember ? 1 : 0);
+        if (null != mGameRecordDetail) mGameRecordDetail.setIsGroupMember(isGroupMember ? 1 : 0);
+    }
+
+    /**
      * 获取群id（通过群创建的游戏有值）
      * @return 群id
      */
