@@ -21,6 +21,7 @@ import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.component.view.barview.BarView;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
+import com.frame.utils.FocusUtil;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.ToastUtil;
 import com.liaoinstan.springview.container.AliFooter;
@@ -132,6 +133,7 @@ public class FunShowFragment extends BaseLazyFragment<FunshowListPresonter> impl
                         .setEnterAnimation(GuidePageHelper.getEnterAnimation())
                         .setExitAnimation(GuidePageHelper.getExitAnimation()))
                 .show();
+        FocusUtil.focusToTop(springView);
     }
 
     @Override

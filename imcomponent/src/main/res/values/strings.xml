@@ -94,6 +94,7 @@
     <!--好友申请详情-->
     <string name="im_notify_friend_request_detail_title">申请详情</string>
     <string name="im_notify_friend_request_detail_reason_title">交友留言：</string>
+    <string name="im_notify_friend_request_detail_group_reason_title">申请加入觅聊：</string>
     <string name="im_notify_friend_request_detail_report">举报用户</string>
 
     <string name="im_drawer_open">Open</string>

@@ -65,6 +65,10 @@ public class HomeFragment extends BasicLazyNoDiFragment implements HomeContract.
             case EventBean.EVENT_FUNSHOW_ADD:
                 funshowController.refreshData();
                 break;
+            //重新选择标签，收到通知刷新列表
+            case EventBean.EVENTBUS_TAG_UPDATED:
+                contentController.refreshData();
+                break;
         }
     }
 

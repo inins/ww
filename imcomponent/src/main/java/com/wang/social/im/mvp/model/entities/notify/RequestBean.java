@@ -9,7 +9,7 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class RequestBean implements Serializable{
+public class RequestBean implements Serializable {
 
     private int msgId;
     private int userId;
@@ -59,5 +59,9 @@ public class RequestBean implements Serializable{
             tagText += "#" + tag.getTagName() + " ";
         }
         return tagText.trim();
+    }
+
+    public boolean isGroup() {
+        return groupId != 0;
     }
 }

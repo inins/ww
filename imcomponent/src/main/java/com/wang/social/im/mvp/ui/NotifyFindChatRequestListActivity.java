@@ -15,6 +15,7 @@ import com.frame.component.helper.NetMsgHelper;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
 import com.frame.component.view.LoadingLayoutEx;
 import com.frame.component.view.TitleView;
+import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
@@ -30,7 +31,6 @@ import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.mvp.model.api.NotifyService;
 import com.wang.social.im.mvp.model.entities.notify.FindChatRequest;
-import com.wang.social.im.mvp.model.entities.notify.FriendRequest;
 import com.wang.social.im.mvp.model.entities.notify.RequestBean;
 import com.wang.social.im.mvp.ui.adapters.RecycleAdapterFriendRequest;
 
@@ -57,6 +57,20 @@ public class NotifyFindChatRequestListActivity extends BasicAppNoDiActivity impl
     }
 
     @Override
+    public void onCommonEvent(EventBean event) {
+        switch (event.getEvent()) {
+            case EventBean.EVENT_NOTIFY_DETAIL_DEAL:
+                netGetMsgList(true);
+                break;
+        }
+    }
+
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
+    @Override
     public int initView(@NonNull Bundle savedInstanceState) {
         return R.layout.im_activity_common_title_recycler;
     }
@@ -71,7 +85,7 @@ public class NotifyFindChatRequestListActivity extends BasicAppNoDiActivity impl
         adapter.setOnItemClickListener(this);
         adapter.setOnAgreeClickListener((bean, position) -> {
             NetFriendHelper.newInstance().netAgreeFindChatApply(NotifyFindChatRequestListActivity.this, bean.getGroupId(), bean.getUserId(), bean.getMsgId(), true, () -> {
-                netGetSysMsgList(true);
+                netGetMsgList(true);
             });
         });
         recycler.setNestedScrollingEnabled(false);
@@ -84,12 +98,12 @@ public class NotifyFindChatRequestListActivity extends BasicAppNoDiActivity impl
         springView.setListener(new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
-                netGetSysMsgList(true);
+                netGetMsgList(true);
             }
 
             @Override
             public void onLoadmore() {
-                netGetSysMsgList(false);
+                netGetMsgList(false);
             }
         });
         springView.callFreshDelay();
@@ -104,7 +118,7 @@ public class NotifyFindChatRequestListActivity extends BasicAppNoDiActivity impl
     private int current = 1;
     private int size = 20;
 
-    private void netGetSysMsgList(boolean isFresh) {
+    private void netGetMsgList(boolean isFresh) {
         if (isFresh) current = 0;
         ApiHelperEx.execute(this, false,
                 ApiHelperEx.getService(NotifyService.class).getGroupRequstList(current + 1, size),

@@ -207,6 +207,7 @@ public class TopicFragment extends BaseLazyFragment<TopicPresenter> implements T
 //            }
 //        });
 
+        mViewPager.setOffscreenPageLimit(2);
         mViewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
             public Fragment getItem(int position) {

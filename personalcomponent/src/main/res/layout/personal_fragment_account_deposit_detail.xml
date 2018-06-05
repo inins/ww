@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.liaoinstan.springview.widget.SpringView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.frame.component.view.LoadingLayoutEx xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/spring"
+    android:id="@+id/loadingview_ex"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.frame.component.view.LoadingLayoutEx
-        android:id="@+id/loadingview_ex"
+    <com.liaoinstan.springview.widget.SpringView
+        android:id="@+id/spring"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler"
@@ -17,5 +17,5 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:paddingBottom="20dp" />
-    </com.frame.component.view.LoadingLayoutEx>
-</com.liaoinstan.springview.widget.SpringView>
+    </com.liaoinstan.springview.widget.SpringView>
+</com.frame.component.view.LoadingLayoutEx>
