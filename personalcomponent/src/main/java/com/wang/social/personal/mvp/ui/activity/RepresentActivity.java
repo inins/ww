@@ -14,6 +14,7 @@ import com.frame.component.common.AppConstant;
 import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.helper.AppDataHelper;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.ui.acticity.WebActivity;
 import com.frame.component.ui.base.BasicAppActivity;
@@ -104,7 +105,7 @@ public class RepresentActivity extends BasicAppActivity implements IView {
                     null,
                     AppConstant.Share.SHARE_PROFIT_URL,
                     AppConstant.Share.SHARE_PROFIT_TITLE,
-                    AppConstant.Share.SHARE_PROFIT_CONTENT,
+                    String.format(AppConstant.Share.SHARE_FUN_SHOW_CONTENT, CommonHelper.LoginHelper.getUserName()),
                     AppConstant.Share.SHARE_PROFIT_IMAGE);
         } else if (i == R.id.btn_question) {
             WebActivity.start(this, AppConstant.Url.ruleDescription);

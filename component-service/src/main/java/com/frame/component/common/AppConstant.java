@@ -160,8 +160,8 @@ public class AppConstant {
         /*代言收益分享*/
         public static final String SHARE_PROFIT_OPEN_TARGET = "profit";
         public static final String SHARE_PROFIT_URL = Api.WEB_BASE_URL + "contentShared/Profit/index.html?userId=%1$s";
-        public static final String SHARE_PROFIT_TITLE = "往往-有点2的社交软件";
-        public static final String SHARE_PROFIT_CONTENT = "代言收益齐分享，社交也能变现！";
+        public static final String SHARE_PROFIT_TITLE = "有点2的社交，不一样的玩法";
+        public static final String SHARE_PROFIT_CONTENT = "%s在往往等你！";
         public static final String SHARE_PROFIT_IMAGE = SHARE_DEFAULT_IMAGE;
     }
 

@@ -34,6 +34,12 @@ public class CommonHelper {
             else return 0;
         }
 
+        public static String getUserName() {
+            User user = AppDataHelper.getUser();
+            if (user != null) return user.getNickname();
+            else return "";
+        }
+
         public static void startLoginActivity(Context context) {
             UIRouter.getInstance().openUri(context, LoginPath.LOGIN_URL, null);
         }
@@ -77,6 +83,7 @@ public class CommonHelper {
         public static void startProfitActivity(Context context) {
             UIRouter.getInstance().openUri(context, PersonalPath.PROFIT_URL, null);
         }
+
         //启动个人账户页面
         public static void startAccountActivity(Context context) {
             UIRouter.getInstance().openUri(context, PersonalPath.ACCOUNT_URL, null);
