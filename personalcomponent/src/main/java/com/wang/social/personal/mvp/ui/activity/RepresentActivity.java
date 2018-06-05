@@ -103,9 +103,9 @@ public class RepresentActivity extends BasicAppActivity implements IView {
         if (i == R.id.btn_right) {
             SocializeUtil.shareWeb(getSupportFragmentManager(),
                     null,
-                    AppConstant.Share.SHARE_PROFIT_URL,
+                    String.format(AppConstant.Share.SHARE_PROFIT_URL, CommonHelper.LoginHelper.getUserId()),
                     AppConstant.Share.SHARE_PROFIT_TITLE,
-                    String.format(AppConstant.Share.SHARE_FUN_SHOW_CONTENT, CommonHelper.LoginHelper.getUserName()),
+                    String.format(AppConstant.Share.SHARE_PROFIT_CONTENT, CommonHelper.LoginHelper.getUserName()),
                     AppConstant.Share.SHARE_PROFIT_IMAGE);
         } else if (i == R.id.btn_question) {
             WebActivity.start(this, AppConstant.Url.ruleDescription);
