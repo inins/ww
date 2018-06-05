@@ -1,32 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="110dp"
     android:layout_height="wrap_content"
-    android:background="@drawable/common_popup_bubble_top_left"
+    android:id="@+id/radiogroup"
+    android:background="@drawable/common_popup_bubble_top_right"
     android:orientation="vertical">
 
-    <TextView
+    <RadioButton
+        android:id="@+id/btn_all"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="38dp"
+        android:button="@null"
+        android:checked="true"
+        android:drawableRight="@drawable/common_select_ic_choose_small"
         android:foreground="?attr/selectableItemBackground"
         android:gravity="center"
-        android:text="全部"
-        android:textColor="@color/common_text_blank_dark"
-        android:textSize="13sp" />
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="@string/personal_account_deposit_record_pop_all"
+        android:textColor="@color/common_select_text_darklight_blank"
+        android:textSize="14sp" />
+
 
     <View
         style="@style/common_Line_H"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp" />
 
-    <TextView
+    <RadioButton
+        android:id="@+id/btn_in"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="38dp"
+        android:button="@null"
+        android:drawableRight="@drawable/common_select_ic_choose_small"
         android:foreground="?attr/selectableItemBackground"
         android:gravity="center"
-        android:text="收入"
-        android:textColor="@color/common_text_blank_dark"
-        android:textSize="13sp" />
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="@string/personal_account_deposit_record_pop_in"
+        android:textColor="@color/common_select_text_darklight_blank"
+        android:textSize="14sp" />
 
     <View
         style="@style/common_Line_H"
@@ -34,13 +47,18 @@
         android:layout_marginRight="5dp" />
 
 
-    <TextView
+    <RadioButton
+        android:id="@+id/btn_out"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="38dp"
+        android:button="@null"
+        android:drawableRight="@drawable/common_select_ic_choose_small"
         android:foreground="?attr/selectableItemBackground"
         android:gravity="center"
-        android:text="支出"
-        android:textColor="@color/common_text_blank_dark"
-        android:textSize="13sp" />
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="@string/personal_account_deposit_record_pop_out"
+        android:textColor="@color/common_select_text_darklight_blank"
+        android:textSize="14sp" />
 
-</LinearLayout>
+</RadioGroup>

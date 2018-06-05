@@ -40,18 +40,36 @@
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <android.support.design.widget.TabLayout
+        <!--<android.support.design.widget.TabLayout-->
+        <!--android:id="@+id/tablayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="42dp"-->
+        <!--android:background="@color/common_white"-->
+        <!--app:tabGravity="center"-->
+        <!--app:tabIndicatorColor="@color/common_blue"-->
+        <!--app:tabIndicatorHeight="1dp"-->
+        <!--app:tabMode="fixed"-->
+        <!--app:tabSelectedTextColor="@color/common_text_blank"-->
+        <!--app:tabTextAppearance="@style/common_TabLayoutTextSizeStyleBig"-->
+        <!--app:tabTextColor="@color/common_text_dark_light" />-->
+
+        <com.ogaclejapan.smarttablayout.SmartTabLayout
             android:id="@+id/tablayout"
             android:layout_width="match_parent"
             android:layout_height="42dp"
+            android:layout_gravity="center_horizontal"
             android:background="@color/common_white"
-            app:tabGravity="center"
-            app:tabIndicatorColor="@color/common_blue"
-            app:tabIndicatorHeight="1dp"
-            app:tabMode="fixed"
-            app:tabSelectedTextColor="@color/common_text_blank"
-            app:tabTextAppearance="@style/common_TabLayoutTextSizeStyleBig"
-            app:tabTextColor="@color/common_text_dark_light" />
+            app:stl_customTabTextLayoutId="@layout/personal_tab_text_blank_light"
+            app:stl_customTabTextViewId="@id/custom_text"
+            app:stl_distributeEvenly="true"
+            app:stl_dividerThickness="0dp"
+            app:stl_indicatorColor="@color/common_blue"
+            app:stl_indicatorCornerRadius="2dp"
+            app:stl_indicatorInterpolation="smart"
+            app:stl_indicatorThickness="3dp"
+            app:stl_indicatorWidth="20dp"
+            app:stl_underlineColor="@android:color/transparent"
+            app:stl_underlineThickness="0px" />
 
         <android.support.v4.view.ViewPager
             android:id="@+id/pager"

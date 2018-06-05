@@ -9,8 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import com.frame.base.BasicFragment;
 import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.BaseListWrap;
+import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.component.view.LoadingLayoutEx;
 import com.frame.di.component.AppComponent;
+import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
@@ -41,6 +43,7 @@ import io.reactivex.Observable;
 public class AccountDepositDetailFragment extends BasicFragment implements IView {
 
     private int position;
+    private int type;
 
     @BindView(R2.id.spring)
     SpringView springView;
@@ -56,6 +59,25 @@ public class AccountDepositDetailFragment extends BasicFragment implements IView
         AccountDepositDetailFragment fragment = new AccountDepositDetailFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        switch (event.getEvent()) {
+            case EventBean.EVENT_DEPOSITDETAIL_SORT:
+                int position = (int) event.get("position");
+                int type = (int) event.get("type");
+                if (position == this.position) {
+                    this.type = type;
+                    netDiamondIncomeList(true, true);
+                }
+                break;
+        }
+    }
+
+    @Override
+    public boolean useEventBus() {
+        return true;
     }
 
     @Override
@@ -77,12 +99,12 @@ public class AccountDepositDetailFragment extends BasicFragment implements IView
         springView.setListener(new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
-                netDiamondIncomeList(true);
+                netDiamondIncomeList(true, false);
             }
 
             @Override
             public void onLoadmore() {
-                netDiamondIncomeList(false);
+                netDiamondIncomeList(false, false);
             }
         });
         springView.callFreshDelay();
@@ -103,25 +125,31 @@ public class AccountDepositDetailFragment extends BasicFragment implements IView
 
     @Override
     public void showLoading() {
+        if (getActivity() instanceof BasicAppActivity) {
+            ((BasicAppActivity) getActivity()).showLoadingDialog();
+        }
     }
 
     @Override
     public void hideLoading() {
+        if (getActivity() instanceof BasicAppActivity) {
+            ((BasicAppActivity) getActivity()).dismissLoadingDialog();
+        }
     }
 
     //////////////////////分页查询////////////////////
     private int current = 0;
     private int size = 20;
 
-    public void netDiamondIncomeList(boolean isReFresh) {
+    public void netDiamondIncomeList(boolean isReFresh, boolean needloading) {
         if (isReFresh) current = 0;
         Observable<BaseJson<BaseListWrap<DiamondStoneIncome>>> call;
         if (adapter.isDiamond()) {
-            call = ApiHelperEx.getService(UserService.class).diamondIncomeList(0, current + 1, size);
+            call = ApiHelperEx.getService(UserService.class).diamondIncomeList(type, current + 1, size);
         } else {
-            call = ApiHelperEx.getService(UserService.class).toneIncomeList(0, current + 1, size);
+            call = ApiHelperEx.getService(UserService.class).toneIncomeList(type, current + 1, size);
         }
-        ApiHelperEx.execute(this, false, call,
+        ApiHelperEx.execute(this, needloading, call,
                 new ErrorHandleSubscriber<BaseJson<BaseListWrap<DiamondStoneIncome>>>() {
                     @Override
                     public void onNext(BaseJson<BaseListWrap<DiamondStoneIncome>> basejson) {

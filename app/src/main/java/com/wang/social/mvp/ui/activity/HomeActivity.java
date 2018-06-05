@@ -270,6 +270,9 @@ public class HomeActivity extends BasicAppNoDiActivity implements XRadioGroup.On
                 case AppConstant.Key.OPEN_TARGET_DYNAMIC_TOPIC: //话题
                     CommonHelper.TopicHelper.startTopicDetail(this, intId);
                     break;
+                case AppConstant.Share.SHARE_PROFIT_OPEN_TARGET: //代言收益
+                    CommonHelper.PersonalHelper.startProfitActivity(this);
+                    break;
             }
         }
     }

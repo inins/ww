@@ -134,6 +134,9 @@
     <string name="personal_account_deposit_record_card">累计提现</string>
     <string name="personal_account_deposit_record_card_use">累计消耗的钻石</string>
     <string name="personal_account_deposit_record_detail">明细</string>
+    <string name="personal_account_deposit_record_pop_all">全部</string>
+    <string name="personal_account_deposit_record_pop_in">收入</string>
+    <string name="personal_account_deposit_record_pop_out">支出</string>
 
     <!--我的账户收支明细页面-->
     <string name="personal_account_deposit_detail_title">收支明细</string>

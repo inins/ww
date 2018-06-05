@@ -66,6 +66,8 @@ public class EventBean implements Serializable {
     public static final int EVENT_ACCOUNT_EXCHANGE_STONE = 0xffa209;
     //个人中心充值成功
     public static final int EVENT_ACCOUNT_RECHARGE_SUCCESS = 0xffa210;
+    //个人中心收支明细切换筛选条件
+    public static final int EVENT_DEPOSITDETAIL_SORT = 0xffa211;
 
     //趣晒控制器通知点赞数量，评论数量，分享数量
     public static final int EVENT_CTRL_FUNSHOW_DETAIL_DATA = 0xffa301;
@@ -207,6 +209,7 @@ public class EventBean implements Serializable {
             EVENT_HOME_CARD_DETAIL_ADDFIREND,
             EVENT_FUNSHOW_PAYED,
             EVENT_NOTIFY_SHOW_CONVERSATION_LIST,
+            EVENT_DEPOSITDETAIL_SORT,
             EVENT_NOTIFY_GROUP_ADD
     })
     @Retention(RetentionPolicy.SOURCE)

@@ -62,6 +62,10 @@ public class HomeContentController extends BaseController implements RecycleAdap
                 adapter.reFreshEvaCountById(topicId);
                 break;
             }
+            //重新选择标签，收到通知刷新列表
+            case EventBean.EVENTBUS_TAG_UPDATED:
+                refreshData();
+                break;
         }
     }
 

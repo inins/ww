@@ -100,6 +100,10 @@ public class HomeFunshowController extends BaseController {
                 }
                 break;
             }
+            //新增一条趣晒，收到通知刷新列表
+            case EventBean.EVENT_FUNSHOW_ADD:
+                refreshData();
+                break;
         }
     }
 

@@ -73,6 +73,10 @@ public class CommonHelper {
 
     public static class PersonalHelper {
 
+        //启动代言收益页面
+        public static void startProfitActivity(Context context) {
+            UIRouter.getInstance().openUri(context, PersonalPath.PROFIT_URL, null);
+        }
         //启动个人账户页面
         public static void startAccountActivity(Context context) {
             UIRouter.getInstance().openUri(context, PersonalPath.ACCOUNT_URL, null);
