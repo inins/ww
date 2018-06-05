@@ -239,6 +239,10 @@ public class CardUserFragment extends BasicNoDiFragment implements RecycleAdapte
                             results.addAll(0, list);
                             adapter.notifyDataSetChanged();
                         } else {
+                            if (isFresh) {
+                                adapter.getData().clear();
+                                adapter.notifyDataSetChanged();
+                            }
                         }
                     }
 

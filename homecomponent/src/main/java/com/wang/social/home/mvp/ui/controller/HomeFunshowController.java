@@ -90,8 +90,10 @@ public class HomeFunshowController extends BaseController {
                 setFunshowPayed(talkId);
                 break;
             }
-            case EventBean.EVENT_FUNSHOW_DISSLIKE: {
+            //详情页面删除趣晒
+            case EventBean.EVENT_FUNSHOW_DEL:
                 //在详情页不喜欢，重新刷新列表
+            case EventBean.EVENT_FUNSHOW_DISSLIKE: {
                 int talkId = (int) event.get("talkId");
                 if (currentFunshow != null && talkId == currentFunshow.getTalkId()) {
                     netGetNewFunshow(false);

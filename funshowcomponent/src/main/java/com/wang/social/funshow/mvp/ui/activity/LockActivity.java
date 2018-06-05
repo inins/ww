@@ -30,8 +30,8 @@ public class LockActivity extends BasicAppActivity {
     private int lock;
 
     public static final int LOCK_ALL = 0;
-    public static final int LOCK_FRIEND = 1;
-    public static final int LOCK_SELF = 2;
+    public static final int LOCK_FRIEND = 2;
+    public static final int LOCK_SELF = 1;
 
     public static void start(Context context, int lock) {
         Intent intent = new Intent(context, LockActivity.class);

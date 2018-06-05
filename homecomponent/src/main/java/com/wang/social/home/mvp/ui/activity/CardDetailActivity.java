@@ -86,6 +86,7 @@ public class CardDetailActivity extends BasicAppNoDiActivity {
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
         photoHelper = new PhotoHelper(this);
+        photoHelper.setClip(false);
         userId = getIntent().getIntExtra("userId", 0);
         cardUser = (CardUser) getIntent().getSerializableExtra("cardUser");
         toolbar.bringToFront();

@@ -100,7 +100,7 @@
                 style="@style/personal_TextMeItemContent"
                 android:layout_gravity="right|center_vertical"
                 android:layout_marginRight="15dp"
-                android:hint="迷"
+                android:hint="未知"
                 tools:text="女" />
 
             <TextView
