@@ -4,6 +4,7 @@ import com.frame.component.app.Constant;
 import com.frame.component.helper.NetPayStoneHelper;
 import com.frame.component.helper.QiNiuManager;
 import com.frame.di.scope.ActivityScope;
+import com.frame.http.api.ApiException;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
@@ -75,7 +76,6 @@ public class CreateSocialPresenter extends BasePresenter<CreateSocialContract.Mo
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
-                        mRootView.hideLoading();
                     }
                 });
     }

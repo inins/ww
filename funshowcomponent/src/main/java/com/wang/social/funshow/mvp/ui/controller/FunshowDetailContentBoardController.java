@@ -123,6 +123,7 @@ public class FunshowDetailContentBoardController extends FunshowDetailBaseContro
         String picUrl = !StrUtil.isEmpty(funshowDetail.getPics()) ? funshowDetail.getPics().get(0).getUrl() : videoRsc.getUrl();
         //初始化视频，并设置封面
         videoview.setUp(videoRsc.getUrl(), JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, "");
+        videoview.startButton.performClick();
         ImageLoaderHelper.loadImg(videoview.thumbImageView, picUrl);
     }
 

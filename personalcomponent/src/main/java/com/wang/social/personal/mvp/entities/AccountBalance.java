@@ -16,6 +16,10 @@ public class AccountBalance implements Serializable{
 
     private float amount;
     private int userId;
-    private int amountDiamond;
+    private float amountDiamond;
     private int amountGemstone;
+
+    public int getAmountDiamond() {
+        return (int)amountDiamond;
+    }
 }

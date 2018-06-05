@@ -136,6 +136,7 @@ public interface UserService {
     Observable<BaseJson<Boolean>> editPhoto(@Field("userPhotoId") int userPhotoId, @Field("photoUrl") String photoUrl);
 
     //意见反馈
+    @Headers(HEADER_CONTENT_TYPE)
     @FormUrlEncoded
     @POST("/app/idea/feedback?v=2.0.0")
     Observable<BaseJson<Object>> feedback(@Field("phone") String phone, @Field("content") String content, @Field("pictures") String pictures);
@@ -200,6 +201,7 @@ public interface UserService {
     Observable<BaseJson<PayInfo>> pay(@FieldMap Map<String, Object> param);
 
     //提现
+    @Headers(HEADER_CONTENT_TYPE)
     @FormUrlEncoded
     @POST("/app/userWallet/applyWithdraw?v=2.0.0")
     Observable<BaseJson<Object>> deposit(@Field("money") int money, @Field("alipay") String alipay, @Field("realName") String realName);
@@ -214,7 +216,7 @@ public interface UserService {
 
     //通知设置开启关闭
     @FormUrlEncoded
-    @GET("/app/userInfo/setting?v=2.0.0")
+    @POST("/app/userInfo/setting?v=2.0.0")
     Observable<BaseJson<MsgSetting>> msgSettingOpen(@Field("pushFlag") Integer pushFlag);
 
     /**

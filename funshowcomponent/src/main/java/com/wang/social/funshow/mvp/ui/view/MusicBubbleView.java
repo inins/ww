@@ -64,7 +64,7 @@ public class MusicBubbleView extends FrameLayout implements XMediaPlayer.StateLi
 
         if (!isInEditMode()) {
             mXMediaPlayer = new XMediaPlayer();
-            mXMediaPlayer.setCircle(true);
+            mXMediaPlayer.setCircle(false);
             mXMediaPlayer.setStateListener(this);
         }
     }

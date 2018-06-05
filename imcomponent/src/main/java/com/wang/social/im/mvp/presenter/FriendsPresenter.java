@@ -48,9 +48,7 @@ public class FriendsPresenter extends BasePresenter<FriendsContract.Model, Frien
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
-                        if (e instanceof NullPointerException) {
-                            mRootView.showFriends(new ArrayList<>());
-                        }
+                        mRootView.showFriends(new ArrayList<>());
                     }
                 }, new Consumer<Disposable>() {
                     @Override

@@ -9,7 +9,7 @@
     <string name="personal_edit">修改</string>
 
     <!--个人页面-->
-    <string name="personal_me_showqu">晒趣</string>
+    <string name="personal_me_showqu">趣晒</string>
     <string name="personal_me_act">话题</string>
     <string name="personal_me_account">钻石账户</string>
     <string name="personal_me_lable">我的标签</string>
@@ -134,6 +134,9 @@
     <string name="personal_account_deposit_record_card">累计提现</string>
     <string name="personal_account_deposit_record_card_use">累计消耗的钻石</string>
     <string name="personal_account_deposit_record_detail">明细</string>
+    <string name="personal_account_deposit_record_pop_all">全部</string>
+    <string name="personal_account_deposit_record_pop_in">收入</string>
+    <string name="personal_account_deposit_record_pop_out">支出</string>
 
     <!--我的账户收支明细页面-->
     <string name="personal_account_deposit_detail_title">收支明细</string>

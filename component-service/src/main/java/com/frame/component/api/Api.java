@@ -20,6 +20,11 @@ public interface Api {
     int SUCCESS_CODE = 199999;
 
     /**
+     * 订单已经支付
+     */
+    int ERROR_CODE_ORDER_PAYED = 102002;
+
+    /**
      * 七牛文件存储路径
      */
     String QINIU_PREFIX = "http://resouce.dongdongwedding.com/";

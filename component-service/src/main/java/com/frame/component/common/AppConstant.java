@@ -56,7 +56,7 @@ public class AppConstant {
         //快活林规则说明
         public static final String sharedTree = Api.WEB_BASE_URL + "about/common/sharedTree.html";
         //代言收益规则说明
-        public static final String ruleDescription = "ttp://wangsocial.com/share/v_2.0/test/about/common/ruleDescription.html";
+        public static final String ruleDescription = Api.WEB_BASE_URL + "about/common/ruleDescription.html";
         //隐私协议
         public static final String privacyAgreement = Api.WEB_BASE_URL + "about/common/privacyAgreement.html";
         //建群须知
@@ -156,5 +156,12 @@ public class AppConstant {
         public static final String SHARE_GAME_TREE_TITLE = "就差你了-这棵摇钱树将于20秒后掉落钻石！";
         public static final String SHARE_GAME_TREE_CONTENT = "%s想约你跟他一起分这波钻，快来！";
         public static final String SHARE_GAME_DEFAULT_IMAGE = "http://resouce.dongdongwedding.com/activity_cashcow_moneyTree.png";
+
+        /*代言收益分享*/
+        public static final String SHARE_PROFIT_OPEN_TARGET = "profit";
+        public static final String SHARE_PROFIT_URL = Api.WEB_BASE_URL + "contentShared/Profit/index.html?userId=%1$s";
+        public static final String SHARE_PROFIT_TITLE = "有点2的社交，不一样的玩法";
+        public static final String SHARE_PROFIT_CONTENT = "%s在往往等你！";
+        public static final String SHARE_PROFIT_IMAGE = SHARE_DEFAULT_IMAGE;
     }
 }

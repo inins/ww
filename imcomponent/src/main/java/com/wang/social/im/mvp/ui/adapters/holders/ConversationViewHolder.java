@@ -70,9 +70,9 @@ public class ConversationViewHolder extends BaseViewHolder<UIConversation> {
 
         int defaultPortrait = R.drawable.im_round_image_placeholder;
         if (itemValue.getConversationType() == ConversationType.SOCIAL) {
-
+            defaultPortrait = R.drawable.im_placeholder_social;
         } else if (itemValue.getConversationType() == ConversationType.TEAM) {
-
+            defaultPortrait = R.drawable.im_placeholder_team;
         }
 
         mImageLoader.loadImage(getContext(), ImageConfigImpl.builder()

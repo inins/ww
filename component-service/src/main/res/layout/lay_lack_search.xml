@@ -3,15 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/lay_showin_main"
     android:layout_width="match_parent"
-    android:padding="15dp"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:background="@color/common_white"
+    android:orientation="vertical"
+    android:padding="15dp">
 
     <TextView
         android:id="@+id/text_title"
-        android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="@string/home_search_lack_title"
         android:textColor="@color/common_text_blank_dark"
         android:textSize="15sp" />
@@ -21,8 +22,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/home_search_lack_note"
         android:lineSpacingExtra="5dp"
+        android:text="@string/home_search_lack_note"
         android:textColor="@color/common_text_dark"
         android:textSize="12sp" />
 

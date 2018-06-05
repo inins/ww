@@ -57,6 +57,26 @@ public class MeFunshowFragment extends BasicNoDiFragment {
     }
 
     @Override
+    public void onCommonEvent(EventBean event) {
+        switch (event.getEvent()) {
+            //新增一条趣晒，收到通知刷新列表
+            case EventBean.EVENT_FUNSHOW_ADD:
+                //在详情页被删除了，收到通知刷新列表
+            case EventBean.EVENT_FUNSHOW_DEL:
+                //在详情页不喜欢，收到通知刷新列表
+            case EventBean.EVENT_FUNSHOW_DISSLIKE: {
+                netGetFunshowList(true);
+                break;
+            }
+        }
+    }
+
+    @Override
+    public boolean useEventBus() {
+        return true;
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         groupId = getArguments().getInt("groupId");

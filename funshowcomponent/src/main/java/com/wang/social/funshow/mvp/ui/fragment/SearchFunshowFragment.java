@@ -166,6 +166,7 @@ public class SearchFunshowFragment extends BasicNoDiFragment implements IView, B
                         } else {
                             if (isFresh) loadingviewEx.showFailViewNoSearch();
                         }
+                        springView.onFinishFreshAndLoadDelay();
                     }
 
                     @Override

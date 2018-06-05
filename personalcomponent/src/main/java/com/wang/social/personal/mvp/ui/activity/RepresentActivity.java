@@ -14,6 +14,7 @@ import com.frame.component.common.AppConstant;
 import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.helper.AppDataHelper;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.ui.acticity.WebActivity;
 import com.frame.component.ui.base.BasicAppActivity;
@@ -22,6 +23,7 @@ import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.mvp.IView;
+import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.FocusUtil;
 import com.frame.utils.StrUtil;
 import com.frame.utils.ToastUtil;
@@ -41,6 +43,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+@RouteNode(path = "/profit", desc = "代言收益")
 public class RepresentActivity extends BasicAppActivity implements IView {
 
     @BindView(R2.id.recycler)
@@ -100,10 +103,10 @@ public class RepresentActivity extends BasicAppActivity implements IView {
         if (i == R.id.btn_right) {
             SocializeUtil.shareWeb(getSupportFragmentManager(),
                     null,
-                    "http://www.wangsocial.com/",
-                    "往往",
-                    "有点2的社交软件",
-                    "http://resouce.dongdongwedding.com/activity_cashcow_moneyTree.png");
+                    String.format(AppConstant.Share.SHARE_PROFIT_URL, CommonHelper.LoginHelper.getUserId()),
+                    AppConstant.Share.SHARE_PROFIT_TITLE,
+                    String.format(AppConstant.Share.SHARE_PROFIT_CONTENT, CommonHelper.LoginHelper.getUserName()),
+                    AppConstant.Share.SHARE_PROFIT_IMAGE);
         } else if (i == R.id.btn_question) {
             WebActivity.start(this, AppConstant.Url.ruleDescription);
         }
@@ -160,7 +163,6 @@ public class RepresentActivity extends BasicAppActivity implements IView {
                                 adapter.addItem(list);
                             }
                         } else {
-                            ToastUtil.showToastLong("没有更多数据了");
                         }
                         springView.onFinishFreshAndLoadDelay();
                     }

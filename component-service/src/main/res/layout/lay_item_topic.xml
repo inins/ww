@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="10dp"
+    android:paddingBottom="2dp"
     android:paddingLeft="15dp"
     android:paddingTop="10dp"
     tools:background="@color/common_white">
@@ -126,12 +126,13 @@
     <TextView
         android:id="@+id/text_zan"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_marginEnd="24dp"
         android:drawableLeft="@drawable/common_select_zan"
         android:drawablePadding="5dp"
         android:textColor="#ff818181"
         android:textSize="12sp"
+        android:gravity="center_vertical"
         app:layout_constraintEnd_toStartOf="@+id/text_eva"
         app:layout_constraintTop_toTopOf="@+id/text_eva"
         tools:text="110" />
@@ -139,7 +140,7 @@
     <TextView
         android:id="@+id/text_eva"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_marginEnd="24dp"
         android:drawableLeft="@drawable/common_ic_comment"
         android:drawablePadding="5dp"
@@ -153,8 +154,7 @@
     <TextView
         android:id="@+id/text_watch"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_height="30dp"
         android:drawableLeft="@drawable/common_ic_read"
         android:drawablePadding="5dp"
         android:gravity="left|center_vertical"

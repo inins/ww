@@ -32,7 +32,7 @@
                 android:onClick="onClick"
                 android:textColor="@color/common_blue_deep"
                 android:textSize="16sp"
-                tools:text="@string/common_share" />
+                android:text="@string/common_share" />
 
         </android.support.v7.widget.Toolbar>
 

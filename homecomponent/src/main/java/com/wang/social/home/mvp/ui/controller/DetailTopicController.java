@@ -141,7 +141,7 @@ public class DetailTopicController extends BaseController {
                     CommonHelper.TopicHelper.startTopicDetail(getContext(), bean.getTopicId());
                     //阅读数+1
                     bean.setTopicReadNum(bean.getTopicReadNum() + 1);
-                    textWatch.setText(bean.getTopicReadNum());
+                    textWatch.setText(bean.getTopicReadNum() + "");
                 }
             });
         }

@@ -31,6 +31,9 @@ import com.wang.social.mvp.ui.dialog.DialogHomeAdd;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import android.os.Build;
+
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.concurrent.TimeUnit;
@@ -122,7 +125,7 @@ public class HomeActivity extends BasicAppNoDiActivity implements XRadioGroup.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBarUtil.setStatusBarColor(this, R.color.common_white);
+        StatusBarUtil.setStatusBarColor(HomeActivity.this, Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? R.color.common_white : R.color.common_dark);
         StatusBarUtil.setTextDark(this);
     }
 
@@ -162,15 +165,15 @@ public class HomeActivity extends BasicAppNoDiActivity implements XRadioGroup.On
         public void onPageSelected(int position) {
             switch (tabsId[position]) {
                 case R.id.tab_1:
-                    StatusBarUtil.setStatusBarColor(HomeActivity.this, R.color.common_white);
+                    StatusBarUtil.setStatusBarColor(HomeActivity.this, Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? R.color.common_white : R.color.common_dark);
                     EventBus.getDefault().post(new EventBean(EventBean.EVENT_TAB_HOME));
                     break;
                 case R.id.tab_2:
-                    StatusBarUtil.setStatusBarColor(HomeActivity.this, R.color.common_white);
+                    StatusBarUtil.setStatusBarColor(HomeActivity.this, Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? R.color.common_white : R.color.common_dark);
                     EventBus.getDefault().post(new EventBean(EventBean.EVENT_TAB_WL));
                     break;
                 case R.id.tab_3:
-                    StatusBarUtil.setStatusBarColor(HomeActivity.this, R.color.common_white);
+                    StatusBarUtil.setStatusBarColor(HomeActivity.this, Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? R.color.common_white : R.color.common_dark);
                     EventBus.getDefault().post(new EventBean(EventBean.EVENT_TAB_PLAZA));
                     break;
                 case R.id.tab_4:
@@ -269,6 +272,9 @@ public class HomeActivity extends BasicAppNoDiActivity implements XRadioGroup.On
                     break;
                 case AppConstant.Key.OPEN_TARGET_DYNAMIC_TOPIC: //话题
                     CommonHelper.TopicHelper.startTopicDetail(this, intId);
+                    break;
+                case AppConstant.Share.SHARE_PROFIT_OPEN_TARGET: //代言收益
+                    CommonHelper.PersonalHelper.startProfitActivity(this);
                     break;
             }
         }

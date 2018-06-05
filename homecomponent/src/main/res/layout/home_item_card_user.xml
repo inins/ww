@@ -36,11 +36,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:text="猫饼"
                 android:textColor="@color/common_text_blank"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/img_pic" />
+                app:layout_constraintTop_toBottomOf="@+id/img_pic"
+                tools:text="猫饼" />
 
             <TextView
                 android:id="@+id/text_lable_gender"
@@ -53,12 +53,12 @@
                 android:gravity="center"
                 android:paddingLeft="7dp"
                 android:paddingRight="8dp"
-                android:text="00后"
                 android:textColor="@color/common_white"
                 android:textSize="11sp"
                 app:layout_constraintBottom_toBottomOf="@+id/text_name"
                 app:layout_constraintStart_toEndOf="@+id/text_name"
-                app:layout_constraintTop_toTopOf="@+id/text_name" />
+                app:layout_constraintTop_toTopOf="@+id/text_name"
+                tools:text="00后" />
 
             <TextView
                 android:id="@+id/text_lable_astro"
@@ -70,36 +70,40 @@
                 android:gravity="center"
                 android:paddingLeft="7dp"
                 android:paddingRight="8dp"
-                android:text="白羊座"
                 android:textColor="@color/common_white"
                 android:textSize="11sp"
                 app:layout_constraintBottom_toBottomOf="@+id/text_lable_gender"
                 app:layout_constraintStart_toEndOf="@+id/text_lable_gender"
-                app:layout_constraintTop_toTopOf="@+id/text_lable_gender" />
+                app:layout_constraintTop_toTopOf="@+id/text_lable_gender"
+                tools:text="白羊座" />
 
             <TextView
                 android:id="@+id/text_tag"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginTop="8dp"
-                android:text="#周杰伦 #旅行 #深夜食堂 #成都"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:textColor="@color/common_text_dark_light"
                 android:textSize="11sp"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/text_name"
-                app:layout_constraintTop_toBottomOf="@+id/text_name" />
+                app:layout_constraintTop_toBottomOf="@+id/text_name"
+                tools:text="#周杰伦 #旅行 #深夜食堂 #成都 #周杰伦 #旅行 #深夜食堂 #成都 #深夜食堂" />
 
             <TextView
                 android:id="@+id/text_position"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:text="成都市"
                 android:textColor="@color/common_text_dark_light"
                 android:textSize="11sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/text_lable_astro"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="成都市" />
 
 
             <TextView

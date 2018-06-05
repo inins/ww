@@ -8,7 +8,9 @@ import android.widget.TextView;
 import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.entities.funpoint.Funpoint;
+import com.frame.component.helper.CheckPayHelper;
 import com.frame.component.helper.CommonHelper;
+import com.frame.component.helper.NetIsShoppingHelper;
 import com.frame.component.helper.NetPayStoneHelper;
 import com.frame.component.helper.NetReadHelper;
 import com.frame.component.ui.acticity.WebActivity;
@@ -31,6 +33,8 @@ import com.wang.social.home.mvp.entities.FunpointAndTopic;
 import com.wang.social.home.mvp.entities.topic.TopicHome;
 import com.wang.social.home.mvp.model.api.HomeService;
 import com.wang.social.home.mvp.ui.adapter.RecycleAdapterHome;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +66,10 @@ public class HomeContentController extends BaseController implements RecycleAdap
                 adapter.reFreshEvaCountById(topicId);
                 break;
             }
+            //重新选择标签，收到通知刷新列表
+            case EventBean.EVENTBUS_TAG_UPDATED:
+                refreshData();
+                break;
         }
     }
 
@@ -106,12 +114,17 @@ public class HomeContentController extends BaseController implements RecycleAdap
         // 是否需要支付
         if (!topic.isFree() && !topic.isPay()) {
             // 处理支付
-            DialogPay.showPayTopic(getIView(), getFragmentManager(), topic.getPrice(), -1, () -> {
-                NetPayStoneHelper.newInstance().netPayTopic(getIView(), topic.getTopicId(), topic.getPrice(), () -> {
-                    topic.setIsPay(true);
-                    CommonHelper.TopicHelper.startTopicDetail(getContext(), topic.getTopicId());
-                    adapter.reFreshReadCountById(topic.getTopicId());   //阅读数+1
-                });
+//            DialogPay.showPayTopic(getIView(), getFragmentManager(), topic.getPrice(), -1, () -> {
+//                NetPayStoneHelper.newInstance().netPayTopic(getIView(), topic.getTopicId(), topic.getPrice(), () -> {
+//                    topic.setIsPay(true);
+//                    adapter.reFreshReadCountById(topic.getTopicId());   //阅读数+1
+//                    CommonHelper.TopicHelper.startTopicDetail(getContext(), topic.getTopicId());
+//                });
+//            });
+            CheckPayHelper.checkAndPayTopic(getIView(), getFragmentManager(), topic.getTopicId(), () -> {
+                topic.setIsPay(true);
+                adapter.reFreshReadCountById(topic.getTopicId());   //阅读数+1
+                CommonHelper.TopicHelper.startTopicDetail(getContext(), topic.getTopicId());
             });
         } else {
             CommonHelper.TopicHelper.startTopicDetail(getContext(), topic.getTopicId());

@@ -59,25 +59,6 @@ public class HomeFragment extends BasicLazyNoDiFragment implements HomeContract.
     }
 
     @Override
-    public void onCommonEvent(EventBean event) {
-        switch (event.getEvent()) {
-            //新增一条趣晒，收到通知刷新列表
-            case EventBean.EVENT_FUNSHOW_ADD:
-                funshowController.refreshData();
-                break;
-            //重新选择标签，收到通知刷新列表
-            case EventBean.EVENTBUS_TAG_UPDATED:
-                contentController.refreshData();
-                break;
-        }
-    }
-
-    @Override
-    public boolean useEventBus() {
-        return true;
-    }
-
-    @Override
     public int initView(@Nullable Bundle savedInstanceState) {
         return R.layout.home_fragment;
     }

@@ -1,26 +1,22 @@
 package com.wang.social.mvp.ui.activity;
 
-import android.app.ActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
 import com.frame.component.common.AppConstant;
+import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.CommonHelper;
-import com.frame.component.ui.base.BasicAppActivity;
-import com.frame.component.utils.viewutils.AppUtil;
-import com.frame.di.component.AppComponent;
+import com.frame.component.helper.NetShareHelper;
 import com.frame.integration.AppManager;
 import com.frame.utils.AppUtils;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.SPUtils;
 import com.frame.utils.StatusBarUtil;
 import com.frame.utils.Utils;
-import com.wang.social.R;
 
 import java.util.Set;
 
@@ -62,7 +58,9 @@ public class LoadupActivity extends AppCompatActivity {
             if (params.contains("target") && params.contains("targetId")) {
                 String target = intent.getData().getQueryParameter("target");
                 String targetId = intent.getData().getQueryParameter("targetId");
-//                String fromUserId = intent.getData().getQueryParameter("fromUserId");
+                String fromUserId = intent.getData().getQueryParameter("fromUserId");
+
+                recordShare(target, targetId, fromUserId);
 
                 // 判断HomeActivity是否在后台
                 if (mAppManager.activityClassIsLive(HomeActivity.class)) {
@@ -104,6 +102,38 @@ public class LoadupActivity extends AppCompatActivity {
         }
 
         return false;
+    }
+
+    private void recordShare(String target, String objectId, String fromUserId) {
+        int selfUserId = AppDataHelper.getUser().getUserId();
+        int fromUid = 0;
+        int objId = 0;
+        try {
+            fromUid = Integer.parseInt(fromUserId);
+            objId = Integer.parseInt(objectId);
+        } catch (Exception e) {
+        }
+        String type;
+        switch (target) {
+            case AppConstant.Share.SHARE_GROUP_OPEN_TARGET:
+                type = NetShareHelper.SHARE_TYPE_GROUP;
+                break;
+            case AppConstant.Share.SHARE_TOPIC_OPEN_TARGET:
+                type = NetShareHelper.SHARE_TYPE_TOPIC;
+                break;
+            case AppConstant.Share.SHARE_FUN_SHOW_OPEN_TARGET:
+                type = NetShareHelper.SHARE_TYPE_FUN_SHOW;
+                break;
+            default:
+                return;
+        }
+        NetShareHelper.newInstance().netShare(null, fromUid, selfUserId, objId, type, 1, new NetShareHelper.OnShareCallback() {
+
+            @Override
+            public void success() {
+
+            }
+        });
     }
 }
 

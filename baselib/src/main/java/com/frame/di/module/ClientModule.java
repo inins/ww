@@ -35,7 +35,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public abstract class ClientModule {
 
-    private static final int TIME_OUT = 10;
+    private static final int TIME_OUT = 60;
 
     @Singleton
     @Provides
@@ -58,7 +58,7 @@ public abstract class ClientModule {
         builder.connectTimeout(TIME_OUT, TimeUnit.SECONDS)
                 .readTimeout(TIME_OUT, TimeUnit.SECONDS)
                 .addNetworkInterceptor(intercept);
-        if (handler != null){
+        if (handler != null) {
             builder.addInterceptor(new Interceptor() {
                 @Override
                 public Response intercept(Chain chain) throws IOException {
@@ -66,12 +66,12 @@ public abstract class ClientModule {
                 }
             });
         }
-        if (interceptors != null){
-            for (Interceptor interceptor : interceptors){
+        if (interceptors != null) {
+            for (Interceptor interceptor : interceptors) {
                 builder.addInterceptor(interceptor);
             }
         }
-        if (configuration != null){
+        if (configuration != null) {
             configuration.configOkHttp(application, builder);
         }
         return builder.build();
@@ -79,13 +79,13 @@ public abstract class ClientModule {
 
     @Singleton
     @Provides
-    static Retrofit.Builder provideRetrofitBuilder(){
+    static Retrofit.Builder provideRetrofitBuilder() {
         return new Retrofit.Builder();
     }
 
     @Singleton
     @Provides
-    static OkHttpClient.Builder provideClientBuilder(){
+    static OkHttpClient.Builder provideClientBuilder() {
         return new OkHttpClient.Builder();
     }
 

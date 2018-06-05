@@ -72,14 +72,11 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <com.frame.component.view.LoadingLayout
-        android:id="@+id/loadingview"
+    <FrameLayout
+        android:id="@+id/lay_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_fail="@layout/lay_lack_search"
-        app:layout_lack="@layout/lay_lack_search"
-        app:layout_loading="@layout/layout_loading">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <com.ogaclejapan.smarttablayout.SmartTabLayout
             android:id="@+id/tablayout"
@@ -104,5 +101,11 @@
             android:layout_height="match_parent"
             android:layout_marginTop="42dp" />
 
-    </com.frame.component.view.LoadingLayout>
+        <include
+            android:id="@+id/lay_lack"
+            layout="@layout/lay_lack_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
 </android.support.design.widget.CoordinatorLayout>

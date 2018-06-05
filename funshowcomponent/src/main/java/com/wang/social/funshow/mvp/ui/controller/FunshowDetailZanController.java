@@ -93,6 +93,9 @@ public class FunshowDetailZanController extends FunshowDetailBaseController impl
             case EventBean.EVENT_FUNSHOW_DETAIL_ADD_EVA:
                 FunShowUtil.addSubTextViewCount(textComment, true);
                 break;
+            case EventBean.EVENT_FUNSHOW_DETAIL_ADD_SHARE:
+                FunShowUtil.addSubTextViewCount(textShare, true);
+                break;
         }
     }
 
@@ -165,7 +168,6 @@ public class FunshowDetailZanController extends FunshowDetailBaseController impl
                     new SocializeUtil.SimpleShareListener() {
                         @Override
                         public void onResult(int platform) {
-                            FunShowUtil.addSubTextViewCount(textShare, true);
                             NetShareHelper.newInstance().netShareFunshow(null, null, talkId, null);
                             //同时通知列表刷新数量
                             EventBus.getDefault().post(new EventBean(EventBean.EVENT_FUNSHOW_DETAIL_ADD_SHARE).put("talkId", talkId));
