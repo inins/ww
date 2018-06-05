@@ -124,7 +124,7 @@ public class SharePresenter extends BasePresenter {
                                     ((ShareContract.View) mRootView).onShareComplete();
 
                                     if (shareSource == ShareSource.SOURCE_FUN_SHOW) {
-                                        // TODO: 2018-06-05 通知趣晒分享数更新
+                                        EventBus.getDefault().post(new EventBean(EventBean.EVENT_FUNSHOW_DETAIL_ADD_SHARE));
                                     } else {
                                         EventBus.getDefault().post(new EventBean(EventBean.EVENTBUS_ADD_TOPIC_SHARE));
                                     }
