@@ -163,7 +163,6 @@ public class RepresentActivity extends BasicAppActivity implements IView {
                                 adapter.addItem(list);
                             }
                         } else {
-                            ToastUtil.showToastLong("没有更多数据了");
                         }
                         springView.onFinishFreshAndLoadDelay();
                     }
