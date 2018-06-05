@@ -358,10 +358,10 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
 
             // 已加入游戏，显示地上钻石
             mMoneyTreeView.showGroundDiamond(true);
-
-            // 加载成员列表
-            mPresenter.loadMemberList();
         }
+
+        // 加载成员列表
+        mPresenter.loadMemberList();
 
         // 显示
         mContentLayout.setVisibility(View.VISIBLE);
@@ -591,9 +591,9 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
                 AppConstant.Share.SHARE_GAME_DEFAULT_IMAGE,
                 (String url, String title, String content, String imageUrl) -> {
                     CommonHelper.ImHelper.startWangWangShare(this,
-                            "",
+                            AppConstant.Share.SHARE_GAME_TREE_TITLE,
                             Integer.toString(mPresenter.getRoomMsg().getDiamond()),
-                            "",
+                            AppConstant.Share.SHARE_GAME_DEFAULT_IMAGE,
                             ShareSource.SOURCE_GAME_TREE,
                             Integer.toString(mPresenter.getRoomId()));
                 });

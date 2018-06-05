@@ -45,6 +45,7 @@ import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.KeyboardUtils;
+import com.frame.utils.RegexUtils;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.ToastUtil;
 import com.frame.component.ui.acticity.tags.TagSelectionActivity;
@@ -779,6 +780,14 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
             if (toast) {
                 ToastUtil.showToastShort("话题名称不能少于5字");
             }
+            return false;
+        }
+
+        if (!RegexUtils.isUsernameMe(title)) {
+            if (toast) {
+                ToastUtil.showToastShort("话题名称不能输入特殊字符和表情");
+            }
+
             return false;
         }
 

@@ -8,6 +8,8 @@ import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.view.TextureView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -273,7 +275,9 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
         }
 
         // 是否是群成员
-        mIsGroupMember = socialInfo.getMemberInfo() == null ? 0 : 1;
+        boolean isMember = (socialInfo.getMemberInfo() != null &&
+                !TextUtils.isEmpty(socialInfo.getMemberInfo().getNickname()));
+        mIsGroupMember = isMember ? 1 : 0;
 
         // 群名称
         scTvTitle.setText(socialInfo.getName());

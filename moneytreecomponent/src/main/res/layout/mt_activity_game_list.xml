@@ -27,19 +27,49 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.liaoinstan.springview.widget.SpringView
-            android:id="@+id/spring_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view"
+            <com.liaoinstan.springview.widget.SpringView
+                android:id="@+id/spring_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-            </android.support.v7.widget.RecyclerView>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone">
 
-        </com.liaoinstan.springview.widget.SpringView>
+                </android.support.v7.widget.RecyclerView>
+
+                <android.support.v4.widget.NestedScrollView
+                    android:id="@+id/no_content_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/common_ic_default_nomoneytree"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/common_default_nomoneytree"
+                            android:textColor="@color/common_text_dark"
+                            android:textSize="14sp"
+                            />
+
+                    </LinearLayout>
+
+                </android.support.v4.widget.NestedScrollView>
+
+            </com.liaoinstan.springview.widget.SpringView>
+
 
         <ImageView
             android:id="@+id/create_game_image_view"

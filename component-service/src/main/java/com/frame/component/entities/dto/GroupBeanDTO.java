@@ -21,6 +21,7 @@ public class GroupBeanDTO implements Mapper<GroupBean> {
     private List<Tag> tags;
     private Integer isOpen;
     private Integer isFree;
+    private Integer memberNum;
     private Integer groupMemberNum;
 
     @Override
@@ -40,7 +41,10 @@ public class GroupBeanDTO implements Mapper<GroupBean> {
         object.setTags(null == tags ? new ArrayList<>() : tags);
         object.setIsOpen(EntitiesUtil.assertNotNull(isOpen));
         object.setIsFree(EntitiesUtil.assertNotNull(isFree));
-        object.setGroupMemberNum(EntitiesUtil.assertNotNull(groupMemberNum));
+        object.setGroupMemberNum(
+                Math.max(
+                        EntitiesUtil.assertNotNull(groupMemberNum) ,
+                        EntitiesUtil.assertNotNull(memberNum)));
 
         return object;
     }

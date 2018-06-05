@@ -157,6 +157,4 @@ public class AppConstant {
         public static final String SHARE_GAME_TREE_CONTENT = "%s想约你跟他一起分这波钻，快来！";
         public static final String SHARE_GAME_DEFAULT_IMAGE = "http://resouce.dongdongwedding.com/activity_cashcow_moneyTree.png";
     }
-
-
 }

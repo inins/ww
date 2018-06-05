@@ -490,16 +490,19 @@ public class GroupListFragment extends BasicFragment implements IView {
                 mKey = (String) event.get("key");
                 mTags = (String) event.get("tags");
 
-                mSpringView.callFreshDelay();
+                // 直接加载数据
+                loadData(true);
 
                 break;
             case EventBean.EVENT_APP_SEARCH:
                 // 首页搜索，所有所有群
                 if (mType != TYPE_SEARCH_ALL_GROUP) break;
                 mKey = (String) event.get("key");
-//                String tags = (String) event.get("tags");
+                mTags = (String) event.get("tags");
 
-                mSpringView.callFreshDelay();
+
+                // 直接加载数据
+                loadData(true);
 
                 break;
         }

@@ -26,8 +26,8 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.ViewHo
     private List<GameBean> mList;
     private ClickListener mClickListener;
 
-    public GameListAdapter(RecyclerView recyclerView, List<GameBean> list) {
-        mContext = recyclerView.getContext().getApplicationContext();
+    public GameListAdapter(Context context, List<GameBean> list) {
+        mContext = context.getApplicationContext();
         mList = list;
     }
 
