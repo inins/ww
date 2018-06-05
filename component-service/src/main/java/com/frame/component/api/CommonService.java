@@ -127,12 +127,14 @@ public interface CommonService {
     /**
      * 分享趣晒/话题
      * type 分享类型（topic:话题；group：趣聊；talk:趣晒; ）
+     * shareType:
      */
     @FormUrlEncoded
     @POST("/app/share/save?v=2.0.0")
     Observable<BaseJson<Object>> sharefun(@Field("shareUserId") int shareUserId,
                                           @Field("targetUserId") Integer targetUserId,
-                                          @Field("objectId") int objectId, @Field("type") String type,
+                                          @Field("objectId") int objectId,
+                                          @Field("type") String type,
                                           @Field("shareType") int shareType);
 
 

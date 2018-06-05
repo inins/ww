@@ -1,5 +1,7 @@
 package com.wang.social.im.mvp.presenter;
 
+import com.frame.component.helper.AppDataHelper;
+import com.frame.component.helper.NetShareHelper;
 import com.frame.component.helper.QiNiuManager;
 import com.frame.di.scope.ActivityScope;
 import com.frame.http.api.ApiException;
@@ -135,6 +137,16 @@ public class SocialHomePresenter extends GroupPresenter<SocialHomeContract.Model
                     @Override
                     public void onNext(ListData<TeamInfo> teamInfoListData) {
                         mRootView.showTeams(teamInfoListData.getList());
+                    }
+                });
+    }
+
+    public void recordShare(String socialId) {
+        NetShareHelper.newInstance()
+                .netShare(mRootView, AppDataHelper.getUser().getUserId(), null, Integer.valueOf(socialId), NetShareHelper.SHARE_TYPE_GROUP, 0, new NetShareHelper.OnShareCallback() {
+                    @Override
+                    public void success() {
+
                     }
                 });
     }

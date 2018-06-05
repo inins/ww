@@ -2,6 +2,7 @@ package com.wang.social.im.mvp.presenter;
 
 import com.frame.component.enums.ConversationType;
 import com.frame.component.enums.ShareSource;
+import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.NetShareHelper;
 import com.frame.di.scope.ActivityScope;
 import com.frame.entities.EventBean;
@@ -117,7 +118,7 @@ public class SharePresenter extends BasePresenter {
                         type = NetShareHelper.SHARE_TYPE_FUN_SHOW;
                     }
                     NetShareHelper.newInstance()
-                            .netShare(mRootView, targetUid, Integer.valueOf(objectId), type, 0, new NetShareHelper.OnShareCallback() {
+                            .netShare(mRootView, AppDataHelper.getUser().getUserId(), targetUid, Integer.valueOf(objectId), type, 0, new NetShareHelper.OnShareCallback() {
                                 @Override
                                 public void success() {
                                     ToastUtil.showToastShort("分享成功");
