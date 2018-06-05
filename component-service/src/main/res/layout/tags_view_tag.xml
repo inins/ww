@@ -8,8 +8,8 @@
         android:id="@+id/name_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="3dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/tags_shape_rect_corner_stroke_blue_deep"
         android:paddingBottom="6dp"
         android:paddingLeft="12dp"
@@ -23,6 +23,7 @@
         android:id="@+id/delete_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="5dp"
         android:layout_gravity="right"
         android:src="@drawable/common_ic_lable_del" />
 

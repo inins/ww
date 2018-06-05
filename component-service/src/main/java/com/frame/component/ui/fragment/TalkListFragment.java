@@ -15,6 +15,7 @@ import com.frame.component.entities.funshow.FunshowBean;
 import com.frame.component.service.R;
 import com.frame.component.service.R2;
 import com.frame.component.ui.adapter.RecycleAdapterCommonFunshow;
+import com.frame.component.view.LoadingLayoutEx;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelper;
@@ -51,6 +52,10 @@ public class TalkListFragment extends BasicFragment implements IView {
     @BindView(R2.id.recycler_view)
     RecyclerView mRecyclerView;
     private RecycleAdapterCommonFunshow mAdapter;
+
+    @BindView(R2.id.loadingview_ex)
+    LoadingLayoutEx loadingviewEx;
+
 
     private ApiHelper mApiHelper;
     private IRepositoryManager mRepositoryManager;
@@ -109,6 +114,7 @@ public class TalkListFragment extends BasicFragment implements IView {
 
     /**
      * 搜索用户趣聊列表
+     *
      * @param refresh 是否刷新
      */
     private void getFriendTalkList(boolean refresh) {
@@ -129,14 +135,22 @@ public class TalkListFragment extends BasicFragment implements IView {
                             } else {
                                 mAdapter.addItem(list.getList());
                             }
+
+                            loadingviewEx.showOut();
+
+                            if (null != mAdapter) {
+                                mAdapter.notifyDataSetChanged();
+                            }
                         }
 
-                        if (null != mAdapter) {
-                            mAdapter.notifyDataSetChanged();
+                        if (refresh && (null == list || list.getList().size() <= 0)) {
+                            loadingviewEx.showFailViewCustomize(R.drawable.common_ic_default_nofunshow,
+                                    "还没有发布趣晒");
                         }
                     }
                 },
-                disposable -> {},
+                disposable -> {
+                },
                 () -> mSpringView.onFinishFreshAndLoadDelay());
     }
 

@@ -87,19 +87,17 @@ public class AppConstant {
         //##################################
 
         //关于账户
-        public static final String aboutAccount = Api.WEB_BASE_URL + "about/aboutAccount.html";
-        //关于Fan聊/Mi聊
-        public static final String aboutFanliao = Api.WEB_BASE_URL + "about/aboutFanliao.html";
-        //往往版本记录
-        public static final String aboutHistory = Api.WEB_BASE_URL + "about/aboutHistory.html";
+        public static final String aboutAccount = Api.WEB_BASE_URL + "about/common/Account.html";
+        //关于趣聊
+        public static final String aboutFanliao = Api.WEB_BASE_URL + "about/common/interest.html";
         //其它问题(下载与注册，关于我们)
-        public static final String aboutOther = Api.WEB_BASE_URL + "about/aboutOther.html";
+        public static final String aboutOther = Api.WEB_BASE_URL + "about/common/Other.html";
         //关于趣晒/话题
-        public static final String aboutQushai = Api.WEB_BASE_URL + "about/aboutQushai.html";
+        public static final String aboutQushai = Api.WEB_BASE_URL + "about/common/conversation.html";
         //往往用户注册协议
-        public static final String userAgreement = Api.WEB_BASE_URL + "about/userAgreement.html";
+        public static final String userAgreement = Api.WEB_BASE_URL + "about/common/registerAgreement.html";
         //v2.0
-        public static final String currentVersion = Api.WEB_BASE_URL + "about/currentVersion.html";
+        public static final String currentVersion = Api.WEB_BASE_URL + "about/common/v2.0.html";
 
         //##################################
         //############分享（文案）##########

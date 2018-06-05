@@ -30,6 +30,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.Iterator;
 
 import butterknife.BindView;
 import timber.log.Timber;
@@ -280,6 +281,17 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
                     }
                 }
                 break;
+            case EventBean.EVENTBUS_ADD_TOPIC_SUCCESS:
+                // 发布话题成功，刷新
+                Timber.i("发布新话题成功，刷新");
+                mSpringView.callFreshDelay();
+                break;
+            case EventBean.EVENTBUS_DEL_TOPIC_SUCCESS:
+                Timber.i("删除话题成功，刷新");
+                int delTopicId = (int) event.get("topicId");
+
+                changed = removeById(delTopicId);
+                break;
         }
 
         if (changed && null != mAdapter) {
@@ -287,5 +299,23 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
         }
     }
 
+    /**
+     * 从列表移除
+     * @param topicId 话题id
+     * @return 是否有话题被移除
+     */
+    private boolean removeById(int topicId) {
+        if (null == mPresenter.getTopicList()) return false;
+        boolean deleted = false;
+        Iterator<Topic> it = mPresenter.getTopicList().iterator();
+        while (it.hasNext()) {
+            Topic t = it.next();
+            if (t.getTopicId() == topicId) {
+                it.remove();
+                deleted = true;
+            }
+        }
 
+        return deleted;
+    }
 }

@@ -97,7 +97,7 @@ public class StringUtils {
 //
 //        return regexMatch(telRegex, mobile);
 
-        return RegexUtils.isMobileSimple(mobile);
+        return RegexUtils.isMobileExact(mobile);
     }
 
     public static boolean regexMatch(String regex, String str) {

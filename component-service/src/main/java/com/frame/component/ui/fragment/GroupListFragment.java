@@ -18,6 +18,7 @@ import com.frame.component.enums.ConversationType;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.service.R;
 import com.frame.component.service.R2;
+import com.frame.component.view.LoadingLayoutEx;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelper;
@@ -119,6 +120,9 @@ public class GroupListFragment extends BasicFragment implements IView {
     RecyclerView mRecyclerView;
     private GroupListAdapter mAdapter;
 
+    @BindView(R2.id.loadingview_ex)
+    LoadingLayoutEx loadingviewEx;
+
     // 用户id，搜索用户加入的趣聊时使用，外部传入
     private int mUserId;
 
@@ -196,6 +200,8 @@ public class GroupListFragment extends BasicFragment implements IView {
 
         if (mType == TYPE_GROUP_LIST) {
             mSpringView.callFreshDelay();
+        } else {
+            loadingviewEx.showLackView();
         }
     }
 
@@ -245,11 +251,23 @@ public class GroupListFragment extends BasicFragment implements IView {
 
             if (null != list.getList()) {
                 mList.addAll(list.getList());
+
+
+                loadingviewEx.showOut();
+
+                if (null != mAdapter) {
+                    mAdapter.notifyDataSetChanged();
+                }
             }
         }
 
-        if (null != mAdapter) {
-            mAdapter.notifyDataSetChanged();
+        if (mList.size() <= 0) {
+            if (mType != TYPE_GROUP_LIST) {
+                loadingviewEx.showFailViewNoSearch();
+            } else {
+                loadingviewEx.showFailViewCustomize(R.drawable.common_ic_default_nosupport,
+                        "什么都没有");
+            }
         }
     }
 

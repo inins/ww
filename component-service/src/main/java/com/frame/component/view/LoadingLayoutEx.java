@@ -123,4 +123,7 @@ public class LoadingLayoutEx extends LoadingLayout {
         showFailView(R.drawable.common_ic_default_nomsg, getContext().getString(R.string.common_default_nomoneytree));
     }
 
+    public void showFailViewCustomize(int icon, String text) {
+        showFailView(icon, text);
+    }
 }

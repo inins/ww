@@ -65,6 +65,9 @@ import com.wang.social.topic.mvp.ui.widget.richeditor.RichEditor;
 import com.wang.social.topic.utils.AudioImageUtil;
 import com.wang.social.topic.utils.FileUtil;
 import com.wang.social.topic.utils.HtmlUtil;
+import com.wang.social.topic.utils.StringUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -809,6 +812,16 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
             return false;
         }
 
+        int audioCount = StringUtil.countAudio(mRichEditor.getHtml());
+        Timber.i("包含 " + audioCount + " 个语音");
+        if (audioCount * 50 + content.length() > 800) {
+            if (toast) {
+                ToastUtil.showToastShort("内容字符数（含每条语音50字）超过800字！");
+            }
+
+            return false;
+        }
+
         return true;
     }
 
@@ -1116,6 +1129,9 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     @Override
     public void onReleaseTopicSuccess() {
         ToastUtil.showToastShort("发布成功");
+
+        EventBus.getDefault().post(new EventBean(EventBean.EVENTBUS_ADD_TOPIC_SUCCESS));
+
         finish();
     }
 

@@ -14,6 +14,7 @@ import com.frame.component.entities.Topic;
 import com.frame.component.entities.dto.TopicDTO;
 import com.frame.component.service.R;
 import com.frame.component.service.R2;
+import com.frame.component.view.LoadingLayoutEx;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelper;
@@ -30,9 +31,12 @@ import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
 import com.frame.component.ui.adapter.TopicListAdapter;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -91,6 +95,9 @@ public class TopicListFragment extends BasicFragment implements IView {
     RecyclerView mRecyclerView;
     private TopicListAdapter mAdapter;
 
+    @BindView(R2.id.loadingview_ex)
+    LoadingLayoutEx loadingviewEx;
+
     private ApiHelper mApiHelper = new ApiHelper();
     private IRepositoryManager mRepositoryManager;
     private int mCurrent = 0;
@@ -145,6 +152,8 @@ public class TopicListFragment extends BasicFragment implements IView {
 
         if (mType <= TYPE_PERSON_TOPIC_SEARCH) {
             mSpringView.callFreshDelay();
+        } else {
+            loadingviewEx.showLackView();
         }
     }
 
@@ -177,11 +186,22 @@ public class TopicListFragment extends BasicFragment implements IView {
             mCurrent = pageList.getCurrent();
             if (null != pageList.getList()) {
                 mList.addAll(pageList.getList());
+
+                loadingviewEx.showOut();
+
+                if (null != mAdapter) {
+                    mAdapter.notifyDataSetChanged();
+                }
             }
         }
 
-        if (null != mAdapter) {
-            mAdapter.notifyDataSetChanged();
+        if (mList.size() <= 0) {
+            if (mType != TYPE_PERSON_TOPIC_SEARCH) {
+                loadingviewEx.showFailViewNoSearch();
+            } else {
+                loadingviewEx.showFailViewCustomize(R.drawable.common_ic_default_notopic,
+                        "还没有发布话题");
+            }
         }
     }
 
@@ -338,10 +358,36 @@ public class TopicListFragment extends BasicFragment implements IView {
                     }
                 }
                 break;
+            case EventBean.EVENTBUS_DEL_TOPIC_SUCCESS:
+                Timber.i("删除话题成功，刷新");
+                int delTopicId = (int) event.get("topicId");
+
+                changed = removeById(delTopicId);
+                break;
         }
 
         if (changed && null != mAdapter) {
             mAdapter.notifyDataSetChanged();
         }
+    }
+
+    /**
+     * 从列表移除
+     * @param topicId 话题id
+     * @return 是否有话题被移除
+     */
+    private boolean removeById(int topicId) {
+        if (null == mList) return false;
+        boolean deleted = false;
+        Iterator<Topic> it = mList.iterator();
+        while (it.hasNext()) {
+            Topic t = it.next();
+            if (t.getTopicId() == topicId) {
+                it.remove();
+                deleted = true;
+            }
+        }
+
+        return deleted;
     }
 }

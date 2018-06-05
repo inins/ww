@@ -27,7 +27,7 @@ public class TopicPresenter extends
 
     private List<TopicTopUser> mTopicTopUserList = new ArrayList<>();
 
-    private final static int mSize = 10;
+    private final static int mSize = Integer.MAX_VALUE;
     private int mCurrent = 0;
 
     @Inject
