@@ -14,4 +14,5 @@ public interface PersonalPath extends BasePath{
     String RECHARGE_URL = SCHEME + HOST + "/recharge";
     String OFFICIAL_URL = SCHEME + HOST + "/officialPhoto";
     String ACCOUNT_URL = SCHEME + HOST + "/account";
+    String PROFIT_URL = SCHEME + HOST + "/profit";
 }

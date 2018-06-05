@@ -22,6 +22,7 @@ import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.mvp.IView;
+import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.FocusUtil;
 import com.frame.utils.StrUtil;
 import com.frame.utils.ToastUtil;
@@ -41,6 +42,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+@RouteNode(path = "/profit", desc = "代言收益")
 public class RepresentActivity extends BasicAppActivity implements IView {
 
     @BindView(R2.id.recycler)
@@ -100,10 +102,10 @@ public class RepresentActivity extends BasicAppActivity implements IView {
         if (i == R.id.btn_right) {
             SocializeUtil.shareWeb(getSupportFragmentManager(),
                     null,
-                    "http://www.wangsocial.com/",
-                    "往往",
-                    "有点2的社交软件",
-                    "http://resouce.dongdongwedding.com/activity_cashcow_moneyTree.png");
+                    AppConstant.Share.SHARE_PROFIT_URL,
+                    AppConstant.Share.SHARE_PROFIT_TITLE,
+                    AppConstant.Share.SHARE_PROFIT_CONTENT,
+                    AppConstant.Share.SHARE_PROFIT_IMAGE);
         } else if (i == R.id.btn_question) {
             WebActivity.start(this, AppConstant.Url.ruleDescription);
         }

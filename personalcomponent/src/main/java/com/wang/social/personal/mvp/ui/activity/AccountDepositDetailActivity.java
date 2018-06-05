@@ -4,41 +4,28 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.TextView;
 
-import com.frame.base.BaseAdapter;
-import com.frame.component.ui.base.BasicAppActivity;
-import com.frame.di.component.AppComponent;
-import com.frame.utils.FocusUtil;
+import com.frame.component.ui.base.BasicAppNoDiActivity;
+import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
-import com.frame.component.common.ItemDecorationDivider;
-import com.frame.component.entities.TestEntity;
 import com.wang.social.personal.mvp.ui.adapter.PagerAdapterAccountDepositDetail;
-import com.wang.social.personal.mvp.ui.adapter.RecycleAdapterDepositDetail;
 import com.wang.social.personal.mvp.ui.dialog.DepositePopupWindow;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
-public class AccountDepositDetailActivity extends BasicAppActivity {
+public class AccountDepositDetailActivity extends BasicAppNoDiActivity {
 
     @BindView(R2.id.tablayout)
-    TabLayout tablayout;
+    SmartTabLayout tablayout;
     @BindView(R2.id.pager)
     ViewPager pager;
 
     private PagerAdapterAccountDepositDetail pagerAdapter;
-    private DepositePopupWindow popupWindow;
+    private DepositePopupWindow popupWindowDiamond;
+    private DepositePopupWindow popupWindowStone;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, AccountDepositDetailActivity.class);
@@ -52,14 +39,34 @@ public class AccountDepositDetailActivity extends BasicAppActivity {
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
-        popupWindow = new DepositePopupWindow(this);
+        popupWindowDiamond = new DepositePopupWindow(this);
+        popupWindowStone = new DepositePopupWindow(this);
+        popupWindowDiamond.setPosition(0);
+        popupWindowStone.setPosition(1);
         pagerAdapter = new PagerAdapterAccountDepositDetail(getSupportFragmentManager(), new String[]{getString(R.string.common_diamond_name), getString(R.string.common_stone_name)});
         pager.setAdapter(pagerAdapter);
-        tablayout.setupWithViewPager(pager);
+        tablayout.setViewPager(pager);
+        tablayout.setOnTabClickListener(position -> {
+            if (position == 0) {
+                popupWindowDiamond.showPopupWindow(tablayout.getTabAt(position));
+            } else if (position == 1) {
+                popupWindowStone.showPopupWindow(tablayout.getTabAt(position));
+            }
+        });
+        tablayout.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                setDropImgByPosition(position);
+            }
+        });
     }
 
-    @Override
-    public void setupActivityComponent(@NonNull AppComponent appComponent) {
-
+    private void setDropImgByPosition(int position) {
+        TextView textTab1 = tablayout.getTabAt(0).findViewById(R.id.custom_text);
+        TextView textTab2 = tablayout.getTabAt(1).findViewById(R.id.custom_text);
+        if (textTab1 != null && textTab2 != null) {
+            textTab1.setCompoundDrawablesWithIntrinsicBounds(0, 0, position == 0 ? R.drawable.common_ic_up : 0, 0);
+            textTab2.setCompoundDrawablesWithIntrinsicBounds(0, 0, position == 1 ? R.drawable.common_ic_up : 0, 0);
+        }
     }
 }

@@ -9,15 +9,13 @@ import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.frame.base.BaseAdapter;
 import com.frame.component.entities.funpoint.Funpoint;
-import com.frame.component.service.R2;
-import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
 import com.frame.component.view.ConerEditText;
-import com.frame.component.view.LoadingLayout;
-import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.mvp.IView;
 import com.frame.router.facade.annotation.RouteNode;
@@ -30,18 +28,19 @@ import com.wang.social.mvp.ui.adapter.PagerAdapterSearch;
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 @RouteNode(path = "/search", desc = "搜索")
 public class SearchActivity extends BasicAppNoDiActivity implements IView, BaseAdapter.OnItemClickListener<Funpoint> {
 
-    @BindView(R.id.loadingview)
-    LoadingLayout loadingview;
     @BindView(R.id.edit_search)
     ConerEditText editSearch;
     @BindView(R.id.pager)
     ViewPager pager;
     @BindView(R.id.tablayout)
     SmartTabLayout tablayout;
+    @BindView(R.id.lay_lack)
+    View layLack;
 
     private String[] titles = new String[]{"趣点", "趣晒", "话题", "趣聊", "用户"};
     private PagerAdapterSearch pagerAdapter;
@@ -70,7 +69,7 @@ public class SearchActivity extends BasicAppNoDiActivity implements IView, BaseA
             }
             return false;
         });
-        loadingview.showLackView();
+        layLack.setVisibility(View.VISIBLE);
         //延迟0.1秒后弹出软键盘
         new Handler().postDelayed(() -> KeyboardUtils.showSoftInput(editSearch), 100);
     }
@@ -90,11 +89,12 @@ public class SearchActivity extends BasicAppNoDiActivity implements IView, BaseA
         String tags = editSearch.getTagsStr();
         String key = editSearch.getKey();
         if (!TextUtils.isEmpty(tags) || !TextUtils.isEmpty(key)) {
-            loadingview.showOut();
+            layLack.setVisibility(View.GONE);
             EventBean eventBean = new EventBean(EventBean.EVENT_APP_SEARCH);
-            eventBean.put("tags",tags);
-            eventBean.put("key",key);
+            eventBean.put("tags", tags);
+            eventBean.put("key", key);
             EventBus.getDefault().post(eventBean);
+            KeyboardUtils.hideSoftInput(this);
         } else {
             ToastUtil.showToastShort("请输入搜索关键字");
         }
@@ -105,5 +105,4 @@ public class SearchActivity extends BasicAppNoDiActivity implements IView, BaseA
         KeyboardUtils.hideSoftInput(this);
         super.finish();
     }
-
 }
