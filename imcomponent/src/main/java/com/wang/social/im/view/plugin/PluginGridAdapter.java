@@ -53,7 +53,7 @@ public class PluginGridAdapter extends BaseAdapter<PluginModule> {
                 NewbieGuide.with((Activity) getContext())
                         .setLabel("guide_social_shadow")
                         .addGuidePage(GuidePage.newInstance()
-                                .addHighLight(ipiPluginIcon, ROUND_RECTANGLE, 15, 0)
+                                .addHighLight(ipiPluginIcon, ROUND_RECTANGLE, 15, 3)
                                 .setLayoutRes(R.layout.lay_guide_funchat1, R.id.btn_go)
                                 .setEverywhereCancelable(false)
                                 .setEnterAnimation(GuidePageHelper.getEnterAnimation())

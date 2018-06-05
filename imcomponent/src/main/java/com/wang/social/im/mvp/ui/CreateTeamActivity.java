@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.frame.component.common.AppConstant;
+import com.frame.component.enums.ConversationType;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.ui.acticity.WebActivity;
 import com.frame.component.ui.acticity.tags.Tag;
@@ -27,6 +28,7 @@ import com.frame.entities.EventBean;
 import com.frame.http.imageloader.ImageLoader;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.http.imageloader.glide.RoundedCornersTransformation;
+import com.frame.integration.AppManager;
 import com.frame.router.facade.annotation.Autowired;
 import com.frame.utils.RegexUtils;
 import com.frame.utils.ToastUtil;
@@ -55,6 +57,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.functions.Consumer;
 
+import static com.frame.entities.EventBean.EVENT_NOTIFY_SHOW_CONVERSATION_LIST;
+
 /**
  * 创建觅聊
  */
@@ -77,15 +81,17 @@ public class CreateTeamActivity extends BaseAppActivity<CreateTeamPresenter> imp
     @Autowired
     String socialId;
 
+    @Inject
+    ImageLoader mImageLoader;
+    @Inject
+    AppManager mAppManager;
+
     private String mCoverPath;
     private ArrayList<Tag> mSelectTags;
     private String mTag;
     private TeamAttribute mAttribute;
 
     private ImageSelectHelper mImageSelectHelper;
-
-    @Inject
-    ImageLoader mImageLoader;
 
     public static void start(Context context, String socialId) {
         Intent intent = new Intent(context, CreateTeamActivity.class);
@@ -182,7 +188,7 @@ public class CreateTeamActivity extends BaseAppActivity<CreateTeamPresenter> imp
         } else if (view.getId() == R.id.ct_cl_attribute) { //觅聊属性
             TeamAttributeActivity.start(this, REQUEST_CODE_ATTR, mAttribute);
         } else if (view.getId() == R.id.ct_cl_tags) { //觅聊标签
-            TagSelectionActivity.startForTagList(this, mSelectTags, 1);
+            TagSelectionActivity.startForTagList(this, null, 1);
         } else if (view.getId() == R.id.ct_iv_cover) { //封面
             mImageSelectHelper = ImageSelectHelper.newInstance(this, this, new ImageSelectDialog.OnItemSelectedListener() {
                 @Override
@@ -274,8 +280,9 @@ public class CreateTeamActivity extends BaseAppActivity<CreateTeamPresenter> imp
 
     @Override
     public void onCreateComplete(CreateGroupResult result) {
-        finish();
-        //通知有觅聊列表的地方刷新数据
-        EventBus.getDefault().post(new EventBean(EventBean.EVENT_NOTIFY_CREATE_TEAM));
+        //打开觅聊聊天室
+        mAppManager.killAll("com.wang.social.mvp.ui.activity.HomeActivity");
+        EventBus.getDefault().post(new EventBean(EVENT_NOTIFY_SHOW_CONVERSATION_LIST));
+        CommonHelper.ImHelper.gotoGroupConversation(this, result.getId(), ConversationType.TEAM, false);
     }
 }

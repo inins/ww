@@ -103,7 +103,7 @@ dependencies {
     implementation project(':component-service')
     annotationProcessor project(':router-anno-compiler')
 
-    implementation 'com.umeng.sdk:common:1.5.0'
+    api 'com.umeng.sdk:common:1.5.0'
     //compile 'com.umeng.sdk:utdid:1.1.5.3'
     // 在App上线前请务必删除集成调试库，避免无关信息的打印
     implementation 'com.umeng.sdk:debug:1.0.0'

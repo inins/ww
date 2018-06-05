@@ -14,7 +14,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:toolbar_left_icon="@drawable/common_ic_close"
-        app:toolbar_title_text="@string/im_envelop_create_title"/>
+        app:toolbar_title_text="@string/im_envelop_create_title" />
 
     <LinearLayout
         android:id="@+id/crp_ll_diamond"
@@ -71,7 +71,6 @@
         android:gravity="left|top"
         android:hint="@string/im_envelop_message_default"
         android:lines="4"
-        android:maxLength="30"
         android:padding="15dp"
         android:textColor="@color/common_text_dark_light"
         android:textSize="16sp"
@@ -84,12 +83,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="45dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         android:textColor="@color/common_text_blank"
         android:textSize="26dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/crp_et_message"
-        tools:text="@string/common_diamond_format_space"/>
+        tools:text="@string/common_diamond_format_space" />
 
     <TextView
         android:id="@+id/crp_tvb_plug"

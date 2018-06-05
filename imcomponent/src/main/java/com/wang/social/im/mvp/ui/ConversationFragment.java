@@ -383,7 +383,7 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
                 TeamFunPointActivity.start(getContext(), ImHelper.imId2WangId(mTargetId), mPresenter.getTeamTag());
             }
         });
-        window.showAsDropDown(fcFunPoint, -SizeUtils.dp2px(192), -SizeUtils.dp2px(169));
+        window.showAsDropDown(fcFunPoint, -SizeUtils.dp2px(192), -SizeUtils.dp2px(170f));
     }
 
     @Override
