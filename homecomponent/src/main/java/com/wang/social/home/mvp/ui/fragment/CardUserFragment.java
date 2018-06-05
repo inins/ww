@@ -69,6 +69,9 @@ public class CardUserFragment extends BasicNoDiFragment implements RecycleAdapte
     View btnDislike;
     @BindView(R2.id.btn_like)
     View btnLike;
+    @BindView(R2.id.lay_loading)
+    View layLoading;
+
 
     private RecycleAdapterCardUser adapter;
     private ItemTouchHelper itemTouchHelper;
@@ -220,7 +223,7 @@ public class CardUserFragment extends BasicNoDiFragment implements RecycleAdapte
                 .put("strategy", strategy)
                 .put("asc", asc)
                 .build();
-        ApiHelperEx.execute(this, needLoading,
+        ApiHelperEx.execute(this, false,
                 ApiHelperEx.getService(HomeService.class).getCardUsers(map),
                 new ErrorHandleSubscriber<BaseJson<BaseCardListWrap<CardUser>>>() {
                     @Override
@@ -252,8 +255,10 @@ public class CardUserFragment extends BasicNoDiFragment implements RecycleAdapte
                     }
                 }, () -> {
                     hasLoad = true;
+                    layLoading.setVisibility(View.VISIBLE);
                 }, () -> {
                     hasLoad = false;
+                    layLoading.setVisibility(View.GONE);
                 });
     }
 

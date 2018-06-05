@@ -51,4 +51,9 @@
         app:rippleColor="@color/common_red_gray"
         app:srcCompat="@drawable/home_ic_card_like" />
 
+    <include
+        android:id="@+id/lay_loading"
+        layout="@layout/dialog_loading"
+        android:visibility="gone" />
+
 </FrameLayout>

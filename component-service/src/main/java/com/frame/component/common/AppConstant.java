@@ -56,7 +56,7 @@ public class AppConstant {
         //快活林规则说明
         public static final String sharedTree = Api.WEB_BASE_URL + "about/common/sharedTree.html";
         //代言收益规则说明
-        public static final String ruleDescription = "about/common/ruleDescription.html";
+        public static final String ruleDescription = Api.WEB_BASE_URL + "about/common/ruleDescription.html";
         //隐私协议
         public static final String privacyAgreement = Api.WEB_BASE_URL + "about/common/privacyAgreement.html";
         //建群须知
