@@ -105,12 +105,12 @@ public class WebFontStyleUtil {
             "        if (musicPlay.paused == false) {\n" +
             "            musicPlay.pause();\n" +
             "        } else {\n" +
-            "            musicPlay.play();\n" +
+            "            musicPlay.play();\n window.App.webViewAudioClick();\n" +
             "        }\n" +
             "    } else {\n" +
             "        musicPlay.pause();\n" +
             "        musicPlay.setAttribute('src', url);\n" +
-            "        musicPlay.play();\n" +
+            "        musicPlay.play();\n window.App.webViewAudioClick();\n" +
             "    }\n" +
             "}";
 

@@ -201,6 +201,7 @@ public interface UserService {
     Observable<BaseJson<PayInfo>> pay(@FieldMap Map<String, Object> param);
 
     //提现
+    @Headers(HEADER_CONTENT_TYPE)
     @FormUrlEncoded
     @POST("/app/userWallet/applyWithdraw?v=2.0.0")
     Observable<BaseJson<Object>> deposit(@Field("money") int money, @Field("alipay") String alipay, @Field("realName") String realName);

@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.frame.component.ui.base.BaseAppActivity;
+import com.frame.component.view.LoadingLayoutEx;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
@@ -65,6 +67,9 @@ public class GameListActivity extends BaseAppActivity<GameListPresenter>
     RecyclerView mRecyclerView;
     GameListAdapter mAdapter;
 
+    @BindView(R2.id.no_content_layout)
+    View mNoContentLayout;
+
     // 群ID (在群中创建时必传)
     private int mGroupId;
     // 创建类型（1：通过群，2：活动与游戏）
@@ -101,7 +106,7 @@ public class GameListActivity extends BaseAppActivity<GameListPresenter>
             }
         });
 
-        mAdapter = new GameListAdapter(mRecyclerView, mPresenter.getGameList());
+        mAdapter = new GameListAdapter(this, mPresenter.getGameList());
         mAdapter.setClickListener(this);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(
@@ -154,6 +159,14 @@ public class GameListActivity extends BaseAppActivity<GameListPresenter>
     @Override
     public void onLoadGameListCompleted() {
         mSpringView.onFinishFreshAndLoadDelay();
+
+        if (mPresenter.getGameList().size() <= 0) {
+            mRecyclerView.setVisibility(View.GONE);
+            mNoContentLayout.setVisibility(View.VISIBLE);
+        } else {
+        }
+        mRecyclerView.setVisibility(View.VISIBLE);
+        mNoContentLayout.setVisibility(View.GONE);
     }
 
 

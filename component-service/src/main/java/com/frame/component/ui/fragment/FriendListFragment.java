@@ -361,15 +361,17 @@ public class FriendListFragment extends BasicFragment implements
                 mKey = (String) event.get("key");
                 mTags = (String)event.get("tags");
 
-                mSpringView.callFreshDelay();
+                // 直接加载数据
+                loadData(true);
 
                 break;
             case EventBean.EVENT_IM_SEARCH:
                 if (mType != TYPE_GROUP_SEARCH) break;
                 mKey = (String) event.get("key");
 //                String tags = (String)event.get("tags");
-//
-                mSpringView.callFreshDelay();
+
+                // 直接加载数据
+                loadData(true);
                 break;
         }
     }

@@ -166,6 +166,4 @@ public class AppConstant {
         public static final String SHARE_PROFIT_CONTENT = "%s在往往等你！";
         public static final String SHARE_PROFIT_IMAGE = SHARE_DEFAULT_IMAGE;
     }
-
-
 }

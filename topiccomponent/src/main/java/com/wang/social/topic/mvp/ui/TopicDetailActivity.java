@@ -41,6 +41,7 @@ import com.frame.component.ui.acticity.BGMList.Music;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.ui.dialog.DialogSure;
 import com.frame.component.utils.EntitiesUtil;
+import com.frame.component.utils.XMediaPlayer;
 import com.frame.component.view.MusicBoard;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
@@ -174,6 +175,17 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
     @BindView(R2.id.share_text_view)
     TextView mShareTV;
 
+    private XMediaPlayer mXMediaPlayer;
+    private void initXMeidaPlayer() {
+        mXMediaPlayer = new XMediaPlayer();
+    }
+
+    private void pauseXMediaPlayer() {
+        if (null != mXMediaPlayer) {
+            mXMediaPlayer.pause();
+        }
+    }
+
     private boolean mHasCoverImage = false;
 
     private void resetShareLayout(int count) {
@@ -186,8 +198,9 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
 
     /**
      * 重置底部点赞UI
+     *
      * @param isSupport 是否已点赞
-     * @param count 赞的数量
+     * @param count     赞的数量
      */
     @Override
     public void resetSupportLayout(int isSupport, int count) {
@@ -276,7 +289,10 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
             if (clickType == SocialToolbar.ClickType.LEFT_ICON) {
                 finish();
             }
+
         });
+
+        initXMeidaPlayer();
 
         // 隐藏UI
         resetView(false);
@@ -479,6 +495,9 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
             mMusicBoard.setPlayStateListener(new MusicBoard.PlayStateListener() {
                 @Override
                 public void onPlaying() {
+                    // 如果语音正在播放，先暂停语音
+                    pauseXMediaPlayer();
+
                     mGradualImageView.startAnimation();
                 }
 
@@ -528,29 +547,18 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
             mContentWV.setWebViewClient(new WebViewClient() {
 
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                    Timber.i("shouldOverrideUrlLoading : " + url);
                     return false;
                 }
 
                 public void onPageFinished(WebView view, String url) {
-//                    if(android.os.Build.VERSION.SDK_INT >= 19) {
-//                        mContentWV.loadUrl("javascript:(function(){"
-//                                + "var objs = document.getElementsByTagName('img'); "
-//                                + "for(var i=0;i<objs.length;i++) {"
-//                                + // //webview图片自适应，android4.4之前都有用，4.4之后google优化后，无法支持，需要自己手动缩放
-//                                " objs[i].style.width = '100%';" +
-//                                "objs[i].style.height = 'auto';"
-//                                + "}"
-//                                + "})()"
-//                        );
-//                    } else{
-//                        view.loadUrl("javascript:var imgs = document.getElementsByTagName('img');" +
-//                                "for(var i = 0; i<imgs.length; i++)" +
-//                                "{imgs[i].style.width = '100%';" +
-//                                "imgs[i].style.height= 'auto';}");
-//
-//                    }
-                    //LogUtils.showTagE(wv_content.getContentHeight() + "");
-                    //wv_content.loadUrl("javascript:window.jo.run(document.documentElement.scrollHeight+'');");
+                    if (android.os.Build.VERSION.SDK_INT >= 19) {
+                        mContentWV.loadUrl(
+                                "javascript: function playAudio(url) {" +
+                                        "window.App.playAudio(url);}"
+                        );
+                    }
+
                     mContentWV.loadUrl("javascript:App.resize(document.body.getBoundingClientRect().height)");
                 }
             });
@@ -571,8 +579,32 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
         resetView(true);
     }
 
+    @JavascriptInterface
+    public void playAudio(final String url) {
+        Timber.i("播放语音 : " + url);
+
+        runOnUiThread(() -> {
+            if (null != mMusicBoard && mMusicBoard.isPlaying()) {
+                Timber.i("暂停背景音乐播放");
+                mMusicBoard.onPause();
+            }
+
+            if (null != mXMediaPlayer) {
+                if (!mXMediaPlayer.reset(url, true)) {
+                    Timber.i("语音已经准备好，直接播放");
+                    // 音乐已经准备好了
+                    if (mXMediaPlayer.getState() >= XMediaPlayer.STATE_PREPARED) {
+                        mXMediaPlayer.play();
+                    }
+                }
+            }
+
+        });
+    }
+
     /**
      * 显示昵称
+     *
      * @param detail 话题详情
      */
     private void showNickName(TopicDetail detail) {
@@ -668,7 +700,7 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
                                 TopicDetailActivity.this,
                                 null,
                                 mTopicId,
-                                1,
+                                0,
                                 () -> {
                                     // 发送通知分享增加
                                     EventBean bean = new EventBean(EventBean.EVENTBUS_ADD_TOPIC_SHARE);
@@ -735,6 +767,10 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
         if (null != mMusicBoard) {
             mMusicBoard.onPause();
         }
+
+        if (null != mXMediaPlayer) {
+            mXMediaPlayer.pause();
+        }
     }
 
     @Override
@@ -758,6 +794,10 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
 
         if (null != mMusicBoard) {
             mMusicBoard.onStop();
+        }
+
+        if (null != mXMediaPlayer) {
+            mXMediaPlayer.stop();
         }
 
         super.onDestroy();

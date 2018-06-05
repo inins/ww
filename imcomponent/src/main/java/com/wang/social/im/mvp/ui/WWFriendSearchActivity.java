@@ -205,6 +205,13 @@ public class WWFriendSearchActivity extends BaseAppActivity<SharePresenter> impl
 //            return;
 //        }
 
+        if (null != mFriendAdapter) {
+            mFriendAdapter.setKeyword(keyword);
+        }
+        if (null != mGroupAdapter) {
+            mGroupAdapter.setKeyword(keyword);
+        }
+
         listFriendAndGroup(EntitiesUtil.assertNotNull(keyword));
     }
 
@@ -224,8 +231,10 @@ public class WWFriendSearchActivity extends BaseAppActivity<SharePresenter> impl
                         mFriendList.addAll(searchResult.getUserFriend());
                         mFriendAdapter.notifyDataSetChanged();
 
-                        if (mFriendList.size() <= 0) {
-                            mFriendTitleTV.setVisibility(View.GONE);
+                        if (mFriendList.size() <= 3) {
+                            if (mFriendList.size() <= 0) {
+                                mFriendTitleTV.setVisibility(View.GONE);
+                            }
                             mMoreFriendLayout.setVisibility(View.GONE);
                         } else {
                             mFriendTitleTV.setVisibility(View.VISIBLE);

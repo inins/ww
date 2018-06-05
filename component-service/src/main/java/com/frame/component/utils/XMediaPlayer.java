@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import timber.log.Timber;
+
 public class XMediaPlayer extends MediaPlayer
         implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
     public static final int STATE_IDLE = 0;
@@ -202,8 +204,10 @@ public class XMediaPlayer extends MediaPlayer
     public void play() {
         if (mIsPrepared) {
             if (isPlaying()) {
+                Timber.i("暂停");
                 pause();
             } else {
+                Timber.i("播放");
                 start();
             }
         }

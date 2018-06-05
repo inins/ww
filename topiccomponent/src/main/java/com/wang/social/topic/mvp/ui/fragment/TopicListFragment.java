@@ -133,6 +133,13 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
     private void loadTopic(boolean refresh) {
         if (refresh) {
             mPresenter.clearTopicList();
+
+            if (mPresenter.isTagAll()) {
+                mPresenter.setIsCondition(0);
+            } else {
+                mPresenter.setIsCondition(1);
+            }
+            mPresenter.setTagAll(false);
         }
 
         switch (mFragmentType) {

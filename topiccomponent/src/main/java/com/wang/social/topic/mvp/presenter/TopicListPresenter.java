@@ -36,6 +36,7 @@ public class TopicListPresenter extends
     private int mCurrent = 0;
     // 是否大量知识
     private boolean mTagAll = false;
+    private int mIsCondition = -1;
 
 
 
@@ -50,6 +51,18 @@ public class TopicListPresenter extends
 
     public void setTagAll(boolean tagAll) {
         mTagAll = tagAll;
+    }
+
+    public boolean isTagAll() {
+        return mTagAll;
+    }
+
+    public int getIsCondition() {
+        return mIsCondition;
+    }
+
+    public void setIsCondition(int isCondition) {
+        mIsCondition = isCondition;
     }
 
     public void clearTopicList() {
@@ -102,12 +115,10 @@ public class TopicListPresenter extends
 
         // 是否为大量知识(0:是，1：不是)
         mApiHelper.execute(mRootView,
-                mModel.getNewsList(mTagAll ? "0" : "1", mSize, mCurrent + 1),
+                mModel.getNewsList(Integer.toString(mIsCondition), mSize, mCurrent + 1),
                 mErrorHandleSubscriber,
                 mConsumer,
                 mAction);
-
-        setTagAll(false);
     }
 
     public void getHotList() {
