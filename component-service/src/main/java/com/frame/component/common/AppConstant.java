@@ -162,6 +162,6 @@ public class AppConstant {
         public static final String SHARE_PROFIT_URL = Api.WEB_BASE_URL + "contentShared/Profit/index.html?userId=%1$s";
         public static final String SHARE_PROFIT_TITLE = "有点2的社交，不一样的玩法";
         public static final String SHARE_PROFIT_CONTENT = "%s在往往等你！";
-        public static final String SHARE_PROFIT_IMAGE = SHARE_DEFAULT_IMAGE;
+        public static final String SHARE_PROFIT_IMAGE = "http://resouce.dongdongwedding.com/new_activity_moneyTree.png";
     }
 }
