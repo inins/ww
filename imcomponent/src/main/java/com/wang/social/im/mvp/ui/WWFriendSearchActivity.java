@@ -191,6 +191,10 @@ public class WWFriendSearchActivity extends BaseAppActivity<SharePresenter> impl
 //            mArrowIV.setImageResource(R.drawable.common_ic_down);
             mArrowIV.setRotation(0);
         }
+
+        if (null != mFriendAdapter) {
+            mFriendAdapter.notifyDataSetChanged();
+        }
     }
 
     /**
