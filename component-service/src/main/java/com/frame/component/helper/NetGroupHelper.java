@@ -45,44 +45,58 @@ public class NetGroupHelper {
         addGroup(context, view, fragmentManager, groupId, callback);
     }
 
+    //同意或拒绝加入趣聊
+    public void applyAddGroup(Context context, IView view, FragmentManager fragmentManager, int groupId, int msgId, boolean isAgree, AddGroupHelperCallback callback) {
+        netAgreeGroupApply(view, groupId, msgId, isAgree, addGroupApplyRsp -> {
+            valiApply(context, view, fragmentManager, addGroupApplyRsp, callback);
+        });
+    }
+
     public void addGroup(Context context, IView view, FragmentManager fragmentManager, int groupId, AddGroupHelperCallback callback) {
         netAddGroupMemberApply(view, groupId, addGroupApplyRsp -> {
             //applyId:11,	//订单申请ID
             //payState:0,    //0：不需要支付,1:需要调用支付接口
             //gemstone:100,  //所需宝石数
             //needValidation:true   //是否需要群主同意  true/false
-
-            // 需要群主验证，弹出对话框
-            if (addGroupApplyRsp.isNeedValidation()) {
-                // 弹出输入验证信息的对话框
-                DialogValiRequest.showDialog(
-                        context,
-                        content -> {
-                            addGroupMember(view, fragmentManager,
-                                    content,
-                                    addGroupApplyRsp,
-                                    addGroupRsp -> {
-                                        successToast(context, addGroupApplyRsp.isNeedValidation());
-                                        if (null != callback) {
-                                            callback.success(addGroupApplyRsp.isNeedValidation());
-                                        }
-
-                                        ToastUtil.showToastShort("请等待群主验证");
-                                    });
-                        });
-            } else {
-                // 不需要群主验证，直接尝试加群
-                addGroupMember(view, fragmentManager,
-                        Integer.toString(addGroupApplyRsp.getApplyId()),
-                        addGroupApplyRsp,
-                        addGroupRsp -> {
-                            successToast(context, addGroupApplyRsp.isNeedValidation());
-                            if (null != callback) {
-                                callback.success(addGroupApplyRsp.isNeedValidation());
-                            }
-                        });
-            }
+            valiApply(context, view, fragmentManager, addGroupApplyRsp, callback);
         });
+    }
+
+    private void valiApply(Context context, IView view, FragmentManager fragmentManager, AddGroupApplyRsp addGroupApplyRsp, AddGroupHelperCallback callback) {
+        //applyId:11,	//订单申请ID
+        //payState:0,    //0：不需要支付,1:需要调用支付接口
+        //gemstone:100,  //所需宝石数
+        //needValidation:true   //是否需要群主同意  true/false
+        // 需要群主验证，弹出对话框
+        if (addGroupApplyRsp.isNeedValidation()) {
+            // 弹出输入验证信息的对话框
+            DialogValiRequest.showDialog(
+                    context,
+                    content -> {
+                        addGroupMember(view, fragmentManager,
+                                content,
+                                addGroupApplyRsp,
+                                addGroupRsp -> {
+                                    successToast(context, addGroupApplyRsp.isNeedValidation());
+                                    if (null != callback) {
+                                        callback.success(addGroupApplyRsp.isNeedValidation());
+                                    }
+
+                                    ToastUtil.showToastShort("请等待群主验证");
+                                });
+                    });
+        } else {
+            // 不需要群主验证，直接尝试加群
+            addGroupMember(view, fragmentManager,
+                    Integer.toString(addGroupApplyRsp.getApplyId()),
+                    addGroupApplyRsp,
+                    addGroupRsp -> {
+                        successToast(context, addGroupApplyRsp.isNeedValidation());
+                        if (null != callback) {
+                            callback.success(addGroupApplyRsp.isNeedValidation());
+                        }
+                    });
+        }
     }
 
     private void successToast(Context context, boolean isNeedValidation) {
@@ -164,15 +178,35 @@ public class NetGroupHelper {
     }
 
     /**
+     * 同意、拒绝邀请加入趣聊、觅聊（别人邀请我的）
+     */
+    public void netAgreeGroupApply(IView view, int groupId, int msgId, boolean isAgree, AddGroupMemberApplyCallback callback) {
+        ApiHelperEx.execute(view, true,
+                ApiHelperEx.getService(CommonService.class).agreeGroupApply(groupId, msgId, isAgree ? 0 : 1),
+                new ErrorHandleSubscriber<BaseJson<AddGroupApplyRspDTO>>() {
+                    @Override
+                    public void onNext(BaseJson<AddGroupApplyRspDTO> basejson) {
+                        AddGroupApplyRspDTO dto = basejson.getData();
+                        if (callback != null) callback.success(dto.transform());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        ToastUtil.showToastLong(e.getMessage());
+                    }
+                });
+    }
+
+    /**
      * 尝试加入趣聊、觅聊
      */
     private void netAddGroupMember(IView view, int applyId, String applyDesc,
                                    AddGroupMemberCallback callback) {
-            Map<String, Object> param = new NetParam()
-                    .put("applyId", applyId)
-                    .put("applyDesc", applyDesc)
-                    .put("v", "2.0.0")
-                    .build();
+        Map<String, Object> param = new NetParam()
+                .put("applyId", applyId)
+                .put("applyDesc", applyDesc)
+                .put("v", "2.0.0")
+                .build();
         ApiHelperEx.execute(view, true,
                 ApiHelperEx.getService(CommonService.class)
                         .addGroupMember(param),
