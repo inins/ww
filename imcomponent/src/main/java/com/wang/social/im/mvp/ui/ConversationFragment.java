@@ -50,7 +50,6 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMCustomElem;
-import com.tencent.imsdk.TIMGroupMemberInfo;
 import com.tencent.imsdk.TIMImage;
 import com.tencent.imsdk.TIMImageElem;
 import com.tencent.imsdk.TIMImageType;
@@ -59,8 +58,6 @@ import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMSoundElem;
 import com.tencent.imsdk.TIMValueCallBack;
-import com.tencent.imsdk.ext.group.TIMGroupDetailInfo;
-import com.tencent.imsdk.ext.group.TIMGroupManagerExt;
 import com.tencent.imsdk.ext.message.TIMConversationExt;
 import com.tencent.imsdk.ext.message.TIMMessageExt;
 import com.tencent.imsdk.ext.message.TIMMessageLocator;
@@ -101,7 +98,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -249,8 +245,8 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
             NewbieGuide.with(this)
                     .setLabel("guide_team_point")
                     .addGuidePage(GuidePage.newInstance()
-                            .addHighLight(getParentFragment().getView().findViewById(R.id.toolbar_iv_right), OVAL, 0, 0)
-                            .addHighLight(getView().findViewById(R.id.fc_fun_point), OVAL, 0, 0)
+                            .addHighLight(getParentFragment().getView().findViewById(R.id.tc_fl_high), OVAL, 0, 0)
+                            .addHighLight(getView().findViewById(R.id.fc_fun_high), OVAL, 0, 0)
                             .setLayoutRes(R.layout.lay_guide_findchat, R.id.btn_go)
                             .setEverywhereCancelable(false)
                             .setEnterAnimation(GuidePageHelper.getEnterAnimation())
