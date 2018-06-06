@@ -135,6 +135,9 @@ public class SharePresenter extends BasePresenter {
                                     }
                                 }
                             });
+                } else {
+                    ToastUtil.showToastShort("分享成功");
+                    ((ShareContract.View) mRootView).onShareComplete();
                 }
             }
         });

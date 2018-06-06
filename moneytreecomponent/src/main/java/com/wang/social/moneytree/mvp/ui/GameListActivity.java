@@ -161,12 +161,10 @@ public class GameListActivity extends BaseAppActivity<GameListPresenter>
         mSpringView.onFinishFreshAndLoadDelay();
 
         if (mPresenter.getGameList().size() <= 0) {
-            mRecyclerView.setVisibility(View.GONE);
             mNoContentLayout.setVisibility(View.VISIBLE);
         } else {
+            mNoContentLayout.setVisibility(View.GONE);
         }
-        mRecyclerView.setVisibility(View.VISIBLE);
-        mNoContentLayout.setVisibility(View.GONE);
     }
 
 
