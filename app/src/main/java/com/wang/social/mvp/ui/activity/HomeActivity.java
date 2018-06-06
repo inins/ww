@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -136,7 +137,6 @@ public class HomeActivity extends BasicAppNoDiActivity implements XRadioGroup.On
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
-        Timber.i("HomeActivity initData");
         dialogHomeAdd = new DialogHomeAdd(this);
         groupTab.setOnCheckedChangeListener(this);
         pagerAdapter = new PagerAdapterHome(getSupportFragmentManager());

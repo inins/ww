@@ -40,10 +40,10 @@ public class FunpointListPresonter extends BasePresenter<FunpointListContract.Mo
         super(model, view);
     }
 
-    public void netGetFunpointList(boolean isFresh, boolean needLoading) {
+    public void netGetFunpointList(boolean isFresh, boolean needLoading, boolean isBigKnow) {
         if (isFresh) current = 0;
         ApiHelperEx.execute(mRootView, needLoading,
-                mModel.getFunpointList(1, current + 1, size),
+                mModel.getFunpointList(isBigKnow ? 0 : 1, current + 1, size),
                 new ErrorHandleSubscriber<BaseJson<BaseListWrap<Funpoint>>>(mErrorHandler) {
                     @Override
                     public void onNext(BaseJson<BaseListWrap<Funpoint>> basejson) {

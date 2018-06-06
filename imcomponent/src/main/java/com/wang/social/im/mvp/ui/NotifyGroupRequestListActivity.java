@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import com.frame.base.BaseAdapter;
 import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.BaseListWrap;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.NetFriendHelper;
 import com.frame.component.helper.NetMsgHelper;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
@@ -94,6 +95,7 @@ public class NotifyGroupRequestListActivity extends BasicAppNoDiActivity impleme
 
     @Override
     public void onItemClick(GroupRequest bean, int position) {
+        CommonHelper.ImHelper.startGroupInviteBrowse(this, bean.getGroupId());
     }
 
     //////////////////////分页查询////////////////////
