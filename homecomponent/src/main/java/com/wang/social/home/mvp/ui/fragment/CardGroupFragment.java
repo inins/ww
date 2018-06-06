@@ -140,13 +140,13 @@ public class CardGroupFragment extends BasicNoDiFragment implements RecycleAdapt
         int id = v.getId();
         if (id == R.id.btn_dislike) {
             //模拟左滑触摸轨迹
-            Point start = new Point(screenWidth * 3 / 4, screenHeight / 2);
-            Point end = new Point(200, screenHeight / 2 - 300);
+            Point start = new Point(screenWidth * 4 / 5, screenHeight / 2);
+            Point end = new Point(screenWidth * 1 / 5, screenHeight / 2 - 300);
             MotionEventHelper.createTrack(start, end, 300, recycler);
         } else if (id == R.id.btn_like) {
             //模拟右滑触摸轨迹
-            Point start = new Point(screenWidth * 1 / 4, screenHeight / 2);
-            Point end = new Point(screenWidth - 200, screenHeight / 2 - 300);
+            Point start = new Point(screenWidth * 1 / 5, screenHeight / 2);
+            Point end = new Point(screenWidth * 4 / 5, screenHeight / 2 - 300);
             MotionEventHelper.createTrack(start, end, 300, recycler);
         }
     }

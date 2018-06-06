@@ -50,7 +50,6 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMCustomElem;
-import com.tencent.imsdk.TIMGroupMemberInfo;
 import com.tencent.imsdk.TIMImage;
 import com.tencent.imsdk.TIMImageElem;
 import com.tencent.imsdk.TIMImageType;
@@ -59,8 +58,6 @@ import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMSoundElem;
 import com.tencent.imsdk.TIMValueCallBack;
-import com.tencent.imsdk.ext.group.TIMGroupDetailInfo;
-import com.tencent.imsdk.ext.group.TIMGroupManagerExt;
 import com.tencent.imsdk.ext.message.TIMConversationExt;
 import com.tencent.imsdk.ext.message.TIMMessageExt;
 import com.tencent.imsdk.ext.message.TIMMessageLocator;
@@ -71,6 +68,7 @@ import com.wang.social.im.di.modules.ConversationModule;
 import com.wang.social.im.enums.ConnectionStatus;
 import com.wang.social.im.enums.CustomElemType;
 import com.wang.social.im.enums.MessageScope;
+import com.wang.social.im.enums.MessageType;
 import com.wang.social.im.helper.GroupHelper;
 import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.mvp.contract.ConversationContract;
@@ -100,7 +98,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -248,8 +245,8 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
             NewbieGuide.with(this)
                     .setLabel("guide_team_point")
                     .addGuidePage(GuidePage.newInstance()
-                            .addHighLight(getParentFragment().getView().findViewById(R.id.toolbar_iv_right), OVAL, 0, 0)
-                            .addHighLight(getView().findViewById(R.id.fc_fun_point), OVAL, 0, 0)
+                            .addHighLight(getParentFragment().getView().findViewById(R.id.tc_fl_high), OVAL, 0, 0)
+                            .addHighLight(getView().findViewById(R.id.fc_fun_high), OVAL, 0, 0)
                             .setLayoutRes(R.layout.lay_guide_findchat, R.id.btn_go)
                             .setEverywhereCancelable(false)
                             .setEnterAnimation(GuidePageHelper.getEnterAnimation())
@@ -382,7 +379,7 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
                 TeamFunPointActivity.start(getContext(), ImHelper.imId2WangId(mTargetId), mPresenter.getTeamTag());
             }
         });
-        window.showAsDropDown(fcFunPoint, -SizeUtils.dp2px(192), -SizeUtils.dp2px(169));
+        window.showAsDropDown(fcFunPoint, -SizeUtils.dp2px(192), -SizeUtils.dp2px(170f));
     }
 
     @Override
@@ -655,15 +652,26 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     public void onContentClick(View view, UIMessage uiMessage, int position) {
         switch (uiMessage.getMessageType()) {
             case IMAGE:
-                TIMImageElem imageElem = (TIMImageElem) uiMessage.getMessageElem(TIMImageElem.class);
-                if (imageElem != null) {
-                    for (TIMImage image : imageElem.getImageList()) {
-                        if (image.getType() == TIMImageType.Original) {
-                            ActivityPicturePreview.startBrowse(mActivity, image.getUrl());
-                            break;
+                List<String> images = new ArrayList<>();
+                int currentIndex = 0;
+                for (UIMessage message : mAdapter.getData()) {
+                    if (message.getMessageType() == MessageType.IMAGE) {
+                        TIMImageElem imageElem = (TIMImageElem) message.getMessageElem(TIMImageElem.class);
+                        if (imageElem != null) {
+                            for (TIMImage image : imageElem.getImageList()) {
+                                if (image.getType() == TIMImageType.Original) {
+                                    images.add(image.getUrl());
+                                    break;
+                                }
+                            }
+                        }
+                        if (message == uiMessage && images.size() > 0) {
+                            currentIndex = images.size() - 1;
                         }
                     }
                 }
+                String[] imageArr = new String[images.size()];
+                ActivityPicturePreview.startBrowse(getActivity(), currentIndex, images.toArray(imageArr));
                 break;
             case LOCATION:
                 TIMLocationElem locationElem = (TIMLocationElem) uiMessage.getMessageElem(TIMLocationElem.class);

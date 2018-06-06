@@ -64,9 +64,11 @@ public class AccountActivity extends BasicAppActivity implements IView {
     @Override
     public void onCommonEvent(EventBean event) {
         switch (event.getEvent()) {
+            //提现
+            case EventBean.EVENT_ACCOUNT_DEPOSIT:
+                //兑换宝石
             case EventBean.EVENT_ACCOUNT_EXCHANGE_STONE:
-                netGetAccountData();
-                break;
+                //充值
             case EventBean.EVENT_ACCOUNT_RECHARGE_SUCCESS:
                 netGetAccountData();
                 break;

@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.frame.component.common.InputLengthFilter;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.utils.UIUtil;
 import com.frame.component.view.SocialToolbar;
@@ -99,6 +100,7 @@ public class CreateMultiEnvelopActivity extends BaseAppActivity<CreateEnvelopPre
     }
 
     private void init() {
+        cmrEtMessage.setFilters(new InputFilter[]{new InputLengthFilter(20, false)});
         cmrEtDiamond.setFilters(new InputFilter[]{new InputPositiveIntegerFilter()});
         cmrEtCount.setFilters(new InputFilter[]{new InputPositiveIntegerFilter()});
 
@@ -197,7 +199,7 @@ public class CreateMultiEnvelopActivity extends BaseAppActivity<CreateEnvelopPre
                 ToastUtil.showToastShort(UIUtil.getString(R.string.im_envelop_toast_low_limit));
                 return;
             }
-            String message = cmrEtMessage.getText().toString();
+            String message = cmrEtMessage.getText().toString().trim();
             if (TextUtils.isEmpty(message)) {
                 message = getString(R.string.im_envelop_message_default);
             }

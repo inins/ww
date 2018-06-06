@@ -76,7 +76,7 @@ public class DetailBannerBoardController extends BaseController {
             textName.setText(user.getNickname());
             textLableGender.setSelected(!user.isMale());
             textLableGender.setText(TimeUtils.getAgeByBirth(user.getBirthday()) + "");
-            textLableGender.setVisibility(AppDataHelper.getShowAge() ? View.VISIBLE : View.GONE);
+            textLableGender.setVisibility(user.isShowAge() ? View.VISIBLE : View.GONE);
             textLableAstro.setText(TimeUtils.getAstro(user.getBirthday()));
             textPosition.setText(user.getCityName());
             textSign.setText(user.getAutograph());

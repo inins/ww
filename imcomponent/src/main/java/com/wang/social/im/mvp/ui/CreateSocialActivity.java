@@ -14,7 +14,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.frame.component.common.AppConstant;
 import com.frame.component.helper.CommonHelper;
+import com.frame.component.ui.acticity.WebActivity;
 import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.component.ui.acticity.tags.TagSelectionActivity;
 import com.frame.component.ui.base.BaseAppActivity;
@@ -171,7 +173,7 @@ public class CreateSocialActivity extends BaseAppActivity<CreateSocialPresenter>
         dismissLoadingDialog();
     }
 
-    @OnClick({R2.id.sc_cl_attribute, R2.id.sc_cl_tags, R2.id.sc_iv_cover})
+    @OnClick({R2.id.sc_cl_attribute, R2.id.sc_cl_tags, R2.id.sc_iv_cover, R2.id.sc_tv_team_tip})
     public void onViewClicked(View view) {
         if (view.getId() == R.id.sc_cl_attribute) {
             SocialAttributeActivity.start(this, REQUEST_CODE_ATTR, mAttr);
@@ -208,6 +210,8 @@ public class CreateSocialActivity extends BaseAppActivity<CreateSocialPresenter>
             mImageSelectHelper.showDialog();
         } else if (view.getId() == R.id.sc_cl_tags) {
             TagSelectionActivity.startForTagList(this, mSelectTags, 5);
+        } else if (view.getId() == R.id.sc_tv_team_tip) {
+            WebActivity.start(this, AppConstant.Url.REFERRAL_TEAM_CREATE);
         }
     }
 

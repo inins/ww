@@ -3,6 +3,8 @@ package com.wang.social.app;
 import com.frame.base.BaseApplication;
 import com.frame.component.router.ui.UIRouter;
 import com.frame.utils.ToastUtil;
+import com.umeng.commonsdk.UMConfigure;
+import com.wang.social.socialize.SocializeUtil;
 
 /**
  * ========================================
@@ -11,11 +13,17 @@ import com.frame.utils.ToastUtil;
  * ========================================
  */
 
-public class App extends BaseApplication{
+public class App extends BaseApplication {
 
     @Override
     public void onCreate() {
         super.onCreate();
+        UMConfigure.init(this,
+                UMConfigure.DEVICE_TYPE_PHONE,
+                "");
+
+        SocializeUtil.init(this);
+
         UIRouter.getInstance().registerUI("app");
     }
 }

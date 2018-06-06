@@ -196,7 +196,7 @@ public class EnvelopDialog extends Dialog {
 
             //红包类型为等额红包时，未领到红包的人不能查看领取详情
             if (envelopInfo.getStatus() == EnvelopInfo.Status.OVERDUE) {
-                if (envelopInfo.isSelf() || envelopInfo.getGotDiamond() > 0) {
+                if (envelopInfo.isSelf() || envelopInfo.getGotDiamond() > 0 || envelopInfo.getType() == EnvelopInfo.EnvelopType.SPELL) {
                     drpTvbLookDetail.setVisibility(View.VISIBLE);
                 }
             } else {

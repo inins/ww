@@ -21,14 +21,25 @@
                 android:layout_height="match_parent" />
         </com.liaoinstan.springview.widget.SpringView>
 
-        <ImageView
-            android:id="@+id/fc_fun_point"
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right|bottom"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/im_icon_fun_point"
-            android:visibility="gone" />
+            android:layout_gravity="end|bottom"
+            android:layout_marginEnd="8dp">
+
+            <ImageView
+                android:id="@+id/fc_fun_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/im_icon_fun_point"
+                android:visibility="gone" />
+
+            <View
+                android:id="@+id/fc_fun_high"
+                android:layout_width="38.5dp"
+                android:layout_height="38.5dp"
+                android:layout_gravity="center_horizontal" />
+        </FrameLayout>
     </FrameLayout>
 
     <com.wang.social.im.view.IMInputView

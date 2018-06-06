@@ -23,6 +23,7 @@ import com.tencent.imsdk.TIMLocationElem;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageListener;
+import com.tencent.imsdk.TIMMessageOfflinePushSettings;
 import com.tencent.imsdk.TIMSoundElem;
 import com.tencent.imsdk.TIMTextElem;
 import com.tencent.imsdk.TIMValueCallBack;
@@ -295,6 +296,10 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
         envelopElem.setData(gson.toJson(elemData).getBytes());
         timMessage.addElement(envelopElem);
 
+        TIMMessageOfflinePushSettings pushSettings = new TIMMessageOfflinePushSettings();
+        pushSettings.setDescr("[红包]");
+        timMessage.setOfflinePushSettings(pushSettings);
+
         doSendMessage(timMessage);
     }
 
@@ -331,6 +336,10 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
         gameElem.setDiamond(diamond);
         customElem.setData(gson.toJson(gameElem).getBytes());
         timMessage.addElement(customElem);
+
+        TIMMessageOfflinePushSettings pushSettings = new TIMMessageOfflinePushSettings();
+        pushSettings.setDescr("[摇钱树]");
+        timMessage.setOfflinePushSettings(pushSettings);
 
         doSendMessage(timMessage);
     }

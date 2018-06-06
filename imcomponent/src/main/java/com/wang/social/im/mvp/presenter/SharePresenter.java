@@ -15,6 +15,7 @@ import com.tencent.imsdk.TIMCustomElem;
 import com.tencent.imsdk.TIMElem;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
+import com.tencent.imsdk.TIMMessageOfflinePushSettings;
 import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.ext.message.TIMManagerExt;
 import com.wang.social.im.app.IMConstants;
@@ -94,6 +95,9 @@ public class SharePresenter extends BasePresenter {
         } else {
             timMessage.addElement(buildShareMessage(objectId, title, content, cover, shareSource));
         }
+        TIMMessageOfflinePushSettings pushSettings = new TIMMessageOfflinePushSettings();
+        pushSettings.setDescr("[分享]");
+        timMessage.setOfflinePushSettings(pushSettings);
         TIMConversation conversation = TIMManager.getInstance().getConversation(conversationType == ConversationType.PRIVATE ? TIMConversationType.C2C : TIMConversationType.Group, targetId);
         conversation.sendMessage(timMessage, new TIMValueCallBack<TIMMessage>() {
             @Override
