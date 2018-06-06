@@ -146,12 +146,12 @@ public class GlobalMessageEvent extends Observable implements TIMMessageListener
                 !ImHelper.isOfflinePushEnable()) {
             return;
         }
+        //显示角标
+        ShortcutBadger.applyCount(mApplication, ImHelper.getTotalUnreadCount());
         if (AppUtils.isAppForeground()) {
             ImHelper.playMessageNotify(mApplication);
             return;
         }
-        //显示角标
-        ShortcutBadger.applyCount(mApplication, ImHelper.getTotalUnreadCount());
         //显示通知
         UIMessage uiMessage = UIMessage.obtain(timMessage);
         NotificationCompat.Builder builder = getBuilder("新消息", uiMessage.getSummary());
