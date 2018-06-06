@@ -13,6 +13,7 @@
 
     <declare-styleable name="im_StackLayout">
         <attr name="im_sl_xoffset" format="dimension" />
+        <attr name="im_sl_xinsert" format="dimension" />
     </declare-styleable>
 
     <declare-styleable name="im_IndexableRecyclerView">
