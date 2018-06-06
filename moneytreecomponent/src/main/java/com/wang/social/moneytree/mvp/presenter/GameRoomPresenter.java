@@ -100,6 +100,17 @@ public class GameRoomPresenter extends
         }
     }
 
+    /**
+     * 分享时获取钻石数
+     */
+    public int getShareDiamond() {
+        if (null != mRoomMsg) return mRoomMsg.getDiamond();
+        if (null != mGameRecordDetail) return mGameRecordDetail.getDiamond();
+        if (null != mGameRecord) return mGameRecord.getDiamond();
+
+        return 0;
+    }
+
 
     /**
      * 判断是否是群成员

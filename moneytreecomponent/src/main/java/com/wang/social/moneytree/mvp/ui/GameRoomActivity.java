@@ -155,9 +155,6 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
     private boolean mGameEnded = false;
     private int mShakeCount = 0;
 
-    // 聊天模块是否初始化
-    private boolean mChatFramgentInited = false;
-
     private @Keys.GameType
     int mType;
     // 游戏结果加载延时
@@ -589,14 +586,13 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
                 AppConstant.Share.SHARE_GAME_TREE_TITLE,
                 shareContent,
                 AppConstant.Share.SHARE_GAME_DEFAULT_IMAGE,
-                (String url, String title, String content, String imageUrl) -> {
+                (String url, String title, String content, String imageUrl) ->
                     CommonHelper.ImHelper.startWangWangShare(this,
                             AppConstant.Share.SHARE_GAME_TREE_TITLE,
-                            Integer.toString(mPresenter.getRoomMsg().getDiamond()),
+                            Integer.toString(mPresenter.getShareDiamond()),
                             AppConstant.Share.SHARE_GAME_DEFAULT_IMAGE,
                             ShareSource.SOURCE_GAME_TREE,
-                            Integer.toString(mPresenter.getRoomId()));
-                });
+                            Integer.toString(mPresenter.getRoomId())));
     }
 
 

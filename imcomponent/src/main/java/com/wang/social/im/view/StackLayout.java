@@ -28,6 +28,8 @@ public class StackLayout extends ViewGroup {
 
     private static final long MAX_DURATION = 350L;
 
+    //在X方向上的错开距离
+    private int mInsertX;
     //布局错开的距离
     private int mOffsetX;
     //定义在X方向上移动的判定值
@@ -59,6 +61,7 @@ public class StackLayout extends ViewGroup {
         super(context, attrs, defStyleAttr);
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.im_StackLayout, defStyleAttr, 0);
         mOffsetX = array.getDimensionPixelSize(R.styleable.im_StackLayout_im_sl_xoffset, 100);
+        mInsertX = array.getDimensionPixelSize(R.styleable.im_StackLayout_im_sl_xinsert, 0);
         array.recycle();
 
         mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
@@ -93,11 +96,11 @@ public class StackLayout extends ViewGroup {
 
         int showWidth = showView.getMeasuredWidth();
         int showHeight = showView.getMeasuredHeight();
-        showView.layout(mOffsetX + mMoveX, 0, showWidth + mOffsetX + mMoveX, showHeight);
+        showView.layout(mOffsetX + mMoveX + mInsertX, 0, showWidth + mOffsetX + mMoveX + mInsertX, showHeight);
 
         int hideWidth = hideView.getMeasuredWidth();
         int hideHeight = hideView.getMeasuredHeight();
-        hideView.layout(0 - mMoveX, 0, hideWidth + (0 - mMoveX), hideHeight);
+        hideView.layout(0 - mMoveX + mInsertX, 0, hideWidth + (0 - mMoveX) + mInsertX, hideHeight);
     }
 
     @Override

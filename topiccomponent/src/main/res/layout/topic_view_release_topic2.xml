@@ -192,6 +192,7 @@
 
 
         <LinearLayout
+            android:id="@+id/content_editor_title_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"

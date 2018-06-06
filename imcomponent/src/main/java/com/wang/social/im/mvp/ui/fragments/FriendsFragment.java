@@ -57,6 +57,7 @@ public class FriendsFragment extends BaseFragment<FriendsPresenter> implements F
     private WeakReference<DialogLoading> mLoading;
 
     private FriendsAdapter mAdapter;
+    private HeaderAdapter mHeaderAdapter;
 
     public static FriendsFragment newInstance() {
         Bundle args = new Bundle();
@@ -117,10 +118,13 @@ public class FriendsFragment extends BaseFragment<FriendsPresenter> implements F
             ffFlFriends.setOverlayStyle_MaterialDesign(ContextCompat.getColor(getContext(), R.color.common_colorAccent));
             ffFlFriends.setCompareMode(IndexableLayout.MODE_FAST);
 
-            ffFlFriends.addHeaderAdapter(new HeaderAdapter(Arrays.asList(""), friends.size()));
+            mHeaderAdapter = new HeaderAdapter(Arrays.asList(""), friends.size());
+            ffFlFriends.addHeaderAdapter(mHeaderAdapter);
         } else {
             mAdapter.setDatas(friends);
             mAdapter.notifyDataSetChanged();
+            mHeaderAdapter.friendSize = friends.size();
+            mHeaderAdapter.notifyDataSetChanged();
         }
 //        }
     }

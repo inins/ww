@@ -42,10 +42,12 @@ import com.frame.component.view.waveview.WaveView;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
+import com.frame.mvp.IView;
 import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.KeyboardUtils;
 import com.frame.utils.RegexUtils;
+import com.frame.utils.RxLifecycleUtils;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.ToastUtil;
 import com.frame.component.ui.acticity.tags.TagSelectionActivity;
@@ -74,6 +76,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -161,6 +164,10 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     ImageView mVoiceRecordIV;
     @BindView(R2.id.wave_view)
     WaveView mWaveView;
+    // 内容编辑框标题区域
+    @BindView(R2.id.content_editor_title_layout)
+    View mContentEditorTitleLayout;
+
 
     // 判断键盘是否弹起时候的阈值
     private int mKeyboardHeight;
@@ -1026,15 +1033,9 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     private View.OnLayoutChangeListener mRichEditorLayoutChangeListener = new View.OnLayoutChangeListener() {
         @Override
         public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-            int newH = Math.max(bottom - top, SizeUtils.dp2px(118));
-            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mRichEditor.getLayoutParams();
-            if (params.height != newH) {
-                Timber.i("重置 WebView 高度 : " + newH);
-                params.height = newH;
-                mRichEditor.setLayoutParams(params);
-                params.height = LinearLayout.LayoutParams.WRAP_CONTENT;
-                mRichEditor.setLayoutParams(params);
-            }
+            int oldH = oldBottom - oldTop;
+            int newH = bottom - top;
+            Timber.i("富文本编辑框高度变化 : " + oldH + " -> " + newH);
         }
     };
 
@@ -1045,7 +1046,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         mRootView.addOnLayoutChangeListener(this);
 //        mRichEditorLayout.addOnLayoutChangeListener(mRichEditLayoutChangeListener);
 //        mRichEditor.addOnLayoutChangeListener(mWebViewLayoutChangeListener);
-//        mRichEditor.addOnLayoutChangeListener(mRichEditorLayoutChangeListener);
+        mRichEditor.addOnLayoutChangeListener(mRichEditorLayoutChangeListener);
     }
 
     @Override
@@ -1057,19 +1058,13 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         mRootView.removeOnLayoutChangeListener(this);
 //        mRichEditorLayout.removeOnLayoutChangeListener(mRichEditLayoutChangeListener);
 //        mRichEditor.removeOnLayoutChangeListener(mWebViewLayoutChangeListener);
-//        mRichEditor.removeOnLayoutChangeListener(mRichEditorLayoutChangeListener);
+        mRichEditor.removeOnLayoutChangeListener(mRichEditorLayoutChangeListener);
     }
 
     @Override
     public void onLayoutChange(View v, int left, int top, int right, int bottom,
                                int oldLeft, int oldTop, int oldRight, int oldBottom) {
         Timber.i(String.format("bottom=%d oldBottom=%d", bottom, oldBottom));
-
-//        if (mRichEditor.isFocused()) {
-//            Timber.i("焦点在内容编辑器");
-//            // 上滚
-//            mNestedScrollView.fullScroll(View.FOCUS_DOWN);
-//        }
 
         // 现在认为只要控件将Activity向上推的高度超过了1/3屏幕高，就认为软键盘弹起
         if (oldBottom != 0 && bottom != 0 && (oldBottom - bottom > mKeyboardHeight)) {
@@ -1095,6 +1090,8 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
                 mBottomLayout.setVisibility(View.VISIBLE);
             }
 
+
+            scrollRichEditorWrapper();
         } else if (oldBottom != 0 && bottom != 0 && (bottom - oldBottom > mKeyboardHeight)) {
             // 关闭
             Timber.i("键盘关闭");
@@ -1111,13 +1108,24 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
                 showVoiceLayout(true);
                 mNeedShowVoiceLayout = false;
             }
-        }
 
-        Timber.i("编辑框位置 : " + mRichEditorLayout.getY());
-        Timber.i("滚动控件位置 : " + mNestedScrollView.getY());
-        Rect rect = new Rect();
-        mNestedScrollView.getGlobalVisibleRect(rect);
-        Timber.i("滚动控件可见位置 : " + rect.top + " " + rect.height());
+            scrollRichEditorWrapper();
+        }
+    }
+
+    /**
+     * 滚动，让屏幕发生变化且内容编辑框获取焦点时始终能看到编辑的内容
+     */
+    private void scrollRichEditorWrapper() {
+
+        if (mRichEditor.isFocused()) {
+            Timber.i("焦点在内容编辑器");
+            // 上滚
+            Observable.timer(500, TimeUnit.MILLISECONDS)
+                    .compose(RxLifecycleUtils.bindToLifecycle((IView) this))
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(aLong -> mNestedScrollView.scrollTo(0, (int) (mContentEditorTitleLayout.getY() - 10)));
+        }
     }
 
     private void showStylePicker(boolean visible) {
