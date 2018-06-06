@@ -169,7 +169,7 @@ public class GlobalMessageEvent extends Observable implements TIMMessageListener
         if (!ImHelper.isOfflinePushEnable()) {
             return;
         }
-        NotificationCompat.Builder builder = getBuilder(message.getTitle(), message.getPushContent());
+        NotificationCompat.Builder builder = getBuilder(message.getTitle(), TextUtils.isEmpty(message.getPushContent()) ? message.getContent() : message.getPushContent());
 //        Intent intent = mApplication.getApplicationContext().getPackageManager().getLaunchIntentForPackage(mApplication.getPackageName());
         Intent intent = buildIntent(message);
         builder.setContentIntent(PendingIntent.getActivity(mApplication, (int) SystemClock.uptimeMillis(), intent, PendingIntent.FLAG_UPDATE_CURRENT));
