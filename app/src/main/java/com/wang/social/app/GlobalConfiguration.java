@@ -45,7 +45,7 @@ public class GlobalConfiguration implements ConfigModule{
 
     @Override
     public void injectActivityLifecycle(Context context, List<Application.ActivityLifecycleCallbacks> lifecycleCallbacks) {
-
+        lifecycleCallbacks.add(new ActivityLifecycleImpl());
     }
 
     @Override

@@ -14,11 +14,11 @@
         android:allowBackup="true"
         android:supportsRtl="true">
 
-        <!-- Meta Data -->
-        <meta-data
-            android:name="com.wang.social.socialize.app.GlobalConfiguration"
-            android:value="ConfigModule" />
-        <!-- ********* -->
+        <!--&lt;!&ndash; Meta Data &ndash;&gt;-->
+        <!--<meta-data-->
+            <!--android:name="com.wang.social.socialize.app.GlobalConfiguration"-->
+            <!--android:value="ConfigModule" />-->
+        <!--&lt;!&ndash; ********* &ndash;&gt;-->
 
         <activity
             android:name="com.dongdongkeji.wangwangsocial.wxapi.WXEntryActivity"

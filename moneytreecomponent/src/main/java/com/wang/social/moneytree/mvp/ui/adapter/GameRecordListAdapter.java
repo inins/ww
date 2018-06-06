@@ -58,7 +58,7 @@ public class GameRecordListAdapter extends RecyclerView.Adapter<GameRecordListAd
         }
 
         holder.nameTV.setText(game.getRoomNickname());
-        holder.infoTV.setText("" + game.getPeopleNum() + mContext.getString(R.string.mt_people));
+        holder.infoTV.setText("" + game.getJoinNum() + mContext.getString(R.string.mt_people));
         holder.priceTV.setText("" + game.getDiamond());
         holder.rightTV.setText("+" + game.getGotDiamond());
 

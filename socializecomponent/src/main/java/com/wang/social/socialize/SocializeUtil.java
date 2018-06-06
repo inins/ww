@@ -165,17 +165,6 @@ public class SocializeUtil {
 
     public static void init(Application application) {
         Timber.i("友盟初始化...");
-        /*
-         * 初始化common库
-         * 参数1:上下文，不能为空
-         * 参数2:友盟 AppKey
-         * 参数3:友盟 Channel
-         * 参数4:设备类型，UMConfigure.DEVICE_TYPE_PHONE为手机、UMConfigure.DEVICE_TYPE_BOX为盒子，默认为手机
-         * 参数5:Push推送业务的secret
-         */
-        UMConfigure.init(application,
-                UMConfigure.DEVICE_TYPE_PHONE,
-                "");
 
         MobclickAgent.setScenarioType(application, MobclickAgent.EScenarioType.E_UM_NORMAL);
 

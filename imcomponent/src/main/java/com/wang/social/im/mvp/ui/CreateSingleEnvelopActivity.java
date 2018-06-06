@@ -12,6 +12,7 @@ import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.frame.component.common.InputLengthFilter;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.utils.UIUtil;
 import com.frame.component.view.SocialToolbar;
@@ -72,6 +73,7 @@ public class CreateSingleEnvelopActivity extends BaseAppActivity<CreateEnvelopPr
     }
 
     private void init() {
+        crpEtMessage.setFilters(new InputFilter[]{new InputLengthFilter(20, false)});
         crpEtDiamond.setFilters(new InputFilter[]{new MoneyInputFilter()});
 
         crpTvDiamond.setText(UIUtil.getString(R.string.common_diamond_format_space, 0));
@@ -118,7 +120,7 @@ public class CreateSingleEnvelopActivity extends BaseAppActivity<CreateEnvelopPr
             ToastUtil.showToastShort(UIUtil.getString(R.string.im_envelop_toast_limit, IMConstants.PRIVATE_ENVELOP_DIAMOND_LIMIT));
             return;
         }
-        String message = crpEtMessage.getText().toString();
+        String message = crpEtMessage.getText().toString().trim();
         if (TextUtils.isEmpty(message)) {
             message = getString(R.string.im_envelop_message_default);
         }

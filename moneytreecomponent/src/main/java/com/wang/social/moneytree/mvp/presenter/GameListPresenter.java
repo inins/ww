@@ -69,17 +69,9 @@ public class GameListPresenter extends
                     public void onError(Throwable e) {
                         mRootView.showToastShort(e.getMessage());
                     }
-                }, new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-
-                    }
-                }, new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mRootView.onLoadGameListCompleted();
-                    }
-                });
+                },
+                disposable -> {},
+                () -> mRootView.onLoadGameListCompleted());
     }
 
     @Override

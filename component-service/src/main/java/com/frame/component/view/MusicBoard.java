@@ -273,6 +273,14 @@ public class MusicBoard extends FrameLayout implements XMediaPlayer.StateListene
         }
     }
 
+    public boolean isPlaying() {
+        if (null != mXMediaPlayer) {
+            return mXMediaPlayer.isPlaying();
+        }
+
+        return false;
+    }
+
     public void onPause() {
         Timber.i("onPause");
 

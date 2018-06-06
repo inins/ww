@@ -14,6 +14,7 @@ import com.frame.component.service.R;
 import com.frame.component.ui.acticity.wwfriendsearch.entities.SearchBase;
 import com.frame.component.ui.acticity.wwfriendsearch.entities.SearchFriend;
 import com.frame.component.ui.acticity.wwfriendsearch.entities.SearchGroup;
+import com.frame.component.utils.SearchUtil;
 import com.frame.component.view.CircularAutoSizeTextView;
 import com.frame.utils.SizeUtils;
 import java.util.List;
@@ -29,6 +30,11 @@ public class WWFriendSearchAdapter extends RecyclerView.Adapter<WWFriendSearchAd
     private List<SearchBase> mList;
     private int mVisibleCount = 3;
     private ClickListener mClickListener;
+    private String mKeyword;
+
+    public void setKeyword(String keyword) {
+        mKeyword = keyword;
+    }
 
     public void setVisibleCount(int visibleCount) {
         mVisibleCount = visibleCount;
@@ -69,7 +75,7 @@ public class WWFriendSearchAdapter extends RecyclerView.Adapter<WWFriendSearchAd
 
             holder.mFlagTV.setVisibility(View.GONE);
             ImageLoaderHelper.loadCircleImg(holder.mAvatarIV, friend.getAvatar());
-            holder.mNameTV.setText(friend.getNickname());
+            holder.mNameTV.setText(SearchUtil.getHotText("", mKeyword, friend.getNickname()));
 
             if (null != mClickListener) {
                 holder.mRootView.setTag(friend);
@@ -94,7 +100,7 @@ public class WWFriendSearchAdapter extends RecyclerView.Adapter<WWFriendSearchAd
                 holder.mFlagTV.setText("趣");
             }
             ImageLoaderHelper.loadCircleImg(holder.mAvatarIV, group.getHead_url());
-            holder.mNameTV.setText(group.getGroup_name());
+            holder.mNameTV.setText(SearchUtil.getHotText("", mKeyword, group.getGroup_name()));
 
             if (null != mClickListener) {
                 holder.mRootView.setTag(group);

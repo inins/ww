@@ -273,6 +273,8 @@ public class TopicListFragment extends BasicFragment implements IView {
         mKeys = keyword;
         mTags = tagNames;
 
+        loadingviewEx.showOut();
+
         mSpringView.callFreshDelay();
     }
 
@@ -312,7 +314,11 @@ public class TopicListFragment extends BasicFragment implements IView {
                 mKeys = (String) event.get("key");
                 mTags = (String) event.get("tags");
 
-                mSpringView.callFreshDelay();
+//                loadingviewEx.showOut();
+//
+//                mSpringView.callFreshDelay();
+
+                loadData(true);
 
                 break;
             case EventBean.EVENTBUS_ADD_TOPIC_COMMENT:

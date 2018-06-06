@@ -65,6 +65,8 @@ public class ReleaseTopicPresenter extends
     private String mTitle;
     // 内容
     private String mContent;
+    // 上传资源失败
+    private boolean mUploadSourceFailed = false;
 
     private Map<String, Object> mNetParam = new LinkedHashMap<>();
 
@@ -196,6 +198,8 @@ public class ReleaseTopicPresenter extends
 
         mRootView.showLoading();
 
+        mUploadSourceFailed = false;
+
         // 不需要上传的参数先封装
         resetNetParam();
         // 标题
@@ -239,6 +243,8 @@ public class ReleaseTopicPresenter extends
      *
      */
     private void commitContentAttachment(String content) {
+        if (mUploadSourceFailed) return;
+
         // 检测是否有图片需要上传
         mLocalImgPath = StringUtil.findLocalImg(content);
         if (!TextUtils.isEmpty(mLocalImgPath)) {
@@ -296,6 +302,8 @@ public class ReleaseTopicPresenter extends
      * 上传话题
      */
     public void addTopic() {
+        if (mUploadSourceFailed) return;
+
         setCommitState(COMMIT_STATE_TOPIC);
 
         mApiHelper.executeForData(mRootView,
@@ -362,6 +370,7 @@ public class ReleaseTopicPresenter extends
             @Override
             public void onFail() {
                 ToastUtil.showToastShort("发布失败");
+                mUploadSourceFailed = true;
                 // 上传附件失败
                 mRootView.hideLoading();
             }
