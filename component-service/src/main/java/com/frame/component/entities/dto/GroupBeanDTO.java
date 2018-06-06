@@ -19,6 +19,7 @@ public class GroupBeanDTO implements Mapper<GroupBean> {
     private String groupHeadUrl;
     private String groupCoverPlan;
     private List<Tag> tags;
+    private List<Tag> groupTags;
     private Integer isOpen;
     private Integer isFree;
     private Integer memberNum;
@@ -38,7 +39,13 @@ public class GroupBeanDTO implements Mapper<GroupBean> {
         object.setGroupName(EntitiesUtil.assertNotNull(groupName));
         object.setGroupHeadUrl(EntitiesUtil.assertNotNull(groupHeadUrl));
         object.setGroupCoverPlan(EntitiesUtil.assertNotNull(groupCoverPlan));
-        object.setTags(null == tags ? new ArrayList<>() : tags);
+        if (null != tags) {
+            object.setTags(tags);
+        } else if (null != groupTags) {
+            object.setTags(groupTags);
+        } else {
+            object.setTags(new ArrayList<>());
+        }
         object.setIsOpen(EntitiesUtil.assertNotNull(isOpen));
         object.setIsFree(EntitiesUtil.assertNotNull(isFree));
         object.setGroupMemberNum(

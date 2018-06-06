@@ -9,6 +9,7 @@
         android:name="com.frame.base.BaseApplication"
         android:allowBackup="true"
         android:label="摇钱树"
+        tools:replace="android:label"
         android:screenOrientation="portrait"
         android:theme="@style/common_AppTheme">
 
