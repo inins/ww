@@ -78,24 +78,24 @@ public class NetFriendHelper {
                 });
     }
 
-    /**
-     * 同意、拒绝邀请加入趣聊、觅聊（别人邀请我的）
-     */
-    public void netAgreeGroupApply(IView view, int groupId, int msgId, boolean isAgree, OnCommonSuccessCallback callback) {
-        ApiHelperEx.execute(view, true,
-                ApiHelperEx.getService(CommonService.class).agreeGroupApply(groupId, msgId, isAgree ? 0 : 1),
-                new ErrorHandleSubscriber<BaseJson>() {
-                    @Override
-                    public void onNext(BaseJson basejson) {
-                        if (callback != null) callback.success();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        ToastUtil.showToastLong(e.getMessage());
-                    }
-                });
-    }
+//    /**
+//     * 同意、拒绝邀请加入趣聊、觅聊（别人邀请我的）
+//     */
+//    public void netAgreeGroupApply(IView view, int groupId, int msgId, boolean isAgree, OnCommonSuccessCallback callback) {
+//        ApiHelperEx.execute(view, true,
+//                ApiHelperEx.getService(CommonService.class).agreeGroupApply(groupId, msgId, isAgree ? 0 : 1),
+//                new ErrorHandleSubscriber<BaseJson>() {
+//                    @Override
+//                    public void onNext(BaseJson basejson) {
+//                        if (callback != null) callback.success();
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        ToastUtil.showToastLong(e.getMessage());
+//                    }
+//                });
+//    }
 
     ////////////////////////////////////
 

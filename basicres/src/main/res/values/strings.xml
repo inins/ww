@@ -41,14 +41,14 @@
     <string name="common_default_nomsg">暂无新的消息</string>
     <string name="common_default_nonotify">暂无新的通知</string>
     <string name="common_default_nofriend">暂无新好友申请</string>
-    <string name="common_default_nogroup">暂无新的通知</string>
+    <string name="common_default_nogroup">暂无趣聊邀请</string>
     <string name="common_default_nosupport">什么都没有</string>
     <string name="common_default_notopic">你还没有发布话题</string>
     <string name="common_default_nocomment">什么都没有</string>
     <string name="common_default_nopersonal">你这个人看不透</string>
     <string name="common_default_nofunshow">你还没有发布趣晒</string>
     <string name="common_default_nosearch">什么都没有找到</string>
-    <string name="common_default_nofindchat">暂无新好友申请</string>
+    <string name="common_default_nofindchat">暂无觅聊申请</string>
     <string name="common_default_noaite">暂无新@</string>
     <string name="common_default_nomoneytree">什么都没有</string>
     <string name="common_default_nonet">网络连接失败</string>

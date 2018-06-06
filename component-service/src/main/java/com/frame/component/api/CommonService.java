@@ -223,7 +223,7 @@ public interface CommonService {
      */
     @FormUrlEncoded
     @POST("app/group/agreeOrRejectAdd?v=2.0.0")
-    Observable<BaseJson> agreeGroupApply(@Field("groupId") int groupId, @Field("msgId") int msgId, @Field("type") int type);
+    Observable<BaseJson<AddGroupApplyRspDTO>> agreeGroupApply(@Field("groupId") int groupId, @Field("msgId") int msgId, @Field("type") int type);
 
 
     /**

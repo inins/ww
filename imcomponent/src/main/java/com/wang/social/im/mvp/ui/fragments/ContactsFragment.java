@@ -200,19 +200,11 @@ public class ContactsFragment extends BasicFragment implements AutoPopupWindow.O
 
     private void setSelectStatus(View view) {
         TextView tvName = view.findViewById(R.id.ct_tv_name);
-        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) tvName.getLayoutParams();
-        layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-        layoutParams.width = SizeUtils.dp2px(100);
-        tvName.setLayoutParams(layoutParams);
         tvName.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30);
     }
 
     private void setUnSelectStatus(View view) {
         TextView tvName = view.findViewById(R.id.ct_tv_name);
-        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) tvName.getLayoutParams();
-        layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-        layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;
-        tvName.setLayoutParams(layoutParams);
         tvName.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
     }
 

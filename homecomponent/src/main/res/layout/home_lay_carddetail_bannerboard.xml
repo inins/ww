@@ -2,9 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:transitionName="share_root"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:transitionName="share_root">
 
     <com.frame.component.view.bannerview.BannerView
         android:id="@+id/banner"
@@ -20,9 +20,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/banner"
-        android:transitionName="share_board"
         android:layout_marginTop="-10dp"
-        android:background="@drawable/common_shape_rect_white_conertop">
+        android:background="@drawable/common_shape_rect_white_conertop"
+        android:transitionName="share_board">
 
         <ImageView
             android:id="@+id/img_header"
@@ -35,41 +35,46 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/text_lable_gender"
+        <LinearLayout
+            android:id="@+id/lay_temp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
-            android:background="@drawable/common_select_gender_bk"
-            android:drawableLeft="@drawable/common_select_gender"
-            android:drawablePadding="5dp"
-            android:gravity="center"
-            android:paddingLeft="7dp"
-            android:paddingRight="8dp"
-            android:transitionName="share_gender"
-            android:text="...."
-            android:textColor="@color/common_white"
-            android:textSize="11sp"
+            android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="@+id/text_name"
-            app:layout_constraintTop_toBottomOf="@+id/text_name" />
+            app:layout_constraintTop_toBottomOf="@+id/text_name">
 
-        <TextView
-            android:id="@+id/text_lable_astro"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:transitionName="share_astro"
-            android:layout_marginStart="16dp"
-            android:background="@drawable/common_shape_rect_dark_conerfull"
-            android:checked="true"
-            android:gravity="center"
-            android:paddingLeft="7dp"
-            android:paddingRight="8dp"
-            android:text="...."
-            android:textColor="@color/common_white"
-            android:textSize="11sp"
-            app:layout_constraintBottom_toBottomOf="@+id/text_lable_gender"
-            app:layout_constraintStart_toEndOf="@+id/text_lable_gender"
-            app:layout_constraintTop_toTopOf="@+id/text_lable_gender" />
+            <TextView
+                android:id="@+id/text_lable_gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/common_select_gender_bk"
+                android:drawableLeft="@drawable/common_select_gender"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:paddingLeft="7dp"
+                android:paddingRight="8dp"
+                android:text="...."
+                android:textColor="@color/common_white"
+                android:textSize="11sp"
+                android:transitionName="share_gender" />
+
+            <TextView
+                android:id="@+id/text_lable_astro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/common_shape_rect_dark_conerfull"
+                android:checked="true"
+                android:gravity="center"
+                android:paddingLeft="7dp"
+                android:paddingRight="8dp"
+                android:text="...."
+                android:textColor="@color/common_white"
+                android:textSize="11sp"
+                android:transitionName="share_astro" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/text_name"
@@ -88,7 +93,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:transitionName="share_position"
             android:layout_marginEnd="16dp"
             android:drawableLeft="@drawable/common_ic_position"
             android:drawablePadding="1dp"
@@ -96,6 +100,7 @@
             android:text=""
             android:textColor="@color/common_text_dark"
             android:textSize="12sp"
+            android:transitionName="share_position"
             app:layout_constraintBottom_toBottomOf="@+id/text_lable_gender"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/text_name" />
@@ -115,7 +120,6 @@
         <com.frame.component.view.ConerTextView
             android:id="@+id/connertext_lable"
             android:layout_width="0dp"
-            android:transitionName="share_lable"
             android:layout_height="wrap_content"
             android:layout_marginEnd="15dp"
             android:layout_marginStart="15dp"
@@ -123,6 +127,7 @@
             android:lineSpacingExtra="16dp"
             android:text="..."
             android:textSize="12sp"
+            android:transitionName="share_lable"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_lable_title" />

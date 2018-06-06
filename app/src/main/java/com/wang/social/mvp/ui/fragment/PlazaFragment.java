@@ -67,7 +67,7 @@ public class PlazaFragment extends BasicLazyNoDiFragment {
         popupWindow = new FunshowSortPopupWindow(getContext());
         pagerAdapter = new PagerAdapterPlaza(getChildFragmentManager(), titles);
         pager.setAdapter(pagerAdapter);
-        pager.setOffscreenPageLimit(2);
+        pager.setOffscreenPageLimit(1);
         tablayout.setViewPager(pager);
         tablayout.setOnTabClickListener(position -> {
             if (position == 0) {

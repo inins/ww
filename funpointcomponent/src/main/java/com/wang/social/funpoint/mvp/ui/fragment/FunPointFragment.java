@@ -55,6 +55,7 @@ public class FunPointFragment extends BaseLazyFragment<FunpointListPresonter> im
 
     private RecycleAdapterLable adapterLable;
     private RecycleAdapterFunpoint adapterHome;
+    private boolean isBigKnow;
 
     public static FunPointFragment newInstance() {
         Bundle args = new Bundle();
@@ -68,9 +69,12 @@ public class FunPointFragment extends BaseLazyFragment<FunpointListPresonter> im
         switch (event.getEvent()) {
             case EventBean.EVENTBUS_TAG_UPDATED:
                 mPresenter.netGetRecommendTag();
+                mPresenter.netGetFunpointList(true, true, isBigKnow);
                 break;
             case EventBean.EVENTBUS_TAG_ALL:
                 //大量知识，有待处理
+                isBigKnow = true;
+                mPresenter.netGetFunpointList(true, false, isBigKnow);
                 break;
         }
     }
@@ -105,16 +109,17 @@ public class FunPointFragment extends BaseLazyFragment<FunpointListPresonter> im
         springView.setListener(new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
-                mPresenter.netGetFunpointList(true, false);
+                isBigKnow = false;
+                mPresenter.netGetFunpointList(true, false, isBigKnow);
             }
 
             @Override
             public void onLoadmore() {
-                mPresenter.netGetFunpointList(false, false);
+                mPresenter.netGetFunpointList(false, false, isBigKnow);
             }
         });
 
-        mPresenter.netGetFunpointList(true, true);
+        mPresenter.netGetFunpointList(true, true, isBigKnow);
         mPresenter.netGetRecommendTag();
     }
 

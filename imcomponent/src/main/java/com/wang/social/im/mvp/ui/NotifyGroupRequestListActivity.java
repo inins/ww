@@ -10,7 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import com.frame.base.BaseAdapter;
 import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.BaseListWrap;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.NetFriendHelper;
+import com.frame.component.helper.NetGroupHelper;
 import com.frame.component.helper.NetMsgHelper;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
 import com.frame.component.view.LoadingLayoutEx;
@@ -67,7 +69,10 @@ public class NotifyGroupRequestListActivity extends BasicAppNoDiActivity impleme
         adapter = new RecycleAdapterGroupRequest();
         adapter.setOnItemClickListener(this);
         adapter.setOnJoinClickListener((bean, position) -> {
-            NetFriendHelper.newInstance().netAgreeGroupApply(NotifyGroupRequestListActivity.this, bean.getGroupId(), bean.getMsgId(), true, () -> {
+//            NetFriendHelper.newInstance().netAgreeGroupApply(NotifyGroupRequestListActivity.this, bean.getGroupId(), bean.getMsgId(), true, () -> {
+//                netGetSysMsgList(true);
+//            });
+            NetGroupHelper.newInstance().applyAddGroup(NotifyGroupRequestListActivity.this, NotifyGroupRequestListActivity.this, getSupportFragmentManager(), bean.getGroupId(), bean.getMsgId(), true, isNeedValidation -> {
                 netGetSysMsgList(true);
             });
         });
@@ -94,6 +99,7 @@ public class NotifyGroupRequestListActivity extends BasicAppNoDiActivity impleme
 
     @Override
     public void onItemClick(GroupRequest bean, int position) {
+        CommonHelper.ImHelper.startGroupInviteFromMsg(this, bean.getGroupId(), bean.getMsgId());
     }
 
     //////////////////////分页查询////////////////////
