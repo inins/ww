@@ -40,6 +40,7 @@ public class UserBoard {
     private String avatar;
     private String provinceName;
     private int userId;
+    private int showAge;
     private List<Tag> tags;
     private List<Photo> picList;
 
@@ -76,5 +77,9 @@ public class UserBoard {
 
     public String getTagText() {
         return Tag.getTagText(tags);
+    }
+
+    public boolean isShowAge() {
+        return showAge != 0;
     }
 }

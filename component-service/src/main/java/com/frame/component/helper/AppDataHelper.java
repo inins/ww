@@ -97,17 +97,4 @@ public class AppDataHelper {
     public static void removeNotifySave() {
         SPUtils.getInstance(SHARENAME).remove(KEY_NOTIFY_SAVE);
     }
-
-    ////////////////// 是否展示年龄-设置 /////////////////
-    public static void saveShowAge(boolean showAge) {
-        SPUtils.getInstance(SHARENAME).put(KEY_SHOW_AGE, showAge);
-    }
-
-    public static boolean getShowAge() {
-        return SPUtils.getInstance(SHARENAME).getBoolean(KEY_SHOW_AGE, true);
-    }
-
-    public static void removeShowAge() {
-        SPUtils.getInstance(SHARENAME).remove(KEY_SHOW_AGE);
-    }
 }

@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.frame.component.ui.base.BasicAppNoDiActivity;
+import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
@@ -18,6 +19,8 @@ import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
 import com.frame.component.helper.AppValiHelper;
 import com.wang.social.personal.mvp.model.api.UserService;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 
@@ -89,6 +92,7 @@ public class AccountDepositActivity extends BasicAppNoDiActivity {
                 new ErrorHandleSubscriber<BaseJson<Object>>() {
                     @Override
                     public void onNext(BaseJson<Object> basejson) {
+                        EventBus.getDefault().post(new EventBean(EventBean.EVENT_ACCOUNT_DEPOSIT));
                         ToastUtil.showToastShort("提交成功");
                         finish();
                         AccountDepositRecordActivity.start(AccountDepositActivity.this);
