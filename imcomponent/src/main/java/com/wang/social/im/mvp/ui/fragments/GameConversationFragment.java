@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import timber.log.Timber;
 
 /**
  * ============================================
@@ -168,7 +169,6 @@ public class GameConversationFragment extends BaseFragment<GameConversationPrese
 
     @Override
     public void onInputViewCollapsed() {
-
     }
 
     @Override

@@ -7,12 +7,15 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.constraint.Guideline;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,7 +28,6 @@ import com.frame.component.enums.ShareSource;
 import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.router.Router;
-import com.frame.component.router.ui.UIRouter;
 import com.frame.component.service.im.ImService;
 import com.frame.component.ui.acticity.WebActivity;
 import com.frame.component.ui.base.BaseAppActivity;
@@ -36,8 +38,6 @@ import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.integration.AppManager;
 import com.frame.router.facade.annotation.RouteNode;
-import com.frame.utils.FrameUtils;
-import com.frame.utils.RxLifecycleUtils;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.StatusBarUtil;
 import com.frame.utils.ToastUtil;
@@ -64,8 +64,6 @@ import com.wang.social.moneytree.utils.Keys;
 import com.wang.social.moneytree.utils.ShakeUtils;
 import com.wang.social.socialize.SocializeUtil;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -75,7 +73,6 @@ import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 import static com.wang.social.moneytree.utils.Keys.NAME_GAME_BEAN;
@@ -147,6 +144,9 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
     @BindView(R2.id.member_chat_layout)
     LinearLayout mMemberChatLayout;
 
+    @BindView(R2.id.guide_line)
+    Guideline mGuideline;
+
     private ShakeUtils mShakeUtils;
     @Inject
     AppManager mAppManager;
@@ -154,6 +154,10 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
 
     private boolean mGameEnded = false;
     private int mShakeCount = 0;
+
+    // 屏幕高度
+    private int mScreenH;
+    private int mChatUIOffset = SizeUtils.dp2px(20);
 
     private @Keys.GameType
     int mType;
@@ -177,7 +181,12 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
         StatusBarUtil.setTranslucent(this);
-//        StatusBarUtil.setTextDark(this);
+
+
+        WindowManager manager = this.getWindowManager();
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        manager.getDefaultDisplay().getMetrics(outMetrics);
+        mScreenH = outMetrics.heightPixels;
 
         mShakeUtils = new ShakeUtils(this);
         mShakeUtils.setOnShakeListener(this);
@@ -196,6 +205,7 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
             mPresenter.setGameBean(gameBean);
         }
 
+        // 左上退出
         mToolbar.setOnButtonClickListener(clickType -> {
             if (clickType == SocialToolbar.ClickType.LEFT_ICON) {
                 finish();
@@ -452,10 +462,7 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
      */
     @OnClick(R2.id.go_chat_image_view)
     public void goToChat() {
-//        mAppManager.killActivity(GameListActivity.class);
-//        finish();
         if (mPresenter.isGroupMember()) {
-//            mAppManager.kill("com.wang.social.im.mvp.ui.GroupConversationActivity");
             // 是群成员，进入趣聊
             CommonHelper.ImHelper.gotoGroupConversation(
                     this,
@@ -467,6 +474,7 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
             CommonHelper.ImHelper.startGroupInviteBrowse(this, mPresenter.getGroupId());
         }
     }
+
 
     /**
      * 游戏规则
@@ -508,6 +516,20 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
                 }
             };
 
+    private int mContentH;
+    private View.OnLayoutChangeListener mContentLayoutChangeListener =
+            (View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) -> {
+                int height = bottom - top;
+
+                if (height > 0 && mContentH != height) {
+                    Timber.i("摇钱树高度变化 : " + height);
+                    mContentH = height;
+                    float percent = ((float)(height - mChatUIOffset) / (float)mScreenH);
+                    Timber.i("Percent : " + Float.toString(percent));
+                    mGuideline.setGuidelinePercent(percent);
+                }
+            };
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -520,6 +542,8 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
 //        if (null != mPresenter.getGameBean() && mPresenter.isJoined()) {
 //            mMemberChatLayout.addOnLayoutChangeListener(mLayoutChangeListener);
 //        }
+
+        mContentLayout.addOnLayoutChangeListener(mContentLayoutChangeListener);
 
         // 如果游戏已经结束，则加载游戏结果
         if (mGameEnded) {
@@ -538,6 +562,8 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
         }
 
 //        mMemberChatLayout.removeOnLayoutChangeListener(mLayoutChangeListener);
+
+        mContentLayout.removeOnLayoutChangeListener(mContentLayoutChangeListener);
     }
 
     @Override
@@ -587,12 +613,12 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
                 shareContent,
                 AppConstant.Share.SHARE_GAME_DEFAULT_IMAGE,
                 (String url, String title, String content, String imageUrl) ->
-                    CommonHelper.ImHelper.startWangWangShare(this,
-                            AppConstant.Share.SHARE_GAME_TREE_TITLE,
-                            Integer.toString(mPresenter.getShareDiamond()),
-                            AppConstant.Share.SHARE_GAME_DEFAULT_IMAGE,
-                            ShareSource.SOURCE_GAME_TREE,
-                            Integer.toString(mPresenter.getRoomId())));
+                        CommonHelper.ImHelper.startWangWangShare(this,
+                                AppConstant.Share.SHARE_GAME_TREE_TITLE,
+                                Integer.toString(mPresenter.getShareDiamond()),
+                                AppConstant.Share.SHARE_GAME_DEFAULT_IMAGE,
+                                ShareSource.SOURCE_GAME_TREE,
+                                Integer.toString(mPresenter.getRoomId())));
     }
 
 
@@ -608,7 +634,7 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
             super.onBackPressed();
         } else {
             if (mChatFragment.onBackPressed()) {
-                resetMemberChatLayoutHeight(0);
+                onChatIconShow(0);
             } else {
                 super.onBackPressed();
             }
@@ -631,16 +657,39 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
         return true;
     }
 
+    private void onChatIconShow(int height) {
+        Timber.i(String.format("onChatIconShow : 高度=%1$d 聊天界面高度=%2$d 摇钱树高度=%3$d 屏幕高度=%4$d",
+                height,
+                mMemberChatLayout.getHeight(),
+                mContentLayout.getHeight(),
+                mScreenH));
+
+        float percent = ((float) (mContentLayout.getHeight() + height - mChatUIOffset)) / (float) mScreenH;
+        Timber.i("percent : " + Float.toString(percent));
+
+        mContentLayout.setY(height);
+
+        mGuideline.setGuidelinePercent(percent);
+    }
+
     @Override
     public void onCommonEvent(EventBean event) {
         super.onCommonEvent(event);
 
         switch (event.getEvent()) {
+            case EventBean.EVENT_GAME_INPUT_EMOJI_GONE:
+                Timber.i("表情输入隐藏");
+                onChatIconShow(0);
+                break;
             // 表情输入框弹出
             case EventBean.EVENT_GAME_INPUT_HEIGHT_CHANGED:
                 int height = (int) event.get("height");
 //                resetMemberChatLayoutHeight(height);
-                Timber.i("表情弹出 : " + height);
+                Timber.i("表情输入弹出 : " + height);
+
+                if (height > 0) {
+                    onChatIconShow(-height);
+                }
                 break;
             case EventBean.EVENT_GAME_JOIN:
                 Timber.i("用户加入游戏");

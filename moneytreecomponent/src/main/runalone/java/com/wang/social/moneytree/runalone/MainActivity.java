@@ -173,7 +173,7 @@ public class MainActivity extends BaseAppActivity implements IView , DialogCreat
     }
 
     @Override
-    public void onPayCreateGameSuccess() {
+    public void onPayCreateGameSuccess(int roomId, int diamond) {
 
     }
 }

@@ -402,7 +402,14 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
                         if (null != group.getSex()) {
                             if (null != group.getSex()) {
                                 mSexList.clear();
-                                mSexList.addAll(group.getSex());
+                                // 只显示男女
+                                for (DistributionSex sex : group.getSex()) {
+                                    if (sex.getSex() == 0 || sex.getSex() == 1) {
+                                        mSexList.add(sex);
+                                    }
+                                }
+
+//                                mSexList.addAll(group.getSex());
 
                                 if (null != mSexAdapter) {
                                     mSexAdapter.resetCount(group.getSex());

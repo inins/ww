@@ -12,11 +12,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.frame.entities.EventBean;
 import com.frame.utils.KeyboardUtils;
 import com.wang.social.im.R;
 import com.wang.social.im.view.emotion.EmotionAdapter;
 import com.wang.social.im.view.emotion.SimpleCommonUtils;
 import com.wang.social.im.view.emotion.widget.EmoticonsEditText;
+
+import org.greenrobot.eventbus.EventBus;
 
 import lombok.Setter;
 
@@ -183,6 +186,8 @@ public class GameInputView extends LinearLayout {
     }
 
     private void hideEmotionBoard() {
+        // 杨靖添加代码
+        EventBus.getDefault().post(new EventBean(EventBean.EVENT_GAME_INPUT_EMOJI_GONE));
         mEmotionAdapter.setVisibility(GONE);
     }
 
