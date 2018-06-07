@@ -127,4 +127,7 @@ public final class RegexConstants {
      * 正则：用户名，取值范围为a-z,A-Z,0-9,"_",汉字，不能以"_"结尾,用户名必须是1-12位
      */
     public static final String REGEX_USERNAME_ME = "^[\\w\\u4e00-\\u9fa5]{1,12}$";
+
+
+    public static final String REGEX_TOPIC_NAME = "^[\\w\\u4e00-\\u9fa5]{1,30}$";
 }
