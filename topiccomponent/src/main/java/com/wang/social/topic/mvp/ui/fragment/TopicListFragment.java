@@ -262,7 +262,7 @@ public class TopicListFragment extends BaseFragment<TopicListPresenter> implemen
                 break;
             case EventBean.EVENTBUS_ADD_TOPIC_SHARE:
                 // 转发成功，转发量加1
-                int shareTopicID = (int) event.get("topicId");
+                int shareTopicID = Integer.valueOf(event.get("topicId").toString());
                 Timber.i("话题列表-话题转发 : " + shareTopicID);
                 for (Topic topic : mPresenter.getTopicList()) {
                     if (topic.getTopicId() == shareTopicID) {

@@ -17,6 +17,7 @@ import com.frame.component.helper.NetMsgHelper;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
 import com.frame.component.view.LoadingLayoutEx;
 import com.frame.component.view.TitleView;
+import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
@@ -54,6 +55,21 @@ public class NotifyGroupRequestListActivity extends BasicAppNoDiActivity impleme
     public static void start(Context context) {
         Intent intent = new Intent(context, NotifyGroupRequestListActivity.class);
         context.startActivity(intent);
+    }
+
+    @Override
+    public void onCommonEvent(EventBean event) {
+        switch (event.getEvent()) {
+            case EventBean.EVENTBUS_AGREE_ADD_GROUP_SUCCESS:
+            case EventBean.EVENTBUS_REFUSE_ADD_GROUP_SUCCESS:
+                netGetSysMsgList(true);
+                break;
+        }
+    }
+
+    @Override
+    public boolean useEventBus() {
+        return true;
     }
 
     @Override

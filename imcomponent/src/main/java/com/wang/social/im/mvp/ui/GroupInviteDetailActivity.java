@@ -307,7 +307,8 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
 
         // 底部栏
         mBottomLayout.setVisibility(View.VISIBLE);
-        if (mType == TYPE_INVITE) {
+        // 邀请模式，并且不是群成员才会显示 拒绝 加入
+        if (mType == TYPE_INVITE && mIsGroupMember != 1) {
             // 邀请模式，底部显示 拒绝 和 加入
             mRefuseTV.setVisibility(View.VISIBLE);
             mAgreeTV.setVisibility(View.VISIBLE);
@@ -436,6 +437,12 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
                 new ErrorHandleSubscriber() {
                     @Override
                     public void onNext(Object o) {
+                        // 发送同意加入成功的消息
+                        EventBean eventBean = new EventBean(EventBean.EVENTBUS_AGREE_ADD_GROUP_SUCCESS);
+                        eventBean.put("groupId", groupId);
+                        eventBean.put("msgId", msgId);
+                        EventBus.getDefault().post(eventBean);
+
                         //  入群后隐藏底部
                         mBottomLayout.setVisibility(View.GONE);
                         // 重新加载统计信息
@@ -459,6 +466,12 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
                 new ErrorHandleSubscriber() {
                     @Override
                     public void onNext(Object o) {
+                        // 发送拒绝加入成功的消息
+                        EventBean eventBean = new EventBean(EventBean.EVENTBUS_REFUSE_ADD_GROUP_SUCCESS);
+                        eventBean.put("groupId", groupId);
+                        eventBean.put("msgId", msgId);
+                        EventBus.getDefault().post(eventBean);
+
                         //  拒绝入群后隐藏底部
                         mBottomLayout.setVisibility(View.GONE);
                     }

@@ -161,7 +161,7 @@ public class FunshowView extends FrameLayout implements View.OnClickListener {
         imgTagPay.setVisibility(!bean.isFree() ? View.VISIBLE : View.GONE);
         imgPlayer.setVisibility(bean.isVideo() ? View.VISIBLE : View.GONE);
         textPosition.setText(bean.getPositionText());
-        textPosition.setVisibility(!TextUtils.isDigitsOnly(bean.getPositionText()) ? VISIBLE : GONE);
+        textPosition.setVisibility(!TextUtils.isEmpty(bean.getPositionText()) ? VISIBLE : GONE);
 
 //        不再解析视频第一帧，性能耗费太大
 //        if (TextUtils.isEmpty(bean.getShowPic()) && !TextUtils.isEmpty(bean.getVideoUrl())) {

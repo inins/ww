@@ -61,7 +61,7 @@ public class FunshowAddEditController extends FunshowAddBaseController {
     ////////////////////////
 
     public String getContent() {
-        return editContent.getText().toString();
+        return editContent.getText().toString().trim();
     }
 
     public List<Friend> getFriends() {

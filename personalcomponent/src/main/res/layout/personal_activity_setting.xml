@@ -195,6 +195,7 @@
                 android:layout_marginRight="15dp" />
 
             <TextView
+                android:id="@+id/text_version"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:gravity="center"

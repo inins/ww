@@ -119,6 +119,8 @@ public class HomeFragment extends BasicLazyNoDiFragment implements HomeContract.
 
     @Override
     public void finishSpringView() {
-        springView.onFinishFreshAndLoadDelay();
+        if (null != springView) {
+            springView.onFinishFreshAndLoadDelay();
+        }
     }
 }

@@ -760,7 +760,7 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
                                 TopicDetailActivity.this,
                                 null,
                                 mTopicId,
-                                0,
+                                1,
                                 () -> {
                                     // 发送通知分享增加
                                     EventBean bean = new EventBean(EventBean.EVENTBUS_ADD_TOPIC_SHARE);
@@ -885,7 +885,7 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
                 break;
             case EventBean.EVENTBUS_ADD_TOPIC_SHARE:
                 // 转发成功，转发量加1
-                int shareTopicID = (int) event.get("topicId");
+                int shareTopicID = Integer.valueOf(event.get("topicId").toString());
                 if (shareTopicID == mTopicId) {
                     Timber.i("话题详情-转发成功 : " + shareTopicID);
                     mTopicDetail.setShareTotal(mTopicDetail.getShareTotal() + 1);

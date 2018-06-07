@@ -257,15 +257,23 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
         mPresenter.loadUserInfoAndPhotos(mUserId);
     }
 
+    private void resetShowMoreLayout(boolean visible) {
+        mMoreLayout.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
     private void showMoreLayout(boolean visible) {
         if (null != mPersonalInfo && mPersonalInfo.getIsFriend() > 0) {
-            mMoreLayout.setVisibility(visible ? View.VISIBLE : View.GONE);
+            resetShowMoreLayout(visible);
         }
+    }
+
+    private void resetShowReportTV(boolean visible) {
+        mReportTV.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
     private void showReportTV(boolean visible) {
         if (null != mPersonalInfo && mPersonalInfo.getIsFriend() < 1) {
-            mReportTV.setVisibility(visible ? View.VISIBLE : View.GONE);
+            resetShowReportTV(visible);
         }
     }
 
@@ -445,8 +453,8 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
         }
 
         // 右上角显示
-        showMoreLayout(personalInfo.getIsFriend() > 0);
-        showReportTV(personalInfo.getIsFriend() <= 0);
+        resetShowMoreLayout(personalInfo.getIsFriend() > 0);
+        resetShowReportTV(personalInfo.getIsFriend() <= 0);
     }
 
 
