@@ -194,6 +194,8 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     int mImageType;
     // 价格
     private int mPrice = 0;
+    // 内容编辑器点击Y位置
+    private int mRichEditorTouchY;
 
     private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
@@ -546,10 +548,22 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         mRichEditor.setBackgroundColor(Color.TRANSPARENT);
 
         mRichEditor.setOnDecorationChangeListener((String text, List<RichEditor.Type> types) -> {
-            Timber.i("onStateChangeListener : " + text);
+            Timber.i("OnDecorationChangeListener : " + text);
         });
 
         mRichEditor.setOnTextChangeListener((String text) -> {});
+
+        mRichEditor.setOnTouchListener((View v, MotionEvent event) -> {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                case MotionEvent.ACTION_UP:
+                    Timber.i("RichEditor touch : x=%1$f y=%2$f", event.getX(), event.getY());
+                    mRichEditorTouchY = (int) event.getY();
+                    break;
+            }
+            v.performClick();
+            return false;
+        });
 
 
         mTitleET.setOnFocusChangeListener((View v, boolean hasFocus) -> {
@@ -985,61 +999,22 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         dismissLoadingDialog();
     }
 
-    private View.OnLayoutChangeListener mRichEditLayoutChangeListener = new View.OnLayoutChangeListener() {
-        @Override
-        public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-//
-//            ViewGroup.LayoutParams layoutParams = mRichEditorWrapper.getLayoutParams();
-//            int newH = bottom - top;
-//            if (newH != layoutParams.height) {
-//                Timber.i("重置内容编辑背景高度 ：" + newH);
-//                layoutParams.height = newH;
-//                mRichEditorWrapper.setLayoutParams(layoutParams);
-//            }
-        }
-    };
-
-    private View.OnLayoutChangeListener mWebViewLayoutChangeListener = new View.OnLayoutChangeListener() {
-        @Override
-        public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-            int newH = bottom - top;
-            int oldH = oldBottom - oldTop;
-
-            Timber.i("WebView编辑框高度变化 : " + oldH + " -> " + newH);
-
-            FrameLayout.LayoutParams wvP = (FrameLayout.LayoutParams)mRichEditor.getLayoutParams();
-
-            int h = wvP.height + wvP.topMargin + wvP.bottomMargin;
-            h = Math.max(h, SizeUtils.dp2px(118));
-
-//            Timber.i("重置编辑框父控件高度 : " + h);
-//            ViewGroup.LayoutParams ip = mRichEditorBGIV.getLayoutParams();
-//            ip.height = h;
-//            mRichEditorBGIV.setLayoutParams(ip);
-//            ViewGroup.LayoutParams pp = mRichEditorLayout.getLayoutParams();
-//            pp.height = h;
-//            mRichEditorLayout.setLayoutParams(pp);
-
-//            if (newH < oldH && oldH > minH) {
-//                ViewGroup.LayoutParams param = mRichEditorBGIV.getLayoutParams();
-//                int h = param.height - (oldH - newH);
-//                Timber.i("改变背景图高度 : " + param.height + " -> " + h);
-//                param.height = Math.max(h, minH);
-//                mRichEditorBGIV.setLayoutParams(param);
-//                mRichEditorLayout.requestLayout();
-//                ViewGroup.LayoutParams p = mRichEditorLayout.getLayoutParams();
-//                p.height = h;
-//                mRichEditorLayout.setLayoutParams(p);
-//            }
-        }
-    };
-
     private View.OnLayoutChangeListener mRichEditorLayoutChangeListener = new View.OnLayoutChangeListener() {
         @Override
         public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
             int oldH = oldBottom - oldTop;
             int newH = bottom - top;
             Timber.i("富文本编辑框高度变化 : " + oldH + " -> " + newH);
+            Rect rect = new Rect();
+            mNestedScrollView.getLocalVisibleRect(rect);
+            // 可见高度
+            int visibleH = rect.bottom - rect.top;
+            Timber.i(String.format("ScrollView : 高度=%1$d 可见高度=%2$d RichEditor高度=%3$d",
+                    mNestedScrollView.getHeight(),
+                    visibleH,
+                    mRichEditor.getHeight()));
+
+
         }
     };
 
@@ -1048,8 +1023,6 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         super.onResume();
 
         mRootView.addOnLayoutChangeListener(this);
-//        mRichEditorLayout.addOnLayoutChangeListener(mRichEditLayoutChangeListener);
-//        mRichEditor.addOnLayoutChangeListener(mWebViewLayoutChangeListener);
         mRichEditor.addOnLayoutChangeListener(mRichEditorLayoutChangeListener);
     }
 
@@ -1060,8 +1033,6 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         mMusicBoard.onPause();
 
         mRootView.removeOnLayoutChangeListener(this);
-//        mRichEditorLayout.removeOnLayoutChangeListener(mRichEditLayoutChangeListener);
-//        mRichEditor.removeOnLayoutChangeListener(mWebViewLayoutChangeListener);
         mRichEditor.removeOnLayoutChangeListener(mRichEditorLayoutChangeListener);
     }
 
@@ -1121,13 +1092,12 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
      * 滚动，让屏幕发生变化且内容编辑框获取焦点时始终能看到编辑的内容
      */
     private void scrollRichEditorWrapper() {
-
         if (mRichEditor.isFocused()) {
-            Timber.i("焦点在内容编辑器");
+            Timber.i("scrollRichEditorWrapper : 焦点在内容编辑器");
             Rect rect = new Rect();
+            mNestedScrollView.getLocalVisibleRect(rect);
             // 可见高度
             int visibleH = rect.bottom - rect.top;
-            mNestedScrollView.getLocalVisibleRect(rect);
             Timber.i(String.format("ScrollView : 高度=%1$d 可见高度=%2$d RichEditor高度=%3$d",
                     mNestedScrollView.getHeight(),
                     visibleH,
@@ -1139,7 +1109,16 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
                 Observable.timer(500, TimeUnit.MILLISECONDS)
                         .compose(RxLifecycleUtils.bindToLifecycle((IView) this))
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(aLong -> mNestedScrollView.scrollTo(0, (int) (mContentEditorTitleLayout.getY() - 10)));
+                        .subscribe(aLong -> mNestedScrollView.scrollTo(0,
+                                (int) (mContentEditorTitleLayout.getY() - 10)));
+            } else {
+                Timber.i("内容高度大于可见高度，滚动到触摸位置");
+
+                Observable.timer(500, TimeUnit.MILLISECONDS)
+                        .compose(RxLifecycleUtils.bindToLifecycle((IView) this))
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(aLong -> mNestedScrollView.scrollTo(0,
+                                (int) (mContentEditorTitleLayout.getY() - 10 + mRichEditorTouchY)));
             }
         }
     }

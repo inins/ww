@@ -166,7 +166,8 @@ public class FriendListFragment extends BasicFragment implements
         // 如果是好友列表，直接请求数据
         if (mType == TYPE_FRIEND_LIST) {
             mSpringView.callFreshDelay();
-        } else {
+        } else if (mType == TYPE_SEARCH_ALL){
+            // 只有在首页搜索时使用帮助页面
             loadingviewEx.showLackView();
         }
     }

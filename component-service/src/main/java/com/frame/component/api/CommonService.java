@@ -272,6 +272,13 @@ public interface CommonService {
 
 
     /**
+     * 用户趣晒列表-我的个人名片
+     */
+    @GET("app/talk/getMyTalkList")
+    Observable<BaseJson<PageListDTO<TalkBeanDTO, FunshowBean>>>
+    getMyTalkList(@QueryMap Map<String, Object> param);
+
+    /**
      * 好友列表-他人名片查看
      */
     @GET("app/userFriend/othersFriendList")
@@ -316,6 +323,12 @@ public interface CommonService {
      */
     @GET("app/topic/personalCardList")
     Observable<BaseJson<PageListDTO<TopicDTO, Topic>>> getFriendTopicList(@QueryMap Map<String, Object> param);
+
+    /**
+     * 用户话题列表-我的个人名片
+     */
+    @GET("app/topic/getMyTopicList")
+    Observable<BaseJson<PageListDTO<TopicDTO, Topic>>> getMyTopicList(@QueryMap Map<String, Object> param);
 
     /**
      * 搜索话题

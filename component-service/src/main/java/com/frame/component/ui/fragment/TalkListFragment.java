@@ -12,6 +12,7 @@ import com.frame.component.common.NetParam;
 import com.frame.component.entities.Topic;
 import com.frame.component.entities.dto.TalkBeanDTO;
 import com.frame.component.entities.funshow.FunshowBean;
+import com.frame.component.helper.AppDataHelper;
 import com.frame.component.service.R;
 import com.frame.component.service.R2;
 import com.frame.component.ui.adapter.RecycleAdapterCommonFunshow;
@@ -96,20 +97,52 @@ public class TalkListFragment extends BasicFragment implements IView {
         mSpringView.setListener(new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
-                getFriendTalkList(true);
+                loadData(true);
             }
 
             @Override
             public void onLoadmore() {
-                getFriendTalkList(false);
+                loadData(false);
             }
         });
         mSpringView.callFreshDelay();
     }
 
+    private void loadData(boolean refresh) {
+        if (null != AppDataHelper.getUser() &&
+                mUserId == AppDataHelper.getUser().getUserId()) {
+            getMyTalkList(refresh);
+        } else {
+            getFriendTalkList(refresh);
+        }
+    }
+
     @Override
     public void setData(@Nullable Object data) {
 
+    }
+
+    private void updateList(boolean refresh, PageList<FunshowBean> list) {
+        if (null != list) {
+            mCurrent = list.getCurrent();
+
+            if (refresh) {
+                mAdapter.refreshData(list.getList());
+            } else {
+                mAdapter.addItem(list.getList());
+            }
+
+            loadingviewEx.showOut();
+
+            if (null != mAdapter) {
+                mAdapter.notifyDataSetChanged();
+            }
+        }
+
+        if (refresh && (null == list || list.getList().size() <= 0)) {
+            loadingviewEx.showFailViewCustomize(R.drawable.common_ic_default_nofunshow,
+                    "还没有发布趣晒");
+        }
     }
 
     /**
@@ -127,26 +160,7 @@ public class TalkListFragment extends BasicFragment implements IView {
                 new ErrorHandleSubscriber<PageList<FunshowBean>>() {
                     @Override
                     public void onNext(PageList<FunshowBean> list) {
-                        if (null != list) {
-                            mCurrent = list.getCurrent();
-
-                            if (refresh) {
-                                mAdapter.refreshData(list.getList());
-                            } else {
-                                mAdapter.addItem(list.getList());
-                            }
-
-                            loadingviewEx.showOut();
-
-                            if (null != mAdapter) {
-                                mAdapter.notifyDataSetChanged();
-                            }
-                        }
-
-                        if (refresh && (null == list || list.getList().size() <= 0)) {
-                            loadingviewEx.showFailViewCustomize(R.drawable.common_ic_default_nofunshow,
-                                    "还没有发布趣晒");
-                        }
+                        updateList(refresh, list);
                     }
                 },
                 disposable -> {
@@ -164,6 +178,44 @@ public class TalkListFragment extends BasicFragment implements IView {
         return mRepositoryManager
                 .obtainRetrofitService(CommonService.class)
                 .getFriendTalkList(param);
+    }
+
+
+    /**
+     * 用户趣晒列表-我的个人名片
+     *
+     * @param refresh 是否刷新
+     */
+    private void getMyTalkList(boolean refresh) {
+        if (refresh) {
+            mCurrent = 0;
+            mList.clear();
+        }
+        mApiHelper.execute(this,
+                netGetMyTalkList(mCurrent + 1, mSize),
+                new ErrorHandleSubscriber<PageList<FunshowBean>>() {
+                    @Override
+                    public void onNext(PageList<FunshowBean> list) {
+                        updateList(refresh, list);
+                    }
+                },
+                disposable -> {
+                },
+                () -> mSpringView.onFinishFreshAndLoadDelay());
+    }
+
+    /**
+     * 用户趣晒列表-我的个人名片
+     */
+    private Observable<BaseJson<PageListDTO<TalkBeanDTO, FunshowBean>>> netGetMyTalkList(int current, int size) {
+        Map<String, Object> param = new NetParam()
+                .put("current", current)
+                .put("size", size)
+                .put("v", "2.0.0")
+                .build();
+        return mRepositoryManager
+                .obtainRetrofitService(CommonService.class)
+                .getMyTalkList(param);
     }
 
     @Override

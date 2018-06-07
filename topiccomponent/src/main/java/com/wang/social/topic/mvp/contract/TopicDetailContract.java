@@ -1,5 +1,6 @@
 package com.wang.social.topic.mvp.contract;
 
+import com.frame.http.api.ApiException;
 import com.frame.http.api.BaseJson;
 import com.frame.mvp.IModel;
 import com.frame.mvp.IView;
@@ -11,6 +12,7 @@ import io.reactivex.Observable;
 public interface TopicDetailContract {
     interface View extends IView {
         void onTopicDetailLoadSuccess(TopicDetail detail);
+        void onTopicDetailLoadFailed(ApiException e);
         void showToast(String msg);
         void resetSupportLayout(int isSupport, int count);
         void onDelMyTopicSuccess(int topicId);

@@ -109,7 +109,8 @@ public class GameInputView extends LinearLayout {
             public void onClick(View view) {
                 if (mEmotionAdapter.isInitialed()) {
                     if (mEmotionAdapter.getVisibility() == VISIBLE) {
-                        mEmotionAdapter.setVisibility(GONE);
+//                        mEmotionAdapter.setVisibility(GONE);
+                        hideEmotionBoard();
                         showInputKeyBoard();
 
                         if (mInputViewListener != null) {
@@ -215,6 +216,7 @@ public class GameInputView extends LinearLayout {
 
         /**
          * 表情选择
+         *
          *
          * @param codeName
          * @param showName
