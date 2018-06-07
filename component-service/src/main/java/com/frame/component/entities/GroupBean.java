@@ -18,4 +18,5 @@ public class GroupBean {
     private int isOpen;
     private int isFree;
     private int groupMemberNum;
+    private String tagName;
 }

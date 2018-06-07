@@ -1072,6 +1072,15 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
                     mRichEditor.getHeight(),
                     mRichEditor.getY()));
 
+//            if (mRichEditorTouchY + (newH - oldH) > mNestedScrollView.getHeight()) {
+//
+//                mRichEditorTouchY += newH - oldH;
+//
+//                Timber.i("滚动RichEditor : " + mRichEditorTouchY);
+//
+//                mRichEditor.scrollTo(0, (int) (mRichEditorTouchY + mRichEditor.getY()));
+//            }
+
 
         }
     };
