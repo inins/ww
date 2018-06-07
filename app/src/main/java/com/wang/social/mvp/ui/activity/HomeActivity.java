@@ -76,7 +76,7 @@ public class HomeActivity extends BasicAppNoDiActivity implements IView, XRadioG
     private PagerAdapterHome pagerAdapter;
     private int[] tabsId = new int[]{R.id.tab_1, R.id.tab_2, R.id.tab_3, R.id.tab_4};
 
-    private boolean isConstraint = true;
+    private boolean isConstraint;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, HomeActivity.class);

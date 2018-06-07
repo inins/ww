@@ -129,9 +129,13 @@ public class SharePresenter extends BasePresenter {
                                     ((ShareContract.View) mRootView).onShareComplete();
 
                                     if (shareSource == ShareSource.SOURCE_FUN_SHOW) {
-                                        EventBus.getDefault().post(new EventBean(EventBean.EVENT_FUNSHOW_DETAIL_ADD_SHARE));
+                                        EventBean eventBean = new EventBean(EventBean.EVENTBUS_ADD_TOPIC_SHARE);
+                                        eventBean.put("talkId", objectId);
+                                        EventBus.getDefault().post(eventBean);
                                     } else {
-                                        EventBus.getDefault().post(new EventBean(EventBean.EVENTBUS_ADD_TOPIC_SHARE));
+                                        EventBean eventBean = new EventBean(EventBean.EVENTBUS_ADD_TOPIC_SHARE);
+                                        eventBean.put("topicId", objectId);
+                                        EventBus.getDefault().post(eventBean);
                                     }
                                 }
                             });

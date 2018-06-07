@@ -33,6 +33,7 @@ import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
+import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.mvp.ui.ConversationListFragment;
 import com.wang.social.im.mvp.ui.CreateSocialActivity;
 import com.wang.social.im.mvp.ui.PhoneBookActivity;
@@ -84,6 +85,13 @@ public class ContactsFragment extends BasicFragment implements AutoPopupWindow.O
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //将系统推送消息置为已读，避免清除数后重新登陆再次接收到推送消息
+        ImHelper.readPushMessage();
     }
 
     @Override
