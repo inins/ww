@@ -93,24 +93,24 @@ public class NotifyFriendRequestDetailActivity extends BasicAppNoDiActivity {
         } else if (id == R.id.btn_agree) {
             if (isGroup) {
                 NetFriendHelper.newInstance().netAgreeFindChatApply(this, requestBean.getGroupId(), requestBean.getUserId(), requestBean.getMsgId(), true, () -> {
-                    EventBus.getDefault().post(new EventBean(EventBean.EVENT_NOTIFY_DETAIL_DEAL).put("isAgree", true));
+                    EventBus.getDefault().post(new EventBean(EventBean.EVENT_NOTIFY_DETAIL_DEAL).put("isDeal", true));
                     finish();
                 });
             } else {
                 NetFriendHelper.newInstance().netAgreeFriendApply(this, requestBean.getUserId(), requestBean.getMsgId(), true, () -> {
-                    EventBus.getDefault().post(new EventBean(EventBean.EVENT_NOTIFY_DETAIL_DEAL).put("isAgree", true));
+                    EventBus.getDefault().post(new EventBean(EventBean.EVENT_NOTIFY_DETAIL_DEAL).put("isDeal", true));
                     finish();
                 });
             }
         } else if (id == R.id.btn_disagree) {
             if (isGroup) {
                 NetFriendHelper.newInstance().netAgreeFindChatApply(this, requestBean.getGroupId(), requestBean.getUserId(), requestBean.getMsgId(), false, () -> {
-                    EventBus.getDefault().post(new EventBean(EventBean.EVENT_NOTIFY_DETAIL_DEAL).put("isAgree", false));
+                    EventBus.getDefault().post(new EventBean(EventBean.EVENT_NOTIFY_DETAIL_DEAL).put("isDeal", false));
                     finish();
                 });
             } else {
                 NetFriendHelper.newInstance().netAgreeFriendApply(this, requestBean.getUserId(), requestBean.getMsgId(), false, () -> {
-                    EventBus.getDefault().post(new EventBean(EventBean.EVENT_NOTIFY_DETAIL_DEAL).put("isAgree", false));
+                    EventBus.getDefault().post(new EventBean(EventBean.EVENT_NOTIFY_DETAIL_DEAL).put("isDeal", false));
                     finish();
                 });
             }

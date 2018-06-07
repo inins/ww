@@ -74,6 +74,7 @@ public class RecycleAdapterCardUser extends BaseAdapter<CardUser> {
             textName.setText(bean.getNickname());
             textLableGender.setSelected(!bean.isMale());
             textLableGender.setText(TimeUtils.getAgeByBirth(bean.getBirthday()) + "");
+            textLableGender.setVisibility(bean.isShowAge() ? View.VISIBLE : View.GONE);
             textLableAstro.setText(TimeUtils.getAstro(bean.getBirthday()));
             textTag.setText(bean.getTagText());
             textPosition.setText(bean.getCity());
