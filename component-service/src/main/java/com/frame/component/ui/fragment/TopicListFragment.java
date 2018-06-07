@@ -12,6 +12,7 @@ import com.frame.component.api.CommonService;
 import com.frame.component.common.NetParam;
 import com.frame.component.entities.Topic;
 import com.frame.component.entities.dto.TopicDTO;
+import com.frame.component.helper.AppDataHelper;
 import com.frame.component.service.R;
 import com.frame.component.service.R2;
 import com.frame.component.view.LoadingLayoutEx;
@@ -62,7 +63,8 @@ public class TopicListFragment extends BasicFragment implements IView {
             TYPE_TOPIC_SEARCH
     })
     @Retention(RetentionPolicy.SOURCE)
-    @interface TopicSearchType {}
+    @interface TopicSearchType {
+    }
 
     public static TopicListFragment newInstance(int userid) {
         TopicListFragment fragment = new TopicListFragment();
@@ -104,7 +106,8 @@ public class TopicListFragment extends BasicFragment implements IView {
     private static final int mSize = 10;
     private List<Topic> mList = new ArrayList<>();
     private int mUserId;
-    private @TopicSearchType int mType = TYPE_PERSON_TOPIC_SEARCH;
+    private @TopicSearchType
+    int mType = TYPE_PERSON_TOPIC_SEARCH;
     // 记录搜索关键字
     private String mKeys;
     private String mTags;
@@ -139,13 +142,11 @@ public class TopicListFragment extends BasicFragment implements IView {
         mSpringView.setListener(new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
-//                getFriendTopicList(true);
                 loadData(true);
             }
 
             @Override
             public void onLoadmore() {
-//                getFriendTopicList(false);
                 loadData(false);
             }
         });
@@ -165,7 +166,12 @@ public class TopicListFragment extends BasicFragment implements IView {
             }
             searchTopic(mKeys, mTags, refresh);
         } else {
-            getFriendTopicList(refresh);
+            if (null != AppDataHelper.getUser() &&
+                    mUserId == AppDataHelper.getUser().getUserId()) {
+                getMyTopicList(refresh);
+            } else {
+                getFriendTopicList(refresh);
+            }
         }
     }
 
@@ -219,7 +225,8 @@ public class TopicListFragment extends BasicFragment implements IView {
                         updateList(pageList);
                     }
                 },
-                disposable -> {},
+                disposable -> {
+                },
                 () -> mSpringView.onFinishFreshAndLoadDelay());
     }
 
@@ -239,6 +246,39 @@ public class TopicListFragment extends BasicFragment implements IView {
     }
 
     /**
+     * 用户话题列表-我的个人名片
+     */
+    private void getMyTopicList(boolean refresh) {
+        refreshList(refresh);
+
+        mApiHelper.execute(this,
+                netGetMyTopicList(mCurrent, mSize),
+                new ErrorHandleSubscriber<PageList<Topic>>() {
+                    @Override
+                    public void onNext(PageList<Topic> pageList) {
+                        updateList(pageList);
+                    }
+                },
+                disposable -> {
+                },
+                () -> mSpringView.onFinishFreshAndLoadDelay());
+    }
+
+    /**
+     * 用户话题列表-我的个人名片
+     */
+    private Observable<BaseJson<PageListDTO<TopicDTO, Topic>>> netGetMyTopicList(int current, int size) {
+        Map<String, Object> param = new NetParam()
+                .put("current", current)
+                .put("size", size)
+                .put("v", "2.0.0")
+                .build();
+        return mRepositoryManager
+                .obtainRetrofitService(CommonService.class)
+                .getMyTopicList(param);
+    }
+
+    /**
      * 话题搜索
      */
     private void searchTopic(String keyword, String tagNames, boolean refresh) {
@@ -252,16 +292,17 @@ public class TopicListFragment extends BasicFragment implements IView {
                         updateList(pageList);
                     }
                 },
-                disposable -> {},
+                disposable -> {
+                },
                 () -> mSpringView.onFinishFreshAndLoadDelay());
     }
 
     private Observable<BaseJson<PageListDTO<TopicDTO, Topic>>> netSearchTopic(String keyword, String tagNames, int current, int size) {
         Map<String, Object> param = new NetParam()
-                .put("keyword",keyword)
-                .put("tagNames",tagNames)
-                .put("size",size)
-                .put("current",current)
+                .put("keyword", keyword)
+                .put("tagNames", tagNames)
+                .put("size", size)
+                .put("current", current)
                 .put("v", "2.0.0")
                 .build();
         return mRepositoryManager
@@ -379,6 +420,7 @@ public class TopicListFragment extends BasicFragment implements IView {
 
     /**
      * 从列表移除
+     *
      * @param topicId 话题id
      * @return 是否有话题被移除
      */

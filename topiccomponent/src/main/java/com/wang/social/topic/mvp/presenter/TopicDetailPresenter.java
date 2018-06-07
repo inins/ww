@@ -3,6 +3,7 @@ package com.wang.social.topic.mvp.presenter;
 import com.frame.di.scope.ActivityScope;
 import com.frame.di.scope.FragmentScope;
 import com.frame.entities.EventBean;
+import com.frame.http.api.ApiException;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.api.error.RxErrorHandler;
@@ -55,20 +56,15 @@ public class TopicDetailPresenter extends
                         @Override
                         public void onError(Throwable e) {
                             e.printStackTrace();
-                            mRootView.showToast(e.getMessage());
+                            if (e instanceof ApiException) {
+                                mRootView.onTopicDetailLoadFailed((ApiException) e);
+                            } else {
+                                mRootView.showToast(e.getMessage());
+                            }
                         }
-                    }
-                    , new Consumer<Disposable>() {
-                        @Override
-                        public void accept(Disposable disposable) throws Exception {
-                            mRootView.showLoading();
-                        }
-                    }, new Action() {
-                        @Override
-                        public void run() throws Exception {
-                            mRootView.hideLoading();
-                        }
-                    });
+                    },
+                    disposable -> mRootView.showLoading(),
+                    () -> mRootView.hideLoading());
     }
 
     /**
@@ -90,17 +86,9 @@ public class TopicDetailPresenter extends
                         e.printStackTrace();
                         mRootView.showToast(e.getMessage());
                     }
-                }, new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        mRootView.showLoading();
-                    }
-                }, new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mRootView.hideLoading();
-                    }
-                });
+                },
+                disposable -> mRootView.showLoading(),
+                () -> mRootView.hideLoading());
     }
 
     public void topicSupport() {

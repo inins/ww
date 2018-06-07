@@ -44,8 +44,19 @@ public class DialogPay extends DialogFragment {
     // 宝石支付
     public final static int TYPE_PAY_GEM = 2;
 
+    /**
+     * 支付按钮点击回调
+     */
     public interface DialogPayCallback {
         void onPay();
+    }
+
+    /**
+     * 支付取消回调
+     * 话题详情支付时需要这个接口，为了不影响之前的代码，所以把这个接口单独出来
+     */
+    public interface DialogPayCancelCallback {
+        void onPayCancel();
     }
 
     public static DialogPay showPayAddGroup(IView bindView,
@@ -83,6 +94,14 @@ public class DialogPay extends DialogFragment {
         return showPayTopic(bindView, manager, topic.getRelateMoney(), balance, callback);
     }
 
+    /**
+     * 话题支付
+     * @param bindView IVIew
+     * @param manager FragmentManager
+     * @param price 价格
+     * @param balance 余额
+     * @param callback 回调
+     */
     public static DialogPay showPayTopic(IView bindView,
                                          FragmentManager manager,
                                          int price,
@@ -243,6 +262,7 @@ public class DialogPay extends DialogFragment {
     private String mPayText;
     private String mRechargeText;
     private DialogPayCallback mCallback;
+    private DialogPayCancelCallback mCancelCallback;
     // 需要支付的价格
     private int mPrice;
     // 余额
@@ -263,6 +283,10 @@ public class DialogPay extends DialogFragment {
 
     public void setCallback(DialogPayCallback callback) {
         mCallback = callback;
+    }
+
+    public void setCancelCallback(DialogPayCancelCallback cancelCallback) {
+        mCancelCallback = cancelCallback;
     }
 
     public void setTitleText(SpannableStringBuilder titleText) {
@@ -318,7 +342,13 @@ public class DialogPay extends DialogFragment {
         }
 
         // 取消
-        cancelText.setOnClickListener(v -> DialogPay.this.dismiss());
+        cancelText.setOnClickListener(v -> {
+            DialogPay.this.dismiss();
+
+            if (null != mCancelCallback) {
+                mCancelCallback.onPayCancel();
+            }
+        });
 
         payText.setOnClickListener(v -> {
             if (null != mCallback) {

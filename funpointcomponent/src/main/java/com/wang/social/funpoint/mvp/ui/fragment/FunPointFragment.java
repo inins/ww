@@ -159,7 +159,9 @@ public class FunPointFragment extends BaseLazyFragment<FunpointListPresonter> im
 
     @Override
     public void reFreshList(List<Funpoint> datas) {
-        adapterHome.refreshData(datas);
+        if (null != adapterHome) {
+            adapterHome.refreshData(datas);
+        }
     }
 
     @Override

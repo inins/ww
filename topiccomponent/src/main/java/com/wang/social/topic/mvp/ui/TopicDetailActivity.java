@@ -30,22 +30,27 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.frame.component.common.AppConstant;
+import com.frame.component.entities.IsShoppingRsp;
 import com.frame.component.entities.Topic;
 import com.frame.component.entities.User;
 import com.frame.component.enums.ShareSource;
 import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.ImageLoaderHelper;
+import com.frame.component.helper.NetIsShoppingHelper;
+import com.frame.component.helper.NetPayStoneHelper;
 import com.frame.component.helper.NetShareHelper;
 import com.frame.component.ui.acticity.BGMList.Music;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.ui.dialog.DialogSure;
 import com.frame.component.utils.EntitiesUtil;
 import com.frame.component.utils.XMediaPlayer;
+import com.frame.component.view.DialogPay;
 import com.frame.component.view.MusicBoard;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
+import com.frame.http.api.ApiException;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.BarUtils;
@@ -176,6 +181,7 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
     TextView mShareTV;
 
     private XMediaPlayer mXMediaPlayer;
+
     private void initXMeidaPlayer() {
         mXMediaPlayer = new XMediaPlayer();
     }
@@ -577,6 +583,60 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
 
         // 显示UI
         resetView(true);
+    }
+
+    @Override
+    public void onTopicDetailLoadFailed(ApiException e) {
+        if (e.getErrorCode() == 102015) {
+            Timber.i("话题未支付");
+            showPayTopicDialog();
+        }
+    }
+
+    /**
+     * 显示支付对话框
+     */
+    private void showPayTopicDialog() {
+        // 话题需要支付，先请求是否已支付数据
+        NetIsShoppingHelper.newInstance().isTopicShopping(this,
+                mTopicId,
+                (IsShoppingRsp rsp) -> {
+                    /**
+                     "isFree": "是否收费（0免费 1收费）",
+                     "price": "收费价格,宝石数",
+                     "isShopping": "是否需要购买（0 无需购买 1 购买）"
+                     */
+                    if (rsp.getIsFree() >= 1 && rsp.getIsShopping() >= 1) {
+                        // 可能之前的数据里面没有价格，所以这里要先设置价格
+                        // 处理支付
+                        // 弹出支付对话框
+                        DialogPay.showPayTopic(this, getSupportFragmentManager(),
+                                rsp.getPrice(),
+                                -1,
+                                () -> payTopic(mTopicId, rsp.getPrice()))
+                                .setCancelCallback(() -> finish());
+                    } else {
+                        // 不需要支付，直接打开详情
+                        mPresenter.getTopicDetails(mTopicId);
+                    }
+                });
+    }
+
+    /**
+     * 话题支付
+     *
+     * @param topicId 话题id
+     * @param price   价格
+     */
+    private void payTopic(int topicId, int price) {
+        NetPayStoneHelper.newInstance()
+                .netPayTopic(this,
+                        topicId,
+                        price,
+                        () -> {
+                            Timber.i("支付成功，打开详情");
+                            mPresenter.getTopicDetails(mTopicId);
+                        });
     }
 
     @JavascriptInterface

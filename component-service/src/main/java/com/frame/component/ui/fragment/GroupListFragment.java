@@ -200,7 +200,8 @@ public class GroupListFragment extends BasicFragment implements IView {
 
         if (mType == TYPE_GROUP_LIST) {
             mSpringView.callFreshDelay();
-        } else {
+        } else if (mType == TYPE_SEARCH_ALL_GROUP) {
+            // 只有首页搜索使用帮助
             loadingviewEx.showLackView();
         }
     }
