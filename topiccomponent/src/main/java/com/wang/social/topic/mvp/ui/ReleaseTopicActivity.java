@@ -847,6 +847,10 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
         String content = HtmlUtil.delHTMLTag(mRichEditor.getHtml());
 
+        Timber.i("\n");
+        Timber.i(content == null ? "null" : content);
+        Timber.i("\n");
+
         int audioCount = StringUtil.countAudio(mRichEditor.getHtml());
         Timber.i("包含 " + audioCount + " 个语音");
         int contentLength = audioCount * 50 + content.length();
@@ -871,7 +875,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
     private void addTopic() {
         // 打印内容
-        Timber.i(TextUtils.isEmpty(mRichEditor.getHtml()) ? "内容为空" : mRichEditor.getHtml());
+//        Timber.i(TextUtils.isEmpty(mRichEditor.getHtml()) ? "内容为空" : mRichEditor.getHtml());
 
         if (!checkInput(true)) {
             return;

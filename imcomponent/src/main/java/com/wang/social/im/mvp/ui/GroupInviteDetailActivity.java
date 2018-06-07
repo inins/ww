@@ -437,6 +437,12 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
                 new ErrorHandleSubscriber() {
                     @Override
                     public void onNext(Object o) {
+                        // 发送同意加入成功的消息
+                        EventBean eventBean = new EventBean(EventBean.EVENTBUS_AGREE_ADD_GROUP_SUCCESS);
+                        eventBean.put("groupId", groupId);
+                        eventBean.put("msgId", msgId);
+                        EventBus.getDefault().post(eventBean);
+
                         //  入群后隐藏底部
                         mBottomLayout.setVisibility(View.GONE);
                         // 重新加载统计信息
@@ -460,6 +466,12 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
                 new ErrorHandleSubscriber() {
                     @Override
                     public void onNext(Object o) {
+                        // 发送拒绝加入成功的消息
+                        EventBean eventBean = new EventBean(EventBean.EVENTBUS_REFUSE_ADD_GROUP_SUCCESS);
+                        eventBean.put("groupId", groupId);
+                        eventBean.put("msgId", msgId);
+                        EventBus.getDefault().post(eventBean);
+
                         //  拒绝入群后隐藏底部
                         mBottomLayout.setVisibility(View.GONE);
                     }
