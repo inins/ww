@@ -22,9 +22,9 @@
         android:layout_marginRight="5dp"
         android:visibility="gone"
         android:text="9"
-        ps_CircularAutoSizeTextView:ps_BackgroundColor="#FF0000"
-        ps_CircularAutoSizeTextView:ps_TextColor="#000000"
-        ps_CircularAutoSizeTextView:ps_TextSize="40sp"
+        ps_CircularAutoSizeTextView:ps_BackgroundColor="@color/common_blue_deep"
+        ps_CircularAutoSizeTextView:ps_TextColor="@color/common_white"
+        ps_CircularAutoSizeTextView:ps_TextSize="34sp"
         ps_CircularAutoSizeTextView:ps_BorderWidth="0dp"/>
 
 </com.wang.social.pictureselector.ui.widget.ThumbnailLayout>

@@ -162,6 +162,7 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
     int mType;
     private int mGroupId;
     private int mMsgId;
+    private boolean mIsRefused;
 
     // 年龄分布
     private List<DistributionAge> mAgeList = new ArrayList<>();
@@ -190,6 +191,7 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
         mGroupId = getIntent().getIntExtra("groupid", -1);
         mMsgId = getIntent().getIntExtra("msgid", -1);
         mIsGroupMember = getIntent().getIntExtra("isGroupMember", -1);
+        mIsRefused = getIntent().getBooleanExtra("isRefused", false);
 
         mRepositoryManager = FrameUtils.obtainAppComponentFromContext(Utils.getContext()).repoitoryManager();
 
@@ -331,12 +333,30 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
                 setApplyTextToGoChat();
             }
         }
+
+        if (mType == TYPE_INVITE && mIsRefused) {
+            showRefused();
+        }
+    }
+
+    private void showRefused() {
+        mRefuseTV.setVisibility(View.GONE);
+        mAgreeTV.setVisibility(View.GONE);
+        mApplyHintTV.setVisibility(View.GONE);
+        mApplyLayout.setVisibility(View.VISIBLE);
+
+        mApplyTV.setBackgroundResource(R.drawable.common_bg_btn_gray_hover);
+        mApplyTV.setText("已拒绝");
     }
 
     private void setApplyTextToGoChat() {
-        mApplyTV.setText("开始聊天");
 
+        mRefuseTV.setVisibility(View.GONE);
+        mAgreeTV.setVisibility(View.GONE);
         mApplyHintTV.setVisibility(View.GONE);
+        mApplyLayout.setVisibility(View.VISIBLE);
+
+        mApplyTV.setText("开始聊天");
     }
 
     /**
@@ -432,29 +452,46 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
      * 同意入群
      */
     private void agreeAdd(int groupId, int msgId) {
-        mApiHelper.executeForData(this,
-                agreeOrRejectAddCommit(groupId, msgId, 0),
-                new ErrorHandleSubscriber() {
-                    @Override
-                    public void onNext(Object o) {
-                        // 发送同意加入成功的消息
-                        EventBean eventBean = new EventBean(EventBean.EVENTBUS_AGREE_ADD_GROUP_SUCCESS);
-                        eventBean.put("groupId", groupId);
-                        eventBean.put("msgId", msgId);
-                        EventBus.getDefault().post(eventBean);
+//        mApiHelper.executeForData(this,
+//                agreeOrRejectAddCommit(groupId, msgId, 0),
+//                new ErrorHandleSubscriber() {
+//                    @Override
+//                    public void onNext(Object o) {
+//                        // 发送同意加入成功的消息
+//                        EventBean eventBean = new EventBean(EventBean.EVENTBUS_AGREE_ADD_GROUP_SUCCESS);
+//                        eventBean.put("groupId", groupId);
+//                        eventBean.put("msgId", msgId);
+//                        EventBus.getDefault().post(eventBean);
+//
+//                        //  入群后隐藏底部
+//                        mBottomLayout.setVisibility(View.GONE);
+//                        // 重新加载统计信息
+//                        loadDistribution(mGroupId);
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        ToastUtil.showToastShort(e.getMessage());
+//                    }
+//                }, disposable -> showLoading()
+//                , () -> hideLoading());
 
-                        //  入群后隐藏底部
-                        mBottomLayout.setVisibility(View.GONE);
-                        // 重新加载统计信息
-                        loadDistribution(mGroupId);
-                    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        ToastUtil.showToastShort(e.getMessage());
-                    }
-                }, disposable -> showLoading()
-                , () -> hideLoading());
+        NetGroupHelper.newInstance().applyAddGroup(this,
+                this, getSupportFragmentManager(),
+                groupId, msgId, true, isNeedValidation -> {
+                    // 发送同意加入成功的消息
+                    EventBean eventBean = new EventBean(EventBean.EVENTBUS_AGREE_ADD_GROUP_SUCCESS);
+                    eventBean.put("groupId", groupId);
+                    eventBean.put("msgId", msgId);
+                    EventBus.getDefault().post(eventBean);
+
+                    //  入群后显示 开始聊天
+//                    mBottomLayout.setVisibility(View.GONE);
+                    setApplyTextToGoChat();
+                    // 重新加载统计信息
+                    loadDistribution(mGroupId);
+        });
     }
 
     /**
@@ -472,8 +509,8 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
                         eventBean.put("msgId", msgId);
                         EventBus.getDefault().post(eventBean);
 
-                        //  拒绝入群后隐藏底部
-                        mBottomLayout.setVisibility(View.GONE);
+                        //  拒绝入群后显示 已拒绝
+                        showRefused();
                     }
 
                     @Override
@@ -482,6 +519,20 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
                     }
                 }, disposable -> showLoading()
                 , () -> hideLoading());
+
+
+//        NetGroupHelper.newInstance().applyAddGroup(this,
+//                this, getSupportFragmentManager(),
+//                groupId, msgId, false, isNeedValidation -> {
+//                    // 发送拒绝加入成功的消息
+//                    EventBean eventBean = new EventBean(EventBean.EVENTBUS_REFUSE_ADD_GROUP_SUCCESS);
+//                    eventBean.put("groupId", groupId);
+//                    eventBean.put("msgId", msgId);
+//                    EventBus.getDefault().post(eventBean);
+//
+//                    //  拒绝入群后隐藏底部
+//                    mBottomLayout.setVisibility(View.GONE);
+//                });
     }
 
     /**

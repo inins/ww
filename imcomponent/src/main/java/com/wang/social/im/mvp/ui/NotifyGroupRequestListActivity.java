@@ -115,7 +115,10 @@ public class NotifyGroupRequestListActivity extends BasicAppNoDiActivity impleme
 
     @Override
     public void onItemClick(GroupRequest bean, int position) {
-        CommonHelper.ImHelper.startGroupInviteFromMsg(this, bean.getGroupId(), bean.getMsgId());
+        CommonHelper.ImHelper.startGroupInviteFromMsg(this,
+                bean.getGroupId(),
+                bean.getMsgId(),
+                bean.getPass() == 3);
     }
 
     //////////////////////分页查询////////////////////
