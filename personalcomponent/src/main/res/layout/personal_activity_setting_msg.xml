@@ -62,6 +62,7 @@
                     android:id="@+id/switch_msg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checked="true"
                     app:kswBackColor="@color/personal_select_light_blue"
                     app:kswThumbColor="@color/common_white" />
 

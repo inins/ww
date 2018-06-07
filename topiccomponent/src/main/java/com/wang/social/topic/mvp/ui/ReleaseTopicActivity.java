@@ -855,7 +855,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         Timber.i("包含 " + audioCount + " 个语音");
         int contentLength = audioCount * 50 + content.length();
 
-        if (content.length() < 30) {
+        if (contentLength < 30) {
             if (toast) {
                 ToastUtil.showToastShort("为保障用户们的友好体验，请最少输入30个字");
             }
@@ -875,7 +875,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
     private void addTopic() {
         // 打印内容
-//        Timber.i(TextUtils.isEmpty(mRichEditor.getHtml()) ? "内容为空" : mRichEditor.getHtml());
+        Timber.i(TextUtils.isEmpty(mRichEditor.getHtml()) ? "内容为空" : mRichEditor.getHtml());
 
         if (!checkInput(true)) {
             return;

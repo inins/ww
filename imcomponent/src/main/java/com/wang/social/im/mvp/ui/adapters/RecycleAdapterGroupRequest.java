@@ -48,8 +48,8 @@ public class RecycleAdapterGroupRequest extends BaseAdapter<GroupRequest> {
             textName.setText(bean.getGroupName());
             textCount.setText(bean.getMemberNum()+"人");
             imgDot.setVisibility(bean.isRead() ? View.GONE : View.VISIBLE);
-            textDo.setEnabled(!bean.isAgree());
-            textDo.setText(bean.isAgree() ? R.string.im_notify_friend_request_agreed : R.string.im_notify_friend_request_agree);
+            textDo.setEnabled(!bean.isDeal());
+            textDo.setText(bean.getStatusText());
             textDo.setOnClickListener(v -> {
                 if (onJoinClickListener != null) onJoinClickListener.onJoinClick(bean, position);
             });

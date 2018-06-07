@@ -32,6 +32,7 @@ public class CardUser implements Serializable {
     private String nickname;
     private String avatar;
     private int sex;
+    private int showAge;
     private long birthday;
     private String constellation;
     private String province;
@@ -47,6 +48,10 @@ public class CardUser implements Serializable {
 
     public boolean isMale() {
         return sex == 0;
+    }
+
+    public boolean isShowAge() {
+        return showAge != 0;
     }
 
     public String getTagText() {
