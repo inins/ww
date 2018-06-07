@@ -4,13 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.frame.component.common.AppConstant;
 import com.frame.component.common.InputLengthFilter;
@@ -59,6 +62,8 @@ public class ShadowSettingActivity extends BaseAppActivity<ShadowSettingPresente
     EditText ssEtNickname;
     @BindView(R2.id.ss_rg_gender)
     RadioGroup ssRgGender;
+    @BindView(R2.id.ss_tv_sure)
+    TextView ssTvSure;
 
     ShadowInfo shadowInfo;
 
@@ -108,6 +113,7 @@ public class ShadowSettingActivity extends BaseAppActivity<ShadowSettingPresente
 
         if (!TextUtils.isEmpty(shadowInfo.getNickname())) {
             ssEtNickname.setText(shadowInfo.getNickname());
+            ssEtNickname.setSelection(ssEtNickname.getText().length());
         }
         if (!TextUtils.isEmpty(shadowInfo.getPortrait())) {
             mImageLoader.loadImage(this, ImageConfigImpl
@@ -155,6 +161,30 @@ public class ShadowSettingActivity extends BaseAppActivity<ShadowSettingPresente
                         onBackPressed();
                         break;
                 }
+            }
+        });
+
+        ssEtNickname.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                checkEnable();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        ssRgGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                checkEnable();
             }
         });
     }
@@ -224,6 +254,7 @@ public class ShadowSettingActivity extends BaseAppActivity<ShadowSettingPresente
                 .url(path)
                 .transformation(new RoundedCornersTransformation(UIUtil.getDimen(R.dimen.im_round_image_radius), 0, RoundedCornersTransformation.CornerType.ALL))
                 .build());
+        checkEnable();
     }
 
     @Override
@@ -243,5 +274,14 @@ public class ShadowSettingActivity extends BaseAppActivity<ShadowSettingPresente
         info.setStatus(ShadowInfo.STATUS_OPEN);
         EventBus.getDefault().post(info);
         finish();
+    }
+
+    private void checkEnable() {
+        if (ssEtNickname.getText().length() > 0 && ssRgGender.getCheckedRadioButtonId() != -1 &&
+                !TextUtils.isEmpty(shadowInfo.getPortrait())) {
+            ssTvSure.setEnabled(true);
+        } else {
+            ssTvSure.setEnabled(false);
+        }
     }
 }
