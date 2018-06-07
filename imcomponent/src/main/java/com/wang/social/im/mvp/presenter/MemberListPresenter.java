@@ -1,6 +1,7 @@
 package com.wang.social.im.mvp.presenter;
 
 import com.frame.di.scope.ActivityScope;
+import com.frame.http.api.ApiException;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
@@ -151,6 +152,15 @@ public class MemberListPresenter extends BasePresenter<MemberListContract.Model,
                     @Override
                     public void onNext(BaseJson baseJson) {
                         mRootView.onKickOutComplete(memberInfo);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (e instanceof ApiException) {
+                            ToastUtil.showToastShort(((ApiException) e).getMsg());
+                        } else {
+                            super.onError(e);
+                        }
                     }
                 }, new Consumer<Disposable>() {
                     @Override

@@ -136,8 +136,7 @@ public class HappyWoodActivity extends BaseAppActivity<HappyWoodPresenter> imple
 
     @Override
     public void showShareInfo(ShareInfo shareInfo) {
-//        hwTvIncome.setText(String.valueOf(shareInfo.getTotalIncome()));
-        hwTvIncome.setText("212");
+        hwTvIncome.setText(String.valueOf(shareInfo.getTotalIncome()));
         hwTvToday.setText(String.valueOf(shareInfo.getTodayIncome()));
         hwTvTimes.setText(String.valueOf(shareInfo.getShareCount()));
     }

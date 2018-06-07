@@ -16,6 +16,7 @@ import com.frame.component.entities.dto.PersonalInfoDTO;
 import com.frame.component.entities.dto.QiNiuDTO;
 import com.frame.component.entities.dto.SearchUserInfoDTO;
 import com.frame.component.entities.dto.SettingInfoDTO;
+import com.frame.component.entities.dto.VersionInfoDTO;
 import com.frame.component.entities.funshow.FunshowGroup;
 import com.frame.component.entities.funshow.FunshowMe;
 import com.frame.component.entities.topic.TopicGroup;
@@ -413,4 +414,12 @@ public interface CommonService {
      */
     @GET("app/userInfo/setting")
     Observable<BaseJson<SettingInfoDTO>> getUserSetting(@Query("v") String version);
+
+    /**
+     * 版本更新检测
+     *
+     * @return
+     */
+    @GET("version/newest?v=2.0.0&platform=android")
+    Observable<BaseJson<VersionInfoDTO>> checkNewVersion();
 }

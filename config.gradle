@@ -62,6 +62,7 @@ ext {
             'rxpermissions2'           : "com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar",
             'lombok'                   : 'org.projectlombok:lombok:1.16.20',
             'lombok-compiler'          : 'org.projectlombok:lombok:1.16.20',
+            "version-update"           : "com.qianwen:update-app:3.5.2", //版本更新
 
             /* test */
             "junit"                    : "junit:junit:4.12",

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -13,22 +14,35 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.frame.component.api.CommonService;
 import com.frame.component.common.AppConstant;
 import com.frame.component.entities.DynamicMessage;
 import com.frame.component.entities.SystemMessage;
+import com.frame.component.entities.VersionInfo;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.MsgHelper;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
 import com.frame.component.utils.UIUtil;
+import com.frame.component.utils.viewutils.AppUtil;
 import com.frame.component.view.XRadioGroup;
 import com.frame.entities.EventBean;
+import com.frame.http.api.ApiHelper;
+import com.frame.http.api.error.ErrorHandleSubscriber;
+import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.IView;
 import com.frame.router.facade.annotation.RouteNode;
+import com.frame.utils.AppUtils;
+import com.frame.utils.FrameUtils;
 import com.frame.utils.RxLifecycleUtils;
 import com.frame.utils.StatusBarUtil;
+import com.vector.update_app.UpdateAppBean;
+import com.vector.update_app.UpdateAppManager;
+import com.vector.update_app.UpdateCallback;
+import com.vector.update_app.listener.ExceptionHandler;
 import com.wang.social.R;
 import com.wang.social.mvp.ui.adapter.PagerAdapterHome;
 import com.wang.social.mvp.ui.dialog.DialogHomeAdd;
+import com.wang.social.utils.update.UpdateAppHttpUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -47,7 +61,7 @@ import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 @RouteNode(path = "/main", desc = "首页")
-public class HomeActivity extends BasicAppNoDiActivity implements XRadioGroup.OnCheckedChangeListener {
+public class HomeActivity extends BasicAppNoDiActivity implements IView, XRadioGroup.OnCheckedChangeListener {
 
     @BindView(R.id.group_tab)
     XRadioGroup groupTab;
@@ -58,10 +72,11 @@ public class HomeActivity extends BasicAppNoDiActivity implements XRadioGroup.On
     @BindView(R.id.text_dot)
     TextView textDot;
 
-
     private DialogHomeAdd dialogHomeAdd;
     private PagerAdapterHome pagerAdapter;
     private int[] tabsId = new int[]{R.id.tab_1, R.id.tab_2, R.id.tab_3, R.id.tab_4};
+
+    private boolean isConstraint = true;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, HomeActivity.class);
@@ -73,6 +88,141 @@ public class HomeActivity extends BasicAppNoDiActivity implements XRadioGroup.On
         intent.putExtra("target", target);
         intent.putExtra("targetId", targetId);
         context.startActivity(intent);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        StatusBarUtil.setStatusBarColor(HomeActivity.this, Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? R.color.common_white : R.color.common_dark);
+        StatusBarUtil.setTextDark(this);
+    }
+
+    @Override
+    public int initView(@NonNull Bundle savedInstanceState) {
+        return R.layout.activity_home;
+    }
+
+    @Override
+    public void initData(@NonNull Bundle savedInstanceState) {
+        dialogHomeAdd = new DialogHomeAdd(this);
+        groupTab.setOnCheckedChangeListener(this);
+        pagerAdapter = new PagerAdapterHome(getSupportFragmentManager());
+        pager.setOffscreenPageLimit(5);
+        pager.setAdapter(pagerAdapter);
+        pager.addOnPageChangeListener(onPageChangeListener);
+
+        imgDot.setVisibility(MsgHelper.hasReadAllNotify() ? View.GONE : View.VISIBLE);
+
+        remoteCall();
+
+        checkNewVersion();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isConstraint) {
+            checkNewVersion();
+        }
+    }
+
+    //tab动作，切换viewpager
+    @Override
+    public void onCheckedChanged(XRadioGroup radioGroup, int checkedId) {
+        for (int i = 0; i < tabsId.length; i++) {
+            if (tabsId[i] == checkedId) {
+                pager.setCurrentItem(i, false);
+            }
+        }
+    }
+
+    //中间按钮点击事件
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.img_add:
+                dialogHomeAdd.show();
+                break;
+        }
+    }
+
+    /**
+     * 检测版本更新
+     */
+    private void checkNewVersion() {
+        IRepositoryManager repositoryManager = FrameUtils.obtainAppComponentFromContext(this).repoitoryManager();
+        ApiHelper apiHelper = FrameUtils.obtainAppComponentFromContext(this).apiHelper();
+        apiHelper.execute(this,
+                repositoryManager
+                        .obtainRetrofitService(CommonService.class)
+                        .checkNewVersion(),
+                new ErrorHandleSubscriber<VersionInfo>() {
+                    @Override
+                    public void onNext(VersionInfo versionInfo) {
+                        if (versionInfo.getVersionCode() <= AppUtils.getAppVersionCode()) {
+                            return;
+                        }
+                        isConstraint = AppUtils.getAppVersionCode() < versionInfo.getMinVersionCode();
+                        doUpdate(versionInfo);
+                    }
+                });
+    }
+
+    private void doUpdate(VersionInfo versionInfo) {
+        UpdateAppBean updateInfo = new UpdateAppBean();
+        updateInfo.setUpdate("Yes")
+                .setNewVersion(versionInfo.getVersionName())
+                .setApkFileUrl(versionInfo.getApkUrl())
+                .setUpdateLog(versionInfo.getUpdateLog())
+                .setConstraint(AppUtils.getAppVersionCode() < versionInfo.getMinVersionCode());
+
+        new UpdateAppManager.Builder()
+                .setActivity(this)
+                .handleException(new ExceptionHandler() {
+                    @Override
+                    public void onException(Exception e) {
+                        e.printStackTrace();
+                    }
+                })
+                .setHttpManager(new UpdateAppHttpUtil())
+                .build()
+                .checkNewApp(new UpdateCallback() {
+                    @Override
+                    protected UpdateAppBean parseJson(String json) {
+                        return updateInfo;
+                    }
+
+                    @Override
+                    protected void hasNewApp(UpdateAppBean updateApp, UpdateAppManager updateAppManager) {
+                        updateAppManager.showDialogFragment();
+                    }
+                });
+
+    }
+
+    //友盟回调需要此处进行处理
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Fragment personalFragment = pagerAdapter.getPersonalFragment();
+        if (personalFragment != null)
+            personalFragment.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        outState.putBoolean("isConstraint", isConstraint);
+        super.onSaveInstanceState(outState, outPersistentState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        isConstraint = savedInstanceState.getBoolean("isConstraint");
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
     }
 
     @Override
@@ -123,42 +273,6 @@ public class HomeActivity extends BasicAppNoDiActivity implements XRadioGroup.On
         imgDot.setVisibility(View.VISIBLE);
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        StatusBarUtil.setStatusBarColor(HomeActivity.this, Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? R.color.common_white : R.color.common_dark);
-        StatusBarUtil.setTextDark(this);
-    }
-
-    @Override
-    public int initView(@NonNull Bundle savedInstanceState) {
-        return R.layout.activity_home;
-    }
-
-    @Override
-    public void initData(@NonNull Bundle savedInstanceState) {
-        dialogHomeAdd = new DialogHomeAdd(this);
-        groupTab.setOnCheckedChangeListener(this);
-        pagerAdapter = new PagerAdapterHome(getSupportFragmentManager());
-        pager.setOffscreenPageLimit(5);
-        pager.setAdapter(pagerAdapter);
-        pager.addOnPageChangeListener(onPageChangeListener);
-
-        imgDot.setVisibility(MsgHelper.hasReadAllNotify() ? View.GONE : View.VISIBLE);
-
-        remoteCall();
-    }
-
-    //tab动作，切换viewpager
-    @Override
-    public void onCheckedChanged(XRadioGroup radioGroup, int checkedId) {
-        for (int i = 0; i < tabsId.length; i++) {
-            if (tabsId[i] == checkedId) {
-                pager.setCurrentItem(i, false);
-            }
-        }
-    }
-
     //页面切换事件
     private ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.SimpleOnPageChangeListener() {
         @Override
@@ -181,38 +295,6 @@ public class HomeActivity extends BasicAppNoDiActivity implements XRadioGroup.On
                     EventBus.getDefault().post(new EventBean(EventBean.EVENT_TAB_USER));
                     break;
             }
-        }
-    };
-
-    //中间按钮点击事件
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.img_add:
-                dialogHomeAdd.show();
-                break;
-        }
-    }
-
-    //友盟回调需要此处进行处理
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Fragment personalFragment = pagerAdapter.getPersonalFragment();
-        if (personalFragment != null)
-            personalFragment.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void onBackPressed() {
-        moveTaskToBack(true);
-    }
-
-
-    private Handler mHandler = new Handler();
-    private Runnable mRunnable = new Runnable() {
-        @Override
-        public void run() {
-            remoteCall();
         }
     };
 
