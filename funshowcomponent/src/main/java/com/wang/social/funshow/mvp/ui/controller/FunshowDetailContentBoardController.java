@@ -1,5 +1,6 @@
 package com.wang.social.funshow.mvp.ui.controller;
 
+import android.app.Activity;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.ImageView;
@@ -7,12 +8,14 @@ import android.widget.TextView;
 
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.ImageLoaderHelper;
+import com.frame.component.helper.NetIsShoppingHelper;
 import com.frame.component.helper.NetPayStoneHelper;
 import com.frame.component.ui.base.BaseController;
 import com.frame.component.utils.viewutils.FontUtils;
 import com.frame.component.view.DialogPay;
 import com.frame.component.view.bundleimgview.BundleImgView;
 import com.frame.entities.EventBean;
+import com.frame.http.api.ApiException;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
@@ -171,18 +174,22 @@ public class FunshowDetailContentBoardController extends FunshowDetailBaseContro
         if (videoview != null) videoview.releaseAllVideos();
     }
 
-    private void showPayDialog(FunshowDetail bean) {
+    private void checkAndshowPayDialog() {
         //如果是需要付费的内容，则弹出付费提示，并生产遮挡蒙层
-        if (!bean.isFree() && !bean.isPay()) {
-            //弹出付费弹出
-            DialogPay.showPayFunshow(getIView(), getFragmentManager(), bean.getPrice(), -1, () -> {
-                NetPayStoneHelper.newInstance().netPayFunshow(getIView(), talkId, bean.getPrice(), () -> {
-                    CommonHelper.FunshowHelper.startDetailActivity(getContext(), talkId);
-                    EventBus.getDefault().post(new EventBean(EventBean.EVENT_FUNSHOW_PAYED).put("talkId", talkId));
+        NetIsShoppingHelper.newInstance().isTalkShopping(getIView(), talkId, rsp -> {
+            if (!rsp.isFree() && !rsp.isPay()) {
+                //弹出付费弹出
+                DialogPay.showPayFunshow(getIView(), getFragmentManager(), rsp.getPrice(), -1, () -> {
+                    NetPayStoneHelper.newInstance().netPayFunshow(getIView(), talkId, rsp.getPrice(), () -> {
+                        EventBus.getDefault().post(new EventBean(EventBean.EVENT_FUNSHOW_PAYED).put("talkId", talkId));
+                    });
+                }).setCancelCallback(() -> {
+                    if (getContext() instanceof Activity) {
+                        ((Activity) getContext()).finish();
+                    }
                 });
-            });
-            //TODO:遮挡蒙层
-        }
+            }
+        });
     }
 
     /////////////////////////////////////////
@@ -210,6 +217,13 @@ public class FunshowDetailContentBoardController extends FunshowDetailBaseContro
                     @Override
                     public void onError(Throwable e) {
                         ToastUtil.showToastLong(e.getMessage());
+                        if (e instanceof ApiException) {
+                            int errorCode = ((ApiException) e).getErrorCode();
+                            if (errorCode == 102015) {
+                                //未支付
+                                checkAndshowPayDialog();
+                            }
+                        }
                     }
                 });
     }

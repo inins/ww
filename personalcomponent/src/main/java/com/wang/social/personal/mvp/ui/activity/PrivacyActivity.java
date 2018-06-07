@@ -116,7 +116,7 @@ public class PrivacyActivity extends BasicAppActivity implements IView {
                 }
             }
         }
-        switchShow.setCheckedNoEvent(PrivateDetail.getShowAgeBool(privacyList));
+        switchShow.setCheckedNoEvent(!PrivateDetail.getShowAgeBool(privacyList));
     }
 
     @Override
