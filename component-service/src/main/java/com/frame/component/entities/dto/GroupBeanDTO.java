@@ -24,6 +24,7 @@ public class GroupBeanDTO implements Mapper<GroupBean> {
     private Integer isFree;
     private Integer memberNum;
     private Integer groupMemberNum;
+    private String tagName;
 
     @Override
     public GroupBean transform() {
@@ -52,6 +53,7 @@ public class GroupBeanDTO implements Mapper<GroupBean> {
                 Math.max(
                         EntitiesUtil.assertNotNull(groupMemberNum) ,
                         EntitiesUtil.assertNotNull(memberNum)));
+        object.setTagName(EntitiesUtil.assertNotNull(tagName));
 
         return object;
     }
