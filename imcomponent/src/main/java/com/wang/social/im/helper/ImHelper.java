@@ -26,6 +26,7 @@ import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMOfflinePushSettings;
 import com.tencent.imsdk.ext.message.TIMConversationExt;
 import com.tencent.imsdk.ext.message.TIMManagerExt;
+import com.wang.social.im.app.GlobalMessageEvent;
 import com.wang.social.im.app.IMConstants;
 import com.wang.social.im.mvp.model.entities.UIConversation;
 import com.xiaomi.mipush.sdk.MiPushClient;
@@ -179,6 +180,8 @@ public class ImHelper {
      * 配置离线推送
      */
     public static void configurationOfflinePush(Application application) {
+        GlobalMessageEvent.getInstance().setOfflineSetting(null);
+
         String vendor = Build.MANUFACTURER;
         //初始化推送
         if (vendor.toLowerCase().contains("xiaomi") || vendor.toLowerCase().contains("blackshark")) { //小米推送
@@ -253,15 +256,9 @@ public class ImHelper {
     public static void setOfflineMessagePushStatus(boolean isPush) {
         TIMOfflinePushSettings offlinePushSettings = new TIMOfflinePushSettings();
         offlinePushSettings.setEnabled(isPush);
-    }
+        TIMManager.getInstance().setOfflinePushSettings(offlinePushSettings);
 
-    /**
-     * 获取离线推送状态
-     *
-     * @return
-     */
-    public static boolean isOfflinePushEnable() {
-        return new TIMOfflinePushSettings().isEnabled();
+        GlobalMessageEvent.getInstance().setOfflineSetting(offlinePushSettings);
     }
 
     /**

@@ -2,18 +2,18 @@ package com.wang.social.mvp.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.frame.component.api.Api;
 import com.frame.component.api.CommonService;
 import com.frame.component.common.AppConstant;
 import com.frame.component.entities.DynamicMessage;
@@ -22,8 +22,6 @@ import com.frame.component.entities.VersionInfo;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.MsgHelper;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
-import com.frame.component.utils.UIUtil;
-import com.frame.component.utils.viewutils.AppUtil;
 import com.frame.component.view.XRadioGroup;
 import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelper;
@@ -33,7 +31,6 @@ import com.frame.mvp.IView;
 import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.AppUtils;
 import com.frame.utils.FrameUtils;
-import com.frame.utils.RxLifecycleUtils;
 import com.frame.utils.StatusBarUtil;
 import com.vector.update_app.UpdateAppBean;
 import com.vector.update_app.UpdateAppManager;
@@ -46,18 +43,9 @@ import com.wang.social.utils.update.UpdateAppHttpUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
-import android.os.Build;
-
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.concurrent.TimeUnit;
-
 import butterknife.BindView;
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 @RouteNode(path = "/main", desc = "首页")
@@ -183,6 +171,7 @@ public class HomeActivity extends BasicAppNoDiActivity implements IView, XRadioG
                         e.printStackTrace();
                     }
                 })
+                .setUpdateUrl(Api.DOMAIN)
                 .setHttpManager(new UpdateAppHttpUtil())
                 .build()
                 .checkNewApp(new UpdateCallback() {
@@ -196,7 +185,6 @@ public class HomeActivity extends BasicAppNoDiActivity implements IView, XRadioG
                         updateAppManager.showDialogFragment();
                     }
                 });
-
     }
 
     //友盟回调需要此处进行处理
