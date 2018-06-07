@@ -60,7 +60,8 @@ public class NotifyGroupRequestListActivity extends BasicAppNoDiActivity impleme
     @Override
     public void onCommonEvent(EventBean event) {
         switch (event.getEvent()) {
-            case 123:
+            case EventBean.EVENTBUS_AGREE_ADD_GROUP_SUCCESS:
+            case EventBean.EVENTBUS_REFUSE_ADD_GROUP_SUCCESS:
                 netGetSysMsgList(true);
                 break;
         }
