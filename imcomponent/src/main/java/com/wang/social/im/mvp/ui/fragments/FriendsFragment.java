@@ -93,12 +93,16 @@ public class FriendsFragment extends BaseFragment<FriendsPresenter> implements F
 
     @Override
     public void showLoading() {
-        ffProgress.setVisibility(View.VISIBLE);
+        if (ffProgress != null) {
+            ffProgress.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     public void hideLoading() {
-        ffProgress.setVisibility(View.GONE);
+        if (ffProgress != null) {
+            ffProgress.setVisibility(View.GONE);
+        }
     }
 
     @Override
