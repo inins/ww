@@ -140,7 +140,7 @@ public class HomeActivity extends BasicAppNoDiActivity implements XRadioGroup.On
         dialogHomeAdd = new DialogHomeAdd(this);
         groupTab.setOnCheckedChangeListener(this);
         pagerAdapter = new PagerAdapterHome(getSupportFragmentManager());
-        pager.setOffscreenPageLimit(1);
+        pager.setOffscreenPageLimit(5);
         pager.setAdapter(pagerAdapter);
         pager.addOnPageChangeListener(onPageChangeListener);
 

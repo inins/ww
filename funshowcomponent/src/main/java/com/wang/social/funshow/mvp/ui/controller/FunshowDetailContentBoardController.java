@@ -98,7 +98,6 @@ public class FunshowDetailContentBoardController extends FunshowDetailBaseContro
                 setPicData(funshowDetail);
                 setMusicData(funshowDetail.getMusicRsc());
             }
-            showPayDialog(funshowDetail);
         }
     }
 
