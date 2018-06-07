@@ -2,12 +2,15 @@ package com.wang.social.im.app;
 
 import android.app.Application;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
@@ -56,6 +59,8 @@ import static com.wang.social.im.app.IMConstants.SERVER_PUSH_MESSAGE_ACCOUNT;
  */
 public class GlobalMessageEvent extends Observable implements TIMMessageListener {
 
+    private static final String NOTIFY_CHANNEL_ID = "10";
+
     private static volatile GlobalMessageEvent mInstance;
     private Application mApplication;
     private Gson mGson;
@@ -80,10 +85,16 @@ public class GlobalMessageEvent extends Observable implements TIMMessageListener
         mGson = FrameUtils.obtainAppComponentFromContext(application).gson();
 
         TIMManager.getInstance().addMessageListener(this);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(NOTIFY_CHANNEL_ID, "往往", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager manager = (NotificationManager) mApplication.getSystemService(Context.NOTIFICATION_SERVICE);
+            manager.createNotificationChannel(channel);
+        }
     }
 
     public void setOfflineSetting(TIMOfflinePushSettings offlineSetting) {
-        if (offlineSetting != null){
+        if (offlineSetting != null) {
             mPushSettings = offlineSetting;
             return;
         }
@@ -223,6 +234,7 @@ public class GlobalMessageEvent extends Observable implements TIMMessageListener
                 .setLargeIcon(BitmapFactory.decodeResource(mApplication.getResources(), R.drawable.im_luncher))
                 .setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_ALL)
+                .setChannelId(NOTIFY_CHANNEL_ID)
                 .setTicker(content);
         return builder;
     }
