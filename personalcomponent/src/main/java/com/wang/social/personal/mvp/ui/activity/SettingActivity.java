@@ -2,6 +2,7 @@ package com.wang.social.personal.mvp.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.icu.util.VersionInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -17,6 +18,7 @@ import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.mvp.IView;
+import com.frame.utils.AppUtils;
 import com.frame.utils.ToastUtil;
 import com.umeng.socialize.UMShareAPI;
 import com.wang.social.personal.R;
@@ -37,6 +39,8 @@ public class SettingActivity extends BasicAppActivity implements IView {
 
     @BindView(R2.id.text_clear)
     TextView text_clear;
+    @BindView(R2.id.text_version)
+    TextView text_version;
 
     @Inject
     NetThirdLoginBindHelper netThirdLoginBindHelper;
@@ -73,6 +77,7 @@ public class SettingActivity extends BasicAppActivity implements IView {
         dialogThirdLogin.setOnThirdLoginDialogListener(onThirdLoginDialogListener);
 
         text_clear.setText(ClearCacheUtil.getAppCacheSize(this));
+        text_version.setText("V" + AppUtils.getAppVersionName());
     }
 
     public void onClick(View v) {

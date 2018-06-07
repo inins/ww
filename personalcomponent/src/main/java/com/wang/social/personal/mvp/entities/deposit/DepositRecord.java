@@ -28,6 +28,19 @@ public class DepositRecord {
     }
 
     public String getStatusText() {
-        return isSuccess() ? "成功" : "失败";
+        switch (status) {
+            case "processing":
+                return "审核中";
+            case "unpaid":
+                return "未支付";
+            case "resusal_pay":
+                return "拒绝支付";
+            case "success":
+                return "审核成功";
+            case "fail":
+                return "审核失败";
+            default:
+                return "";
+        }
     }
 }
