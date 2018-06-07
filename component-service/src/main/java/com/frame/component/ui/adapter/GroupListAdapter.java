@@ -78,7 +78,7 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.View
         if (groupBean.getTags().size() > 0) {
             holder.tagsTV.setText(TagUtils.formatTagNames(groupBean.getTags()));
         } else if (!TextUtils.isEmpty(groupBean.getTagName())) {
-            holder.tagsTV.setText(groupBean.getTagName());
+            holder.tagsTV.setText("#" + groupBean.getTagName());
         }
 
         holder.rootView.setTag(groupBean);

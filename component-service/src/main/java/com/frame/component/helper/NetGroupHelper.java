@@ -186,8 +186,12 @@ public class NetGroupHelper {
                 new ErrorHandleSubscriber<BaseJson<AddGroupApplyRspDTO>>() {
                     @Override
                     public void onNext(BaseJson<AddGroupApplyRspDTO> basejson) {
-                        AddGroupApplyRspDTO dto = basejson.getData();
-                        if (callback != null) callback.success(dto.transform());
+                        if (isAgree) {
+                            AddGroupApplyRspDTO dto = basejson.getData();
+                            if (callback != null) callback.success(dto.transform());
+                        } else {
+                            if (callback != null) callback.success(null);
+                        }
                     }
 
                     @Override

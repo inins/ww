@@ -239,12 +239,14 @@ public class CommonHelper {
          * @param msgId         消息id
          * @param isGroupMember 是否是群成员
          */
-        private static void startGroupInvite(Context context, int type, int groupId, int msgId, int isGroupMember) {
+        private static void startGroupInvite(Context context, int type, int groupId,
+                                             int msgId, int isGroupMember, boolean isRefused) {
             Bundle bundle = new Bundle();
             bundle.putInt("type", type);
             bundle.putInt("groupid", groupId);
             bundle.putInt("msgid", msgId);
             bundle.putInt("isGroupMember", isGroupMember);
+            bundle.putBoolean("isRefused", isRefused);
             UIRouter.getInstance().openUri(context, ImPath.GROUP_INVITE_URL, bundle);
         }
 
@@ -255,8 +257,8 @@ public class CommonHelper {
          * @param groupId 群id
          * @param msgId   消息id
          */
-        public static void startGroupInviteFromMsg(Context context, int groupId, int msgId) {
-            startGroupInvite(context, 1, groupId, msgId, -1);
+        public static void startGroupInviteFromMsg(Context context, int groupId, int msgId, boolean isRefused) {
+            startGroupInvite(context, 1, groupId, msgId, -1, isRefused);
         }
 
         /**
@@ -266,7 +268,7 @@ public class CommonHelper {
          * @param groupId 群id
          */
         public static void startGroupInviteBrowse(Context context, int groupId) {
-            startGroupInvite(context, 0, groupId, -1, -1);
+            startGroupInvite(context, 0, groupId, -1, -1, false);
         }
 
         /**
@@ -277,7 +279,7 @@ public class CommonHelper {
          * @param isGroupMember 是否是该群成员
          */
         public static void startGroupInviteBrowse(Context context, int groupId, int isGroupMember) {
-            startGroupInvite(context, 0, groupId, -1, isGroupMember);
+            startGroupInvite(context, 0, groupId, -1, isGroupMember, false);
         }
 
         /**
