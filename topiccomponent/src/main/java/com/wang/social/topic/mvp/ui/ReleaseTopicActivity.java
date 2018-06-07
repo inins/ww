@@ -698,6 +698,10 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
     private void showVoiceLayout(boolean visible) {
         mVoicLayout.setVisibility(visible ? View.VISIBLE : View.GONE);
+
+        if (visible) {
+            scrollRichEditorWrapper();
+        }
     }
 
     private int mSymbolPosition;
@@ -1120,16 +1124,32 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
 
         if (mRichEditor.isFocused()) {
             Timber.i("焦点在内容编辑器");
-            // 上滚
-            Observable.timer(500, TimeUnit.MILLISECONDS)
-                    .compose(RxLifecycleUtils.bindToLifecycle((IView) this))
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(aLong -> mNestedScrollView.scrollTo(0, (int) (mContentEditorTitleLayout.getY() - 10)));
+            Rect rect = new Rect();
+            // 可见高度
+            int visibleH = rect.bottom - rect.top;
+            mNestedScrollView.getLocalVisibleRect(rect);
+            Timber.i(String.format("ScrollView : 高度=%1$d 可见高度=%2$d RichEditor高度=%3$d",
+                    mNestedScrollView.getHeight(),
+                    visibleH,
+                    mRichEditor.getHeight()));
+
+            // 如果内容小于可见高度，则滚动到内容标题位置
+            if (mRichEditor.getHeight() < visibleH) {
+                Timber.i("内容高度小于可见高度，滚动到内容标题位置");
+                Observable.timer(500, TimeUnit.MILLISECONDS)
+                        .compose(RxLifecycleUtils.bindToLifecycle((IView) this))
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(aLong -> mNestedScrollView.scrollTo(0, (int) (mContentEditorTitleLayout.getY() - 10)));
+            }
         }
     }
 
     private void showStylePicker(boolean visible) {
         mStylePicker.setVisibility(visible ? View.VISIBLE : View.GONE);
+
+        if (visible) {
+            scrollRichEditorWrapper();
+        }
 
         // 当样式选择器可见时，内容编辑器不可点击，解决键盘和选择器同时显示的问题
 //        mRichEditor.setFocusable(!visible);

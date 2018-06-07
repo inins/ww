@@ -64,7 +64,7 @@ public class DistributionSexAdapter extends RecyclerView.Adapter<DistributionSex
         } else if (sex.getSex() == 1) {
             gender = "女生";
         }
-        holder.tv.setText(String.format("%1s-%2d人", gender, sex.getCount()));
+        holder.tv.setText(String.format("%1$s-%2$d人", gender, sex.getCount()));
     }
 
     @Override
