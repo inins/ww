@@ -98,7 +98,7 @@ public abstract class BasicAppActivity extends BasicActivity {
 
     public final void hideLoadingDialog() {
         try {
-            if (dialogLoading.get() != null) dialogLoading.get().hide();
+            if (dialogLoading.get() != null) dialogLoading.get().dismiss();
         } catch (Exception e) {
             e.printStackTrace();
         }
