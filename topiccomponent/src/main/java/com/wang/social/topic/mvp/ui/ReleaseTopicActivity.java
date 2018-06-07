@@ -846,6 +846,11 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         }
 
         String content = HtmlUtil.delHTMLTag(mRichEditor.getHtml());
+
+        int audioCount = StringUtil.countAudio(mRichEditor.getHtml());
+        Timber.i("包含 " + audioCount + " 个语音");
+        int contentLength = audioCount * 50 + content.length();
+
         if (content.length() < 30) {
             if (toast) {
                 ToastUtil.showToastShort("为保障用户们的友好体验，请最少输入30个字");
@@ -853,9 +858,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
             return false;
         }
 
-        int audioCount = StringUtil.countAudio(mRichEditor.getHtml());
-        Timber.i("包含 " + audioCount + " 个语音");
-        if (audioCount * 50 + content.length() > 800) {
+        if (contentLength > 800) {
             if (toast) {
                 ToastUtil.showToastShort("内容字符数（含每条语音50字）超过800字！");
             }
@@ -1072,6 +1075,8 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     @Override
     protected void onResume() {
         super.onResume();
+
+
 
         mRootView.addOnLayoutChangeListener(this);
         mRichEditor.addOnLayoutChangeListener(mRichEditorLayoutChangeListener);
