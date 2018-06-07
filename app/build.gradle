@@ -129,6 +129,7 @@ dependencies {
         exclude module: 'support-annotations'
     }
     implementation rootProject.ext.dependencies["constraint-layout"]
+    implementation rootProject.ext.dependencies["version-update"]
     implementation project(':component-service')
     annotationProcessor project(':router-anno-compiler')
     //代替tablayout

@@ -808,7 +808,14 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
             return false;
         }
 
-        if (!RegexUtils.isUsernameMe(title)) {
+        if (title.length() > 30) {
+            if (toast) {
+                ToastUtil.showToastShort("话题名称不能多于30字");
+            }
+            return false;
+        }
+
+        if (!RegexUtils.isTopicName(title)) {
             if (toast) {
                 ToastUtil.showToastShort("话题名称不能输入特殊字符和表情");
             }
@@ -839,6 +846,11 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         }
 
         String content = HtmlUtil.delHTMLTag(mRichEditor.getHtml());
+
+        int audioCount = StringUtil.countAudio(mRichEditor.getHtml());
+        Timber.i("包含 " + audioCount + " 个语音");
+        int contentLength = audioCount * 50 + content.length();
+
         if (content.length() < 30) {
             if (toast) {
                 ToastUtil.showToastShort("为保障用户们的友好体验，请最少输入30个字");
@@ -846,9 +858,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
             return false;
         }
 
-        int audioCount = StringUtil.countAudio(mRichEditor.getHtml());
-        Timber.i("包含 " + audioCount + " 个语音");
-        if (audioCount * 50 + content.length() > 800) {
+        if (contentLength > 800) {
             if (toast) {
                 ToastUtil.showToastShort("内容字符数（含每条语音50字）超过800字！");
             }
@@ -999,20 +1009,64 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
         dismissLoadingDialog();
     }
 
+    private int mOffsetY = 10;
+    /**
+     * 滚动，让屏幕发生变化且内容编辑框获取焦点时始终能看到编辑的内容
+     */
+    private void scrollRichEditorWrapper() {
+        if (mRichEditor.isFocused()) {
+            Timber.i("scrollRichEditorWrapper : 焦点在内容编辑器");
+            Rect rect = new Rect();
+            mNestedScrollView.getLocalVisibleRect(rect);
+            // 可见高度
+            int visibleH = rect.bottom - rect.top;
+            Timber.i(String.format("ScrollView : 高度=%1$d 可见高度=%2$d 编辑框高度= %3$d RichEditor高度=%4$d Y=%5$f",
+                    mNestedScrollView.getHeight(),
+                    visibleH,
+                    mRichEditorLayout.getHeight(),
+                    mRichEditor.getHeight(),
+                    mRichEditor.getY()));
+
+            // 如果内容小于可见高度，则滚动到内容标题位置
+            if (mRichEditor.getHeight() < visibleH - mRichEditor.getY()) {
+                Timber.i("内容高度小于可见高度，滚动到内容标题位置");
+                Observable.timer(500, TimeUnit.MILLISECONDS)
+                        .compose(RxLifecycleUtils.bindToLifecycle((IView) this))
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(aLong -> mNestedScrollView.scrollTo(0,
+                                (int) (mContentEditorTitleLayout.getY() - mOffsetY)));
+            } else {
+                Timber.i("内容高度大于可见高度，滚动到触摸位置");
+
+                Observable.timer(500, TimeUnit.MILLISECONDS)
+                        .compose(RxLifecycleUtils.bindToLifecycle((IView) this))
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(aLong -> mNestedScrollView.scrollTo(0,
+                                (int) (mContentEditorTitleLayout.getY() - mOffsetY + mRichEditorTouchY)));
+            }
+        }
+    }
+
+    /**
+     * WebView富文本编辑框layout变化
+     */
     private View.OnLayoutChangeListener mRichEditorLayoutChangeListener = new View.OnLayoutChangeListener() {
         @Override
         public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
             int oldH = oldBottom - oldTop;
             int newH = bottom - top;
+            if (oldH == newH) return;
             Timber.i("富文本编辑框高度变化 : " + oldH + " -> " + newH);
             Rect rect = new Rect();
             mNestedScrollView.getLocalVisibleRect(rect);
             // 可见高度
             int visibleH = rect.bottom - rect.top;
-            Timber.i(String.format("ScrollView : 高度=%1$d 可见高度=%2$d RichEditor高度=%3$d",
+            Timber.i(String.format("ScrollView : 高度=%1$d 可见高度=%2$d 编辑框高度= %3$d RichEditor高度=%4$d Y=%5$f",
                     mNestedScrollView.getHeight(),
                     visibleH,
-                    mRichEditor.getHeight()));
+                    mRichEditorLayout.getHeight(),
+                    mRichEditor.getHeight(),
+                    mRichEditor.getY()));
 
 
         }
@@ -1021,6 +1075,8 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     @Override
     protected void onResume() {
         super.onResume();
+
+
 
         mRootView.addOnLayoutChangeListener(this);
         mRichEditor.addOnLayoutChangeListener(mRichEditorLayoutChangeListener);
@@ -1085,41 +1141,6 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
             }
 
             scrollRichEditorWrapper();
-        }
-    }
-
-    /**
-     * 滚动，让屏幕发生变化且内容编辑框获取焦点时始终能看到编辑的内容
-     */
-    private void scrollRichEditorWrapper() {
-        if (mRichEditor.isFocused()) {
-            Timber.i("scrollRichEditorWrapper : 焦点在内容编辑器");
-            Rect rect = new Rect();
-            mNestedScrollView.getLocalVisibleRect(rect);
-            // 可见高度
-            int visibleH = rect.bottom - rect.top;
-            Timber.i(String.format("ScrollView : 高度=%1$d 可见高度=%2$d RichEditor高度=%3$d",
-                    mNestedScrollView.getHeight(),
-                    visibleH,
-                    mRichEditor.getHeight()));
-
-            // 如果内容小于可见高度，则滚动到内容标题位置
-            if (mRichEditor.getHeight() < visibleH) {
-                Timber.i("内容高度小于可见高度，滚动到内容标题位置");
-                Observable.timer(500, TimeUnit.MILLISECONDS)
-                        .compose(RxLifecycleUtils.bindToLifecycle((IView) this))
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(aLong -> mNestedScrollView.scrollTo(0,
-                                (int) (mContentEditorTitleLayout.getY() - 10)));
-            } else {
-                Timber.i("内容高度大于可见高度，滚动到触摸位置");
-
-                Observable.timer(500, TimeUnit.MILLISECONDS)
-                        .compose(RxLifecycleUtils.bindToLifecycle((IView) this))
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(aLong -> mNestedScrollView.scrollTo(0,
-                                (int) (mContentEditorTitleLayout.getY() - 10 + mRichEditorTouchY)));
-            }
         }
     }
 

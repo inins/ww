@@ -22,7 +22,9 @@ import com.meizu.cloud.pushsdk.PushManager;
 import com.meizu.cloud.pushsdk.util.MzSystemUtils;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
+import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMOfflinePushSettings;
+import com.tencent.imsdk.ext.message.TIMConversationExt;
 import com.tencent.imsdk.ext.message.TIMManagerExt;
 import com.wang.social.im.app.IMConstants;
 import com.wang.social.im.mvp.model.entities.UIConversation;
@@ -272,5 +274,14 @@ public class ImHelper {
             Vibrator vibrator = (Vibrator) context.getSystemService(Service.VIBRATOR_SERVICE);
             vibrator.vibrate(500);
         }
+    }
+
+    /**
+     * 将系统推送消息置为已读
+     */
+    public static void readPushMessage() {
+        TIMConversation conversation = TIMManager.getInstance().getConversation(TIMConversationType.C2C, IMConstants.SERVER_PUSH_MESSAGE_ACCOUNT);
+        TIMConversationExt conversationExt = new TIMConversationExt(conversation);
+        conversationExt.setReadMessage(null, null);
     }
 }

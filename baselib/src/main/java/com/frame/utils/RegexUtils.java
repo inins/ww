@@ -237,4 +237,8 @@ public final class RegexUtils {
     public static boolean isUsernameMe(CharSequence input) {
         return isMatch(RegexConstants.REGEX_USERNAME_ME, input);
     }
+
+    public static boolean isTopicName(CharSequence input) {
+        return isMatch(RegexConstants.REGEX_TOPIC_NAME, input);
+    }
 }

@@ -307,7 +307,8 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
 
         // 底部栏
         mBottomLayout.setVisibility(View.VISIBLE);
-        if (mType == TYPE_INVITE) {
+        // 邀请模式，并且不是群成员才会显示 拒绝 加入
+        if (mType == TYPE_INVITE && mIsGroupMember != 1) {
             // 邀请模式，底部显示 拒绝 和 加入
             mRefuseTV.setVisibility(View.VISIBLE);
             mAgreeTV.setVisibility(View.VISIBLE);

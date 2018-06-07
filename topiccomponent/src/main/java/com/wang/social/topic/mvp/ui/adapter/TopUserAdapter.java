@@ -85,7 +85,7 @@ public class TopUserAdapter extends RecyclerView.Adapter<TopUserAdapter.ViewHold
         // 话题数量
         holder.mTopicCountTV.setText(
                 String.format(mContext.getResources().getString(R.string.topic_top_user_comment_count_format),
-                        user.getPublishNum()));
+                        user.getParticipateNum()));
 
         holder.mRootView.setTag(user);
         holder.mRootView.setOnClickListener(v -> {
