@@ -1,7 +1,9 @@
 package com.wang.social.utils.update;
 
-import android.os.Environment;
-import android.support.annotation.NonNull;
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -14,12 +16,18 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class DownloadUtil {
+/**
+ * Created by yufs on 2017/8/16.
+ */
 
+public class DownloadUtil {
+    public static final int DOWNLOAD_FAIL = 0;
+    public static final int DOWNLOAD_PROGRESS = 1;
+    public static final int DOWNLOAD_SUCCESS = 2;
     private static DownloadUtil downloadUtil;
     private final OkHttpClient okHttpClient;
 
-    public static DownloadUtil get() {
+    public static DownloadUtil getInstance() {
         if (downloadUtil == null) {
             downloadUtil = new DownloadUtil();
         }
@@ -31,17 +39,17 @@ public class DownloadUtil {
     }
 
     /**
-     * @param url      下载连接
-     * @param saveDir  储存下载文件的SDCard目录
-     * @param listener 下载监听
+     *
      */
     public void download(final String url, final String saveDir, final OnDownloadListener listener) {
+        this.listener = listener;
         Request request = new Request.Builder().url(url).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                // 下载失败
-                listener.onDownloadFailed();
+                Message message = Message.obtain();
+                message.what = DOWNLOAD_FAIL;
+                mHandler.sendMessage(message);
             }
 
             @Override
@@ -50,7 +58,7 @@ public class DownloadUtil {
                 byte[] buf = new byte[2048];
                 int len = 0;
                 FileOutputStream fos = null;
-                // 储存下载文件的目录
+                //储存下载文件的目录
                 String savePath = isExistDir(saveDir);
                 try {
                     is = response.body().byteStream();
@@ -61,39 +69,53 @@ public class DownloadUtil {
                     while ((len = is.read(buf)) != -1) {
                         fos.write(buf, 0, len);
                         sum += len;
-                        float progress = (float) (sum * 1.0f / total * 100);
-                        // 下载中
-                        listener.onDownloading(progress / 100, total);
+                        int progress = (int) (sum * 1.0f / total * 100);
+                        //下载中
+                        Message message = Message.obtain();
+                        message.what = DOWNLOAD_PROGRESS;
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("progress", progress);
+                        bundle.putLong("total", total);
+                        message.setData(bundle);
+                        mHandler.sendMessage(message);
+
                     }
                     fos.flush();
-                    // 下载完成
-                    listener.onDownloadSuccess(file);
+                    //下载完成
+                    Message message = Message.obtain();
+                    message.what = DOWNLOAD_SUCCESS;
+                    message.obj = file;
+                    mHandler.sendMessage(message);
                 } catch (Exception e) {
-                    listener.onDownloadFailed();
+                    Message message = Message.obtain();
+                    message.what = DOWNLOAD_FAIL;
+                    mHandler.sendMessage(message);
                 } finally {
                     try {
                         if (is != null)
                             is.close();
                     } catch (IOException e) {
+
                     }
                     try {
-                        if (fos != null)
+                        if (fos != null) {
                             fos.close();
+                        }
                     } catch (IOException e) {
+
                     }
                 }
             }
         });
     }
 
-    /**
-     * @param saveDir
-     * @return
-     * @throws IOException 判断下载目录是否存在
-     */
+    private String getNameFromUrl(String url) {
+        return url.substring(url.lastIndexOf("/") + 1);
+    }
+
+
     private String isExistDir(String saveDir) throws IOException {
-        // 下载位置
-        File downloadFile = new File(Environment.getExternalStorageDirectory(), saveDir);
+        File downloadFile = new File(saveDir);
         if (!downloadFile.mkdirs()) {
             downloadFile.createNewFile();
         }
@@ -101,28 +123,42 @@ public class DownloadUtil {
         return savePath;
     }
 
-    /**
-     * @param url
-     * @return 从下载连接中解析出文件名
-     */
-    @NonNull
-    private String getNameFromUrl(String url) {
-        return url.substring(url.lastIndexOf("/") + 1);
-    }
+
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case DOWNLOAD_PROGRESS:
+                    Bundle bundle = msg.getData();
+                    listener.onDownloading(bundle.getInt("progress"), bundle.getLong("total"));
+                    break;
+                case DOWNLOAD_FAIL:
+                    listener.onDownloadFailed();
+                    break;
+                case DOWNLOAD_SUCCESS:
+                    listener.onDownloadSuccess((File) msg.obj);
+                    break;
+            }
+        }
+    };
+
+
+    OnDownloadListener listener;
 
     public interface OnDownloadListener {
         /**
          * 下载成功
-         *
-         * @param file
          */
         void onDownloadSuccess(File file);
 
         /**
-         * @param progress 下载进度
-         * @param total
+         * 下载进度
+         *
+         * @param progress
          */
-        void onDownloading(float progress, long total);
+        void onDownloading(int progress, long total);
 
         /**
          * 下载失败

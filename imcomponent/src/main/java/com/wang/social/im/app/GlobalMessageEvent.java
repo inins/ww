@@ -26,6 +26,8 @@ import com.tencent.imsdk.TIMGroupReceiveMessageOpt;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageListener;
+import com.tencent.imsdk.TIMOfflinePushSettings;
+import com.tencent.imsdk.TIMValueCallBack;
 import com.wang.social.im.R;
 import com.wang.social.im.enums.CustomElemType;
 import com.frame.component.entities.DynamicMessage;
@@ -57,6 +59,7 @@ public class GlobalMessageEvent extends Observable implements TIMMessageListener
     private static volatile GlobalMessageEvent mInstance;
     private Application mApplication;
     private Gson mGson;
+    private TIMOfflinePushSettings mPushSettings;
 
     private GlobalMessageEvent() {
     }
@@ -77,6 +80,24 @@ public class GlobalMessageEvent extends Observable implements TIMMessageListener
         mGson = FrameUtils.obtainAppComponentFromContext(application).gson();
 
         TIMManager.getInstance().addMessageListener(this);
+    }
+
+    public void setOfflineSetting(TIMOfflinePushSettings offlineSetting) {
+        if (offlineSetting != null){
+            mPushSettings = offlineSetting;
+            return;
+        }
+        TIMManager.getInstance().getOfflinePushSettings(new TIMValueCallBack<TIMOfflinePushSettings>() {
+            @Override
+            public void onError(int i, String s) {
+
+            }
+
+            @Override
+            public void onSuccess(TIMOfflinePushSettings timOfflinePushSettings) {
+                mPushSettings = timOfflinePushSettings;
+            }
+        });
     }
 
     /**
@@ -143,7 +164,7 @@ public class GlobalMessageEvent extends Observable implements TIMMessageListener
 
     private void showMessageNotify(TIMMessage timMessage) {
         if (timMessage.getRecvFlag() == TIMGroupReceiveMessageOpt.ReceiveNotNotify ||
-                !ImHelper.isOfflinePushEnable()) {
+                !isOfflinePush()) {
             return;
         }
         //显示角标
@@ -166,7 +187,7 @@ public class GlobalMessageEvent extends Observable implements TIMMessageListener
      * @param message
      */
     private void showSystemNotify(SystemMessage message) {
-        if (!ImHelper.isOfflinePushEnable()) {
+        if (!isOfflinePush()) {
             return;
         }
         NotificationCompat.Builder builder = getBuilder(message.getTitle(), TextUtils.isEmpty(message.getPushContent()) ? message.getContent() : message.getPushContent());
@@ -182,7 +203,7 @@ public class GlobalMessageEvent extends Observable implements TIMMessageListener
      * @param message
      */
     private void showDynamicNotify(DynamicMessage message) {
-        if (!ImHelper.isOfflinePushEnable()) {
+        if (!isOfflinePush()) {
             return;
         }
         NotificationCompat.Builder builder = getBuilder(null, TextUtils.isEmpty(message.getPushContent()) ? message.getMsgContent() : message.getPushContent());
@@ -250,5 +271,12 @@ public class GlobalMessageEvent extends Observable implements TIMMessageListener
             }
         }
         return new Intent("android.intent.action.VIEW", uriBuilder.build());
+    }
+
+    private boolean isOfflinePush() {
+        if (mPushSettings != null && mPushSettings.isEnabled()) {
+            return true;
+        }
+        return false;
     }
 }
