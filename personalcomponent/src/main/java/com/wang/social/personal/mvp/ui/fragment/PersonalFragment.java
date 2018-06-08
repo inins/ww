@@ -9,8 +9,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.frame.component.api.CommonService;
 import com.frame.component.common.AppConstant;
 import com.frame.component.entities.User;
+import com.frame.component.entities.user.UserBoard;
 import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.ImageLoaderHelper;
@@ -19,6 +21,9 @@ import com.frame.component.ui.acticity.WebActivity;
 import com.frame.component.ui.base.BasicLazyFragment;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
+import com.frame.http.api.ApiHelperEx;
+import com.frame.http.api.BaseJson;
+import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.http.imageloader.ImageLoader;
 import com.frame.utils.ToastUtil;
 import com.umeng.socialize.UMShareAPI;
@@ -120,10 +125,15 @@ public class PersonalFragment extends BasicLazyFragment implements PersonalFragm
         }
     }
 
-    private void setUserData(QrcodeInfo qrcodeInfo) {
-        if (qrcodeInfo != null) {
-            ImageLoaderHelper.loadCircleImg(imgHeader, R.drawable.ic_default_header, qrcodeInfo.getUserAvatar());
-            textName.setText(qrcodeInfo.getNickName());
+    private void setUserData(UserBoard userBoard) {
+        if (userBoard != null) {
+            ImageLoaderHelper.loadCircleImg(imgHeader, R.drawable.ic_default_header, userBoard.getAvatar());
+            textName.setText(userBoard.getNickname());
+            User user = AppDataHelper.getUser();
+            if (user != null) {
+                user.setNickname(userBoard.getNickname());
+                user.setAvatar(userBoard.getAvatar());
+            }
         }
     }
 
@@ -205,20 +215,39 @@ public class PersonalFragment extends BasicLazyFragment implements PersonalFragm
 
     /////////////////////////////////
 
-    private void netGetUserInfo() {
-        User user = AppDataHelper.getUser();
-        if (user == null) return;
-        netUserHelper.getUserInfoByUserId(null, user.getUserId(), new NetUserHelper.OnUserApiCallBack() {
-            @Override
-            public void onSuccess(QrcodeInfo qrcodeInfo) {
-                setUserData(qrcodeInfo);
-            }
+//    private void netGetUserInfo() {
+//        User user = AppDataHelper.getUser();
+//        if (user == null) return;
+//        netUserHelper.getUserInfoByUserId(null, user.getUserId(), new NetUserHelper.OnUserApiCallBack() {
+//            @Override
+//            public void onSuccess(QrcodeInfo qrcodeInfo) {
+//                setUserData(qrcodeInfo);
+//            }
+//
+//            @Override
+//            public void onError(Throwable e) {
+//                ToastUtil.showToastLong(e.getMessage());
+//            }
+//        });
+//    }
 
-            @Override
-            public void onError(Throwable e) {
-                ToastUtil.showToastLong(e.getMessage());
-            }
-        });
+    public void netGetUserInfo() {
+        ApiHelperEx.execute(null, true,
+                ApiHelperEx.getService(CommonService.class).getUserInfoAndPhotos(null),
+                new ErrorHandleSubscriber<BaseJson<UserBoard>>() {
+                    @Override
+                    public void onNext(BaseJson<UserBoard> basejson) {
+                        UserBoard userBoard = basejson.getData();
+                        if (userBoard != null) {
+                            setUserData(userBoard);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        ToastUtil.showToastLong(e.getMessage());
+                    }
+                });
     }
 
     private void netGetUserStatistics() {

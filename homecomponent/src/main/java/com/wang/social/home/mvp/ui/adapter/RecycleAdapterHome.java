@@ -116,6 +116,8 @@ public class RecycleAdapterHome extends BaseAdapter<FunpointAndTopic> {
         TextView textEva;
         @BindView(R2.id.text_watch)
         TextView textWatch;
+        @BindView(R2.id.card_pic)
+        CardView cardPic;
 
         public HolderTopic(Context context, ViewGroup root, int layoutRes) {
             super(context, root, layoutRes);
@@ -126,6 +128,7 @@ public class RecycleAdapterHome extends BaseAdapter<FunpointAndTopic> {
             ImageLoaderHelper.loadCircleImg(imgHeader, bean.getUserCover());
             ImageLoaderHelper.loadImgTest(imgPic);
             ImageLoaderHelper.loadImg(imgPic, bean.getTopicImage());
+            cardPic.setVisibility(TextUtils.isEmpty(bean.getTopicImage()) ? View.GONE : View.VISIBLE);
             textTitle.setText(bean.getTitle());
             textContent.setText(bean.getFirstStrff());
             textName.setText(bean.getUserName());

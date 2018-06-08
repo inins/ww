@@ -182,7 +182,7 @@ public interface CommonService {
      */
     @FormUrlEncoded
     @POST("/app/userInfo/getUserInfoAndPhotos?v=2.0.0")
-    Observable<BaseJson<UserBoard>> getUserInfoAndPhotos(@Field("userId") int userId);
+    Observable<BaseJson<UserBoard>> getUserInfoAndPhotos(@Field("userId") Integer userId);
 
     /**
      * 发送好友申请

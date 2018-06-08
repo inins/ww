@@ -20,6 +20,6 @@ public class MsgSetting {
     private long updateTime;
 
     public boolean isPushMsg() {
-        return pushFlag != 0;
+        return pushFlag == 0;
     }
 }

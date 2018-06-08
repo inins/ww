@@ -2,6 +2,7 @@ package com.frame.component.entities.user;
 
 import com.frame.component.api.Api;
 import com.frame.component.entities.Tag;
+import com.frame.component.entities.User;
 import com.frame.component.entities.photo.Photo;
 import com.frame.component.view.bannerview.Image;
 import com.frame.utils.StrUtil;
@@ -82,4 +83,37 @@ public class UserBoard {
     public boolean isShowAge() {
         return showAge != 0;
     }
-}
+
+//    public User trans2User(){
+//        /**
+//         * private int id;
+//         private int userId;
+//         private String nickname;
+//         private String avatar;
+//         private int sex;
+//         private long createTime;
+//         private String phone;
+//         private String birthday;
+//         private String province;
+//         private String city;
+//         private String constellation;
+//         private String autograph;
+//         private List<Tag> tags;
+//
+//         */
+//        User user = new User();
+//        user.setUserId(userId);
+//        user.setNickname(nickname);
+//        user.setAvatar(avatar);
+//        user.setSex(sex);
+////        user.setCreateTime(cr);
+////        user.setPhone();
+////        user.setBirthday(birthday);
+//        user.setProvince(province);
+//        user.setCity(city);
+////        user.setConstellation();
+//        user.setAutograph(autograph);
+//        user.setTags(tags);
+//        return user;
+//    }
+ }
