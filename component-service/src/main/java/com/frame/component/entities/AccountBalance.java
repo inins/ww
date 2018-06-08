@@ -7,5 +7,9 @@ public class AccountBalance {
     private float amount;
     private int amountGemstone;
     private int userId;
-    private int amountDiamond;
+    private float amountDiamond;
+
+    public int getAmountDiamond() {
+        return (int) amountDiamond;
+    }
 }
