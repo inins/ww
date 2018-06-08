@@ -187,19 +187,7 @@ public class CreateSocialActivity extends BaseAppActivity<CreateSocialPresenter>
                 @SuppressLint("CheckResult")
                 @Override
                 public void onShootSelected() {
-                    new RxPermissions(CreateSocialActivity.this)
-                            .requestEach(Manifest.permission.CAMERA)
-                            .subscribe(new Consumer<Permission>() {
-                                @Override
-                                public void accept(Permission permission) throws Exception {
-                                    if (permission.granted) {
-                                        mImageSelectHelper.startCamera();
-                                    } else if (permission.shouldShowRequestPermissionRationale) {
-                                        ToastUtil.showToastShort("请在设置中打开相机权限");
-                                    }
-                                }
-                            });
-
+                    mImageSelectHelper.startCamera();
                 }
 
                 @Override

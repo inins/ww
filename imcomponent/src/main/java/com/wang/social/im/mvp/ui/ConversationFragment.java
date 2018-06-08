@@ -508,27 +508,16 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
                         .forResult(REQUEST_SELECT_PICTURE);
                 break;
             case SHOOT: //拍摄
-                new RxPermissions(getActivity())
-                        .requestEach(Manifest.permission.CAMERA)
-                        .subscribe(new Consumer<Permission>() {
-                            @Override
-                            public void accept(Permission permission) throws Exception {
-                                if (permission.granted) {
-                                    if (mPhotoHelper == null) {
-                                        mPhotoHelper = new PhotoHelper(getActivity(), new PhotoHelper.OnPhotoCallback() {
-                                            @Override
-                                            public void onResult(String path) {
-                                                mPresenter.sendImageMessage(new String[]{path}, false);
-                                            }
-                                        });
-                                        mPhotoHelper.setClip(false);
-                                    }
-                                    mPhotoHelper.startCamera();
-                                } else if (permission.shouldShowRequestPermissionRationale) {
-                                    ToastUtil.showToastShort("请打开相机权限");
-                                }
-                            }
-                        });
+                if (mPhotoHelper == null) {
+                    mPhotoHelper = new PhotoHelper(getActivity(), new PhotoHelper.OnPhotoCallback() {
+                        @Override
+                        public void onResult(String path) {
+                            mPresenter.sendImageMessage(new String[]{path}, false);
+                        }
+                    });
+                    mPhotoHelper.setClip(false);
+                }
+                mPhotoHelper.startCamera();
                 break;
             case REDPACKET: //红包
                 switch (mConversationType) {
