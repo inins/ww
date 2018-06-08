@@ -70,7 +70,7 @@ public class PlazaFragment extends BasicLazyNoDiFragment {
         pager.setOffscreenPageLimit(1);
         tablayout.setViewPager(pager);
         tablayout.setOnTabClickListener(position -> {
-            if (position == 0) {
+            if (position == 0 && pager.getCurrentItem() == 0) {
                 popupWindow.showPopupWindow(tablayout.getTabAt(0));
             }
         });

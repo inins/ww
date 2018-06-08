@@ -49,6 +49,7 @@
             android:layout_height="?actionBarSize"
             android:layout_gravity="center_horizontal"
             android:ellipsize="end"
+            android:gravity="center"
             android:lines="1"
             android:maxWidth="230dp"
             android:minWidth="10dp"

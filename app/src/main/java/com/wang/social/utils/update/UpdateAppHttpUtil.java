@@ -58,7 +58,6 @@ public class UpdateAppHttpUtil implements HttpManager {
 
             @Override
             public void onDownloading(int progress, long total) {
-                Timber.tag("onDownloading").d("progress:" + progress + ",total:" + total);
                 callback.onProgress(progress * 0.01f, total);
             }
 

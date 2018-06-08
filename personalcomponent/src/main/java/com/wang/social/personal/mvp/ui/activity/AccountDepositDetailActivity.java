@@ -48,9 +48,11 @@ public class AccountDepositDetailActivity extends BasicAppNoDiActivity {
         tablayout.setViewPager(pager);
         tablayout.setOnTabClickListener(position -> {
             if (position == 0) {
-                popupWindowDiamond.showPopupWindow(tablayout.getTabAt(position));
+                if (pager.getCurrentItem() == 0)
+                    popupWindowDiamond.showPopupWindow(tablayout.getTabAt(position));
             } else if (position == 1) {
-                popupWindowStone.showPopupWindow(tablayout.getTabAt(position));
+                if (pager.getCurrentItem() == 1)
+                    popupWindowStone.showPopupWindow(tablayout.getTabAt(position));
             }
         });
         tablayout.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
