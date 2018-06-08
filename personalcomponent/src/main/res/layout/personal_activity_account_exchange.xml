@@ -165,7 +165,7 @@
                     android:inputType="numberSigned"
                     android:gravity="center_horizontal|bottom"
                     android:hint="@string/personal_account_exchange_exchange_hint"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
 
                 <View
                     style="@style/common_Line_H"
