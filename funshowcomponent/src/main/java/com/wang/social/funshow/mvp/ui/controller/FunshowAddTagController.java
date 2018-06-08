@@ -38,7 +38,7 @@ public class FunshowAddTagController extends FunshowAddBaseController implements
         textAmount.setOnClickListener(this);
         dialogStone.setOnInputListener(count -> {
             diamond = count;
-            textAmount.setText(":" + diamond + "钻");
+            textAmount.setText(":" + diamond + "宝石");
             checkPay.setChecked(true);
         });
     }
