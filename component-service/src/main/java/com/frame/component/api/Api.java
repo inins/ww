@@ -39,5 +39,5 @@ public interface Api {
     /**
      * 分享/说明H5页面根路径
      */
-    String WEB_BASE_URL = "http://wangsocial.com/share/v_2.0/test/";
+    String WEB_BASE_URL = "http://wangsocial.com/share/v_2.0/";
 }
