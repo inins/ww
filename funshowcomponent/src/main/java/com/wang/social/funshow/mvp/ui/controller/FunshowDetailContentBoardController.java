@@ -216,7 +216,6 @@ public class FunshowDetailContentBoardController extends FunshowDetailBaseContro
 
                     @Override
                     public void onError(Throwable e) {
-                        ToastUtil.showToastLong(e.getMessage());
                         if (e instanceof ApiException) {
                             int errorCode = ((ApiException) e).getErrorCode();
                             if (errorCode == 102015) {
