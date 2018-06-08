@@ -18,6 +18,8 @@ import com.frame.component.helper.CommonHelper;
 import com.frame.component.utils.UIUtil;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
+import com.frame.integration.AppManager;
+import com.frame.utils.ToastUtil;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
@@ -55,6 +57,8 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import timber.log.Timber;
 
@@ -69,6 +73,9 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
 
     @BindView(R2.id.cvl_conversation_list)
     RecyclerView cvlConversationList;
+
+    @Inject
+    AppManager mAppManager;
 
     private LinearLayoutManager mLayoutManager;
     private ConversationAdapter mAdapter;
@@ -297,7 +304,11 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
         TIMManager.getInstance().login(userId, AppDataHelper.getSign(), new TIMCallBack() {
             @Override
             public void onError(int i, String s) {
-
+                if (i != 20004 && i != 20005) {
+                    ToastUtil.showToastShort("授权异常请重新登陆!");
+                    mAppManager.killAll();
+                    CommonHelper.LoginHelper.startLoginActivity(getContext());
+                }
             }
 
             @Override

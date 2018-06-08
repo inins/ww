@@ -38,6 +38,7 @@ import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.ui.dialog.DialogSure;
 import com.frame.component.view.MusicBoard;
 import com.frame.component.view.SocialToolbar;
+import com.frame.component.view.SpreadView;
 import com.frame.component.view.waveview.WaveView;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
@@ -167,6 +168,9 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
     // 内容编辑框标题区域
     @BindView(R2.id.content_editor_title_layout)
     View mContentEditorTitleLayout;
+
+    @BindView(R2.id.spreadView)
+    SpreadView mSpreadView;
 
 
     // 判断键盘是否弹起时候的阈值
@@ -430,6 +434,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
                             switch (event.getAction()) {
                                 case MotionEvent.ACTION_DOWN:
                                     AudioRecordManager.getInstance().startRecord(v);
+                                    mSpreadView.start();
                                     break;
                                 case MotionEvent.ACTION_MOVE:
 //                                    AudioRecordManager.getInstance().continueRecord();
@@ -440,6 +445,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
                                     v.performClick();
                                     AudioRecordManager.getInstance().stopRecord();
                                     showVoiceLayout(false);
+                                    mSpreadView.end();
                                     break;
                             }
                         }

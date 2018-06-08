@@ -271,14 +271,14 @@ public class GlobalMessageEvent extends Observable implements TIMMessageListener
                 case DynamicMessage.TYPE_REPLY_FUN_SHOW_AITE:
                 case DynamicMessage.TYPE_PRAISE_FUN_SHOW_COMMENT:
                     uriBuilder.appendQueryParameter("target", AppConstant.Key.OPEN_TARGET_DYNAMIC_FUN_SHOW)
-                            .appendQueryParameter("targetId", message.getModePkId());
+                            .appendQueryParameter("targetId", TextUtils.isEmpty(message.getModePkId()) ? message.getModeId() : message.getModePkId());
                     break;
                 case DynamicMessage.TYPE_COMMENT_TOPIC:
                 case DynamicMessage.TYPE_PRAISE_TOPIC:
                 case DynamicMessage.TYPE_PRAISE_TOPIC_COMMENT:
                 case DynamicMessage.TYPE_REPLY_TOPIC_COMMENT:
                     uriBuilder.appendQueryParameter("target", AppConstant.Key.OPEN_TARGET_DYNAMIC_TOPIC)
-                            .appendQueryParameter("targetId", message.getModePkId());
+                            .appendQueryParameter("targetId", TextUtils.isEmpty(message.getModePkId()) ? message.getModeId() : message.getModePkId());
                     break;
             }
         }
