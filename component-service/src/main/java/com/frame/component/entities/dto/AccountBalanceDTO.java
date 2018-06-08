@@ -9,17 +9,17 @@ import lombok.Data;
 public class AccountBalanceDTO implements Mapper<AccountBalance> {
     private Float amount;
     private Integer userId;
-    private Integer amountDiamond;
-    private Integer amountGemstone;
+    private float amountDiamond;
+    private float amountGemstone;
 
     @Override
     public AccountBalance transform() {
         AccountBalance object = new AccountBalance();
 
-        object.setAmount(null == amount? 0F : amount);
-        object.setUserId(null == userId? 0 : userId);
-        object.setAmountDiamond(null == amountDiamond? 0 : amountDiamond);
-        object.setAmountGemstone(null == amountGemstone? 0 : amountGemstone);
+        object.setAmount(null == amount ? 0F : amount);
+        object.setUserId(null == userId ? 0 : userId);
+        object.setAmountDiamond(amountDiamond);
+        object.setAmountGemstone(amountGemstone);
 
         return object;
     }

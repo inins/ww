@@ -67,7 +67,7 @@ public class NetAccountBalanceHelper {
 //                        Timber.i("钻石 " + basejson.getData().getDiamondNum());
                         if (null != callback) {
                             callback.onWallet(null != basejson && null != basejson.getData() ?
-                                    basejson.getData().getAmountDiamond() : 0);
+                                    (int) basejson.getData().getAmountDiamond() : 0);
                         }
                     }
 
