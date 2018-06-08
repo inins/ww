@@ -89,7 +89,7 @@
     <!--我的账户页面-->
     <string name="personal_account_title">我的账户</string>
     <string name="personal_account_btn_right">明细</string>
-    <string name="personal_account_note">钻石可用于查看付费内容/参与游戏</string>
+    <string name="personal_account_note">钻石可用于红包/参与游戏</string>
     <string name="personal_account_diamond_left">钻石数：</string>
     <string name="personal_account_diamond_right">兑换宝石</string>
     <string name="personal_account_diamond_deposible">价值：</string>
