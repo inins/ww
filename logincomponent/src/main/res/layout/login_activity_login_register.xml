@@ -6,33 +6,10 @@
     android:fitsSystemWindows="false"
     android:background="@drawable/login_sign_in_bg">
 
-    <View
-        android:layout_width="302dp"
-        android:layout_height="329dp"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/login_frame_bg_s"
-        android:layout_alignBottom="@+id/switch_login_register_text_view"/>
-
-    <TextView
-        android:id="@+id/switch_login_register_text_view"
-        android:layout_width="100dp"
+    <include layout="@layout/login_register_content"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/login_go_to_register"
-        android:textColor="@color/common_blue_deep"
-        android:textSize="17sp"
-        android:layout_below="@+id/login_view"
-        android:layout_centerHorizontal="true"
-        android:paddingBottom="22dp"/>
-
-
-    <include
-        android:id="@+id/login_view"
-        layout="@layout/login_view_login_register"
-        android:layout_width="326dp"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="68dp" />
+        android:layout_centerInParent="true"/>
 
     <LinearLayout
         android:id="@+id/user_protocol_layout"
