@@ -61,10 +61,11 @@ public class BGMListPresenter extends
     public void loadBGMList(boolean refresh) {
         if (refresh) {
             mCurrent = 0;
+            mMusicList.clear();
         }
 
         mApiHelper.execute(mRootView,
-                mModel.musicList(10, mCurrent++),
+                mModel.musicList(10, mCurrent + 1),
                 new ErrorHandleSubscriber<Musics>(mErrorHandler) {
                     @Override
                     public void onNext(Musics musics) {
@@ -80,15 +81,9 @@ public class BGMListPresenter extends
                     @Override
                     public void onError(Throwable e) {
                     }
-                }, new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                    }
-                }, new Action() {
-                    @Override
-                    public void run() throws Exception {
-                    }
-                });
+                },
+                disposable -> {},
+                () -> {});
     }
 
     /**
