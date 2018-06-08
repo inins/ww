@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/common_white"
     android:id="@+id/root_view"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -73,12 +74,26 @@
             android:id="@+id/voice_layout"
             android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:visibility="gone">
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <com.frame.component.view.waveview.WaveView
                 android:id="@+id/wave_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
+
+            <com.frame.component.view.SpreadView
+                android:id="@+id/spreadView"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:layout_gravity="center"
+                app:spread_delay_milliseconds="15"
+                app:spread_distance="2px"
+                app:spread_max_radius="70dp"
+                app:spread_per_alpha="5"
+                app:spread_radius="35dp"
+                app:spread_space_circle="15dp"
+                app:spread_spread_color="#96CBFC" />
 
             <ImageView
                 android:id="@+id/btn_voice_record"
