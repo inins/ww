@@ -55,9 +55,9 @@ public class PhotoHelper {
     public void startCamera() {
         if (null == activity) return;
         new RxPermissions(activity)
-                .requestEach(Manifest.permission.CAMERA)
+                .requestEach(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .subscribe(permission -> {
-                    if (permission.granted) {
+                    if (permission.granted && permission.name.equals(Manifest.permission.CAMERA)) {
                         cropHelper.startCamera();
                     } else if (permission.shouldShowRequestPermissionRationale) {
                         ToastUtil.showToastShort("请在设置中打开相机权限");

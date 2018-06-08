@@ -1,5 +1,6 @@
 package com.wang.social.im.mvp.presenter;
 
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
@@ -9,12 +10,10 @@ import android.text.TextUtils;
 import com.frame.di.scope.ActivityScope;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.BaseJson;
-import com.frame.http.api.BaseListJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.mvp.BasePresenter;
 import com.frame.utils.RxLifecycleUtils;
 import com.frame.utils.ToastUtil;
-import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.helper.RepositoryHelper;
 import com.wang.social.im.interfaces.ImCallBack;
 import com.wang.social.im.mvp.contract.PhoneBookContract;
@@ -28,6 +27,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
@@ -52,34 +52,55 @@ public class PhoneBookPresenter extends BasePresenter<PhoneBookContract.Model, P
         super(model, view);
     }
 
+    @SuppressLint("CheckResult")
     public void getContacts(Context context) {
-        List<PhoneContact> list = new ArrayList<>();
-        String[] projection = new String[]{ContactsContract.Contacts._ID, ContactsContract.Contacts.DISPLAY_NAME};
-        ContentResolver cr = context.getContentResolver();
-        Cursor cursor = cr.query(ContactsContract.Contacts.CONTENT_URI, projection, null, null, null);
-        if (cursor != null) {
-            while (cursor.moveToNext()) {
-                int id = cursor.getInt(cursor.getColumnIndex(ContactsContract.Contacts._ID));
+        Observable.just("")
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe(new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable disposable) throws Exception {
+                        mRootView.showLoading();
+                    }
+                })
+                .map(new Function<String, List<PhoneContact>>() {
+                    @Override
+                    public List<PhoneContact> apply(String s) throws Exception {
+                        List<PhoneContact> list = new ArrayList<>();
+                        String[] projection = new String[]{ContactsContract.Contacts._ID, ContactsContract.Contacts.DISPLAY_NAME};
+                        ContentResolver cr = context.getContentResolver();
+                        Cursor cursor = cr.query(ContactsContract.Contacts.CONTENT_URI, projection, null, null, null);
+                        if (cursor != null) {
+                            while (cursor.moveToNext()) {
+                                int id = cursor.getInt(cursor.getColumnIndex(ContactsContract.Contacts._ID));
 
-                Cursor info = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
-                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?", new String[]{String.valueOf(id)}, null);
+                                Cursor info = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+                                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?", new String[]{String.valueOf(id)}, null);
 
-                while (info != null && info.moveToNext()) {
-                    //读取通讯录的号码
-                    String number = info.getString(info.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                    String name = info.getString(info.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-                    if (TextUtils.isEmpty(number))
-                        continue;
-                    PhoneContact contact = new PhoneContact();
-                    contact.setName(name);
-                    contact.setPhoneNumber(formatMobileNumber(number));
-                    list.add(contact);
-                }
-                info.close();
-            }
-        }
-        cursor.close();
-        checkJoinStatus(list);
+                                while (info != null && info.moveToNext()) {
+                                    //读取通讯录的号码
+                                    String number = info.getString(info.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                                    String name = info.getString(info.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+                                    if (TextUtils.isEmpty(number))
+                                        continue;
+                                    PhoneContact contact = new PhoneContact();
+                                    contact.setName(name);
+                                    contact.setPhoneNumber(formatMobileNumber(number));
+                                    list.add(contact);
+                                }
+                                info.close();
+                            }
+                        }
+                        cursor.close();
+                        return list;
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<List<PhoneContact>>() {
+                    @Override
+                    public void accept(List<PhoneContact> contacts) throws Exception {
+                        checkJoinStatus(contacts);
+                    }
+                });
     }
 
     private String formatMobileNumber(String num2) {
@@ -109,7 +130,8 @@ public class PhoneBookPresenter extends BasePresenter<PhoneBookContract.Model, P
         if (phones.length() > 0) {
             phones.deleteCharAt(phones.length() - 1);
         }
-        mModel.checkPhoneBook(phones.toString()).subscribeOn(Schedulers.io())
+        mModel.checkPhoneBook(phones.toString())
+                .subscribeOn(Schedulers.io())
                 .doOnSubscribe(new Consumer<Disposable>() {
                     @Override
                     public void accept(Disposable disposable) throws Exception {

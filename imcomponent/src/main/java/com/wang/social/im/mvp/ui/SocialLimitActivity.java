@@ -151,6 +151,13 @@ public class SocialLimitActivity extends BasicAppActivity implements IView {
             }
         });
 
+        slRgGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+            }
+        });
+
         slCbAgeUnlimited.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -239,6 +246,13 @@ public class SocialLimitActivity extends BasicAppActivity implements IView {
     }
 
     private void updateChargeStatus() {
+        if (slRgGender.getCheckedRadioButtonId() == R.id.sl_rb_gender_unlimited) {
+            social.getAttr().setGenderLimit(SocialAttribute.GenderLimit.UNLIMITED);
+        } else if (slRgGender.getCheckedRadioButtonId() == R.id.sl_rb_male) {
+            social.getAttr().setGenderLimit(SocialAttribute.GenderLimit.MALE);
+        } else if (slRgGender.getCheckedRadioButtonId() == R.id.sl_rb_female) {
+            social.getAttr().setGenderLimit(SocialAttribute.GenderLimit.FEMALE);
+        }
         mApiHelper.executeNone(this, new SocialHomeModel(mRepositoryManager)
                 .updateSocialInfo(social), new ErrorHandleSubscriber<BaseJson>() {
             @Override
