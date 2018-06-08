@@ -98,6 +98,7 @@ dependencies {
     implementation project(':socializecomponent')
     //视频播放器
     implementation 'cn.jzvd:jiaozivideoplayer:6.2.10'
+    implementation 'com.wonderkiln:camerakit:0.13.1'
 }
 
 //if (!project.isRunAlone) {

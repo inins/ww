@@ -26,6 +26,17 @@ import com.frame.utils.ToastUtil;
 import com.wang.social.funshow.R;
 import com.wang.social.funshow.mvp.ui.view.TextureCameraPreview;
 import com.wang.social.funshow.mvp.ui.view.VideoBtnView;
+import com.wonderkiln.camerakit.CameraKit;
+import com.wonderkiln.camerakit.CameraKitError;
+import com.wonderkiln.camerakit.CameraKitEvent;
+import com.wonderkiln.camerakit.CameraKitEventCallback;
+import com.wonderkiln.camerakit.CameraKitEventListener;
+import com.wonderkiln.camerakit.CameraKitImage;
+import com.wonderkiln.camerakit.CameraKitVideo;
+import com.wonderkiln.camerakit.CameraView;
+import com.wonderkiln.camerakit.Size;
+
+import java.io.File;
 
 
 public class CameraActivity extends AppCompatActivity {
@@ -33,7 +44,7 @@ public class CameraActivity extends AppCompatActivity {
     private final int REQUEST_CODE_PLAY = 1;
     public static final String RESULT_KEY_PATH = "key_path";
 
-    private TextureCameraPreview camera_view;
+    private CameraView camera_view;
     private View btn_camera_flash;
     private View btn_camera_switch;
     private TextView text_camera_notice;
@@ -72,11 +83,24 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        camera_view.stop();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        camera_view.stop();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         if (PermissionChecker.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
                 && PermissionChecker.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
-            if (!camera_view.isStartCamera()) camera_view.start();
+//            if (!camera_view.isStartCamera()) camera_view.start();
+            if (!camera_view.isStarted()) camera_view.start();
         } else {
             Toast.makeText(this, "请允许应用申请权限", Toast.LENGTH_SHORT).show();
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO}, REQUEST_PERMISSION);
@@ -122,13 +146,31 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     private void initCtrl() {
-        camera_view.setRecordListener(new TextureCameraPreview.OnStartVideoListener() {
+        camera_view.setVideoQuality(CameraKit.Constants.VIDEO_QUALITY_720P);
+        camera_view.setZoom(0);
+        camera_view.addCameraKitListener(new CameraKitEventListener() {
             @Override
-            public void onStart() {
+            public void onEvent(CameraKitEvent cameraKitEvent) {
+
             }
 
             @Override
-            public void onStop(String path) {
+            public void onError(CameraKitError cameraKitError) {
+
+            }
+
+            @Override
+            public void onImage(CameraKitImage cameraKitImage) {
+                Bitmap bitmap = cameraKitImage.getBitmap();
+                String toPath = FileUtil.getPhotoFullPath();
+                pathPhoto = BitmapUtil.saveBitmap(bitmap, toPath);             //保存图片到指定路径
+                img_pic.setImageBitmap(bitmap);
+            }
+
+            @Override
+            public void onVideo(CameraKitVideo cameraKitVideo) {
+                File videoFile = cameraKitVideo.getVideoFile();
+                String path = videoFile.getPath();
                 CameraPlayActivity.start(CameraActivity.this, path, REQUEST_CODE_PLAY);
             }
         });
@@ -136,40 +178,36 @@ public class CameraActivity extends AppCompatActivity {
         videobtn_camera.setOnVideoBtnListener(new VideoBtnView.OnVideoBtnListener() {
             @Override
             public void onClick(final View v) {
-                camera_view.takePicture(new TextureCameraPreview.OnPictureTakenListener() {
-                    @Override
-                    public void onSuccess(Bitmap bitmap) {
-                        String toPath = FileUtil.getPhotoFullPath();
-                        //TODO:目前8.0黑鲨手机拍照后会被旋转-90度，其他手机正常，目前测试机少无法确定原因，目前暂且根据高宽对图片进行校正，如果发现图片宽>高则旋转90度，具体原因有待后期排查
-                        int degree = 0;
-                        if (bitmap.getWidth() > bitmap.getHeight()) {
-                            degree = 90;
-                        }
-                        bitmap = BitmapUtil.rotateBitmap(degree, bitmap);           //根据旋转角度进行旋转
-                        pathPhoto = BitmapUtil.saveBitmap(bitmap, toPath);             //保存图片到指定路径
-                        img_pic.setImageBitmap(bitmap);
-                    }
-
-                    @Override
-                    public void onFailed(String msg) {
-                        Toast.makeText(v.getContext(), msg, Toast.LENGTH_SHORT).show();
-                    }
-                });
+//                camera_view.takePicture(new TextureCameraPreview.OnPictureTakenListener() {
+//                    @Override
+//                    public void onSuccess(Bitmap bitmap) {
+//                        String toPath = FileUtil.getPhotoFullPath();
+//                        //TODO:目前8.0黑鲨手机拍照后会被旋转-90度，其他手机正常，目前测试机少无法确定原因，目前暂且根据高宽对图片进行校正，如果发现图片宽>高则旋转90度，具体原因有待后期排查
+//                        int degree = 0;
+//                        if (bitmap.getWidth() > bitmap.getHeight()) {
+//                            degree = 90;
+//                        }
+//                        bitmap = BitmapUtil.rotateBitmap(degree, bitmap);           //根据旋转角度进行旋转
+//                        pathPhoto = BitmapUtil.saveBitmap(bitmap, toPath);             //保存图片到指定路径
+//                        img_pic.setImageBitmap(bitmap);
+//                    }
+//
+//                    @Override
+//                    public void onFailed(String msg) {
+//                        Toast.makeText(v.getContext(), msg, Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+                camera_view.captureImage();
             }
 
             @Override
             public void onLongPressStart() {
-                if (!camera_view.isRecording()) {
-                    camera_view.startRecord();
-                }
+                camera_view.captureVideo();
             }
 
             @Override
             public void onLongPressEnd(long time) {
-                // 结束录像
-                if (camera_view.isRecording()) {
-                    camera_view.stopRecord();
-                }
+                camera_view.stopVideo();
             }
         });
     }
@@ -177,9 +215,17 @@ public class CameraActivity extends AppCompatActivity {
     public void onClick(View view) {
         int i = view.getId();
         if (i == R.id.btn_camera_flash) {
-            camera_view.openFlash();
+            if (camera_view.getFlash() == CameraKit.Constants.FLASH_OFF) {
+                camera_view.setFlash(CameraKit.Constants.FLASH_TORCH);
+            } else {
+                camera_view.setFlash(CameraKit.Constants.FLASH_OFF);
+            }
         } else if (i == R.id.btn_camera_switch) {
-            camera_view.switchCamera();
+            if (camera_view.isFacingFront()) {
+                camera_view.setFacing(CameraKit.Constants.FACING_BACK);
+            } else {
+                camera_view.setFacing(CameraKit.Constants.FACING_FRONT);
+            }
         } else if (i == R.id.btn_right) {
             if (!TextUtils.isEmpty(pathPhoto)) {
                 Intent intent = new Intent();
