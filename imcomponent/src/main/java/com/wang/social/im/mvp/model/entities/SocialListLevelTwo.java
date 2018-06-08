@@ -2,6 +2,7 @@ package com.wang.social.im.mvp.model.entities;
 
 import com.wang.social.im.view.expand.model.ExpandableListItem;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -40,6 +41,9 @@ public class SocialListLevelTwo implements ExpandableListItem {
 
     @Override
     public List<?> getChildItemList() {
+        if (teams == null || teams.isEmpty()) {
+            return new ArrayList<>();
+        }
         return Arrays.asList(teams);
     }
 

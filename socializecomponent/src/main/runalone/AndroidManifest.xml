@@ -10,8 +10,7 @@
 
     <application
         android:name="com.frame.base.BaseApplication"
-        android:allowBackup="true"
-        android:screenOrientation="portrait">
+        android:allowBackup="true">
 
         <!-- Meta Data -->
         <meta-data
@@ -31,15 +30,13 @@
             android:name="com.dongdongkeji.wangwangsocial.wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
-            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <activity
             android:name="com.umeng.socialize.media.WBShareCallBackActivity"
             android:configChanges="keyboardHidden|orientation"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:exported="false"
-            android:screenOrientation="portrait" >
+            android:exported="false">
         </activity>
         <activity android:name="com.sina.weibo.sdk.web.WeiboSdkWebActivity"
             android:configChanges="keyboardHidden|orientation"
