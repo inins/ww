@@ -1,11 +1,17 @@
 package com.wang.social.pictureselector.helper;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 
 import com.frame.utils.StrUtil;
+import com.frame.utils.ToastUtil;
+import com.tbruyelle.rxpermissions2.Permission;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.wang.social.pictureselector.ActivityPictureClip;
 import com.wang.social.pictureselector.PictureSelector;
+
+import io.reactivex.functions.Consumer;
 
 public class PhotoHelper {
 
@@ -47,7 +53,16 @@ public class PhotoHelper {
 
 
     public void startCamera() {
-        cropHelper.startCamera();
+        if (null == activity) return;
+        new RxPermissions(activity)
+                .requestEach(Manifest.permission.CAMERA)
+                .subscribe(permission -> {
+                    if (permission.granted) {
+                        cropHelper.startCamera();
+                    } else if (permission.shouldShowRequestPermissionRationale) {
+                        ToastUtil.showToastShort("请在设置中打开相机权限");
+                    }
+                });
     }
 
     public void startPhoto() {
