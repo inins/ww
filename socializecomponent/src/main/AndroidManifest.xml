@@ -21,6 +21,12 @@
         <!--&lt;!&ndash; ********* &ndash;&gt;-->
 
         <activity
+            android:name="com.dongdongkeji.wangwangsocial.wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <activity
             android:name="com.umeng.socialize.media.WBShareCallBackActivity"
             android:configChanges="keyboardHidden|orientation"
             android:exported="false"
