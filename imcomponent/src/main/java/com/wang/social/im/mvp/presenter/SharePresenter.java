@@ -114,6 +114,8 @@ public class SharePresenter extends BasePresenter {
                     Integer targetUid = null;
                     if (conversationType == ConversationType.PRIVATE) {
                         targetUid = Integer.valueOf(targetId);
+                    } else {
+                        targetUid = -1;
                     }
                     String type;
                     if (shareSource == ShareSource.SOURCE_TOPIC) {
@@ -122,7 +124,7 @@ public class SharePresenter extends BasePresenter {
                         type = NetShareHelper.SHARE_TYPE_FUN_SHOW;
                     }
                     NetShareHelper.newInstance()
-                            .netShare(mRootView, AppDataHelper.getUser().getUserId(), targetUid, Integer.valueOf(objectId), type, 0, new NetShareHelper.OnShareCallback() {
+                            .netShare(mRootView, AppDataHelper.getUser().getUserId(), targetUid, Integer.valueOf(objectId), type, 1, new NetShareHelper.OnShareCallback() {
                                 @Override
                                 public void success() {
                                     ToastUtil.showToastShort("分享成功");

@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -115,17 +116,16 @@ public class SimpleCommonUtils {
                                     viewHolder.iv_emoticon.setImageResource(emojiBean.icon);
                                 }
 
-                                viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        if (emoticonClickListener != null) {
-                                            emoticonClickListener.onEmoticonClick(emojiBean, Constants.EMOTICON_CLICK_TEXT, isDelBtn);
-                                        }
-                                    }
-                                });
+//                                viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(View v) {
+//                                        if (emoticonClickListener != null) {
+//                                            emoticonClickListener.onEmoticonClick(emojiBean, Constants.EMOTICON_CLICK_TEXT, isDelBtn);
+//                                        }
+//                                    }
+//                                });
                             }
-                        }))
-                        .setShowDelBtn(EmoticonPageEntity.DelBtnStatus.FOLLOW)
+                        }, emoticonClickListener))
                         .setIconUri(ImageBase.Scheme.DRAWABLE.toUri("emoji_0x1f603"))
                         .build();
         pageSetAdapter.add(emojiPageSetEntity);
@@ -147,7 +147,7 @@ public class SimpleCommonUtils {
                         .setRow(5)
                         .setItemHeight(SizeUtils.dp2px(50))
                         .setEmoticonList(emojiArray)
-                        .setIPageViewInstantiateItem(getEmoticonPageViewInstantiateItem(EmoticonsAdapter.class, null, new EmoticonDisplayListener<Object>() {
+                        .setIPageViewInstantiateItem(getEmoticonPageViewInstantiateItem(EmoticonsAdapter.class, faceClickListener, Constants.EMOTICON_CLICK_BIGIMAGE, new EmoticonDisplayListener<Object>() {
 
                             @Override
                             public void onBindView(int position, ViewGroup parent, EmoticonsAdapter.ViewHolder viewHolder, Object o, boolean isDelBtn) {
@@ -155,14 +155,14 @@ public class SimpleCommonUtils {
                                 lp.width = SizeUtils.dp2px(40);
                                 lp.height = SizeUtils.dp2px(40);
                                 viewHolder.iv_emoticon.setImageResource(((EmojiBean) o).icon);
-                                viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        if (faceClickListener != null) {
-                                            faceClickListener.onEmoticonClick(o, Constants.EMOTICON_CLICK_BIGIMAGE, false);
-                                        }
-                                    }
-                                });
+//                                viewHolder.iv_emoticon.setOnClickListener(new View.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(View v) {
+//                                        if (faceClickListener != null) {
+//                                            faceClickListener.onEmoticonClick(o, Constants.EMOTICON_CLICK_BIGIMAGE, false);
+//                                        }
+//                                    }
+//                                });
                             }
                         }))
                         .setIconUri(ImageBase.Scheme.DRAWABLE.toUri("im_ww_emoji_001"))
@@ -186,7 +186,7 @@ public class SimpleCommonUtils {
                         .setRow(5)
                         .setItemHeight(SizeUtils.dp2px(50))
                         .setEmoticonList(emojiArray)
-                        .setIPageViewInstantiateItem(getEmoticonPageViewInstantiateItem(EmoticonsAdapter.class, null, new EmoticonDisplayListener<Object>() {
+                        .setIPageViewInstantiateItem(getEmoticonPageViewInstantiateItem(EmoticonsAdapter.class, faceClickListener, Constants.EMOTICON_CLICK_BIGIMAGE, new EmoticonDisplayListener<Object>() {
 
                             @Override
                             public void onBindView(int position, ViewGroup parent, EmoticonsAdapter.ViewHolder viewHolder, Object o, boolean isDelBtn) {
@@ -194,14 +194,14 @@ public class SimpleCommonUtils {
                                 lp.width = SizeUtils.dp2px(50);
                                 lp.height = SizeUtils.dp2px(50);
                                 viewHolder.iv_emoticon.setImageResource(((EmojiBean) o).icon);
-                                viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        if (faceClickListener != null) {
-                                            faceClickListener.onEmoticonClick(o, Constants.EMOTICON_CLICK_BIGIMAGE, false);
-                                        }
-                                    }
-                                });
+//                                viewHolder.iv_emoticon.setOnClickListener(new View.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(View v) {
+//                                        if (faceClickListener != null) {
+//                                            faceClickListener.onEmoticonClick(o, Constants.EMOTICON_CLICK_BIGIMAGE, false);
+//                                        }
+//                                    }
+//                                });
                             }
                         }))
                         .setIconUri(ImageBase.Scheme.DRAWABLE.toUri("im_ww_emoji_101"))
@@ -220,15 +220,15 @@ public class SimpleCommonUtils {
         return cons.newInstance(args);
     }
 
-    public static PageViewInstantiateListener<EmoticonPageEntity> getDefaultEmoticonPageViewInstantiateItem(final EmoticonDisplayListener<Object> emoticonDisplayListener) {
-        return getEmoticonPageViewInstantiateItem(EmoticonsAdapter.class, null, emoticonDisplayListener);
+    public static PageViewInstantiateListener<EmoticonPageEntity> getDefaultEmoticonPageViewInstantiateItem(final EmoticonDisplayListener<Object> emoticonDisplayListener, EmoticonClickListener clickListener) {
+        return getEmoticonPageViewInstantiateItem(EmoticonsAdapter.class, clickListener, Constants.EMOTICON_CLICK_TEXT, emoticonDisplayListener);
     }
 
     public static PageViewInstantiateListener<EmoticonPageEntity> getEmoticonPageViewInstantiateItem(final Class _class, EmoticonClickListener onEmoticonClickListener) {
-        return getEmoticonPageViewInstantiateItem(_class, onEmoticonClickListener, null);
+        return getEmoticonPageViewInstantiateItem(_class, onEmoticonClickListener, Constants.EMOTICON_CLICK_TEXT, null);
     }
 
-    public static PageViewInstantiateListener<EmoticonPageEntity> getEmoticonPageViewInstantiateItem(final Class _class, final EmoticonClickListener onEmoticonClickListener, final EmoticonDisplayListener<Object> emoticonDisplayListener) {
+    public static PageViewInstantiateListener<EmoticonPageEntity> getEmoticonPageViewInstantiateItem(final Class _class, final EmoticonClickListener onEmoticonClickListener, int type, final EmoticonDisplayListener<Object> emoticonDisplayListener) {
         return new PageViewInstantiateListener<EmoticonPageEntity>() {
             @Override
             public View instantiateItem(ViewGroup container, int position, EmoticonPageEntity pageEntity) {
@@ -242,6 +242,15 @@ public class SimpleCommonUtils {
                             adapter.setOnDisPlayListener(emoticonDisplayListener);
                         }
                         pageView.getEmoticonsGridView().setAdapter(adapter);
+
+                        pageView.getEmoticonsGridView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                if (onEmoticonClickListener != null) {
+                                    onEmoticonClickListener.onEmoticonClick(pageEntity.getEmoticonList().get(position), type, false);
+                                }
+                            }
+                        });
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
