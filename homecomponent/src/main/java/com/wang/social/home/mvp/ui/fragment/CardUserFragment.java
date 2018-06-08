@@ -255,10 +255,10 @@ public class CardUserFragment extends BasicNoDiFragment implements RecycleAdapte
                     }
                 }, () -> {
                     hasLoad = true;
-                    layLoading.setVisibility(View.VISIBLE);
+                    if (layLoading!=null)layLoading.setVisibility(View.VISIBLE);
                 }, () -> {
                     hasLoad = false;
-                    layLoading.setVisibility(View.GONE);
+                    if (layLoading!=null)layLoading.setVisibility(View.GONE);
                 });
     }
 

@@ -12,6 +12,7 @@ import com.frame.component.helper.sound.AudioRecordManager;
 import com.frame.component.ui.acticity.BGMList.BGMListActivity;
 import com.frame.component.ui.acticity.BGMList.Music;
 import com.frame.component.utils.VibratorUtil;
+import com.frame.component.view.SpreadView;
 import com.frame.component.view.waveview.WaveView;
 import com.frame.entities.EventBean;
 import com.frame.utils.KeyboardUtils;
@@ -48,6 +49,8 @@ public class FunshowAddBottomBarController extends FunshowAddBaseController {
     View layVoiceRecord;
     @BindView(R2.id.wave_view)
     WaveView waveView;
+    @BindView(R2.id.spreadView)
+    SpreadView spreadView;
 
     private MusicPopupWindow popupWindow;
 
@@ -96,7 +99,6 @@ public class FunshowAddBottomBarController extends FunshowAddBaseController {
         AudioRecordManager.getInstance().setRecordListener(new AudioRecordManager.OnSimpleRecordListener() {
             @Override
             public void onCompleted(int duration, String path) {
-                Timber.e("onCompleted:" + path);
                 waveView.setExheight(0);
                 Music music = new Music();
                 music.setMusicId(new Random().nextInt());
@@ -107,13 +109,20 @@ public class FunshowAddBottomBarController extends FunshowAddBaseController {
 
             @Override
             public void onDBChanged(int db) {
-                waveView.setExheight(db * 3);
+                waveView.setExheight(db * 4);
             }
 
             @Override
             public void onRecording() {
                 //开始录制时震动一下
                 VibratorUtil.vibrate(getContext(), 70);
+                spreadView.start();
+            }
+
+            @Override
+            public void onDestroy() {
+                super.onDestroy();
+                spreadView.end();
             }
         });
         btnVoiceRecord.setOnTouchListener((v, event) -> {
