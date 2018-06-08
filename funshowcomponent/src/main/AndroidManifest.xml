@@ -12,27 +12,35 @@
 
     <application
         android:name="com.frame.base.BaseApplication"
-        android:allowBackup="true"
-        android:screenOrientation="portrait">
+        android:allowBackup="true">
 
         <meta-data
             android:name="com.wang.social.funshow.app.FunshowGlobalConfiguration"
             android:value="ConfigModule" />
 
-        <activity android:name=".mvp.ui.activity.HotUserListActivity" />
-        <activity android:name=".mvp.ui.activity.ZanUserListActivity" />
-        <activity android:name=".mvp.ui.activity.AiteUserListActivity" />
-        <activity android:name=".mvp.ui.activity.FunshowDetailActivity" />
-        <activity android:name=".mvp.ui.activity.FunshowAddActivity" />
-        <activity android:name=".mvp.ui.activity.LockActivity" />
+        <activity android:name=".mvp.ui.activity.HotUserListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".mvp.ui.activity.ZanUserListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".mvp.ui.activity.AiteUserListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".mvp.ui.activity.FunshowDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".mvp.ui.activity.FunshowAddActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".mvp.ui.activity.LockActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".mvp.ui.activity.CameraActivity"
-            android:theme="@style/common_AppTheme.NoTitleFullscreen" />
+            android:theme="@style/common_AppTheme.NoTitleFullscreen"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".mvp.ui.activity.CameraPlayActivity"
-            android:theme="@style/common_AppTheme.NoTitleFullscreen" />
+            android:theme="@style/common_AppTheme.NoTitleFullscreen"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".mvp.ui.activity.TestActivity" />
+        <activity android:name=".mvp.ui.activity.TestActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

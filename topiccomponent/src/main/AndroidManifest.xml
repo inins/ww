@@ -12,8 +12,7 @@
 
     <application
         android:name="com.frame.base.BaseApplication"
-        android:allowBackup="true"
-        android:screenOrientation="portrait">
+        android:allowBackup="true">
 
         <meta-data
             android:name="com.wang.social.topic.app.TopicGlobalConfiguration"
