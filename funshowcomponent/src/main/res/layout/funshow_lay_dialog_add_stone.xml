@@ -52,6 +52,7 @@
         android:gravity="bottom|center_horizontal"
         android:inputType="numberSigned"
         android:maxLength="6"
+        android:minWidth="120dp"
         android:paddingBottom="5dp"
         android:paddingLeft="25dp"
         android:paddingRight="25dp"
@@ -59,7 +60,7 @@
         app:layout_constraintEnd_toEndOf="@+id/text_title"
         app:layout_constraintStart_toStartOf="@+id/text_title"
         app:layout_constraintTop_toBottomOf="@+id/text_title"
-        tools:text="550" />
+        tools:text="500" />
 
     <View
         android:id="@+id/line"
