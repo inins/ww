@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 public class Tag implements Parcelable {
     private int id;
     private String tagName;
+    private String topicTagName;
     // state:是否已选为个人标签(0：不是，1：是)
     private int state;
     // isInterest:是否为个人兴趣推荐标签(0:不是，1：是)

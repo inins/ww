@@ -1,6 +1,9 @@
 package com.frame.component.entities;
 
+import android.text.TextUtils;
+
 import com.frame.component.ui.acticity.tags.Tag;
+import com.frame.utils.StrUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,4 +31,21 @@ public class Topic {
     private boolean isSupport;
     private String avatar;
     private String nickname;
+
+
+    public String getTagStr() {
+        String ret = "";
+        if (null != tags) {
+            for (Tag tag : tags) {
+                String name = "";
+                if (!TextUtils.isEmpty(tag.getTagName())) {
+                    name = tag.getTagName();
+                } else if (!TextUtils.isEmpty(tag.getTopicTagName())) {
+                    name = tag.getTopicTagName();
+                }
+                ret += name + ",";
+            }
+        }
+        return StrUtil.subLastChart(ret, ",");
+    }
 }
