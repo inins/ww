@@ -7,16 +7,23 @@
 
     <ImageView
         android:id="@+id/vgd_iv_top"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:src="@drawable/im_img_team_top" />
+        android:scaleType="fitXY"
+        android:src="@drawable/im_img_team_top"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/vgd_iv_bottom"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:scaleType="fitXY"
         android:src="@drawable/im_img_team_bottom"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <com.wang.social.im.view.StackLayout
         android:id="@+id/vgd_stack"
