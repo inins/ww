@@ -130,6 +130,7 @@ public class RecycleAdapterBundleImg extends RecyclerView.Adapter<RecyclerView.V
                     bundleClickListener.onPhotoShowClick(bundle.getPath(), position);
             });
             img_bundle_delete.setOnClickListener((v) -> {
+                if (getLayoutPosition() > results.size() - 1) return;
                 results.remove(getLayoutPosition());
                 notifyItemRemoved(getLayoutPosition());
                 notifyItemChanged(getItemCount() - 1);

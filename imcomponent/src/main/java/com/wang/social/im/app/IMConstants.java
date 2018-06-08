@@ -10,8 +10,8 @@ public interface IMConstants {
     /**
      * 云通信IM SDK AppID
      */
-//    int IM_APPID = 1400075076; //开发
-    int IM_APPID = 1400095271; //测试
+    int IM_APPID = 1400075076; //开发
+//    int IM_APPID = 1400095271; //测试
 //    int IM_APPID = 1400088010; //正式
     /**
      * 小米推送：bussId
