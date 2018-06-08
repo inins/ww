@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import lombok.Data;
 
-//@Data
+@Data
 public class AccountBalance implements Serializable{
 
     /**
