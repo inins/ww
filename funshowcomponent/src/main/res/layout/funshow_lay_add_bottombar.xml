@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:layout_gravity="bottom">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -73,6 +74,19 @@
             android:id="@+id/wave_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+        <com.frame.component.view.SpreadView
+            android:id="@+id/spreadView"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_gravity="center"
+            app:spread_delay_milliseconds="15"
+            app:spread_distance="2px"
+            app:spread_max_radius="70dp"
+            app:spread_per_alpha="5"
+            app:spread_radius="35dp"
+            app:spread_space_circle="15dp"
+            app:spread_spread_color="#96CBFC" />
 
         <ImageView
             android:id="@+id/btn_voice_record"

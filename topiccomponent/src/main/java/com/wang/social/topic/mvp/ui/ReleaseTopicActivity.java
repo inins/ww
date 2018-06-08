@@ -944,7 +944,7 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
             mPhotoHelperEx.setMaxSelectCount(1);
             mPhotoHelperEx.setClip(false);
         } else {
-            mPhotoHelperEx.setMaxSelectCount(19);
+            mPhotoHelperEx.setMaxSelectCount(9);
             mPhotoHelperEx.setClip(false);
         }
         mPhotoHelperEx.showDefaultDialog();

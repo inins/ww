@@ -12,9 +12,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/common_ic_tag_pay"
-        app:layout_constraintBottom_toBottomOf="@+id/topic_tag_1_text_view"
+        app:layout_constraintBottom_toBottomOf="@+id/conertext_tag"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/topic_tag_1_text_view" />
+        app:layout_constraintTop_toTopOf="@+id/conertext_tag" />
 
     <View
         android:id="@+id/blank_view"
@@ -25,32 +25,17 @@
         app:layout_constraintTop_toTopOf="@+id/pay_flag_image_view"
         app:layout_constraintVertical_bias="1.0" />
 
-    <TextView
-        android:id="@+id/topic_tag_1_text_view"
-        style="@style/TopicListTagStyle"
-        android:layout_marginTop="14dp"
+
+    <com.frame.component.view.ConerTextView
+        android:id="@+id/conertext_tag"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="#ff818181"
+        android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@+id/blank_view"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/topic_tag_3_text_view"
-        style="@style/TopicListTagStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        app:layout_constraintBottom_toBottomOf="@+id/topic_tag_2_text_view"
-        app:layout_constraintStart_toEndOf="@+id/topic_tag_2_text_view"
-        app:layout_constraintTop_toTopOf="@+id/topic_tag_2_text_view" />
-
-    <TextView
-        android:id="@+id/topic_tag_2_text_view"
-        style="@style/TopicListTagStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        app:layout_constraintBottom_toBottomOf="@+id/topic_tag_1_text_view"
-        app:layout_constraintStart_toEndOf="@+id/topic_tag_1_text_view"
-        app:layout_constraintTop_toTopOf="@+id/topic_tag_1_text_view" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="一起考研,大学里" />
 
     <TextView
         android:id="@+id/create_date_text_view"
@@ -59,9 +44,9 @@
         tools:text="04-08"
         android:textColor="#ff818181"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/topic_tag_3_text_view"
+        app:layout_constraintBottom_toBottomOf="@+id/conertext_tag"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/topic_tag_3_text_view" />
+        app:layout_constraintTop_toTopOf="@+id/conertext_tag" />
 
 
     <TextView

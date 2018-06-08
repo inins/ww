@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <declare-styleable name="SpreadView">
+        <!--扩散圆颜色-->
+        <attr name="spread_spread_color" format="color" />
+        <!--中心圆半径-->
+        <attr name="spread_radius" format="dimension" />
+        <!--最大扩散半径-->
+        <attr name="spread_max_radius" format="dimension" />
+        <!--每次扩散距离-->
+        <attr name="spread_distance" format="dimension" />
+        <!--每帧圆递增间距-->
+        <attr name="spread_space_circle" format="dimension" />
+        <!--扩散延迟间隔-->
+        <attr name="spread_delay_milliseconds" format="integer" />
+        <!--每帧透明度减少-->
+        <attr name="spread_per_alpha" format="integer" />
+    </declare-styleable>
+
     <declare-styleable name="ps_CircularAutoSizeTextView">
         <attr name="ps_Radius" format="dimension|reference"/>
         <attr name="ps_BackgroundColor" format="color|reference"/>

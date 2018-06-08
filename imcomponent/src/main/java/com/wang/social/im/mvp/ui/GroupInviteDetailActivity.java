@@ -347,6 +347,7 @@ public class GroupInviteDetailActivity extends BaseAppActivity implements IView 
 
         mApplyTV.setBackgroundResource(R.drawable.common_bg_btn_gray_hover);
         mApplyTV.setText("已拒绝");
+        mApplyTV.setClickable(false);
     }
 
     private void setApplyTextToGoChat() {

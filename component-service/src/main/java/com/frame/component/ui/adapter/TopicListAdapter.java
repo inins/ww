@@ -22,6 +22,7 @@ import com.frame.component.helper.NetZanHelper;
 import com.frame.component.service.R;
 import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.component.utils.SearchUtil;
+import com.frame.component.view.ConerTextView;
 import com.frame.component.view.DialogPay;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.mvp.IView;
@@ -160,28 +161,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
         // 阅读次数
         holder.readTV.setText(String.format("%d", topic.getReadTotal()));
         // 标签
-        if (topic.getTags() != null) {
-            for (int i = 0; i < Math.min(topic.getTags().size(), 3); i++) {
-                Tag tag = topic.getTags().get(i);
-                if (null == tag) continue;
-                if (!TextUtils.isEmpty(tag.getTagName())) {
-                    switch (i) {
-                        case 0:
-                            holder.tag1TV.setVisibility(View.VISIBLE);
-                            holder.tag1TV.setText(tag.getTagName());
-                            break;
-                        case 1:
-                            holder.tag2TV.setVisibility(View.VISIBLE);
-                            holder.tag2TV.setText(tag.getTagName());
-                            break;
-                        case 2:
-                            holder.tag3TV.setVisibility(View.VISIBLE);
-                            holder.tag3TV.setText(tag.getTagName());
-                            break;
-                    }
-                }
-            }
-        }
+        holder.tagTV.setTagText(topic.getTagStr());
 
         // 点击
         holder.rootView.setTag(topic);
@@ -294,9 +274,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
         TextView commentTV;
         ImageView readIV;
         TextView readTV;
-        TextView tag1TV;
-        TextView tag2TV;
-        TextView tag3TV;
+        ConerTextView tagTV;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -317,9 +295,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
             commentTV = itemView.findViewById(R.id.comment_text_view);
             readIV = itemView.findViewById(R.id.read_image_view);
             readTV = itemView.findViewById(R.id.read_text_view);
-            tag1TV = itemView.findViewById(R.id.topic_tag_1_text_view);
-            tag2TV = itemView.findViewById(R.id.topic_tag_2_text_view);
-            tag3TV = itemView.findViewById(R.id.topic_tag_3_text_view);
+            tagTV = itemView.findViewById(R.id.conertext_tag);
         }
     }
 
