@@ -14,7 +14,7 @@
         android:layout_marginRight="15dp"
         android:drawablePadding="3dp"
         android:gravity="center"
-        android:textColor="@drawable/personal_card_selector_tab_layout_text"
+        android:textColor="@drawable/personal_card_selector_tab_layout_text_unknown"
         android:textSize="22sp"
         android:text="0"
         tools:text="tabText"
@@ -30,7 +30,7 @@
         android:layout_marginBottom="10dp"
         android:drawablePadding="3dp"
         android:gravity="center"
-        android:textColor="@drawable/personal_card_selector_tab_layout_text"
+        android:textColor="@drawable/personal_card_selector_tab_layout_text_unknown"
         android:textSize="12sp"
         tools:text="tabText"
         />

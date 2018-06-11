@@ -23,6 +23,8 @@
         android:gravity="center"
         android:layout_marginStart="29dp"
         android:text="@string/mt_enter"
+        android:textColor="@color/common_white"
+        android:textSize="12sp"
         android:background="@drawable/mt_shape_rect_corner_solid_red_light"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"

@@ -80,7 +80,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="6dp"
         android:layout_marginTop="8dp"
-        android:src="@drawable/mt_diamond_ground"
+        android:src="@drawable/mt_gameover_diamond"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

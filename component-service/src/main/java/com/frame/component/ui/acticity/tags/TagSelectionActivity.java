@@ -20,6 +20,7 @@ import com.frame.component.service.R;
 import com.frame.component.service.R2;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.view.SocialToolbar;
+import com.frame.component.view.TitleView;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.integration.AppManager;
@@ -211,12 +212,8 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
     //
     @BindView(R2.id.ts_content_layout)
     LinearLayout contentLayout;
-    // 标题
-    @BindView(R2.id.title_text_view)
-    TextView titleTV;
-    // 副标题
-    @BindView(R2.id.title_hint_text_view)
-    TextView titleHintTV;
+    @BindView(R2.id.title_view)
+    TitleView mTitleView;
     // 右上角选中数量区域
     @BindView(R2.id.selected_count_layout)
     View selectedCountLayout;
@@ -369,10 +366,10 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
 
         // 是否设置了标题和副标题
         if (!TextUtils.isEmpty(mTitle)) {
-            titleTV.setText(mTitle);
+            mTitleView.setTitle(mTitle);
         }
         if (!TextUtils.isEmpty(mSubtitle)) {
-            titleHintTV.setText(mSubtitle);
+            mTitleView.setNote(mSubtitle);
         }
 
         // 根据不同模式确定ToolBar右边文字
@@ -383,8 +380,8 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
      * 初始化 兴趣大杂烩 UI和数据
      */
     private void initConfirmData() {
-        titleTV.setText(getString(R.string.tags_confirm_title));
-        titleHintTV.setText(getString(R.string.tags_confirm_title_hint));
+        mTitleView.setTitle(getString(R.string.tags_confirm_title));
+        mTitleView.setNote(getString(R.string.tags_confirm_title_hint));
 
         // 移除选择模式时需要的View
         contentLayout.removeAllViews();

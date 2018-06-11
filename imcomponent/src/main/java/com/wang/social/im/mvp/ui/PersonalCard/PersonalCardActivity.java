@@ -344,9 +344,10 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
         if (personalInfo.getSex() == 0) {
             mGenderBGIV.setBackgroundResource(R.drawable.im_personal_card_bg_men);
             mInfoLayout.setBackgroundResource(R.drawable.im_personal_card_rect_men);
-            mGenderLayout.setBackgroundResource(R.drawable.common_shape_rect_blue_conerfull);
+            mGenderLayout.setBackgroundResource(R.drawable.common_shape_rect_blue_gray_conerfull);
             mGenderIV.setImageResource(R.drawable.common_ic_man);
-            mTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.common_blue_deep));
+            mTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.common_blue_gray));
+            mTabLayout.setCustomTabView(R.layout.im_personal_card_tab_layout_male, R.id.name_text_view);
             setBottomButtonBg(R.drawable.im_personal_card_btn_men);
         } else if (personalInfo.getSex() == 1) {
             mGenderBGIV.setBackgroundResource(R.drawable.im_personal_card_bg_women);
@@ -354,6 +355,7 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
             mGenderLayout.setBackgroundResource(R.drawable.common_shape_rect_redgray_conerfull);
             mGenderIV.setImageResource(R.drawable.common_ic_women);
             mTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.common_red_gray));
+            mTabLayout.setCustomTabView(R.layout.im_personal_card_tab_layout_female, R.id.name_text_view);
             setBottomButtonBg(R.drawable.im_personal_card_btn_women);
         } else {
             mGenderBGIV.setBackgroundResource(R.drawable.im_personal_card_bg_unknown);
@@ -361,6 +363,7 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
             mGenderLayout.setBackgroundResource(R.drawable.common_shape_rect_dark_conerfull);
             mGenderIV.setVisibility(View.GONE);
             mTabLayout.setSelectedIndicatorColors(0xFF88A1FF);
+            mTabLayout.setCustomTabView(R.layout.im_personal_card_tab_layout_unknown, R.id.name_text_view);
             setBottomButtonBg(R.drawable.im_personal_card_btn_unknown);
         }
 

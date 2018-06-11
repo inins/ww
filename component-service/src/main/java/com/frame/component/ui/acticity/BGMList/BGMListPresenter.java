@@ -62,6 +62,7 @@ public class BGMListPresenter extends
         if (refresh) {
             mCurrent = 0;
             mMusicList.clear();
+            mMusicList.add(Music.defaultMusic());
         }
 
         mApiHelper.execute(mRootView,
