@@ -29,7 +29,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="7dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="29dp"
                     android:background="#9af2f2f2" />
             </LinearLayout>
 
