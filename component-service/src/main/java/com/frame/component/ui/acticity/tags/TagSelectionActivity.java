@@ -25,6 +25,7 @@ import com.frame.entities.EventBean;
 import com.frame.integration.AppManager;
 import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.ToastUtil;
+import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -197,7 +198,7 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
     SocialToolbar toolbar;
     // 一级标签列表
     @BindView(R2.id.tab_layout)
-    TabLayout tabLayout;
+    SmartTabLayout tabLayout;
     // ViewPager 二级标签页面
     @BindView(R2.id.view_pager)
     ViewPager viewPager;
@@ -430,13 +431,13 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
         if (tags == null) return;
         if (tags.getList().size() <= 0) return;
 
-        tabLayout.removeAllTabs();
-
-        for (Tag tag : tags.getList()) {
-            tabLayout.addTab(tabLayout.newTab().setText(tag.getTagName()));
-        }
-
-        tabLayout.setupWithViewPager(viewPager);
+//        tabLayout.removeAllTabs();
+//
+//        for (Tag tag : tags.getList()) {
+//            tabLayout.addTab(tabLayout.newTab().setText(tag.getTagName()));
+//        }
+//
+//        tabLayout.setupWithViewPager(viewPager);
 
         viewPager.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
             @Override
@@ -458,6 +459,8 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
                 return tags.getList().get(position).getTagName();
             }
         });
+
+        tabLayout.setViewPager(viewPager);
     }
 
     @Override

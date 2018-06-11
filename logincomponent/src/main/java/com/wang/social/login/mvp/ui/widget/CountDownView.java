@@ -32,6 +32,9 @@ public class CountDownView extends AppCompatTextView {
 
     public CountDownView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+
+        // 透明度
+        setAlpha(0.8f);
     }
 
     @Override
