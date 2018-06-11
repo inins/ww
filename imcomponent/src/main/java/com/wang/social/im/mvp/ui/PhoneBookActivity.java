@@ -127,7 +127,7 @@ public class PhoneBookActivity extends BaseAppActivity<PhoneBookPresenter> imple
         adapter.setDatas(contacts);
         pbFlFriends.showAllLetter(false);
         pbFlFriends.setOverlayStyle_MaterialDesign(ContextCompat.getColor(this, R.color.common_colorAccent));
-        pbFlFriends.setCompareMode(IndexableLayout.MODE_FAST);
+        pbFlFriends.setCompareMode(IndexableLayout.MODE_FIRST);
 
         adapter.setOnItemContentClickListener(this);
         pbFlFriends.addHeaderAdapter(new HeaderAdapter(Arrays.asList("")));

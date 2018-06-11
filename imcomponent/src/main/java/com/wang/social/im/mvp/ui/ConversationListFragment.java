@@ -1,5 +1,6 @@
 package com.wang.social.im.mvp.ui;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -45,6 +46,7 @@ import com.wang.social.im.mvp.model.entities.UIMessage;
 import com.wang.social.im.mvp.presenter.ConversationListPresenter;
 import com.wang.social.im.mvp.ui.adapters.ConversationAdapter;
 import com.wang.social.im.mvp.ui.fragments.NobodyFragment;
+import com.wang.social.im.utils.badge.ShortcutBadger;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -244,9 +246,15 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
         Collections.sort(mConversations);
         mAdapter.notifyDataSetChanged();
 
+        int totalUnread = getTotalUnreadCount();
         EventBean event = new EventBean(EventBean.EVENT_NOTIFY_MESSAGE_UNREAD);
-        event.put("count", getTotalUnreadCount());
+        event.put("count", totalUnread);
         EventBus.getDefault().post(event);
+
+        Activity activity = getActivity();
+        if (activity != null) {
+            ShortcutBadger.applyCount(activity.getApplicationContext(), totalUnread);
+        }
 
         showNobody();
     }
