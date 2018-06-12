@@ -30,7 +30,7 @@
         android:id="@+id/conertext_tag"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="14dp"
         android:textColor="#ff818181"
         android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@+id/blank_view"
