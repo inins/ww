@@ -1,12 +1,13 @@
 package com.wang.social.home.mvp.ui.controller;
 
+import android.support.constraint.Group;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.frame.component.api.CommonService;
 import com.frame.component.entities.user.UserBoard;
-import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.ui.base.BaseController;
 import com.frame.component.view.ConerTextView;
@@ -45,6 +46,10 @@ public class DetailBannerBoardController extends BaseController {
     TextView textPosition;
     @BindView(R2.id.text_sign)
     TextView textSign;
+    @BindView(R2.id.group_tag)
+    Group groupTag;
+    @BindView(R2.id.group_sign)
+    Group groupSign;
 
     private int userId;
     private CardUser cardUser;
@@ -79,8 +84,11 @@ public class DetailBannerBoardController extends BaseController {
             textLableGender.setVisibility(user.isShowAge() ? View.VISIBLE : View.GONE);
             textLableAstro.setText(TimeUtils.getAstro(user.getBirthday()));
             textPosition.setText(user.getCityName());
-            textSign.setText(user.getAutograph());
+            textPosition.setVisibility(TextUtils.isEmpty(user.getCityName()) ? View.GONE : View.VISIBLE);
             connertextLable.setTagText(user.getTagTextDot());
+            groupTag.setVisibility(TextUtils.isEmpty(user.getTagTextDot()) ? View.GONE : View.VISIBLE);
+            textSign.setText(user.getAutograph());
+            groupSign.setVisibility(TextUtils.isEmpty(user.getAutograph()) ? View.GONE : View.VISIBLE);
             if (!StrUtil.isEmpty(user.getPicList())) {
                 banner.setDatas(user.getBannerImageList());
             } else {
