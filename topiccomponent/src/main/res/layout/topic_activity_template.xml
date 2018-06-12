@@ -31,28 +31,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/toolbar" />
 
-    <TextView
-        android:id="@+id/topic_textview10"
+    <com.frame.component.view.TitleView
+        android:id="@+id/title_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="14dp"
         android:layout_marginTop="10dp"
-        android:text="@string/topic_template_select"
-        android:textColor="@color/common_text_blank"
-        android:textSize="24sp"
+        app:personal_textTitle="@string/topic_template_select"
+        app:personal_textNote="@string/topic_template_select_hint"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
-
-    <TextView
-        android:id="@+id/topic_textview13"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/topic_template_select_hint"
-        android:textColor="@color/common_text_blank"
-        android:textSize="13sp"
-        app:layout_constraintStart_toStartOf="@+id/topic_textview10"
-        app:layout_constraintTop_toBottomOf="@+id/topic_textview10" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
@@ -64,6 +52,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topic_textview13" />
+        app:layout_constraintTop_toBottomOf="@+id/title_view" />
 
 </android.support.constraint.ConstraintLayout>

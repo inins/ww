@@ -45,56 +45,57 @@
 
     </RelativeLayout>
 
-
-    <LinearLayout
-        android:id="@+id/title_layout"
+    <com.frame.component.view.TitleView
+        android:id="@+id/title_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
         android:layout_centerHorizontal="true"
-        android:orientation="vertical"
         android:layout_below="@+id/toolbar_layout"
-        >
+        app:personal_textTitle="@string/tags_what_are_you_interested_in"
+        app:personal_textNote="@string/tags_selection_title_hint">
 
-        <TextView
-            android:id="@+id/title_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/tags_what_are_you_interested_in"
-            android:textColor="@color/common_text_blank"
-            android:textSize="24sp"
-            />
-        <TextView
-            android:id="@+id/title_hint_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/tags_selection_title_hint"
-            android:textColor="@color/common_text_blank"
-            android:textSize="13sp"
-            android:layout_marginTop="7dp"
-            />
-    </LinearLayout>
+    </com.frame.component.view.TitleView>
+
+
 
     <LinearLayout
         android:id="@+id/ts_content_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/title_layout"
+        android:layout_below="@+id/title_view"
         android:orientation="vertical">
 
 
-        <android.support.design.widget.TabLayout
+        <!--<android.support.design.widget.TabLayout-->
+            <!--android:id="@+id/tab_layout"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/title_layout"-->
+            <!--app:tabMode="scrollable"-->
+            <!--app:tabIndicatorColor="@color/common_blue_deep"-->
+            <!--app:tabIndicatorHeight="1dp"-->
+            <!--app:tabSelectedTextColor="@color/common_blue_deep"-->
+            <!--app:tabTextColor="@color/common_text_blank_dark">-->
+
+        <!--</android.support.design.widget.TabLayout>-->
+
+        <com.ogaclejapan.smarttablayout.SmartTabLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/title_layout"
-            app:tabMode="scrollable"
-            app:tabIndicatorColor="@color/common_blue_deep"
-            app:tabIndicatorHeight="1dp"
-            app:tabSelectedTextColor="@color/common_blue_deep"
-            app:tabTextColor="@color/common_text_blank_dark">
-
-        </android.support.design.widget.TabLayout>
+            android:layout_height="36dp"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/transparent"
+            app:stl_customTabTextLayoutId="@layout/tab_text_blue_dark"
+            app:stl_customTabTextViewId="@id/custom_text"
+            app:stl_distributeEvenly="true"
+            app:stl_dividerThickness="0dp"
+            app:stl_indicatorColor="@color/common_blue"
+            app:stl_indicatorCornerRadius="2dp"
+            app:stl_indicatorInterpolation="smart"
+            app:stl_indicatorThickness="3dp"
+            app:stl_indicatorWidth="34dp"
+            app:stl_underlineColor="@android:color/transparent"
+            app:stl_underlineThickness="0px"/>
 
         <View
             android:layout_width="match_parent"

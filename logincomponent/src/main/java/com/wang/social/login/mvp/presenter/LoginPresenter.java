@@ -1,5 +1,8 @@
 package com.wang.social.login.mvp.presenter;
 
+import android.text.TextUtils;
+
+import com.frame.component.common.AppConstant;
 import com.frame.component.helper.AppDataHelper;
 import com.wang.social.login.R;
 import com.wang.social.login.mvp.contract.LoginContract;
@@ -66,17 +69,9 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
                         mRootView.showToast(e.getMessage());
                     }
 
-                }, new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        mRootView.showLoading();
-                    }
-                }, new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mRootView.hideLoading();
-                    }
-                });
+                },
+                disposable -> mRootView.showLoading(),
+                () -> mRootView.hideLoading());
     }
 
 
@@ -102,17 +97,9 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
                     public void onError(Throwable e) {
                         doLoginComplete(false);
                     }
-                }, new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        mRootView.showLoading();
-                    }
-                }, new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mRootView.hideLoading();
-                    }
-                });
+                },
+                disposable -> mRootView.showLoading(),
+                () -> mRootView.hideLoading());
     }
 
     /**
@@ -166,27 +153,23 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
                         mRootView.showToast(e.getMessage());
                     }
 
-                }, new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        mRootView.showLoading();
-                    }
-                }, new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mRootView.hideLoading();
-                    }
-                });
+                },
+                disposable -> mRootView.showLoading(),
+                () -> mRootView.hideLoading());
     }
 
     /**
      * 第三方登录
      */
     private void platformLogin(int platform, String uid, String nickname, String headUrl, int sex) {
-        mApiHelper.execute(mRootView,
-                mModel.platformLogin(platform, uid, nickname, headUrl, sex, ""),
-                new ErrorHandleSubscriber<LoginInfo>(mErrorHandler) {
 
+        mApiHelper.execute(mRootView,
+                mModel.platformLogin(platform,
+                        uid,
+                        nickname,
+                        headUrl,
+                        sex, ""),
+                new ErrorHandleSubscriber<LoginInfo>(mErrorHandler) {
                     @Override
                     public void onNext(LoginInfo loginInfo) {
                         doLoginSuccess(loginInfo);
@@ -197,18 +180,9 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
                     public void onError(Throwable e) {
                         mRootView.showToast(e.getMessage());
                     }
-
-                }, new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        mRootView.showLoading();
-                    }
-                }, new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mRootView.hideLoading();
-                    }
-                });
+                },
+                disposable -> mRootView.showLoading(),
+                () -> mRootView.hideLoading());
     }
 
     /**
@@ -242,17 +216,9 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
                         mRootView.showToast(e.getMessage());
                     }
 
-                }, new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        mRootView.showLoading();
-                    }
-                }, new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mRootView.hideLoading();
-                    }
-                });
+                },
+                disposable -> mRootView.showLoading(),
+                () -> mRootView.hideLoading());
     }
 
     /**
@@ -285,17 +251,9 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
                         mRootView.showToast(e.getMessage());
                     }
 
-                }, new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        mRootView.showLoading();
-                    }
-                }, new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mRootView.hideLoading();
-                    }
-                });
+                },
+                disposable -> mRootView.showLoading(),
+                () -> mRootView.hideLoading());
     }
 
     // 第三方登录回调
@@ -311,8 +269,13 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
                     String.format(
                             "授权成功 : %d %s %s %s %d \n %s",
                             platform, platform, uid, nickname, sex, headUrl));
+
             // 授权登录成功，调用往往第三方登录接口
-            platformLogin(platform, uid, nickname, headUrl, sex);
+            platformLogin(platform,
+                    uid,
+                    TextUtils.isEmpty(nickname) ? "W-NewType" : nickname,
+                    TextUtils.isEmpty(headUrl) ? "http://static.wangsocial.com/userDefault.png" : headUrl,
+                    sex);
         }
 
         @Override

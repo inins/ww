@@ -24,7 +24,7 @@
         android:layout_marginLeft="14dp"
         android:text="@string/topic_release_topic"
         android:textColor="@color/common_text_blank"
-        android:textSize="24sp"
+        android:textSize="23sp"
         android:layout_below="@+id/toolbar"
         android:layout_marginBottom="20dp"/>
 

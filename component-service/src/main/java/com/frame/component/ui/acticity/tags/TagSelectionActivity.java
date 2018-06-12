@@ -20,11 +20,13 @@ import com.frame.component.service.R;
 import com.frame.component.service.R2;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.view.SocialToolbar;
+import com.frame.component.view.TitleView;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.integration.AppManager;
 import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.ToastUtil;
+import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -197,7 +199,7 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
     SocialToolbar toolbar;
     // 一级标签列表
     @BindView(R2.id.tab_layout)
-    TabLayout tabLayout;
+    SmartTabLayout tabLayout;
     // ViewPager 二级标签页面
     @BindView(R2.id.view_pager)
     ViewPager viewPager;
@@ -210,12 +212,8 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
     //
     @BindView(R2.id.ts_content_layout)
     LinearLayout contentLayout;
-    // 标题
-    @BindView(R2.id.title_text_view)
-    TextView titleTV;
-    // 副标题
-    @BindView(R2.id.title_hint_text_view)
-    TextView titleHintTV;
+    @BindView(R2.id.title_view)
+    TitleView mTitleView;
     // 右上角选中数量区域
     @BindView(R2.id.selected_count_layout)
     View selectedCountLayout;
@@ -368,10 +366,10 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
 
         // 是否设置了标题和副标题
         if (!TextUtils.isEmpty(mTitle)) {
-            titleTV.setText(mTitle);
+            mTitleView.setTitle(mTitle);
         }
         if (!TextUtils.isEmpty(mSubtitle)) {
-            titleHintTV.setText(mSubtitle);
+            mTitleView.setNote(mSubtitle);
         }
 
         // 根据不同模式确定ToolBar右边文字
@@ -382,8 +380,8 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
      * 初始化 兴趣大杂烩 UI和数据
      */
     private void initConfirmData() {
-        titleTV.setText(getString(R.string.tags_confirm_title));
-        titleHintTV.setText(getString(R.string.tags_confirm_title_hint));
+        mTitleView.setTitle(getString(R.string.tags_confirm_title));
+        mTitleView.setNote(getString(R.string.tags_confirm_title_hint));
 
         // 移除选择模式时需要的View
         contentLayout.removeAllViews();
@@ -430,13 +428,13 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
         if (tags == null) return;
         if (tags.getList().size() <= 0) return;
 
-        tabLayout.removeAllTabs();
-
-        for (Tag tag : tags.getList()) {
-            tabLayout.addTab(tabLayout.newTab().setText(tag.getTagName()));
-        }
-
-        tabLayout.setupWithViewPager(viewPager);
+//        tabLayout.removeAllTabs();
+//
+//        for (Tag tag : tags.getList()) {
+//            tabLayout.addTab(tabLayout.newTab().setText(tag.getTagName()));
+//        }
+//
+//        tabLayout.setupWithViewPager(viewPager);
 
         viewPager.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
             @Override
@@ -458,6 +456,8 @@ public class TagSelectionActivity extends BaseAppActivity<TagSelectionPresenter>
                 return tags.getList().get(position).getTagName();
             }
         });
+
+        tabLayout.setViewPager(viewPager);
     }
 
     @Override

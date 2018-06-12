@@ -88,12 +88,12 @@
 
         <com.ogaclejapan.smarttablayout.SmartTabLayout
             android:id="@+id/smart_tab_layout"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="6dp"
             android:visibility="invisible"
-            app:stl_customTabTextLayoutId="@layout/im_personal_card_tab_layout"
+            app:stl_customTabTextLayoutId="@layout/im_personal_card_tab_layout_female"
             app:stl_customTabTextViewId="@id/name_text_view"
             app:stl_dividerThickness="0dp"
             app:stl_indicatorColor="@color/common_red_gray"
@@ -102,7 +102,8 @@
             app:stl_indicatorThickness="3dp"
             app:stl_indicatorWidth="12dp"
             app:stl_underlineColor="@android:color/transparent"
-            app:stl_underlineThickness="0px">
+            app:stl_underlineThickness="0px"
+            app:stl_distributeEvenly="true">
 
         </com.ogaclejapan.smarttablayout.SmartTabLayout>
 

@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.view.SocialToolbar;
+import com.frame.component.view.TitleView;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.integration.AppManager;
@@ -119,10 +120,8 @@ public class CommentActivity extends BaseAppActivity<CommentPresenter> implement
     @BindView(R2.id.title_reply_count_text_view)
     TextView mTitleReplyCountTV;
     // 标题和提示
-    @BindView(R2.id.title_text_view)
-    TextView mTitleTV;
-    @BindView(R2.id.title_hint_text_view)
-    TextView mTitleHintTV;
+    @BindView(R2.id.title_view)
+    TitleView mTitleView;
     // 评论数量
     @BindView(R2.id.reply_count_text_view)
     TextView mReplyCountTV;
@@ -182,8 +181,7 @@ public class CommentActivity extends BaseAppActivity<CommentPresenter> implement
 
         // 二级页面
         if (mLevel == SECOND_LEVEL) {
-            mTitleTV.setVisibility(View.GONE);
-            mTitleHintTV.setVisibility(View.GONE);
+            mTitleView.setVisibility(View.GONE);
             mReplyCountTV.setVisibility(View.GONE);
             mSpringView.setBackgroundColor(0xFFF2F2F2);
 //            mRecyclerView.setBackgroundColor(0xFFF2F2F2);
