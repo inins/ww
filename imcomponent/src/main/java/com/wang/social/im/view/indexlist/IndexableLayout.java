@@ -54,6 +54,8 @@ public class IndexableLayout extends FrameLayout {
     public static final int MODE_ALL_LETTERS = 1;
     // 每个字母模块内：无需排序，效率最高
     public static final int MODE_NONE = 2;
+    // 根据原字符排序
+    public static final int MODE_CHINESE = 3;
 
     private static int PADDING_RIGHT_OVERLAY;
     static final String INDEX_SIGN = "#";
@@ -242,7 +244,7 @@ public class IndexableLayout extends FrameLayout {
         setCompareMode(fastCompare ? MODE_FAST : MODE_ALL_LETTERS);
     }
 
-    @IntDef({MODE_FAST, MODE_ALL_LETTERS, MODE_NONE})
+    @IntDef({MODE_FAST, MODE_ALL_LETTERS, MODE_NONE, MODE_CHINESE})
     @Retention(RetentionPolicy.SOURCE)
     @interface CompareMode {
     }
@@ -733,6 +735,9 @@ public class IndexableLayout extends FrameLayout {
                         Collections.sort(indexableEntities, comparator);
                     } else if (mCompareMode == MODE_ALL_LETTERS) {
                         comparator = new PinyinComparator<T>();
+                        Collections.sort(indexableEntities, comparator);
+                    } else if (mCompareMode == MODE_CHINESE) {
+                        comparator = new ChineseComparator<T>();
                         Collections.sort(indexableEntities, comparator);
                     }
                 }
