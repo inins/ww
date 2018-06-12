@@ -84,7 +84,8 @@ public class MePhotoActivity extends BasicAppActivity implements IView, PhotoHel
     }
 
     private void setTitleviewCount() {
-        titleview.setSubTitle("(" + adapter.getResultsCount() + "/" + MAXCOUNT + ")");
+        if (titleview != null)
+            titleview.setSubTitle("(" + adapter.getResultsCount() + "/" + MAXCOUNT + ")");
     }
 
     private RecycleAdapterMePhoto.OnPhotoClickListener onPhotoClickListener = new RecycleAdapterMePhoto.OnPhotoClickListener() {
@@ -184,7 +185,7 @@ public class MePhotoActivity extends BasicAppActivity implements IView, PhotoHel
             public void onSuccess(Photo photo) {
                 adapter.insertItem(adapter.getItemCount() - 1, photo);
                 //这里刷新一下最后一个item是因为最后一个item是添加按钮，需求要求超过3张图片要隐藏添加按钮，删除的时候同理
-                adapter.notifyItemChanged(adapter.getItemCount()-1);
+                adapter.notifyItemChanged(adapter.getItemCount() - 1);
                 setTitleviewCount();
                 EventBus.getDefault().post(new EventBean(EventBean.EVENT_MEPHOTO_CHANGE));
             }
@@ -201,7 +202,7 @@ public class MePhotoActivity extends BasicAppActivity implements IView, PhotoHel
             @Override
             public void onSuccess() {
                 adapter.removeItemById(userPhotoId);
-                adapter.notifyItemChanged(adapter.getItemCount()-1);
+                adapter.notifyItemChanged(adapter.getItemCount() - 1);
                 setTitleviewCount();
                 EventBus.getDefault().post(new EventBean(EventBean.EVENT_MEPHOTO_CHANGE));
             }

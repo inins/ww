@@ -158,13 +158,13 @@
                     style="@style/common_EditNone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="5dp"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
-                    android:inputType="numberSigned"
                     android:gravity="center_horizontal|bottom"
                     android:hint="@string/personal_account_exchange_exchange_hint"
+                    android:inputType="numberSigned"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="10dp"
                     android:textSize="18sp" />
 
                 <View
@@ -180,7 +180,8 @@
                 android:layout_height="36dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="40dp"
-                android:background="@drawable/common_shape_rect_gradient_blue_conerfull"
+                android:background="@drawable/common_enable_gradient_bluewhite_conerfull"
+                android:enabled="false"
                 android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
                 android:onClick="onClick"

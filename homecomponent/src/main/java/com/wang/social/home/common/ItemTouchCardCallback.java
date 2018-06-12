@@ -59,11 +59,6 @@ public class ItemTouchCardCallback extends ItemTouchHelper.SimpleCallback {
     //阈值
     @Override
     public float getSwipeThreshold(RecyclerView.ViewHolder viewHolder) {
-//        float x = viewHolder.itemView.getX();
-//        float y = viewHolder.itemView.getY();
-//        Rect rect = new Rect();
-//        viewHolder.itemView.getLocalVisibleRect(rect);
-        //Log.e("test", "x:" + x + " y:" + y + " rect:" + rect.toString());
         return fz;
     }
 
@@ -113,7 +108,7 @@ public class ItemTouchCardCallback extends ItemTouchHelper.SimpleCallback {
         if (Math.abs(dY) > Math.abs(dX)) {
             fz = 2;
         } else {
-            fz = 0.5f;
+            fz = 0.35f;
         }
         //先根据滑动的dxdy 算出现在动画的比例系数fraction
         double swipValue = Math.sqrt(dX * dX + dY * dY);

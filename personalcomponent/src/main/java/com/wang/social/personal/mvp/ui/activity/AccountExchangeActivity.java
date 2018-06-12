@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.frame.component.api.CommonService;
 import com.frame.component.common.NetParam;
+import com.frame.component.common.SimpleTextWatcher;
 import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.component.utils.ChannelUtils;
 import com.frame.di.component.AppComponent;
@@ -42,6 +44,8 @@ public class AccountExchangeActivity extends BasicAppActivity implements IView {
     TextView textDiamondAll;
     @BindView(R2.id.edit_stone)
     EditText editStone;
+    @BindView(R2.id.btn_excharge)
+    TextView btnExcharge;
 
 
     public static void start(Context context) {
@@ -57,6 +61,12 @@ public class AccountExchangeActivity extends BasicAppActivity implements IView {
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
         netGetAccountData();
+        editStone.addTextChangedListener(new SimpleTextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                btnExcharge.setEnabled(!TextUtils.isEmpty(charSequence));
+            }
+        });
     }
 
     public void onClick(View v) {
@@ -141,5 +151,12 @@ public class AccountExchangeActivity extends BasicAppActivity implements IView {
                         ToastUtil.showToastLong(e.getMessage());
                     }
                 });
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

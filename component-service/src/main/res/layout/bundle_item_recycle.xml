@@ -37,7 +37,7 @@
             android:layout_gravity="right"
             android:layout_marginRight="-1dp"
             android:layout_marginTop="-1dp"
-            android:padding="7dp"
+            android:padding="5dp"
             android:src="@drawable/common_ic_lable_del" />
 
     </com.frame.component.view.SquareFramelayout>
