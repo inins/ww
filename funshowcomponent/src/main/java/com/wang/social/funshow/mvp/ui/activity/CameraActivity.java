@@ -147,6 +147,8 @@ public class CameraActivity extends AppCompatActivity {
 
     private void initCtrl() {
         camera_view.setVideoQuality(CameraKit.Constants.VIDEO_QUALITY_720P);
+        camera_view.setJpegQuality(50);
+        camera_view.setCropOutput(true);
         camera_view.setZoom(0);
         camera_view.addCameraKitListener(new CameraKitEventListener() {
             @Override

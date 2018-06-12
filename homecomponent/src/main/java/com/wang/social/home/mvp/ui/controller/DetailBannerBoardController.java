@@ -90,9 +90,11 @@ public class DetailBannerBoardController extends BaseController {
             textSign.setText(user.getAutograph());
             groupSign.setVisibility(TextUtils.isEmpty(user.getAutograph()) ? View.GONE : View.VISIBLE);
             if (!StrUtil.isEmpty(user.getPicList())) {
+                banner.setLoop(user.getImgCount() > 1);
                 banner.setDatas(user.getBannerImageList());
             } else {
                 //如果相册是空，则添加一张默认图
+                banner.setLoop(false);
                 banner.setDatas(new ArrayList<Image>() {{
                     add(new Image(String.valueOf(R.drawable.home_bg_carddetail_default)));
                 }});
