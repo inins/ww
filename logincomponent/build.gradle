@@ -6,8 +6,6 @@
 apply plugin: 'com.jakewharton.butterknife'
 
 
-apply plugin: 'com.jakewharton.butterknife'
-
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
 
