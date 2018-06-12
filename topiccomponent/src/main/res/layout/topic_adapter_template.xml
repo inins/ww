@@ -5,7 +5,7 @@
     android:layout_height="212dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="16dp"
-    app:cardElevation="3dp">
+    app:cardElevation="1dp">
 
     <ImageView
         android:id="@+id/template_image_view"
