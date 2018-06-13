@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.support.v7.widget.Toolbar;
 
 import com.frame.base.BasicActivity;
+import com.frame.component.service.R;
 import com.frame.component.ui.dialog.DialogLoading;
 import com.frame.component.utils.viewutils.ViewUtil;
 
@@ -38,6 +39,9 @@ public abstract class BasicAppActivity extends BasicActivity {
     @Override
     protected void beforeInitData() {
         toolbar = ViewUtil.findToolbar((ViewGroup) getWindow().getDecorView());
+        if (toolbar == null) {
+            toolbar = findViewById(R.id.toolbar);
+        }
         if (toolbar != null) {
             toolbar.setTitle("");
             setSupportActionBar(toolbar);

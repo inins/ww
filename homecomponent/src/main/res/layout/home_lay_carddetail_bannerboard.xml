@@ -9,10 +9,9 @@
     <com.frame.component.view.bannerview.BannerView
         android:id="@+id/banner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="260dp"
         android:foreground="#33000000"
         android:transitionName="share_img"
-        app:is_square="by_width"
         tools:background="#88000000" />
 
     <android.support.constraint.ConstraintLayout

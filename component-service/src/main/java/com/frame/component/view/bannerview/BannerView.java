@@ -82,6 +82,10 @@ public class BannerView extends FrameLayout {
         }
     }
 
+    public void setLoop(boolean loop) {
+        viewPager.setInfiniteLoop(loop);
+    }
+
     private void initView() {
         viewPager = findViewById(R.id.viewpager);
         text_banner_count = findViewById(R.id.text_banner_count);

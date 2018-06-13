@@ -72,6 +72,10 @@ public class UserBoard {
         return images;
     }
 
+    public int getImgCount() {
+        return picList == null ? 0 : picList.size();
+    }
+
     public String getQrcodeImg() {
         return Api.DOMAIN + Api.USER_QRCODE + "?v=2.0.0&userId=" + userId;
     }
@@ -116,4 +120,4 @@ public class UserBoard {
 //        user.setTags(tags);
 //        return user;
 //    }
- }
+}
