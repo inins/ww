@@ -4,6 +4,7 @@ import com.frame.component.entities.BaseListWrap;
 import com.frame.component.entities.GroupBean;
 import com.frame.component.entities.dto.GroupMemberInfoDTO;
 import com.frame.component.entities.dto.IsShoppingRspDTO;
+import com.frame.component.entities.dto.MyTalkBeanDTO;
 import com.frame.component.entities.dto.NewMoneyTreeGameDTO;
 import com.frame.component.entities.PersonalInfo;
 import com.frame.component.entities.Topic;
@@ -275,9 +276,8 @@ public interface CommonService {
     /**
      * 用户趣晒列表-我的个人名片
      */
-    @GET("app/talk/getMyTalkList")
-    Observable<BaseJson<PageListDTO<TalkBeanDTO, FunshowBean>>>
-    getMyTalkList(@QueryMap Map<String, Object> param);
+    @POST("app/talk/getMyTalkList") Observable<BaseJson<PageListDTO<MyTalkBeanDTO, FunshowBean>>>
+        getMyTalkList(@QueryMap Map<String, Object> param);
 
     /**
      * 好友列表-他人名片查看

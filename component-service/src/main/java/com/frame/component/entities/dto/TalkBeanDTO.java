@@ -44,13 +44,13 @@ public class TalkBeanDTO implements Mapper<FunshowBean> {
         object.setCommentTotal(EntitiesUtil.assertNotNull(commentTotal));
         object.setSupportTotal(EntitiesUtil.assertNotNull(supportTotal));
         object.setShareTotal(EntitiesUtil.assertNotNull(shareTotal));
-        object.setFree(relateState == 0);
+        object.setFree(EntitiesUtil.assertNotNull(relateState) == 0);
         object.setPrice(EntitiesUtil.assertNotNull(gemstone));
         object.setShowPic(EntitiesUtil.assertNotNull(url));
         object.setPicNum(EntitiesUtil.assertNotNull(urls));
-        object.setPay(talkPayed >= 1);
-        object.setSupport(talkLiked >= 1);
-        object.setVideo(mediaType == 2);
+        object.setPay(EntitiesUtil.assertNotNull(talkPayed) >= 1);
+        object.setSupport(EntitiesUtil.assertNotNull(talkLiked) >= 1);
+        object.setVideo(EntitiesUtil.assertNotNull(mediaType) == 2);
         object.setHideName("1".equals(isAnonymous));
         object.setProvinceName(EntitiesUtil.assertNotNull(province));
         object.setCityName(EntitiesUtil.assertNotNull(city));
