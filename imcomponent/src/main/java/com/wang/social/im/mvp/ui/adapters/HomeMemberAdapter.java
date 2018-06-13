@@ -15,6 +15,7 @@ import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.mvp.model.entities.MemberInfo;
 import com.wang.social.im.mvp.ui.MemberListActivity;
+import com.wang.social.im.mvp.ui.PersonalCard.PersonalCardActivity;
 
 import java.util.List;
 
@@ -74,8 +75,14 @@ public class HomeMemberAdapter extends BaseAdapter<MemberInfo> {
                         .placeholder(R.drawable.common_default_circle_placeholder)
                         .errorPic(R.drawable.common_default_circle_placeholder)
                         .build());
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PersonalCardActivity.start(getContext(), Integer.valueOf(itemValue.getMemberId()));
+                    }
+                });
             }
-            if (position == 0){
+            if (position == 0) {
                 ghmTvMaster.setVisibility(View.VISIBLE);
             }
         }

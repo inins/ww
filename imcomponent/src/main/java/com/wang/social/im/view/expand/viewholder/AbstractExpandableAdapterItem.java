@@ -131,6 +131,14 @@ public abstract class AbstractExpandableAdapterItem extends AbstractAdapterItem 
             } else {
                 expandView();
             }
+        } else {
+            if (getExpandableListItem().isExpanded()) {
+                getExpandableListItem().setExpanded(false);
+                onExpansionToggled(false);
+            } else {
+                getExpandableListItem().setExpanded(true);
+                onExpansionToggled(true);
+            }
         }
     }
 }

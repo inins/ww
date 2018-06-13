@@ -79,6 +79,7 @@ import com.wang.social.im.mvp.model.entities.ShadowInfo;
 import com.wang.social.im.mvp.model.entities.ShareElemData;
 import com.wang.social.im.mvp.model.entities.UIMessage;
 import com.wang.social.im.mvp.presenter.ConversationPresenter;
+import com.wang.social.im.mvp.ui.PersonalCard.PersonalCardActivity;
 import com.wang.social.im.mvp.ui.adapters.MessageListAdapter;
 import com.wang.social.im.mvp.ui.adapters.holders.BaseMessageViewHolder;
 import com.wang.social.im.view.IMInputView;
@@ -729,7 +730,7 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
 
     @Override
     public void onPortraitClick(View view, UIMessage uiMessage, int position) {
-
+        PersonalCardActivity.start(getContext(), Integer.valueOf(uiMessage.getTimMessage().getSender()));
     }
 
     @Override

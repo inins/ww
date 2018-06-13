@@ -1,5 +1,6 @@
 package com.wang.social.im.mvp.ui.adapters.holders;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.ContentLoadingProgressBar;
@@ -105,6 +106,9 @@ public abstract class BaseMessageViewHolder<T> extends BaseViewHolder<T> {
 
                     @Override
                     public void onSuccess(List<TIMGroupMemberInfo> timGroupMemberInfos) {
+                        if (((Activity) getContext()).isDestroyed()) {
+                            return;
+                        }
                         if (timGroupMemberInfos != null && !timGroupMemberInfos.isEmpty()) {
                             TIMGroupMemberInfo memberInfo = timGroupMemberInfos.get(0);
                             message.setNickname(memberInfo.getNameCard());
@@ -206,14 +210,16 @@ public abstract class BaseMessageViewHolder<T> extends BaseViewHolder<T> {
      * @param position
      */
     protected void setPortraitListener(ImageView ivPortrait, UIMessage uiMessage, int position) {
-//        ivPortrait.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (mHandleListener != null){
-//                    mHandleListener.onPortraitClick(v, uiMessage, position);
-//                }
-//            }
-//        });
+        if (conversationType == ConversationType.SOCIAL || conversationType == ConversationType.TEAM) {
+            ivPortrait.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mHandleListener != null) {
+                        mHandleListener.onPortraitClick(v, uiMessage, position);
+                    }
+                }
+            });
+        }
         ivPortrait.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {

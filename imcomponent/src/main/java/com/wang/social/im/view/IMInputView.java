@@ -453,7 +453,7 @@ public class IMInputView extends LinearLayout implements PluginAdapter.OnPluginC
         plugins.add(new PluginModule(R.drawable.im_plugin_shoot, R.string.im_chat_input_plugin_shoot, PluginModule.PluginType.SHOOT));
         plugins.add(new PluginModule(R.drawable.im_plugin_location, R.string.im_chat_input_plugin_location, PluginModule.PluginType.LOCATION));
         plugins.add(new PluginModule(R.drawable.im_plugin_red_envelope, R.string.im_chat_input_plugin_redpacket, PluginModule.PluginType.REDPACKET));
-        plugins.add(new PluginModule(R.drawable.im_plugin_image, R.string.im_chat_input_plugin_game, PluginModule.PluginType.GAME));
+        plugins.add(new PluginModule(R.drawable.im_plugin_game, R.string.im_chat_input_plugin_game, PluginModule.PluginType.GAME));
         plugins.add(new PluginModule(R.drawable.im_plugin_shadow, R.string.im_chat_input_plugin_shadow, PluginModule.PluginType.SHADOW));
         return plugins;
     }
