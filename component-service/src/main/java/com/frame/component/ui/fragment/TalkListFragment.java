@@ -10,6 +10,7 @@ import com.frame.base.BasicFragment;
 import com.frame.component.api.CommonService;
 import com.frame.component.common.NetParam;
 import com.frame.component.entities.Topic;
+import com.frame.component.entities.dto.MyTalkBeanDTO;
 import com.frame.component.entities.dto.TalkBeanDTO;
 import com.frame.component.entities.funshow.FunshowBean;
 import com.frame.component.helper.AppDataHelper;
@@ -207,7 +208,7 @@ public class TalkListFragment extends BasicFragment implements IView {
     /**
      * 用户趣晒列表-我的个人名片
      */
-    private Observable<BaseJson<PageListDTO<TalkBeanDTO, FunshowBean>>> netGetMyTalkList(int current, int size) {
+    private Observable<BaseJson<PageListDTO<MyTalkBeanDTO, FunshowBean>>> netGetMyTalkList(int current, int size) {
         Map<String, Object> param = new NetParam()
                 .put("current", current)
                 .put("size", size)

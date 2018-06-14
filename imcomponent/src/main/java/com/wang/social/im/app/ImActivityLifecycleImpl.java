@@ -28,6 +28,7 @@ public class ImActivityLifecycleImpl implements Application.ActivityLifecycleCal
     @Override
     public void onActivityStarted(Activity activity) {
         if (mLifeActivites == 0) {
+            ShortcutBadger.applyCount(activity, 0);
             //清除通知
             ((NotificationManager) activity.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE)).cancelAll();
         }
