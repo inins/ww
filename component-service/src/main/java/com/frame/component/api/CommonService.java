@@ -381,6 +381,7 @@ public interface CommonService {
 
     /**
      * 系统消息已读
+     * 0：系统消息；1：好友申请；2：加群申请；3：群邀请
      */
     @FormUrlEncoded
     @POST("app/msg/readSysMsg?v=2.0.0")
@@ -388,6 +389,7 @@ public interface CommonService {
 
     /**
      * 动态消息已读
+     * 1：动态点赞；2：动态评论 3：@我的
      */
     @FormUrlEncoded
     @POST("app/msg/readDynMsg?v=2.0.0")
