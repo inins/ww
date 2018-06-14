@@ -1,0 +1,13 @@
+auto generated, do not change !!!! 
+
+HOST : funshow
+
+发布趣晒
+/add
+
+趣晒详情
+/detail
+
+趣晒魔
+/hotUser
+

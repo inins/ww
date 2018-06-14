@@ -1,0 +1,10 @@
+auto generated, do not change !!!! 
+
+HOST : moneytree
+
+游戏列表
+/money_tree_list
+
+游戏房间
+/money_tree_room
+

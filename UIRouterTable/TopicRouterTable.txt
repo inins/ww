@@ -1,0 +1,13 @@
+auto generated, do not change !!!! 
+
+HOST : topic
+
+话题发布
+/topic_release
+
+话题详情
+/topic_detail
+
+知识魔列表
+/top_user_list
+

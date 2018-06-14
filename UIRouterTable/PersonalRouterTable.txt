@@ -1,0 +1,16 @@
+auto generated, do not change !!!! 
+
+HOST : personal
+
+个人账户页面
+/account
+
+充值
+/recharge
+
+官方图库
+/officialPhoto
+
+代言收益
+/profit
+

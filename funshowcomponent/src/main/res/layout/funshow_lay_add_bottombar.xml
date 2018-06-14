@@ -31,8 +31,11 @@
             android:scaleType="center"
             android:src="@drawable/funshow_ic_edit_position" />
 
+        <!--趣晒锁功能被砍掉了-->
+
         <ImageView
             android:id="@+id/btn_lock"
+            android:visibility="gone"
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:foreground="?attr/selectableItemBackground"
