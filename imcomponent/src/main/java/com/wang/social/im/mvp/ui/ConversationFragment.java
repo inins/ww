@@ -247,7 +247,7 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
             NewbieGuide.with(this)
                     .setLabel("guide_team_point")
                     .addGuidePage(GuidePage.newInstance()
-                            .addHighLight(getParentFragment().getView().findViewById(R.id.tc_fl_mirror), OVAL, 0, 0)
+                            .addHighLight(getParentFragment().getView().findViewById(R.id.tc_fl_mirror), OVAL, 0, 10)
                             .addHighLight(getView().findViewById(R.id.fc_fun_high), OVAL, 0, 0)
                             .setLayoutRes(R.layout.lay_guide_findchat, R.id.btn_go)
                             .setEverywhereCancelable(false)
