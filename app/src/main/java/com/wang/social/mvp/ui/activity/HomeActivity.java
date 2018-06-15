@@ -19,13 +19,16 @@ import com.frame.component.common.AppConstant;
 import com.frame.component.entities.DynamicMessage;
 import com.frame.component.entities.SystemMessage;
 import com.frame.component.entities.VersionInfo;
+import com.frame.component.enums.ConversationType;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.MsgHelper;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
 import com.frame.component.view.XRadioGroup;
+import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.error.ErrorHandleSubscriber;
+import com.frame.integration.AppManager;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.IView;
 import com.frame.router.facade.annotation.RouteNode;
@@ -37,6 +40,7 @@ import com.vector.update_app.UpdateAppManager;
 import com.vector.update_app.UpdateCallback;
 import com.vector.update_app.listener.ExceptionHandler;
 import com.wang.social.R;
+import com.wang.social.di.component.DaggerActivityComponent;
 import com.wang.social.mvp.ui.adapter.PagerAdapterHome;
 import com.wang.social.mvp.ui.dialog.DialogHomeAdd;
 import com.wang.social.utils.update.UpdateAppHttpUtil;
@@ -44,6 +48,8 @@ import com.wang.social.utils.update.UpdateAppHttpUtil;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import timber.log.Timber;
@@ -59,6 +65,9 @@ public class HomeActivity extends BasicAppNoDiActivity implements IView, XRadioG
     ImageView imgDot;
     @BindView(R.id.text_dot)
     TextView textDot;
+
+    @Inject
+    AppManager mAppManager;
 
     private DialogHomeAdd dialogHomeAdd;
     private PagerAdapterHome pagerAdapter;
@@ -83,6 +92,15 @@ public class HomeActivity extends BasicAppNoDiActivity implements IView, XRadioG
         super.onCreate(savedInstanceState);
         StatusBarUtil.setStatusBarColor(HomeActivity.this, Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? R.color.common_white : R.color.common_dark);
         StatusBarUtil.setTextDark(this);
+    }
+
+    @Override
+    public void setupActivityComponent(@NonNull AppComponent appComponent) {
+        DaggerActivityComponent
+                .builder()
+                .appComponent(appComponent)
+                .build()
+                .inject(this);
     }
 
     @Override
@@ -304,49 +322,66 @@ public class HomeActivity extends BasicAppNoDiActivity implements IView, XRadioG
     }
 
     public void performRemoteCall(String target, String id) {
+        if (TextUtils.isEmpty(target)) {
+            return;
+        }
         int intId = -1;
-        try {
-            intId = Integer.parseInt(id);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (!target.equals(AppConstant.Key.OPEN_TARGET_C2C) &&
+                !target.equals(AppConstant.Key.OPEN_TARGET_TEAM) &&
+                !target.equals(AppConstant.Key.OPEN_TARGET_SOCIAL)) {
+            try {
+                intId = Integer.parseInt(id);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
-        if (!TextUtils.isEmpty(target)) {
-            switch (target) {
-                case AppConstant.Share.SHARE_TOPIC_OPEN_TARGET:
-                    CommonHelper.TopicHelper.startTopicDetail(this, intId);
-                    break;
-                case AppConstant.Share.SHARE_FUN_SHOW_OPEN_TARGET:
-                    CommonHelper.FunshowHelper.startDetailActivity(this, intId);
-                    break;
-                case AppConstant.Share.SHARE_GROUP_OPEN_TARGET:
-                    CommonHelper.ImHelper.startGroupInviteBrowse(this, intId);
-                    break;
-                case AppConstant.Share.SHARE_GAME_TREE_OPEN_TARGET:
-                    CommonHelper.GameHelper.startGameRoom(this, intId);
-                    break;
-                case AppConstant.Key.OPEN_TARGET_SYS_MESSAGE: //系统消息
-                    CommonHelper.ImHelper.startNotifySysMsgActivity(this);
-                    break;
-                case AppConstant.Key.OPEN_TARGET_FRIEND_APPLY: //好友申请
-                    CommonHelper.ImHelper.startNotifyFriendRequestActivity(this);
-                    break;
-                case AppConstant.Key.OPEN_TARGET_GROUP_APPLY: //群申请
-                    CommonHelper.ImHelper.startNotifyGroupRequestActivity(this);
-                    break;
-                case AppConstant.Key.OPEN_TARGET_GROUP_INVITE: //群邀请
-                    CommonHelper.ImHelper.startNotifyGroupJoinActivity(this);
-                    break;
-                case AppConstant.Key.OPEN_TARGET_DYNAMIC_FUN_SHOW: //趣晒
-                    CommonHelper.FunshowHelper.startDetailActivity(this, intId);
-                    break;
-                case AppConstant.Key.OPEN_TARGET_DYNAMIC_TOPIC: //话题
-                    CommonHelper.TopicHelper.startTopicDetail(this, intId);
-                    break;
-                case AppConstant.Share.SHARE_PROFIT_OPEN_TARGET: //代言收益
-                    CommonHelper.PersonalHelper.startProfitActivity(this);
-                    break;
-            }
+        switch (target) {
+            case AppConstant.Share.SHARE_TOPIC_OPEN_TARGET:
+                CommonHelper.TopicHelper.startTopicDetail(this, intId);
+                break;
+            case AppConstant.Share.SHARE_FUN_SHOW_OPEN_TARGET:
+                CommonHelper.FunshowHelper.startDetailActivity(this, intId);
+                break;
+            case AppConstant.Share.SHARE_GROUP_OPEN_TARGET:
+                CommonHelper.ImHelper.startGroupInviteBrowse(this, intId);
+                break;
+            case AppConstant.Share.SHARE_GAME_TREE_OPEN_TARGET:
+                CommonHelper.GameHelper.startGameRoom(this, intId);
+                break;
+            case AppConstant.Key.OPEN_TARGET_SYS_MESSAGE: //系统消息
+                CommonHelper.ImHelper.startNotifySysMsgActivity(this);
+                break;
+            case AppConstant.Key.OPEN_TARGET_FRIEND_APPLY: //好友申请
+                CommonHelper.ImHelper.startNotifyFriendRequestActivity(this);
+                break;
+            case AppConstant.Key.OPEN_TARGET_GROUP_APPLY: //群申请
+                CommonHelper.ImHelper.startNotifyGroupRequestActivity(this);
+                break;
+            case AppConstant.Key.OPEN_TARGET_GROUP_INVITE: //群邀请
+                CommonHelper.ImHelper.startNotifyGroupJoinActivity(this);
+                break;
+            case AppConstant.Key.OPEN_TARGET_DYNAMIC_FUN_SHOW: //趣晒
+                CommonHelper.FunshowHelper.startDetailActivity(this, intId);
+                break;
+            case AppConstant.Key.OPEN_TARGET_DYNAMIC_TOPIC: //话题
+                CommonHelper.TopicHelper.startTopicDetail(this, intId);
+                break;
+            case AppConstant.Share.SHARE_PROFIT_OPEN_TARGET: //代言收益
+                CommonHelper.PersonalHelper.startProfitActivity(this);
+                break;
+            case AppConstant.Key.OPEN_TARGET_C2C:
+                mAppManager.killAll(this.getClass());
+                CommonHelper.ImHelper.gotoPrivateConversation(this, id);
+                break;
+            case AppConstant.Key.OPEN_TARGET_TEAM:
+                mAppManager.killAll(this.getClass());
+                CommonHelper.ImHelper.gotoGroupConversation(this, id, ConversationType.TEAM, false);
+                break;
+            case AppConstant.Key.OPEN_TARGET_SOCIAL:
+                mAppManager.killAll(this.getClass());
+                CommonHelper.ImHelper.gotoGroupConversation(this, id, ConversationType.SOCIAL, false);
+                break;
         }
     }
 }

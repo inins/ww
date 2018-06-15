@@ -9,6 +9,7 @@ import com.wang.social.im.mvp.model.entities.IndexMemberInfo;
 import com.wang.social.im.mvp.model.entities.MemberInfo;
 import com.wang.social.im.mvp.model.entities.OfficialImage;
 import com.wang.social.im.mvp.model.entities.SimpleGroupInfo;
+import com.wang.social.im.mvp.model.entities.SimpleSocial;
 import com.wang.social.im.mvp.model.entities.TeamInfo;
 import com.wang.social.im.mvp.model.entities.dto.AnonymousInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.CreateGroupResultDTO;
@@ -24,6 +25,7 @@ import com.wang.social.im.mvp.model.entities.dto.OfficialImageDTO;
 import com.wang.social.im.mvp.model.entities.dto.PayCheckInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.ShadowInfoDTO;
 import com.wang.social.im.mvp.model.entities.dto.SimpleGroupInfoDTO;
+import com.wang.social.im.mvp.model.entities.dto.SimpleSocialDTO;
 import com.wang.social.im.mvp.model.entities.dto.SocialDTO;
 import com.wang.social.im.mvp.model.entities.dto.SocialHomeDTO;
 import com.wang.social.im.mvp.model.entities.dto.TeamHomeDTO;
@@ -466,4 +468,15 @@ public interface GroupService {
     @GET("system/pictureLibrary")
     Observable<BaseJson<PageListDTO<OfficialImageDTO, OfficialImage>>> getOfficialImages(@Query("v") String version, @Query("type") int type,
                                                                                          @Query("current") int currentPage, @Query("size") int pageSize);
+
+    /**
+     * 获取趣聊列表
+     *
+     * @param version
+     * @param userId
+     * @param type
+     * @return
+     */
+    @POST("app/group/showGroupLists")
+    Observable<BaseJson<ListDataDTO<SimpleSocialDTO, SimpleSocial>>> getSocialList(@Query("v") String version, @Query("userId") int userId, @Query("type") int type);
 }

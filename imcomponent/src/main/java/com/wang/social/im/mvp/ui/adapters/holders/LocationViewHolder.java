@@ -88,8 +88,8 @@ public class LocationViewHolder extends BaseMessageViewHolder<UIMessage> {
             mImageLoader.loadImage(getContext(), ImageConfigImpl.builder()
                     .imageView(msgIvLocation)
                     .url(getLocationUrl(locationElem.getLatitude(), locationElem.getLongitude()))
-                    .errorPic(R.drawable.im_image_message_placeholder)
-                    .placeholder(R.drawable.im_image_message_placeholder)
+                    .errorPic(R.drawable.im_img_map_placeholder)
+                    .placeholder(R.drawable.im_img_map_placeholder)
                     .transformation(new RoundedCornersTransformation(getContext().getResources().getDimensionPixelSize(R.dimen.im_msg_image_radius), 0, RoundedCornersTransformation.CornerType.ALL))
                     .build());
         }

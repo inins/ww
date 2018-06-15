@@ -116,9 +116,11 @@ public class SocialListActivity extends BaseAppActivity<SocialListPresenter> imp
     private List<AutoPopupItemModel> getMenuItems() {
         List<AutoPopupItemModel> items = new ArrayList<>();
         AutoPopupItemModel createModel = new AutoPopupItemModel(0, R.string.im_create_social);
+        AutoPopupItemModel createTeamModel = new AutoPopupItemModel(0, R.string.im_create_team);
         AutoPopupItemModel scanModel = new AutoPopupItemModel(0, R.string.im_scan);
         AutoPopupItemModel contactsModel = new AutoPopupItemModel(0, R.string.im_contacts);
         items.add(createModel);
+        items.add(createTeamModel);
         items.add(scanModel);
         items.add(contactsModel);
         return items;
@@ -133,6 +135,8 @@ public class SocialListActivity extends BaseAppActivity<SocialListPresenter> imp
             ScanActivity.start(this);
         } else if (resId == R.string.im_contacts) {
             PhoneBookActivity.start(this);
+        } else if (resId == R.string.im_create_team) {
+            CTSocialListActivity.start(this);
         }
     }
 }

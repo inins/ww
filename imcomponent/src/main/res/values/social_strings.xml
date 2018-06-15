@@ -46,6 +46,7 @@
     <!-- 创建趣聊 -->
     <string name="im_create">创建</string>
     <string name="im_create_social">创建趣聊</string>
+    <string name="im_create_team">创建觅聊</string>
     <string name="im_create_social_title_tip">往往-因你而个性</string>
     <string name="im_click_update">单击修改</string>
     <string name="im_name_for_social">为趣聊命名</string>

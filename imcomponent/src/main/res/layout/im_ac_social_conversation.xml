@@ -31,7 +31,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:toolbar_left_icon="@drawable/common_ic_back" />
+        app:toolbar_left_icon="@drawable/common_ic_back"
+        app:toolbar_right_icon="@drawable/im_ic_more_dark" />
 
     <LinearLayout
         android:id="@+id/sc_ll_info"

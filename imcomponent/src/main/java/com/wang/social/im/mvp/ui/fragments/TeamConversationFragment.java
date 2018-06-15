@@ -175,9 +175,14 @@ public class TeamConversationFragment extends BaseConversationFragment {
         });
     }
 
-    @OnClick(R2.id.tc_ll_info)
-    public void onViewClicked() {
-        TeamHomeActivity.start(getContext(), ImHelper.imId2WangId(targetId));
+    @OnClick({R2.id.tc_fl_more, R2.id.tc_fl_mirror})
+    public void onViewClicked(View view) {
+        if (view.getId() == R.id.tc_fl_more) {
+            TeamHomeActivity.start(getContext(), ImHelper.imId2WangId(targetId));
+        } else if (view.getId() == R.id.tc_fl_mirror) {
+            String mirrorId = targetId.replace(IMConstants.IM_IDENTITY_PREFIX_TEAM, IMConstants.IM_IDENTITY_PREFIX_MIRROR);
+            ((GroupConversationActivity) getActivity()).gotoMirror(mirrorId);
+        }
     }
 
     @Override

@@ -148,6 +148,9 @@ public class SocialConversationFragment extends BaseConversationFragment {
                     case LEFT_ICON:
                         getActivity().onBackPressed();
                         break;
+                    case RIGHT_ICON:
+                        SocialHomeActivity.start(getContext(), ImHelper.imId2WangId(targetId));
+                        break;
                 }
             }
         });
@@ -158,11 +161,6 @@ public class SocialConversationFragment extends BaseConversationFragment {
                 return true;
             }
         });
-    }
-
-    @OnClick(R2.id.sc_ll_info)
-    public void onViewClicked() {
-        SocialHomeActivity.start(getContext(), ImHelper.imId2WangId(targetId));
     }
 
     @Override

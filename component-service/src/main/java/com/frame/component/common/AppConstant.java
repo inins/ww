@@ -43,6 +43,18 @@ public class AppConstant {
          * 动态：话题
          */
         public static final String OPEN_TARGET_DYNAMIC_TOPIC = "dynamic_topic";
+        /**
+         * 会话：私聊
+         */
+        public static final String OPEN_TARGET_C2C = "cvs_c2c";
+        /**
+         * 会话：觅聊
+         */
+        public static final String OPEN_TARGET_TEAM = "cvs_team";
+        /**
+         * 会话：趣聊
+         */
+        public static final String OPEN_TARGET_SOCIAL = "cvs_social";
         /************************************************************************************/
     }
 
@@ -119,7 +131,7 @@ public class AppConstant {
         //##################################
 
         //给个好评，跳转页面
-        public static final String eva = "http://sj.qq.com/myapp/detail.htm?apkName=com.dongdongkeji.wangwangsocial";
+        public static final String eva = "http://t.cn/RBSarFb";
     }
 
     /**

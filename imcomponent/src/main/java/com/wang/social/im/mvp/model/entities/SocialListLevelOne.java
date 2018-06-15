@@ -16,7 +16,7 @@ import lombok.Setter;
  */
 public class SocialListLevelOne implements ExpandableListItem {
 
-    public boolean expanded = false;
+    public boolean expanded = true;
     @Getter
     @Setter
     public String title;

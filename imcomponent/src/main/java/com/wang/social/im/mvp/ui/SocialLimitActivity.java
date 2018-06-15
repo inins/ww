@@ -151,20 +151,14 @@ public class SocialLimitActivity extends BasicAppActivity implements IView {
             }
         });
 
-        slRgGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-            }
-        });
-
         slCbAgeUnlimited.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     slCb90.setChecked(false);
-                    slCb90.setChecked(false);
+                    slCb95.setChecked(false);
                     slCb00.setChecked(false);
+                    slCbOther.setChecked(false);
 
                     social.getAttr().getAgeLimit().add(SocialAttribute.AgeLimit.UNLIMITED);
                 } else {

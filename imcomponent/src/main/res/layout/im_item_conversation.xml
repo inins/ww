@@ -24,6 +24,14 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/common_default_circle_placeholder" />
 
+        <ImageView
+            android:id="@+id/icv_iv_identity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="@id/icv_iv_portrait"
+            app:layout_constraintTop_toTopOf="@id/icv_iv_portrait"
+            tools:src="@drawable/im_ic_cv_social" />
+
         <TextView
             android:id="@+id/icv_tv_name"
             android:layout_width="wrap_content"

@@ -18,9 +18,11 @@ import android.text.TextUtils;
 import com.frame.component.common.AppConstant;
 import com.frame.component.enums.ConversationType;
 import com.frame.component.utils.viewutils.AppUtil;
+import com.frame.di.component.AppComponent;
 import com.frame.utils.AppUtils;
 import com.frame.utils.FrameUtils;
 import com.google.gson.Gson;
+import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMCustomElem;
 import com.tencent.imsdk.TIMElem;
@@ -187,7 +189,7 @@ public class GlobalMessageEvent extends Observable implements TIMMessageListener
         //显示通知
         UIMessage uiMessage = UIMessage.obtain(timMessage);
         NotificationCompat.Builder builder = getBuilder("新消息", uiMessage.getSummary());
-        Intent intent = mApplication.getApplicationContext().getPackageManager().getLaunchIntentForPackage(mApplication.getPackageName());
+        Intent intent = buildIntent(timMessage);
         builder.setContentIntent(PendingIntent.getActivity(mApplication, (int) SystemClock.uptimeMillis(), intent, PendingIntent.FLAG_UPDATE_CURRENT));
         ((NotificationManager) mApplication.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE)).notify(IMConstants.SERVER_PUSH_MESSAGE_ACCOUNT, 521, builder.build());
     }
@@ -281,6 +283,17 @@ public class GlobalMessageEvent extends Observable implements TIMMessageListener
                             .appendQueryParameter("targetId", TextUtils.isEmpty(message.getModePkId()) ? message.getModeId() : message.getModePkId());
                     break;
             }
+        } else if (msg instanceof TIMMessage) {
+            TIMMessage message = (TIMMessage) msg;
+            TIMConversation conversation = message.getConversation();
+            if (conversation.getPeer().startsWith(IMConstants.IM_IDENTITY_PREFIX_TEAM)) {
+                uriBuilder.appendQueryParameter("target", AppConstant.Key.OPEN_TARGET_TEAM);
+            } else if (conversation.getPeer().startsWith(IMConstants.IM_IDENTITY_PREFIX_SOCIAL)) {
+                uriBuilder.appendQueryParameter("target", AppConstant.Key.OPEN_TARGET_SOCIAL);
+            } else if (conversation.getType() == TIMConversationType.C2C) {
+                uriBuilder.appendQueryParameter("target", AppConstant.Key.OPEN_TARGET_C2C);
+            }
+            uriBuilder.appendQueryParameter("targetId", conversation.getPeer());
         }
         return new Intent("android.intent.action.VIEW", uriBuilder.build());
     }

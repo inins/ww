@@ -42,15 +42,30 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:toolbar_left_icon="@drawable/common_ic_back_white"
-            app:toolbar_right_icon="@drawable/im_ic_mirror" />
+            app:toolbar_left_icon="@drawable/common_ic_back_white" />
 
-        <View
-            android:id="@+id/tc_fl_high"
-            android:layout_width="33dp"
-            android:layout_height="33dp"
-            android:layout_gravity="end|center_vertical"
-            android:layout_marginEnd="10.5dp" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical">
+
+            <ImageView
+                android:id="@+id/tc_fl_mirror"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="9dp"
+                android:src="@drawable/im_ic_mirror" />
+
+            <ImageView
+                android:id="@+id/tc_fl_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingBottom="5dp"
+                android:paddingEnd="@dimen/common_border_margin"
+                android:paddingTop="5dp"
+                android:src="@drawable/common_ic_more_white" />
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/tc_ll_info"

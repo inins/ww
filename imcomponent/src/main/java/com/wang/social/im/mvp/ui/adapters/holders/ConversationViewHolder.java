@@ -50,6 +50,8 @@ public class ConversationViewHolder extends BaseViewHolder<UIConversation> {
     TextView imTvbDelete;
     @BindView(R2.id.icv_cl_content)
     ConstraintLayout icvClContent;
+    @BindView(R2.id.icv_iv_identity)
+    ImageView icvIvIdentity;
 
     ImageLoader mImageLoader;
 
@@ -68,17 +70,21 @@ public class ConversationViewHolder extends BaseViewHolder<UIConversation> {
 
         icvTvName.setText(name);
 
-        int defaultPortrait = R.drawable.im_round_image_placeholder;
         if (itemValue.getConversationType() == ConversationType.SOCIAL) {
-            defaultPortrait = R.drawable.im_placeholder_social;
+            icvIvIdentity.setVisibility(View.VISIBLE);
+            icvIvIdentity.setImageResource(R.drawable.im_ic_cv_social);
         } else if (itemValue.getConversationType() == ConversationType.TEAM) {
-            defaultPortrait = R.drawable.im_placeholder_team;
+            icvIvIdentity.setVisibility(View.VISIBLE);
+            icvIvIdentity.setImageResource(R.drawable.im_ic_cv_team);
+        } else {
+            icvIvIdentity.setVisibility(View.GONE);
         }
 
+        int defaultPortrait = R.drawable.common_default_circle_placeholder;
         mImageLoader.loadImage(getContext(), ImageConfigImpl.builder()
                 .errorPic(defaultPortrait)
                 .placeholder(defaultPortrait)
-                .transformation(new RoundedCornersTransformation(UIUtil.getDimen(R.dimen.im_round_image_radius), 0, RoundedCornersTransformation.CornerType.ALL))
+                .isCircle(true)
                 .imageView(icvIvPortrait)
                 .url(portrait)
                 .build());

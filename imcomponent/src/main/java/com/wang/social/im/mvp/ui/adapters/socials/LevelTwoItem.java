@@ -39,12 +39,12 @@ public class LevelTwoItem extends AbstractExpandableAdapterItem {
         float start, target;
         if (expanded) {
             start = 0f;
-            target = 90f;
+            target = 180f;
             if (getExpandableListItem().getChildItemList() != null && !getExpandableListItem().getChildItemList().isEmpty()) {
                 clContent.setBackgroundResource(R.drawable.common_bg_white_top_corners_normal);
             }
         } else {
-            start = 90f;
+            start = 180f;
             target = 0f;
             clContent.setBackgroundResource(R.drawable.common_bg_white_corners_normal);
         }
@@ -91,7 +91,7 @@ public class LevelTwoItem extends AbstractExpandableAdapterItem {
     @Override
     public void onSetViews() {
         ivArrow.setImageResource(0);
-        ivArrow.setImageResource(R.drawable.common_ic_next);
+        ivArrow.setImageResource(R.drawable.im_ic_collapse);
     }
 
     @Override

@@ -54,40 +54,42 @@
     <uses-permission android:name="com.dongdongkeji.wangwangsocial.permission.C2D_MESSAGE" />
     <!-- 魅族推送END -->
 
+
     <!-- Badge Start -->
-    <!--for Samsung-->
+    <!-- for Samsung -->
     <uses-permission android:name="com.sec.android.provider.badge.permission.READ" />
     <uses-permission android:name="com.sec.android.provider.badge.permission.WRITE" />
 
-    <!--for htc-->
+    <!-- for htc -->
     <uses-permission android:name="com.htc.launcher.permission.READ_SETTINGS" />
     <uses-permission android:name="com.htc.launcher.permission.UPDATE_SHORTCUT" />
 
-    <!--for sony-->
+    <!-- for sony -->
     <uses-permission android:name="com.sonyericsson.home.permission.BROADCAST_BADGE" />
     <uses-permission android:name="com.sonymobile.home.permission.PROVIDER_INSERT_BADGE" />
 
-    <!--for apex-->
+    <!-- for apex -->
     <uses-permission android:name="com.anddoes.launcher.permission.UPDATE_COUNT" />
 
-    <!--for solid-->
+    <!-- for solid -->
     <uses-permission android:name="com.majeur.launcher.permission.UPDATE_BADGE" />
 
-    <!--for huawei-->
+    <!-- for huawei -->
     <uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE" />
     <uses-permission android:name="com.huawei.android.launcher.permission.READ_SETTINGS" />
     <uses-permission android:name="com.huawei.android.launcher.permission.WRITE_SETTINGS" />
 
-    <!--for ZUK-->
+    <!-- for ZUK -->
     <uses-permission android:name="android.permission.READ_APP_BADGE" />
 
-    <!--for OPPO-->
+    <!-- for OPPO -->
     <uses-permission android:name="com.oppo.launcher.permission.READ_SETTINGS" />
     <uses-permission android:name="com.oppo.launcher.permission.WRITE_SETTINGS" />
 
-    <!--for EvMe-->
+    <!-- for EvMe -->
     <uses-permission android:name="me.everything.badger.permission.BADGE_COUNT_READ" />
     <uses-permission android:name="me.everything.badger.permission.BADGE_COUNT_WRITE" />
+
     <!-- Badge End -->
     <application
         android:allowBackup="true"
@@ -102,7 +104,6 @@
             android:name="com.tencent.qalsdk.service.QalService"
             android:exported="true"
             android:process=":QALSERVICE">
-
             <intent-filter android:priority="1000">
                 <action android:name="android.intent.action.RESPOND_VIA_MESSAGE" />
             </intent-filter>
@@ -111,7 +112,6 @@
             android:name="com.tencent.qalsdk.service.QalAssistService"
             android:exported="false"
             android:process=":QALSERVICE">
-
             <intent-filter android:priority="1000">
                 <action android:name="android.intent.action.RESPOND_VIA_MESSAGE" />
             </intent-filter>
@@ -365,7 +365,8 @@
             android:name=".mvp.ui.GroupInviteDetailActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".mvp.ui.GroupMiInviteDetailActivity"
+        <activity
+            android:name=".mvp.ui.GroupMiInviteDetailActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
@@ -427,9 +428,10 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/im_remote_login" />
-
-        <activity android:name=".mvp.ui.OfficialChatRobot.OfficialChatRobotActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".mvp.ui.OfficialChatRobot.OfficialChatRobotActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".mvp.ui.CTSocialListActivity"></activity>
     </application>
 
 </manifest>
