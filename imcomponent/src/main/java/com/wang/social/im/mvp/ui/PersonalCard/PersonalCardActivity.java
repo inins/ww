@@ -44,6 +44,7 @@ import com.frame.component.ui.fragment.TalkListFragment;
 import com.frame.component.ui.fragment.TopicListFragment;
 import com.wang.social.im.mvp.ui.PersonalCard.ui.widget.AppBarStateChangeListener;
 import com.wang.social.im.mvp.ui.PersonalCard.ui.widget.PWFriendMoreMenu;
+import com.wang.social.pictureselector.ActivityPicturePreview;
 import com.wang.social.pictureselector.helper.PhotoHelper;
 import com.wang.social.pictureselector.helper.PhotoHelperEx;
 
@@ -577,6 +578,13 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
         eventBean.put("userid", mUserId);
         eventBean.put("isBlack", isBlack);
         EventBus.getDefault().post(eventBean);
+    }
+
+    @OnClick(R2.id.avatar_image_view)
+    public void showAvatar() {
+        if (null != mPersonalInfo && !TextUtils.isEmpty(mPersonalInfo.getAvatar())) {
+            ActivityPicturePreview.startBrowse(this, mPersonalInfo.getAvatar());
+        }
     }
 
     @OnClick(R2.id.report_text_view)

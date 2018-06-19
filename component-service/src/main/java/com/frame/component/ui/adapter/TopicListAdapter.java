@@ -130,6 +130,14 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
                                     .url(topic.getAvatar())
                                     .isCircle(true)
                                     .build());
+            // 点击头像打开名片
+            holder.avatarIV.setTag(topic);
+            holder.avatarIV.setOnClickListener(v -> {
+                if (v.getTag() instanceof  Topic) {
+                    Topic t = (Topic) v.getTag();
+                    CommonHelper.ImHelper.startPersonalCardForBrowse(mActivity, t.getCreatorId());
+                }
+            });
         }
         // 用户昵称
         holder.userNameTV.setText(topic.getNickname());
