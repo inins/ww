@@ -35,6 +35,6 @@ public class CTSocialListModel extends BaseModel implements CTSocialListContract
     public Observable<BaseJson<ListDataDTO<SimpleSocialDTO, SimpleSocial>>> getSocials() {
         return mRepositoryManager
                 .obtainRetrofitService(GroupService.class)
-                .getSocialList("2.0.0", AppDataHelper.getUser().getUserId(), 0);
+                .getSocialList("2.0.1", AppDataHelper.getUser().getUserId(), 0);
     }
 }

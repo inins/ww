@@ -131,7 +131,7 @@ public class AppConstant {
         //##################################
 
         //给个好评，跳转页面
-        public static final String eva = "http://t.cn/RBSarFb";
+        public static final String eva = "http://t.cn/RBBheYE";
     }
 
     /**
