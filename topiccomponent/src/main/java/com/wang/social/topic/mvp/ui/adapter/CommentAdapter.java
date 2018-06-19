@@ -1,5 +1,6 @@
 package com.wang.social.topic.mvp.ui.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.frame.component.helper.CommonHelper;
+import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.utils.SpannableStringUtil;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.utils.FrameUtils;
@@ -30,6 +33,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         void onSupport(Comment comment);
     }
 
+    private Activity mActivity;
     private Context mContext;
     private List<Comment> mCommentList;
     private ClickListener mClickListener;
@@ -38,6 +42,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     public CommentAdapter(RecyclerView recyclerView, List<Comment> list) {
         mContext = recyclerView.getContext().getApplicationContext();
         mCommentList = list;
+    }
+
+    public void setActivity(Activity activity) {
+        mActivity = activity;
     }
 
     public void setClickListener(ClickListener clickListener) {
@@ -65,14 +73,16 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         holder.avatarIV.setVisibility(View.INVISIBLE);
         if (!TextUtils.isEmpty(comment.getAvatar())) {
             holder.avatarIV.setVisibility(View.VISIBLE);
-            FrameUtils.obtainAppComponentFromContext(mContext)
-                    .imageLoader()
-                    .loadImage(mContext,
-                            ImageConfigImpl.builder()
-                                    .imageView(holder.avatarIV)
-                                    .url(comment.getAvatar())
-                                    .isCircle(true)
-                                    .build());
+//            FrameUtils.obtainAppComponentFromContext(mContext)
+//                    .imageLoader()
+//                    .loadImage(mContext,
+//                            ImageConfigImpl.builder()
+//                                    .imageView(holder.avatarIV)
+//                                    .url(comment.getAvatar())
+//                                    .isCircle(true)
+//                                    .build());
+
+            ImageLoaderHelper.loadCircleImg(holder.avatarIV, comment.getAvatar());
         }
         // 创建日期
         holder.createDateTV.setText(StringUtil.formatCreateDate(mContext, comment.getCreateTime()));
@@ -153,12 +163,17 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
         // 点击回复
         holder.rootView.setTag(comment);
-        holder.rootView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (v.getTag() instanceof Comment) {
-                    reply((Comment) v.getTag());
-                }
+        holder.rootView.setOnClickListener(v -> {
+            if (v.getTag() instanceof Comment) {
+                reply((Comment) v.getTag());
+            }
+        });
+
+        // 点击头像昵称区域进入用户名片
+        holder.userInfoLayout.setTag(comment);
+        holder.userInfoLayout.setOnClickListener(v -> {
+            if (v.getTag() instanceof Comment && null != mActivity) {
+                CommonHelper.ImHelper.startPersonalCardForBrowse(mActivity, comment.getUserId());
             }
         });
     }
@@ -195,6 +210,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         TextView createDateTV;
         TextView contentTV;
         TextView replyTV;
+        View userInfoLayout;
 
 
         public ViewHolder(View itemView) {
@@ -208,6 +224,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
             createDateTV = itemView.findViewById(R.id.create_date_text_view);
             contentTV = itemView.findViewById(R.id.content_text_view);
             replyTV = itemView.findViewById(R.id.reply_text_view);
+            userInfoLayout = itemView.findViewById(R.id.user_info_layout);
         }
     }
 }

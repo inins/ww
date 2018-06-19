@@ -221,6 +221,7 @@ public class CommentActivity extends BaseAppActivity<CommentPresenter> implement
         if (mLevel == SECOND_LEVEL) {
             // 评论回复
             mAdapter = new CommentReplyAdapter(mRecyclerView, mPresenter.getCommentList());
+            ((CommentReplyAdapter) mAdapter).setActivity(this);
             ((CommentReplyAdapter) mAdapter).setClickListener(new CommentReplyAdapter.ClickListener() {
                 @Override
                 public void onReply(Comment comment) {
@@ -243,6 +244,7 @@ public class CommentActivity extends BaseAppActivity<CommentPresenter> implement
         } else {
             // 话题评论
             mAdapter = new CommentAdapter(mRecyclerView, mPresenter.getCommentList());
+            ((CommentAdapter) mAdapter).setActivity(this);
             ((CommentAdapter) mAdapter).setClickListener(new CommentAdapter.ClickListener() {
                 /**
                  * 打开评论二级页面
@@ -322,6 +324,9 @@ public class CommentActivity extends BaseAppActivity<CommentPresenter> implement
         mCommentSortPopWindow.showAsDropDown(v, -SizeUtils.dp2px(5), 0, Gravity.RIGHT);
     }
 
+    /**
+     * 发送评论
+     */
     @OnClick(R2.id.send_text_view)
     public void sendComment() {
         if (mCommentET.getText().length() > 150) {

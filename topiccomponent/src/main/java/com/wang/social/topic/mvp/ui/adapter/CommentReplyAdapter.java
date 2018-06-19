@@ -1,5 +1,6 @@
 package com.wang.social.topic.mvp.ui.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
@@ -12,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.frame.component.helper.CommonHelper;
+import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.utils.SpannableStringUtil;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.utils.FrameUtils;
@@ -28,6 +31,7 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
         void onSupport(Comment comment);
     }
 
+    private Activity mActivity;
     Context mContext;
     List<Comment> mCommentList;
     ClickListener mClickListener;
@@ -35,6 +39,10 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
     public CommentReplyAdapter(RecyclerView recyclerView, List<Comment> list) {
         mContext = recyclerView.getContext().getApplicationContext();
         mCommentList = list;
+    }
+
+    public void setActivity(Activity activity) {
+        mActivity = activity;
     }
 
     public void setClickListener(ClickListener clickListener) {
@@ -95,13 +103,14 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
         holder.avatarIV.setVisibility(View.INVISIBLE);
         if (!TextUtils.isEmpty(comment.getAvatar())) {
             holder.avatarIV.setVisibility(View.VISIBLE);
-            FrameUtils.obtainAppComponentFromContext(mContext)
-                    .imageLoader()
-                    .loadImage(mContext,
-                            ImageConfigImpl.builder()
-                            .imageView(holder.avatarIV)
-                            .url(comment.getAvatar())
-                            .build());
+//            FrameUtils.obtainAppComponentFromContext(mContext)
+//                    .imageLoader()
+//                    .loadImage(mContext,
+//                            ImageConfigImpl.builder()
+//                            .imageView(holder.avatarIV)
+//                            .url(comment.getAvatar())
+//                            .build());
+            ImageLoaderHelper.loadCircleImg(holder.avatarIV, comment.getAvatar());
         }
         // 昵称
         holder.nickNameTV.setText(comment.getNickname());
@@ -127,15 +136,21 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
             holder.contentTV.setText(comment.getContent());
         }
 
+        // 点击回复
         holder.rootView.setTag(comment);
-        holder.rootView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (v.getTag() instanceof Comment) {
-                    if (null != mClickListener) {
-                        mClickListener.onReply((Comment)v.getTag());
-                    }
+        holder.rootView.setOnClickListener(v -> {
+            if (v.getTag() instanceof Comment) {
+                if (null != mClickListener) {
+                    mClickListener.onReply((Comment)v.getTag());
                 }
+            }
+        });
+
+        // 点击头像昵称区域进入用户名片
+        holder.userInfoLayout.setTag(comment);
+        holder.userInfoLayout.setOnClickListener(v -> {
+            if (v.getTag() instanceof Comment && null != mActivity) {
+                CommonHelper.ImHelper.startPersonalCardForBrowse(mActivity, comment.getUserId());
             }
         });
     }
@@ -155,6 +170,7 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
         TextView contentTV;
         View divider0;
         View divider1;
+        View userInfoLayout;
 
 
         public ViewHolder(View itemView) {
@@ -169,6 +185,7 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
             contentTV = itemView.findViewById(R.id.content_text_view);
             divider0 = itemView.findViewById(R.id.divider_0);
             divider1 = itemView.findViewById(R.id.divider_1);
+            userInfoLayout = itemView.findViewById(R.id.user_info_layout);
         }
     }
 }

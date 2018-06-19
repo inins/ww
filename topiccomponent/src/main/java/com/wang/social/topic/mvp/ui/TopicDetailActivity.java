@@ -10,6 +10,7 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.NestedScrollView;
@@ -82,11 +83,12 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.Optional;
 import timber.log.Timber;
 
 import static com.frame.utils.ToastUtil.showToastLong;
 
-@RouteNode(path = "/topic_detail", desc = "话题详情")
+@RouteNode(path="/topic_detail", desc="话题详情")
 public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> implements TopicDetailContract.View {
     private static final String SETUP_HTML = "file:///android_asset/editor.html";
     public final static String NAME_TOPIC_ID = "NAME_TOPIC_ID";
@@ -180,7 +182,13 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
     @BindView(R2.id.share_text_view)
     TextView mShareTV;
 
+    // 音乐播放器，用于播放语音
     private XMediaPlayer mXMediaPlayer;
+    // 话题ID
+    private int mTopicId;
+    private int mCreatorId;
+    // 话题详情
+    private TopicDetail mTopicDetail;
 
     private void initXMeidaPlayer() {
         mXMediaPlayer = new XMediaPlayer();
@@ -229,11 +237,6 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
         EventBus.getDefault().post(eventBean);
         finish();
     }
-
-    // 话题ID
-    private int mTopicId;
-    private int mCreatorId;
-    private TopicDetail mTopicDetail;
 
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
@@ -713,6 +716,19 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
         }
     }
 
+
+    /**
+     * 点击头像和昵称跳转到用户名片
+     */
+    @Optional
+    @OnClick({R2.id.avatar_image_view, R2.id.nick_name_text_view, R2.id.no_bg_img_nick_name_text_view})
+    public void openPersonalCard() {
+        CommonHelper.ImHelper.startPersonalCardForBrowse(this, mTopicDetail.getCreatorId());
+    }
+
+    /**
+     * 删除或举报
+     */
     @OnClick(R2.id.report_text_view)
     public void report() {
         if (mReportTV.getText().equals("删除")) {
@@ -729,16 +745,25 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
         }
     }
 
+    /**
+     * 点赞
+     */
     @OnClick(R2.id.support_layout)
     public void support() {
         mPresenter.topicSupport();
     }
 
+    /**
+     * 评论
+     */
     @OnClick(R2.id.comment_layout)
     public void comment() {
         CommentActivity.startFirstLevel(this, mTopicId, mCreatorId);
     }
 
+    /**
+     * 分享
+     */
     @OnClick(R2.id.share_layout)
     public void share() {
         if (null == mTopicDetail) return;
