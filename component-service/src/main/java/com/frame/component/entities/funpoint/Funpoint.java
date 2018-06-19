@@ -2,13 +2,14 @@ package com.frame.component.entities.funpoint;
 
 import com.frame.utils.TimeUtils;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import lombok.Data;
 
 @Data
-public class Funpoint {
+public class Funpoint  implements Serializable {
 
     /**
      * newsId : 9

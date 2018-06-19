@@ -36,11 +36,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
+                android:singleLine="true"
                 android:textColor="@color/common_text_blank"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/img_pic"
-                tools:text="猫饼" />
+                tools:text="猫饼\n\n猫病" />
 
             <TextView
                 android:id="@+id/text_lable_gender"

@@ -33,6 +33,7 @@ import com.frame.utils.TimeUtils;
 import com.frame.utils.ToastUtil;
 import com.wang.social.home.R;
 import com.wang.social.home.R2;
+import com.wang.social.home.helper.CatchHelper;
 import com.wang.social.home.mvp.entities.funshow.FunshowHome;
 import com.wang.social.home.mvp.model.api.HomeService;
 
@@ -123,7 +124,9 @@ public class HomeFunshowController extends BaseController {
 
     @Override
     protected void onInitData() {
-        netGetNewFunshow(true);
+        //加载缓存
+        setFunshowData(CatchHelper.getFunshowHome());
+        netGetNewFunshow(false);
     }
 
     private void setFunshowData(FunshowHome bean) {
@@ -198,6 +201,8 @@ public class HomeFunshowController extends BaseController {
                         BaseListWrap<FunshowHome> wrap = basejson.getData();
                         List<FunshowHome> list = wrap.getList();
                         if (!StrUtil.isEmpty(list)) {
+                            //加入缓存
+                            CatchHelper.saveFunshowHome(list.get(0));
                             setFunshowData(list.get(0));
                         }
                     }

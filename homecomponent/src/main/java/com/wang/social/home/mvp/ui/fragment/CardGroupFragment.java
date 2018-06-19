@@ -35,6 +35,7 @@ import com.wang.social.home.R;
 import com.wang.social.home.R2;
 import com.wang.social.home.common.CardLayoutManager;
 import com.wang.social.home.common.ItemTouchCardCallback;
+import com.wang.social.home.helper.CatchHelper;
 import com.wang.social.home.mvp.entities.card.CardGroup;
 import com.wang.social.home.mvp.entities.card.CardUser;
 import com.wang.social.home.mvp.model.api.HomeService;
@@ -125,7 +126,12 @@ public class CardGroupFragment extends BasicNoDiFragment implements RecycleAdapt
             }
         });
 
-        netGetCardGroups(true);
+        //先加载本地缓存
+        adapter.refreshData(CatchHelper.getCardGroup());
+        //如果缓存数据<20条则加载网络数据
+        if (adapter.getItemCount() < 20) {
+            netGetCardGroups(false);
+        }
         layoutMeasure();
     }
 
@@ -159,6 +165,13 @@ public class CardGroupFragment extends BasicNoDiFragment implements RecycleAdapt
     @Override
     public void onItemScroll(CardGroup bean, RecycleAdapterCardGroup.Holder holder) {
         itemTouchHelper.startSwipe(holder);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //加入本地缓存
+        CatchHelper.saveCardGroup(adapter.getData());
     }
 
     //////////////////////分页查询////////////////////
@@ -203,10 +216,10 @@ public class CardGroupFragment extends BasicNoDiFragment implements RecycleAdapt
                     }
                 }, () -> {
                     hasLoad = true;
-                    if (layLoading != null) layLoading.setVisibility(View.VISIBLE);
+                    if (needLoading && layLoading != null) layLoading.setVisibility(View.VISIBLE);
                 }, () -> {
                     hasLoad = false;
-                    if (layLoading != null) layLoading.setVisibility(View.GONE);
+                    if (needLoading && layLoading != null) layLoading.setVisibility(View.GONE);
                 });
     }
 
