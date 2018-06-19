@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckedTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -119,28 +120,23 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
             holder.imageCV.setVisibility(View.GONE);
         }
         // 用户头像
-        holder.avatarIV.setVisibility(View.INVISIBLE);
-        if (!TextUtils.isEmpty(topic.getAvatar())) {
-            holder.avatarIV.setVisibility(View.VISIBLE);
-            FrameUtils.obtainAppComponentFromContext(mContext)
-                    .imageLoader()
-                    .loadImage(mContext,
-                            ImageConfigImpl.builder()
-                                    .imageView(holder.avatarIV)
-                                    .url(topic.getAvatar())
-                                    .isCircle(true)
-                                    .build());
-        }
+        ImageLoaderHelper.loadCircleImg(holder.avatarIV, topic.getAvatar());
         // 用户昵称
         holder.userNameTV.setText(topic.getNickname());
+
+        // 点击头像和昵称跳转到用户名片
+        holder.userInfoLayout.setTag(topic);
+        holder.userInfoLayout.setOnClickListener(v -> {
+            if (v.getTag() instanceof  Topic) {
+                Topic t = (Topic) v.getTag();
+                CommonHelper.ImHelper.startPersonalCardForBrowse(mActivity, t.getCreatorId());
+            }
+        });
+
         // 是否点赞
-        if (topic.isSupport()) {
-            holder.praiseIV.setImageResource(R.drawable.common_ic_zan_hot);
-        } else {
-            holder.praiseIV.setImageResource(R.drawable.common_ic_zan);
-        }
-        holder.praiseIV.setTag(topic);
-        holder.praiseIV.setOnClickListener((View v) -> {
+        holder.praiseTV.setChecked(topic.isSupport());
+        holder.praiseTV.setTag(topic);
+        holder.praiseTV.setOnClickListener((View v) -> {
             if (v.getTag() instanceof Topic) {
                 Topic t = (Topic) v.getTag();
 
@@ -268,13 +264,11 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
         TextView userNameTV;
         CardView imageCV;
         ImageView imageView;
-        ImageView praiseIV;
-        TextView praiseTV;
-        ImageView commentIV;
+        CheckedTextView praiseTV;
         TextView commentTV;
-        ImageView readIV;
         TextView readTV;
         ConerTextView tagTV;
+        View userInfoLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -289,13 +283,11 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
             userNameTV = itemView.findViewById(R.id.user_name_text_view);
             imageCV = itemView.findViewById(R.id.card_pic);
             imageView = itemView.findViewById(R.id.image_view);
-            praiseIV = itemView.findViewById(R.id.praise_image_view);
             praiseTV = itemView.findViewById(R.id.praise_text_view);
-            commentIV = itemView.findViewById(R.id.comment_image_view);
             commentTV = itemView.findViewById(R.id.comment_text_view);
-            readIV = itemView.findViewById(R.id.read_image_view);
             readTV = itemView.findViewById(R.id.read_text_view);
             tagTV = itemView.findViewById(R.id.conertext_tag);
+            userInfoLayout = itemView.findViewById(R.id.user_info_layout);
         }
     }
 

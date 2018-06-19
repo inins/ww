@@ -69,23 +69,23 @@ public class GameRecordListAdapter extends RecyclerView.Adapter<GameRecordListAd
         } else if (game.getType() == GameRecord.TYPE_WIN) {
             holder.typeIV.setVisibility(View.VISIBLE);
             holder.typeIV.setImageResource(R.drawable.mt_ic_win);
+//            ImageLoaderHelper.loadImg(holder.typeIV, R.drawable.mt_ic_win);
         } else if (game.getType() == GameRecord.TYPE_LOSE) {
             holder.typeIV.setVisibility(View.VISIBLE);
             holder.typeIV.setImageResource(R.drawable.mt_ic_lose);
+//            ImageLoaderHelper.loadImg(holder.typeIV, R.drawable.mt_ic_lose);
         } else if (game.getType() == GameRecord.TYPE_TIE) {
             holder.typeIV.setVisibility(View.VISIBLE);
             holder.typeIV.setImageResource(R.drawable.mt_ic_tie);
+//            ImageLoaderHelper.loadImg(holder.typeIV, R.drawable.mt_ic_tie);
         } else if (game.getType() == GameRecord.TYPE_FAILED) {
 
         }
 
         holder.rootView.setTag(game);
-        holder.rootView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mClickListener && v.getTag() instanceof GameRecord) {
-                    mClickListener.onEnterRecordDetail((GameRecord) v.getTag());
-                }
+        holder.rootView.setOnClickListener(v -> {
+            if (null != mClickListener && v.getTag() instanceof GameRecord) {
+                mClickListener.onEnterRecordDetail((GameRecord) v.getTag());
             }
         });
     }

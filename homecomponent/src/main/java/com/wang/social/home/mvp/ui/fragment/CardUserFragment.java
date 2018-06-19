@@ -45,6 +45,7 @@ import com.wang.social.home.R;
 import com.wang.social.home.R2;
 import com.wang.social.home.common.CardLayoutManager;
 import com.wang.social.home.common.ItemTouchCardCallback;
+import com.wang.social.home.helper.CatchHelper;
 import com.wang.social.home.mvp.entities.card.CardUser;
 import com.wang.social.home.mvp.model.api.HomeService;
 import com.wang.social.home.mvp.ui.activity.CardDetailActivity;
@@ -138,7 +139,7 @@ public class CardUserFragment extends BasicNoDiFragment implements RecycleAdapte
                     });
                 });
             }
-            //如果剩余卡片小于小于5 张，则开始请求下一页数据
+            //如果剩余卡片小于小于10 张，则开始请求下一页数据
             if (adapter.getItemCount() < 10 && !hasLoad) {
                 netGetCardUsers(false, false);
             } else if (adapter.getItemCount() == 0) {
@@ -146,7 +147,12 @@ public class CardUserFragment extends BasicNoDiFragment implements RecycleAdapte
             }
         });
 
-        netGetCardUsers(true, false);
+        //先加载本地缓存
+        adapter.refreshData(CatchHelper.getCardUser());
+        //如果缓存数据<20条则加载网络数据
+        if (adapter.getItemCount() < 20) {
+            netGetCardUsers(false, false);
+        }
         layoutMeasure();
     }
 
@@ -197,6 +203,13 @@ public class CardUserFragment extends BasicNoDiFragment implements RecycleAdapte
     @Override
     public void onItemScroll(CardUser bean, RecycleAdapterCardUser.Holder holder) {
         itemTouchHelper.startSwipe(holder);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //加入本地缓存
+        CatchHelper.saveCardUser(adapter.getData());
     }
 
     //////////////////////分页查询////////////////////
@@ -255,10 +268,10 @@ public class CardUserFragment extends BasicNoDiFragment implements RecycleAdapte
                     }
                 }, () -> {
                     hasLoad = true;
-                    if (layLoading!=null)layLoading.setVisibility(View.VISIBLE);
+                    if (needLoading && layLoading != null) layLoading.setVisibility(View.VISIBLE);
                 }, () -> {
                     hasLoad = false;
-                    if (layLoading!=null)layLoading.setVisibility(View.GONE);
+                    if (needLoading && layLoading != null) layLoading.setVisibility(View.GONE);
                 });
     }
 

@@ -71,10 +71,10 @@ public class GameRecordListActivity extends BaseAppActivity<GameRecordListPresen
 
         mAdapter = new GameRecordListAdapter(mRecyclerView, mPresenter.getRecordList());
         mAdapter.setClickListener(this);
-        mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(
                 new LinearLayoutManager(
                         this, LinearLayoutManager.VERTICAL, false));
+        mRecyclerView.setAdapter(mAdapter);
 
         // 更新，加载更多
         mSpringView.setHeader(new AliHeader(mSpringView.getContext(), false));

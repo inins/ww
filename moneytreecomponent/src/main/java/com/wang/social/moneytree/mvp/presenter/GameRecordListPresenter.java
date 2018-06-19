@@ -66,16 +66,9 @@ public class GameRecordListPresenter extends
                     @Override
                     public void onError(Throwable e) {
                     }
-                }, new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                    }
-                }, new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mRootView.onLoadRecordListCompleted();
-                    }
-                });
+                },
+                disposable -> {},
+                () -> mRootView.onLoadRecordListCompleted());
     }
 
     @Override

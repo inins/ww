@@ -87,6 +87,9 @@ public class RecycleAdapterEva extends BaseAdapter<Comment> {
             imgHeader.setOnClickListener(v -> {
                 CommonHelper.ImHelper.startPersonalCardForBrowse(getContext(), bean.getUserId());
             });
+            text_name.setOnClickListener(v -> {
+                CommonHelper.ImHelper.startPersonalCardForBrowse(getContext(), bean.getUserId());
+            });
         }
 
         @Override

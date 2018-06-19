@@ -28,6 +28,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.wang.social.home.R;
 import com.wang.social.home.R2;
+import com.wang.social.home.helper.CatchHelper;
 import com.wang.social.home.mvp.contract.HomeContract;
 import com.wang.social.home.mvp.entities.FunpointAndTopic;
 import com.wang.social.home.mvp.entities.topic.TopicHome;
@@ -96,6 +97,8 @@ public class HomeContentController extends BaseController implements RecycleAdap
 
     @Override
     protected void onInitData() {
+        //加载缓存
+        adapter.refreshData(CatchHelper.getHomeContent());
         netGetFunpointAndTopicList(true);
     }
 
@@ -172,6 +175,8 @@ public class HomeContentController extends BaseController implements RecycleAdap
                             } else {
                                 adapter.addItem(ftList);
                             }
+                            //加入缓存
+                            CatchHelper.saveHomeContent(adapter.getData());
                         } else {
                             ToastUtil.showToastLong("没有更多数据了");
                         }

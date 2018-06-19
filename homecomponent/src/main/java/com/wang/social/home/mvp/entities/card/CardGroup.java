@@ -3,12 +3,13 @@ package com.wang.social.home.mvp.entities.card;
 import com.frame.component.entities.Tag;
 import com.frame.utils.StrUtil;
 
+import java.io.Serializable;
 import java.util.List;
 
 import lombok.Data;
 
 @Data
-public class CardGroup {
+public class CardGroup implements Serializable{
 
     /**
      * groupCoverPlan : http://resouce.dongdongwedding.com/FlUnlBWYWeg

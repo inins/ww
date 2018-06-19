@@ -5,40 +5,51 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/avatar_image_view"
-        android:layout_width="27dp"
-        android:layout_height="27dp"
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/user_info_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@color/common_blue_deep" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/avatar_image_view"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@color/common_blue_deep" />
 
 
-    <TextView
-        android:id="@+id/nick_name_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:textColor="#ff434343"
-        android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/avatar_image_view"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="婕欧巴的锅" />
+        <TextView
+            android:id="@+id/nick_name_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:textColor="#ff434343"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@+id/avatar_image_view"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="婕欧巴的锅" />
 
-    <TextView
-        android:id="@+id/create_date_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="4dp"
-        android:textColor="@color/common_text_dark"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/nick_name_text_view"
-        app:layout_constraintTop_toBottomOf="@+id/nick_name_text_view"
-        tools:text="05-11 10:30" />
+        <TextView
+            android:id="@+id/create_date_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/common_text_dark"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/nick_name_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/nick_name_text_view"
+            tools:text="05-11 10:30" />
+    </android.support.constraint.ConstraintLayout>
+
+
 
     <ImageView
         android:id="@+id/support_image_view"
