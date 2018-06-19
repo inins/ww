@@ -5,6 +5,8 @@ import com.frame.component.entities.config.MsgConfig;
 import com.frame.component.entities.msg.NotifySave;
 import com.frame.utils.SPUtils;
 
+import java.util.List;
+
 /**
  * Created by Administrator on 2018/4/3.
  */
@@ -18,7 +20,6 @@ public class AppDataHelper {
     private static final String KEY_MSGCONFIG = "msg_config";
     private static final String KEY_NOTIFY_SAVE = "notify_save";
     private static final String KEY_SOCIAL_TIP_ANIM = "social_anim";
-    private static final String KEY_SHOW_AGE = "show_age";
 
     /////////////////// 用户对象持久化 ///////////////////
 
@@ -97,4 +98,5 @@ public class AppDataHelper {
     public static void removeNotifySave() {
         SPUtils.getInstance(SHARENAME).remove(KEY_NOTIFY_SAVE);
     }
+
 }

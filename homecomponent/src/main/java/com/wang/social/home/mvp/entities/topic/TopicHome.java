@@ -3,12 +3,13 @@ package com.wang.social.home.mvp.entities.topic;
 import com.frame.component.entities.Tag;
 import com.frame.utils.StrUtil;
 
+import java.io.Serializable;
 import java.util.List;
 
 import lombok.Data;
 
 @Data
-public class TopicHome {
+public class TopicHome implements Serializable {
 
     /**
      * firstStrff : 好多好吃就放假经常坚持坚持姐姐飞机场忽大忽小不能吃就放假你才

@@ -2,10 +2,12 @@ package com.wang.social.home.mvp.entities.funshow;
 
 import com.frame.component.entities.funshow.FunshowBean;
 
+import java.io.Serializable;
+
 import lombok.Data;
 
 @Data
-public class FunshowHome {
+public class FunshowHome implements Serializable{
 
     /**
      * userId : 10008

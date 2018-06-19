@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
 import com.frame.component.entities.funpoint.Funpoint;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.helper.NetZanHelper;
 import com.frame.component.utils.viewutils.FontUtils;
@@ -150,6 +151,10 @@ public class RecycleAdapterHome extends BaseAdapter<FunpointAndTopic> {
 
             itemView.setOnClickListener(v -> {
                 if (onTopicClickListener != null) onTopicClickListener.onTopicClick(position, bean);
+            });
+
+            imgHeader.setOnClickListener(v -> {
+                CommonHelper.ImHelper.startPersonalCardForBrowse(getContext(), bean.getUserId());
             });
         }
 
