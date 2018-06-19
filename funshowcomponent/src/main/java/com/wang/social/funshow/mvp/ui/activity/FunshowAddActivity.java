@@ -124,7 +124,8 @@ public class FunshowAddActivity extends BasicAppActivity implements IView {
         postBean.setContent(editController.getContent());
         postBean.setCreatorId(AppDataHelper.getUser().getUserId());
         postBean.setIsAnonymous(tagController.isHideName() ? "1" : "0");   //是否匿名
-        postBean.setAuthority(bottomBarController.getLock());       //公开权限
+        //postBean.setAuthority(bottomBarController.getLock());       //公开权限
+        postBean.setAuthority(LockActivity.LOCK_ALL);                //趣晒锁功能被砍，这里默认全部传【全部可见】
         postBean.setRelateState(tagController.isPay() ? 1 : 0);     //是否收费
         postBean.setGemstone(tagController.getDiamond());           //付费钻石数
 

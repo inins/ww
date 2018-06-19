@@ -17,7 +17,7 @@ public class CommonMsg {
     private int readState;
 
     public boolean isRead() {
-        return readState == 1;
+        return readState != 0;
     }
 
     ////////////////////////////

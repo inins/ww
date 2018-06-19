@@ -25,7 +25,7 @@ public class MsgHelper {
             case SystemMessage.TYPE_GROUP_INVITE:
                 return CATE_JOIN;
             default:
-                return CATE_NONE;
+                return CATE_SYS;
         }
     }
 

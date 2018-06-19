@@ -251,10 +251,10 @@ public class ConversationListFragment extends BaseFragment<ConversationListPrese
         event.put("count", totalUnread);
         EventBus.getDefault().post(event);
 
-        Activity activity = getActivity();
-        if (activity != null) {
-            ShortcutBadger.applyCount(activity.getApplicationContext(), totalUnread);
-        }
+//        Activity activity = getActivity();
+//        if (activity != null) {
+//            ShortcutBadger.applyCount(activity.getApplicationContext(), totalUnread);
+//        }
 
         showNobody();
     }
