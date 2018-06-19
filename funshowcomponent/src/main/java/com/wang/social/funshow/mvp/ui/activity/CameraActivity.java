@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -99,7 +100,6 @@ public class CameraActivity extends AppCompatActivity {
         super.onResume();
         if (PermissionChecker.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
                 && PermissionChecker.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
-//            if (!camera_view.isStartCamera()) camera_view.start();
             if (!camera_view.isStarted()) camera_view.start();
         } else {
             Toast.makeText(this, "请允许应用申请权限", Toast.LENGTH_SHORT).show();
@@ -164,9 +164,9 @@ public class CameraActivity extends AppCompatActivity {
             @Override
             public void onImage(CameraKitImage cameraKitImage) {
                 Bitmap bitmap = cameraKitImage.getBitmap();
-                String toPath = FileUtil.getPhotoFullPath();
-                pathPhoto = BitmapUtil.saveBitmap(bitmap, toPath);             //保存图片到指定路径
                 img_pic.setImageBitmap(bitmap);
+                String toPath = FileUtil.getPhotoFullPath();
+                pathPhoto = BitmapUtil.saveBitmap(bitmap, toPath, Bitmap.CompressFormat.JPEG);             //保存图片到指定路径
             }
 
             @Override
@@ -180,25 +180,6 @@ public class CameraActivity extends AppCompatActivity {
         videobtn_camera.setOnVideoBtnListener(new VideoBtnView.OnVideoBtnListener() {
             @Override
             public void onClick(final View v) {
-//                camera_view.takePicture(new TextureCameraPreview.OnPictureTakenListener() {
-//                    @Override
-//                    public void onSuccess(Bitmap bitmap) {
-//                        String toPath = FileUtil.getPhotoFullPath();
-//                        //TODO:目前8.0黑鲨手机拍照后会被旋转-90度，其他手机正常，目前测试机少无法确定原因，目前暂且根据高宽对图片进行校正，如果发现图片宽>高则旋转90度，具体原因有待后期排查
-//                        int degree = 0;
-//                        if (bitmap.getWidth() > bitmap.getHeight()) {
-//                            degree = 90;
-//                        }
-//                        bitmap = BitmapUtil.rotateBitmap(degree, bitmap);           //根据旋转角度进行旋转
-//                        pathPhoto = BitmapUtil.saveBitmap(bitmap, toPath);             //保存图片到指定路径
-//                        img_pic.setImageBitmap(bitmap);
-//                    }
-//
-//                    @Override
-//                    public void onFailed(String msg) {
-//                        Toast.makeText(v.getContext(), msg, Toast.LENGTH_SHORT).show();
-//                    }
-//                });
                 camera_view.captureImage();
             }
 
@@ -235,7 +216,11 @@ public class CameraActivity extends AppCompatActivity {
                 setResult(RESULT_OK, intent);
                 finish();
             } else {
-                ToastUtil.showToastShort("请拍照");
+                if (img_pic.getVisibility() == View.VISIBLE) {
+                    ToastUtil.showToastShort("照片正在处理中，请稍后..");
+                } else {
+                    ToastUtil.showToastShort("请拍照");
+                }
             }
         }
     }

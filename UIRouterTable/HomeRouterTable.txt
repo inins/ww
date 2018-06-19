@@ -1,0 +1,7 @@
+auto generated, do not change !!!! 
+
+HOST : home
+
+个人详情页面（卡片页面进入）
+/user_detail
+

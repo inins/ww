@@ -79,6 +79,7 @@ public class RecycleAdapterCardUser extends BaseAdapter<CardUser> {
             textTag.setText(bean.getTagText());
             textPosition.setText(bean.getCity());
             textFlag.setText(bean.getPicCount() + "张图");
+            textFlag.setVisibility(bean.getPicCount() != 0 ? View.VISIBLE : View.GONE);
 
             //解析手势，同时识别点击事件和拖拽事件
             GestureDetectorCompat mGestureDetector = new GestureDetectorCompat(getContext(), new GestureDetector.SimpleOnGestureListener() {
