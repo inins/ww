@@ -3,20 +3,26 @@ package com.wang.social.funshow.mvp.ui.view.subevaview;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.text.SpannableStringBuilder;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.SelectHelper;
 import com.frame.component.utils.SpannableStringUtil;
+import com.frame.component.view.WWClickableSpan;
 import com.wang.social.funshow.R;
 import com.wang.social.funshow.mvp.entities.eva.Comment;
 import com.wang.social.funshow.mvp.entities.eva.CommentReply;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import timber.log.Timber;
 
 public class ListAdapterSubEva extends BaseAdapter {
     private Context context;
@@ -73,10 +79,22 @@ public class ListAdapterSubEva extends BaseAdapter {
                 ContextCompat.getColor(context, R.color.common_blue_deep),
                 ContextCompat.getColor(context, R.color.common_text_blank_dark)
         };
-        SpannableStringBuilder spanText = SpannableStringUtil.createV2(strings, colors);
+        ClickableSpan[] clickableSpans = {
+                new WWClickableSpan(colors[0], v -> startPersonalCard(bean.getUserId())),
+                null,
+                new WWClickableSpan(colors[2], v -> startPersonalCard(bean.getTargetUserId())),
+                null
+        };
+        // 设置后SpannableString才能起效
+        holder.text_content.setMovementMethod(LinkMovementMethod.getInstance());
+        SpannableStringBuilder spanText = SpannableStringUtil.createV2(strings, colors, clickableSpans);
         holder.text_content.setText(spanText);
 
         return convertView;
+    }
+
+    private void startPersonalCard(int userId) {
+        CommonHelper.ImHelper.startPersonalCardForBrowse(context, userId);
     }
 
     public class ViewHolder {
