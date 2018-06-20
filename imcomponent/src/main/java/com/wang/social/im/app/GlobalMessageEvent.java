@@ -268,19 +268,22 @@ public class GlobalMessageEvent extends Observable implements TIMMessageListener
             DynamicMessage message = (DynamicMessage) msg;
             switch (message.getModeType()) {
                 case DynamicMessage.TYPE_PRAISE_FUN_SHOW:
-                case DynamicMessage.TYPE_REPLY_FUN_SHOW_COMMENT:
-                case DynamicMessage.TYPE_COMMENT_FUN_SHOW:
-                case DynamicMessage.TYPE_REPLY_FUN_SHOW_AITE:
                 case DynamicMessage.TYPE_PRAISE_FUN_SHOW_COMMENT:
-                    uriBuilder.appendQueryParameter("target", AppConstant.Key.OPEN_TARGET_DYNAMIC_FUN_SHOW)
-                            .appendQueryParameter("targetId", TextUtils.isEmpty(message.getModePkId()) ? message.getModeId() : message.getModePkId());
-                    break;
-                case DynamicMessage.TYPE_COMMENT_TOPIC:
                 case DynamicMessage.TYPE_PRAISE_TOPIC:
                 case DynamicMessage.TYPE_PRAISE_TOPIC_COMMENT:
+                    uriBuilder.appendQueryParameter("target", AppConstant.Key.OPEN_TARGET_PRAISE)
+                            .appendQueryParameter("targetId", "-1");
+                    break;
+                case DynamicMessage.TYPE_REPLY_FUN_SHOW_COMMENT:
+                case DynamicMessage.TYPE_COMMENT_FUN_SHOW:
+                case DynamicMessage.TYPE_COMMENT_TOPIC:
                 case DynamicMessage.TYPE_REPLY_TOPIC_COMMENT:
-                    uriBuilder.appendQueryParameter("target", AppConstant.Key.OPEN_TARGET_DYNAMIC_TOPIC)
-                            .appendQueryParameter("targetId", TextUtils.isEmpty(message.getModePkId()) ? message.getModeId() : message.getModePkId());
+                    uriBuilder.appendQueryParameter("target", AppConstant.Key.OPEN_TARGET_COMMENT)
+                            .appendQueryParameter("targetId", "-1");
+                    break;
+                case DynamicMessage.TYPE_REPLY_FUN_SHOW_AITE:
+                    uriBuilder.appendQueryParameter("target", AppConstant.Key.OPEN_TARGET_ALERT)
+                            .appendQueryParameter("targetId", "-1");
                     break;
             }
         } else if (msg instanceof TIMMessage) {

@@ -3,6 +3,7 @@ package com.wang.social.im.mvp.ui.adapters.socials;
 import android.support.annotation.NonNull;
 
 import com.wang.social.im.mvp.model.entities.SocialListLevelOne;
+import com.wang.social.im.mvp.model.entities.SocialListLevelThree;
 import com.wang.social.im.mvp.model.entities.SocialListLevelTwo;
 import com.wang.social.im.view.expand.adapter.BaseExpandableAdapter;
 import com.wang.social.im.view.expand.viewholder.AbstractAdapterItem;
@@ -55,7 +56,7 @@ public class SocialListAdapter extends BaseExpandableAdapter {
             return ITEM_TYPE_CATEGORY;
         } else if (t instanceof SocialListLevelTwo) {
             return ITEM_TYPE_SOCIAL;
-        } else if (t instanceof List) {
+        } else if (t instanceof SocialListLevelThree) {
             return ITEM_TYPE_TEAMS;
         }
         return super.getItemViewType(t);

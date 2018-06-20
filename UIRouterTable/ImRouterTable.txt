@@ -22,6 +22,12 @@ objectId:String
 好友申请页面
 /notify_friend_request
 
+@列表
+/notify_alert_list
+
+评论列表
+/notify_comment_list
+
 加入觅聊申请页面
 /notify_group_request
 
@@ -30,6 +36,9 @@ objectId:String
 
 系统消息页面
 /notify_sys
+
+赞列表
+/notify_praise_list
 
 往往官方号
 /official_chat_robot

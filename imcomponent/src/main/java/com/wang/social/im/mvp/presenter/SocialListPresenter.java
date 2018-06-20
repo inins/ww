@@ -13,6 +13,7 @@ import com.wang.social.im.mvp.contract.SocialListContract;
 import com.wang.social.im.mvp.model.entities.ListData;
 import com.wang.social.im.mvp.model.entities.SimpleGroupInfo;
 import com.wang.social.im.mvp.model.entities.SocialListLevelOne;
+import com.wang.social.im.mvp.model.entities.SocialListLevelThree;
 import com.wang.social.im.mvp.model.entities.SocialListLevelTwo;
 import com.wang.social.im.mvp.model.entities.TeamInfo;
 import com.wang.social.im.mvp.model.entities.dto.ListDataDTO;
@@ -97,7 +98,13 @@ public class SocialListPresenter extends BasePresenter<SocialListContract.Model,
                                     }
                                 }
 
-                                levelTwo.setTeams(teams);
+                                SocialListLevelThree levelThree = new SocialListLevelThree();
+                                levelThree.setTeams(teams);
+                                List<SocialListLevelThree> levelThrees = new ArrayList<>();
+                                if (!teams.isEmpty()) {
+                                    levelThrees.add(levelThree);
+                                }
+                                levelTwo.setTeams(levelThrees);
 
                                 if (groupInfo.getMasterUid().equals(TIMManager.getInstance().getLoginUser())) {
                                     master.add(levelTwo);

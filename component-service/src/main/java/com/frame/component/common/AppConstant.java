@@ -55,6 +55,18 @@ public class AppConstant {
          * 会话：趣聊
          */
         public static final String OPEN_TARGET_SOCIAL = "cvs_social";
+        /**
+         * 动态：点赞列表
+         */
+        public static final String OPEN_TARGET_PRAISE = "praise_list";
+        /**
+         * 动态：评论列表
+         */
+        public static final String OPEN_TARGET_COMMENT = "comment_list";
+        /**
+         * 动态：@列表
+         */
+        public static final String OPEN_TARGET_ALERT = "alert_list";
         /************************************************************************************/
     }
 

@@ -115,7 +115,17 @@ public class FunshowDetailZanController extends FunshowDetailBaseController impl
         popupWindow = new MorePopupWindow(getContext());
         popupWindow.setOnDislikeClickListener(v -> netDislike(userId));
         adapterZan = new RecycleAdapterZan();
-        adapterZan.setOnMoreClickListener(v -> ZanUserListActivity.start(getContext(), talkId));
+        adapterZan.setOnMoreClickListener(new RecycleAdapterZan.OnMoreClickListener() {
+            @Override
+            public void onMoreClick(View v) {
+                ZanUserListActivity.start(getContext(), talkId);
+            }
+
+            @Override
+            public void onItemClick(ZanUser zanUser) {
+                CommonHelper.ImHelper.startPersonalCardForBrowse(getContext(), zanUser.getUserId());
+            }
+        });
         recyclerZan.setNestedScrollingEnabled(false);
         recyclerZan.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         recyclerZan.setAdapter(adapterZan);

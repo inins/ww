@@ -69,6 +69,15 @@ public class RecycleAdapterZan extends BaseAdapter<ZanUser> {
         @Override
         protected void bindData(ZanUser bean, int position, OnItemClickListener onItemClickListener) {
             ImageLoaderHelper.loadCircleImg(img_header, bean.getAvatar());
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onMoreClickListener != null) {
+                        onMoreClickListener.onItemClick(bean);
+                    }
+                }
+            });
         }
 
         @Override
@@ -104,5 +113,7 @@ public class RecycleAdapterZan extends BaseAdapter<ZanUser> {
 
     public interface OnMoreClickListener {
         void onMoreClick(View v);
+
+        void onItemClick(ZanUser zanUser);
     }
 }

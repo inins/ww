@@ -17,7 +17,7 @@ import lombok.Setter;
  */
 public class SocialListLevelTwo implements ExpandableListItem {
 
-    private boolean expanded = false;
+    private boolean expanded = true;
     @Getter
     @Setter
     private String id;
@@ -37,14 +37,11 @@ public class SocialListLevelTwo implements ExpandableListItem {
     @Setter
     private int memberCount;
     @Setter
-    private List<TeamInfo> teams;
+    private List<SocialListLevelThree> teams;
 
     @Override
     public List<?> getChildItemList() {
-        if (teams == null || teams.isEmpty()) {
-            return new ArrayList<>();
-        }
-        return Arrays.asList(teams);
+        return teams;
     }
 
     @Override

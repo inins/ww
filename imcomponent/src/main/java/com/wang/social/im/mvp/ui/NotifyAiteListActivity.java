@@ -14,6 +14,7 @@ import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.NetIsShoppingHelper;
 import com.frame.component.helper.NetMsgHelper;
 import com.frame.component.helper.NetPayStoneHelper;
+import com.frame.component.path.ImPath;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
 import com.frame.component.view.DialogPay;
 import com.frame.component.view.LoadingLayoutEx;
@@ -23,6 +24,7 @@ import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.mvp.IView;
+import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.FocusUtil;
 import com.frame.utils.StrUtil;
 import com.frame.utils.ToastUtil;
@@ -43,6 +45,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+@RouteNode(path = ImPath.NOTIFY_ALERT_LIST, desc = "@列表")
 public class NotifyAiteListActivity extends BasicAppNoDiActivity implements IView, BaseAdapter.OnItemClickListener<CommonMsg> {
 
     @BindView(R2.id.spring)
