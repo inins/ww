@@ -7,6 +7,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.utils.SpannableStringUtil;
+import com.frame.component.view.WWClickableSpan;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.utils.FrameUtils;
 import com.wang.social.topic.R;
@@ -23,6 +26,8 @@ import com.wang.social.topic.mvp.model.entities.Comment;
 import com.wang.social.topic.utils.StringUtil;
 
 import java.util.List;
+
+import timber.log.Timber;
 
 public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapter.ViewHolder> {
 
@@ -130,7 +135,14 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
                     ContextCompat.getColor(mContext, R.color.common_blue_deep),
                     ContextCompat.getColor(mContext, R.color.common_text_blank)
             };
-            SpannableStringBuilder spanText = SpannableStringUtil.createV2(strings, colors);
+            ClickableSpan[] clickableSpans = {
+                    null,
+                    new WWClickableSpan(colors[1], v -> startPersonalCard(comment.getTargetUserId())),
+                    null
+            };
+            // 设置后SpannableString才能起效
+            holder.contentTV.setMovementMethod(LinkMovementMethod.getInstance());
+            SpannableStringBuilder spanText = SpannableStringUtil.createV2(strings, colors, clickableSpans);
             holder.contentTV.setText(spanText);
         } else {
             holder.contentTV.setText(comment.getContent());
@@ -149,12 +161,19 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
         // 点击头像昵称区域进入用户名片
         holder.userInfoLayout.setTag(comment);
         holder.userInfoLayout.setOnClickListener(v -> {
-            if (v.getTag() instanceof Comment && null != mActivity) {
-                CommonHelper.ImHelper.startPersonalCardForBrowse(mActivity, comment.getUserId());
+            if (v.getTag() instanceof Comment) {
+                startPersonalCard(((Comment) v.getTag()).getUserId());
             }
         });
     }
 
+    private void startPersonalCard(int userId) {
+        if (null == mActivity) {
+            Timber.e("mActivity is NULL");
+            return;
+        }
+        CommonHelper.ImHelper.startPersonalCardForBrowse(mActivity, userId);
+    }
     @Override
     public int getItemCount() {
         return null == mCommentList ? 0 : mCommentList.size();

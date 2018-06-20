@@ -6,6 +6,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +17,17 @@ import android.widget.TextView;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.utils.SpannableStringUtil;
+import com.frame.component.view.WWClickableSpan;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.utils.FrameUtils;
+import com.frame.utils.ToastUtil;
 import com.wang.social.topic.R;
 import com.wang.social.topic.utils.StringUtil;
 import com.wang.social.topic.mvp.model.entities.Comment;
 
 import java.util.List;
+
+import timber.log.Timber;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHolder> {
 
@@ -116,6 +122,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
             if (null == reply) return;
 
             holder.replyTV.setVisibility(View.VISIBLE);
+            // 设置后SpannableString才能起效
+            holder.replyTV.setMovementMethod(LinkMovementMethod.getInstance());
 
             if (comment.getReplyNum() > 1) {
                 // 多于一条，显示数量
@@ -130,7 +138,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
                         ContextCompat.getColor(mContext, R.color.common_text_blank),
                         ContextCompat.getColor(mContext, R.color.common_blue_deep)
                 };
-                SpannableStringBuilder spanText = SpannableStringUtil.createV2(strings, colors);
+                ClickableSpan[] clickableSpans = {
+                        new WWClickableSpan(colors[0], v -> startPersonalCard(reply.getUserId())),
+                        null,
+                        null
+                };
+                SpannableStringBuilder spanText = SpannableStringUtil.createV2(strings, colors, clickableSpans);
                 holder.replyTV.setText(spanText);
             } else {
                 // 只有一条，直接显示
@@ -144,19 +157,21 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
                         ContextCompat.getColor(mContext, R.color.common_text_blank),
                         ContextCompat.getColor(mContext, R.color.common_text_blank)
                 };
-                SpannableStringBuilder spanText = SpannableStringUtil.createV2(strings, colors);
+                ClickableSpan[] clickableSpans = {
+                        new WWClickableSpan(colors[0], v -> startPersonalCard(reply.getUserId())),
+                        null,
+                        null
+                };
+                SpannableStringBuilder spanText = SpannableStringUtil.createV2(strings, colors, clickableSpans);
                 holder.replyTV.setText(spanText);
             }
 
             holder.replyTV.setTag(comment);
             holder.replyTV.setClickable(true);
-            holder.replyTV.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (v.getTag() instanceof Comment) {
-                        // 跳转到二级页面
-                        openReplyList((Comment) v.getTag());
-                    }
+            holder.replyTV.setOnClickListener(v -> {
+                if (v.getTag() instanceof Comment) {
+                    // 跳转到二级页面
+                    openReplyList((Comment) v.getTag());
                 }
             });
         }
@@ -172,10 +187,18 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         // 点击头像昵称区域进入用户名片
         holder.userInfoLayout.setTag(comment);
         holder.userInfoLayout.setOnClickListener(v -> {
-            if (v.getTag() instanceof Comment && null != mActivity) {
-                CommonHelper.ImHelper.startPersonalCardForBrowse(mActivity, comment.getUserId());
+            if (v.getTag() instanceof Comment) {
+                startPersonalCard(((Comment) v.getTag()).getUserId());
             }
         });
+    }
+
+    private void startPersonalCard(int userId) {
+        if (null == mActivity) {
+            Timber.e("mActivity is NULL");
+            return;
+        }
+        CommonHelper.ImHelper.startPersonalCardForBrowse(mActivity, userId);
     }
 
     private void openReplyList(Comment comment) {

@@ -95,6 +95,22 @@ public class SpannableStringUtil {
         return strSpan;
     }
 
+    public static SpannableStringBuilder createV2(String[] strs, int[] colors, ClickableSpan[] listeners) {
+        SpannableStringBuilder strSpan = new SpannableStringBuilder("");
+        for (int i = 0; i < strs.length; i++) {
+            int start = strSpan.length();   //拼接前的长度
+            strSpan.append(strs[i]);
+            int end = strSpan.length();     //拼接后的长度
+            strSpan.setSpan(new ForegroundColorSpan(colors[i]), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            if (null != listeners && i < listeners.length) {
+                if (null != listeners[i]) {
+                    strSpan.setSpan(listeners[i], start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
+            }
+        }
+        return strSpan;
+    }
+
 //    //给Edit设置Hint文字（带图片）
 //    private SpannableString makeSearchHint() {
 //        SpannableString spannableString = new SpannableString("1 搜索");
