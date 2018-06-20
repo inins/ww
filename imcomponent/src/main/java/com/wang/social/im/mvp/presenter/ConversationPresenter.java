@@ -531,6 +531,18 @@ public class ConversationPresenter extends BasePresenter<ConversationContract.Mo
         if (mConversationType == ConversationType.SOCIAL) {
             if (mShadowInfo != null && mShadowInfo.getStatus() == ShadowInfo.STATUS_OPEN) {
                 addCarryInfo(message, mConversationType, mShadowInfo.getNickname(), mShadowInfo.getPortrait());
+
+                //设置离线推送信息内容
+                TIMMessageOfflinePushSettings pushSettings = message.getOfflinePushSettings();
+                if (pushSettings == null) {
+                    pushSettings = new TIMMessageOfflinePushSettings();
+                    pushSettings.setDescr(UIMessage.obtain(message).getSummary());
+                }
+                TIMMessageOfflinePushSettings.AndroidSettings androidSettings = new TIMMessageOfflinePushSettings.AndroidSettings();
+                String title = mShadowInfo.getNickname() + "(" + mRootView.getConversationName() + ")";
+                androidSettings.setTitle(title);
+                pushSettings.setAndroidSettings(androidSettings);
+                message.setOfflinePushSettings(pushSettings);
             }
         } else if (mConversationType == ConversationType.MIRROR) {
             String nickname;

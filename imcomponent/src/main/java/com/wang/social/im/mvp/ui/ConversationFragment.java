@@ -70,11 +70,14 @@ import com.wang.social.im.enums.ConnectionStatus;
 import com.wang.social.im.enums.CustomElemType;
 import com.wang.social.im.enums.MessageScope;
 import com.wang.social.im.enums.MessageType;
+import com.wang.social.im.helper.FriendShipHelper;
 import com.wang.social.im.helper.GroupHelper;
 import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.mvp.contract.ConversationContract;
 import com.wang.social.im.mvp.model.entities.EnvelopInfo;
+import com.wang.social.im.mvp.model.entities.FriendProfile;
 import com.wang.social.im.mvp.model.entities.GameElemData;
+import com.wang.social.im.mvp.model.entities.GroupProfile;
 import com.wang.social.im.mvp.model.entities.MemberInfo;
 import com.wang.social.im.mvp.model.entities.ShadowInfo;
 import com.wang.social.im.mvp.model.entities.ShareElemData;
@@ -304,7 +307,7 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
         });
         fcInput.getEditText().setFilters(new InputFilter[]{
                 (source, start, end, dest, dstart, dend) -> {
-                    if (source.equals("@")) {
+                    if (source.equals("@") && (mConversationType == ConversationType.SOCIAL || mConversationType == ConversationType.TEAM)) {
                         AlertUserListActivity.start(getActivity(), REQUEST_ALERT_USER, ImHelper.imId2WangId(mTargetId));
                     }
                     return source;
@@ -499,6 +502,22 @@ public class ConversationFragment extends BaseFragment<ConversationPresenter> im
     @Override
     public void gotoGameRoom(String roomId) {
         CommonHelper.GameHelper.startGameRoom(getContext(), Integer.valueOf(roomId));
+    }
+
+    @Override
+    public String getConversationName() {
+        if (mConversationType == ConversationType.PRIVATE) {
+            FriendProfile profile = FriendShipHelper.getInstance().getFriendProfile(mTargetId);
+            if (profile != null && profile.getName() != null) {
+                return profile.getName();
+            }
+        } else {
+            GroupProfile profile = GroupHelper.getInstance().getGroupProfile(mTargetId);
+            if (profile != null && profile.getName() != null) {
+                return profile.getName();
+            }
+        }
+        return "";
     }
 
     @Override

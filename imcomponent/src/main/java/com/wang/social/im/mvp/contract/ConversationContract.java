@@ -103,6 +103,13 @@ public interface ConversationContract {
          * @param roomId
          */
         void gotoGameRoom(String roomId);
+
+        /**
+         * 获取会话名称
+         *
+         * @return
+         */
+        String getConversationName();
     }
 
     interface Model extends IModel {
