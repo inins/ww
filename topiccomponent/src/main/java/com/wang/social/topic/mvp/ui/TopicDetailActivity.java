@@ -6,12 +6,8 @@ import android.graphics.Color;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.AudioManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.text.TextUtils;
@@ -32,7 +28,6 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.frame.component.common.AppConstant;
 import com.frame.component.entities.IsShoppingRsp;
-import com.frame.component.entities.Topic;
 import com.frame.component.entities.User;
 import com.frame.component.enums.ShareSource;
 import com.frame.component.helper.AppDataHelper;
@@ -54,7 +49,6 @@ import com.frame.entities.EventBean;
 import com.frame.http.api.ApiException;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.router.facade.annotation.RouteNode;
-import com.frame.utils.BarUtils;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.StatusBarUtil;
@@ -64,8 +58,6 @@ import com.umeng.socialize.UMShareAPI;
 import com.wang.social.socialize.SocializeUtil;
 import com.wang.social.topic.R;
 import com.wang.social.topic.R2;
-import com.wang.social.topic.utils.HtmlUtil;
-import com.wang.social.topic.utils.StringUtil;
 import com.wang.social.topic.di.component.DaggerTopicDetailComponent;
 import com.wang.social.topic.di.module.TopicDetailModule;
 import com.wang.social.topic.mvp.contract.TopicDetailContract;
@@ -415,13 +407,6 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
             mGradualImageView.setDrawable(R.drawable.common_ic_playing1, R.drawable.common_ic_playing2);
 
             mBackgroundIV.setVisibility(View.VISIBLE);
-//            FrameUtils.obtainAppComponentFromContext(this)
-//                    .imageLoader()
-//                    .loadImage(this,
-//                            ImageConfigImpl.builder()
-//                                    .imageView(mBackgroundIV)
-//                                    .url(detail.getBackgroundImage())
-//                                    .build());
             ImageLoaderHelper.loadImg(mBackgroundIV, detail.getBackgroundImage());
         }
 
