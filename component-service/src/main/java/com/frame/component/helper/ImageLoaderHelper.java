@@ -46,7 +46,7 @@ public class ImageLoaderHelper {
 
     //上面方法的重载
     public static void loadCircleImg(ImageView imageView, String url) {
-        loadCircleImg(imageView, R.drawable.default_circle, url);
+        loadCircleImg(imageView, R.drawable.ic_default_header, url);
     }
 
     public static void loadImg(ImageView imageView, int errorSrc, String url) {
@@ -62,7 +62,7 @@ public class ImageLoaderHelper {
 
     //上面方法的重载
     public static void loadImg(ImageView imageView, String url) {
-        loadImg(imageView, R.drawable.default_rect, url);
+        loadImg(imageView, R.drawable.img_placeholder_rect, url);
     }
 
     public static void loadCircleImg(ImageView imageView, int src) {
@@ -88,8 +88,8 @@ public class ImageLoaderHelper {
         getImageLoader().loadImage(Utils.getContext(), ImageConfigImpl.
                 builder()
                 .imageView(imageView)
-                .placeholder(R.drawable.default_rect)
-                .errorPic(R.drawable.default_rect)
+                .placeholder(R.drawable.img_placeholder_rect)
+                .errorPic(R.drawable.img_placeholder_rect)
                 .isCircle(false)
                 .transformation(new BlurTransformation(50))
                 .url(url)
@@ -133,19 +133,19 @@ public class ImageLoaderHelper {
     //随机加载一张网络图片（圆形）
     public static void loadCircleImgTest(ImageView imageView) {
         if (imageView == null) return;
-        loadCircleImg(imageView, R.drawable.default_circle, urls.get(new Random(imageView.hashCode()).nextInt(urls.size() - 1)));
+        loadCircleImg(imageView, R.drawable.ic_default_header, urls.get(new Random(imageView.hashCode()).nextInt(urls.size() - 1)));
     }
 
     //随机加载一张网络图片
     public static void loadImgTest(ImageView imageView) {
         if (imageView == null) return;
-        loadImg(imageView, R.drawable.default_rect, urls.get(new Random(imageView.hashCode()).nextInt(urls.size() - 1)));
+        loadImg(imageView, R.drawable.img_placeholder_rect, urls.get(new Random(imageView.hashCode()).nextInt(urls.size() - 1)));
     }
 
     //随机加载一张网络图片，以position作为随机种子
     public static void loadImgTestByPosition(ImageView imageView, int position) {
         if (imageView == null) return;
-        loadImg(imageView, R.drawable.default_rect, urls.get(new Random(position).nextInt(urls.size() - 1)));
+        loadImg(imageView, R.drawable.img_placeholder_rect, urls.get(new Random(position).nextInt(urls.size() - 1)));
     }
 
     //获取一张随机的网络图片
