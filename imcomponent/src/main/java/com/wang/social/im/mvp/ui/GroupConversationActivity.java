@@ -247,7 +247,7 @@ public class GroupConversationActivity extends BaseAppActivity<GroupConversation
     @Override
     protected void onResume() {
         if (mCreate && fromMirror) {
-            ActivitySwitcher.animationIn(findViewById(R.id.im_root_layout), getWindowManager());
+            ActivitySwitcher.animationInT(findViewById(R.id.im_root_layout), getWindowManager());
         }
         mCreate = false;
         super.onResume();

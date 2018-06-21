@@ -43,6 +43,18 @@ public class ActivitySwitcher {
         apply3DRotation(0, -90, true, container, windowManager, listener);
     }
 
+    public static void animationInT(View container, WindowManager windowManager) {
+        animationInT(container, windowManager, null);
+    }
+
+    public static void animationInT(View container, WindowManager windowManager, AnimationFinishedListener listener) {
+        apply3DRotation(-90, 0, false, container, windowManager, listener);
+    }
+
+    public static void animationOutT(View container, WindowManager windowManager, AnimationFinishedListener listener) {
+        apply3DRotation(0, 90, true, container, windowManager, listener);
+    }
+
     /* ----------------------------------------------- */
 
     private static void apply3DRotation(float fromDegree, float toDegree, boolean reverse, View container, WindowManager windowManager, final AnimationFinishedListener listener) {
