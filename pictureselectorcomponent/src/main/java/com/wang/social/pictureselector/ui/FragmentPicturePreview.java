@@ -21,6 +21,7 @@ import com.wang.social.pictureselector.R;
 import com.wang.social.pictureselector.ui.adapter.PreviewAdapter;
 import com.wang.social.pictureselector.ui.widget.DotIndicator;
 
+import static com.wang.social.pictureselector.PictureSelector.NAME_SHOW_DOWNLOAD;
 import static com.wang.social.pictureselector.PictureSelector.NAME_TYPE;
 import static com.wang.social.pictureselector.PictureSelector.TYPE_BROWSE;
 
@@ -41,6 +42,8 @@ public class FragmentPicturePreview extends Fragment {
     private int mCurrent;
     private int mType;
     private IView mIView;
+    // 是否显示下载图标
+    private boolean mShowDownloadIcon = false;
 
     public void setIView(IView IView) {
         mIView = IView;
@@ -89,6 +92,7 @@ public class FragmentPicturePreview extends Fragment {
 
         if (null != getArguments()) {
             mType = getArguments().getInt(NAME_TYPE);
+            mShowDownloadIcon = getArguments().getBoolean(NAME_SHOW_DOWNLOAD);
         }
 
         if (mType == TYPE_BROWSE) {
@@ -97,6 +101,11 @@ public class FragmentPicturePreview extends Fragment {
             // 单击退出
             viewPager.setOnClickListener(v -> getActivity().finish());
         } else {
+            mDownloadIV.setVisibility(View.GONE);
+        }
+
+        if (!mShowDownloadIcon) {
+            // 隐藏下载图标
             mDownloadIV.setVisibility(View.GONE);
         }
 

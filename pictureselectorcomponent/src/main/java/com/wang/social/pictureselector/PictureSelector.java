@@ -33,6 +33,7 @@ public class PictureSelector {
     public static final String NAME_FILE_PATH_LIST = "NAME_FILE_PATH_LIST";
     public final static String NAME_CURRENT  = "CURRENT";
     public final static String NAME_TYPE = "NAME_TYPE";
+    public static final String NAME_SHOW_DOWNLOAD = "NAME_SHOW_DOWNLOAD";
 
 
     // 浏览图片，底部需要显示下载按钮

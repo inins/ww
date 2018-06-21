@@ -16,6 +16,7 @@ import com.frame.utils.StatusBarUtil;
 import com.wang.social.pictureselector.ui.FragmentPicturePreview;
 
 import static com.wang.social.pictureselector.PictureSelector.NAME_CURRENT;
+import static com.wang.social.pictureselector.PictureSelector.NAME_SHOW_DOWNLOAD;
 import static com.wang.social.pictureselector.PictureSelector.NAME_TYPE;
 import static com.wang.social.pictureselector.PictureSelector.TYPE_BROWSE;
 import static com.wang.social.pictureselector.PictureSelector.TYPE_CONFIRM;
@@ -41,14 +42,23 @@ public class ActivityPicturePreview extends BaseAppActivity implements IView {
     }
 
     public static void startBrowse(Context context, int current, String... pics) {
-        start(context, current, TYPE_BROWSE, pics);
+        startBrowse(context, current,true, pics);
+    }
+
+    public static void startBrowse(Context context, int current, boolean showDownload, String... pics) {
+        start(context, current, TYPE_BROWSE, showDownload, pics);
     }
 
     public static void start(Context context, int current, int type, String... pics) {
+        start(context, current, type, true, pics);
+    }
+
+    public static void start(Context context, int current, int type, boolean showDownload, String... pics) {
         Intent intent = new Intent(context, ActivityPicturePreview.class);
         intent.putExtra(PictureSelector.NAME_FILE_PATH_LIST, pics);
         intent.putExtra(NAME_CURRENT, current);
         intent.putExtra(NAME_TYPE, type);
+        intent.putExtra(NAME_SHOW_DOWNLOAD, showDownload);
         context.startActivity(intent);
 //        if (context instanceof Activity) {
             ((Activity) context).overridePendingTransition(R.anim.scale_in_scale, R.anim.scale_stay);
@@ -71,6 +81,7 @@ public class ActivityPicturePreview extends BaseAppActivity implements IView {
         fragment.setIView(this);
         Bundle bundle = new Bundle();
         bundle.putInt(NAME_TYPE, getIntent().getIntExtra(NAME_TYPE, TYPE_CONFIRM));
+        bundle.putBoolean(NAME_SHOW_DOWNLOAD, getIntent().getBooleanExtra(NAME_SHOW_DOWNLOAD, true));
         fragment.setArguments(bundle);
         getSupportFragmentManager()
                 .beginTransaction()
