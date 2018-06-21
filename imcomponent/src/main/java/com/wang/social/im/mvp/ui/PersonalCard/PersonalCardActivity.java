@@ -583,7 +583,7 @@ public class PersonalCardActivity extends BaseAppActivity<PersonalCardPresenter>
     @OnClick(R2.id.avatar_image_view)
     public void showAvatar() {
         if (null != mPersonalInfo && !TextUtils.isEmpty(mPersonalInfo.getAvatar())) {
-            ActivityPicturePreview.startBrowse(this, mPersonalInfo.getAvatar());
+            ActivityPicturePreview.startBrowse(this, 0, false, mPersonalInfo.getAvatar());
         }
     }
 
