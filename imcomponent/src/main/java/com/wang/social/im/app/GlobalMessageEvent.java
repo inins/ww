@@ -37,6 +37,7 @@ import com.wang.social.im.R;
 import com.wang.social.im.enums.CustomElemType;
 import com.frame.component.entities.DynamicMessage;
 import com.frame.component.entities.SystemMessage;
+import com.wang.social.im.enums.MessageType;
 import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.mvp.model.entities.UIConversation;
 import com.wang.social.im.mvp.model.entities.UIMessage;
@@ -177,7 +178,7 @@ public class GlobalMessageEvent extends Observable implements TIMMessageListener
 
     private void showMessageNotify(TIMMessage timMessage) {
         if (timMessage.getRecvFlag() == TIMGroupReceiveMessageOpt.ReceiveNotNotify ||
-                !isOfflinePush()) {
+                !isOfflinePush() || UIMessage.obtain(timMessage).getMessageType() == MessageType.UNKNOWN) {
             return;
         }
         if (AppUtils.isAppForeground()) {

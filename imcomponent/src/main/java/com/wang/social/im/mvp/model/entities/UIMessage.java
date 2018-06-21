@@ -15,6 +15,7 @@ import com.tencent.imsdk.TIMElemType;
 import com.tencent.imsdk.TIMFriendshipManager;
 import com.tencent.imsdk.TIMGroupMemberInfo;
 import com.tencent.imsdk.TIMGroupTipsElem;
+import com.tencent.imsdk.TIMGroupTipsType;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageStatus;
@@ -144,7 +145,10 @@ public class UIMessage {
                 messageType = MessageType.NOTIFY;
                 break;
             } else if (elem.getType() == TIMElemType.GroupTips) {
-                messageType = MessageType.NOTIFY;
+                TIMGroupTipsElem tipsElem = (TIMGroupTipsElem) elem;
+                if (tipsElem.getTipsType() == TIMGroupTipsType.Join) {
+                    messageType = MessageType.NOTIFY;
+                }
                 break;
             } else if (elem.getType() == TIMElemType.Custom) {
                 TIMCustomElem customElem = (TIMCustomElem) elem;
