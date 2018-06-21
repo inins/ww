@@ -83,6 +83,8 @@ public class FunshowDetailEditController extends FunshowDetailBaseController imp
         if (id == R.id.btn_send) {
             String content = editEva.getText().toString();
             if (!TextUtils.isEmpty(content)) {
+                editEva.setText("");
+                KeyboardUtils.hideSoftInput(editEva);
                 netCommitComment(content);
             } else {
                 ToastUtil.showToastLong("请输入评论内容");
@@ -108,8 +110,6 @@ public class FunshowDetailEditController extends FunshowDetailBaseController imp
                         EventBean eventBean = new EventBean(EventBean.EVENT_FUNSHOW_DETAIL_ADD_EVA);
                         eventBean.put("talkId", talkId);
                         EventBus.getDefault().post(eventBean);
-                        editEva.setText("");
-                        KeyboardUtils.hideSoftInput(editEva);
                     }
 
                     @Override
