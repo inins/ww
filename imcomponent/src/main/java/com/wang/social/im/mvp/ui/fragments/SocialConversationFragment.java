@@ -7,14 +7,15 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.frame.component.enums.ConversationType;
-import com.frame.component.utils.UIUtil;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
@@ -42,7 +43,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 /**
  * ============================================
@@ -192,5 +195,10 @@ public class SocialConversationFragment extends BaseConversationFragment {
         if (timGroupCacheInfo != null && timGroupCacheInfo.getGroupInfo().getGroupId().equals(targetId)) {
             scTvTitle.setText(timGroupCacheInfo.getGroupInfo().getGroupName());
         }
+    }
+
+    @OnClick(R2.id.sc_tv_title)
+    public void onViewClicked() {
+        SocialHomeActivity.start(getContext(), ImHelper.imId2WangId(targetId));
     }
 }

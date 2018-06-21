@@ -1,6 +1,5 @@
 package com.wang.social.im.mvp.ui;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,6 +13,7 @@ import android.support.v7.widget.SimpleItemAnimator;
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseFragment;
 import com.frame.component.common.HVItemDecoration;
+import com.frame.component.enums.ConversationType;
 import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.utils.UIUtil;
@@ -31,10 +31,8 @@ import com.tencent.imsdk.ext.message.TIMMessageLocator;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.app.IMConstants;
-import com.wang.social.im.app.RefreshEvent;
 import com.wang.social.im.di.component.DaggerConversationListComponent;
 import com.wang.social.im.di.modules.ConversationListModule;
-import com.frame.component.enums.ConversationType;
 import com.wang.social.im.enums.ConnectionStatus;
 import com.wang.social.im.helper.FriendShipHelper;
 import com.wang.social.im.helper.GroupHelper;
@@ -46,7 +44,6 @@ import com.wang.social.im.mvp.model.entities.UIMessage;
 import com.wang.social.im.mvp.presenter.ConversationListPresenter;
 import com.wang.social.im.mvp.ui.adapters.ConversationAdapter;
 import com.wang.social.im.mvp.ui.fragments.NobodyFragment;
-import com.wang.social.im.utils.badge.ShortcutBadger;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -56,8 +53,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.inject.Inject;
 

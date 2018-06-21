@@ -175,9 +175,9 @@ public class TeamConversationFragment extends BaseConversationFragment {
         });
     }
 
-    @OnClick({R2.id.tc_fl_more, R2.id.tc_fl_mirror})
+    @OnClick({R2.id.tc_fl_more, R2.id.tc_fl_mirror, R2.id.tc_tv_title})
     public void onViewClicked(View view) {
-        if (view.getId() == R.id.tc_fl_more) {
+        if (view.getId() == R.id.tc_fl_more || view.getId() == R.id.tc_tv_title) {
             TeamHomeActivity.start(getContext(), ImHelper.imId2WangId(targetId));
         } else if (view.getId() == R.id.tc_fl_mirror) {
             String mirrorId = targetId.replace(IMConstants.IM_IDENTITY_PREFIX_TEAM, IMConstants.IM_IDENTITY_PREFIX_MIRROR);
