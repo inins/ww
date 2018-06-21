@@ -70,4 +70,16 @@ public interface ImPath extends BasePath {
     // 趣聊邀请
     String NOTIFY_GROUP_JOIN = "/notify_group_join";
     String NOTIFY_GROUP_JOIN_URL = SCHEME + HOST + NOTIFY_GROUP_JOIN;
+
+    //点赞列表
+    String NOTIFY_PRAISE_LIST = "/notify_praise_list";
+    String NOTIFY_PRAISE_LIST_URL = SCHEME + HOST + NOTIFY_PRAISE_LIST;
+
+    //评论列表
+    String NOTIFY_COMMENT_LIST = "/notify_comment_list";
+    String NOTIFY_COMMENT_LIST_URL = SCHEME + HOST + NOTIFY_COMMENT_LIST;
+
+    //@列表
+    String NOTIFY_ALERT_LIST = "/notify_alert_list";
+    String NOTIFY_ALERT_LIST_URL = SCHEME + HOST + NOTIFY_ALERT_LIST;
 }

@@ -364,6 +364,32 @@ public class CommonHelper {
         public static void startNotifyGroupJoinActivity(Context context) {
             UIRouter.getInstance().openUri(context, ImPath.NOTIFY_GROUP_JOIN_URL, null);
         }
+
+        /**
+         * 点赞列表
+         *
+         * @param context
+         */
+        public static void startNotifyPraise(Context context) {
+            UIRouter.getInstance().openUri(context, ImPath.NOTIFY_PRAISE_LIST_URL, null);
+        }
+
+        /**
+         * 评论列表
+         *
+         * @param context
+         */
+        public static void startNotifyComment(Context context) {
+            UIRouter.getInstance().openUri(context, ImPath.NOTIFY_COMMENT_LIST_URL, null);
+        }
+
+        /**
+         * @param context
+         * @列表
+         */
+        public static void startNotifyAlert(Context context) {
+            UIRouter.getInstance().openUri(context, ImPath.NOTIFY_ALERT_LIST_URL, null);
+        }
     }
 
     public static class TopicHelper {

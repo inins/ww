@@ -49,19 +49,8 @@ public abstract class BaseExpandableAdapter extends RecyclerView.Adapter impleme
      */
     private void checkDefaultExpand() {
         ArrayMap<Object, List<?>> childArrayMap = new ArrayMap<>();
-        Iterator<Object> iterator = mDataList.iterator();
-        while (iterator.hasNext()) {
-            Object next = iterator.next();
-            if (next instanceof ExpandableListItem) {
-                ExpandableListItem expandableListItem = (ExpandableListItem) next;
-                if (expandableListItem.isExpanded()) {
-                    List<?> childItemList = expandableListItem.getChildItemList();
-                    if (childItemList != null && !childItemList.isEmpty()) {
-                        childArrayMap.put(next, childItemList);
-                    }
-                }
-            }
-        }
+        ArrayMap<Object, List<?>> childArrayMapTwo = new ArrayMap<>();
+        doCheck(childArrayMap, childArrayMapTwo, mDataList);
         int size = childArrayMap.size();
         if (size == 0) return;
         for (int i = 0; i < size; i++) {
@@ -70,7 +59,45 @@ public abstract class BaseExpandableAdapter extends RecyclerView.Adapter impleme
             int indexOf = mDataList.indexOf(o);
             mDataList.addAll(indexOf + 1, objects);
         }
+        int sizeTwo = childArrayMapTwo.size();
+        if (sizeTwo == 0) return;
+        for (int i = 0; i < sizeTwo; i++) {
+            Object o = childArrayMapTwo.keyAt(i);
+            List<?> objects = childArrayMapTwo.valueAt(i);
+            int indexOf = mDataList.indexOf(o);
+            mDataList.addAll(indexOf + 1, objects);
+        }
+    }
 
+    private void doCheck(ArrayMap<Object, List<?>> children, ArrayMap<Object, List<?>> childrenTwo, List<Object> list) {
+        Iterator<Object> iterator = list.iterator();
+        while (iterator.hasNext()) {
+            Object next = iterator.next();
+            if (next instanceof ExpandableListItem) {
+                ExpandableListItem expandableListItem = (ExpandableListItem) next;
+                if (expandableListItem.isExpanded()) {
+                    List<?> childItemList = expandableListItem.getChildItemList();
+                    if (childItemList != null && !childItemList.isEmpty()) {
+                        children.put(next, childItemList);
+                        if (childItemList.get(0) instanceof ExpandableListItem) {
+                            Iterator<?> iteratorTwo = childItemList.iterator();
+                            while (iteratorTwo.hasNext()) {
+                                Object nextTwo = iteratorTwo.next();
+                                if (nextTwo instanceof ExpandableListItem) {
+                                    ExpandableListItem expandableListItemTwo = (ExpandableListItem) nextTwo;
+                                    if (expandableListItemTwo.isExpanded()) {
+                                        List<?> childItemListTwo = expandableListItemTwo.getChildItemList();
+                                        if (childItemListTwo != null && !childItemListTwo.isEmpty()) {
+                                            childrenTwo.put(nextTwo, childItemListTwo);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     @Override

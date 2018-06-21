@@ -11,6 +11,7 @@ import com.frame.entities.EventBean;
 import com.frame.integration.AppManager;
 import com.frame.utils.FrameUtils;
 import com.wang.social.im.R;
+import com.wang.social.im.mvp.model.entities.SocialListLevelThree;
 import com.wang.social.im.mvp.model.entities.TeamInfo;
 import com.wang.social.im.mvp.ui.adapters.SocialListTeamAdapter;
 import com.wang.social.im.view.expand.viewholder.AbstractExpandableAdapterItem;
@@ -57,8 +58,8 @@ public class TeamsItem extends AbstractExpandableAdapterItem {
     @Override
     public void onUpdateViews(Object model, int position) {
         super.onUpdateViews(model, position);
-        if (model instanceof List) {
-            List<TeamInfo> teams = (List<TeamInfo>) model;
+        if (model instanceof SocialListLevelThree) {
+            List<TeamInfo> teams = ((SocialListLevelThree) model).getTeams();
             rlvTeams.setLayoutManager(new LinearLayoutManager(rlvTeams.getContext(), LinearLayoutManager.HORIZONTAL, false));
             SocialListTeamAdapter adapter = new SocialListTeamAdapter(teams);
             rlvTeams.setAdapter(adapter);

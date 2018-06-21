@@ -106,7 +106,7 @@ public class MirrorConversationActivity extends BasicConversationActivity {
         bundle.putInt("typeOrdinal", ConversationType.TEAM.ordinal());
         bundle.putBoolean("fromMirror", true);
         intent.putExtras(bundle);
-        ActivitySwitcher.animationOut(findViewById(R.id.mc_root), getWindowManager(), new ActivitySwitcher.AnimationFinishedListener() {
+        ActivitySwitcher.animationOutT(findViewById(R.id.mc_root), getWindowManager(), new ActivitySwitcher.AnimationFinishedListener() {
             @Override
             public void onAnimationFinished() {
                 startActivity(intent);

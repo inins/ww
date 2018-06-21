@@ -42,6 +42,8 @@ public class LevelTwoItem extends AbstractExpandableAdapterItem {
             target = 180f;
             if (getExpandableListItem().getChildItemList() != null && !getExpandableListItem().getChildItemList().isEmpty()) {
                 clContent.setBackgroundResource(R.drawable.common_bg_white_top_corners_normal);
+            } else {
+                clContent.setBackgroundResource(R.drawable.common_bg_white_corners_normal);
             }
         } else {
             start = 180f;

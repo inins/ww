@@ -91,8 +91,6 @@ public class BannerView extends FrameLayout {
         text_banner_count = findViewById(R.id.text_banner_count);
         viewPager.getViewPager().setPageMargin(0);
         viewPager.setInfiniteLoop(true);
-        adapter = new BannerAdapter();
-        viewPager.setAdapter(adapter);
         if (!numberIndicator) {
             //小圆点模式
             viewPager.initIndicator();
@@ -143,6 +141,20 @@ public class BannerView extends FrameLayout {
             int currentItem = viewPager.getCurrentItem();
             int count = viewPager.getAdapter().getCount();
             text_banner_count.setText(currentItem + 1 + "/" + count);
+        } else {
+            if (this.images != null && this.images.size() == 1) {
+                viewPager.disableIndicator();
+            } else {
+                viewPager.initIndicator();
+                viewPager.getIndicator()
+                        .setOrientation(UltraViewPager.Orientation.HORIZONTAL)
+                        .setFocusColor(selectedColor)
+                        .setNormalColor(unSelectedColor)
+                        .setMargin(0, 0, 0, SizeUtils.dp2px(20))
+                        .setRadius(SizeUtils.dp2px(5));
+                viewPager.getIndicator().setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
+                viewPager.getIndicator().build();
+            }
         }
     }
 

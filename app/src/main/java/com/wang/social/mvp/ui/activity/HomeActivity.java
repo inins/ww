@@ -382,6 +382,18 @@ public class HomeActivity extends BasicAppNoDiActivity implements IView, XRadioG
                 mAppManager.killAll(this.getClass());
                 CommonHelper.ImHelper.gotoGroupConversation(this, id, ConversationType.SOCIAL, false);
                 break;
+            case AppConstant.Key.OPEN_TARGET_PRAISE:
+                mAppManager.killAll(this.getClass());
+                CommonHelper.ImHelper.startNotifyPraise(this);
+                break;
+            case AppConstant.Key.OPEN_TARGET_COMMENT:
+                mAppManager.killAll(this.getClass());
+                CommonHelper.ImHelper.startNotifyComment(this);
+                break;
+            case AppConstant.Key.OPEN_TARGET_ALERT:
+                mAppManager.killAll(this.getClass());
+                CommonHelper.ImHelper.startNotifyAlert(this);
+                break;
         }
     }
 }
