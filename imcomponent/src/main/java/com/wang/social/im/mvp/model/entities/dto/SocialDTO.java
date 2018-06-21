@@ -63,7 +63,7 @@ public class SocialDTO implements Mapper<SocialInfo> {
                 } else if (age.equals("95")) {
                     attr.getAgeLimit().add(SocialAttribute.AgeLimit.AFTER_95);
                 } else if (age.equals("00")) {
-                    attr.getAgeLimit().add(SocialAttribute.AgeLimit.AFTER_95);
+                    attr.getAgeLimit().add(SocialAttribute.AgeLimit.AFTER_00);
                 } else if (age.equals("other")) {
                     attr.getAgeLimit().add(SocialAttribute.AgeLimit.OTHER);
                 }
