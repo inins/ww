@@ -82,4 +82,8 @@ public interface ImPath extends BasePath {
     //@列表
     String NOTIFY_ALERT_LIST = "/notify_alert_list";
     String NOTIFY_ALERT_LIST_URL = SCHEME + HOST + NOTIFY_ALERT_LIST;
+
+    //二维码扫描页面
+    String SCAN = "/scan";
+    String SCAN_URL = SCHEME + HOST + SCAN;
 }

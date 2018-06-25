@@ -1,35 +1,24 @@
 package com.wang.social.home.mvp.ui.controller;
 
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.frame.component.api.CommonService;
+import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.entities.funshow.FunshowBean;
-import com.frame.component.entities.user.ShatDownUser;
 import com.frame.component.helper.AppDataHelper;
-import com.frame.component.helper.CommonHelper;
-import com.frame.component.helper.ImageLoaderHelper;
-import com.frame.component.helper.NetPayStoneHelper;
-import com.frame.component.helper.NetZanHelper;
+import com.frame.component.ui.adapter.RecycleAdapterCommonFunshow;
 import com.frame.component.ui.base.BaseController;
-import com.frame.component.ui.dialog.DialogSureFunshowPay;
-import com.frame.component.ui.dialog.MorePopupWindow;
 import com.frame.component.utils.ListUtil;
-import com.frame.component.view.DialogPay;
-import com.frame.component.view.FunshowView;
-import com.frame.component.view.LoadingLayout;
 import com.frame.entities.EventBean;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.mvp.IView;
 import com.frame.utils.StrUtil;
-import com.frame.utils.TimeUtils;
 import com.frame.utils.ToastUtil;
 import com.wang.social.home.R;
 import com.wang.social.home.R2;
@@ -44,65 +33,22 @@ import java.util.List;
 import butterknife.BindView;
 
 public class HomeFunshowController extends BaseController {
+    @BindView(R2.id.recycler_funshow)
+    RecyclerView recycler;
+    @BindView(R2.id.btn_funshow_more)
+    TextView btnFunshowMore;
 
-    @BindView(R2.id.funshow_view)
-    FunshowView funshowView;
-
-    private MorePopupWindow popupWindow;
-
-    private FunshowHome currentFunshow;
+    private RecycleAdapterCommonFunshow adapter;
 
     @Override
     public void onCommonEvent(EventBean event) {
         switch (event.getEvent()) {
-            case EventBean.EVENT_FUNSHOW_UPDATE_ZAN: {
-                //在详情页点赞，收到通知刷新点赞状态及其点赞数量
-                int talkId = (int) event.get("talkId");
-                boolean isZan = (boolean) event.get("isZan");
-                int zanCount = (int) event.get("zanCount");
-                if (currentFunshow != null && talkId == currentFunshow.getTalkId()) {
-                    currentFunshow.setIsLike(isZan);
-                    currentFunshow.setSupportTotal(zanCount);
-                    setFunshowData(currentFunshow);
-                }
-                break;
-            }
-            case EventBean.EVENT_FUNSHOW_DETAIL_ADD_EVA: {
-                //在详情页评论，收到通知刷新评论数量
-                int talkId = (int) event.get("talkId");
-                if (currentFunshow != null && talkId == currentFunshow.getTalkId()) {
-                    currentFunshow.setCommentTotal(currentFunshow.getCommentTotal() + 1);
-                    setFunshowData(currentFunshow);
-                }
-                break;
-            }
-            case EventBean.EVENT_FUNSHOW_DETAIL_ADD_SHARE: {
-                //在详情页分享，收到通知刷新分享数量
-                int talkId = (int) event.get("talkId");
-                if (currentFunshow != null && talkId == currentFunshow.getTalkId()) {
-                    currentFunshow.setShareTotal(currentFunshow.getShareTotal() + 1);
-                    setFunshowData(currentFunshow);
-                }
-                break;
-            }
-            case EventBean.EVENT_FUNSHOW_PAYED: {
-                //趣晒支付了
-                int talkId = (int) event.get("talkId");
-                setFunshowPayed(talkId);
-                break;
-            }
-            //详情页面删除趣晒
-            case EventBean.EVENT_FUNSHOW_DEL:
-                //在详情页不喜欢，重新刷新列表
-            case EventBean.EVENT_FUNSHOW_DISSLIKE: {
-                int talkId = (int) event.get("talkId");
-                if (currentFunshow != null && talkId == currentFunshow.getTalkId()) {
-                    netGetNewFunshow(false);
-                }
-                break;
-            }
             //新增一条趣晒，收到通知刷新列表
             case EventBean.EVENT_FUNSHOW_ADD:
+                //在详情页被删除了，收到通知刷新列表
+            case EventBean.EVENT_FUNSHOW_DEL:
+                //在详情页不喜欢，收到通知刷新列表
+            case EventBean.EVENT_FUNSHOW_DISSLIKE:
                 refreshData();
                 break;
         }
@@ -110,8 +56,7 @@ public class HomeFunshowController extends BaseController {
 
     public HomeFunshowController(IView iView, View root) {
         super(iView, root);
-        int layout = R.layout.lay_item_funshow;
-        addLoadingLayout();
+        int layout = R.layout.home_lay_funshow;
         registEventBus();
         onInitCtrl();
         onInitData();
@@ -119,60 +64,39 @@ public class HomeFunshowController extends BaseController {
 
     @Override
     protected void onInitCtrl() {
-        popupWindow = new MorePopupWindow(getContext());
+        adapter = new RecycleAdapterCommonFunshow();
+        adapter.registEventBus();
+        adapter.setOnDislikeClickListener((v, funshow) -> netShatDownUser(funshow.getUserId()));
+        recycler.setNestedScrollingEnabled(false);
+        recycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        recycler.setAdapter(adapter);
+        recycler.addItemDecoration(new ItemDecorationDivider(getContext()).setLineMargin(15));
+
+        btnFunshowMore.setOnClickListener(view -> {
+            //切换到广场-趣晒
+            EventBus.getDefault().post(new EventBean(EventBean.EVENT_CHANGE_TAB_PLAZA));
+            EventBus.getDefault().post(new EventBean(EventBean.EVENT_CHANGE_TAB_PLAZA_FUNSHOW));
+        });
     }
 
     @Override
     protected void onInitData() {
         //加载缓存
-        setFunshowData(CatchHelper.getFunshowHome());
+        adapter.refreshData(CatchHelper.getFunshowHome());
         netGetNewFunshow(false);
     }
 
-    private void setFunshowData(FunshowHome bean) {
-        if (bean != null) {
-            currentFunshow = bean;
-            FunshowBean funshowBean = bean.tans2FunshowBean();
-            funshowView.setData(funshowBean);
-            funshowView.setZanCallback((isZan, zanCount) -> {
-                bean.setIsLike(isZan);
-                bean.setSupportTotal(zanCount);
-            });
-            funshowView.getMoreBtn().setOnClickListener(view -> {
-                popupWindow.setOnDislikeClickListener(v -> {
-                    netShatDownUser();
-                });
-                popupWindow.showPopupWindow(view);
-            });
-            getRoot().setOnClickListener(v -> {
-                if (!funshowBean.hasAuth()) {
-                    DialogPay.showPayFunshow(getIView(), getFragmentManager(), funshowBean.getPrice(), -1, () -> {
-                        NetPayStoneHelper.newInstance().netPayFunshow(getIView(), funshowBean.getId(), funshowBean.getPrice(), () -> {
-                            CommonHelper.FunshowHelper.startDetailActivity(getContext(), funshowBean.getId());
-                            EventBus.getDefault().post(new EventBean(EventBean.EVENT_FUNSHOW_PAYED).put("talkId", funshowBean.getId()));
-                        });
-                    });
-                } else {
-                    CommonHelper.FunshowHelper.startDetailActivity(getContext(), funshowBean.getId());
-                }
-            });
-        }
-    }
-
-    private void setFunshowPayed(int talkId) {
-        if (talkId == currentFunshow.getTalkId()) {
-            currentFunshow.setTalkPayed(1);
-            setFunshowData(currentFunshow);
-        }
+    @Override
+    public void onDestory() {
+        super.onDestory();
+        adapter.unRegistEventBus();
     }
 
     public void refreshData() {
         netGetNewFunshow(false);
     }
 
-    public void netShatDownUser() {
-        if (funshowView == null) return;
-        int userId = currentFunshow.getCreatorId();
+    public void netShatDownUser(int userId) {
         if (userId == AppDataHelper.getUser().getUserId()) {
             ToastUtil.showToastShort("不能屏蔽自己");
             return;
@@ -201,9 +125,13 @@ public class HomeFunshowController extends BaseController {
                         BaseListWrap<FunshowHome> wrap = basejson.getData();
                         List<FunshowHome> list = wrap.getList();
                         if (!StrUtil.isEmpty(list)) {
+                            List<FunshowBean> funshowBeans = FunshowHome.tans2FunshowBeanList(list);
+                            //只加载前5条
+                            funshowBeans = ListUtil.getFirst(funshowBeans, 5);
                             //加入缓存
-                            CatchHelper.saveFunshowHome(list.get(0));
-                            setFunshowData(list.get(0));
+                            CatchHelper.saveFunshowHome(funshowBeans);
+                            List<FunshowBean> testList = CatchHelper.getFunshowHome();
+                            adapter.refreshData(funshowBeans);
                         }
                     }
 

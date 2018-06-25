@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="65dp"
+    tools:layout_editor_absoluteY="25dp">
+
+    <ImageView
+        android:id="@+id/img_header"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/default_circle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/img_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/im_select_search_tag_mi_qu"
+        app:layout_constraintStart_toStartOf="@+id/img_header"
+        app:layout_constraintTop_toTopOf="@+id/img_header" />
+
+    <TextView
+        android:id="@+id/text_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/common_text_blank"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/img_header"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="埃米尔" />
+
+    <TextView
+        android:id="@+id/text_note"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/common_text_dark_light"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/text_name"
+        app:layout_constraintTop_toBottomOf="@+id/text_name"
+        tools:text="趣聊 56人" />
+
+</android.support.constraint.ConstraintLayout>

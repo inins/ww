@@ -40,6 +40,7 @@ import com.wang.social.im.mvp.ui.CreateSocialActivity;
 import com.wang.social.im.mvp.ui.PhoneBookActivity;
 import com.wang.social.im.mvp.ui.ScanActivity;
 import com.wang.social.im.mvp.ui.SearchActivity;
+import com.wang.social.im.mvp.ui.SearchActivityV2;
 import com.wang.social.im.mvp.ui.adapters.FragmentAdapter;
 import com.wang.social.im.view.NoScrollViewPager;
 
@@ -168,7 +169,7 @@ public class ContactsFragment extends BasicFragment implements AutoPopupWindow.O
                 popupWindow.showAsDropDown(fcIvMore, showX, -SizeUtils.dp2px(15));
             }
         } else if (view.getId() == R.id.fc_iv_search) {
-            SearchActivity.start(getActivity());
+            SearchActivityV2.start(getActivity());
         }
     }
 

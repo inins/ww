@@ -390,6 +390,13 @@ public class CommonHelper {
         public static void startNotifyAlert(Context context) {
             UIRouter.getInstance().openUri(context, ImPath.NOTIFY_ALERT_LIST_URL, null);
         }
+
+        /**
+         * @param context 二维码扫描
+         */
+        public static void startScanActivity(Context context) {
+            UIRouter.getInstance().openUri(context, ImPath.SCAN_URL, null);
+        }
     }
 
     public static class TopicHelper {

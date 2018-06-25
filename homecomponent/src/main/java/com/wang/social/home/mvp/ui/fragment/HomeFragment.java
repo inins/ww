@@ -31,6 +31,7 @@ import com.wang.social.home.mvp.ui.controller.HomeContentController;
 import com.wang.social.home.mvp.ui.controller.DetailBannerBoardController;
 import com.wang.social.home.mvp.ui.controller.HomeFunshowController;
 import com.wang.social.home.mvp.ui.controller.HomeNaviboardController;
+import com.wang.social.home.mvp.ui.controller.HomeUserController;
 
 import java.util.ArrayList;
 
@@ -49,6 +50,7 @@ public class HomeFragment extends BasicLazyNoDiFragment implements HomeContract.
 
     private HomeNaviboardController naviboardController;
     private HomeFunshowController funshowController;
+    private HomeUserController userController;
     private HomeContentController contentController;
 
     public static HomeFragment newInstance() {
@@ -67,6 +69,7 @@ public class HomeFragment extends BasicLazyNoDiFragment implements HomeContract.
     public void initDataLazy() {
         naviboardController = new HomeNaviboardController(this, getView().findViewById(R.id.include_naviboard));
         funshowController = new HomeFunshowController(this, getView().findViewById(R.id.include_funshow));
+        userController = new HomeUserController(this, getView().findViewById(R.id.include_user));
         contentController = new HomeContentController(this, getView().findViewById(R.id.include_content));
         FocusUtil.focusToTop(naviboardController.getRoot());
 
@@ -111,6 +114,9 @@ public class HomeFragment extends BasicLazyNoDiFragment implements HomeContract.
         }
         if (funshowController != null) {
             funshowController.onDestory();
+        }
+        if (userController != null) {
+            userController.onDestory();
         }
         if (contentController != null) {
             contentController.onDestory();

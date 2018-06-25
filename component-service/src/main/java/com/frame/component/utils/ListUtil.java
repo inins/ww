@@ -31,7 +31,11 @@ public class ListUtil {
         if (list.size() <= n) {
             return list;
         } else {
-            return list.subList(0, n);
+            //如果list实现了序列化，截取出来的sublist是没有序列化的，一定要注意这种情况
+            List<T> subList = list.subList(0, n);
+            ArrayList<T> rets = new ArrayList<>();
+            rets.addAll(subList);
+            return rets;
         }
     }
 

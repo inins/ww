@@ -1,0 +1,44 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/text_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:drawableLeft="@drawable/home_shape_rect_gradient_blue_tag"
+        android:drawablePadding="4dp"
+        android:gravity="center_vertical"
+        android:text="@string/home_home_funshow_title"
+        android:textColor="@color/common_text_blank"
+        android:textSize="23sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/home_home_funshow_note" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_funshow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/btn_funshow_more"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:foreground="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:text="@string/home_home_funshow_more"
+        android:textColor="@color/common_blue_deep"
+        android:textSize="14sp" />
+
+</LinearLayout>

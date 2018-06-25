@@ -1,6 +1,7 @@
 package com.wang.social.home.helper;
 
 import com.frame.component.entities.User;
+import com.frame.component.entities.funshow.FunshowBean;
 import com.frame.utils.SPUtils;
 import com.wang.social.home.mvp.entities.FunpointAndTopic;
 import com.wang.social.home.mvp.entities.card.CardGroup;
@@ -13,7 +14,7 @@ public class CatchHelper {
     private static final String SHARENAME = "app_catch";
     private static final String KEY_CARD_USER = "card_user";
     private static final String KEY_CARD_GROUP = "card_group";
-    private static final String KEY_HOME_FUNSHOW = "home_funshow";
+    private static final String KEY_HOME_FUNSHOW = "home_funshow_list";
     private static final String KEY_HOME_CONTENT = "home_contrent";
 
     ////////////////// 持久化同类的人数据 /////////////////
@@ -40,13 +41,13 @@ public class CatchHelper {
 
     ////////////////// 持久化首页趣晒数据 /////////////////
 
-    public static void saveFunshowHome(FunshowHome funshowHome) {
-        if (funshowHome == null) return;
-        SPUtils.getInstance(SHARENAME).put(KEY_HOME_FUNSHOW, funshowHome);
+    public static void saveFunshowHome(List<FunshowBean> funshowBeans) {
+        if (funshowBeans == null) return;
+        SPUtils.getInstance(SHARENAME).put(KEY_HOME_FUNSHOW, funshowBeans);
     }
 
-    public static FunshowHome getFunshowHome() {
-        return (FunshowHome) SPUtils.getInstance(SHARENAME).get(KEY_HOME_FUNSHOW);
+    public static List<FunshowBean> getFunshowHome() {
+        return (List<FunshowBean>) SPUtils.getInstance(SHARENAME).get(KEY_HOME_FUNSHOW);
     }
 
     ////////////////// 持久化首页内容 /////////////////

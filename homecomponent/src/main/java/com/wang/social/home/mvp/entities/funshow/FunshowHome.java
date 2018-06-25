@@ -1,8 +1,11 @@
 package com.wang.social.home.mvp.entities.funshow;
 
 import com.frame.component.entities.funshow.FunshowBean;
+import com.frame.utils.StrUtil;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import lombok.Data;
 
@@ -100,5 +103,15 @@ public class FunshowHome implements Serializable{
         funshowBean.setPay(isPay());
         funshowBean.setHideName(isHideName());
         return funshowBean;
+    }
+
+    public static List<FunshowBean> tans2FunshowBeanList(List<FunshowHome> list) {
+        List<FunshowBean> toList = new ArrayList<>();
+        if (!StrUtil.isEmpty(list)) {
+            for (FunshowHome bean : list) {
+                toList.add(bean.tans2FunshowBean());
+            }
+        }
+        return toList;
     }
 }

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_white"
+    android:fitsSystemWindows="true">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:theme="@style/common_AppTheme.AppBarOverlay"
+        app:elevation="0dp">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/transparent"
+            app:contentInsetStart="0dp"
+            app:popupTheme="@style/common_AppTheme.PopupOverlay">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+
+                <EditText
+                    android:id="@+id/edit_search"
+                    style="@style/common_EditNone"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/common_shape_rect_hint_white_conerfull"
+                    android:drawableLeft="@drawable/common_ic_home_search_big"
+                    android:drawablePadding="5dp"
+                    android:hint="请输入搜索关键词进行搜索"
+                    android:imeOptions="actionSearch"
+                    android:inputType="textPersonName"
+                    android:textColorHint="@color/common_text_light"
+                    android:textSize="14sp">
+
+                    <requestFocus />
+                </EditText>
+
+                <TextView
+                    android:id="@+id/btn_right"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right"
+                    android:drawablePadding="8dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:onClick="onClick"
+                    android:text="@string/common_cancel"
+                    android:textColor="@color/common_text_blank_dark"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <com.frame.component.view.LoadingLayoutEx
+        android:id="@+id/loadingview_ex"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:scrollbars="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingBottom="10dp">
+
+                <include
+                    android:id="@+id/include_friend"
+                    layout="@layout/im_lay_search_fram" />
+
+                <include
+                    android:id="@+id/include_group"
+                    layout="@layout/im_lay_search_fram" />
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+    </com.frame.component.view.LoadingLayoutEx>
+
+</android.support.design.widget.CoordinatorLayout>

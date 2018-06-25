@@ -266,6 +266,10 @@ public class HomeActivity extends BasicAppNoDiActivity implements IView, XRadioG
                     textDot.setVisibility(View.GONE);
                 }
                 break;
+            case EventBean.EVENT_CHANGE_TAB_PLAZA:
+                //切换到广场
+                groupTab.check(tabsId[3]);
+                break;
         }
     }
 
