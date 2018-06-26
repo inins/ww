@@ -7,6 +7,7 @@ import com.wang.social.home.mvp.entities.FunpointAndTopic;
 import com.wang.social.home.mvp.entities.card.CardGroup;
 import com.wang.social.home.mvp.entities.card.CardUser;
 import com.wang.social.home.mvp.entities.funshow.FunshowHome;
+import com.wang.social.home.mvp.entities.user.RecommendUser;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class CatchHelper {
     private static final String KEY_CARD_USER = "card_user";
     private static final String KEY_CARD_GROUP = "card_group";
     private static final String KEY_HOME_FUNSHOW = "home_funshow_list";
+    private static final String KEY_HOME_USER = "home_user_list";
     private static final String KEY_HOME_CONTENT = "home_contrent";
 
     ////////////////// 持久化同类的人数据 /////////////////
@@ -48,6 +50,17 @@ public class CatchHelper {
 
     public static List<FunshowBean> getFunshowHome() {
         return (List<FunshowBean>) SPUtils.getInstance(SHARENAME).get(KEY_HOME_FUNSHOW);
+    }
+
+    ////////////////// 持久化首页推荐用户数据 /////////////////
+
+    public static void saveRecommendUser(List<RecommendUser> recommendUsers) {
+        if (recommendUsers == null) return;
+        SPUtils.getInstance(SHARENAME).put(KEY_HOME_USER, recommendUsers);
+    }
+
+    public static List<RecommendUser> getRecommendUser() {
+        return (List<RecommendUser>) SPUtils.getInstance(SHARENAME).get(KEY_HOME_USER);
     }
 
     ////////////////// 持久化首页内容 /////////////////

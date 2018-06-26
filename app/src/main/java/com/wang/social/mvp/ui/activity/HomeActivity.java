@@ -20,6 +20,7 @@ import com.frame.component.entities.DynamicMessage;
 import com.frame.component.entities.SystemMessage;
 import com.frame.component.entities.VersionInfo;
 import com.frame.component.enums.ConversationType;
+import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.MsgHelper;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
@@ -41,6 +42,7 @@ import com.vector.update_app.UpdateCallback;
 import com.vector.update_app.listener.ExceptionHandler;
 import com.wang.social.R;
 import com.wang.social.di.component.DaggerActivityComponent;
+import com.wang.social.location.mvp.helper.LocationHelper;
 import com.wang.social.mvp.ui.adapter.PagerAdapterHome;
 import com.wang.social.mvp.ui.dialog.DialogHomeAdd;
 import com.wang.social.utils.update.UpdateAppHttpUtil;
@@ -74,6 +76,8 @@ public class HomeActivity extends BasicAppNoDiActivity implements IView, XRadioG
     private int[] tabsId = new int[]{R.id.tab_1, R.id.tab_2, R.id.tab_3, R.id.tab_4};
 
     private boolean isConstraint;
+
+    private LocationHelper locationHelper;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, HomeActivity.class);
@@ -122,6 +126,14 @@ public class HomeActivity extends BasicAppNoDiActivity implements IView, XRadioG
         remoteCall();
 
         checkNewVersion();
+
+        //开始定位，成功后保存位置信息
+        locationHelper = LocationHelper.newInstance();
+        locationHelper.setOnLocationListener(locationInfo -> {
+            AppDataHelper.saveLocationInfo(locationInfo);
+            locationHelper.onDestroy();
+        });
+        locationHelper.startLocation();
     }
 
     @Override
@@ -130,6 +142,12 @@ public class HomeActivity extends BasicAppNoDiActivity implements IView, XRadioG
         if (isConstraint) {
             checkNewVersion();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (locationHelper != null) locationHelper.onDestroy();
     }
 
     //tab动作，切换viewpager
@@ -268,7 +286,7 @@ public class HomeActivity extends BasicAppNoDiActivity implements IView, XRadioG
                 break;
             case EventBean.EVENT_CHANGE_TAB_PLAZA:
                 //切换到广场
-                groupTab.check(tabsId[3]);
+                groupTab.check(tabsId[2]);
                 break;
         }
     }

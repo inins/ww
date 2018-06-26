@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
 import com.frame.component.ui.base.BasicAppNoDiActivity;
+import com.frame.component.view.LoadingLayout;
 import com.frame.component.view.LoadingLayoutEx;
 import com.frame.utils.FocusUtil;
 import com.frame.utils.KeyboardUtils;
@@ -26,8 +28,8 @@ public class SearchActivityV2 extends BasicAppNoDiActivity {
 
     @BindView(R2.id.edit_search)
     EditText editSearch;
-    @BindView(R2.id.loadingview_ex)
-    LoadingLayoutEx loadingviewEx;
+    @BindView(R2.id.loadingview)
+    LoadingLayout loadingview;
 
     private SearchFriendController friendController;
     private SearchGroupController groupController;
@@ -48,6 +50,13 @@ public class SearchActivityV2 extends BasicAppNoDiActivity {
         //初始化控制器
         friendController = new SearchFriendController(this, findViewById(R.id.include_friend));
         groupController = new SearchGroupController(this, findViewById(R.id.include_group));
+        loadingview.showLackView();
+        editSearch.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                search();
+            }
+            return false;
+        });
 
         //延迟0.1秒后弹出软键盘
         new Handler().postDelayed(() -> KeyboardUtils.showSoftInput(editSearch), 100);
@@ -56,6 +65,7 @@ public class SearchActivityV2 extends BasicAppNoDiActivity {
     private void search() {
         String key = editSearch.getText().toString();
         if (!TextUtils.isEmpty(key)) {
+            loadingview.showOut();
         } else {
             ToastUtil.showToastShort("请输入搜索关键字");
         }

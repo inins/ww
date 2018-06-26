@@ -1,16 +1,12 @@
 package com.wang.social.location.mvp.helper;
 
-import android.location.Location;
-import android.os.Bundle;
-
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
-import com.frame.utils.FrameUtils;
 import com.frame.utils.ToastUtil;
 import com.frame.utils.Utils;
-import com.wang.social.location.mvp.model.entities.LocationInfo;
+import com.frame.component.entities.location.LocationInfo;
 
 /**
  * 定位帮助类

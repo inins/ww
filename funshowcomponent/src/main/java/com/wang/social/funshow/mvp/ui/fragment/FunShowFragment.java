@@ -35,6 +35,7 @@ import com.wang.social.funshow.mvp.contract.FunshowListContract;
 import com.wang.social.funshow.mvp.entities.user.TopUser;
 import com.wang.social.funshow.mvp.presonter.FunshowListPresonter;
 import com.wang.social.funshow.mvp.ui.activity.HotUserListActivity;
+import com.wang.social.location.mvp.helper.LocationHelper;
 
 import java.util.List;
 

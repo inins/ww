@@ -8,5 +8,5 @@
     android:drawableTop="@drawable/common_ic_default_nonet"
     android:gravity="center_horizontal"
     android:text="网络连接失败"
-    android:textColor="@color/common_text_dark"
-    android:textSize="15sp" />
+    android:textColor="@color/common_text_light"
+    android:textSize="17sp" />

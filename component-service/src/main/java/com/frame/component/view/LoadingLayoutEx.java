@@ -118,6 +118,14 @@ public class LoadingLayoutEx extends LoadingLayout {
         showFailView(R.drawable.common_ic_default_nomoneytree, getContext().getString(R.string.common_default_nomoneytree));
     }
 
+    public void showFailViewSearchFunpoint() {
+        showFailView(R.drawable.common_ic_default_search_funpoint, getContext().getString(R.string.common_default_search_funpoint));
+    }
+
+    public void showFailViewSearchTopic() {
+        showFailView(R.drawable.common_ic_default_search_topic, getContext().getString(R.string.common_default_search_topic));
+    }
+
     //通用：没有数据 （UI没有标识的页面空数据状态用这个）
     public void showFailViewNoData() {
         showFailView(R.drawable.common_ic_default_nomsg, getContext().getString(R.string.common_default_nomoneytree));

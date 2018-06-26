@@ -127,6 +127,13 @@ public class CommonHelper {
     public static class ImHelper {
 
         /**
+         * 新用户列表
+         */
+        public static void startNewUserActivity(Context context) {
+            UIRouter.getInstance().openUri(context, ImPath.NEWUSER_URL, null);
+        }
+
+        /**
          * 个人聊天界面
          *
          * @param context

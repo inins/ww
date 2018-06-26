@@ -17,6 +17,7 @@ import com.frame.http.api.ApiHelper;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.IView;
+import com.frame.router.facade.annotation.RouteNode;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.di.component.DaggerActivityComponent;
@@ -38,6 +39,7 @@ import io.reactivex.functions.Consumer;
 /**
  * 新用户
  */
+@RouteNode(path = "/newUser", desc = "新用户")
 public class NewUsersActivity extends BasicAppActivity implements IView, BaseAdapter.OnItemClickListener<UserInfo> {
 
     @BindView(R2.id.sl_rlv_users)

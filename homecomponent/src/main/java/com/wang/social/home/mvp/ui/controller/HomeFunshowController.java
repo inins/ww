@@ -130,7 +130,6 @@ public class HomeFunshowController extends BaseController {
                             funshowBeans = ListUtil.getFirst(funshowBeans, 5);
                             //加入缓存
                             CatchHelper.saveFunshowHome(funshowBeans);
-                            List<FunshowBean> testList = CatchHelper.getFunshowHome();
                             adapter.refreshData(funshowBeans);
                         }
                     }

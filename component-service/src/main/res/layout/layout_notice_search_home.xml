@@ -1,0 +1,70 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/temp1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="120dp"
+        android:drawableTop="@drawable/common_ic_default_funpoint"
+        android:text="@string/common_default_search_funpoint"
+        android:textColor="@color/common_text_light"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toStartOf="@id/temp2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/temp2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableTop="@drawable/common_ic_default_funshow"
+        android:text="@string/common_default_search_funshow"
+        android:textColor="@color/common_text_light"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toStartOf="@id/temp3"
+        app:layout_constraintStart_toEndOf="@+id/temp1"
+        app:layout_constraintTop_toTopOf="@+id/temp1" />
+
+    <TextView
+        android:id="@+id/temp3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableTop="@drawable/common_ic_default_user"
+        android:text="@string/common_default_search_user"
+        android:textColor="@color/common_text_light"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/temp2"
+        app:layout_constraintTop_toTopOf="@+id/temp2" />
+
+    <TextView
+        android:id="@+id/temp4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:drawableTop="@drawable/common_ic_default_qu"
+        android:text="@string/common_default_search_qu"
+        android:textColor="@color/common_text_light"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toStartOf="@+id/temp5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/temp1" />
+
+    <TextView
+        android:id="@+id/temp5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableTop="@drawable/common_ic_default_topic"
+        android:text="@string/common_default_search_topic"
+        android:textColor="@color/common_text_light"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/temp4"
+        app:layout_constraintTop_toTopOf="@+id/temp4" />
+
+</android.support.constraint.ConstraintLayout>

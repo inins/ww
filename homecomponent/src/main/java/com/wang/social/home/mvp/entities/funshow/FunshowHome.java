@@ -43,7 +43,7 @@ public class FunshowHome implements Serializable{
     private String address;
     private String province;
     private String city;
-    private int mediaType;
+    private int mediaType;// 资源文件格式：1.音频2.视频3.图片
     private int readTotal;
     private int commentTotal;
     private int supportTotal;

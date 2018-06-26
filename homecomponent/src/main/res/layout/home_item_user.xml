@@ -10,21 +10,34 @@
     android:paddingBottom="10dp"
     android:paddingTop="10dp">
 
-    <ImageView
-        android:id="@+id/img_header"
-        android:layout_width="66dp"
-        android:layout_height="66dp"
-        android:src="@drawable/ic_default_header" />
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/img_header"
+            android:layout_width="66dp"
+            android:layout_height="66dp"
+            android:src="@drawable/ic_default_header" />
+
+        <ImageView
+            android:id="@+id/img_gender"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_gravity="right|bottom"
+            android:scaleType="center"
+            android:src="@drawable/common_select_gender_oval" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/text_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="轻拿轻放"
         android:textColor="@color/common_text_blank"
         android:textSize="14sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        tools:text="轻拿轻放" />
 
     <TextView
         android:id="@+id/text_tag"
@@ -35,8 +48,8 @@
         android:layout_marginTop="4dp"
         android:ellipsize="end"
         android:lines="1"
-        android:text="#周杰伦 #电子竞技asdas"
         android:textColor="@color/common_text_dark"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        tools:text="#周杰伦 #电子竞技asdas" />
 
 </LinearLayout>

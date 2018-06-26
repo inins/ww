@@ -67,11 +67,12 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <com.frame.component.view.LoadingLayoutEx
-        android:id="@+id/loadingview_ex"
+    <com.frame.component.view.LoadingLayout
+        android:id="@+id/loadingview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_lack="@layout/layout_notice_search_plaza">
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -95,6 +96,6 @@
             </LinearLayout>
 
         </android.support.v4.widget.NestedScrollView>
-    </com.frame.component.view.LoadingLayoutEx>
+    </com.frame.component.view.LoadingLayout>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -10,6 +10,7 @@ import com.frame.component.common.GridSpacingItemDecoration;
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.entities.TestEntity;
 import com.frame.component.entities.funshow.FunshowBean;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.ui.base.BaseController;
 import com.frame.component.utils.ListUtil;
 import com.frame.http.api.ApiHelperEx;
@@ -23,6 +24,7 @@ import com.wang.social.home.R;
 import com.wang.social.home.R2;
 import com.wang.social.home.helper.CatchHelper;
 import com.wang.social.home.mvp.entities.funshow.FunshowHome;
+import com.wang.social.home.mvp.entities.user.RecommendUser;
 import com.wang.social.home.mvp.model.api.HomeService;
 import com.wang.social.home.mvp.ui.adapter.RecycleAdapterHomeUser;
 
@@ -53,59 +55,49 @@ public class HomeUserController extends BaseController {
     @Override
     protected void onInitCtrl() {
         adapter = new RecycleAdapterHomeUser();
+        adapter.setOnItemClickListener((recommendUser, position) -> {
+            CommonHelper.ImHelper.startPersonalCardForBrowse(getContext(), recommendUser.getUserId());
+        });
         recycler.setNestedScrollingEnabled(false);
         recycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         recycler.setAdapter(adapter);
         recycler.addItemDecoration(new GridSpacingItemDecoration(1, SizeUtils.dp2px(5), GridLayoutManager.HORIZONTAL, false));
+
+        //趣晒魔
+        imgUserShow.setOnClickListener(view -> CommonHelper.FunshowHelper.startHotUserActivity(getContext()));
+        //知识魔
+        imgUserLearn.setOnClickListener(view -> CommonHelper.TopicHelper.startTopUser(getContext()));
+        //新用户列表
+        imgUserNew.setOnClickListener(view -> CommonHelper.ImHelper.startNewUserActivity(getContext()));
     }
 
     @Override
     protected void onInitData() {
         //加载缓存
-//        adapter.refreshData(CatchHelper.getFunshowHome());
-//        netGetUsers(false);
-
-        adapter.refreshData(new ArrayList<TestEntity>(){{
-            add(new TestEntity());
-            add(new TestEntity());
-            add(new TestEntity());
-            add(new TestEntity());
-            add(new TestEntity());
-            add(new TestEntity());
-            add(new TestEntity());
-            add(new TestEntity());
-        }});
+        adapter.refreshData(CatchHelper.getRecommendUser());
+        netGetUsers();
     }
 
 
+    public void netGetUsers() {
+        ApiHelperEx.execute(getIView(), false,
+                ApiHelperEx.getService(HomeService.class).getRecommendUsers(),
+                new ErrorHandleSubscriber<BaseJson<BaseListWrap<RecommendUser>>>() {
+                    @Override
+                    public void onNext(BaseJson<BaseListWrap<RecommendUser>> basejson) {
+                        BaseListWrap<RecommendUser> wrap = basejson.getData();
+                        List<RecommendUser> list = wrap.getList();
+                        if (!StrUtil.isEmpty(list)) {
+                            //加入缓存
+                            CatchHelper.saveRecommendUser(list);
+                            adapter.refreshData(list);
+                        }
+                    }
 
-//    public void netGetUsers(boolean needLoading) {
-//        ApiHelperEx.execute(getIView(), needLoading,
-//                ApiHelperEx.getService(HomeService.class).getNewFunshow(),
-//                new ErrorHandleSubscriber<BaseJson<BaseListWrap<FunshowHome>>>() {
-//                    @Override
-//                    public void onNext(BaseJson<BaseListWrap<FunshowHome>> basejson) {
-//                        BaseListWrap<FunshowHome> wrap = basejson.getData();
-//                        List<FunshowHome> list = wrap.getList();
-//                        if (!StrUtil.isEmpty(list)) {
-//                            List<FunshowBean> funshowBeans = FunshowHome.tans2FunshowBeanList(list);
-//                            //只加载前5条
-//                            funshowBeans = ListUtil.getFirst(funshowBeans, 5);
-//                            //加入缓存
-//                            CatchHelper.saveFunshowHome(funshowBeans);
-//                            List<FunshowBean> testList = CatchHelper.getFunshowHome();
-//                            adapter.refreshData(funshowBeans);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        ToastUtil.showToastLong(e.getMessage());
-//                    }
-//                }, () -> {
-//                    if (needLoading) getLoadingLayout().showLoadingView();
-//                }, () -> {
-//                    if (needLoading) getLoadingLayout().showOut();
-//                });
-//    }
+                    @Override
+                    public void onError(Throwable e) {
+                        ToastUtil.showToastLong(e.getMessage());
+                    }
+                });
+    }
 }

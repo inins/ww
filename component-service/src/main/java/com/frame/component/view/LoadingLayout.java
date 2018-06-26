@@ -95,7 +95,7 @@ public class LoadingLayout extends FrameLayout {
     }
 
     public void showLackView() {
-        if (failViewSrc != 0) {
+        if (lackViewSrc != 0) {
             showin = LoadingViewHelper.showin(this, lackViewSrc, showin, onRefreshListener);
         } else {
             Timber.e( "没有设置lackViewSrc");
