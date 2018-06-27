@@ -49,6 +49,8 @@ public class TopicDTO implements Mapper<Topic> {
     private List<Tag> topicTag;
     private String userCover;
     private Integer isShopping;
+    private Integer isOfficial;
+    private Integer isTop;
 
     @Override
     public Topic transform() {
@@ -72,6 +74,9 @@ public class TopicDTO implements Mapper<Topic> {
         object.setShopping(isShopping == 0);
         object.setAvatar(EntitiesUtil.assertNotNull(userCover));
         object.setNickname(EntitiesUtil.assertNotNull(userName));
+
+        object.setTop(EntitiesUtil.assertNotNull(isTop) == 1);
+        object.setOfficial(EntitiesUtil.assertNotNull(isOfficial) == 1);
 
         return object;
     }

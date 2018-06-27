@@ -62,7 +62,7 @@ public class LeavingMsgAdapter extends RecyclerView.Adapter<LeavingMsgAdapter.Vi
                         AppDataHelper.getUser().getAvatar());
             }
         } else {
-            ImageLoaderHelper.loadCircleImg(holder.avatarIV, "");
+            ImageLoaderHelper.loadCircleImg(holder.avatarIV, R.drawable.im_robot_avatar);
         }
     }
 

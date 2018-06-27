@@ -7,6 +7,12 @@
     app:cardCornerRadius="14dp"
     app:cardElevation="0dp">
 
+    <ImageView
+        android:id="@+id/set_top_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/topic_set_top"/>
+
     <LinearLayout
         android:id="@+id/content_layout_wrapper"
         android:layout_width="match_parent"

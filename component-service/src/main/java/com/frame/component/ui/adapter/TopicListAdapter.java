@@ -2,6 +2,7 @@ package com.frame.component.ui.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -88,6 +89,9 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
 
         if (null == topic) return;
 
+        // 是否置顶
+        holder.setTopTV.setVisibility(topic.isTop() ? View.VISIBLE : View.GONE);
+
         // 是否付费
         if (topic.getRelateState() == 0) {
             holder.payFlagIV.setVisibility(View.GONE);
@@ -123,6 +127,23 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
         ImageLoaderHelper.loadCircleImg(holder.avatarIV, topic.getAvatar());
         // 用户昵称
         holder.userNameTV.setText(topic.getNickname());
+        // 是否官方号
+        if (topic.isOfficial()) {
+            Drawable officialIcon = mContext.getResources().getDrawable(R.drawable.common_ic_official);
+            officialIcon.setBounds(0, 0, officialIcon.getMinimumWidth(), officialIcon.getMinimumHeight());
+
+            holder.userNameTV.setCompoundDrawables(
+                    null,
+                    null,
+                    officialIcon,
+                    null);
+        } else {
+            holder.userNameTV.setCompoundDrawables(
+                    null,
+                    null,
+                    null,
+                    null);
+        }
 
         // 点击头像和昵称跳转到用户名片
         holder.userInfoLayout.setTag(topic);
@@ -269,6 +290,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
         TextView readTV;
         ConerTextView tagTV;
         View userInfoLayout;
+        TextView setTopTV;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -288,6 +310,7 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicListAdapter.View
             readTV = itemView.findViewById(R.id.read_text_view);
             tagTV = itemView.findViewById(R.id.conertext_tag);
             userInfoLayout = itemView.findViewById(R.id.user_info_layout);
+            setTopTV = itemView.findViewById(R.id.set_top_text_view);
         }
     }
 

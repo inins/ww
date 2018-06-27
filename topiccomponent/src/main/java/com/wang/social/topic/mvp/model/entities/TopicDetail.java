@@ -53,4 +53,5 @@ public class TopicDetail {
     private Integer topicId;
     private Integer shareTotal;
     private String templateUrl;
+    private boolean isTop;
 }

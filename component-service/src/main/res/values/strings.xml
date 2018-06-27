@@ -46,4 +46,7 @@
     <string name="mt_cancel">取消</string>
     <string name="mt_confirm">确定</string>
 
+
+    <string name="set_top">置顶</string>
+
 </resources>

@@ -31,6 +31,8 @@ public class TopicDTO implements Mapper<Topic> {
     private Boolean support;
     private String avatar;
     private String nickname;
+    private Integer isOfficial;
+    private Integer isTop;
 
     @Override
     public Topic transform() {
@@ -54,6 +56,9 @@ public class TopicDTO implements Mapper<Topic> {
         object.setShopping(EntitiesUtil.assertNotNull(shopping));
         object.setAvatar(EntitiesUtil.assertNotNull(avatar));
         object.setNickname(EntitiesUtil.assertNotNull(nickname));
+        object.setTop(EntitiesUtil.assertNotNull(isTop) == 1);
+        isOfficial = 1;
+        object.setOfficial(EntitiesUtil.assertNotNull(isOfficial) == 1);
 
         return object;
     }
