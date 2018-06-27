@@ -1,4 +1,4 @@
-package com.wang.social.location.mvp.model.entities;
+package com.frame.component.entities.location;
 
 import android.text.TextUtils;
 

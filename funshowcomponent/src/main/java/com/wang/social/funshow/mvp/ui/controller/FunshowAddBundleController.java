@@ -5,19 +5,15 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
-import com.frame.component.helper.ImageLoaderHelper;
-import com.frame.component.ui.base.BaseController;
 import com.frame.component.view.bundleimgview.BundleImgEntity;
 import com.frame.component.view.bundleimgview.BundleImgView;
 import com.frame.entities.EventBean;
 import com.frame.utils.StrUtil;
-import com.frame.utils.ToastUtil;
 import com.wang.social.funshow.R;
 import com.wang.social.funshow.R2;
 import com.wang.social.funshow.helper.VideoPhotoHelperEx;
-import com.wang.social.funshow.mvp.entities.funshow.Pic;
 import com.wang.social.location.mvp.helper.LocationHelper;
-import com.wang.social.location.mvp.model.entities.LocationInfo;
+import com.frame.component.entities.location.LocationInfo;
 import com.wang.social.pictureselector.helper.PhotoHelper;
 
 import java.util.ArrayList;

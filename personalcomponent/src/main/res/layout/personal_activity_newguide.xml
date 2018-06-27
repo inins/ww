@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_white">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="76dp"
+        android:paddingTop="20dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        app:navigationIcon="@drawable/common_ic_close_light"
+        app:popupTheme="@style/common_AppTheme.PopupOverlay"
+        tools:translationZ="1dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/newguide_bg"
+        android:orientation="vertical"
+        android:paddingBottom="70dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="80dp"
+            android:text="@string/newguide_title"
+            android:textColor="@color/common_white"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/img_header"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/default_circle"
+            android:onClick="onClick"
+            android:padding="2.5dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/newguide_header" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:text="@string/newguide_header_note"
+            android:textColor="#aaffffff"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/newguide_name"
+            android:textColor="#aaffffff"
+            android:textSize="12sp" />
+
+        <EditText
+            android:id="@+id/edit_name"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/shape_none"
+            android:inputType="textPersonName"
+            android:lines="1"
+            android:maxLength="12"
+            android:textColor="@color/common_white"
+            android:textSize="18sp"
+            tools:text="我是一个努力的粉刷匠儿" />
+
+        <View
+            style="@style/common_Line_H"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="3dp"
+            android:background="#aaffffff" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/newguide_birthday"
+            android:textColor="#aaffffff"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/text_birthday"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/shape_none"
+            android:gravity="center_vertical"
+            android:inputType="textPersonName"
+            android:lines="1"
+            android:onClick="onClick"
+            android:textColor="@color/common_white"
+            android:textSize="18sp"
+            tools:text="1995-08-08" />
+
+        <View
+            style="@style/common_Line_H"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="3dp"
+            android:background="#aaffffff" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/newguide_gender"
+            android:textColor="#aaffffff"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/text_gender"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/shape_none"
+            android:gravity="center_vertical"
+            android:inputType="textPersonName"
+            android:lines="1"
+            android:onClick="onClick"
+            android:textColor="@color/common_white"
+            android:textSize="18sp"
+            tools:text="女" />
+
+        <View
+            style="@style/common_Line_H"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="3dp"
+            android:background="#aaffffff" />
+
+        <Space style="@style/common_Space_V" />
+
+        <Button
+            android:id="@+id/btn_go"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/select_newguide_btn"
+            android:onClick="onClick"
+            android:paddingBottom="3dp"
+            android:text="@string/newguide_btn_next"
+            android:textColor="@color/common_blue_deep"
+            android:textSize="17sp" />
+
+    </LinearLayout>
+
+
+</FrameLayout>

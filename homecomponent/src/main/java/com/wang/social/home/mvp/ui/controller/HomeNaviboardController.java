@@ -7,7 +7,6 @@ import android.widget.TextView;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.ui.acticity.tags.TagSelectionActivity;
 import com.frame.component.ui.base.BaseController;
-import com.frame.component.utils.viewutils.FontUtils;
 import com.frame.mvp.IView;
 import com.wang.social.home.R;
 import com.wang.social.home.R2;
@@ -17,10 +16,10 @@ import butterknife.BindView;
 
 public class HomeNaviboardController extends BaseController implements View.OnClickListener {
 
-    @BindView(R2.id.text_title)
-    TextView textTitle;
     @BindView(R2.id.btn_search)
     TextView btnSearch;
+    @BindView(R2.id.btn_scan)
+    ImageView btnScan;
     @BindView(R2.id.btn_samekind)
     View btnSamekind;
     @BindView(R2.id.btn_circle)
@@ -40,12 +39,12 @@ public class HomeNaviboardController extends BaseController implements View.OnCl
 
     @Override
     protected void onInitCtrl() {
-        FontUtils.boldText(textTitle);
         btnSearch.setOnClickListener(this);
         btnSamekind.setOnClickListener(this);
         btnCircle.setOnClickListener(this);
         btnActive.setOnClickListener(this);
         imgFindTag.setOnClickListener(this);
+        btnScan.setOnClickListener(this);
     }
 
     @Override
@@ -65,6 +64,9 @@ public class HomeNaviboardController extends BaseController implements View.OnCl
             CommonHelper.GameHelper.startMoneyTreeFromSquare(getContext());
         } else if (id == R.id.img_find_tag) {
             TagSelectionActivity.startSelectionFromLogin(getContext());
+        } else if (id == R.id.btn_scan) {
+//            CommonHelper.ImHelper.startScanActivity(getContext());
+            CommonHelper.PersonalHelper.startNewGuideActivity(getContext());
         }
     }
 }

@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import com.frame.component.ui.base.BasicAppActivity;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
+import com.frame.router.facade.annotation.RouteNode;
 import com.frame.utils.ToastUtil;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -36,6 +37,7 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * 二维码扫描
  */
+@RouteNode(path = "/scan", desc = "二维码扫描页面")
 public class ScanActivity extends BasicAppActivity implements QRCodeView.Delegate {
 
     private static final int REQUEST_CODE_ALBUM = 100;

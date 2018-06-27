@@ -17,7 +17,7 @@
     <color name="common_blank">#010101</color>      <!--往往黑，非纯黑-->
     <color name="common_white_trans">#77fefefe</color>      <!--往往白半透明-->
     <color name="common_line">#55999999</color>     <!--分割线颜色-->
-    <color name="common_text_blank">#333333</color>     <!--黑色字体-->
+    <color name="common_text_blank">#434343</color>     <!--黑色字体-->
     <color name="common_text_blank_dark">#666666</color>     <!--黑灰色字体-->
     <color name="common_text_dark">#999999</color>      <!--灰色字体-->
     <color name="common_text_dark_light">#aaaaaa</color>      <!--灰亮色字体-->

@@ -38,7 +38,7 @@ import com.wang.social.funshow.mvp.ui.controller.FunshowAddEditController;
 import com.wang.social.funshow.mvp.ui.controller.FunshowAddMusicBoardController;
 import com.wang.social.funshow.mvp.ui.controller.FunshowAddTagController;
 import com.wang.social.funshow.mvp.ui.view.DispatchTouchNestedScrollView;
-import com.wang.social.location.mvp.model.entities.LocationInfo;
+import com.frame.component.entities.location.LocationInfo;
 
 import org.greenrobot.eventbus.EventBus;
 

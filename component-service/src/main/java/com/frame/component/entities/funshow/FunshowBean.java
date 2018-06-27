@@ -2,10 +2,12 @@ package com.frame.component.entities.funshow;
 
 import android.text.TextUtils;
 
+import java.io.Serializable;
+
 import lombok.Data;
 
 @Data
-public class FunshowBean {
+public class FunshowBean implements Serializable{
     //趣晒id
     private int id;
     //用户相关：id，头像昵称创建时间

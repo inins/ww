@@ -19,6 +19,8 @@ import com.wang.social.personal.mvp.entities.photo.PhotoListWrap;
 import com.wang.social.personal.mvp.entities.privates.PrivateDetail;
 import com.wang.social.personal.mvp.entities.recharge.PayInfo;
 import com.wang.social.personal.mvp.entities.recharge.Recharge;
+import com.wang.social.personal.mvp.entities.recommend.RecommendGroup;
+import com.wang.social.personal.mvp.entities.recommend.RecommendUser;
 import com.wang.social.personal.mvp.entities.thirdlogin.BindHistory;
 import com.wang.social.personal.mvp.entities.user.QrcodeInfo;
 import com.wang.social.personal.mvp.entities.user.UserRepresent;
@@ -224,4 +226,16 @@ public interface UserService {
      */
     @GET("app/group/list?v=2.0.0")
     Observable<BaseJson<BaseListWrap<GroupBeanDTO>>> getGroupList(@Query("queryUserId") int queryUserId, @Query("current") int current, @Query("size") int size);
+
+    /**
+     * 新用户引导-好友推荐
+     */
+    @GET("app/userInfo/recommendUser?v=2.0.2")
+    Observable<BaseJson<BaseListWrap<RecommendUser>>> getRecommendUsers();
+
+    /**
+     * 新用户引导-趣聊推荐
+     */
+    @GET("user/recommendGroup?v=2.0.2")
+    Observable<BaseJson<BaseListWrap<RecommendGroup>>> getRecommendGroups();
 }

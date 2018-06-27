@@ -86,6 +86,11 @@ public class CommonHelper {
 
     public static class PersonalHelper {
 
+        //启动新用户引导页
+        public static void startNewGuideActivity(Context context) {
+            UIRouter.getInstance().openUri(context, PersonalPath.NEWGUIDE_URL, null);
+        }
+
         //启动代言收益页面
         public static void startProfitActivity(Context context) {
             UIRouter.getInstance().openUri(context, PersonalPath.PROFIT_URL, null);
@@ -132,6 +137,13 @@ public class CommonHelper {
     }
 
     public static class ImHelper {
+
+        /**
+         * 新用户列表
+         */
+        public static void startNewUserActivity(Context context) {
+            UIRouter.getInstance().openUri(context, ImPath.NEWUSER_URL, null);
+        }
 
         /**
          * 个人聊天界面
@@ -396,6 +408,13 @@ public class CommonHelper {
          */
         public static void startNotifyAlert(Context context) {
             UIRouter.getInstance().openUri(context, ImPath.NOTIFY_ALERT_LIST_URL, null);
+        }
+
+        /**
+         * @param context 二维码扫描
+         */
+        public static void startScanActivity(Context context) {
+            UIRouter.getInstance().openUri(context, ImPath.SCAN_URL, null);
         }
     }
 

@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -34,7 +35,7 @@ import butterknife.ButterKnife;
 public class SearchActivity extends BasicAppNoDiActivity implements IView, BaseAdapter.OnItemClickListener<Funpoint> {
 
     @BindView(R.id.edit_search)
-    ConerEditText editSearch;
+    EditText editSearch;
     @BindView(R.id.pager)
     ViewPager pager;
     @BindView(R.id.tablayout)
@@ -86,12 +87,11 @@ public class SearchActivity extends BasicAppNoDiActivity implements IView, BaseA
     }
 
     private void search() {
-        String tags = editSearch.getTagsStr();
-        String key = editSearch.getKey();
-        if (!TextUtils.isEmpty(tags) || !TextUtils.isEmpty(key)) {
+        String key = editSearch.getText().toString();
+        if (!TextUtils.isEmpty(key)) {
             layLack.setVisibility(View.GONE);
             EventBean eventBean = new EventBean(EventBean.EVENT_APP_SEARCH);
-            eventBean.put("tags", tags);
+            eventBean.put("tags", "");
             eventBean.put("key", key);
             EventBus.getDefault().post(eventBean);
             KeyboardUtils.hideSoftInput(this);

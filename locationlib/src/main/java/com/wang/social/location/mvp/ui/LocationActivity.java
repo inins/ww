@@ -1,6 +1,5 @@
 package com.wang.social.location.mvp.ui;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -50,7 +49,7 @@ import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.widget.SpringView;
 import com.wang.social.location.R;
 import com.wang.social.location.R2;
-import com.wang.social.location.mvp.model.entities.LocationInfo;
+import com.frame.component.entities.location.LocationInfo;
 import com.wang.social.location.mvp.ui.adapters.LocationAdapter;
 
 import org.greenrobot.eventbus.EventBus;

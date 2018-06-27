@@ -2,6 +2,7 @@ package com.frame.component.helper;
 
 import com.frame.component.entities.User;
 import com.frame.component.entities.config.MsgConfig;
+import com.frame.component.entities.location.LocationInfo;
 import com.frame.component.entities.msg.NotifySave;
 import com.frame.utils.SPUtils;
 
@@ -20,6 +21,7 @@ public class AppDataHelper {
     private static final String KEY_MSGCONFIG = "msg_config";
     private static final String KEY_NOTIFY_SAVE = "notify_save";
     private static final String KEY_SOCIAL_TIP_ANIM = "social_anim";
+    private static final String KEY_LOCATION_INFO = "location_info";
 
     /////////////////// 用户对象持久化 ///////////////////
 
@@ -97,6 +99,16 @@ public class AppDataHelper {
 
     public static void removeNotifySave() {
         SPUtils.getInstance(SHARENAME).remove(KEY_NOTIFY_SAVE);
+    }
+
+    /////////////////// 位置信息持久化 ///////////////////
+
+    public static void saveLocationInfo(LocationInfo locationInfo) {
+        SPUtils.getInstance(SHARENAME).put(KEY_LOCATION_INFO, locationInfo);
+    }
+
+    public static LocationInfo getLocationInfo() {
+        return (LocationInfo) SPUtils.getInstance(SHARENAME).get(KEY_LOCATION_INFO);
     }
 
 }

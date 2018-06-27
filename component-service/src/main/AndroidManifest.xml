@@ -26,5 +26,7 @@
             android:name="com.frame.component.ui.acticity.tags.TagSelectionActivity"
             android:screenOrientation="portrait"></activity>
         <activity android:name="com.frame.component.ui.acticity.FunshowTopicActivity" />
+        <activity android:name="com.wang.social.personal.mvp.ui.activity.NewGuideActivity" />
+        <activity android:name="com.wang.social.personal.mvp.ui.activity.NewGuideRecommendActivity" />
     </application>
 </manifest>

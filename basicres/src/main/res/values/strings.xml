@@ -52,4 +52,11 @@
     <string name="common_default_noaite">暂无新@</string>
     <string name="common_default_nomoneytree">什么都没有</string>
     <string name="common_default_nonet">网络连接失败</string>
+    <string name="common_default_search_topic">话题</string>
+    <string name="common_default_search_funpoint">趣点</string>
+    <string name="common_default_search_user">用户</string>
+    <string name="common_default_search_qu">趣聊</string>
+    <string name="common_default_search_mi">觅聊</string>
+    <string name="common_default_search_funshow">趣晒</string>
+    <string name="common_default_search_friend">好友</string>
 </resources>

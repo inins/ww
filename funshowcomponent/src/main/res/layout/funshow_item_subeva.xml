@@ -12,7 +12,7 @@
         android:id="@+id/text_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="楼主回复婕欧巴的锅：谢谢你的嗷！"
         android:textColor="@color/common_text_blank_dark"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        tools:text="楼主回复婕欧巴的锅：谢谢你的嗷！" />
 </FrameLayout>

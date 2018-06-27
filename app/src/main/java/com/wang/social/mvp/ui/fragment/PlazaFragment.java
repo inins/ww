@@ -54,6 +54,11 @@ public class PlazaFragment extends BasicLazyNoDiFragment {
                 if (textTab != null) textTab.setText(type == 0 ? "趣晒" : "佬友");
                 break;
             }
+            case EventBean.EVENT_CHANGE_TAB_PLAZA_FUNSHOW: {
+                //切换到趣晒
+                if (pager != null) pager.setCurrentItem(0);
+                break;
+            }
         }
     }
 

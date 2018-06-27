@@ -10,7 +10,7 @@ import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
 import com.wang.social.location.R;
 import com.wang.social.location.R2;
-import com.wang.social.location.mvp.model.entities.LocationInfo;
+import com.frame.component.entities.location.LocationInfo;
 
 import butterknife.BindView;
 import lombok.Setter;

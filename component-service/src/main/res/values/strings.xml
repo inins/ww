@@ -47,6 +47,17 @@
     <string name="mt_confirm">确定</string>
 
 
+    <string name="newguide_title">基础资料</string>
+    <string name="newguide_header_note">真实头像更容易获得好感哦</string>
+    <string name="newguide_name">昵称</string>
+    <string name="newguide_birthday">生日</string>
+    <string name="newguide_gender">性别</string>
+    <string name="newguide_btn_next">下一步</string>
+    <string name="newguide_group_btn_next">完成</string>
+    <string name="newguide_recommend_friend">好友推荐</string>
+    <string name="newguide_recommend_gourp">趣聊推荐</string>
+
+
     <string name="set_top">置顶</string>
 
 </resources>

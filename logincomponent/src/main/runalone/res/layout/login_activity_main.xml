@@ -46,6 +46,13 @@
                 android:layout_marginTop="10dip"
                 android:text="话题标签"/>
 
+            <Button
+                android:id="@+id/topic_newguide_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:text="新用户引导"/>
+
         </LinearLayout>
     </ScrollView>
 

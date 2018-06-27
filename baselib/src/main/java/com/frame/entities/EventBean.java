@@ -155,6 +155,11 @@ public class EventBean implements Serializable {
     //通知消息已经全部阅读
     public static final int EVENT_MSG_READALL = 0xffb001;
 
+    //请求切换到广场Tab
+    public static final int EVENT_CHANGE_TAB_PLAZA = 0xffb101;
+    //请求切换到广场-趣晒Tab
+    public static final int EVENT_CHANGE_TAB_PLAZA_FUNSHOW = 0xffb102;
+
     @IntDef({
             EVENTBUS_TAG_SELECTED,
             EVENTBUS_TAG_UNSELECT,
@@ -222,6 +227,8 @@ public class EventBean implements Serializable {
             EVENT_NOTIFY_SHOW_CONVERSATION_LIST,
             EVENT_DEPOSITDETAIL_SORT,
             EVENT_ACCOUNT_DEPOSIT,
+            EVENT_CHANGE_TAB_PLAZA_FUNSHOW,
+            EVENT_CHANGE_TAB_PLAZA,
             EVENT_NOTIFY_GROUP_ADD
     })
     @Retention(RetentionPolicy.SOURCE)

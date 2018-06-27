@@ -1,0 +1,41 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/common_white"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/text_title"
+        android:layout_width="match_parent"
+        android:layout_height="19dp"
+        android:background="@color/common_bk_light"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:text="好友"
+        android:textColor="@color/common_text_dark"
+        android:textSize="11sp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:clipToPadding="false" />
+
+    <TextView
+        android:id="@+id/btn_more"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:drawableRight="@drawable/im_ic_next_small"
+        android:foreground="?attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:text="更多"
+        android:textColor="@color/common_blue_deep"
+        android:textSize="13sp" />
+
+</LinearLayout>

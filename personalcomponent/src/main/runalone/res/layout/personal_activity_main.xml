@@ -26,6 +26,15 @@
             android:padding="15dp"
             android:text="登录(仅测试)" />
 
+        <TextView
+            android:id="@+id/btn_test_newguide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:foreground="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:padding="15dp"
+            android:text="新用户引导" />
+
     </LinearLayout>
 
 </FrameLayout>

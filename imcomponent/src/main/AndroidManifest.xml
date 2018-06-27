@@ -350,6 +350,15 @@
             android:name=".mvp.ui.SearchActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".mvp.ui.SearchActivityV2"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.ui.SearchFriendActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.ui.SearchGroupActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".mvp.ui.InviteFriendActivity"
             android:screenOrientation="portrait" />
         <activity

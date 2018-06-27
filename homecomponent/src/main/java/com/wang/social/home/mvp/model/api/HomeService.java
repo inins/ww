@@ -9,6 +9,7 @@ import com.wang.social.home.mvp.entities.card.CardUser;
 import com.wang.social.home.mvp.entities.funshow.FunshowHome;
 import com.wang.social.home.mvp.entities.funshow.FunshowHomeDetail;
 import com.wang.social.home.mvp.entities.topic.TopicHomeDetail;
+import com.wang.social.home.mvp.entities.user.RecommendUser;
 
 import java.util.Map;
 
@@ -36,6 +37,12 @@ public interface HomeService {
      */
     @GET("/app/talk/latest?v=2.0.0")
     Observable<BaseJson<BaseListWrap<FunshowHome>>> getNewFunshow();
+
+    /**
+     * 首页推荐用户
+     */
+    @GET("/app/interest/searchUser?v=2.0.2")
+    Observable<BaseJson<BaseListWrap<RecommendUser>>> getRecommendUsers();
 
     /**
      * 首页卡牌，有趣的同类

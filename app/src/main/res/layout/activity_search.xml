@@ -28,30 +28,25 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <android.support.v7.widget.CardView
+                <EditText
+                    android:id="@+id/edit_search"
+                    style="@style/common_EditNone"
                     android:layout_width="0dp"
                     android:layout_height="36dp"
                     android:layout_marginLeft="15dp"
                     android:layout_weight="1"
-                    app:cardBackgroundColor="@color/common_white"
-                    app:cardCornerRadius="18dp"
-                    app:cardElevation="5dp">
+                    android:background="@drawable/common_shape_rect_hint_white_conerfull"
+                    android:drawableLeft="@drawable/common_ic_home_search_big"
+                    android:drawablePadding="5dp"
+                    android:hint="请输入搜索关键字"
+                    android:imeOptions="actionSearch"
+                    android:inputType="textPersonName"
+                    android:textColorHint="@color/common_text_light"
+                    android:textSize="14sp">
 
-                    <com.frame.component.view.ConerEditText
-                        android:id="@+id/edit_search"
-                        style="@style/common_EditNone"
-                        android:layout_height="match_parent"
-                        android:drawableLeft="@drawable/common_ic_home_search"
-                        android:drawablePadding="5dp"
-                        android:hint="请输入搜索关键字"
-                        android:imeOptions="actionSearch"
-                        android:inputType="textPersonName"
-                        android:textSize="12sp">
+                    <requestFocus />
+                </EditText>
 
-                        <requestFocus />
-                    </com.frame.component.view.ConerEditText>
-
-                </android.support.v7.widget.CardView>
 
                 <TextView
                     android:id="@+id/btn_right"
@@ -103,7 +98,7 @@
 
         <include
             android:id="@+id/lay_lack"
-            layout="@layout/lay_lack_search"
+            layout="@layout/layout_notice_search_home"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

@@ -11,6 +11,10 @@ public interface ImPath extends BasePath {
 
     String HOST = "im";
 
+    //新用户列表
+    String NEWUSER_PATH = "/newUser";
+    String NEWUSER_URL = SCHEME + HOST + NEWUSER_PATH;
+
     //个人聊天页面
     String PRIVATE_PATH = "/private";
     String PRIVATE_URL = SCHEME + HOST + PRIVATE_PATH;
@@ -82,4 +86,8 @@ public interface ImPath extends BasePath {
     //@列表
     String NOTIFY_ALERT_LIST = "/notify_alert_list";
     String NOTIFY_ALERT_LIST_URL = SCHEME + HOST + NOTIFY_ALERT_LIST;
+
+    //二维码扫描页面
+    String SCAN = "/scan";
+    String SCAN_URL = SCHEME + HOST + SCAN;
 }
