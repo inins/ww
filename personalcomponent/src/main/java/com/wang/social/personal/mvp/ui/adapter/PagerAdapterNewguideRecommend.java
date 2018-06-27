@@ -1,11 +1,11 @@
-package com.frame.component.ui.adapter;
+package com.wang.social.personal.mvp.ui.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.frame.component.ui.fragment.BuildFragment;
-import com.frame.component.ui.fragment.NewGuideRecommendFriendFragment;
+import com.wang.social.personal.mvp.ui.fragment.NewGuideRecommendFriendFragment;
+import com.wang.social.personal.mvp.ui.fragment.NewGuideRecommendGroupFragment;
 
 
 /**
@@ -37,7 +37,7 @@ public class PagerAdapterNewguideRecommend extends FragmentPagerAdapter {
             case 0:
                 return NewGuideRecommendFriendFragment.newInstance();
             case 1:
-                return NewGuideRecommendFriendFragment.newInstance();
+                return NewGuideRecommendGroupFragment.newInstance();
             default:
                 return null;
         }

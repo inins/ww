@@ -7,8 +7,6 @@ import android.widget.TextView;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.ui.acticity.tags.TagSelectionActivity;
 import com.frame.component.ui.base.BaseController;
-import com.frame.component.utils.viewutils.FontUtils;
-import com.frame.component.view.bannerview.Image;
 import com.frame.mvp.IView;
 import com.wang.social.home.R;
 import com.wang.social.home.R2;
@@ -67,7 +65,8 @@ public class HomeNaviboardController extends BaseController implements View.OnCl
         } else if (id == R.id.img_find_tag) {
             TagSelectionActivity.startSelectionFromLogin(getContext());
         } else if (id == R.id.btn_scan) {
-            CommonHelper.ImHelper.startScanActivity(getContext());
+//            CommonHelper.ImHelper.startScanActivity(getContext());
+            CommonHelper.PersonalHelper.startNewGuideActivity(getContext());
         }
     }
 }
