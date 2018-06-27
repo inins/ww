@@ -10,8 +10,10 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -29,8 +31,10 @@ import com.frame.component.helper.CommonHelper;
 import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.ui.dialog.AutoPopupWindow;
+import com.frame.component.ui.dialog.DialogOkCancel;
 import com.frame.component.ui.dialog.DialogSure;
 import com.frame.component.ui.dialog.EditDialog;
+import com.frame.component.utils.SpannableStringUtil;
 import com.frame.component.utils.UIUtil;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
@@ -44,6 +48,7 @@ import com.frame.utils.FileUtils;
 import com.frame.utils.ScreenUtils;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.ToastUtil;
+import com.frame.utils.Utils;
 import com.kyleduo.switchbutton.SwitchButton;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -407,19 +412,72 @@ public class TeamHomeActivity extends BaseAppActivity<TeamHomePresenter> impleme
             TeamChargeSettingActivity.start(this, mTeam, REQUEST_CODE_CHARGE);
         } else if (view.getId() == R.id.th_tvb_handle) {//退出/解散觅聊
             if (mTeam.getSelfProfile() != null && mTeam.getSelfProfile().getRole() == MemberInfo.ROLE_MASTER) {
-                DialogSure.showDialog(this, "确认解散此觅聊？", new DialogSure.OnSureCallback() {
-                    @Override
-                    public void onOkClick() {
-                        mPresenter.dissolveGroup(teamId);
-                    }
-                });
+//                DialogSure.showDialog(this, "确认解散此觅聊？", new DialogSure.OnSureCallback() {
+//                    @Override
+//                    public void onOkClick() {
+//                        mPresenter.dissolveGroup(teamId);
+//                    }
+//                });
+
+
+                // 2.0.2修改对话框和提示语
+                String[] strings = {
+                        "解散觅聊",
+                        " " + mTeam.getName()
+                };
+                int[] colors = {
+                        ContextCompat.getColor(Utils.getContext(), com.frame.component.service.R.color.common_text_blank),
+                        ContextCompat.getColor(Utils.getContext(), com.frame.component.service.R.color.common_blue_deep)
+                };
+                SpannableStringBuilder titleText = SpannableStringUtil.createV2(strings, colors);
+                DialogOkCancel.show(getSupportFragmentManager(),
+                        titleText,
+                        "",
+                        "取消",
+                        "确认解散",
+                        new DialogOkCancel.DialogOkCancelCallback() {
+                            @Override
+                            public void onOk() {
+                                mPresenter.dissolveGroup(teamId);
+                            }
+
+                            @Override
+                            public void onCancel() {
+
+                            }
+                        });
             } else {
-                DialogSure.showDialog(this, "确认退出此觅聊？", new DialogSure.OnSureCallback() {
-                    @Override
-                    public void onOkClick() {
-                        mPresenter.exitGroup(teamId);
-                    }
-                });
+//                DialogSure.showDialog(this, "确认退出此觅聊？", new DialogSure.OnSureCallback() {
+//                    @Override
+//                    public void onOkClick() {
+//                        mPresenter.exitGroup(teamId);
+//                    }
+//                });
+
+                // 2.0.2修改对话框和提示语
+                String[] strings = {
+                        "退出趣聊后同时你将退出该群的觅聊"
+                };
+                int[] colors = {
+                        ContextCompat.getColor(Utils.getContext(), com.frame.component.service.R.color.common_text_blank)
+                };
+                SpannableStringBuilder titleText = SpannableStringUtil.createV2(strings, colors);
+                DialogOkCancel.show(getSupportFragmentManager(),
+                        titleText,
+                        "",
+                        "取消",
+                        "确认退出",
+                        new DialogOkCancel.DialogOkCancelCallback() {
+                            @Override
+                            public void onOk() {
+                                mPresenter.exitGroup(teamId);
+                            }
+
+                            @Override
+                            public void onCancel() {
+
+                            }
+                        });
             }
         }
     }

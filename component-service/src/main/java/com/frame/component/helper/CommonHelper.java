@@ -11,6 +11,7 @@ import com.frame.component.path.FunshowPath;
 import com.frame.component.path.AppPath;
 import com.frame.component.path.HomePath;
 import com.frame.component.path.ImPath;
+import com.frame.component.path.Login202Path;
 import com.frame.component.path.LoginPath;
 import com.frame.component.path.MoneyTreePath;
 import com.frame.component.path.PersonalPath;
@@ -40,8 +41,14 @@ public class CommonHelper {
             else return "";
         }
 
+        /**
+         * 启动登录页面
+         * @param context
+         */
         public static void startLoginActivity(Context context) {
-            UIRouter.getInstance().openUri(context, LoginPath.LOGIN_URL, null);
+//            UIRouter.getInstance().openUri(context, LoginPath.LOGIN_URL, null);
+            // 2.0.2版本登录模块
+            UIRouter.getInstance().openUri(context, Login202Path.LOGIN_URL, null);
         }
 
         public static void startTagSelectActivity(Context context) {

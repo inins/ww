@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.wang.social.login202">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <application
+        android:name="com.frame.base.BaseApplication"
+        android:allowBackup="true"
+        android:supportsRtl="true"
+        android:label="登录202"
+        tools:replace="android:label"
+        android:theme="@style/common_AppTheme"
+        android:screenOrientation="portrait">
+
+        <!-- Meta Data -->
+        <meta-data
+            android:name="com.wang.social.login202.app.GlobalConfiguration"
+            android:value="ConfigModule" />
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="591bac697f2c7466b000010c" />
+
+        <!-- ********* -->
+
+        <activity android:name=".app.MainActivity"></activity>
+        <activity android:name=".mvp.ui.Login202Activity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+    </application>
+</manifest>

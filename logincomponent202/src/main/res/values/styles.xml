@@ -1,0 +1,72 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="login202_getVerifyCodeStyle">
+        <item name="android:layout_width">78dp</item>
+        <item name="android:layout_height">28dp</item>
+        <item name="android:background">@drawable/tags_shape_rect_corner_stroke_blue_deep</item>
+        <item name="android:gravity">center</item>
+        <item name="android:text">@string/login202_get_verify_code</item>
+        <item name="android:textColor">@color/common_blue_deep</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <!-- 卡片标题样式 -->
+    <style name="login202_cardTitleStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">#FF18A1FF</item>
+        <item name="android:alpha">0.9</item>
+        <item name="android:drawablePadding">10dp</item>
+        <item name="android:gravity">bottom</item>
+    </style>
+
+    <!-- 手机号码输入框规则 -->
+    <style name="login202_phoneInputStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:inputType">phone</item>
+        <item name="android:digits">0123456789</item>
+        <item name="android:maxLength">11</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:textColor">@color/common_text_blank</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:background">@drawable/login202_edit_text_bg</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+    </style>
+
+    <!-- 验证码输入框规则 -->
+    <style name="login202_verifyCodeInputStyle">
+        <item name="android:inputType">number</item>
+        <item name="android:digits">0123456789</item>
+        <item name="android:maxLength">4</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:textColor">@color/common_text_blank</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:background">@drawable/login202_edit_text_bg</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+    </style>
+
+    <!-- 密码输入框规则 -->
+    <style name="login202_passwordInputStyle">
+        <item name="android:inputType">textPassword</item>
+        <item name="android:maxLength">18</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:textColor">@color/common_text_blank</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:background">@drawable/login202_edit_text_bg</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+    </style>
+
+
+</resources>

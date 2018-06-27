@@ -2,6 +2,7 @@ package com.frame.component.api;
 
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.entities.GroupBean;
+import com.frame.component.entities.dto.BillBoardDTO;
 import com.frame.component.entities.dto.GroupMemberInfoDTO;
 import com.frame.component.entities.dto.IsShoppingRspDTO;
 import com.frame.component.entities.dto.MyTalkBeanDTO;
@@ -424,4 +425,13 @@ public interface CommonService {
      */
     @GET("version/newest?v=2.0.0&platform=android")
     Observable<BaseJson<VersionInfoDTO>> checkNewVersion();
+
+
+    /**
+     * 版本更新检测
+     *
+     * @return
+     */
+    @GET("appStratBillboard/getBillboard")
+    Observable<BaseJson<BillBoardDTO>> getBillboard(@QueryMap Map<String, Object> param);
 }

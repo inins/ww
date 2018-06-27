@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/login202_card_view_side_padding"
+    android:paddingRight="@dimen/login202_card_view_side_padding">
+
+    <ImageView
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/login202_signin_btn"
+        android:layout_marginBottom="@dimen/login202_card_view_bottom_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:id="@+id/password_login_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login202_password_login"
+        android:textColor="#ff189aff"
+        android:textSize="16sp"
+        android:padding="6dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button"
+        />
+
+    <EditText
+        android:id="@+id/verify_code_edit_text"
+        style="@style/login202_verifyCodeInputStyle"
+        android:hint="@string/login202_verify_code_input_hint"
+        android:layout_marginBottom="@dimen/login202_card_view_btn_top_margin_1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/button" />
+
+    <com.wang.social.login202.mvp.ui.widget.CountDownView
+        android:id="@+id/send_verify_code_text_view"
+        style="@style/login202_getVerifyCodeStyle"
+        app:layout_constraintBottom_toBottomOf="@+id/verify_code_edit_text"
+        app:layout_constraintEnd_toEndOf="@+id/verify_code_edit_text"
+        app:layout_constraintTop_toTopOf="@+id/verify_code_edit_text" />
+
+    <TextView
+        style="@style/login202_cardTitleStyle"
+        android:text="@string/login202_verify_code_login"
+        android:drawableStart="@drawable/login202_yanzhengma_ico"
+        android:layout_marginBottom="@dimen/login202_card_view_title_bottom_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/verify_code_edit_text" />
+
+
+</android.support.constraint.ConstraintLayout>

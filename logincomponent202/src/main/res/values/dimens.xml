@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 卡片内容左右边距 -->
+    <dimen name="login202_card_view_side_padding">22dp</dimen>
+    <!-- 卡片内容底部对齐，按钮距离底部的距离 -->
+    <dimen name="login202_card_view_bottom_margin">38dp</dimen>
+    <dimen name="login202_card_view_bottom_margin_2">25dp</dimen>
+    <!-- 顶部只有一个输入框时，按钮距离顶部元素的距离 -->
+    <dimen name="login202_card_view_btn_top_margin_1">58dp</dimen>
+    <!-- 顶部只有两个输入框时，按钮距离顶部元素的距离 -->
+    <dimen name="login202_card_view_btn_top_margin_2">23dp</dimen>
+    <!-- 卡片内容，标题和下边的距离 -->
+    <dimen name="login202_card_view_title_bottom_margin">10dp</dimen>
+    <!-- 两个输入框的间距 -->
+    <dimen name="login202_card_view_edit_margin">17dp</dimen>
+</resources>

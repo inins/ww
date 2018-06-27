@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:background="#000000">
+
+    <TextView
+        android:id="@+id/title_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0.7"
+        android:text="@string/login202_third_part_login"
+        android:textColor="@color/common_white"
+        android:textSize="11sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <View
+        android:id="@+id/login202_view"
+        android:layout_width="58dp"
+        android:layout_height="1dp"
+        android:layout_marginEnd="16dp"
+        android:alpha="0.7"
+        android:background="@color/common_white"
+        app:layout_constraintBottom_toBottomOf="@+id/title_text_view"
+        app:layout_constraintEnd_toStartOf="@+id/title_text_view"
+        app:layout_constraintTop_toTopOf="@+id/title_text_view" />
+
+    <View
+        android:id="@+id/login202_view2"
+        android:layout_width="58dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="16dp"
+        android:alpha="0.7"
+        android:background="@color/common_white"
+        app:layout_constraintBottom_toBottomOf="@+id/title_text_view"
+        app:layout_constraintStart_toEndOf="@+id/title_text_view"
+        app:layout_constraintTop_toTopOf="@+id/title_text_view" />
+
+    <ImageView
+        android:id="@+id/wx_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        app:layout_constraintStart_toStartOf="@+id/login202_view"
+        app:layout_constraintTop_toBottomOf="@+id/title_text_view"
+        app:srcCompat="@drawable/login202_wechat_ico" />
+
+    <ImageView
+        android:id="@+id/qq_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_text_view"
+        app:srcCompat="@drawable/login202_qq_ico" />
+
+    <ImageView
+        android:id="@+id/wb_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/login202_view2"
+        app:layout_constraintTop_toBottomOf="@+id/title_text_view"
+        app:srcCompat="@drawable/login202_weibo_ico" />
+
+
+</android.support.constraint.ConstraintLayout>
