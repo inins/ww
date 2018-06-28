@@ -75,7 +75,7 @@ public interface LoginService {
     Observable<BaseJson> userSetPassword(@FieldMap Map<String, Object> param);
 
     /**
-     * 手机号码加短信验证码登录
+     * 获取验证码
      *
      用途类型
     （注册 type=1;
@@ -83,7 +83,6 @@ public interface LoginService {
     三方账号绑定手机 type=4;
     更换手机号 type=5;
     短信登录 type=6）
-     * @return
      */
     @FormUrlEncoded
     @POST("common/sendVerifyCode")

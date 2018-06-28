@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="login202_InfiniteCardView">
+        <attr name="login202_animType">
+            <enum name="front" value="0"/>
+            <enum name="switchPosition" value="1"/>
+            <enum name="frontToLast" value="2"/>
+        </attr>
+        <attr name="login202_cardRatio" format="float"/>
+        <attr name="login202_animDuration" format="integer"/>
+        <attr name="login202_animAddRemoveDelay" format="integer"/>
+        <attr name="login202_animAddRemoveDuration" format="integer"/>
+    </declare-styleable>
+</resources>

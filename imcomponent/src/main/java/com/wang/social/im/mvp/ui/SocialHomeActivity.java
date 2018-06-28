@@ -10,8 +10,10 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -33,8 +35,10 @@ import com.frame.component.ui.acticity.FunshowTopicActivity;
 import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.ui.dialog.AutoPopupWindow;
+import com.frame.component.ui.dialog.DialogOkCancel;
 import com.frame.component.ui.dialog.DialogSure;
 import com.frame.component.ui.dialog.EditDialog;
+import com.frame.component.utils.SpannableStringUtil;
 import com.frame.component.utils.UIUtil;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
@@ -49,6 +53,7 @@ import com.frame.utils.FileUtils;
 import com.frame.utils.ScreenUtils;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.ToastUtil;
+import com.frame.utils.Utils;
 import com.kyleduo.switchbutton.SwitchButton;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -468,19 +473,72 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
             SocialLimitActivity.start(this, mSocial, REQUEST_CODE_LIMIT);
         } else if (view.getId() == R.id.sc_tvb_handle) {//退出/解散
             if (mSocial.getMemberInfo() != null && mSocial.getMemberInfo().getRole() == MemberInfo.ROLE_MASTER) {
-                DialogSure.showDialog(this, "确认解散此趣聊？", new DialogSure.OnSureCallback() {
-                    @Override
-                    public void onOkClick() {
-                        mPresenter.dissolveGroup(socialId);
-                    }
-                });
+//                DialogSure.showDialog(this, "确认解散此趣聊？", new DialogSure.OnSureCallback() {
+//                    @Override
+//                    public void onOkClick() {
+//                        mPresenter.dissolveGroup(socialId);
+//                    }
+//                });
+
+                // 2.0.2修改对话框和提示语
+                String[] strings = {
+                        "解散趣聊",
+                        " " + mSocial.getName()
+                };
+                int[] colors = {
+                        ContextCompat.getColor(Utils.getContext(), com.frame.component.service.R.color.common_text_blank),
+                        ContextCompat.getColor(Utils.getContext(), com.frame.component.service.R.color.common_blue_deep)
+                };
+                SpannableStringBuilder titleText = SpannableStringUtil.createV2(strings, colors);
+                DialogOkCancel.show(getSupportFragmentManager(),
+                        titleText,
+                        "解散后趣聊下面的觅聊也将全部解散",
+                        "取消",
+                        "确认解散",
+                        new DialogOkCancel.DialogOkCancelCallback() {
+                            @Override
+                            public void onOk() {
+                                mPresenter.dissolveGroup(socialId);
+                            }
+
+                            @Override
+                            public void onCancel() {
+
+                            }
+                        });
             } else {
-                DialogSure.showDialog(this, "确认退出此趣聊？", new DialogSure.OnSureCallback() {
-                    @Override
-                    public void onOkClick() {
-                        mPresenter.exitGroup(socialId);
-                    }
-                });
+//                DialogSure.showDialog(this, "确认退出此趣聊？", new DialogSure.OnSureCallback() {
+//                    @Override
+//                    public void onOkClick() {
+//                        mPresenter.exitGroup(socialId);
+//                    }
+//                });
+
+
+                // 2.0.2修改对话框和提示语
+                String[] strings = {
+                        "确认退出，退出后你创建的觅聊将由最早加入的成员接管"
+                };
+                int[] colors = {
+                        ContextCompat.getColor(Utils.getContext(), com.frame.component.service.R.color.common_text_blank)
+                };
+                SpannableStringBuilder titleText = SpannableStringUtil.createV2(strings, colors);
+                DialogOkCancel.show(getSupportFragmentManager(),
+                        titleText,
+                        "",
+                        "取消",
+                        "确认退出",
+                        new DialogOkCancel.DialogOkCancelCallback() {
+                            @Override
+                            public void onOk() {
+                                mPresenter.exitGroup(socialId);
+                            }
+
+                            @Override
+                            public void onCancel() {
+
+                            }
+                        });
             }
         } else if (view.getId() == R.id.sc_tv_wood) {
             HappyWoodActivity.start(this, socialId, Constant.SHARE_WOOD_TYPE_GROUP);

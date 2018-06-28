@@ -173,6 +173,9 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
     ImageView mShareIV;
     @BindView(R2.id.share_text_view)
     TextView mShareTV;
+    // 置顶标记
+    @BindView(R2.id.set_top_image_view)
+    ImageView mSetTopIV;
 
     // 音乐播放器，用于播放语音
     private XMediaPlayer mXMediaPlayer;
@@ -338,6 +341,9 @@ public class TopicDetailActivity extends BaseAppActivity<TopicDetailPresenter> i
         mTopicId = detail.getTopicId();
         mCreatorId = detail.getCreatorId();
         mTopicDetail = detail;
+
+        // 是否置顶
+        mSetTopIV.setVisibility(detail.isTop() ? View.VISIBLE : View.GONE);
 
         // 背景图
         if (TextUtils.isEmpty(detail.getBackgroundImage())) {

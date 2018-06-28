@@ -1,0 +1,113 @@
+if (isRunAlone.toBoolean()) {
+    apply plugin: 'com.android.application'
+} else {
+    apply plugin: 'com.component.build'
+}
+apply plugin: 'com.jakewharton.butterknife'
+
+
+android {
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        if (isRunAlone.toBoolean()) {
+            applicationId "com.dongdongkeji.wangwangsocial"
+        }
+
+        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+        versionCode rootProject.ext.android["versionCode"]
+        versionName rootProject.ext.android["versionName"]
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [host: "login202"]
+            }
+        }
+
+        manifestPlaceholders = [qqappid: "1106099147"]
+    }
+
+
+
+    signingConfigs {
+
+        debug {
+            keyAlias 'dongdong'
+            keyPassword '123456'
+            storeFile file('../dongdongkey.jks')
+            storePassword '123456'
+        }
+
+        release {
+            keyAlias 'dongdong'
+            keyPassword '123456'
+            storeFile file('../dongdongkey.jks')
+            storePassword '123456'
+        }
+    }
+
+    if (isRunAlone.toBoolean()) {
+        buildTypes {
+            debug {
+                buildConfigField "boolean", "LOG_DEBUG", "true"
+                buildConfigField "boolean", "USE_CANARY", "true"
+                buildConfigField "String", "APP_DOMAIN", "\"http://frogking.top:8080/\""
+                minifyEnabled false
+                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            }
+        }
+
+        sourceSets {
+            main {
+                manifest.srcFile 'src/main/runalone/AndroidManifest.xml'
+                java.srcDirs = ['src/main/java', 'src/main/runalone/java']
+                res.srcDirs = ['src/main/res', 'src/main/runalone/res']
+                assets.srcDirs = ['src/main/assets', 'src/main/runalone/assets']
+                jniLibs.srcDirs = ['src/main/jniLibs', 'src/main/runalone/jniLibs']
+            }
+        }
+    }
+
+    resourcePrefix "login202_"
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    //test
+    testImplementation 'junit:junit:4.12'
+    debugImplementation rootProject.ext.dependencies["canary-debug"]
+    releaseImplementation rootProject.ext.dependencies["canary-release"]
+    testImplementation rootProject.ext.dependencies["canary-release"]
+    //noinspection GradleCompatible
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    //tools
+    annotationProcessor rootProject.ext.dependencies["dagger2-compiler"]
+    compileOnly rootProject.ext.dependencies['lombok']
+    compileOnly 'javax.annotation:javax.annotation-api:1.3.1'
+    annotationProcessor rootProject.ext.dependencies["lombok-compiler"]
+    //View
+    annotationProcessor(rootProject.ext.dependencies["butterknife-compiler"]) {
+        exclude module: 'support-annotations'
+    }
+    implementation rootProject.ext.dependencies["constraint-layout"]
+    implementation project(':component-service')
+    annotationProcessor project(':router-anno-compiler')
+
+    implementation project(':socializecomponent')
+}
+
+if (!isRunAlone.toBoolean()) {
+    combuild {
+        applicationName = 'com.frame.base.BaseApplication'
+        isRegisterCompoAuto = true
+    }
+}

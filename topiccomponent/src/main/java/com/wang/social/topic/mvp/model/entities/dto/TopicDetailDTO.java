@@ -35,6 +35,7 @@ public class TopicDetailDTO implements Mapper<TopicDetail> {
     private Integer topicId;
     private Integer shareTotal;
     private String templateUrl;
+    private Integer isTop;
 
     private int assertNotNull(Integer i) {
         return i == null ? 0 : i;
@@ -71,6 +72,7 @@ public class TopicDetailDTO implements Mapper<TopicDetail> {
         object.setShareTotal(assertNotNull(shareTotal));
         object.setNickname(StringUtil.assertNotNull(nickname));
         object.setTemplateUrl(EntitiesUtil.assertNotNull(templateUrl));
+        object.setTop(EntitiesUtil.assertNotNull(isTop) == 1);
 
         return object;
     }

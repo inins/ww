@@ -3,15 +3,21 @@ package com.wang.social.mvp.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
+import com.frame.base.BasicActivity;
 import com.frame.component.common.AppConstant;
+import com.frame.component.entities.BillBoard;
 import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.CommonHelper;
+import com.frame.component.helper.NetBillBoardHelper;
 import com.frame.component.helper.NetShareHelper;
+import com.frame.di.component.AppComponent;
 import com.frame.integration.AppManager;
+import com.frame.mvp.IView;
 import com.frame.utils.AppUtils;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.SPUtils;
@@ -20,8 +26,10 @@ import com.frame.utils.Utils;
 
 import java.util.Set;
 
-public class LoadupActivity extends AppCompatActivity {
+public class LoadupActivity extends BasicActivity implements IView {
 
+    // 记录广告内容
+    private BillBoard mBillBoard;
     private Handler mHandler = new Handler();
     private Runnable mRunnable = new Runnable() {
         @Override
@@ -44,14 +52,19 @@ public class LoadupActivity extends AppCompatActivity {
             .appManager();
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        StatusBarUtil.setTranslucent(this);
+    public void setupActivityComponent(@NonNull AppComponent appComponent) {
 
-        initData();
     }
 
-    private void initData() {
+    @Override
+    public int initView(@NonNull Bundle savedInstanceState) {
+        return 0;
+    }
+
+    @Override
+    public void initData(@NonNull Bundle savedInstanceState) {
+        StatusBarUtil.setTranslucent(this);
+
         Intent intent = getIntent();
         if (CommonHelper.LoginHelper.isLogin() && intent != null && !TextUtils.isEmpty(intent.getScheme()) && intent.getScheme().equals("wang")) {
             Set<String> params = intent.getData().getQueryParameterNames();
@@ -70,13 +83,22 @@ public class LoadupActivity extends AppCompatActivity {
                         activity.performRemoteCall(target, targetId);
                     }
                 } else {
-                    HomeActivity.start(this, target, targetId);
+                    // 用户未登录不显示启动广告
+                    if (null != mBillBoard && CommonHelper.LoginHelper.isLogin()) {
+                        BillBoardActivity.start(this, mBillBoard);
+                    } else {
+                        HomeActivity.start(this, target, targetId);
+                    }
                 }
             }
 
             finish();
         } else {
             mHandler.postDelayed(mRunnable, 1500);
+
+            // 加载广告
+            NetBillBoardHelper.newInstance().getBillboard(this,
+                    billBoard -> mBillBoard = billBoard);
         }
     }
 
@@ -134,6 +156,16 @@ public class LoadupActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
     }
 }
 

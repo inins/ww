@@ -31,6 +31,8 @@ public class Topic {
     private boolean isSupport;
     private String avatar;
     private String nickname;
+    private boolean isTop;
+    private boolean isOfficial;
 
 
     public String getTagStr() {
