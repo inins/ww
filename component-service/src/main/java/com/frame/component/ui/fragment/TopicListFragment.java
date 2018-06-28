@@ -154,7 +154,7 @@ public class TopicListFragment extends BasicFragment implements IView {
         if (mType <= TYPE_PERSON_TOPIC_SEARCH) {
             mSpringView.callFreshDelay();
         } else {
-            loadingviewEx.showLackView();
+            loadingviewEx.showFailViewSearchTopic();
         }
     }
 

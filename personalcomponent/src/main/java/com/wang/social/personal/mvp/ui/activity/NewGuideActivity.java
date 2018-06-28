@@ -14,6 +14,7 @@ import com.frame.component.common.NetParam;
 import com.frame.component.entities.User;
 import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.AppValiHelper;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.component.helper.NetReportHelper;
 import com.frame.component.helper.QiNiuManager;
@@ -132,6 +133,12 @@ public class NewGuideActivity extends BasicAppNoDiActivity implements PhotoHelpe
                 uploadAndCommit(name, path, sex, birthday);
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        CommonHelper.AppHelper.startHomeActivity(this);
     }
 
     @Override

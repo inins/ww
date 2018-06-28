@@ -66,6 +66,8 @@ public class SearchActivityV2 extends BasicAppNoDiActivity {
         String key = editSearch.getText().toString();
         if (!TextUtils.isEmpty(key)) {
             loadingview.showOut();
+            friendController.search(key);
+            groupController.search(key);
         } else {
             ToastUtil.showToastShort("请输入搜索关键字");
         }

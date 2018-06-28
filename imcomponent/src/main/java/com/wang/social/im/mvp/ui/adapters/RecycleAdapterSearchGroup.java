@@ -8,20 +8,21 @@ import android.widget.TextView;
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
 import com.frame.component.entities.TestEntity;
+import com.frame.component.entities.search.SearchGroup;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 
 import butterknife.BindView;
 
-public class RecycleAdapterSearchGroup extends BaseAdapter<TestEntity> {
+public class RecycleAdapterSearchGroup extends BaseAdapter<SearchGroup> {
 
     @Override
     protected BaseViewHolder createViewHolder(Context context, ViewGroup parent, int viewType) {
         return new Holder(context, parent, R.layout.im_item_search_group);
     }
 
-    public class Holder extends BaseViewHolder<TestEntity> {
+    public class Holder extends BaseViewHolder<SearchGroup> {
 
         @BindView(R2.id.img_header)
         ImageView imgHeader;
@@ -37,14 +38,26 @@ public class RecycleAdapterSearchGroup extends BaseAdapter<TestEntity> {
         }
 
         @Override
-        protected void bindData(TestEntity bean, int position, OnItemClickListener onItemClickListener) {
-            ImageLoaderHelper.loadCircleImgTest(imgHeader);
-            textName.setText("搞基群");
-            textNote.setText("趣聊  56人");
+        protected void bindData(SearchGroup bean, int position, OnItemClickListener onItemClickListener) {
+            ImageLoaderHelper.loadCircleImg(imgHeader, bean.getGroupCoverPlan());
+            textName.setText(bean.getGroupName());
+            imgTag.setSelected(!bean.isMi());
+            String note;
+            if (bean.isMi()) {
+                note = "觅聊 来自：" + bean.getParentGroupName();
+            } else {
+                note = "趣聊 " + bean.getMemberNum() + "人";
+            }
+            textNote.setText(note);
         }
 
         @Override
         public void onRelease() {
+        }
+
+        @Override
+        protected boolean useItemClickListener() {
+            return true;
         }
     }
 

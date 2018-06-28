@@ -25,7 +25,14 @@ public class NetFriendHelper {
      * 发起添加好友申请
      */
     public void netSendFriendlyApply(IView view, int userId, String reason, OnCommonSuccessCallback callback) {
-        ApiHelperEx.execute(view, true,
+        netSendFriendlyApply(view, userId, reason, true, callback);
+    }
+
+    /**
+     * 发起添加好友申请
+     */
+    public void netSendFriendlyApply(IView view, int userId, String reason, boolean needLoading, OnCommonSuccessCallback callback) {
+        ApiHelperEx.execute(view, needLoading,
                 ApiHelperEx.getService(CommonService.class).sendFriendlyApply("2.0.0", String.valueOf(userId), reason),
                 new ErrorHandleSubscriber<BaseJson>() {
                     @Override

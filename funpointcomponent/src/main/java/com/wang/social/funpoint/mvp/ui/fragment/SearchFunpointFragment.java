@@ -110,7 +110,7 @@ public class SearchFunpointFragment extends BasicFragment implements IView, Base
                 search(false);
             }
         });
-        loadingviewEx.showLackView();
+        loadingviewEx.showFailViewSearchFunpoint();
     }
 
     @Override

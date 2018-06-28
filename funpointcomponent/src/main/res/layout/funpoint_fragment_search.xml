@@ -5,8 +5,7 @@
     android:id="@+id/loadingview_ex"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    app:layout_lack="@layout/funpoint_layout_lack_search">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <com.liaoinstan.springview.widget.SpringView
         android:id="@+id/spring"

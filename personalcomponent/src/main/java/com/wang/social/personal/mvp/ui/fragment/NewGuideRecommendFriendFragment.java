@@ -10,6 +10,7 @@ import com.frame.component.common.GridSpacingItemDecoration;
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.entities.TestEntity;
 import com.frame.component.entities.funshow.FunshowBean;
+import com.frame.component.helper.NetFriendHelper;
 import com.frame.component.utils.ListUtil;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
@@ -77,6 +78,8 @@ public class NewGuideRecommendFriendFragment extends BasicNoDiFragment {
     @OnClick({R2.id.btn_go})
     public void onViewClicked(View v) {
         if (getActivity() instanceof NewGuideRecommendActivity) {
+            //发起添加好友
+            netAddFriends(adapter.getSelectIdList());
             ((NewGuideRecommendActivity) getActivity()).changeBanner(1);
             ((NewGuideRecommendActivity) getActivity()).next();
         }
@@ -100,5 +103,13 @@ public class NewGuideRecommendFriendFragment extends BasicNoDiFragment {
                         ToastUtil.showToastLong(e.getMessage());
                     }
                 });
+    }
+
+    //添加好友
+    public void netAddFriends(List<Integer> idList) {
+        if (StrUtil.isEmpty(idList)) return;
+        for (Integer id : idList) {
+            NetFriendHelper.newInstance().netSendFriendlyApply(this, id, "你好，交个朋友吧", false, null);
+        }
     }
 }

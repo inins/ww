@@ -166,7 +166,7 @@ public class FriendListFragment extends BasicFragment implements
         // 如果是好友列表，直接请求数据
         if (mType == TYPE_FRIEND_LIST) {
             mSpringView.callFreshDelay();
-        } else if (mType == TYPE_SEARCH_ALL){
+        } else if (mType == TYPE_SEARCH_ALL) {
             // 只有在首页搜索时使用帮助页面
             loadingviewEx.showLackView();
         }
@@ -309,9 +309,10 @@ public class FriendListFragment extends BasicFragment implements
 
     /**
      * 搜索用户
-     * @param keyword 关键字
+     *
+     * @param keyword  关键字
      * @param tagNames 标签中文名，多个以逗号隔开
-     * @param refresh 是否刷新
+     * @param refresh  是否刷新
      */
     public void searchUser(String keyword, String tagNames, boolean refresh) {
         refreshList(refresh);
@@ -360,7 +361,7 @@ public class FriendListFragment extends BasicFragment implements
             case EventBean.EVENT_APP_SEARCH:
                 if (mType != TYPE_SEARCH_ALL) break;
                 mKey = (String) event.get("key");
-                mTags = (String)event.get("tags");
+                mTags = (String) event.get("tags");
 
                 // 直接加载数据
                 loadData(true);

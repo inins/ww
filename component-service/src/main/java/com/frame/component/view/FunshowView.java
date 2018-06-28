@@ -52,6 +52,7 @@ public class FunshowView extends FrameLayout implements View.OnClickListener {
     private TextView textZan;
     private TextView textComment;
     private TextView textShare;
+    private TextView textTop;
     private Group groupHeader;
 
     private boolean isShowHeader;
@@ -136,6 +137,7 @@ public class FunshowView extends FrameLayout implements View.OnClickListener {
         textZan = findViewById(R.id.text_zan);
         textComment = findViewById(R.id.text_comment);
         textShare = findViewById(R.id.text_share);
+        textTop = findViewById(R.id.text_top);
         groupHeader = findViewById(R.id.group_header);
         textZan.setOnClickListener(this);
         groupHeader.setVisibility(isShowHeader ? VISIBLE : GONE);
@@ -162,6 +164,7 @@ public class FunshowView extends FrameLayout implements View.OnClickListener {
         imgPlayer.setVisibility(bean.isVideo() ? View.VISIBLE : View.GONE);
         textPosition.setText(bean.getPositionText());
         textPosition.setVisibility(!TextUtils.isEmpty(bean.getPositionText()) ? VISIBLE : GONE);
+        textTop.setVisibility(bean.isTop() ? VISIBLE : GONE);
 
 //        不再解析视频第一帧，性能耗费太大
 //        if (TextUtils.isEmpty(bean.getShowPic()) && !TextUtils.isEmpty(bean.getVideoUrl())) {

@@ -44,6 +44,19 @@
         tools:text="03-12 15:40" />
 
     <TextView
+        android:id="@+id/text_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawablePadding="5dp"
+        android:drawableStart="@drawable/common_ic_top"
+        android:text="@string/set_top"
+        android:textColor="#e33e3e"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/img_header"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/img_header" />
+
+    <TextView
         android:id="@+id/text_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
