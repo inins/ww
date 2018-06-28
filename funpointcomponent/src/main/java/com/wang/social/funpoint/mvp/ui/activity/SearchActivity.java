@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.frame.base.BaseAdapter;
@@ -51,7 +52,7 @@ public class SearchActivity extends BasicAppActivity implements IView {
     @BindView(R2.id.btn_right)
     TextView btnRight;
     @BindView(R2.id.edit_search)
-    ConerEditText editSearch;
+    EditText editSearch;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, SearchActivity.class);
@@ -84,12 +85,10 @@ public class SearchActivity extends BasicAppActivity implements IView {
     }
 
     private void search() {
-        String tags = editSearch.getTagsStr();
-        String key = editSearch.getKey();
-        if (!TextUtils.isEmpty(tags) || !TextUtils.isEmpty(key)) {
+        String key = editSearch.getText().toString();
+        if (!TextUtils.isEmpty(key)) {
             EventBean eventBean = new EventBean(EventBean.EVENT_APP_SEARCH);
-            eventBean.put("tags",tags);
-            eventBean.put("key",key);
+            eventBean.put("key", key);
             EventBus.getDefault().post(eventBean);
         } else {
             ToastUtil.showToastShort("请输入搜索关键字");
