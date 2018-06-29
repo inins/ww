@@ -9,7 +9,9 @@ import android.view.View;
 import com.frame.component.common.GridSpacingItemDecoration;
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.entities.TestEntity;
+import com.frame.component.entities.User;
 import com.frame.component.entities.funshow.FunshowBean;
+import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.NetFriendHelper;
 import com.frame.component.utils.ListUtil;
 import com.frame.http.api.ApiHelperEx;
@@ -86,8 +88,10 @@ public class NewGuideRecommendFriendFragment extends BasicNoDiFragment {
     }
 
     public void netGetRecommendUsers() {
+        User user = AppDataHelper.getUser();
+        if (user == null) return;
         ApiHelperEx.execute(this, true,
-                ApiHelperEx.getService(UserService.class).getRecommendUsers(),
+                ApiHelperEx.getService(UserService.class).getRecommendUsers(user.getSex()),
                 new ErrorHandleSubscriber<BaseJson<BaseListWrap<RecommendUser>>>() {
                     @Override
                     public void onNext(BaseJson<BaseListWrap<RecommendUser>> basejson) {

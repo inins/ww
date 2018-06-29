@@ -88,7 +88,7 @@ public class NewGuideRecommendGroupFragment extends BasicNoDiFragment {
     }
 
     public void netGetRecommendGroups() {
-        ApiHelperEx.execute(this, true,
+        ApiHelperEx.execute(this, false,
                 ApiHelperEx.getService(UserService.class).getRecommendGroups(),
                 new ErrorHandleSubscriber<BaseJson<BaseListWrap<RecommendGroup>>>() {
                     @Override
@@ -110,11 +110,18 @@ public class NewGuideRecommendGroupFragment extends BasicNoDiFragment {
     //申请入群
     public void netAddGroups(List<Integer> idList) {
         if (StrUtil.isEmpty(idList)) return;
-        for (Integer id : idList) {
-            NetGroupHelper.newInstance().addGroup(getContext(), this, getChildFragmentManager(), id, isNeedValidation -> {
-            });
-        }
-        getActivity().finish();
-        CommonHelper.AppHelper.startHomeActivity(getContext());
+        addGroup(idList, 0);
+    }
+
+    //递归调用加群接口
+    private void addGroup(List<Integer> idList, int index) {
+        NetGroupHelper.newInstance().addGroup(getContext(), this, getChildFragmentManager(), idList.get(index), isNeedValidation -> {
+            if (idList.size() - 1 >= index + 1) {
+                addGroup(idList, index + 1);
+            } else {
+                getActivity().finish();
+                CommonHelper.AppHelper.startHomeActivity(getContext());
+            }
+        });
     }
 }

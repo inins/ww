@@ -233,8 +233,8 @@ public interface UserService {
     /**
      * 新用户引导-好友推荐
      */
-    @GET("app/userInfo/recommendUser?v=2.0.2")
-    Observable<BaseJson<BaseListWrap<RecommendUser>>> getRecommendUsers();
+    @GET("user/recommendUser?v=2.0.2")
+    Observable<BaseJson<BaseListWrap<RecommendUser>>> getRecommendUsers(@Query("sex") int sex);
 
     /**
      * 新用户引导-趣聊推荐
