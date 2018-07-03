@@ -750,7 +750,8 @@ public class Login202Activity extends BaseAppActivity implements Login202Contrac
             mPresenter.checkCode(mPhoneNumber,
                     mPresenter.getLoginInfo().getUserInfo().getUserId(),
                     verifyCode,
-                    inviteCode);
+                    inviteCode,
+                    mPresenter.getLoginInfo().isFirst());
         } else {
             Timber.e("userinfo is null");
         }

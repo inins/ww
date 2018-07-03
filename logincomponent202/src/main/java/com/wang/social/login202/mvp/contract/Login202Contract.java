@@ -233,7 +233,8 @@ public interface Login202Contract {
          * @param userId 用户id
          * @param code 验证码
          * @param inviteCode 邀请码
+         * @param isFirst 是否第一次登陆
          */
-        void checkCode(String phone, int userId, String code, String inviteCode);
+        void checkCode(String phone, int userId, String code, String inviteCode, boolean isFirst);
     }
 }

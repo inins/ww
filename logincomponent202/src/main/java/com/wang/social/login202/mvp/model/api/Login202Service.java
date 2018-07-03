@@ -99,5 +99,5 @@ public interface Login202Service {
      */
     @FormUrlEncoded
     @POST("app/userInfo/checkCode")
-    Observable<BaseJson> checkCode(@FieldMap Map<String, Object> param);
+    Observable<BaseJson<LoginInfoDTO>> checkCode(@FieldMap Map<String, Object> param);
 }

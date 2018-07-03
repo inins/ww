@@ -8,6 +8,9 @@ HOST : personal
 充值
 /recharge
 
+新用户引导页面
+/newGuide
+
 官方图库
 /officialPhoto
 
