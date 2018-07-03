@@ -19,4 +19,6 @@ public class LoginInfo {
     String imSign;
     User userInfo;
     Tags userTags;
+    boolean isBind;
+    boolean isFirst;
 }

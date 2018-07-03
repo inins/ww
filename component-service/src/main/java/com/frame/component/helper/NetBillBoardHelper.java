@@ -21,9 +21,9 @@ import java.util.Map;
 
 public class NetBillBoardHelper {
 
-    IRepositoryManager mRepositoryManager;
-    RxErrorHandler mErrorHandler;
-    ApiHelper mApiHelper;
+    private IRepositoryManager mRepositoryManager;
+    private RxErrorHandler mErrorHandler;
+    private ApiHelper mApiHelper;
 
     private NetBillBoardHelper() {
         this.mRepositoryManager = FrameUtils.obtainAppComponentFromContext(Utils.getContext()).repoitoryManager();
@@ -35,17 +35,27 @@ public class NetBillBoardHelper {
         return new NetBillBoardHelper();
     }
 
+    /**
+     * 广告获取
+     * @param view IView
+     * @param callback 回调
+     */
     public void getBillboard(IView view,
                                OnGetBillBoardCallback callback) {
         netGetBillboard(view, callback);
     }
 
+    /**
+     * 广告获取
+     * @param view IView
+     * @param callback 回调
+     */
     private void netGetBillboard(IView view, OnGetBillBoardCallback callback) {
         Map<String, Object> param = new NetParam()
-                .put("v", "2.0.2")
+                .put("v", "2.0.0")
                 .build();
 
-        mApiHelper.executeForData(view,
+        mApiHelper.execute(view,
                 mRepositoryManager.obtainRetrofitService(CommonService.class)
                         .getBillboard(param),
                 new ErrorHandleSubscriber<BillBoard>() {
@@ -61,4 +71,53 @@ public class NetBillBoardHelper {
     public interface OnGetBillBoardCallback {
         void onBillBoard(BillBoard billBoard);
     }
+
+    /**
+     * 广告点击
+     * @param view IView
+     * @param billboardId 广告ID
+     */
+    public void clickBillBoard(IView view, int billboardId,
+                               OnClickBillBoardCallback callback) {
+        netClickBillboard(view, billboardId, callback);
+    }
+
+    /**
+     * 广告点击
+     * @param view IView
+     * @param billboardId 广告ID
+     */
+    private void netClickBillboard(IView view, int billboardId,
+                                   OnClickBillBoardCallback callback) {
+        Map<String, Object> param = new NetParam()
+                .put("billboardId", billboardId)
+                .put("v", "2.0.0")
+                .build();
+
+        mApiHelper.executeForData(view,
+                mRepositoryManager.obtainRetrofitService(CommonService.class)
+                        .clickBillboard(param),
+                new ErrorHandleSubscriber() {
+                    @Override
+                    public void onNext(Object o) {
+                        if (null != callback) {
+                            callback.onClickBillBoardResult(true);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (null != callback) {
+                            callback.onClickBillBoardResult(false);
+                        }
+                    }
+                });
+    }
+
+
+
+    public interface OnClickBillBoardCallback {
+        void onClickBillBoardResult(boolean success);
+    }
+
 }

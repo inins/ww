@@ -2,6 +2,7 @@ package com.wang.social.login202.mvp.model.entities.dto;
 
 import com.frame.component.entities.User;
 import com.frame.component.ui.acticity.tags.Tags;
+import com.frame.component.utils.EntitiesUtil;
 import com.frame.http.api.Mapper;
 import com.wang.social.login202.mvp.model.entities.LoginInfo;
 
@@ -17,6 +18,8 @@ public class LoginInfoDTO implements Mapper<LoginInfo> {
     String userSig;
     User userInfo;
     Tags userTags;
+    Integer isBind;
+    int isFirst;
 
     @Override
     public LoginInfo transform() {
@@ -25,6 +28,9 @@ public class LoginInfoDTO implements Mapper<LoginInfo> {
         loginInfo.setUserInfo(userInfo);
         loginInfo.setUserTags(userTags);
         loginInfo.setImSign(userSig);
+        loginInfo.setBind(EntitiesUtil.assertNotNull(isBind) == 1);
+        loginInfo.setFirst(EntitiesUtil.assertNotNull(isFirst) == 1);
+
         return loginInfo;
     }
 }

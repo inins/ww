@@ -428,10 +428,16 @@ public interface CommonService {
 
 
     /**
-     * 版本更新检测
-     *
-     * @return
+     * 广告获取
      */
     @GET("appStratBillboard/getBillboard")
     Observable<BaseJson<BillBoardDTO>> getBillboard(@QueryMap Map<String, Object> param);
+
+
+    /**
+     * 广告点击
+     */
+    @FormUrlEncoded
+    @POST("appStratBillboard/clickBillboard")
+    Observable<BaseJson> clickBillboard(@FieldMap Map<String, Object> param);
 }

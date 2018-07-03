@@ -147,6 +147,20 @@ public class AppConstant {
     }
 
     /**
+     * 广告
+     */
+    public static class AD {
+        // 话题
+        public static final String AD_TOPIC = "ad_topic";
+        // 趣晒
+        public static final String AD_FUNSHOW = "ad_funshow";
+        // 内部浏览器打开
+        public static final String AD_INSIDE_WEB = "ad_inside_web";
+        // 外部浏览器打开
+        public static final String AD_OUTSIDE_WEB = "ad_outside_web";
+    }
+
+    /**
      * 分享文案
      */
     public static class Share {

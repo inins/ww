@@ -2,6 +2,10 @@ package com.wang.social.mvp.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Shader;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -13,9 +17,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.frame.component.api.Api;
 import com.frame.component.api.CommonService;
 import com.frame.component.common.AppConstant;
+import com.frame.component.entities.BillBoard;
 import com.frame.component.entities.DynamicMessage;
 import com.frame.component.entities.SystemMessage;
 import com.frame.component.entities.VersionInfo;
@@ -23,6 +31,8 @@ import com.frame.component.enums.ConversationType;
 import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.MsgHelper;
+import com.frame.component.helper.NetBillBoardHelper;
+import com.frame.component.ui.acticity.WebActivity;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
 import com.frame.component.view.XRadioGroup;
 import com.frame.di.component.AppComponent;
@@ -51,9 +61,14 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 @RouteNode(path = "/main", desc = "首页")
@@ -112,6 +127,9 @@ public class HomeActivity extends BasicAppNoDiActivity implements IView, XRadioG
         return R.layout.activity_home;
     }
 
+
+    private long mBillBoardImageDownMills;
+
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
         dialogHomeAdd = new DialogHomeAdd(this);
@@ -134,6 +152,30 @@ public class HomeActivity extends BasicAppNoDiActivity implements IView, XRadioG
             locationHelper.onDestroy();
         });
         locationHelper.startLocation();
+
+        // 获取广告内容
+        NetBillBoardHelper.newInstance().getBillboard(this,
+                billBoard -> {
+                    if (!TextUtils.isEmpty(billBoard.getPicUrl())) {
+                        // 下载广告图片
+                        Timber.i("下载广告图片");
+                        mBillBoardImageDownMills = System.currentTimeMillis();
+                        SimpleTarget<Drawable> simpleTarget = new SimpleTarget<Drawable>() {
+                            @Override
+                            public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+                                long duration = System.currentTimeMillis() - mBillBoardImageDownMills;
+                                Timber.i("下载广告图片耗时 : " + Long.toString(duration));
+                                if (duration <= 2000) {
+                                    BillBoardActivity.start(HomeActivity.this, billBoard);
+                                }
+                            }
+                        };
+
+                        Glide.with(getApplicationContext())
+                                .load(billBoard.getPicUrl())
+                                .into(simpleTarget);
+                    }
+                });
     }
 
     @Override
@@ -340,13 +382,22 @@ public class HomeActivity extends BasicAppNoDiActivity implements IView, XRadioG
         String target = getIntent().getStringExtra("target");
         String id = getIntent().getStringExtra("targetId");
 
+        Timber.i("remoteCall : " + target + " " + id);
+
         performRemoteCall(target, id);
     }
 
+    /**
+     * 外部打开
+     *
+     * @param target 目标（指定打开的内容）
+     * @param id     打开话题 趣晒 趣聊等时需要的id,如果是广告，这个参数就是广告url
+     */
     public void performRemoteCall(String target, String id) {
         if (TextUtils.isEmpty(target)) {
             return;
         }
+
         int intId = -1;
         if (!target.equals(AppConstant.Key.OPEN_TARGET_C2C) &&
                 !target.equals(AppConstant.Key.OPEN_TARGET_TEAM) &&
@@ -359,9 +410,25 @@ public class HomeActivity extends BasicAppNoDiActivity implements IView, XRadioG
         }
 
         switch (target) {
+            // 广告，内部打开连接
+            case AppConstant.AD.AD_INSIDE_WEB:
+                if (!TextUtils.isEmpty(id)) {
+                    WebActivity.start(this, id);
+                }
+                break;
+            // 广告，外部打开连接
+            case AppConstant.AD.AD_OUTSIDE_WEB:
+                if (!TextUtils.isEmpty(id)) {
+                    Uri uri = Uri.parse(id);
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(intent);
+                }
+                break;
+            case AppConstant.AD.AD_TOPIC:
             case AppConstant.Share.SHARE_TOPIC_OPEN_TARGET:
                 CommonHelper.TopicHelper.startTopicDetail(this, intId);
                 break;
+            case AppConstant.AD.AD_FUNSHOW:
             case AppConstant.Share.SHARE_FUN_SHOW_OPEN_TARGET:
                 CommonHelper.FunshowHelper.startDetailActivity(this, intId);
                 break;

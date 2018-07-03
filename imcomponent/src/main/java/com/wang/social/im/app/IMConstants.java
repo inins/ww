@@ -7,46 +7,52 @@ import com.frame.component.common.AppConstant;
  */
 public interface IMConstants {
 
-    /**
-     * 云通信IM SDK AppID
-     */
-//    int IM_APPID = 1400075076; //开发
+//    /**
+//     * 云通信IM SDK AppID
+//     */
+//    int IM_APPID = 1400088010; //正式
+//    /**
+//     * 小米推送：bussId
+//     */
+//    long MIPUSH_BUSSID = 3804; // 正式
+//    /**
+//     * 魅族推送：bussId
+//     */
+//    long MZPUSH_BUSSID = 3805;// 正式
+//    /**
+//     * 华为推送：bussId
+//     */
+//    long HMSPUSH_BUSSID = 3803;//正式
+
+
+    int IM_APPID = 1400075076;  // 开发
+    long MIPUSH_BUSSID = 3503;  // 开发
+    long HMSPUSH_BUSSID = 3502; // 开发
+    long MZPUSH_BUSSID = 3504;  // 开发
+
 //    int IM_APPID = 1400095271; //测试
-    int IM_APPID = 1400088010; //正式
-    /**
-     * 小米推送：bussId
-     */
-    long MIPUSH_BUSSID = 3804; // 正式
 //    long MIPUSH_BUSSID = 3777; //测试
-//    long MIPUSH_BUSSID = 3503; //开发
-    /**
-     * 小米推送：AppId
-     */
-    String MIPUSH_APPID = "2882303761517578585";
-    /**
-     * 小米推送：AppKey
-     */
-    String MIPUSH_APPKEY = "5641757831585";
-    /**
-     * 魅族推送：bussId
-     */
-    long MZPUSH_BUSSID = 3805;// 正式
 //    long MZPUSH_BUSSID = 3778;// 测试
-//    long MZPUSH_BUSSID = 3504;//开发
+//    long HMSPUSH_BUSSID = 3776;//测试
+
     /**
      * 魅族推送：AppId
      */
     String MZPUSH_APPID = "113639";
     /**
+     * 小米推送：AppKey
+     */
+    String MIPUSH_APPKEY = "5641757831585";
+    /**
+     * 小米推送：AppId
+     */
+    String MIPUSH_APPID = "2882303761517578585";
+    /**
      * 魅族推送：AppKey
      */
     String MZPUSH_APPKEY = "c58947c5644649e8a1a9f3e8cae2040d";
-    /**
-     * 华为推送：bussId
-     */
-    long HMSPUSH_BUSSID = 3803;//正式
-//    long HMSPUSH_BUSSID = 3776;//测试
-//    long HMSPUSH_BUSSID = 3502; //开发
+
+
 
     /**
      * 服务端推送消息使用账号

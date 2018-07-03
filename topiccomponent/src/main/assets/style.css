@@ -21,6 +21,7 @@
   src: url('file:///android_asset/kaiti.ttf');
 }
 
+/*
 @font-face{
   font-family: 'pfb';
   src: url('file:///android_asset/pingfang_bz.ttf');
@@ -35,6 +36,7 @@
   font-family: 'pfx';
    src: url('file:///android_asset/pingfang_xi.ttf');
 }
+*/
 
 @font-face{
   font-family: 'st';

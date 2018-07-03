@@ -1,30 +1,34 @@
 package com.wang.social.login202.mvp.presenter;
 
-import android.app.Activity;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.frame.component.common.NetParam;
+import com.frame.component.entities.location.LocationInfo;
 import com.frame.component.helper.AppDataHelper;
 import com.frame.component.ui.acticity.tags.TagService;
 import com.frame.component.ui.acticity.tags.Tags;
 import com.frame.component.ui.acticity.tags.TagsDTO;
+import com.frame.component.utils.ChannelUtils;
 import com.frame.http.api.ApiHelper;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.integration.IRepositoryManager;
+import com.frame.utils.AppUtils;
 import com.frame.utils.FrameUtils;
+import com.frame.utils.PhoneUtils;
 import com.frame.utils.Utils;
 import com.wang.social.login202.mvp.model.api.Login202Service;
 import com.wang.social.login202.mvp.contract.Login202Contract;
+import com.wang.social.login202.mvp.model.entities.CheckPhoneResult;
 import com.wang.social.login202.mvp.model.entities.CheckVerifyCode;
 import com.wang.social.login202.mvp.model.entities.LoginInfo;
-import com.wang.social.login202.mvp.model.entities.PlatformLogin;
+import com.wang.social.login202.mvp.model.entities.dto.CheckPhoneResultDTO;
 import com.wang.social.login202.mvp.model.entities.dto.CheckVerifyCodeDTO;
 import com.wang.social.login202.mvp.model.entities.dto.IsRegisterDTO;
 import com.wang.social.login202.mvp.model.entities.IsRegisterVO;
 import com.wang.social.login202.mvp.model.entities.dto.LoginInfoDTO;
-import com.wang.social.login202.mvp.model.entities.dto.PlatformLoginDTO;
 import com.wang.social.socialize.SocializeUtil;
 
 import java.util.Map;
@@ -37,6 +41,9 @@ public class Login202Presenter implements Login202Contract.Presenter {
 
     private ApiHelper mApiHelper;
     private IRepositoryManager mRepositoryManager;
+
+    // 保存用户信息
+    private LoginInfo mLoginInfo;
 
     public Login202Presenter(@NonNull Login202Contract.View view) {
         mView = view;
@@ -88,14 +95,32 @@ public class Login202Presenter implements Login202Contract.Presenter {
                 .myRecommendTag(param);
     }
 
+
     /**
-     * 保存用户信息，尝试获取用户兴趣标签信息
+     * 保存用户信息
      */
-    private void saveLoginInfo(LoginInfo loginInfo) {
+    @Override
+    public void saveLoginInfo(LoginInfo loginInfo) {
+        // 保存数据
+        saveLoginInfo(loginInfo, true);
+    }
+
+    private void saveLoginInfo(LoginInfo loginInfo, boolean saveUserInfo) {
         // 保存数据
         AppDataHelper.saveToken(loginInfo.getToken());
         AppDataHelper.saveImSign(loginInfo.getImSign());
-        AppDataHelper.saveUser(loginInfo.getUserInfo());
+        if (saveUserInfo) {
+            AppDataHelper.saveUser(loginInfo.getUserInfo());
+        }
+    }
+
+
+    /**
+     * 获取用户信息
+     */
+    @Override
+    public LoginInfo getLoginInfo() {
+        return mLoginInfo;
     }
 
     /**
@@ -205,9 +230,26 @@ public class Login202Presenter implements Login202Contract.Presenter {
      * @param password 密码
      */
     private Observable<BaseJson<LoginInfoDTO>> netPasswordLogin(String mobile, String password) {
+        int versionCode = AppUtils.getAppVersionCode();
+        int channelCode = ChannelUtils.getChannelCode();
+        LocationInfo locationInfo = AppDataHelper.getLocationInfo();
+        Double longitude = null;
+        Double latitude = null;
+        if (locationInfo != null) {
+            longitude = locationInfo.getLongitude();
+            latitude = locationInfo.getLatitude();
+        }
+
         Map<String, Object> param = new NetParam()
                 .put("mobile", mobile)
                 .put("password", password)
+                .put("devicesKey", PhoneUtils.getIMEI())
+                .put("channelId", channelCode + "")
+                .put("appVersion", versionCode + "")
+                .put("devicesModel", Build.MODEL)
+                .put("devicesSystem", "android" + Build.VERSION.RELEASE)
+                .put("longitude", longitude + "")
+                .put("latitude", latitude + "")
                 .put("v", "2.0.0")
                 .putSignature()
                 .build();
@@ -232,29 +274,6 @@ public class Login202Presenter implements Login202Contract.Presenter {
                     @Override
                     public void onError(Throwable e) {
                         mView.onSendVerifyCodeFailed(type, e.getMessage());
-                    }
-                },
-                disposable -> mView.showLoading(),
-                () -> mView.hideLoading());
-    }
-
-    /**
-     * 绑定手机输入手机号码页面获取验证码
-     * @param mobile 手机号码
-     */
-    @Override
-    public void bindPhoneSendVerifyCode(String mobile) {
-        mApiHelper.executeForData(mView,
-                netSendVerifyCode(mobile, 4),
-                new ErrorHandleSubscriber() {
-                    @Override
-                    public void onNext(Object o) {
-                        mView.onBindPhoneSendVerifyCodeSuccess();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        mView.onBindPhoneSendVerifyCodeFailed(e.getMessage());
                     }
                 },
                 disposable -> mView.showLoading(),
@@ -319,14 +338,30 @@ public class Login202Presenter implements Login202Contract.Presenter {
      * @param mobile 手机号码
      * @param code   短信验证码
      * @param adCode 区域编码
-     * @return
      */
     private Observable<BaseJson<LoginInfoDTO>> netVerifyCodeLogin(
             String mobile, String code, String adCode) {
+        int versionCode = AppUtils.getAppVersionCode();
+        int channelCode = ChannelUtils.getChannelCode();
+        LocationInfo locationInfo = AppDataHelper.getLocationInfo();
+        Double longitude = null;
+        Double latitude = null;
+        if (locationInfo != null) {
+            longitude = locationInfo.getLongitude();
+            latitude = locationInfo.getLatitude();
+        }
+
         Map<String, Object> param = new NetParam()
                 .put("mobile", mobile)
                 .put("code", code)
                 .put("adCode", adCode)
+                .put("devicesKey", PhoneUtils.getIMEI())
+                .put("channelId", channelCode + "")
+                .put("appVersion", versionCode + "")
+                .put("devicesModel", Build.MODEL)
+                .put("devicesSystem", "android" + Build.VERSION.RELEASE)
+                .put("longitude", longitude + "")
+                .put("latitude", latitude + "")
                 .put("v", "2.0.0")
                 .putSignature()
                 .build();
@@ -389,7 +424,7 @@ public class Login202Presenter implements Login202Contract.Presenter {
     @Override
     public void register(String mobile, String password, String invitationCode) {
         mApiHelper.execute(mView,
-                netRegister(mobile, password, invitationCode),
+                netUserRegister(mobile, password, invitationCode),
                 new ErrorHandleSubscriber<LoginInfo>() {
                     @Override
                     public void onNext(LoginInfo loginInfo) {
@@ -427,6 +462,56 @@ public class Login202Presenter implements Login202Contract.Presenter {
                 .obtainRetrofitService(Login202Service.class)
                 .register(param);
     }
+
+    /**
+     *
+     * 参数名字	参数类型	说明	是否必须
+     mobile	String	十一位手机号码	√
+     code	String	短信验证码	√
+     password	String	设置的密码	√
+     adCode	String	区域编码	×
+
+     devicesKey	String	设备唯一标识	√
+     channelId	Integer	渠道	√
+     appVersion	String	APP版本	√
+     devicesModel	String	设备机型	√
+     devicesSystem	String	设备操作系统	√
+     longitude	String	经度
+     latitude	String	纬度
+     */
+    private Observable<BaseJson<LoginInfoDTO>> netUserRegister(
+            String mobile, String password, String invitationCode) {
+
+        int versionCode = AppUtils.getAppVersionCode();
+        int channelCode = ChannelUtils.getChannelCode();
+        LocationInfo locationInfo = AppDataHelper.getLocationInfo();
+        Double longitude = null;
+        Double latitude = null;
+        if (locationInfo != null) {
+            longitude = locationInfo.getLongitude();
+            latitude = locationInfo.getLatitude();
+        }
+
+        Map<String, Object> param = NetParam.newInstance()
+                .put("mobile", mobile)
+                .put("password", password)
+                .put("invitationCode", invitationCode)
+                .put("adCode", "")
+                .put("devicesKey", PhoneUtils.getIMEI())
+                .put("channelId", channelCode + "")
+                .put("appVersion", versionCode + "")
+                .put("devicesModel", Build.MODEL)
+                .put("devicesSystem", "android" + Build.VERSION.RELEASE)
+                .put("longitude", longitude + "")
+                .put("latitude", latitude + "")
+                .build();
+
+        return mRepositoryManager
+                .obtainRetrofitService(Login202Service.class)
+                .register(param);
+    }
+
+
 
 
     // 第三方登录回调
@@ -508,10 +593,12 @@ public class Login202Presenter implements Login202Contract.Presenter {
                     @Override
                     public void onNext(LoginInfo loginInfo) {
                         // 保存用户信息
-                        saveLoginInfo(loginInfo);
+                        // 不能直接保存用户信息，否则未绑定手机再次启动会认为已登录
+                        saveLoginInfo(loginInfo, false);
+                        // 记录用户信息，如果需要
+                        mLoginInfo = loginInfo;
 
-                        mView.onPlatformLoginSuccess(
-                                loginInfo.getUserInfo() != null ? loginInfo.getUserInfo().getPhone() : "");
+                        mView.onPlatformLoginSuccess(loginInfo);
                     }
 
                     @Override
@@ -534,6 +621,17 @@ public class Login202Presenter implements Login202Contract.Presenter {
      */
     private Observable<BaseJson<LoginInfoDTO>> netPlatformLogin(
             int platform, String uid, String nickname, String headUrl, int sex, String adCode) {
+        int versionCode = AppUtils.getAppVersionCode();
+        int channelCode = ChannelUtils.getChannelCode();
+        LocationInfo locationInfo = AppDataHelper.getLocationInfo();
+        Double longitude = null;
+        Double latitude = null;
+        if (locationInfo != null) {
+            longitude = locationInfo.getLongitude();
+            latitude = locationInfo.getLatitude();
+        }
+
+
         Map<String, Object> param = new NetParam()
                 .put("platform", platform)
                 .put("uid", uid)
@@ -541,6 +639,13 @@ public class Login202Presenter implements Login202Contract.Presenter {
                 .put("headUrl", headUrl)
                 .put("sex", sex)
                 .put("adCode", adCode)
+                .put("devicesKey", PhoneUtils.getIMEI())
+                .put("channelId", channelCode + "")
+                .put("appVersion", versionCode + "")
+                .put("devicesModel", Build.MODEL)
+                .put("devicesSystem", "android" + Build.VERSION.RELEASE)
+                .put("longitude", longitude + "")
+                .put("latitude", latitude + "")
                 .put("v", "2.0.0")
                 .build();
         return mRepositoryManager
@@ -549,17 +654,66 @@ public class Login202Presenter implements Login202Contract.Presenter {
     }
 
     /**
-     * 绑定手机
-     * @param mobile 手机号码
-     * @param code 验证码
+     *
+     * 2.4.1未绑定时输入手机号码获取验证码
+     * 根据手机号码判断该号码是否被绑定
+     * @param phone 手机号码
+     * @param userId 用户id
      */
     @Override
-    public void replaceMobile(String mobile, String code) {
+    public void checkPhone(String phone, int userId, boolean isFirst) {
+        mApiHelper.execute(mView,
+                netCheckPhone(phone, userId, isFirst ? 1 : 0),
+                new ErrorHandleSubscriber<CheckPhoneResult>() {
+                    @Override
+                    public void onNext(CheckPhoneResult checkPhoneResult) {
+                        mView.onCheckPhoneSuccess(checkPhoneResult);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mView.onCheckPhoneFailed(e.getMessage());
+                    }
+                },
+                disposable -> mView.showLoading(),
+                () -> mView.hideLoading());
+    }
+
+    /**
+     *
+     * 2.4.1未绑定时输入手机号码获取验证码
+     * 根据手机号码判断该号码是否被绑定
+     * @param phone 手机号码
+     * @param userId 用户id
+     * @param isFirst 是否第一次登陆(0：否；1：是)
+     */
+    private Observable<BaseJson<CheckPhoneResultDTO>> netCheckPhone(String phone, int userId, int isFirst) {
+        Map<String, Object> param = new NetParam()
+                .put("phone", phone)
+                .put("userId", userId)
+                .put("isFirst", isFirst)
+                .put("v", "2.0.2")
+                .build();
+        return mRepositoryManager
+                .obtainRetrofitService(Login202Service.class)
+                .checkPhone(param);
+    }
+
+    /**
+     * 判断验证码和邀请码绑定手机
+     * @param phone 手机号码
+     * @param userId 用户id
+     * @param code 验证码
+     * @param inviteCode 邀请码
+     */
+    @Override
+    public void checkCode(String phone, int userId, String code, String inviteCode) {
         mApiHelper.executeForData(mView,
-                netReplaceMobile(mobile, code),
+                netCheckCode(phone, userId, code, inviteCode),
                 new ErrorHandleSubscriber() {
                     @Override
                     public void onNext(Object o) {
+                        saveLoginInfo(mLoginInfo);
                         // 绑定成功
                         mView.onBindPhoneSuccess();
                     }
@@ -574,18 +728,23 @@ public class Login202Presenter implements Login202Contract.Presenter {
     }
 
     /**
-     * 换绑手机
-     * @param mobile 手机号码
+     * 判断验证码和邀请码绑定手机
+     * @param phone 手机号码
+     * @param userId 用户id
      * @param code 验证码
+     * @param inviteCode 邀请码
      */
-    private Observable<BaseJson> netReplaceMobile(String mobile, String code) {
+    private Observable<BaseJson> netCheckCode(String phone, int userId, String code, String inviteCode) {
         Map<String, Object> param = new NetParam()
-                .put("mobile", mobile)
+                .put("phone", phone)
+                .put("userId", userId)
                 .put("code", code)
-                .put("v", "2.0.0")
+                .put("inviteCode", inviteCode)
+                .put("v", "2.0.2")
                 .build();
         return mRepositoryManager
                 .obtainRetrofitService(Login202Service.class)
-                .replaceMobile(param);
+                .checkCode(param);
     }
+
 }

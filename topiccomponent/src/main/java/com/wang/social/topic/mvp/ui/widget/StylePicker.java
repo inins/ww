@@ -124,9 +124,9 @@ public class StylePicker extends FrameLayout {
 
     private static final int[] fontRes = {
             R.drawable.topic_font_kaiti,
-            R.drawable.topic_font_pingfang_n,
-            R.drawable.topic_font_pingfang_c,
-            R.drawable.topic_font_pingfang_x,
+//            R.drawable.topic_font_pingfang_n,
+//            R.drawable.topic_font_pingfang_c,
+//            R.drawable.topic_font_pingfang_x,
             R.drawable.topic_font_songti,
             R.drawable.topic_font_wawa,
             R.drawable.topic_font_youyuan};

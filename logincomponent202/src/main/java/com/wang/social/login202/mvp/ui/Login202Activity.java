@@ -27,6 +27,7 @@ import com.umeng.socialize.UMShareAPI;
 import com.wang.social.login202.R;
 import com.wang.social.login202.R2;
 import com.wang.social.login202.mvp.contract.Login202Contract;
+import com.wang.social.login202.mvp.model.entities.CheckPhoneResult;
 import com.wang.social.login202.mvp.model.entities.LoginInfo;
 import com.wang.social.login202.mvp.presenter.Login202Presenter;
 import com.wang.social.login202.mvp.ui.adapter.CardAdapter;
@@ -48,6 +49,7 @@ import java.util.List;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 @RouteNode(path = "/login", desc = "登陆页")
 public class Login202Activity extends BaseAppActivity implements Login202Contract.View, Login202CardView.CardViewCallback {
@@ -168,10 +170,6 @@ public class Login202Activity extends BaseAppActivity implements Login202Contrac
 
     /**
      * 友盟平台需要的回调
-     *
-     * @param requestCode
-     * @param resultCode
-     * @param data
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -258,9 +256,8 @@ public class Login202Activity extends BaseAppActivity implements Login202Contrac
      */
     @OnClick(R2.id.wx_image_view)
     public void wxLogin() {
-//        ToastUtil.showToastShort("微信登录");
+        Timber.i("微信登录");
         mPresenter.wxLogin();
-//        nextToBindPhone();
     }
 
     /**
@@ -268,7 +265,7 @@ public class Login202Activity extends BaseAppActivity implements Login202Contrac
      */
     @OnClick(R2.id.qq_image_view)
     public void qqLogin() {
-//        ToastUtil.showToastShort("QQ登录");
+        Timber.i("QQ登录");
         mPresenter.qqLogin();
     }
 
@@ -277,7 +274,7 @@ public class Login202Activity extends BaseAppActivity implements Login202Contrac
      */
     @OnClick(R2.id.wb_image_view)
     public void wbLogin() {
-//        ToastUtil.showToastShort("微博登录");
+        Timber.i("微博登录");
         mPresenter.sinaLogin();
     }
 
@@ -594,6 +591,7 @@ public class Login202Activity extends BaseAppActivity implements Login202Contrac
     @Override
     public void onPhoneLogin(String phone) {
         if (checkPhoneNumber(phone)) {
+            Timber.i("查询手机号码是否已注册");
             mPhoneNumber = phone;
             // 查询手机号码是否已注册
             mPresenter.isRegister(phone);
@@ -687,6 +685,7 @@ public class Login202Activity extends BaseAppActivity implements Login202Contrac
     @Override
     public void onPasswordLogin(String password) {
         if (checkPassword(password)) {
+            Timber.i("密码登录");
             mPresenter.passwordLogin(mPhoneNumber, password);
         }
     }
@@ -715,7 +714,15 @@ public class Login202Activity extends BaseAppActivity implements Login202Contrac
         if (checkPhoneNumber(phone)) {
             mPhoneNumber = phone;
             // 发送验证码
-            mPresenter.bindPhoneSendVerifyCode(phone);
+//            mPresenter.bindPhoneSendVerifyCode(phone);
+
+            if (null != mPresenter.getLoginInfo() && null != mPresenter.getLoginInfo().getUserInfo()) {
+                mPresenter.checkPhone(mPhoneNumber,
+                        mPresenter.getLoginInfo().getUserInfo().getUserId(),
+                        mPresenter.getLoginInfo().isFirst());
+            } else {
+                Timber.e("User info if null");
+            }
         }
     }
 
@@ -739,7 +746,14 @@ public class Login202Activity extends BaseAppActivity implements Login202Contrac
      */
     @Override
     public void onPlatformBindPhoneVerify(String verifyCode, String inviteCode) {
-        mPresenter.replaceMobile(mPhoneNumber, verifyCode);
+        if (null != mPresenter.getLoginInfo() && null != mPresenter.getLoginInfo().getUserInfo()) {
+            mPresenter.checkCode(mPhoneNumber,
+                    mPresenter.getLoginInfo().getUserInfo().getUserId(),
+                    verifyCode,
+                    inviteCode);
+        } else {
+            Timber.e("userinfo is null");
+        }
     }
 
     /**
@@ -901,9 +915,11 @@ public class Login202Activity extends BaseAppActivity implements Login202Contrac
     @Override
     public void onIsRegisterSuccess(boolean isRegister) {
         if (isRegister) {
+            Timber.i("已注册，跳转到密码登录");
             // 已注册，跳转到密码登录
             nextToPasswordLogin();
         } else {
+            Timber.i("未注册，跳转到 注册 输入验证码");
             // 未注册，跳转到 注册 输入验证码
             nextToRegisterVerifyCodeInput();
         }
@@ -994,7 +1010,7 @@ public class Login202Activity extends BaseAppActivity implements Login202Contrac
      */
     @Override
     public void gotoTagSelection() {
-//        ToastUtil.showToastShort("跳转到标签选择");
+        Timber.i("跳转到标签选择");
         TagSelectionActivity.startSelectionFromLogin(this);
         finish();
     }
@@ -1004,7 +1020,7 @@ public class Login202Activity extends BaseAppActivity implements Login202Contrac
      */
     @Override
     public void gotoMainPage() {
-//        ToastUtil.showToastShort("跳转到主页");
+        Timber.i("跳转到主页");
         // 路由跳转
         CommonHelper.AppHelper.startHomeActivity(this);
         finish();
@@ -1015,8 +1031,8 @@ public class Login202Activity extends BaseAppActivity implements Login202Contrac
      */
     @Override
     public void gotoNewUserGuide() {
-//        ToastUtil.showToastShort("跳转到新用户引导");
-        // TODO :
+        Timber.i("跳转到新用户引导");
+        CommonHelper.PersonalHelper.startNewGuideActivity(this);
     }
 
     /**
@@ -1027,7 +1043,6 @@ public class Login202Activity extends BaseAppActivity implements Login202Contrac
      */
     @Override
     public void onRegisterCheckVerifyCodeSuccess(boolean result, String msg) {
-        result = true;
         if (result) {
             // 验证成功，跳转到设置密码
             nextToRegisterSetPassword();
@@ -1053,8 +1068,7 @@ public class Login202Activity extends BaseAppActivity implements Login202Contrac
      */
     @Override
     public void onRegisterSuccess(LoginInfo loginInfo) {
-        ToastUtil.showToastShort("跳转到引导页");
-
+        Timber.i("注册成功");
         gotoNewUserGuide();
     }
 
@@ -1097,15 +1111,25 @@ public class Login202Activity extends BaseAppActivity implements Login202Contrac
     /**
      * 第三方登录成功
      *
-     * @param phone 手机号码
+     * @param loginInfo 登录信息
      */
     @Override
-    public void onPlatformLoginSuccess(String phone) {
-        if (RegexUtils.isMobileExact(phone)) {
+    public void onPlatformLoginSuccess(LoginInfo loginInfo) {
+        Timber.i("第三方登录成功");
+
+        //  是否绑定了手机号码
+        if (loginInfo.isBind()) {
+            // 已经绑定了号码，登录成功
+            if (null != mPresenter.getLoginInfo()) {
+                Timber.i("保存登录信息");
+                mPresenter.saveLoginInfo(mPresenter.getLoginInfo());
+            }
+            Timber.i("获取个人兴趣标签");
             // 已经绑定了手机号码，加载兴趣标签
             mPresenter.myRecommendTag();
         } else {
             // 跳转到绑定手机页面
+            Timber.i("绑定手机");
             nextToBindPhone();
         }
     }
@@ -1120,13 +1144,21 @@ public class Login202Activity extends BaseAppActivity implements Login202Contrac
         ToastUtil.showToastShort(msg);
     }
 
+
     /**
      * 绑定手机页面获取验证码成功
+     * checkResult	Integer	检查结果(0：手机号已经绑定；1：手机号未绑定
+     * phone	String	手机号码
      */
     @Override
-    public void onBindPhoneSendVerifyCodeSuccess() {
-        // 跳转到 绑定手机验证
-        nextToBindPhoneVerify();
+    public void onCheckPhoneSuccess(CheckPhoneResult result) {
+        if (result.getCheckResult() == 1) {
+            // 跳转到 绑定手机验证
+            nextToBindPhoneVerify();
+        } else {
+            // 跳转到 绑定手机验证
+            nextToBindPhoneVerify();
+        }
     }
 
     /**
@@ -1135,7 +1167,7 @@ public class Login202Activity extends BaseAppActivity implements Login202Contrac
      * @param msg 失败信息
      */
     @Override
-    public void onBindPhoneSendVerifyCodeFailed(String msg) {
+    public void onCheckPhoneFailed(String msg) {
         ToastUtil.showToastShort(msg);
     }
 
@@ -1144,6 +1176,7 @@ public class Login202Activity extends BaseAppActivity implements Login202Contrac
      */
     @Override
     public void onBindPhoneSuccess() {
+        Timber.i("绑定手机成功");
         // 加载兴趣标签
         mPresenter.myRecommendTag();
     }

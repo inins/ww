@@ -3,6 +3,7 @@ package com.wang.social.login202.mvp.contract;
 import android.app.Activity;
 
 import com.frame.mvp.IView;
+import com.wang.social.login202.mvp.model.entities.CheckPhoneResult;
 import com.wang.social.login202.mvp.model.entities.LoginInfo;
 
 public interface Login202Contract {
@@ -112,9 +113,9 @@ public interface Login202Contract {
 
         /**
          * 第三方平台登录成功
-         * @param phone 手机号码
+         * @param loginInfo 用户登录信息
          */
-        void onPlatformLoginSuccess(String phone);
+        void onPlatformLoginSuccess(LoginInfo loginInfo);
 
         /**
          * 第三方平台登录失败
@@ -125,13 +126,13 @@ public interface Login202Contract {
         /**
          * 绑定手机页面获取验证码成功
          */
-        void onBindPhoneSendVerifyCodeSuccess();
+        void onCheckPhoneSuccess(CheckPhoneResult result);
 
         /**
          * 绑定手机页面获取验证码失败
          * @param msg 失败信息
          */
-        void onBindPhoneSendVerifyCodeFailed(String msg);
+        void onCheckPhoneFailed(String msg);
 
         /**
          * 绑定手机成功
@@ -195,19 +196,6 @@ public interface Login202Contract {
         void register(String mobile, String password, String invitationCode);
 
         /**
-         * 绑定手机输入手机号码页面获取验证码
-         * @param mobile 手机号码
-         */
-        void bindPhoneSendVerifyCode(String mobile);
-
-        /**
-         * 绑定手机
-         * @param mobile 手机号码
-         * @param code 验证码
-         */
-        void replaceMobile(String mobile, String code);
-
-        /**
          * 第三方登录
          */
         void wxLogin();
@@ -218,5 +206,34 @@ public interface Login202Contract {
          * 我的兴趣标签
          */
         void myRecommendTag();
+
+        /**
+         * 保存登录返回的用户信息
+         * @param loginInfo 用户信息
+         */
+        void saveLoginInfo(LoginInfo loginInfo);
+
+        /**
+         * 获取用户信息
+         */
+        LoginInfo getLoginInfo();
+
+        /**
+         * 2.4.1未绑定时输入手机号码获取验证码
+         * 根据手机号码判断该号码是否被绑定
+         * @param phone 手机号码
+         * @param userId 用户id
+         * @param isFirst 是否第一次登陆
+         */
+        void checkPhone(String phone, int userId, boolean isFirst);
+
+        /**
+         * 判断验证码和邀请码绑定手机
+         * @param phone 手机号码
+         * @param userId 用户id
+         * @param code 验证码
+         * @param inviteCode 邀请码
+         */
+        void checkCode(String phone, int userId, String code, String inviteCode);
     }
 }

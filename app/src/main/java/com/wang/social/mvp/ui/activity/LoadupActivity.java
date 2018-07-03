@@ -26,6 +26,8 @@ import com.frame.utils.Utils;
 
 import java.util.Set;
 
+import timber.log.Timber;
+
 public class LoadupActivity extends BasicActivity implements IView {
 
     // 记录广告内容
@@ -38,7 +40,13 @@ public class LoadupActivity extends BasicActivity implements IView {
                 SplashActivity.start(LoadupActivity.this);
             } else {
                 if (CommonHelper.LoginHelper.isLogin()) {
-                    HomeActivity.start(LoadupActivity.this);
+                    if (null != mBillBoard) {
+                        Timber.i("启动广告页");
+                        // 启动广告页
+                        BillBoardActivity.start(LoadupActivity.this, mBillBoard);
+                    } else {
+                        HomeActivity.start(LoadupActivity.this);
+                    }
                 } else {
                     CommonHelper.LoginHelper.startLoginActivity(LoadupActivity.this);
                 }
@@ -65,6 +73,9 @@ public class LoadupActivity extends BasicActivity implements IView {
     public void initData(@NonNull Bundle savedInstanceState) {
         StatusBarUtil.setTranslucent(this);
 
+        /**
+         * 外部链接打开
+         */
         Intent intent = getIntent();
         if (CommonHelper.LoginHelper.isLogin() && intent != null && !TextUtils.isEmpty(intent.getScheme()) && intent.getScheme().equals("wang")) {
             Set<String> params = intent.getData().getQueryParameterNames();
@@ -83,22 +94,17 @@ public class LoadupActivity extends BasicActivity implements IView {
                         activity.performRemoteCall(target, targetId);
                     }
                 } else {
-                    // 用户未登录不显示启动广告
-                    if (null != mBillBoard && CommonHelper.LoginHelper.isLogin()) {
-                        BillBoardActivity.start(this, mBillBoard);
-                    } else {
-                        HomeActivity.start(this, target, targetId);
-                    }
+                    HomeActivity.start(this, target, targetId);
                 }
             }
 
             finish();
         } else {
-            mHandler.postDelayed(mRunnable, 1500);
+            mHandler.postDelayed(mRunnable, 1000);
 
-            // 加载广告
-            NetBillBoardHelper.newInstance().getBillboard(this,
-                    billBoard -> mBillBoard = billBoard);
+//            // 加载广告
+//            NetBillBoardHelper.newInstance().getBillboard(this,
+//                    billBoard -> mBillBoard = billBoard);
         }
     }
 
@@ -111,12 +117,6 @@ public class LoadupActivity extends BasicActivity implements IView {
     }
 
     private boolean showGuideView() {
-//        int bootCount = SPUtils.getInstance().getInt("bootCount", 0);
-//        SPUtils.getInstance().put("bootCount", bootCount + 1);
-//        if (bootCount <= 0) {
-//            return true;
-//        }
-
         int versionCode = SPUtils.getInstance().getInt("versionCode", -111);
         if (AppUtils.getAppVersionCode() > versionCode) {
             SPUtils.getInstance().put("versionCode", AppUtils.getAppVersionCode());
@@ -134,6 +134,7 @@ public class LoadupActivity extends BasicActivity implements IView {
             fromUid = Integer.parseInt(fromUserId);
             objId = Integer.parseInt(objectId);
         } catch (Exception e) {
+            e.printStackTrace();
         }
         String type;
         switch (target) {

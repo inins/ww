@@ -604,19 +604,29 @@ public class ReleaseTopicActivity extends BaseAppActivity<ReleaseTopicPresenter>
      * @param position 字体索引
      */
     private void resetREFont(int position) {
+//        if (position == 0) {
+//            mRichEditor.setFont("kt,STKaiti-SC-Regular,STKaiti-SC-Regular");
+//        } else if (position == 1) {
+//            mRichEditor.setFont("pfb,PingFangSC-Regular,sans-serif");
+//        } else if (position == 2) {
+//            mRichEditor.setFont("pfc,PingFangSC-Semibold,sans-serif");
+//        } else if (position == 3) {
+//            mRichEditor.setFont("pfx,PingFangSC-Light, sans-serif");
+//        } else if (position == 4) {
+//            mRichEditor.setFont("st,STSongti-SC-Regular");
+//        } else if (position == 5) {
+//            mRichEditor.setFont("ww,DFWaWaSC-W5");
+//        } else if (position == 6) {
+//            mRichEditor.setFont("yy,STYuanti-SC-Regular");
+//        }
+        // 2018-07-02 去掉平方字体
         if (position == 0) {
             mRichEditor.setFont("kt,STKaiti-SC-Regular,STKaiti-SC-Regular");
         } else if (position == 1) {
-            mRichEditor.setFont("pfb,PingFangSC-Regular,sans-serif");
-        } else if (position == 2) {
-            mRichEditor.setFont("pfc,PingFangSC-Semibold,sans-serif");
-        } else if (position == 3) {
-            mRichEditor.setFont("pfx,PingFangSC-Light, sans-serif");
-        } else if (position == 4) {
             mRichEditor.setFont("st,STSongti-SC-Regular");
-        } else if (position == 5) {
+        } else if (position == 2) {
             mRichEditor.setFont("ww,DFWaWaSC-W5");
-        } else if (position == 6) {
+        } else if (position == 3) {
             mRichEditor.setFont("yy,STYuanti-SC-Regular");
         }
     }

@@ -31,13 +31,13 @@ public class BillBoard implements Parcelable {
     private int billboardId;
     private String picUrl;
     private String linkUrl;
-    private String linkType;
+    private int linkType;
 
     protected BillBoard(Parcel in) {
         billboardId = in.readInt();
         picUrl = in.readString();
         linkUrl = in.readString();
-        linkType = in.readString();
+        linkType = in.readInt();
     }
 
     public static final Creator<BillBoard> CREATOR = new Creator<BillBoard>() {
@@ -62,6 +62,6 @@ public class BillBoard implements Parcelable {
         dest.writeInt(billboardId);
         dest.writeString(picUrl);
         dest.writeString(linkUrl);
-        dest.writeString(linkType);
+        dest.writeInt(linkType);
     }
 }
