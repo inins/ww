@@ -8,13 +8,8 @@ import android.widget.TextView;
 import com.frame.component.api.CommonService;
 import com.frame.component.common.ItemDecorationDivider;
 import com.frame.component.common.NetParam;
-import com.frame.component.entities.BaseListWrap;
 import com.frame.component.entities.PersonalInfo;
-import com.frame.component.entities.TestEntity;
-import com.frame.component.entities.dto.PersonalInfoDTO;
 import com.frame.component.entities.dto.SearchUserInfoDTO;
-import com.frame.component.entities.funpoint.Funpoint;
-import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.ui.base.BaseController;
 import com.frame.component.utils.StringUtils;
@@ -28,10 +23,10 @@ import com.frame.utils.StrUtil;
 import com.frame.utils.ToastUtil;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
+import com.wang.social.im.mvp.ui.SearchActivityV2;
 import com.wang.social.im.mvp.ui.SearchFriendActivity;
 import com.wang.social.im.mvp.ui.adapters.RecycleAdapterSearchFriend;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -85,6 +80,12 @@ public class SearchFriendController extends BaseController {
 
     //////////////////////分页查询////////////////////
 
+    private boolean isEmpty;
+
+    public boolean isEmpty() {
+        return isEmpty;
+    }
+
     private void netGetSearchList(String key) {
         boolean isMobile = StringUtils.isMobileNO(key);
         Map<String, Object> param = new NetParam()
@@ -105,6 +106,12 @@ public class SearchFriendController extends BaseController {
                         if (!StrUtil.isEmpty(list)) {
                             adapter.refreshData(list);
                             getRoot().setVisibility(View.VISIBLE);
+                            isEmpty = false;
+                        } else {
+                            isEmpty = true;
+                        }
+                        if (getContext() instanceof SearchActivityV2){
+                            ((SearchActivityV2) getContext()).notifyData();
                         }
                     }
 

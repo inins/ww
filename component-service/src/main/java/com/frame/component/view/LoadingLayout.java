@@ -30,6 +30,7 @@ public class LoadingLayout extends FrameLayout {
     protected View showin;
 
     protected int loadingViewSrc;
+    protected int noticeViewSrc;
     protected int lackViewSrc;
     protected int failViewSrc;
 
@@ -52,6 +53,7 @@ public class LoadingLayout extends FrameLayout {
     private void init(AttributeSet attrs) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.LoadingLayout);
         loadingViewSrc = typedArray.getResourceId(R.styleable.LoadingLayout_layout_loading, 0);
+        noticeViewSrc = typedArray.getResourceId(R.styleable.LoadingLayout_layout_notice, 0);
         lackViewSrc = typedArray.getResourceId(R.styleable.LoadingLayout_layout_lack, 0);
         failViewSrc = typedArray.getResourceId(R.styleable.LoadingLayout_layout_fail, 0);
         typedArray.recycle();
@@ -62,6 +64,10 @@ public class LoadingLayout extends FrameLayout {
 
     public void setLoadingViewSrc(int loadingViewSrc) {
         this.loadingViewSrc = loadingViewSrc;
+    }
+
+    public void setNoticeViewSrc(int noticeViewSrc) {
+        this.noticeViewSrc = noticeViewSrc;
     }
 
     public void setLackViewSrc(int lackViewSrc) {
@@ -86,11 +92,11 @@ public class LoadingLayout extends FrameLayout {
         }
     }
 
-    public void showFailView() {
-        if (failViewSrc != 0) {
-            showin = LoadingViewHelper.showin(this, failViewSrc, showin, onRefreshListener);
+    public void showNoticeView() {
+        if (noticeViewSrc != 0) {
+            showin = LoadingViewHelper.showin(this, noticeViewSrc, showin, onRefreshListener);
         } else {
-            Timber.e( "没有设置failViewSrc");
+            Timber.e( "没有设置noticeViewSrc");
         }
     }
 
@@ -99,6 +105,14 @@ public class LoadingLayout extends FrameLayout {
             showin = LoadingViewHelper.showin(this, lackViewSrc, showin, onRefreshListener);
         } else {
             Timber.e( "没有设置lackViewSrc");
+        }
+    }
+
+    public void showFailView() {
+        if (failViewSrc != 0) {
+            showin = LoadingViewHelper.showin(this, failViewSrc, showin, onRefreshListener);
+        } else {
+            Timber.e( "没有设置failViewSrc");
         }
     }
 

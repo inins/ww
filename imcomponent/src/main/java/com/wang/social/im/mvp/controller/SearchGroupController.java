@@ -23,6 +23,7 @@ import com.frame.utils.StrUtil;
 import com.frame.utils.ToastUtil;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
+import com.wang.social.im.mvp.ui.SearchActivityV2;
 import com.wang.social.im.mvp.ui.SearchFriendActivity;
 import com.wang.social.im.mvp.ui.SearchGroupActivity;
 import com.wang.social.im.mvp.ui.adapters.RecycleAdapterSearchFriend;
@@ -84,6 +85,12 @@ public class SearchGroupController extends BaseController {
 
     //////////////////////分页查询////////////////////
 
+    private boolean isEmpty;
+
+    public boolean isEmpty() {
+        return isEmpty;
+    }
+
     private void netGetSearchList(String key) {
         ApiHelperEx.execute(getIView(), true,
                 ApiHelperEx.getService(CommonService.class).searchGroupAll(key, 1, 20),
@@ -95,6 +102,12 @@ public class SearchGroupController extends BaseController {
                         if (!StrUtil.isEmpty(list)) {
                             adapter.refreshData(list);
                             getRoot().setVisibility(View.VISIBLE);
+                            isEmpty = false;
+                        } else {
+                            isEmpty = true;
+                        }
+                        if (getContext() instanceof SearchActivityV2){
+                            ((SearchActivityV2) getContext()).notifyData();
                         }
                     }
 
