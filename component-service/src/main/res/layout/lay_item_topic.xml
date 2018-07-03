@@ -38,12 +38,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="15dp"
-        tools:text="04-08"
         android:textColor="#ff818181"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/conertext_tag"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/conertext_tag" />
+        app:layout_constraintTop_toTopOf="@+id/conertext_tag"
+        tools:text="04-08" />
 
 
     <TextView
@@ -68,12 +68,12 @@
         android:layout_marginTop="10dp"
         android:ellipsize="end"
         android:maxLines="2"
-        tools:text="考研这五个多月的时间，多么多么的漫长 和难捱，只有经历过的人才最清楚。清..."
         android:textColor="@color/common_text_blank_dark"
         android:textSize="14sp"
         app:layout_constraintEnd_toStartOf="@+id/card_pic"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_title" />
+        app:layout_constraintTop_toBottomOf="@+id/text_title"
+        tools:text="考研这五个多月的时间，多么多么的漫长 和难捱，只有经历过的人才最清楚。清..." />
 
 
     <ImageView
@@ -91,12 +91,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        tools:text="白无常白总的事迹"
+        android:drawablePadding="8dp"
         android:textColor="#ff434343"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/img_header"
         app:layout_constraintStart_toEndOf="@+id/img_header"
-        app:layout_constraintTop_toTopOf="@+id/img_header" />
+        app:layout_constraintTop_toTopOf="@+id/img_header"
+        tools:drawableRight="@drawable/common_ic_official"
+        tools:text="白无常白总的事迹" />
 
     <android.support.v7.widget.CardView
         android:id="@+id/card_pic"
@@ -130,9 +132,9 @@
         android:layout_marginEnd="24dp"
         android:drawableLeft="@drawable/common_select_zan"
         android:drawablePadding="5dp"
+        android:gravity="center_vertical"
         android:textColor="#ff818181"
         android:textSize="12sp"
-        android:gravity="center_vertical"
         app:layout_constraintEnd_toStartOf="@+id/text_eva"
         app:layout_constraintTop_toTopOf="@+id/text_eva"
         tools:text="110" />

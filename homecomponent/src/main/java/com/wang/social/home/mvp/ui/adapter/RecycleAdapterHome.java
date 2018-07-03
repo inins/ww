@@ -140,6 +140,8 @@ public class RecycleAdapterHome extends BaseAdapter<FunpointAndTopic> {
             textTime.setText(TimeUtils.date2String(bean.getCreateTime(), "MM-dd"));
             conertextTag.setTagText(bean.getTagStr());
             imgFlag.setVisibility(bean.isFree() ? View.GONE : View.VISIBLE);
+            //官方号标志
+            textName.setCompoundDrawablesWithIntrinsicBounds(0, 0, bean.isOfficial() ? R.drawable.common_ic_official : 0, 0);
 
             textZan.setOnClickListener(v -> {
                 IView iView = (getContext() instanceof IView) ? (IView) getContext() : null;

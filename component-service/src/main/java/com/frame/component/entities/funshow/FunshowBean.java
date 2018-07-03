@@ -46,8 +46,10 @@ public class FunshowBean implements Serializable {
     //省份
     private String provinceName;
 
-    //是否置顶(测试阶段暂时默认置顶)
-    private boolean isTop = true;
+    //是否置顶
+    private boolean isTop;
+    //是否官方号
+    private boolean isOfficial;
 
     //视频链接：非必需//如果是视频趣晒，并且又没有封面，则会去解析视频第一帧图像作为封面
     //现在这个字段不再使用，解析在线视频太耗费性能，统一加载封面图

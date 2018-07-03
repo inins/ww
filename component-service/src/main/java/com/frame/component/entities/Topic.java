@@ -31,9 +31,10 @@ public class Topic {
     private boolean isSupport;
     private String avatar;
     private String nickname;
+    //是否置顶
     private boolean isTop;
+    //是否官方号
     private boolean isOfficial;
-
 
     public String getTagStr() {
         String ret = "";

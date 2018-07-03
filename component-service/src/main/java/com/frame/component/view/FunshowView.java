@@ -23,6 +23,7 @@ import com.frame.component.service.R;
 import com.frame.component.service.R2;
 import com.frame.component.utils.FunShowUtil;
 import com.frame.component.utils.VideoCoverUtil;
+import com.frame.component.view.bannerview.Image;
 import com.frame.entities.EventBean;
 import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.mvp.IView;
@@ -53,6 +54,7 @@ public class FunshowView extends FrameLayout implements View.OnClickListener {
     private TextView textComment;
     private TextView textShare;
     private TextView textTop;
+    private ImageView imgOfficial;
     private Group groupHeader;
 
     private boolean isShowHeader;
@@ -139,6 +141,7 @@ public class FunshowView extends FrameLayout implements View.OnClickListener {
         textShare = findViewById(R.id.text_share);
         textTop = findViewById(R.id.text_top);
         groupHeader = findViewById(R.id.group_header);
+        imgOfficial = findViewById(R.id.img_official);
         textZan.setOnClickListener(this);
         groupHeader.setVisibility(isShowHeader ? VISIBLE : GONE);
     }
@@ -164,8 +167,10 @@ public class FunshowView extends FrameLayout implements View.OnClickListener {
         imgPlayer.setVisibility(bean.isVideo() ? View.VISIBLE : View.GONE);
         textPosition.setText(bean.getPositionText());
         textPosition.setVisibility(!TextUtils.isEmpty(bean.getPositionText()) ? VISIBLE : GONE);
+        //置顶
         textTop.setVisibility(bean.isTop() ? VISIBLE : GONE);
-
+        //官方号标志
+        imgOfficial.setVisibility(bean.isOfficial() ? VISIBLE : GONE);
 //        不再解析视频第一帧，性能耗费太大
 //        if (TextUtils.isEmpty(bean.getShowPic()) && !TextUtils.isEmpty(bean.getVideoUrl())) {
 //            //如果没有封面，并且有视频链接，则自行解析视频第一帧作为封面

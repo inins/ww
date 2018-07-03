@@ -48,9 +48,11 @@ public class TopicHome implements Serializable {
     private int isFree;
     //是否需要付费 0 不需要， 1 需要
     private int isShopping;
+    //是否官方号
+    private int isOfficial;
+
 
     //////////////////////////
-
     public String getTagStr() {
         String ret = "";
         for (Tag tag : topicTag) {
@@ -61,6 +63,10 @@ public class TopicHome implements Serializable {
 
     public void setIsPay(boolean isPay) {
         isShopping = isPay ? 0 : 1;
+    }
+
+    public boolean isOfficial() {
+        return isOfficial == 1;
     }
 
     public boolean isPay() {

@@ -40,8 +40,11 @@ public class NetStatisticsHelper {
      * 安装APP埋点记录接口
      */
     public void netAppInstall() {
+        //版本号
         int versionCode = AppUtils.getAppVersionCode();
+        //渠道好
         int channelCode = ChannelUtils.getChannelCode();
+        //获取经纬度，没有则为null
         LocationInfo locationInfo = AppDataHelper.getLocationInfo();
         Double longitude = null;
         Double latitude = null;
