@@ -36,29 +36,38 @@ public class NetStatisticsHelper {
         return new NetStatisticsHelper();
     }
 
+//    public static Map<String, Object> getStatisticParamMap() {
+//        //版本号
+//        int versionCode = AppUtils.getAppVersionCode();
+//        //渠道好
+//        int channelCode = ChannelUtils.getChannelCode();
+//        //获取经纬度，没有则为null
+//        LocationInfo locationInfo = AppDataHelper.getLocationInfo();
+//        Double longitude = null;
+//        Double latitude = null;
+//        if (locationInfo != null) {
+//            longitude = locationInfo.getLongitude();
+//            latitude = locationInfo.getLatitude();
+//        }
+//
+//        Map<String, Object> param = NetParam.newInstance()
+//                .put("devicesKey", PhoneUtils.getIMEI())
+//                .put("channelId", channelCode + "")
+//                .put("appVersion", versionCode + "")
+//                .put("devicesModel", Build.MODEL)
+//                .put("devicesSystem", "android" + Build.VERSION.RELEASE)
+//                .put("longitude", longitude + "")
+//                .put("latitude", latitude + "")
+//                .build();
+//
+//        return param;
+//    }
+
     /**
      * 安装APP埋点记录接口
      */
     public void netAppInstall() {
-        int versionCode = AppUtils.getAppVersionCode();
-        int channelCode = ChannelUtils.getChannelCode();
-        LocationInfo locationInfo = AppDataHelper.getLocationInfo();
-        Double longitude = null;
-        Double latitude = null;
-        if (locationInfo != null) {
-            longitude = locationInfo.getLongitude();
-            latitude = locationInfo.getLatitude();
-        }
-
-        Map<String, Object> param = NetParam.newInstance()
-                .put("devicesKey", PhoneUtils.getIMEI())
-                .put("channelId", channelCode + "")
-                .put("appVersion", versionCode + "")
-                .put("devicesModel", Build.MODEL)
-                .put("devicesSystem", "android" + Build.VERSION.RELEASE)
-                .put("longitude", longitude + "")
-                .put("latitude", latitude + "")
-                .build();
+        Map<String, Object> param = NetParam.newInstance().putStaticParam().build();
         ApiHelperEx.execute(null, false,
                 ApiHelperEx.getService(StatisticsService.class).appInstall(param),
                 new ErrorHandleSubscriber<Object>() {

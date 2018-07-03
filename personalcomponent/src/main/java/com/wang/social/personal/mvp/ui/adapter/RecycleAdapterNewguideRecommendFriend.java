@@ -14,6 +14,7 @@ import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
 import com.wang.social.personal.mvp.entities.recommend.RecommendUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -64,4 +65,13 @@ public class RecycleAdapterNewguideRecommendFriend extends BaseAdapter<Recommend
         return StrUtil.subLastChart(ids, ",");
     }
 
+    public List<Integer> getSelectIdList(){
+        ArrayList<Integer> idList = new ArrayList<>();
+        List<RecommendUser> selectBeans = SelectHelper.getSelectBeans(getData());
+        if (StrUtil.isEmpty(selectBeans)) return idList;
+        for (RecommendUser user : selectBeans) {
+            idList.add(user.getUserId());
+        }
+        return idList;
+    }
 }

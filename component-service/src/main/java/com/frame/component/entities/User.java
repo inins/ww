@@ -34,7 +34,7 @@ public class User implements Serializable {
     private int userId;
     private String nickname;
     private String avatar;
-    private int sex;
+    private int sex = -1;   //默认-1
     private long createTime;
     private String phone;
     private String birthday;

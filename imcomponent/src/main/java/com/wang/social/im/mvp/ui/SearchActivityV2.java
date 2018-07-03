@@ -9,27 +9,30 @@ import android.text.TextUtils;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
+import com.frame.component.ui.base.BaseController;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
 import com.frame.component.view.LoadingLayout;
 import com.frame.component.view.LoadingLayoutEx;
 import com.frame.utils.FocusUtil;
 import com.frame.utils.KeyboardUtils;
+import com.frame.utils.StrUtil;
 import com.frame.utils.ToastUtil;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;
 import com.wang.social.im.mvp.controller.SearchFriendController;
 import com.wang.social.im.mvp.controller.SearchGroupController;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
 public class SearchActivityV2 extends BasicAppNoDiActivity {
 
-
     @BindView(R2.id.edit_search)
     EditText editSearch;
     @BindView(R2.id.loadingview)
-    LoadingLayout loadingview;
+    LoadingLayoutEx loadingview;
 
     private SearchFriendController friendController;
     private SearchGroupController groupController;
@@ -50,7 +53,7 @@ public class SearchActivityV2 extends BasicAppNoDiActivity {
         //初始化控制器
         friendController = new SearchFriendController(this, findViewById(R.id.include_friend));
         groupController = new SearchGroupController(this, findViewById(R.id.include_group));
-        loadingview.showLackView();
+        loadingview.showNoticeView();
         editSearch.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 search();
@@ -66,8 +69,18 @@ public class SearchActivityV2 extends BasicAppNoDiActivity {
         String key = editSearch.getText().toString();
         if (!TextUtils.isEmpty(key)) {
             loadingview.showOut();
+            friendController.search(key);
+            groupController.search(key);
         } else {
             ToastUtil.showToastShort("请输入搜索关键字");
+        }
+    }
+
+    public void notifyData() {
+        if (friendController.isEmpty() && groupController.isEmpty()) {
+            loadingview.showFailViewNoData();
+        } else {
+            loadingview.showOut();
         }
     }
 

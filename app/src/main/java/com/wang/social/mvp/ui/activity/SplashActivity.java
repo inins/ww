@@ -13,6 +13,7 @@ import android.widget.ImageView;
 
 import com.frame.base.BasicActivity;
 import com.frame.component.helper.CommonHelper;
+import com.frame.component.helper.NetStatisticsHelper;
 import com.frame.di.component.AppComponent;
 import com.frame.utils.StatusBarUtil;
 import com.wang.social.R;
@@ -77,6 +78,9 @@ public class SplashActivity extends BasicActivity {
                 return mImageViewList.get(position);
             }
         });
+
+        //app安装后首次启动埋点
+        NetStatisticsHelper.newInstance().netAppInstall();
     }
 
     private void initImageViews() {

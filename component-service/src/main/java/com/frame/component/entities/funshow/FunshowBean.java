@@ -7,7 +7,7 @@ import java.io.Serializable;
 import lombok.Data;
 
 @Data
-public class FunshowBean implements Serializable{
+public class FunshowBean implements Serializable {
     //趣晒id
     private int id;
     //用户相关：id，头像昵称创建时间
@@ -45,6 +45,11 @@ public class FunshowBean implements Serializable{
     private String cityName;
     //省份
     private String provinceName;
+
+    //是否置顶
+    private boolean isTop;
+    //是否官方号
+    private boolean isOfficial;
 
     //视频链接：非必需//如果是视频趣晒，并且又没有封面，则会去解析视频第一帧图像作为封面
     //现在这个字段不再使用，解析在线视频太耗费性能，统一加载封面图

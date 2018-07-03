@@ -1,11 +1,14 @@
 package com.wang.social.personal.mvp.model.api;
 
 import com.frame.component.entities.BaseListWrap;
+import com.frame.component.entities.PersonalInfo;
 import com.frame.component.entities.UserWrap;
 import com.frame.component.entities.dto.GroupBeanDTO;
+import com.frame.component.entities.dto.SearchUserInfoDTO;
 import com.frame.component.entities.photo.Photo;
 import com.frame.component.entities.user.ShatDownUser;
 import com.frame.http.api.BaseJson;
+import com.frame.http.api.PageListDTO;
 import com.wang.social.personal.mvp.entities.AccountBalance;
 import com.wang.social.personal.mvp.entities.CommonEntity;
 import com.wang.social.personal.mvp.entities.QiniuTokenWrap;
@@ -230,12 +233,13 @@ public interface UserService {
     /**
      * 新用户引导-好友推荐
      */
-    @GET("app/userInfo/recommendUser?v=2.0.2")
-    Observable<BaseJson<BaseListWrap<RecommendUser>>> getRecommendUsers();
+    @GET("user/recommendUser?v=2.0.2")
+    Observable<BaseJson<BaseListWrap<RecommendUser>>> getRecommendUsers(@Query("sex") int sex);
 
     /**
      * 新用户引导-趣聊推荐
      */
     @GET("user/recommendGroup?v=2.0.2")
     Observable<BaseJson<BaseListWrap<RecommendGroup>>> getRecommendGroups();
+
 }

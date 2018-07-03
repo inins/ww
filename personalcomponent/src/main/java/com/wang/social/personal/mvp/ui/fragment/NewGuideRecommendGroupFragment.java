@@ -9,6 +9,9 @@ import android.view.View;
 import com.frame.component.common.GridSpacingItemDecoration;
 import com.frame.component.entities.BaseListWrap;
 import com.frame.component.entities.TestEntity;
+import com.frame.component.helper.CommonHelper;
+import com.frame.component.helper.NetFriendHelper;
+import com.frame.component.helper.NetGroupHelper;
 import com.frame.component.ui.base.BasicNoDiFragment;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
@@ -77,13 +80,15 @@ public class NewGuideRecommendGroupFragment extends BasicNoDiFragment {
     @OnClick({R2.id.btn_go})
     public void onViewClicked(View v) {
         if (getActivity() instanceof NewGuideRecommendActivity) {
-            ((NewGuideRecommendActivity) getActivity()).changeBanner(0);
-            ((NewGuideRecommendActivity) getActivity()).last();
+//            ((NewGuideRecommendActivity) getActivity()).changeBanner(0);
+//            ((NewGuideRecommendActivity) getActivity()).last();
+            //批量入群
+            netAddGroups(adapter.getSelectIdList());
         }
     }
 
     public void netGetRecommendGroups() {
-        ApiHelperEx.execute(this, true,
+        ApiHelperEx.execute(this, false,
                 ApiHelperEx.getService(UserService.class).getRecommendGroups(),
                 new ErrorHandleSubscriber<BaseJson<BaseListWrap<RecommendGroup>>>() {
                     @Override
@@ -100,5 +105,23 @@ public class NewGuideRecommendGroupFragment extends BasicNoDiFragment {
                         ToastUtil.showToastLong(e.getMessage());
                     }
                 });
+    }
+
+    //申请入群
+    public void netAddGroups(List<Integer> idList) {
+        if (StrUtil.isEmpty(idList)) return;
+        addGroup(idList, 0);
+    }
+
+    //递归调用加群接口
+    private void addGroup(List<Integer> idList, int index) {
+        NetGroupHelper.newInstance().addGroup(getContext(), this, getChildFragmentManager(), idList.get(index), isNeedValidation -> {
+            if (idList.size() - 1 >= index + 1) {
+                addGroup(idList, index + 1);
+            } else {
+                getActivity().finish();
+                CommonHelper.AppHelper.startHomeActivity(getContext());
+            }
+        });
     }
 }

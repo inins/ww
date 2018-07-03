@@ -55,6 +55,18 @@ public class FunshowHome implements Serializable{
     private String isAnonymous;
     private String url;
     private int urls;
+    //是否置顶
+    private int isTop;
+    //是否官方号
+    private int isOfficial;
+
+    public boolean isTop() {
+        return isTop == 1;
+    }
+
+    public boolean isOfficial() {
+        return isOfficial == 1;
+    }
 
     public boolean isHideName() {
         return "1".equals(isAnonymous);
@@ -102,6 +114,8 @@ public class FunshowHome implements Serializable{
         funshowBean.setPrice(gemstone);
         funshowBean.setPay(isPay());
         funshowBean.setHideName(isHideName());
+        funshowBean.setTop(isTop());
+        funshowBean.setOfficial(isOfficial());
         return funshowBean;
     }
 

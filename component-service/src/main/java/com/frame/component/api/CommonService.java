@@ -21,6 +21,7 @@ import com.frame.component.entities.dto.SettingInfoDTO;
 import com.frame.component.entities.dto.VersionInfoDTO;
 import com.frame.component.entities.funshow.FunshowGroup;
 import com.frame.component.entities.funshow.FunshowMe;
+import com.frame.component.entities.search.SearchGroup;
 import com.frame.component.entities.topic.TopicGroup;
 import com.frame.component.entities.topic.TopicMe;
 import com.frame.component.entities.dto.TalkBeanDTO;
@@ -277,8 +278,9 @@ public interface CommonService {
     /**
      * 用户趣晒列表-我的个人名片
      */
-    @POST("app/talk/getMyTalkList") Observable<BaseJson<PageListDTO<MyTalkBeanDTO, FunshowBean>>>
-        getMyTalkList(@QueryMap Map<String, Object> param);
+    @POST("app/talk/getMyTalkList")
+    Observable<BaseJson<PageListDTO<MyTalkBeanDTO, FunshowBean>>>
+    getMyTalkList(@QueryMap Map<String, Object> param);
 
     /**
      * 好友列表-他人名片查看
@@ -303,6 +305,13 @@ public interface CommonService {
     @GET("app/chatList/searchGroupList")
     Observable<BaseJson<PageListDTO<GroupBeanDTO, GroupBean>>>
     chatListSearchGroup(@QueryMap Map<String, Object> param);
+
+    /**
+     * 聊天列表-搜索已加入的趣聊v 2.0.2
+     */
+    @Headers(HEADER_CONTENT_TYPE)
+    @GET("app/chatList/searchGroupList?v=2.0.2")
+    Observable<BaseJson<BaseListWrap<SearchGroup>>> searchGroupAll(@Query("key") String key, @Query("current") int current, @Query("size") int size);
 
     /**
      * 聊天列表-搜索已加入的觅聊

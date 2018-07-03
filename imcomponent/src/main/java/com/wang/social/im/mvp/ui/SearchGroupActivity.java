@@ -9,9 +9,19 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
+import com.frame.component.api.CommonService;
 import com.frame.component.common.ItemDecorationDivider;
+import com.frame.component.entities.BaseListWrap;
 import com.frame.component.entities.TestEntity;
+import com.frame.component.entities.search.SearchGroup;
+import com.frame.component.enums.ConversationType;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
+import com.frame.http.api.ApiHelperEx;
+import com.frame.http.api.BaseJson;
+import com.frame.http.api.error.ErrorHandleSubscriber;
+import com.frame.utils.StrUtil;
+import com.frame.utils.ToastUtil;
 import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
@@ -21,6 +31,7 @@ import com.wang.social.im.mvp.ui.adapters.RecycleAdapterSearchFriend;
 import com.wang.social.im.mvp.ui.adapters.RecycleAdapterSearchGroup;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -53,6 +64,13 @@ public class SearchGroupActivity extends BasicAppNoDiActivity {
         textToolbarTitle.setText("搜索群组-" + key);
 
         adapter = new RecycleAdapterSearchGroup();
+        adapter.setOnItemClickListener((bean, position) -> {
+            if (bean.isMi()) {
+                CommonHelper.ImHelper.gotoGroupConversation(this, bean.getGroupId() + "", ConversationType.TEAM, false);
+            } else {
+                CommonHelper.ImHelper.gotoGroupConversation(this, bean.getGroupId() + "", ConversationType.SOCIAL, false);
+            }
+        });
         recycler.setNestedScrollingEnabled(false);
         recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recycler.setAdapter(adapter);
@@ -62,29 +80,47 @@ public class SearchGroupActivity extends BasicAppNoDiActivity {
         springView.setListener(new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
-                new Handler().postDelayed(() -> springView.onFinishFreshAndLoadDelay(), 1000);
+                netGetSearchList(true, false);
             }
 
             @Override
             public void onLoadmore() {
-                new Handler().postDelayed(() -> springView.onFinishFreshAndLoadDelay(), 1000);
+                netGetSearchList(false, false);
             }
         });
 
-        adapter.refreshData(new ArrayList<TestEntity>() {{
-            add(new TestEntity());
-            add(new TestEntity());
-            add(new TestEntity());
-            add(new TestEntity());
-            add(new TestEntity());
-            add(new TestEntity());
-            add(new TestEntity());
-            add(new TestEntity());
-            add(new TestEntity());
-            add(new TestEntity());
-            add(new TestEntity());
-            add(new TestEntity());
-            add(new TestEntity());
-        }});
+        netGetSearchList(true, true);
+    }
+
+    //////////////////////分页查询////////////////////
+    private int current = 1;
+    private int size = 20;
+
+    private void netGetSearchList(boolean isFresh, boolean needLoading) {
+        if (isFresh) current = 0;
+        ApiHelperEx.execute(this, needLoading,
+                ApiHelperEx.getService(CommonService.class).searchGroupAll(key, current + 1, size),
+                new ErrorHandleSubscriber<BaseJson<BaseListWrap<SearchGroup>>>() {
+                    @Override
+                    public void onNext(BaseJson<BaseListWrap<SearchGroup>> basejson) {
+                        BaseListWrap<SearchGroup> warp = basejson.getData();
+                        List<SearchGroup> list = warp.getList();
+                        if (!StrUtil.isEmpty(list)) {
+                            current = warp.getCurrent();
+                            if (isFresh) {
+                                adapter.refreshData(list);
+                            } else {
+                                adapter.addItem(list);
+                            }
+                        }
+                        springView.onFinishFreshAndLoadDelay();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        ToastUtil.showToastLong(e.getMessage());
+                        springView.onFinishFreshAndLoadDelay();
+                    }
+                });
     }
 }

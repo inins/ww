@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.widget.ImageView;
 
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
 import com.frame.component.utils.viewutils.ViewPagerUtil;
 import com.frame.utils.StatusBarUtil;
@@ -43,8 +44,14 @@ public class NewGuideRecommendActivity extends BasicAppNoDiActivity {
     public void initData(@NonNull Bundle savedInstanceState) {
         StatusBarUtil.setTranslucent(this);
         StatusBarUtil.setTextLight(this);
-        pagerAdapter = new PagerAdapterNewguideRecommend(getSupportFragmentManager(), new String[]{"好友推荐", "趣聊推荐"});
+        pagerAdapter = new PagerAdapterNewguideRecommend(getSupportFragmentManager(), titles);
         pager.setAdapter(pagerAdapter);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        CommonHelper.AppHelper.startHomeActivity(this);
     }
 
     public void changeBanner(int position) {

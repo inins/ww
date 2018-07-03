@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -18,40 +17,34 @@
             android:orientation="vertical"
             app:layout_scrollFlags="scroll|snap">
 
-            <android.support.v7.widget.CardView
+            <TextView
+                android:id="@+id/btn_search"
+                style="@style/common_EditNone"
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
                 android:layout_marginTop="20dp"
-                app:cardCornerRadius="18dp"
-                android:layout_marginLeft="14dp"
-                android:layout_marginRight="14dp"
-                app:cardElevation="5dp">
-
-                <TextView
-                    android:id="@+id/btn_search"
-                    style="@style/common_EditNone"
-                    android:layout_height="match_parent"
-                    android:drawableLeft="@drawable/common_ic_home_search"
-                    android:drawablePadding="5dp"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:hint="请输入搜索关键字" />
-
-            </android.support.v7.widget.CardView>
+                android:background="@drawable/common_shape_rect_hint_white_conerfull"
+                android:drawableLeft="@drawable/common_ic_home_search_big"
+                android:drawablePadding="5dp"
+                android:foreground="?attr/selectableItemBackground"
+                android:hint="请输入搜索关键字" />
 
             <!--<LinearLayout-->
-                <!--android:id="@+id/search_layout"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="37dp"-->
-                <!--android:layout_marginTop="20dp"-->
-                <!--android:background="@drawable/topic_shape_rect_corner_stroke_gray"-->
-                <!--android:elevation="5dp">-->
+            <!--android:id="@+id/search_layout"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="37dp"-->
+            <!--android:layout_marginTop="20dp"-->
+            <!--android:background="@drawable/topic_shape_rect_corner_stroke_gray"-->
+            <!--android:elevation="5dp">-->
 
-                <!--<ImageView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="center_vertical"-->
-                    <!--android:layout_marginLeft="14dp"-->
-                    <!--android:src="@drawable/topic_search_icon_gray" />-->
+            <!--<ImageView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:layout_marginLeft="14dp"-->
+            <!--android:src="@drawable/topic_search_icon_gray" />-->
 
             <!--</LinearLayout>-->
 
@@ -60,9 +53,9 @@
                 android:id="@+id/barview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:layout_marginLeft="14dp"
                 android:layout_marginRight="14dp"
+                android:layout_marginTop="20dp"
                 android:foreground="?attr/selectableItemBackground"
                 app:title="@string/topic_zhi_shi_mo" />
 
@@ -70,74 +63,70 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
                 android:layout_marginLeft="14dp"
                 android:layout_marginRight="14dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:layout_marginTop="20dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/selected_title_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
                     android:text="@string/topic_tag_selected_colon"
                     android:textColor="@color/common_text_blank_dark"
-                    android:textSize="12sp"
-                    android:layout_marginEnd="10dp" />
+                    android:textSize="12sp" />
 
 
                 <TextView
                     android:id="@+id/selected_tag_1_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#ffffffff"
-                    android:textSize="10sp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/topic_shape_rect_corner_solid_blue_gray"
                     android:gravity="center"
+                    android:paddingBottom="4dp"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
                     android:paddingTop="4dp"
-                    android:paddingBottom="4dp"
-                    android:layout_marginEnd="10dp"
-                    android:background="@drawable/topic_shape_rect_corner_solid_blue_gray"
-                    android:visibility="gone"
-                    />
+                    android:textColor="#ffffffff"
+                    android:textSize="10sp"
+                    android:visibility="gone" />
 
 
                 <TextView
                     android:id="@+id/selected_tag_2_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#ffffffff"
-                    android:textSize="10sp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/topic_shape_rect_corner_solid_blue_gray"
                     android:gravity="center"
+                    android:paddingBottom="4dp"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
                     android:paddingTop="4dp"
-                    android:paddingBottom="4dp"
-                    android:layout_marginEnd="10dp"
-                    android:background="@drawable/topic_shape_rect_corner_solid_blue_gray"
-                    android:visibility="gone"
-                    />
+                    android:textColor="#ffffffff"
+                    android:textSize="10sp"
+                    android:visibility="gone" />
 
 
                 <TextView
                     android:id="@+id/selected_tag_3_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#ffffffff"
-                    android:textSize="10sp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/topic_shape_rect_corner_solid_blue_gray"
                     android:gravity="center"
+                    android:paddingBottom="4dp"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
                     android:paddingTop="4dp"
-                    android:paddingBottom="4dp"
-                    android:layout_marginEnd="10dp"
-                    android:background="@drawable/topic_shape_rect_corner_solid_blue_gray"
-                    android:visibility="gone"
-                    />
-
+                    android:textColor="#ffffffff"
+                    android:textSize="10sp"
+                    android:visibility="gone" />
 
 
                 <ImageView
@@ -161,16 +150,15 @@
                 android:id="@+id/divider_view"
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
-                android:background="#fff2f2f2"
-                />
+                android:background="#fff2f2f2" />
 
 
             <com.ogaclejapan.smarttablayout.SmartTabLayout
                 android:id="@+id/tab_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="42dp"
-                android:layout_marginStart="10dp"
                 android:layout_below="@+id/divider_view"
+                android:layout_marginStart="10dp"
                 app:stl_customTabTextLayoutId="@layout/topic_tab_layout"
                 app:stl_customTabTextViewId="@id/custom_text"
                 app:stl_distributeEvenly="true"
@@ -186,24 +174,24 @@
             </com.ogaclejapan.smarttablayout.SmartTabLayout>
 
             <!--<android.support.design.widget.TabLayout-->
-                <!--android:id="@+id/tab_layout"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_below="@+id/divider_view"-->
-                <!--app:tabSelectedTextColor="@color/common_text_blank"-->
-                <!--app:tabTextColor="@color/common_text_blank_dark">-->
+            <!--android:id="@+id/tab_layout"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/divider_view"-->
+            <!--app:tabSelectedTextColor="@color/common_text_blank"-->
+            <!--app:tabTextColor="@color/common_text_blank_dark">-->
             <!--</android.support.design.widget.TabLayout>-->
 
             <com.wang.social.topic.mvp.ui.widget.GradualImageView
                 android:id="@+id/tab_layout_search_image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:src="@drawable/topic_search_icon_blue"
-                android:layout_alignTop="@+id/tab_layout"
                 android:layout_alignBottom="@+id/tab_layout"
                 android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/tab_layout"
+                android:paddingLeft="14dp"
                 android:paddingRight="14dp"
-                android:paddingLeft="14dp"/>
+                android:src="@drawable/topic_search_icon_blue" />
         </RelativeLayout>
 
 
@@ -214,19 +202,19 @@
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <!--<android.support.v4.widget.NestedScrollView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
 
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:orientation="vertical">-->
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:orientation="vertical">-->
 
-        <!--</LinearLayout>-->
+    <!--</LinearLayout>-->
 
 
     <!--</android.support.v4.widget.NestedScrollView>-->

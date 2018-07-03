@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.frame.base.BaseAdapter;
 import com.frame.base.BaseViewHolder;
+import com.frame.component.entities.PersonalInfo;
 import com.frame.component.entities.TestEntity;
 import com.frame.component.helper.ImageLoaderHelper;
 import com.frame.utils.TimeUtils;
@@ -15,14 +16,14 @@ import com.wang.social.im.R2;
 
 import butterknife.BindView;
 
-public class RecycleAdapterSearchFriend extends BaseAdapter<TestEntity> {
+public class RecycleAdapterSearchFriend extends BaseAdapter<PersonalInfo> {
 
     @Override
     protected BaseViewHolder createViewHolder(Context context, ViewGroup parent, int viewType) {
         return new Holder(context, parent, R.layout.lay_userlist);
     }
 
-    public class Holder extends BaseViewHolder<TestEntity> {
+    public class Holder extends BaseViewHolder<PersonalInfo> {
 
         @BindView(R2.id.img_header)
         ImageView imgHeader;
@@ -40,23 +41,22 @@ public class RecycleAdapterSearchFriend extends BaseAdapter<TestEntity> {
         }
 
         @Override
-        protected void bindData(TestEntity bean, int position, OnItemClickListener onItemClickListener) {
-            ImageLoaderHelper.loadCircleImgTest(imgHeader);
-            textName.setText("阿凡达");
-            textLableGender.setSelected(true);
-            textLableGender.setText("00后");
-            textLableAstro.setText("白羊座");
-            textTags.setText("#周杰伦 #旅游");
-//            textName.setText("阿凡达");
-//            textLableGender.setSelected(!bean.isMale());
-//            textLableGender.setText(TimeUtils.getBirthdaySpan(bean.getBirthday()));
-//            textLableAstro.setText(TimeUtils.getAstro(bean.getBirthday()));
-//            textTag.setText(bean.getTagText());
-//            textCount.setText("发布" + bean.getPublishNum() + "条");
+        protected void bindData(PersonalInfo bean, int position, OnItemClickListener onItemClickListener) {
+            ImageLoaderHelper.loadCircleImg(imgHeader, bean.getAvatar());
+            textName.setText(bean.getNickname());
+            textLableGender.setSelected(!bean.isMale());
+            textLableGender.setText(TimeUtils.getBirthdaySpan(bean.getBirthday()));
+            textLableAstro.setText(TimeUtils.getAstro(bean.getBirthday()));
+            textTags.setText(bean.getTagText());
         }
 
         @Override
         public void onRelease() {
+        }
+
+        @Override
+        protected boolean useItemClickListener() {
+            return true;
         }
     }
 

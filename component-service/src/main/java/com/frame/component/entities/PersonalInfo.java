@@ -1,6 +1,7 @@
 package com.frame.component.entities;
 
 import com.frame.component.ui.acticity.tags.Tag;
+import com.frame.utils.StrUtil;
 
 import java.util.List;
 
@@ -28,4 +29,17 @@ public class PersonalInfo {
     private int isBlack;
     private String remarkName;
     private String remarkHeadImg;
+
+    public boolean isMale() {
+        return sex == 0;
+    }
+
+    public String getTagText(){
+        if (StrUtil.isEmpty(tags)) return "";
+        String tagText = "";
+        for (Tag tag : tags) {
+            tagText += "#" + tag.getTagName() + " ";
+        }
+        return tagText.trim();
+    }
 }

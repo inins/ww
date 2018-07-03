@@ -31,6 +31,7 @@ import com.frame.component.ui.fragment.GroupListFragment;
 
 import org.greenrobot.eventbus.EventBus;
 
+@Deprecated
 public class SearchActivity extends BasicActivity {
 
     @BindView(R2.id.loadingview)

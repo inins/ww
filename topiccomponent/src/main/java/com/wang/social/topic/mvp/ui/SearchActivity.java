@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.TextView;
+
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.ui.fragment.TopicListFragment;
 import com.frame.component.view.ConerEditText;
@@ -26,7 +28,7 @@ public class SearchActivity extends BaseAppActivity implements IView {
 
     // 输入框
     @BindView(R2.id.edit_search)
-    ConerEditText mSearchET;
+    EditText mSearchET;
 
     private String mKeyword;
     private String mTags;
@@ -46,13 +48,8 @@ public class SearchActivity extends BaseAppActivity implements IView {
     public void initData(@NonNull Bundle savedInstanceState) {
         mSearchET.setOnEditorActionListener((TextView v, int actionId, KeyEvent event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                mTags = "";
-                for (int i = 0; i < mSearchET.getTags().size(); i++) {
-                    mTags += (i == 0 ? "" : ",") + mSearchET.getTags().get(i);
-                }
-                mKeyword = mSearchET.getKey();
-
-                mListFragment.doSearch(mKeyword, mTags);
+                mKeyword = mSearchET.getText().toString();
+                mListFragment.doSearch(mKeyword, "");
             }
 
             return false;
