@@ -56,6 +56,7 @@ public class NetParam {
         return this;
     }
 
+    //添加通用统计参数
     public NetParam putStaticParam() {
         //版本号
         int versionCode = AppUtils.getAppVersionCode();
