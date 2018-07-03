@@ -36,7 +36,7 @@ public class NetStatisticsHelper {
         return new NetStatisticsHelper();
     }
 
-    public Map<String, Object> getStatisticParamMap() {
+    public static Map<String, Object> getStatisticParamMap() {
         //版本号
         int versionCode = AppUtils.getAppVersionCode();
         //渠道好
