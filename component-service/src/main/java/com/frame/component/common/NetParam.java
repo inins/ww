@@ -1,10 +1,16 @@
 package com.frame.component.common;
 
+import android.os.Build;
 import android.util.Log;
 
+import com.frame.component.entities.location.LocationInfo;
+import com.frame.component.helper.AppDataHelper;
+import com.frame.component.utils.ChannelUtils;
 import com.frame.component.utils.MapUtil;
 import com.frame.component.utils.SignUtil;
 import com.frame.component.utils.UrlUtil;
+import com.frame.utils.AppUtils;
+import com.frame.utils.PhoneUtils;
 import com.frame.utils.StrUtil;
 import com.google.gson.Gson;
 
@@ -47,6 +53,29 @@ public class NetParam {
         String randomInt = String.valueOf(new Random().nextInt());
         paramMap.put("nonceStr", randomInt);
         paramMap.put("signature", SignUtil.signStr(MapUtil.transLinkedHashMap(paramMap), randomInt));
+        return this;
+    }
+
+    public NetParam putStaticParam() {
+        //版本号
+        int versionCode = AppUtils.getAppVersionCode();
+        //渠道好
+        int channelCode = ChannelUtils.getChannelCode();
+        //获取经纬度，没有则为null
+        LocationInfo locationInfo = AppDataHelper.getLocationInfo();
+        Double longitude = null;
+        Double latitude = null;
+        if (locationInfo != null) {
+            longitude = locationInfo.getLongitude();
+            latitude = locationInfo.getLatitude();
+        }
+        paramMap.put("devicesKey", PhoneUtils.getIMEI());
+        paramMap.put("channelId", channelCode + "");
+        paramMap.put("appVersion", versionCode + "");
+        paramMap.put("devicesModel", Build.MODEL);
+        paramMap.put("devicesSystem", "android" + Build.VERSION.RELEASE);
+        if (longitude != null) paramMap.put("longitude", longitude + "");
+        if (latitude != null) paramMap.put("latitude", latitude + "");
         return this;
     }
 
