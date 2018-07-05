@@ -85,10 +85,14 @@ public class NewGuideRecommendGroupFragment extends BasicNoDiFragment {
     @OnClick({R2.id.btn_go})
     public void onViewClicked(View v) {
         if (getActivity() instanceof NewGuideRecommendActivity) {
-//            ((NewGuideRecommendActivity) getActivity()).changeBanner(0);
-//            ((NewGuideRecommendActivity) getActivity()).last();
-            //批量入群
-            netAddGroups(adapter.getSelectIdList());
+            List<Integer> ids = adapter.getSelectIdList();
+            if (StrUtil.isEmpty(ids)){
+                getActivity().finish();
+                CommonHelper.AppHelper.startHomeActivity(getContext());
+            }else {
+                //批量入群
+                netAddGroups(adapter.getSelectIdList());
+            }
         }
     }
 
@@ -116,7 +120,6 @@ public class NewGuideRecommendGroupFragment extends BasicNoDiFragment {
 
     //申请入群
     public void netAddGroups(List<Integer> idList) {
-        if (StrUtil.isEmpty(idList)) return;
         addGroup(idList, 0);
 
         //等待10秒后，如果接口还未响应，则强行结束请求，并回到首页
