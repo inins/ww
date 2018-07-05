@@ -21,7 +21,6 @@
         android:id="@+id/phone_number_edit_text"
         style="@style/login202_phoneInputStyle"
         android:hint="@string/login202_phone_input_hint"
-        android:text="13821111111"
         android:layout_marginBottom="@dimen/login202_card_view_btn_top_margin_1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

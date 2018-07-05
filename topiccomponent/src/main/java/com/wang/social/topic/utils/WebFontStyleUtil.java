@@ -5,19 +5,22 @@ package com.wang.social.topic.utils;
  */
 
 public class WebFontStyleUtil {
-    private static final String fontStyle = "<style>@font-face{\n" +
+    private static final String fontStyle = "<style>" +
+            "@font-face{\n" +
             "  font-family: 'kt';\n" +
             "  src: url('file:///android_asset/kaiti.ttf');\n" +
-            "}@font-face{\n" +
-            "  font-family: 'pfb';\n" +
-            "  src: url('file:///android_asset/pingfang_bz.ttf');\n" +
-            "}@font-face{\n" +
-            "   font-family: 'pfc';\n" +
-            "   src: url('file:///android_asset/pingfang_cu.ttf');\n" +
-            "}@font-face{\n" +
-            "  font-family: 'pfx';\n" +
-            "   src: url('file:///android_asset/pingfang_xi.ttf');\n" +
-            "}@font-face{\n" +
+            "}" +
+//            "@font-face{\n" +
+//            "  font-family: 'pfb';\n" +
+//            "  src: url('file:///android_asset/pingfang_bz.ttf');\n" +
+//            "}@font-face{\n" +
+//            "   font-family: 'pfc';\n" +
+//            "   src: url('file:///android_asset/pingfang_cu.ttf');\n" +
+//            "}@font-face{\n" +
+//            "  font-family: 'pfx';\n" +
+//            "   src: url('file:///android_asset/pingfang_xi.ttf');\n" +
+//            "}" +
+            "@font-face{\n" +
             "  font-family: 'st';\n" +
             "   src: url('file:///android_asset/songti.ttf');\n" +
             "}@font-face{\n" +

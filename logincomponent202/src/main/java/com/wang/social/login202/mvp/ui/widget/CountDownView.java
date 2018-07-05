@@ -84,7 +84,7 @@ public class CountDownView extends AppCompatTextView {
                     public void onSubscribe(Disposable d) {
                         mDisposable = d;
                         setTextBackground(R.drawable.login202_shape_rect_corner_stroke_gray);
-                        setTextColor(getContext().getResources().getColor(R.color.common_list_divider));
+                        setTextColor(getContext().getResources().getColor(R.color.common_text_dark));
                     }
 
                     @Override

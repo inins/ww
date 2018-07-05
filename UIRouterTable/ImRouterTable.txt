@@ -19,6 +19,9 @@ targetId:String
 type:INT
 objectId:String
 
+新用户
+/newUser
+
 好友申请页面
 /notify_friend_request
 
@@ -49,6 +52,9 @@ objectId:String
 个人聊天
 /private
 targetId:String
+
+二维码扫描页面
+/scan
 
 分享到往往
 /share_recently

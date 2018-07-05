@@ -2,6 +2,7 @@ package com.wang.social.login202.mvp.model.api;
 
 import com.frame.component.ui.acticity.tags.TagsDTO;
 import com.frame.http.api.BaseJson;
+import com.wang.social.login202.mvp.model.entities.dto.CheckPhoneResultDTO;
 import com.wang.social.login202.mvp.model.entities.dto.CheckVerifyCodeDTO;
 import com.wang.social.login202.mvp.model.entities.dto.IsRegisterDTO;
 import com.wang.social.login202.mvp.model.entities.dto.LoginInfoDTO;
@@ -71,20 +72,32 @@ public interface Login202Service {
     Observable<BaseJson<LoginInfoDTO>> register(@FieldMap Map<String, Object> param);
 
     /**
+     * 手机号码注册
+     */
+    @FormUrlEncoded
+    @POST("user/register")
+    Observable<BaseJson<LoginInfoDTO>> userRegister(@FieldMap Map<String, Object> param);
+
+    /**
      * 第三方登录
-     *
-     * @return
      */
     @FormUrlEncoded
     @POST("login/platform")
     @Headers("Content-Type: application/x-www-form-urlencoded; charset=utf-8")
     Observable<BaseJson<LoginInfoDTO>> platformLogin(@FieldMap Map<String, Object> param);
 
+    /**
+     * 2.4.1未绑定时输入手机号码获取验证码
+     * 根据手机号码判断该号码是否被绑定
+     */
+    @GET("app/userInfo/checkPhone")
+    Observable<BaseJson<CheckPhoneResultDTO>> checkPhone(@QueryMap Map<String, Object> param);
+
 
     /**
-     * 换绑手机
+     * 判断验证码和邀请码绑定手机
      */
     @FormUrlEncoded
-    @POST("app/userInfo/replaceMobile")
-    Observable<BaseJson> replaceMobile(@FieldMap Map<String, Object> param);
+    @POST("app/userInfo/checkCode")
+    Observable<BaseJson<LoginInfoDTO>> checkCode(@FieldMap Map<String, Object> param);
 }
