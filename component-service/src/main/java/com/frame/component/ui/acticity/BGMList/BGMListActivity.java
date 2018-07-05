@@ -16,8 +16,8 @@ import com.frame.component.view.GradualImageView;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
-import com.liaoinstan.springview.container.AliFooter;
-import com.liaoinstan.springview.container.AliHeader;
+import com.liaoinstan.springview.aliheader.AliFooter;
+import com.liaoinstan.springview.aliheader.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
 
 import org.greenrobot.eventbus.EventBus;

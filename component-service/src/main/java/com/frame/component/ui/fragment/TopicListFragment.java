@@ -27,8 +27,8 @@ import com.frame.integration.IRepositoryManager;
 import com.frame.mvp.IView;
 import com.frame.utils.FrameUtils;
 import com.frame.utils.Utils;
-import com.liaoinstan.springview.container.AliFooter;
-import com.liaoinstan.springview.container.AliHeader;
+import com.liaoinstan.springview.aliheader.AliFooter;
+import com.liaoinstan.springview.aliheader.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
 import com.frame.component.ui.adapter.TopicListAdapter;
 

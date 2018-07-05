@@ -27,8 +27,8 @@ import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.mvp.IView;
 import com.frame.utils.StrUtil;
 import com.frame.utils.ToastUtil;
-import com.liaoinstan.springview.container.AliFooter;
-import com.liaoinstan.springview.container.AliHeader;
+import com.liaoinstan.springview.aliheader.AliFooter;
+import com.liaoinstan.springview.aliheader.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
 
 import java.util.ArrayList;

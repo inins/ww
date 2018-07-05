@@ -13,7 +13,7 @@ import com.frame.base.BaseFragment;
 import com.frame.component.utils.UIUtil;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
-import com.liaoinstan.springview.container.AliHeader;
+import com.liaoinstan.springview.aliheader.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;

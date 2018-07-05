@@ -45,7 +45,7 @@ import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
 import com.frame.utils.SizeUtils;
-import com.liaoinstan.springview.container.AliFooter;
+import com.liaoinstan.springview.aliheader.AliFooter;
 import com.liaoinstan.springview.widget.SpringView;
 import com.wang.social.location.R;
 import com.wang.social.location.R2;

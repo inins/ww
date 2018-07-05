@@ -43,7 +43,7 @@ import com.frame.utils.KeyboardUtils;
 import com.frame.utils.SizeUtils;
 import com.frame.utils.ToastUtil;
 import com.google.gson.Gson;
-import com.liaoinstan.springview.container.AliHeader;
+import com.liaoinstan.springview.aliheader.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;

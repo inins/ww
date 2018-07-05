@@ -18,7 +18,7 @@ import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.di.component.AppComponent;
 import com.frame.router.facade.annotation.Autowired;
 import com.frame.utils.SizeUtils;
-import com.liaoinstan.springview.container.AliHeader;
+import com.liaoinstan.springview.aliheader.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
 import com.wang.social.im.R;
 import com.wang.social.im.R2;

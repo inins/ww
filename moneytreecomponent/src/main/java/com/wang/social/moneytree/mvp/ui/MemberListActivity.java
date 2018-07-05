@@ -15,7 +15,7 @@ import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.mvp.IView;
-import com.liaoinstan.springview.container.AliHeader;
+import com.liaoinstan.springview.aliheader.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
 import com.wang.social.moneytree.R;
 import com.wang.social.moneytree.R2;

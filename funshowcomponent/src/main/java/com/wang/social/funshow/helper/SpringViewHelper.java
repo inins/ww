@@ -2,8 +2,8 @@ package com.wang.social.funshow.helper;
 
 import android.os.Handler;
 
-import com.liaoinstan.springview.container.AliFooter;
-import com.liaoinstan.springview.container.AliHeader;
+import com.liaoinstan.springview.aliheader.AliFooter;
+import com.liaoinstan.springview.aliheader.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
 
 /**
