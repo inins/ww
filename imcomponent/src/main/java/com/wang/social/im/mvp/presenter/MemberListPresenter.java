@@ -15,6 +15,7 @@ import com.wang.social.im.mvp.contract.MemberListContract;
 import com.wang.social.im.mvp.model.entities.ListData;
 import com.wang.social.im.mvp.model.entities.MemberInfo;
 import com.wang.social.im.mvp.model.entities.MembersLevelOne;
+import com.wang.social.im.mvp.model.entities.TryToExit;
 import com.wang.social.im.mvp.model.entities.dto.ListDataDTO;
 import com.wang.social.im.mvp.model.entities.dto.MemberInfoDTO;
 
@@ -203,6 +204,27 @@ public class MemberListPresenter extends BasePresenter<MemberListContract.Model,
         levelOne.setTitle(title);
         levelOne.setMembers(members);
         return levelOne;
+    }
+    /**
+     * 尝试退出,查询用户是否创建了觅聊
+     * @param selfQuit 是否自己退出( 0群主踢人，1用户自己退出)
+     */
+    public void tryToExit(MemberInfo memberInfo, boolean selfQuit) {
+        mApiHelper.execute(mRootView,
+                mModel.tryToExit(memberInfo.getGroupId(), memberInfo.getMemberId(), selfQuit),
+                new ErrorHandleSubscriber<TryToExit>() {
+                    @Override
+                    public void onNext(TryToExit tryToExit) {
+                        mRootView.onTryToExitSuccess(memberInfo, tryToExit);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        ToastUtil.showToastShort(e.getMessage());
+                    }
+                },
+                disposable -> mRootView.showLoading(),
+                () -> mRootView.hideLoading());
     }
 }
 

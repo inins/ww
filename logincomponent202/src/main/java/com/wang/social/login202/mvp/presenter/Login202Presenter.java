@@ -29,6 +29,7 @@ import com.wang.social.login202.mvp.model.entities.dto.CheckVerifyCodeDTO;
 import com.wang.social.login202.mvp.model.entities.dto.IsRegisterDTO;
 import com.wang.social.login202.mvp.model.entities.IsRegisterVO;
 import com.wang.social.login202.mvp.model.entities.dto.LoginInfoDTO;
+import com.wang.social.login202.mvp.util.Constants;
 import com.wang.social.socialize.SocializeUtil;
 
 import java.util.Map;
@@ -348,18 +349,26 @@ public class Login202Presenter implements Login202Contract.Presenter {
      * @param verificationCode 验证码
      */
     @Override
-    public void checkVerificationCode(String mobile, String verificationCode) {
+    public void checkVerificationCode(String mobile, String verificationCode, @Constants.VerifyCodeType int type) {
         mApiHelper.execute(mView,
                 netCheckVerificationCode(mobile, verificationCode),
                 new ErrorHandleSubscriber<CheckVerifyCode>() {
                     @Override
                     public void onNext(CheckVerifyCode checkVerifyCode) {
-                        mView.onRegisterCheckVerifyCodeSuccess(checkVerifyCode.isOK(), checkVerifyCode.getMessage());
+                        switch (type) {
+                            case Constants.VERIFY_CODE_TYPE_REGISTER:
+                                mView.onRegisterCheckVerifyCodeSuccess(checkVerifyCode.isOK(), checkVerifyCode.getMessage());
+                                break;
+                        }
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        mView.onRegisterCheckVerifyCodeFailed(e.getMessage());
+                        switch (type) {
+                            case Constants.VERIFY_CODE_TYPE_REGISTER:
+                                mView.onRegisterCheckVerifyCodeFailed(e.getMessage());
+                                break;
+                        }
                     }
                 },
                 disposable -> mView.showLoading(),
@@ -685,4 +694,91 @@ public class Login202Presenter implements Login202Contract.Presenter {
                 .checkCode(param);
     }
 
+
+    /**
+     *
+     * 修改/重置密码（前置验证）验证验证码
+     * @param mobile 手机好吗
+     * @param code 验证码
+     */
+    @Override
+    public void preVerifyForForgetPassword(String mobile, String code) {
+        mApiHelper.executeForData(mView,
+                netPreVerifyForForgetPassword(mobile, code),
+                new ErrorHandleSubscriber() {
+                    @Override
+                    public void onNext(Object o) {
+                        mView.onForgotPasswordCheckVerifyCodeSuccess(mobile, code);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mView.onForgotPasswordCheckVerifyCodeFailed(e.getMessage());
+                    }
+                },
+                disposable -> mView.showLoading(),
+                () -> mView.hideLoading());
+    }
+
+    /**
+     *
+     * 修改/重置密码（前置验证）验证验证码
+     * @param mobile 手机号码
+     * @param code 验证码
+     */
+    private Observable<BaseJson> netPreVerifyForForgetPassword(String mobile, String code) {
+        Map<String, Object> param = new NetParam()
+                .put("mobile", mobile)
+                .put("code", code)
+                .put("v", "2.0.0")
+                .putSignature()
+                .build();
+        return mRepositoryManager
+                .obtainRetrofitService(Login202Service.class)
+                .preVerifyForForgetPassword(param);
+    }
+
+    /**
+     * 修改/重置密码（公共）
+     * @param mobile 手机号码
+     * @param code 验证码
+     * @param password 密码
+     */
+    @Override
+    public void userForgetPassword(String mobile, String code, String password) {
+        mApiHelper.executeForData(mView,
+                netUserForgetPassword(mobile, code, password),
+                new ErrorHandleSubscriber() {
+                    @Override
+                    public void onNext(Object o) {
+                        // 手机号码，密码登录
+                        passwordLogin(mobile, password);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mView.onUserForgetPasswordFailed(e.getMessage());
+                    }
+                },
+                disposable -> mView.showLoading(),
+                () -> mView.hideLoading());
+    }
+
+    /**
+     * 修改/重置密码（公共）
+     * @param mobile 手机号码
+     * @param code 验证码
+     * @param password 密码
+     */
+    private Observable<BaseJson> netUserForgetPassword(String mobile, String code, String password) {
+        Map<String, Object> param = new NetParam()
+                .put("mobile", mobile)
+                .put("code", code)
+                .put("password", password)
+                .put("v", "2.0.0")
+                .build();
+        return mRepositoryManager
+                .obtainRetrofitService(Login202Service.class)
+                .userForgetPassword(param);
+    }
 }

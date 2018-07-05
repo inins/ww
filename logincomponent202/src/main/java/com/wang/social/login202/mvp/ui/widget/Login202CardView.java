@@ -13,6 +13,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.wang.social.login202.R;
 
@@ -40,6 +41,17 @@ public class Login202CardView extends FrameLayout {
          * @param code 验证码
          */
         void onRegisterCheckVerifyCode(String code);
+
+        /**
+         * 忘记密码，输入验证码
+         */
+        void onForgotPasswordSendVerifyCode(CountDownView view);
+
+        /**
+         * 忘记密码，验证验证码
+         * @param code 验证码
+         */
+        void onForgotPasswordCheckVerifyCode(String code);
 
         /**
          * 邀请码 密码注册
@@ -87,6 +99,16 @@ public class Login202CardView extends FrameLayout {
          * @param inviteCode 邀请码
          */
         void onPlatformBindPhoneVerify(String verifyCode, String inviteCode);
+
+        /**
+         * 密码登录，忘记密码
+         */
+        void onForgotPassword();
+
+        /**
+         * 重设密码
+         */
+        void onResetPassword(String password);
     }
 
     private View mRootView;
@@ -105,6 +127,12 @@ public class Login202CardView extends FrameLayout {
     private View mBindPhoneView;
     // 绑定手机号码验证
     private View mBindPhoneVerifyView;
+    // 绑定手机号码验证 无邀请码
+    private View mBindPhoneVerifyNoInviteView;
+    // 忘记密码，输入验证码
+    private View mForgotPasswordVerifyCodeInputView;
+    // 忘记密码，重设密码
+    private View mResetPasswordView;
 
     private CardViewCallback mCallback;
 
@@ -231,6 +259,43 @@ public class Login202CardView extends FrameLayout {
         mContentLayout.addView(mBindPhoneVerifyView);
     }
 
+    /**
+     * 第三方登录 绑定手机号码验证页面无邀请码
+     */
+    public void loadBindPhoneVerifyNoInviteView() {
+        clearContentView();
+
+        if (null == mBindPhoneVerifyNoInviteView) {
+            mBindPhoneVerifyNoInviteView = LayoutInflater.from(getContext())
+                    .inflate(R.layout.login202_cv_bind_phone_verify_no_invite, null);
+
+            // 获取验证码
+            CountDownView countDownView = mBindPhoneVerifyNoInviteView.findViewById(R.id.send_verify_code_text_view);
+            countDownView.start();
+            countDownView.setOnClickListener(v -> {
+                if (null != mCallback) {
+                    mCallback.onPlatformBindPhoneSendVerifyCode((CountDownView) v);
+                }
+            });
+
+            // 验证码输入框
+            EditText verifyCodeET = mBindPhoneVerifyNoInviteView.findViewById(R.id.verify_code_edit_text);
+
+            // 登录 注册
+            mBindPhoneVerifyNoInviteView.findViewById(R.id.button)
+                    .setOnClickListener(v -> {
+                        if (null != mCallback) {
+                            mCallback.onPlatformBindPhoneVerify(
+                                    verifyCodeET.getText().toString(),
+                                    ""
+                            );
+                        }
+                    });
+        }
+
+        mContentLayout.addView(mBindPhoneVerifyNoInviteView);
+    }
+
 
 
     /**
@@ -265,6 +330,40 @@ public class Login202CardView extends FrameLayout {
         }
 
         mContentLayout.addView(mVerifyCodeInputView);
+    }
+
+    /**
+     * 忘记密码，输入验证码
+     */
+    public void loadForgotPasswordVerifyCodeInputView() {
+        clearContentView();
+
+        if (null == mForgotPasswordVerifyCodeInputView) {
+            mForgotPasswordVerifyCodeInputView = LayoutInflater.from(getContext())
+                    .inflate(R.layout.login202_cv_verify_code_input, null);
+
+            // 获取验证码
+            CountDownView countDownView = mForgotPasswordVerifyCodeInputView.findViewById(R.id.send_verify_code_text_view);
+            countDownView.start();
+            countDownView.setOnClickListener(v -> {
+                if (null != mCallback) {
+                    mCallback.onForgotPasswordSendVerifyCode((CountDownView) v);
+                }
+            });
+
+            // 验证码输入框
+            EditText editText = mForgotPasswordVerifyCodeInputView.findViewById(R.id.verify_code_edit_text);
+
+            // 下一步，验证验证码
+            mForgotPasswordVerifyCodeInputView.findViewById(R.id.next_btn)
+                    .setOnClickListener(v -> {
+                        if (null != mCallback) {
+                            mCallback.onForgotPasswordCheckVerifyCode(editText.getText().toString());
+                        }
+                    });
+        }
+
+        mContentLayout.addView(mForgotPasswordVerifyCodeInputView);
     }
 
     /**
@@ -345,6 +444,14 @@ public class Login202CardView extends FrameLayout {
                         }
                     });
 
+            // 忘记密码
+            mPasswordLoginView.findViewById(R.id.forgot_password_text_view)
+                    .setOnClickListener(v -> {
+                        if (null != mCallback) {
+                            mCallback.onForgotPassword();
+                        }
+                    });
+
             // 切换到验证码登录
             mPasswordLoginView.findViewById(R.id.verify_code_login_text_view)
                     .setOnClickListener(v -> {
@@ -356,6 +463,57 @@ public class Login202CardView extends FrameLayout {
 
         mContentLayout.addView(mPasswordLoginView);
     }
+
+
+    /**
+     * 重设密码
+     */
+    public void loadResetPasswordView() {
+        clearContentView();
+
+        if (null == mResetPasswordView) {
+            mResetPasswordView = LayoutInflater.from(getContext())
+                    .inflate(R.layout.login202_cv_password_login, null);
+
+            TextView etTitleTV = mResetPasswordView.findViewById(R.id.password_edit_text_title_text_view);
+            etTitleTV.setText(R.string.login202_password);
+
+            // 密码输入框
+            EditText editText = mResetPasswordView.findViewById(R.id.password_edit_text);
+            // 密码是否可见
+            CheckBox checkBox = mResetPasswordView.findViewById(R.id.checkbox);
+            checkBox.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> {
+                if (null != editText) {
+                    if (isChecked) {
+                        //如果选中，显示密码
+                        editText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    } else {
+                        //否则隐藏密码
+                        editText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    }
+                    // 将光标移至文字末尾
+                    editText.setSelection(editText.getText().length());
+                }
+            });
+
+            // 重设密码并登陆
+            mResetPasswordView.findViewById(R.id.button)
+                    .setOnClickListener(v -> {
+                        if (null != mCallback) {
+                            mCallback.onResetPassword(editText.getText().toString());
+                        }
+                    });
+
+            // 忘记密码
+            mResetPasswordView.findViewById(R.id.forgot_password_text_view).setVisibility(GONE);
+
+            // 切换到验证码登录
+            mResetPasswordView.findViewById(R.id.verify_code_login_text_view).setVisibility(GONE);
+        }
+
+        mContentLayout.addView(mResetPasswordView);
+    }
+
 
     /**
      * 验证码登录

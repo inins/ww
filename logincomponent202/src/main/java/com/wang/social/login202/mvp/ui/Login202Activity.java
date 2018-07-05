@@ -28,6 +28,7 @@ import com.wang.social.login202.R;
 import com.wang.social.login202.R2;
 import com.wang.social.login202.mvp.contract.Login202Contract;
 import com.wang.social.login202.mvp.model.entities.CheckPhoneResult;
+import com.wang.social.login202.mvp.model.entities.CheckVerifyCode;
 import com.wang.social.login202.mvp.model.entities.LoginInfo;
 import com.wang.social.login202.mvp.presenter.Login202Presenter;
 import com.wang.social.login202.mvp.ui.adapter.CardAdapter;
@@ -41,6 +42,7 @@ import com.wang.social.login202.mvp.ui.widget.infinitecards.ZIndexTransformer;
 import com.wang.social.login202.mvp.ui.widget.infinitecards.transformer.DefaultCommonTransformer;
 import com.wang.social.login202.mvp.ui.widget.infinitecards.transformer.DefaultTransformerToBack;
 import com.wang.social.login202.mvp.ui.widget.infinitecards.transformer.DefaultZIndexTransformerCommon;
+import com.wang.social.login202.mvp.util.Constants;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -107,6 +109,8 @@ public class Login202Activity extends BaseAppActivity implements Login202Contrac
 
     // 记录输入的手机号码
     private String mPhoneNumber;
+    // 记录验证码
+    private String mVerifyCode;
 
     // 卡片View
     private List<Login202CardView> mCardList = new ArrayList<>();
@@ -419,6 +423,67 @@ public class Login202Activity extends BaseAppActivity implements Login202Contrac
     }
 
     /**
+     * 下一页，忘记密码 输入验证码
+     */
+    private void nextToForgotPasswordVerifyCodeInput() {
+        if (null != getCardView(1)) {
+            getCardView(1).loadForgotPasswordVerifyCodeInputView();
+            nextPage();
+
+            resetOtherView(true,
+                    mStrInputVerifyCode,
+                    String.format(mStrVerifyCodeSentFormat, mPhoneNumber),
+                    false,
+                    false);
+
+            // 获取注册验证码
+            forgotPasswordSendVerifyCode();
+
+            // 点击返回按钮返回 密码登录
+            mBackIV.setOnClickListener(v -> backToPasswordLogin());
+        }
+    }
+
+    /**
+     * 上一页，忘记密码 输入验证码
+     */
+    private void backToForgotPasswordVerifyCodeInput() {
+        if (null != getCardView(mCardAdapter.getCount() - 1)) {
+            getCardView(mCardAdapter.getCount() - 1).loadForgotPasswordVerifyCodeInputView();
+            lastPage();
+
+            resetOtherView(true,
+                    mStrInputVerifyCode,
+                    String.format(mStrVerifyCodeSentFormat, mPhoneNumber),
+                    false,
+                    false);
+
+            // 点击返回按钮返回 密码登录
+            mBackIV.setOnClickListener(v -> backToPasswordLogin());
+        }
+    }
+
+
+    /**
+     * 下一页，重设密码
+     */
+    private void nextToResetPassword() {
+        if (null != getCardView(1)) {
+            getCardView(1).loadResetPasswordView();
+            nextPage();
+
+            resetOtherView(true,
+                    mStrSetPassword,
+                    mStrSetPasswordHint,
+                    false,
+                    false);
+
+            // 点击返回按钮返回 忘记密码 验证码输入
+            mBackIV.setOnClickListener(v -> backToForgotPasswordVerifyCodeInput());
+        }
+    }
+
+    /**
      * 下一页， 注册 输入密码登录
      */
     private void nextToRegisterSetPassword() {
@@ -494,6 +559,25 @@ public class Login202Activity extends BaseAppActivity implements Login202Contrac
         }
     }
 
+    /**
+     * 下一页，绑定手机，验证 无邀请码
+     */
+    private void nextToBindPhoneVerifyNoInvite() {
+        if (null != getCardView(1)) {
+            getCardView(1).loadBindPhoneVerifyNoInviteView();
+            nextPage();
+
+            resetOtherView(true,
+                    mStrInputVerifyCode,
+                    String.format(mStrVerifyCodeSentFormat, mPhoneNumber),
+                    false,
+                    false);
+
+            // 点击返回按钮返回 手机号码登录
+            mBackIV.setOnClickListener(v -> backToBindPhone());
+        }
+    }
+
 
     /**
      * 检测手机号码
@@ -503,13 +587,13 @@ public class Login202Activity extends BaseAppActivity implements Login202Contrac
      */
     private boolean checkPhoneNumber(String phone) {
         if (TextUtils.isEmpty(phone)) {
-            DialogConfirm.show(getSupportFragmentManager(), "提示", "手机号不能为空");
+            DialogConfirm.show(getSupportFragmentManager(), "提示", "请输入手机号码");
 
             return false;
         }
 
         if (!RegexUtils.isMobileExact(phone)) {
-            DialogConfirm.show(getSupportFragmentManager(), "提示", "请输入正确的手机号");
+            DialogConfirm.show(getSupportFragmentManager(), "提示", "手机号码有误，请核对后重新输入");
 
             return false;
         }
@@ -535,13 +619,17 @@ public class Login202Activity extends BaseAppActivity implements Login202Contrac
      */
     private boolean checkPassword(String password) {
         if (TextUtils.isEmpty(password)) {
-            DialogConfirm.show(getSupportFragmentManager(), "提示", "密码不能为空");
+            DialogConfirm.show(getSupportFragmentManager(), "提示", "请输入密码");
 
             return false;
         }
 
         if (!isPassword(password)) {
-            DialogConfirm.show(getSupportFragmentManager(), "提示", "请按规则输入正确的密码");
+            if (password.length() < 6) {
+                DialogConfirm.show(getSupportFragmentManager(), "提示", "密码不能少于6位");
+            } else {
+                DialogConfirm.show(getSupportFragmentManager(), "提示", "密码只能输入数字、字母和符号");
+            }
 
             return false;
         }
@@ -557,13 +645,17 @@ public class Login202Activity extends BaseAppActivity implements Login202Contrac
      */
     private boolean checkVerifyCode(String code) {
         if (TextUtils.isEmpty(code)) {
-            DialogConfirm.show(getSupportFragmentManager(), "提示", "验证码不能为空");
+            DialogConfirm.show(getSupportFragmentManager(), "提示", "请输入验证码");
 
             return false;
         }
 
         if (!isVerifyCode(code)) {
-            DialogConfirm.show(getSupportFragmentManager(), "提示", "请输入正确的验证码");
+            if (code.length() < 4) {
+                DialogConfirm.show(getSupportFragmentManager(), "提示", "验证码不能少于4位");
+            } else {
+                DialogConfirm.show(getSupportFragmentManager(), "提示", "验证码能输入数字");
+            }
 
             return false;
         }
@@ -614,7 +706,7 @@ public class Login202Activity extends BaseAppActivity implements Login202Contrac
     public void onLoginSendVerifyCode(CountDownView view) {
         mCurrentCDV = view;
         // 获取验证码
-        mPresenter.sendVerifyCode(mPhoneNumber, 6);
+        mPresenter.sendVerifyCode(mPhoneNumber, Constants.VERIFY_CODE_TYPE_SMS_LOGIN);
     }
 
     /**
@@ -639,7 +731,14 @@ public class Login202Activity extends BaseAppActivity implements Login202Contrac
      * 获取验证码，用于注册
      */
     private void registerSendVerifyCode() {
-        mPresenter.sendVerifyCode(mPhoneNumber, 1);
+        mPresenter.sendVerifyCode(mPhoneNumber, Constants.VERIFY_CODE_TYPE_REGISTER);
+    }
+
+    /**
+     * 获取验证码，用于忘记密码
+     */
+    private void forgotPasswordSendVerifyCode() {
+        mPresenter.sendVerifyCode(mPhoneNumber, Constants.VERIFY_CODE_TYPE_FORGOT_PASSWORD);
     }
 
     /**
@@ -650,7 +749,29 @@ public class Login202Activity extends BaseAppActivity implements Login202Contrac
     @Override
     public void onRegisterCheckVerifyCode(String code) {
         if (checkVerifyCode(code)) {
-            mPresenter.checkVerificationCode(mPhoneNumber, code);
+            mPresenter.checkVerificationCode(mPhoneNumber, code, Constants.VERIFY_CODE_TYPE_REGISTER);
+        }
+    }
+
+    /**
+     * 忘记密码 获取验证码
+     * @param view 倒计时控件
+     */
+    @Override
+    public void onForgotPasswordSendVerifyCode(CountDownView view) {
+        mCurrentCDV = view;
+        forgotPasswordSendVerifyCode();
+    }
+
+    /**
+     * 忘记密码 验证验证码
+     * @param code 验证码
+     */
+    @Override
+    public void onForgotPasswordCheckVerifyCode(String code) {
+        if (checkVerifyCode(code)) {
+//            mPresenter.checkVerificationCode(mPhoneNumber, code, Constants.VERIFY_CODE_TYPE_FORGOT_PASSWORD);
+            mPresenter.preVerifyForForgetPassword(mPhoneNumber, code);
         }
     }
 
@@ -735,7 +856,7 @@ public class Login202Activity extends BaseAppActivity implements Login202Contrac
     public void onPlatformBindPhoneSendVerifyCode(CountDownView view) {
         mCurrentCDV = view;
         // 获取验证码
-        mPresenter.sendVerifyCode(mPhoneNumber, 4);
+        mPresenter.sendVerifyCode(mPhoneNumber, Constants.VERIFY_CODE_TYPE_PLATFORM_BIND_PHONE);
     }
 
     /**
@@ -754,6 +875,28 @@ public class Login202Activity extends BaseAppActivity implements Login202Contrac
                     mPresenter.getLoginInfo().isFirst());
         } else {
             Timber.e("userinfo is null");
+        }
+    }
+
+    /**
+     * 密码登录，忘记秘密
+     */
+    @Override
+    public void onForgotPassword() {
+        Timber.i("忘记密码");
+        // 跳转到 忘记密码 验证码输入
+        nextToForgotPasswordVerifyCodeInput();
+    }
+
+    /**
+     * 重设密码
+     * @param password 新密码
+     */
+    @Override
+    public void onResetPassword(String password) {
+        if (checkPassword(password)) {
+            Timber.i("重设密码");
+            mPresenter.userForgetPassword(mPhoneNumber, mVerifyCode, password);
         }
     }
 
@@ -1063,6 +1206,25 @@ public class Login202Activity extends BaseAppActivity implements Login202Contrac
     }
 
     /**
+     * 忘记密码，验证验证码成功
+     */
+    @Override
+    public void onForgotPasswordCheckVerifyCodeSuccess(String mobile, String code) {
+        mVerifyCode = code;
+        // 跳转到输入密码
+        nextToResetPassword();
+    }
+
+    /**
+     * 忘记密码，验证验证码失败
+     * @param msg 失败信息
+     */
+    @Override
+    public void onForgotPasswordCheckVerifyCodeFailed(String msg) {
+        ToastUtil.showToastShort(msg);
+    }
+
+    /**
      * 注册成功
      *
      * @param loginInfo 登录信息
@@ -1148,17 +1310,16 @@ public class Login202Activity extends BaseAppActivity implements Login202Contrac
 
     /**
      * 绑定手机页面获取验证码成功
-     * checkResult	Integer	检查结果(0：手机号已经绑定；1：手机号未绑定
-     * phone	String	手机号码
      */
     @Override
     public void onCheckPhoneSuccess(CheckPhoneResult result) {
-        if (result.getCheckResult() == 1) {
+        // 第三方账号第一次登陆，并且手机号码未注册
+        if (result.getIsFirst() == 1 && result.getIsRegister() == 0) {
             // 跳转到 绑定手机验证
             nextToBindPhoneVerify();
         } else {
-            // 跳转到 绑定手机验证
-            nextToBindPhoneVerify();
+            // 跳转到 绑定手机验证 无邀请码
+            nextToBindPhoneVerifyNoInvite();
         }
     }
 
@@ -1184,6 +1345,15 @@ public class Login202Activity extends BaseAppActivity implements Login202Contrac
 
     @Override
     public void onBindPhoneFailed(String msg) {
+        ToastUtil.showToastShort(msg);
+    }
+
+    /**
+     * 修改密码失败
+     * @param msg 失败
+     */
+    @Override
+    public void onUserForgetPasswordFailed(String msg) {
         ToastUtil.showToastShort(msg);
     }
 

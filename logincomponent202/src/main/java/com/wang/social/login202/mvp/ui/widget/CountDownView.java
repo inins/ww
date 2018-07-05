@@ -72,6 +72,7 @@ public class CountDownView extends AppCompatTextView {
     }
 
     public void start() {
+        if (!isEnabled()) return;
         // 不可点击
         setEnabled(false);
         charSequence = getText();

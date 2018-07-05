@@ -10,6 +10,8 @@ public class CheckPhoneResult {
      phone	String	手机号码	√
      */
 
-    private int checkResult;
+    private int isFirst;
     private String phone;
+    private String message;
+    private int isRegister;
 }

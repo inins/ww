@@ -184,6 +184,30 @@ public class DialogPay extends DialogFragment {
                 callback);
     }
 
+
+    /**
+     * 使用宝石支付
+     */
+    public static DialogPay showPayGem(IView bindView,
+                                           FragmentManager manager,
+                                           SpannableStringBuilder titleText, String hintText,
+                                           String cancelText, String payText, String rechargeText,
+                                           int price, int balance,
+                                           DialogPayCallback callback) {
+        return showPay(
+                TYPE_PAY_GEM,
+                bindView,
+                manager,
+                titleText,
+                hintText,
+                cancelText,
+                payText,
+                rechargeText,
+                price,
+                balance,
+                callback);
+    }
+
     /**
      * 显示付费对话框(自身调用 NetAccountBalanceHelper )
      *

@@ -50,7 +50,6 @@ public interface LoginService {
 
     /**
      * 修改/重置密码（前置验证）验证验证码
-     * @return
      */
     @FormUrlEncoded
     @POST("user/preVerifyForForgetPassword")
@@ -59,7 +58,6 @@ public interface LoginService {
 
     /**
      * 修改/重置密码（公共）
-     * @return
      */
     @FormUrlEncoded
     @POST("user/forgetPassword")

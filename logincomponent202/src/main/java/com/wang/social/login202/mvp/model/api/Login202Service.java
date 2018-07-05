@@ -100,4 +100,19 @@ public interface Login202Service {
     @FormUrlEncoded
     @POST("app/userInfo/checkCode")
     Observable<BaseJson<LoginInfoDTO>> checkCode(@FieldMap Map<String, Object> param);
+
+    /**
+     * 修改/重置密码（前置验证）验证验证码
+     */
+    @FormUrlEncoded
+    @POST("user/preVerifyForForgetPassword")
+    Observable<BaseJson> preVerifyForForgetPassword(@FieldMap Map<String, Object> param);
+
+
+    /**
+     * 修改/重置密码（公共）
+     */
+    @FormUrlEncoded
+    @POST("user/forgetPassword")
+    Observable<BaseJson> userForgetPassword(@FieldMap Map<String, Object> param);
 }

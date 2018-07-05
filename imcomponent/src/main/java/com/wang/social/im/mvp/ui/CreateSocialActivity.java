@@ -6,7 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.text.InputFilter;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.View;
@@ -21,7 +23,9 @@ import com.frame.component.ui.acticity.tags.Tag;
 import com.frame.component.ui.acticity.tags.TagSelectionActivity;
 import com.frame.component.ui.base.BaseAppActivity;
 import com.frame.component.ui.dialog.PayDialog;
+import com.frame.component.utils.SpannableStringUtil;
 import com.frame.component.utils.UIUtil;
+import com.frame.component.view.DialogPay;
 import com.frame.component.view.SocialToolbar;
 import com.frame.di.component.AppComponent;
 import com.frame.entities.EventBean;
@@ -30,6 +34,7 @@ import com.frame.http.imageloader.glide.ImageConfigImpl;
 import com.frame.http.imageloader.glide.RoundedCornersTransformation;
 import com.frame.utils.RegexUtils;
 import com.frame.utils.ToastUtil;
+import com.frame.utils.Utils;
 import com.kyleduo.switchbutton.SwitchButton;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -294,13 +299,36 @@ public class CreateSocialActivity extends BaseAppActivity<CreateSocialPresenter>
     @Override
     public void showPayDialog(String applyId, String cover, String name, boolean canCreateTeam, SocialAttribute socialAttribute, String tags) {
         String message = UIUtil.getString(R.string.im_team_pay_message, IMConstants.CREATE_GROUP_PRICE);
-        PayDialog payDialog = new PayDialog(this, new PayDialog.OnPayListener() {
-            @Override
-            public void onPay() {
-                mPresenter.payForCreate(applyId, cover, name, canCreateTeam, socialAttribute, tags);
-            }
-        }, message, String.valueOf(IMConstants.CREATE_GROUP_PRICE));
-        payDialog.show();
+
+//        PayDialog payDialog = new PayDialog(this, new PayDialog.OnPayListener() {
+//            @Override
+//            public void onPay() {
+//                mPresenter.payForCreate(applyId, cover, name, canCreateTeam, socialAttribute, tags);
+//            }
+//        }, message, String.valueOf(IMConstants.CREATE_GROUP_PRICE));
+//        payDialog.show();
+
+        // 2018-07-05 提示当前余额
+        String[] strings = {
+                "本次创建需要支付",
+                Integer.toString(IMConstants.CREATE_GROUP_PRICE),
+                "宝石"};
+        int[] colors = {
+                ContextCompat.getColor(Utils.getContext(), com.frame.component.service.R.color.common_text_blank),
+                ContextCompat.getColor(Utils.getContext(), com.frame.component.service.R.color.common_blue_deep),
+                ContextCompat.getColor(Utils.getContext(), com.frame.component.service.R.color.common_text_blank)
+        };
+        SpannableStringBuilder titleText = SpannableStringUtil.createV2(strings, colors);
+        DialogPay.showPayGem(this,
+                getSupportFragmentManager(),
+                titleText,
+                "您当前余额为%1d宝石",
+                "取消",
+                "支付",
+                "去充值",
+                IMConstants.CREATE_GROUP_PRICE,
+                -1,
+                () -> mPresenter.payForCreate(applyId, cover, name, canCreateTeam, socialAttribute, tags));
     }
 
     @Override

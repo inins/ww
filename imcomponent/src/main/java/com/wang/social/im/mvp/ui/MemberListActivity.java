@@ -34,6 +34,7 @@ import com.wang.social.im.di.modules.MemberListModule;
 import com.wang.social.im.mvp.contract.MemberListContract;
 import com.wang.social.im.mvp.model.entities.MemberInfo;
 import com.wang.social.im.mvp.model.entities.MembersLevelOne;
+import com.wang.social.im.mvp.model.entities.TryToExit;
 import com.wang.social.im.mvp.presenter.MemberListPresenter;
 import com.wang.social.im.mvp.ui.PersonalCard.PersonalCardActivity;
 import com.wang.social.im.mvp.ui.adapters.members.MembersAdapter;
@@ -157,6 +158,21 @@ public class MemberListActivity extends BaseAppActivity<MemberListPresenter> imp
         }
     }
 
+    @Override
+    public void onTryToExitSuccess(MemberInfo memberInfo, TryToExit result) {
+        if (result.isHasTeam()) {
+            // 有创建觅聊
+            DialogSure.showDialog(this,
+                    "该用户已在趣聊内创建觅聊，退出后觅聊将由最早加入的成员接管",
+                    () -> mPresenter.kickOutMember(groupId, memberInfo));
+        } else {
+            // 没有创建觅聊
+            DialogSure.showDialog(this,
+                    UIUtil.getString(R.string.im_take_out_sure, memberInfo.getNickname()),
+                    () -> mPresenter.kickOutMember(groupId, memberInfo));
+        }
+    }
+
     @OnClick(R2.id.ml_cl_master)
     public void onViewClicked() {
         PersonalCardActivity.start(this, Integer.parseInt(mMasterInfo.getMemberId()));
@@ -204,13 +220,18 @@ public class MemberListActivity extends BaseAppActivity<MemberListPresenter> imp
 
     @Override
     public void onTakeOut(MemberInfo memberInfo, int position) {
-        DialogSure.showDialog(this, UIUtil.getString(R.string.im_take_out_sure, memberInfo.getNickname()), new DialogSure.OnSureCallback() {
-            @Override
-            public void onOkClick() {
-                mPresenter.kickOutMember(groupId, memberInfo);
-            }
-        });
+        // 踢人，先查询是否有觅聊
+        mPresenter.tryToExit(memberInfo, false);
     }
+
+//    /**
+//     * 弹出对话框，提示踢人
+//     */
+//    private void takeOut(MemberInfo memberInfo, int position) {
+//        DialogSure.showDialog(this,
+//                UIUtil.getString(R.string.im_take_out_sure, memberInfo.getNickname()),
+//                () -> mPresenter.kickOutMember(groupId, memberInfo));
+//    }
 
     @Override
     public void onItemClick(MemberInfo memberInfo, int position) {

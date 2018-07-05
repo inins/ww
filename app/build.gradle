@@ -82,7 +82,7 @@ android {
     //打包apk自动命名，规则：项目名_渠道名_版本号_编译类型.apk
     android.applicationVariants.all { variant ->
         variant.outputs.all {
-            outputFileName = "wangwang_${variant.productFlavors[0].name}_v${defaultConfig.versionName}_${variant.buildType.name}.apk"
+            outputFileName = "wangwang_${variant.productFlavors[0].name}_v${defaultConfig.versionName}_${variant.buildType.name}_${releaseTime()}.apk"
         }
     }
 
@@ -107,6 +107,11 @@ android {
             flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
         }
     }
+}
+
+
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd-HH-mm-ss", TimeZone.getTimeZone("UTC"))
 }
 
 dependencies {

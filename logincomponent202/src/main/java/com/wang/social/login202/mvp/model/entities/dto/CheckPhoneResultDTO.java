@@ -12,15 +12,19 @@ public class CheckPhoneResultDTO implements Mapper<CheckPhoneResult> {
      phone	String	手机号码	√
      */
 
-    private Integer checkResult;
+    private Integer isFirst;
     private String phone;
+    private String message;
+    private Integer isRegister;
 
     @Override
     public CheckPhoneResult transform() {
         CheckPhoneResult object = new CheckPhoneResult();
 
-        object.setCheckResult(EntitiesUtil.assertNotNull(checkResult));
         object.setPhone(EntitiesUtil.assertNotNull(phone));
+        object.setMessage(EntitiesUtil.assertNotNull(message));
+        object.setIsFirst(EntitiesUtil.assertNotNull(isFirst));
+        object.setIsRegister(EntitiesUtil.assertNotNull(isRegister));
 
 
         return object;

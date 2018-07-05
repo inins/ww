@@ -3,6 +3,8 @@ package com.wang.social.moneytree.mvp.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.Shader;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
@@ -181,7 +183,6 @@ public class GameRoomActivity extends BaseAppActivity<GameRoomPresenter>
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
         StatusBarUtil.setTranslucent(this);
-
 
         WindowManager manager = this.getWindowManager();
         DisplayMetrics outMetrics = new DisplayMetrics();

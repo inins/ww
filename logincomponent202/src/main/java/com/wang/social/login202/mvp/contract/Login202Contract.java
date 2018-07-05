@@ -4,7 +4,9 @@ import android.app.Activity;
 
 import com.frame.mvp.IView;
 import com.wang.social.login202.mvp.model.entities.CheckPhoneResult;
+import com.wang.social.login202.mvp.model.entities.CheckVerifyCode;
 import com.wang.social.login202.mvp.model.entities.LoginInfo;
+import com.wang.social.login202.mvp.util.Constants;
 
 public interface Login202Contract {
     interface View extends IView {
@@ -85,6 +87,17 @@ public interface Login202Contract {
         void onRegisterCheckVerifyCodeFailed(String msg);
 
         /**
+         * 忘记密码，验证验证码成功
+         */
+        void onForgotPasswordCheckVerifyCodeSuccess(String mobile, String code);
+
+        /**
+         * 忘记密码，验证验证码失败
+         * @param msg 失败信息
+         */
+        void onForgotPasswordCheckVerifyCodeFailed(String msg);
+
+        /**
          * 注册成功
          * @param loginInfo 登录信息
          */
@@ -144,6 +157,12 @@ public interface Login202Contract {
          * @param msg 失败信息
          */
         void onBindPhoneFailed(String msg);
+
+        /**
+         * 重置密码失败
+         * @param msg 失败
+         */
+        void onUserForgetPasswordFailed(String msg);
     }
 
     interface Presenter {
@@ -170,7 +189,7 @@ public interface Login202Contract {
          *               更换手机号 type=5;
          *               短信登录 type=6）
          */
-        void sendVerifyCode(String mobile, int type);
+        void sendVerifyCode(String mobile, @Constants.VerifyCodeType int type);
 
         /**
          * 手机号码加短信验证码登录
@@ -184,7 +203,7 @@ public interface Login202Contract {
          * @param mobile 手机号码
          * @param verificationCode 验证码
          */
-        void checkVerificationCode(String mobile, String verificationCode);
+        void checkVerificationCode(String mobile, String verificationCode, @Constants.VerifyCodeType int type);
 
 
         /**
@@ -236,5 +255,21 @@ public interface Login202Contract {
          * @param isFirst 是否第一次登陆
          */
         void checkCode(String phone, int userId, String code, String inviteCode, boolean isFirst);
+
+        /**
+         *
+         * 修改/重置密码（前置验证）验证验证码
+         * @param mobile 手机好吗
+         * @param code 验证码
+         */
+        void preVerifyForForgetPassword(String mobile, String code);
+
+        /**
+         * 修改/重置密码（公共）
+         * @param mobile 手机号码
+         * @param code 验证码
+         * @param password 密码
+         */
+        void userForgetPassword(String mobile, String code, String password);
     }
 }

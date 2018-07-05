@@ -19,7 +19,7 @@ public class ChannelUtils {
         try {
             ApplicationInfo appInfo = packageManager.getApplicationInfo(Utils.getContext().getPackageName(), PackageManager.GET_META_DATA);
             if (appInfo != null && appInfo.metaData != null) {
-                String channelName = appInfo.metaData.getString("UMENG_CHANNEL");
+                String channelName = EntitiesUtil.assertNotNull(appInfo.metaData.getString("UMENG_CHANNEL"));
 
                 if (channelName.equals("yingyongbao")) {
                     return 1;

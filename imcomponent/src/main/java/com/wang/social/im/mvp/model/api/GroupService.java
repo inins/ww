@@ -30,6 +30,7 @@ import com.wang.social.im.mvp.model.entities.dto.SocialDTO;
 import com.wang.social.im.mvp.model.entities.dto.SocialHomeDTO;
 import com.wang.social.im.mvp.model.entities.dto.TeamHomeDTO;
 import com.wang.social.im.mvp.model.entities.dto.TeamInfoDTO;
+import com.wang.social.im.mvp.model.entities.dto.TryToExitDTO;
 
 import java.util.Map;
 
@@ -479,4 +480,11 @@ public interface GroupService {
      */
     @POST("app/group/showGroupLists")
     Observable<BaseJson<ListDataDTO<SimpleSocialDTO, SimpleSocial>>> getSocialList(@Query("v") String version, @Query("userId") int userId, @Query("type") int type);
+
+    /**
+     * 尝试退出
+     */
+    @FormUrlEncoded
+    @POST("app/group/tryToExit")
+    Observable<BaseJson<TryToExitDTO>> tryToExit(@FieldMap Map<String, Object> param);
 }
