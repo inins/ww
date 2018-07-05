@@ -300,10 +300,10 @@ public class TopicListFragment extends BasicFragment implements IView {
     private Observable<BaseJson<PageListDTO<TopicDTO, Topic>>> netSearchTopic(String keyword, String tagNames, int current, int size) {
         Map<String, Object> param = new NetParam()
                 .put("keyword", keyword)
-                .put("tagNames", tagNames)
+                //.put("tagNames", tagNames) 不再需要标签了
                 .put("size", size)
                 .put("current", current)
-                .put("v", "2.0.0")
+                .put("v", "2.0.2")
                 .build();
         return mRepositoryManager
                 .obtainRetrofitService(CommonService.class)

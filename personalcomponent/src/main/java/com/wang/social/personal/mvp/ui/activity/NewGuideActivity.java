@@ -31,6 +31,7 @@ import com.frame.utils.ToastUtil;
 import com.frame.utils.Utils;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
+import com.wang.social.personal.helper.PicPhotoHelperEx;
 import com.wang.social.personal.mvp.entities.CommonEntity;
 import com.wang.social.personal.mvp.model.api.UserService;
 import com.wang.social.personal.mvp.ui.dialog.DialogAddressPicker;
@@ -57,7 +58,7 @@ public class NewGuideActivity extends BasicAppNoDiActivity implements PhotoHelpe
     TextView textBirthday;
     @BindView(R2.id.text_gender)
     TextView textGender;
-    private PhotoHelperEx photoHelperEx;
+    private PicPhotoHelperEx photoHelperEx;
 
     private DialogBottomGender dialogGender;
     private DialogDatePicker dialogDate;
@@ -79,7 +80,7 @@ public class NewGuideActivity extends BasicAppNoDiActivity implements PhotoHelpe
         toolbar.bringToFront();
         StatusBarUtil.setTranslucent(this);
         StatusBarUtil.setTextLight(this);
-        photoHelperEx = PhotoHelperEx.newInstance(this, this);
+        photoHelperEx = PicPhotoHelperEx.newInstance(this, this).needOfficialPhoto(true);
         dialogGender = new DialogBottomGender(this);
         dialogDate = new DialogDatePicker(this);
 

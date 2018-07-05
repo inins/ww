@@ -102,8 +102,10 @@ public class SearchGroupController extends BaseController {
                         if (!StrUtil.isEmpty(list)) {
                             adapter.refreshData(list);
                             getRoot().setVisibility(View.VISIBLE);
+                            btnMore.setVisibility(list.size() > 5 ? View.VISIBLE : View.GONE);
                             isEmpty = false;
                         } else {
+                            getRoot().setVisibility(View.GONE);
                             isEmpty = true;
                         }
                         if (getContext() instanceof SearchActivityV2){

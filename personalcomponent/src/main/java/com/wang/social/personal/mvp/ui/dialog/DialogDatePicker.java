@@ -53,6 +53,8 @@ public class DialogDatePicker extends BaseDialog implements View.OnClickListener
 
     @Override
     protected void intView(View root) {
+        //默认时间
+        mDatePicker.setDate(1990, 1, 1, false);
         text_astro.setText(TimeUtils.getAstro(mDatePicker.getMonth(), mDatePicker.getDay()));
         mDatePicker.setOnDateSelectedListener(new DatePicker.OnDateSelectedListener() {
             @Override

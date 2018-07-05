@@ -1,6 +1,7 @@
 package com.wang.social.personal.mvp.ui.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,9 +31,13 @@ import com.wang.social.personal.mvp.ui.adapter.RecycleAdapterNewguideRecommendGr
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 
 /**
  */
@@ -107,10 +112,21 @@ public class NewGuideRecommendGroupFragment extends BasicNoDiFragment {
                 });
     }
 
+    private Disposable disposable;
+
     //申请入群
     public void netAddGroups(List<Integer> idList) {
         if (StrUtil.isEmpty(idList)) return;
         addGroup(idList, 0);
+
+        //等待10秒后，如果接口还未响应，则强行结束请求，并回到首页
+        disposable = Observable.interval(10, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(aLong -> {
+                    ToastUtil.showToastShort("加群失败");
+                    getActivity().finish();
+                    CommonHelper.AppHelper.startHomeActivity(getContext());
+                });
     }
 
     //递归调用加群接口
@@ -119,6 +135,7 @@ public class NewGuideRecommendGroupFragment extends BasicNoDiFragment {
             if (idList.size() - 1 >= index + 1) {
                 addGroup(idList, index + 1);
             } else {
+                disposable.dispose();
                 getActivity().finish();
                 CommonHelper.AppHelper.startHomeActivity(getContext());
             }
