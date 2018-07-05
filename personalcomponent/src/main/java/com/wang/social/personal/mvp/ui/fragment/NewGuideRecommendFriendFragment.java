@@ -12,6 +12,7 @@ import com.frame.component.entities.TestEntity;
 import com.frame.component.entities.User;
 import com.frame.component.entities.funshow.FunshowBean;
 import com.frame.component.helper.AppDataHelper;
+import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.NetFriendHelper;
 import com.frame.component.utils.ListUtil;
 import com.frame.http.api.ApiHelperEx;
@@ -113,7 +114,7 @@ public class NewGuideRecommendFriendFragment extends BasicNoDiFragment {
     public void netAddFriends(List<Integer> idList) {
         if (StrUtil.isEmpty(idList)) return;
         for (Integer id : idList) {
-            NetFriendHelper.newInstance().netSendFriendlyApply(this, id, "你好，交个朋友吧", false, null);
+            NetFriendHelper.newInstance().netSendFriendlyApply(this, id, "我是" + CommonHelper.LoginHelper.getUserName(), false, null);
         }
     }
 }

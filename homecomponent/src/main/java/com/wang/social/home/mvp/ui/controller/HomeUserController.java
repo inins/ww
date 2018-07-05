@@ -56,7 +56,8 @@ public class HomeUserController extends BaseController {
     protected void onInitCtrl() {
         adapter = new RecycleAdapterHomeUser();
         adapter.setOnItemClickListener((recommendUser, position) -> {
-            CommonHelper.ImHelper.startPersonalCardForBrowse(getContext(), recommendUser.getUserId());
+//            CommonHelper.ImHelper.startPersonalCardForBrowse(getContext(), recommendUser.getUserId());
+            CommonHelper.HomeHelper.startUserDetailActivity(getContext(), recommendUser.getUserId());
         });
         recycler.setNestedScrollingEnabled(false);
         recycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));

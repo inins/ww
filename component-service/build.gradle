@@ -40,7 +40,8 @@ dependencies {
         exclude module: 'okio'
     }
     api project(':basicres')
-    api 'com.liaoinstan.springview:library:1.4.0'
+    api 'com.liaoinstan.springview:library:1.5.0'
+    api 'com.liaoinstan.springview:AliHeader:1.5.0'
     implementation rootProject.ext.dependencies["constraint-layout"]
 
     implementation 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'

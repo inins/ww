@@ -89,11 +89,11 @@ public class SearchFriendController extends BaseController {
     private void netGetSearchList(String key) {
         boolean isMobile = StringUtils.isMobileNO(key);
         Map<String, Object> param = new NetParam()
-                .put("key", isMobile ? "" : key)
-                .put("phone", isMobile ? key : "")
+                .put("key", isMobile ? null : key)
+                .put("phone", isMobile ? key : null)
                 .put("current", 1)
                 .put("size", 20)
-                .put("v", "2.0.0")
+                .put("v", "2.0.2")
                 .build();
         ApiHelperEx.execute(getIView(), true,
                 ApiHelperEx.getService(CommonService.class).chatListSearchUser(param),
@@ -106,11 +106,13 @@ public class SearchFriendController extends BaseController {
                         if (!StrUtil.isEmpty(list)) {
                             adapter.refreshData(list);
                             getRoot().setVisibility(View.VISIBLE);
+                            btnMore.setVisibility(list.size() > 5 ? View.VISIBLE : View.GONE);
                             isEmpty = false;
                         } else {
+                            getRoot().setVisibility(View.GONE);
                             isEmpty = true;
                         }
-                        if (getContext() instanceof SearchActivityV2){
+                        if (getContext() instanceof SearchActivityV2) {
                             ((SearchActivityV2) getContext()).notifyData();
                         }
                     }

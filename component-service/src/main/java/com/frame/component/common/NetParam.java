@@ -48,6 +48,7 @@ public class NetParam {
     }
 
     //添加签名参数
+    //会对所有参数进行加密校验，必须在参数全部加入后调用该方法
     public NetParam putSignature() {
         if (StrUtil.isEmpty(paramMap)) return this;
         String randomInt = String.valueOf(new Random().nextInt());
@@ -56,10 +57,11 @@ public class NetParam {
         return this;
     }
 
+    //添加通用统计参数
     public NetParam putStaticParam() {
         //版本号
         int versionCode = AppUtils.getAppVersionCode();
-        //渠道好
+        //渠道号
         int channelCode = ChannelUtils.getChannelCode();
         //获取经纬度，没有则为null
         LocationInfo locationInfo = AppDataHelper.getLocationInfo();
