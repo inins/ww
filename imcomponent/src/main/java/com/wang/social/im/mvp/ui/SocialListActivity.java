@@ -100,7 +100,7 @@ public class SocialListActivity extends BaseAppActivity<SocialListPresenter> imp
     @OnClick({R2.id.sl_iv_search, R2.id.sl_iv_add})
     public void onViewClicked(View view) {
         if (view.getId() == R.id.sl_iv_search) {
-            SearchActivity.start(this);
+            SearchActivityV2.start(this);
         } else if (view.getId() == R.id.sl_iv_add) {
             if (popupWindow == null) {
                 popupWindow = new AutoPopupWindow(this, getMenuItems(), AutoPopupWindow.POINT_TO_RIGHT);

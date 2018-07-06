@@ -12,6 +12,7 @@ import com.frame.component.entities.PersonalInfo;
 import com.frame.component.entities.dto.SearchUserInfoDTO;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.ui.base.BaseController;
+import com.frame.component.utils.ListUtil;
 import com.frame.component.utils.StringUtils;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
@@ -105,7 +106,7 @@ public class SearchFriendController extends BaseController {
                         PageList<PersonalInfo> transform = warp != null ? warp.transform() : null;
                         List<PersonalInfo> list = transform.getList();
                         if (!StrUtil.isEmpty(list)) {
-                            adapter.refreshData(list);
+                            adapter.refreshData(ListUtil.getFirst(list, 5));
                             getRoot().setVisibility(View.VISIBLE);
                             btnMore.setVisibility(list.size() > 5 ? View.VISIBLE : View.GONE);
                             isEmpty = false;
