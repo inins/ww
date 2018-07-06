@@ -65,8 +65,8 @@ public class HomeNaviboardController extends BaseController implements View.OnCl
         } else if (id == R.id.img_find_tag) {
             TagSelectionActivity.startSelectionFromLogin(getContext());
         } else if (id == R.id.btn_scan) {
-//            CommonHelper.ImHelper.startScanActivity(getContext());
-            CommonHelper.PersonalHelper.startNewGuideActivity(getContext());
+            CommonHelper.ImHelper.startScanActivity(getContext());
+//            CommonHelper.PersonalHelper.startNewGuideActivity(getContext());
         }
     }
 }
