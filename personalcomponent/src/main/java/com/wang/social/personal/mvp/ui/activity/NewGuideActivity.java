@@ -112,24 +112,11 @@ public class NewGuideActivity extends BasicAppNoDiActivity implements PhotoHelpe
             String name = editName.getText().toString();
             String birthday = textBirthday.getText().toString();
             String gender = textGender.getText().toString();
-
-            //昵称如果没输入，则为null,如果输入了检查合法性
-            if (TextUtils.isEmpty(name)) {
-                name = null;
-            } else if (!RegexUtils.isUsernameMe(name)) {
-                ToastUtil.showToastLong("昵称仅允许输入下划线符号");
-                return;
-            }
-            //生日没有选择则为null
-            birthday = !TextUtils.isEmpty(birthday) ? birthday : null;
-            //性别没有选择则为null
             Integer sex = TextUtils.isEmpty(gender) ? null : ("男".equals(gender) ? 0 : 1);
 
-            //如果什么都没有填写则直接进入下一页
-            if (TextUtils.isEmpty(name) && TextUtils.isEmpty(birthday) && TextUtils.isEmpty(path) && sex == null) {
-                //进入推荐用户/圈子页面
-                NewGuideRecommendActivity.start(NewGuideActivity.this);
-                finish();
+            String msg = AppValiHelper.newGuide(name, path, sex, birthday);
+            if (msg != null) {
+                ToastUtil.showToastShort(msg);
             } else {
                 uploadAndCommit(name, path, sex, birthday);
             }

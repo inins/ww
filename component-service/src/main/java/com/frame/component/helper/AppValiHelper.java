@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.frame.utils.RegexUtils;
 import com.frame.utils.StrUtil;
+import com.frame.utils.ToastUtil;
 
 import java.util.List;
 
@@ -36,6 +37,22 @@ public class AppValiHelper {
             return "请输入趣晒内容";
         } else if (StrUtil.isEmpty(photoPaths) && TextUtils.isEmpty(videoPath)) {
             return "请添加图片或视频";
+        } else {
+            return null;
+        }
+    }
+
+    public static String newGuide(String name, String path, Integer sex, String birthday) {
+        if (TextUtils.isEmpty(path)) {
+            return "请选择头像";
+        } else if (TextUtils.isEmpty(name)) {
+            return "请输入昵称";
+        } else if (!RegexUtils.isUsernameMe(name)) {
+            return "昵称仅允许输入下划线符号";
+        } else if (sex == null) {
+            return "请选择性别";
+        } else if (TextUtils.isEmpty(birthday)) {
+            return "请选择生日";
         } else {
             return null;
         }
