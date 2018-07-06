@@ -62,7 +62,7 @@ public class HomeUserController extends BaseController {
         recycler.setNestedScrollingEnabled(false);
         recycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         recycler.setAdapter(adapter);
-        recycler.addItemDecoration(new GridSpacingItemDecoration(1, SizeUtils.dp2px(5), GridLayoutManager.HORIZONTAL, false));
+        recycler.addItemDecoration(new GridSpacingItemDecoration(1, SizeUtils.dp2px(15), GridLayoutManager.HORIZONTAL, false));
 
         //趣晒魔
         imgUserShow.setOnClickListener(view -> CommonHelper.FunshowHelper.startHotUserActivity(getContext()));

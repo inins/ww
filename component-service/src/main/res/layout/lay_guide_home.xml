@@ -11,29 +11,29 @@
         android:id="@+id/img_lable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="12dp"
         android:src="@drawable/ic_guide_home_text_lable"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/img_point_bottomright"
+        app:layout_constraintEnd_toStartOf="@+id/img_point_bottomright" />
 
     <ImageView
         android:id="@+id/img_point_bottomright"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginTop="28dp"
         android:src="@drawable/ic_guide_point_bottom_right"
-        app:layout_constraintEnd_toEndOf="@+id/img_lable"
-        app:layout_constraintTop_toBottomOf="@+id/img_lable" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/img_point_top1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="260dp"
-        android:src="@drawable/ic_guide_point_top"
+        android:layout_marginStart="90dp"
+        android:layout_marginTop="150dp"
+        android:src="@drawable/ic_guide_point_top_right"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,20 +41,20 @@
         android:id="@+id/img_point_top2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginTop="230dp"
         android:src="@drawable/ic_guide_point_top"
-        app:layout_constraintStart_toEndOf="@+id/img_circle"
-        app:layout_constraintTop_toTopOf="@+id/img_point_top1" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/img_circle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:src="@drawable/ic_guide_home_text_circle"
-        app:layout_constraintStart_toEndOf="@+id/img_point_top1"
-        app:layout_constraintTop_toTopOf="@+id/img_point_top1" />
+        app:layout_constraintEnd_toEndOf="@+id/img_point_top1"
+        app:layout_constraintTop_toBottomOf="@+id/img_point_top1" />
 
     <ImageView
         android:id="@+id/img_samekind"

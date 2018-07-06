@@ -1,9 +1,15 @@
 package com.wang.social.personal.mvp.ui.adapter;
 
 import android.content.Context;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.RotateAnimation;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,6 +22,7 @@ import com.wang.social.personal.mvp.entities.lable.Lable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 
@@ -35,9 +42,26 @@ public class RecycleAdapterLable extends BaseAdapter<Lable> {
         ImageView img_tag;
         @BindView(R2.id.img_del)
         ImageView img_del;
+        AnimationSet animationSet;
 
         public Holder(Context context, ViewGroup root, int layoutRes) {
             super(context, root, layoutRes);
+
+            //初始化摇晃动画
+            Animation scaleAnim = new ScaleAnimation(0.985f, 1.025f, 0.985f, 1.025f);
+            scaleAnim.setDuration(200);
+            scaleAnim.setRepeatMode(Animation.REVERSE);
+            scaleAnim.setRepeatCount(Animation.INFINITE);
+            scaleAnim.setInterpolator(new AccelerateDecelerateInterpolator());
+            Animation rotateAnim = new RotateAnimation(-3, 3, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+            rotateAnim.setDuration(65);
+            rotateAnim.setRepeatMode(Animation.REVERSE);
+            rotateAnim.setRepeatCount(Animation.INFINITE);
+            rotateAnim.setInterpolator(new AccelerateDecelerateInterpolator());
+            animationSet = new AnimationSet(false);
+            animationSet.addAnimation(scaleAnim);
+//            animationSet.setStartOffset(new Random().nextInt(100));
+            animationSet.addAnimation(rotateAnim);
         }
 
         @Override
@@ -50,6 +74,13 @@ public class RecycleAdapterLable extends BaseAdapter<Lable> {
             img_del.setVisibility(deleteEnable ? View.VISIBLE : View.GONE);
             img_tag.setVisibility(lable.getShowTagBool() ? View.VISIBLE : View.GONE);
             text_name.setText(lable.getName());
+
+            if (deleteEnable) {
+                //随机延迟 0-0.1秒，制造错落感
+                new Handler().postDelayed(() -> itemView.startAnimation(animationSet), new Random().nextInt(100));
+            } else {
+                itemView.clearAnimation();
+            }
         }
 
         @Override

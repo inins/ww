@@ -15,6 +15,7 @@ import com.frame.component.entities.search.SearchGroup;
 import com.frame.component.enums.ConversationType;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.ui.base.BaseController;
+import com.frame.component.utils.ListUtil;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
@@ -100,7 +101,7 @@ public class SearchGroupController extends BaseController {
                         BaseListWrap<SearchGroup> warp = basejson.getData();
                         List<SearchGroup> list = warp.getList();
                         if (!StrUtil.isEmpty(list)) {
-                            adapter.refreshData(list);
+                            adapter.refreshData(ListUtil.getFirst(list, 5));
                             getRoot().setVisibility(View.VISIBLE);
                             btnMore.setVisibility(list.size() > 5 ? View.VISIBLE : View.GONE);
                             isEmpty = false;

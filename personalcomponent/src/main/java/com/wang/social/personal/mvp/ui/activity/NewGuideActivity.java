@@ -6,17 +6,18 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.frame.component.common.NetParam;
+import com.frame.component.common.SimpleTextWatcher;
 import com.frame.component.entities.User;
 import com.frame.component.helper.AppDataHelper;
 import com.frame.component.helper.AppValiHelper;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.ImageLoaderHelper;
-import com.frame.component.helper.NetReportHelper;
 import com.frame.component.helper.QiNiuManager;
 import com.frame.component.ui.base.BasicAppNoDiActivity;
 import com.frame.entities.EventBean;
@@ -24,21 +25,16 @@ import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
 import com.frame.router.facade.annotation.RouteNode;
-import com.frame.utils.FrameUtils;
-import com.frame.utils.RegexUtils;
 import com.frame.utils.StatusBarUtil;
 import com.frame.utils.ToastUtil;
-import com.frame.utils.Utils;
 import com.wang.social.personal.R;
 import com.wang.social.personal.R2;
 import com.wang.social.personal.helper.PicPhotoHelperEx;
 import com.wang.social.personal.mvp.entities.CommonEntity;
 import com.wang.social.personal.mvp.model.api.UserService;
-import com.wang.social.personal.mvp.ui.dialog.DialogAddressPicker;
 import com.wang.social.personal.mvp.ui.dialog.DialogBottomGender;
 import com.wang.social.personal.mvp.ui.dialog.DialogDatePicker;
 import com.wang.social.pictureselector.helper.PhotoHelper;
-import com.wang.social.pictureselector.helper.PhotoHelperEx;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -58,6 +54,8 @@ public class NewGuideActivity extends BasicAppNoDiActivity implements PhotoHelpe
     TextView textBirthday;
     @BindView(R2.id.text_gender)
     TextView textGender;
+    @BindView(R2.id.btn_go)
+    Button btnGo;
     private PicPhotoHelperEx photoHelperEx;
 
     private DialogBottomGender dialogGender;
@@ -87,9 +85,18 @@ public class NewGuideActivity extends BasicAppNoDiActivity implements PhotoHelpe
         dialogGender.setOnGenderSelectListener(gender -> {
             textGender.setText(gender);
             dialogGender.dismiss();
+            setBtnStatus();
         });
         dialogDate.setOnDateChooseListener((year, month, day, astro, showDate) -> {
             textBirthday.setText(showDate);
+            setBtnStatus();
+        });
+        btnGo.setEnabled(false);
+        editName.addTextChangedListener(new SimpleTextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                setBtnStatus();
+            }
         });
     }
 
@@ -112,28 +119,25 @@ public class NewGuideActivity extends BasicAppNoDiActivity implements PhotoHelpe
             String name = editName.getText().toString();
             String birthday = textBirthday.getText().toString();
             String gender = textGender.getText().toString();
-
-            //昵称如果没输入，则为null,如果输入了检查合法性
-            if (TextUtils.isEmpty(name)) {
-                name = null;
-            } else if (!RegexUtils.isUsernameMe(name)) {
-                ToastUtil.showToastLong("昵称仅允许输入下划线符号");
-                return;
-            }
-            //生日没有选择则为null
-            birthday = !TextUtils.isEmpty(birthday) ? birthday : null;
-            //性别没有选择则为null
             Integer sex = TextUtils.isEmpty(gender) ? null : ("男".equals(gender) ? 0 : 1);
 
-            //如果什么都没有填写则直接进入下一页
-            if (TextUtils.isEmpty(name) && TextUtils.isEmpty(birthday) && TextUtils.isEmpty(path) && sex == null) {
-                //进入推荐用户/圈子页面
-                NewGuideRecommendActivity.start(NewGuideActivity.this);
-                finish();
+            String msg = AppValiHelper.newGuide(name, path, sex, birthday);
+            if (msg != null) {
+                ToastUtil.showToastShort(msg);
             } else {
                 uploadAndCommit(name, path, sex, birthday);
             }
         }
+    }
+
+    private void setBtnStatus() {
+        String name = editName.getText().toString();
+        String birthday = textBirthday.getText().toString();
+        String gender = textGender.getText().toString();
+        Integer sex = TextUtils.isEmpty(gender) ? null : ("男".equals(gender) ? 0 : 1);
+
+        String msg = AppValiHelper.newGuide(name, path, sex, birthday);
+        btnGo.setEnabled(msg == null);
     }
 
     @Override
@@ -146,6 +150,7 @@ public class NewGuideActivity extends BasicAppNoDiActivity implements PhotoHelpe
     public void onResult(String path) {
         ImageLoaderHelper.loadCircleImg(imgHeader, path);
         this.path = path;
+        setBtnStatus();
     }
 
     private void uploadAndCommit(String nickname, String path, Integer sex, String birthday) {

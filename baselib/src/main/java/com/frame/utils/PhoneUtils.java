@@ -1,13 +1,16 @@
 package com.frame.utils;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.SystemClock;
+import android.support.v4.content.PermissionChecker;
 import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -54,8 +57,12 @@ public final class PhoneUtils {
      */
     @SuppressLint("HardwareIds")
     public static String getIMEI() {
-        TelephonyManager tm = (TelephonyManager) Utils.getContext().getSystemService(Context.TELEPHONY_SERVICE);
-        return tm != null ? tm.getDeviceId() : null;
+        if (PermissionChecker.checkSelfPermission(Utils.getContext(), Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+            TelephonyManager tm = (TelephonyManager) Utils.getContext().getSystemService(Context.TELEPHONY_SERVICE);
+            return tm != null ? tm.getDeviceId() : null;
+        } else {
+            return "";
+        }
     }
 
     /**
