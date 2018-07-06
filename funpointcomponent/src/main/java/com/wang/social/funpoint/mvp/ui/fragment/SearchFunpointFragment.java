@@ -44,7 +44,6 @@ import java.util.List;
 import butterknife.BindView;
 
 /**
- * 建设中 fragment 占位
  */
 
 public class SearchFunpointFragment extends BasicFragment implements IView, BaseAdapter.OnItemClickListener<Funpoint> {
@@ -161,7 +160,7 @@ public class SearchFunpointFragment extends BasicFragment implements IView, Base
     private void netGetSearchList(String tags, String key, boolean isFresh) {
         if (isFresh) current = 0;
         ApiHelperEx.execute(this, true,
-                ApiHelperEx.getService(FunpointService.class).getSearchFunpointList(tags, key, current + 1, size),
+                ApiHelperEx.getService(FunpointService.class).getSearchFunpointList(key, current + 1, size),
                 new ErrorHandleSubscriber<BaseJson<BaseListWrap<Funpoint>>>() {
                     @Override
                     public void onNext(BaseJson<BaseListWrap<Funpoint>> basejson) {

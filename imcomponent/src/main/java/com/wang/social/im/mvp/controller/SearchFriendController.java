@@ -87,10 +87,11 @@ public class SearchFriendController extends BaseController {
     }
 
     private void netGetSearchList(String key) {
-        boolean isMobile = StringUtils.isMobileNO(key);
+//        boolean isMobile = StringUtils.isMobileNO(key);
         Map<String, Object> param = new NetParam()
-                .put("key", isMobile ? null : key)
-                .put("phone", isMobile ? key : null)
+//                .put("key", isMobile ? null : key)
+//                .put("key", isMobile ? null : key)
+                .put("key", key)
                 .put("current", 1)
                 .put("size", 20)
                 .put("v", "2.0.2")

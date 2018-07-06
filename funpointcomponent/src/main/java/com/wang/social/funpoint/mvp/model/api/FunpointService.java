@@ -30,8 +30,8 @@ public interface FunpointService {
      * 搜索趣点
      */
     @Headers(HEADER_CONTENT_TYPE)
-    @GET("/app/news/searchList?v=2.0.0")
-    Observable<BaseJson<BaseListWrap<Funpoint>>> getSearchFunpointList(@Query("tags") String tags, @Query("key") String key, @Query("current") int current, @Query("size") int size);
+    @GET("/app/news/searchList?v=2.0.2")
+    Observable<BaseJson<BaseListWrap<Funpoint>>> getSearchFunpointList(@Query("key") String key, @Query("current") int current, @Query("size") int size);
 
 //    /**
 //     * 阅读趣点数量统计
