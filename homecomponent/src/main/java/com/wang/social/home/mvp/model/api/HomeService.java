@@ -35,7 +35,7 @@ public interface HomeService {
     /**
      * 首页最新趣晒
      */
-    @GET("/app/talk/latest?v=2.0.0")
+    @GET("/app/talk/latest?v=2.0.2")
     Observable<BaseJson<BaseListWrap<FunshowHome>>> getNewFunshow();
 
     /**

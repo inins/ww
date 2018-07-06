@@ -79,6 +79,9 @@ public class HomeUserController extends BaseController {
         netGetUsers();
     }
 
+    public void refreshData() {
+        netGetUsers();
+    }
 
     public void netGetUsers() {
         ApiHelperEx.execute(getIView(), false,

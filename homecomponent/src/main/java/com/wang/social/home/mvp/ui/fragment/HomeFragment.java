@@ -80,6 +80,7 @@ public class HomeFragment extends BasicLazyNoDiFragment implements HomeContract.
             public void onRefresh() {
                 contentController.refreshData();
                 funshowController.refreshData();
+                userController.refreshData();
             }
 
             @Override
