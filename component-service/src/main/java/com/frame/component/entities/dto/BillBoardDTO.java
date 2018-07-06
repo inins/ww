@@ -1,8 +1,6 @@
 package com.frame.component.entities.dto;
 
 
-import android.content.Intent;
-
 import com.frame.component.entities.BillBoard;
 import com.frame.component.utils.EntitiesUtil;
 import com.frame.http.api.Mapper;

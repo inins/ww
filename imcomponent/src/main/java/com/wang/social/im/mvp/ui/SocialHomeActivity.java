@@ -66,11 +66,13 @@ import com.wang.social.im.enums.MessageNotifyType;
 import com.wang.social.im.helper.GroupPersonReportHelper;
 import com.wang.social.im.helper.ImHelper;
 import com.wang.social.im.helper.ImageSelectHelper;
+import com.wang.social.im.helper.NetTryToExit;
 import com.wang.social.im.mvp.contract.SocialHomeContract;
 import com.wang.social.im.mvp.model.entities.MemberInfo;
 import com.wang.social.im.mvp.model.entities.ShadowInfo;
 import com.wang.social.im.mvp.model.entities.SocialInfo;
 import com.wang.social.im.mvp.model.entities.TeamInfo;
+import com.wang.social.im.mvp.model.entities.TryToExit;
 import com.wang.social.im.mvp.presenter.SocialHomePresenter;
 import com.wang.social.im.mvp.ui.adapters.HomeMemberAdapter;
 import com.wang.social.im.mvp.ui.adapters.HomeTagAdapter;
@@ -514,30 +516,33 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
 //                    }
 //                });
 
+                // 先查询是否有觅聊
+                NetTryToExit.newInstance().tryToExit(this, mSocial.getMemberInfo(), true,
+                        (MemberInfo memberInfo, TryToExit result) -> {
+                            // 2.0.2修改对话框和提示语
+                            String[] strings = {
+                                    result.isHasTeam() ? "确认退出，退出后你创建的觅聊将由最早加入的成员接管" : "确认退出此趣聊"
+                            };
+                            int[] colors = {
+                                    ContextCompat.getColor(Utils.getContext(), com.frame.component.service.R.color.common_text_blank)
+                            };
+                            SpannableStringBuilder titleText = SpannableStringUtil.createV2(strings, colors);
+                            DialogOkCancel.show(getSupportFragmentManager(),
+                                    titleText,
+                                    "",
+                                    "取消",
+                                    "确认退出",
+                                    new DialogOkCancel.DialogOkCancelCallback() {
+                                        @Override
+                                        public void onOk() {
+                                            mPresenter.exitGroup(socialId);
+                                        }
 
-                // 2.0.2修改对话框和提示语
-                String[] strings = {
-                        "确认退出，退出后你创建的觅聊将由最早加入的成员接管"
-                };
-                int[] colors = {
-                        ContextCompat.getColor(Utils.getContext(), com.frame.component.service.R.color.common_text_blank)
-                };
-                SpannableStringBuilder titleText = SpannableStringUtil.createV2(strings, colors);
-                DialogOkCancel.show(getSupportFragmentManager(),
-                        titleText,
-                        "",
-                        "取消",
-                        "确认退出",
-                        new DialogOkCancel.DialogOkCancelCallback() {
-                            @Override
-                            public void onOk() {
-                                mPresenter.exitGroup(socialId);
-                            }
+                                        @Override
+                                        public void onCancel() {
 
-                            @Override
-                            public void onCancel() {
-
-                            }
+                                        }
+                                    });
                         });
             }
         } else if (view.getId() == R.id.sc_tv_wood) {

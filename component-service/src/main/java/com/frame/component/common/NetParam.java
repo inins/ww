@@ -71,7 +71,12 @@ public class NetParam {
             longitude = locationInfo.getLongitude();
             latitude = locationInfo.getLatitude();
         }
+
+
         paramMap.put("devicesKey", PhoneUtils.getIMEI());
+
+
+
         paramMap.put("channelId", channelCode + "");
         paramMap.put("appVersion", versionCode + "");
         paramMap.put("devicesModel", Build.MODEL);

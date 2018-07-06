@@ -20,15 +20,16 @@
 
     <TextView
         android:id="@+id/content_text_view"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="37dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="6dp"
         android:textColor="#ff434343"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topic_include2"
-        tools:text="你好看，你最美！宇宙无敌就是你！!" />
+        tools:text="你好看，你最美！宇宙无敌就是你！!你好看，你最美！宇宙无敌就是你！!你好看，你最美！宇宙无敌就是你！!你好看，你最美！宇宙无敌就是你！!" />
 
     <TextView
         android:id="@+id/reply_text_view"

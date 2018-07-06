@@ -783,7 +783,9 @@ public class Login202Activity extends BaseAppActivity implements Login202Contrac
      */
     @Override
     public void onRegisterLogin(String password, String invitationCode) {
-        mPresenter.register(mPhoneNumber, password, invitationCode);
+        if (checkPassword(password)) {
+            mPresenter.register(mPhoneNumber, password, invitationCode);
+        }
     }
 
     @Override
@@ -1313,8 +1315,12 @@ public class Login202Activity extends BaseAppActivity implements Login202Contrac
      */
     @Override
     public void onCheckPhoneSuccess(CheckPhoneResult result) {
-        // 第三方账号第一次登陆，并且手机号码未注册
-        if (result.getIsFirst() == 1 && result.getIsRegister() == 0) {
+        if (result.getIsFirst() == 0 && result.getIsRegister() == 1) {
+            // 不是第一次登陆，并且手机号码已注册
+//            ToastUtil.showToastShort("账号和手机号码都已注册过往往账号，无法完成绑定");
+            DialogConfirm.show(getSupportFragmentManager(), "提示", "账号和手机号码都已注册过往往账号，无法完成绑定");
+        } else if (result.getIsFirst() == 1 && result.getIsRegister() == 0) {
+            // 第三方账号第一次登陆，并且手机号码未注册
             // 跳转到 绑定手机验证
             nextToBindPhoneVerify();
         } else {
@@ -1330,7 +1336,13 @@ public class Login202Activity extends BaseAppActivity implements Login202Contrac
      */
     @Override
     public void onCheckPhoneFailed(String msg) {
-        ToastUtil.showToastShort(msg);
+        if (msg.contains("不能完成绑定")) {
+            DialogConfirm.show(getSupportFragmentManager(),
+                    "提示",
+                    msg);
+        } else {
+            ToastUtil.showToastShort(msg);
+        }
     }
 
     /**

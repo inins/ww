@@ -234,7 +234,6 @@ public class Login202Presenter implements Login202Contract.Presenter {
         Map<String, Object> param = new NetParam()
                 .put("mobile", mobile)
                 .put("password", password)
-                .put("devicesKey", PhoneUtils.getIMEI())
                 .putStaticParam()
                 .put("v", "2.0.2")
                 .putSignature()
@@ -331,7 +330,6 @@ public class Login202Presenter implements Login202Contract.Presenter {
                 .put("mobile", mobile)
                 .put("code", code)
                 .put("adCode", adCode)
-                .put("devicesKey", PhoneUtils.getIMEI())
                 .put("v", "2.0.2")
                 .putStaticParam()
                 .putSignature()
@@ -351,7 +349,7 @@ public class Login202Presenter implements Login202Contract.Presenter {
     @Override
     public void checkVerificationCode(String mobile, String verificationCode, @Constants.VerifyCodeType int type) {
         mApiHelper.execute(mView,
-                netCheckVerificationCode(mobile, verificationCode),
+                netCheckVerificationCode(mobile, verificationCode, type),
                 new ErrorHandleSubscriber<CheckVerifyCode>() {
                     @Override
                     public void onNext(CheckVerifyCode checkVerifyCode) {
@@ -380,8 +378,9 @@ public class Login202Presenter implements Login202Contract.Presenter {
      *
      * @param mobile           手机号码
      * @param verificationCode 验证码
+     * @param type {@link com.wang.social.login202.mvp.util.Constants.VerifyCodeType}
      */
-    private Observable<BaseJson<CheckVerifyCodeDTO>> netCheckVerificationCode(String mobile, String verificationCode) {
+    private Observable<BaseJson<CheckVerifyCodeDTO>> netCheckVerificationCode(String mobile, String verificationCode, int type) {
         Map<String, Object> param = new NetParam()
                 .put("mobile", mobile)
                 .put("code", verificationCode)

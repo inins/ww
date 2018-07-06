@@ -1,7 +1,9 @@
 package com.wang.social.personal.net.helper;
 
 import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 
+import com.frame.component.ui.dialog.DialogConfirm;
 import com.frame.http.api.ApiHelperEx;
 import com.frame.http.api.BaseJson;
 import com.frame.http.api.error.ErrorHandleSubscriber;
@@ -91,7 +93,13 @@ public class NetThirdLoginBindHelper {
 
                     @Override
                     public void onError(Throwable e) {
-                        ToastUtil.showToastLong(e.getMessage());
+                        if (view instanceof AppCompatActivity) {
+                            DialogConfirm.show(((AppCompatActivity)view).getSupportFragmentManager(),
+                                    "提示",
+                                    e.getMessage());
+                        } else {
+                            ToastUtil.showToastLong(e.getMessage());
+                        }
                     }
                 });
     }

@@ -6,6 +6,7 @@ import com.wang.social.im.mvp.model.entities.TeamInfo;
 import com.wang.social.im.mvp.model.entities.dto.ListDataDTO;
 import com.wang.social.im.mvp.model.entities.dto.SocialHomeDTO;
 import com.wang.social.im.mvp.model.entities.dto.TeamInfoDTO;
+import com.wang.social.im.mvp.model.entities.dto.TryToExitDTO;
 
 import java.util.List;
 

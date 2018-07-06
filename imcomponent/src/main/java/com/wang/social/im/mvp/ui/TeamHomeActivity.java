@@ -456,7 +456,7 @@ public class TeamHomeActivity extends BaseAppActivity<TeamHomePresenter> impleme
 
                 // 2.0.2修改对话框和提示语
                 String[] strings = {
-                        "退出趣聊后同时你将退出该群的觅聊"
+                        "确认退出此觅聊？"
                 };
                 int[] colors = {
                         ContextCompat.getColor(Utils.getContext(), com.frame.component.service.R.color.common_text_blank)

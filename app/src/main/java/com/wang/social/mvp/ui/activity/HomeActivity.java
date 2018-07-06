@@ -141,8 +141,6 @@ public class HomeActivity extends BasicAppNoDiActivity implements IView, XRadioG
 
         imgDot.setVisibility(MsgHelper.hasReadAllNotify() ? View.GONE : View.VISIBLE);
 
-        remoteCall();
-
         checkNewVersion();
 
         //开始定位，成功后保存位置信息
@@ -153,29 +151,31 @@ public class HomeActivity extends BasicAppNoDiActivity implements IView, XRadioG
         });
         locationHelper.startLocation();
 
-        // 获取广告内容
-        NetBillBoardHelper.newInstance().getBillboard(this,
-                billBoard -> {
-                    if (!TextUtils.isEmpty(billBoard.getPicUrl())) {
-                        // 下载广告图片
-                        Timber.i("下载广告图片");
-                        mBillBoardImageDownMills = System.currentTimeMillis();
-                        SimpleTarget<Drawable> simpleTarget = new SimpleTarget<Drawable>() {
-                            @Override
-                            public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
-                                long duration = System.currentTimeMillis() - mBillBoardImageDownMills;
-                                Timber.i("下载广告图片耗时 : " + Long.toString(duration));
-                                if (duration <= 2000) {
-                                    BillBoardActivity.start(HomeActivity.this, billBoard);
-                                }
-                            }
-                        };
+        remoteCall();
 
-                        Glide.with(getApplicationContext())
-                                .load(billBoard.getPicUrl())
-                                .into(simpleTarget);
-                    }
-                });
+        // 获取广告内容
+//        NetBillBoardHelper.newInstance().getBillboard(this,
+//                billBoard -> {
+//                    if (!TextUtils.isEmpty(billBoard.getPicUrl())) {
+//                        // 下载广告图片
+//                        Timber.i("下载广告图片");
+//                        mBillBoardImageDownMills = System.currentTimeMillis();
+//                        SimpleTarget<Drawable> simpleTarget = new SimpleTarget<Drawable>() {
+//                            @Override
+//                            public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+//                                long duration = System.currentTimeMillis() - mBillBoardImageDownMills;
+//                                Timber.i("下载广告图片耗时 : " + Long.toString(duration));
+//                                if (duration <= 2000) {
+//                                    BillBoardActivity.start(HomeActivity.this, billBoard);
+//                                }
+//                            }
+//                        };
+//
+//                        Glide.with(getApplicationContext())
+//                                .load(billBoard.getPicUrl())
+//                                .into(simpleTarget);
+//                    }
+//                });
     }
 
     @Override
@@ -397,6 +397,8 @@ public class HomeActivity extends BasicAppNoDiActivity implements IView, XRadioG
         if (TextUtils.isEmpty(target)) {
             return;
         }
+
+        Timber.i("performRemoteCall : " + target + " " + id);
 
         int intId = -1;
         if (!target.equals(AppConstant.Key.OPEN_TARGET_C2C) &&

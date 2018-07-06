@@ -36,7 +36,7 @@ import timber.log.Timber;
 
 public class BillBoardActivity extends BaseAppActivity implements IView {
 
-    private static final int INTERVAL = 10;
+    private static final int INTERVAL = 3;
     @BindView(R.id.skip_text_view)
     TextView mSkipTV;
     @BindView(R.id.bill_board_image_view)
@@ -132,12 +132,7 @@ public class BillBoardActivity extends BaseAppActivity implements IView {
         Timber.i("打开广告");
 
         NetBillBoardHelper.newInstance().clickBillBoard(this, mBillBoard.getBillboardId(),
-                new NetBillBoardHelper.OnClickBillBoardCallback() {
-                    @Override
-                    public void onClickBillBoardResult(boolean success) {
-
-                    }
-                });
+                success -> {});
 
         String target = "";
         /**
