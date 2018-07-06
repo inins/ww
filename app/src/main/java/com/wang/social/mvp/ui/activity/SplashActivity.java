@@ -1,5 +1,7 @@
 package com.wang.social.mvp.ui.activity;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -14,8 +17,10 @@ import android.widget.ImageView;
 import com.frame.base.BasicActivity;
 import com.frame.component.helper.CommonHelper;
 import com.frame.component.helper.NetStatisticsHelper;
+import com.frame.component.helper.sound.AudioRecordManager;
 import com.frame.di.component.AppComponent;
 import com.frame.utils.StatusBarUtil;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.wang.social.R;
 
 import java.util.ArrayList;
@@ -79,8 +84,16 @@ public class SplashActivity extends BasicActivity {
             }
         });
 
-        //app安装后首次启动埋点
-        NetStatisticsHelper.newInstance().netAppInstall();
+        new RxPermissions(this).requestEach(Manifest.permission.READ_PHONE_STATE)
+                .subscribe((permission) -> {
+                    if (permission.granted) {
+                        //app安装后首次启动埋点
+                        NetStatisticsHelper.newInstance().netAppInstall();
+                    } else {
+                        //app安装后首次启动埋点
+                        NetStatisticsHelper.newInstance().netAppInstall();
+                    }
+                });
     }
 
     private void initImageViews() {

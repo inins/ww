@@ -384,6 +384,7 @@ public class Login202Presenter implements Login202Contract.Presenter {
         Map<String, Object> param = new NetParam()
                 .put("mobile", mobile)
                 .put("code", verificationCode)
+                .put("type", type)
                 .put("v", "2.0.2")
                 .putSignature()
                 .build();
