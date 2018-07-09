@@ -1,6 +1,5 @@
 package com.frame.component.helper;
 
-import android.content.Context;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -15,8 +14,6 @@ import com.frame.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import javax.inject.Inject;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
