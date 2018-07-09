@@ -112,7 +112,7 @@ public class SearchFunshowFragment extends BasicNoDiFragment implements IView, B
                 search(false);
             }
         });
-        loadingviewEx.showLackView();
+        loadingviewEx.showFailViewSearchFunshow();
     }
 
     @Override

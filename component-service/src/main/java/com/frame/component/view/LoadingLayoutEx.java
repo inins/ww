@@ -122,8 +122,20 @@ public class LoadingLayoutEx extends LoadingLayout {
         showFailView(R.drawable.common_ic_default_search_funpoint, getContext().getString(R.string.common_default_search_funpoint));
     }
 
+    public void showFailViewSearchFunshow() {
+        showFailView(R.drawable.common_ic_default_search_topic, getContext().getString(R.string.common_default_search_funshow));
+    }
+
     public void showFailViewSearchTopic() {
-        showFailView(R.drawable.common_ic_default_search_topic, getContext().getString(R.string.common_default_search_topic));
+        showFailView(R.drawable.common_ic_default_search_funpoint, getContext().getString(R.string.common_default_search_topic));
+    }
+
+    public void showFailViewSearchFunChat() {
+        showFailView(R.drawable.common_ic_default_search_topic, getContext().getString(R.string.common_default_search_qu));
+    }
+
+    public void showFailViewSearchUser() {
+        showFailView(R.drawable.common_ic_default_search_funpoint, getContext().getString(R.string.common_default_search_user));
     }
 
     //通用：没有数据 （UI没有标识的页面空数据状态用这个）

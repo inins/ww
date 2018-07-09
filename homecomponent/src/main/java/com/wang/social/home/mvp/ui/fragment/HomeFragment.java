@@ -104,30 +104,19 @@ public class HomeFragment extends BasicLazyNoDiFragment implements HomeContract.
 
     @Override
     public void setData(@Nullable Object data) {
-
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (naviboardController != null) {
-            naviboardController.onDestory();
-        }
-        if (funshowController != null) {
-            funshowController.onDestory();
-        }
-        if (userController != null) {
-            userController.onDestory();
-        }
-        if (contentController != null) {
-            contentController.onDestory();
-        }
+        if (naviboardController != null) naviboardController.onDestory();
+        if (funshowController != null) funshowController.onDestory();
+        if (userController != null) userController.onDestory();
+        if (contentController != null) contentController.onDestory();
     }
 
     @Override
     public void finishSpringView() {
-        if (null != springView) {
-            springView.onFinishFreshAndLoadDelay();
-        }
+        if (null != springView) springView.onFinishFreshAndLoadDelay();
     }
 }

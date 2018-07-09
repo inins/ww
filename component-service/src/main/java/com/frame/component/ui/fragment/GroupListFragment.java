@@ -202,7 +202,7 @@ public class GroupListFragment extends BasicFragment implements IView {
             mSpringView.callFreshDelay();
         } else if (mType == TYPE_SEARCH_ALL_GROUP) {
             // 只有首页搜索使用帮助
-            loadingviewEx.showLackView();
+            loadingviewEx.showFailViewSearchFunChat();
         }
     }
 

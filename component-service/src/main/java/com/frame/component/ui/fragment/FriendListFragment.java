@@ -168,7 +168,7 @@ public class FriendListFragment extends BasicFragment implements
             mSpringView.callFreshDelay();
         } else if (mType == TYPE_SEARCH_ALL) {
             // 只有在首页搜索时使用帮助页面
-            loadingviewEx.showLackView();
+            loadingviewEx.showFailViewSearchUser();
         }
     }
 
