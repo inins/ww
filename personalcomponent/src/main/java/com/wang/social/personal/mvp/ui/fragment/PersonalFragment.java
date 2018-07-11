@@ -80,6 +80,9 @@ public class PersonalFragment extends BasicLazyFragment implements PersonalFragm
     @Inject
     NetUserHelper netUserHelper;
 
+    // 记录用户数据
+    private UserStatistic mUserStatistic;
+
     public static PersonalFragment newInstance() {
         Bundle args = new Bundle();
         PersonalFragment fragment = new PersonalFragment();
@@ -100,6 +103,34 @@ public class PersonalFragment extends BasicLazyFragment implements PersonalFragm
                 break;
             case EventBean.EVENT_TAB_USER:
                 netGetUserStatistics();
+                break;
+            case EventBean.EVENT_FUNSHOW_ADD: // 新增趣晒
+                if (null == mUserStatistic) {
+                    mUserStatistic = new UserStatistic();
+                }
+                mUserStatistic.setTalkCount(mUserStatistic.getTalkCount() + 1);
+                setStatistic(mUserStatistic);
+                break;
+            case EventBean.EVENT_FUNSHOW_DEL: // 删除趣晒
+                if (null == mUserStatistic) {
+                    mUserStatistic = new UserStatistic();
+                }
+                mUserStatistic.setTalkCount(Math.max(0, mUserStatistic.getTalkCount() - 1));
+                setStatistic(mUserStatistic);
+                break;
+            case EventBean.EVENTBUS_DEL_TOPIC_SUCCESS: // 删除话题
+                if (null == mUserStatistic) {
+                    mUserStatistic = new UserStatistic();
+                }
+                mUserStatistic.setTopicCount(Math.max(0, mUserStatistic.getTopicCount() - 1));
+                setStatistic(mUserStatistic);
+                break;
+            case EventBean.EVENTBUS_ADD_TOPIC_SUCCESS: // 发布话题成功
+                if (null == mUserStatistic) {
+                    mUserStatistic = new UserStatistic();
+                }
+                mUserStatistic.setTopicCount(mUserStatistic.getTopicCount() + 1);
+                setStatistic(mUserStatistic);
                 break;
         }
     }
@@ -256,8 +287,10 @@ public class PersonalFragment extends BasicLazyFragment implements PersonalFragm
         netUserHelper.getUserStatistic(null, user.getUserId(), new NetUserHelper.OnUserStatisticApiCallBack() {
             @Override
             public void onSuccess(UserStatistic userStatistic) {
+                mUserStatistic = userStatistic;
                 setStatistic(userStatistic);
             }
         });
     }
+
 }

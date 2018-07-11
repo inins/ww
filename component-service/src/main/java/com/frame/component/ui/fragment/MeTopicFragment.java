@@ -68,6 +68,10 @@ public class MeTopicFragment extends BasicNoDiFragment {
                 adapter.reFreshCommentCountById(topicId);
                 break;
             }
+            case EventBean.EVENTBUS_ADD_TOPIC_SUCCESS:
+            case EventBean.EVENTBUS_DEL_TOPIC_SUCCESS:
+                netGetTopicList(true);
+                break;
         }
     }
 

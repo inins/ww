@@ -22,7 +22,7 @@
                 android:paddingBottom="10dp"
                 android:paddingTop="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:personal_textNote="趣点咨询不错过"
+                app:personal_textNote="趣点资讯不错过"
                 tools:personal_textTitle="乐高" />
 
             <android.support.v7.widget.Toolbar
