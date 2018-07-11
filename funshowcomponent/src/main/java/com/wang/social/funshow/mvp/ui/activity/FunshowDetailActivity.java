@@ -34,6 +34,7 @@ import com.wang.social.funshow.mvp.ui.controller.FunshowDetailZanController;
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
+import timber.log.Timber;
 
 @RouteNode(path = "/detail", desc = "趣晒详情")
 public class FunshowDetailActivity extends BasicAppNoDiActivity implements IView {
@@ -96,6 +97,7 @@ public class FunshowDetailActivity extends BasicAppNoDiActivity implements IView
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
+        Timber.i("启动趣晒详情");
         FocusUtil.focusToTop(toolbar);
         talkId = getIntent().getIntExtra("talkId", 0);
 

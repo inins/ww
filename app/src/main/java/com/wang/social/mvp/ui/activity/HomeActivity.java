@@ -132,6 +132,7 @@ public class HomeActivity extends BasicAppNoDiActivity implements IView, XRadioG
 
     @Override
     public void initData(@NonNull Bundle savedInstanceState) {
+        Timber.e("HomeActivity : initData");
         dialogHomeAdd = new DialogHomeAdd(this);
         groupTab.setOnCheckedChangeListener(this);
         pagerAdapter = new PagerAdapterHome(getSupportFragmentManager());
@@ -398,8 +399,6 @@ public class HomeActivity extends BasicAppNoDiActivity implements IView, XRadioG
             return;
         }
 
-        Timber.i("performRemoteCall : " + target + " " + id);
-
         int intId = -1;
         if (!target.equals(AppConstant.Key.OPEN_TARGET_C2C) &&
                 !target.equals(AppConstant.Key.OPEN_TARGET_TEAM) &&
@@ -410,6 +409,8 @@ public class HomeActivity extends BasicAppNoDiActivity implements IView, XRadioG
                 e.printStackTrace();
             }
         }
+
+        Timber.i("performRemoteCall : " + target + " " + id + " " + intId);
 
         switch (target) {
             // 广告，内部打开连接
@@ -427,10 +428,14 @@ public class HomeActivity extends BasicAppNoDiActivity implements IView, XRadioG
                 }
                 break;
             case AppConstant.AD.AD_TOPIC:
+                CommonHelper.TopicHelper.startTopicDetail(this, intId);
+                break;
             case AppConstant.Share.SHARE_TOPIC_OPEN_TARGET:
                 CommonHelper.TopicHelper.startTopicDetail(this, intId);
                 break;
             case AppConstant.AD.AD_FUNSHOW:
+                CommonHelper.FunshowHelper.startDetailActivity(this, intId);
+                break;
             case AppConstant.Share.SHARE_FUN_SHOW_OPEN_TARGET:
                 CommonHelper.FunshowHelper.startDetailActivity(this, intId);
                 break;

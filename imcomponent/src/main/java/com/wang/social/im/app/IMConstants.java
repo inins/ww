@@ -24,15 +24,15 @@ public interface IMConstants {
 //     */
 //    long HMSPUSH_BUSSID = 3803;//正式
 
-    int IM_APPID = 1400075076;  // 开发
-    long MIPUSH_BUSSID = 3503;  // 开发
-    long HMSPUSH_BUSSID = 3502; // 开发
-    long MZPUSH_BUSSID = 3504;  // 开发
+//    int IM_APPID = 1400075076;  // 开发
+//    long MIPUSH_BUSSID = 3503;  // 开发
+//    long HMSPUSH_BUSSID = 3502; // 开发
+//    long MZPUSH_BUSSID = 3504;  // 开发
 
-//    int IM_APPID = 1400095271; //测试
-//    long MIPUSH_BUSSID = 3777; //测试
-//    long MZPUSH_BUSSID = 3778;// 测试
-//    long HMSPUSH_BUSSID = 3776;//测试
+    int IM_APPID = 1400095271; //测试
+    long MIPUSH_BUSSID = 3777; //测试
+    long MZPUSH_BUSSID = 3778;// 测试
+    long HMSPUSH_BUSSID = 3776;//测试
 
     /**
      * 魅族推送：AppId

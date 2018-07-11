@@ -395,8 +395,9 @@ public class Login202Activity extends BaseAppActivity implements Login202Contrac
                     false,
                     false);
 
+            // 未注册会自动发送验证码
             // 获取注册验证码
-            registerSendVerifyCode();
+//            registerSendVerifyCode();
 
             // 点击返回按钮返回 手机号码登录
             mBackIV.setOnClickListener(v -> backToLoginPhoneInput());

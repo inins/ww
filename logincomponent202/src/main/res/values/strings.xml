@@ -9,7 +9,8 @@
     <string name="login202_phone_input_hint">请输入11位手机号</string>
     <string name="login202_verify_code">验证码</string>
     <string name="login202_verify_code_input_hint">请输入验证码</string>
-    <string name="login202_send_again">后获取</string>
+    <!--<string name="login202_send_again">后获取</string>-->
+    <string name="login202_send_again"></string>
     <string name="login202_get_verify_code">获取验证码</string>
     <string name="login202_set_password">设置密码</string>
     <string name="login202_register_set_password_hint">下次可用该密码直接登录</string>

@@ -52,7 +52,7 @@ public class LoadupActivity extends BasicActivity implements IView {
 
     private Handler mHandler = new Handler();
 
-    private static final int INTERVAL = 10;
+    private static final int INTERVAL = 5;
     @BindView(R.id.skip_text_view)
     TextView mSkipTV;
     @BindView(R.id.bill_board_image_view)
@@ -86,6 +86,7 @@ public class LoadupActivity extends BasicActivity implements IView {
 
                     return;
                 } else {
+                    Timber.e("启动页驻留时间到，启动首页");
                     HomeActivity.start(LoadupActivity.this);
                 }
             } else {
@@ -116,6 +117,7 @@ public class LoadupActivity extends BasicActivity implements IView {
 
         mSkipTV.setText(String.format("跳过(%1$dS)", INTERVAL));
         mSkipTV.setOnClickListener(v -> {
+            Timber.e("跳过文字点击");
             skip();
         });
 
@@ -151,6 +153,7 @@ public class LoadupActivity extends BasicActivity implements IView {
     }
 
     public void skip() {
+        Timber.e("结束，启动首页");
         // 启动首页
         HomeActivity.start(this);
 
@@ -159,6 +162,10 @@ public class LoadupActivity extends BasicActivity implements IView {
 
     public void billBoardClick() {
         Timber.i("打开广告");
+
+        if (null != mDisposable) {
+            mDisposable.dispose();
+        }
 
         NetBillBoardHelper.newInstance().clickBillBoard(this, mBillBoard.getBillboardId(),
                 success -> {});
@@ -183,16 +190,16 @@ public class LoadupActivity extends BasicActivity implements IView {
 
         }
 
-        recordShare(target, mBillBoard.getLinkUrl(), "");
-
         // 判断HomeActivity是否在后台
         if (mAppManager.activityClassIsLive(HomeActivity.class)) {
             HomeActivity activity = (HomeActivity) mAppManager.findActivity(HomeActivity.class);
             if (null != activity) {
+                Timber.e("首页已经启动，直接打开");
                 HomeActivity.start(this);
                 activity.performRemoteCall(target, mBillBoard.getLinkUrl());
             }
         } else {
+            Timber.e("首页未启动，启动");
             HomeActivity.start(this, target, mBillBoard.getLinkUrl());
         }
 

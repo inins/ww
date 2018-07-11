@@ -463,7 +463,7 @@ public class Login202Presenter implements Login202Contract.Presenter {
         Map<String, Object> param = NetParam.newInstance()
                 .put("mobile", mobile)
                 .put("password", password)
-                .put("invitationCode", invitationCode)
+                .put("inviteCode", invitationCode)
                 .put("adCode", "")
                 .putStaticParam()
                 .put("v", "2.0.2")

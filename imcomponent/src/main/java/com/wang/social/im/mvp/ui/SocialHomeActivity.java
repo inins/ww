@@ -521,7 +521,8 @@ public class SocialHomeActivity extends BaseAppActivity<SocialHomePresenter> imp
                         (MemberInfo memberInfo, TryToExit result) -> {
                             // 2.0.2修改对话框和提示语
                             String[] strings = {
-                                    result.isHasTeam() ? "确认退出，退出后你创建的觅聊将由最早加入的成员接管" : "确认退出此趣聊"
+                                    result.isHasTeam() ?
+                                            "确认退出，退出后你创建的觅聊将由最早加入的成员接管" : "退出趣聊后同时你将退出该群的觅聊"
                             };
                             int[] colors = {
                                     ContextCompat.getColor(Utils.getContext(), com.frame.component.service.R.color.common_text_blank)

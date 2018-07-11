@@ -304,13 +304,13 @@ public class Login202CardView extends FrameLayout {
     public void loadRegisterVerifyCodeInputView() {
         clearContentView();
 
+        CountDownView countDownView;
         if (null == mVerifyCodeInputView) {
             mVerifyCodeInputView = LayoutInflater.from(getContext())
                     .inflate(R.layout.login202_cv_verify_code_input, null);
 
             // 获取验证码
-            CountDownView countDownView = mVerifyCodeInputView.findViewById(R.id.send_verify_code_text_view);
-            countDownView.start();
+            countDownView = mVerifyCodeInputView.findViewById(R.id.send_verify_code_text_view);
             countDownView.setOnClickListener(v -> {
                         if (null != mCallback) {
                             mCallback.onRegisterSendVerifyCode((CountDownView) v);
@@ -327,7 +327,10 @@ public class Login202CardView extends FrameLayout {
                             mCallback.onRegisterCheckVerifyCode(editText.getText().toString());
                         }
                     });
+        } else {
+            countDownView = mVerifyCodeInputView.findViewById(R.id.send_verify_code_text_view);
         }
+        countDownView.start();
 
         mContentLayout.addView(mVerifyCodeInputView);
     }
